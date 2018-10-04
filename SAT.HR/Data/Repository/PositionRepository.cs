@@ -19,32 +19,32 @@ namespace SAT.HR.Data.Repository
 
                 if (!string.IsNullOrEmpty(filter))
                 {
-                    data = data.Where(x => x.PoFullName.Contains(filter)).ToList();
+                    data = data.Where(x => x.PoCode.Contains(filter) || x.PoName.Contains(filter)).ToList();
                 }
 
                 int recordsFiltered = data.Count();
 
                 switch (sortBy)
                 {
-                    case "PoFullName":
-                        data = (sortDir == "asc") ? data.OrderBy(x => x.PoFullName).ToList() : data.OrderByDescending(x => x.PoFullName).ToList();
+                    case "PoCode":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.PoCode).ToList() : data.OrderByDescending(x => x.PoCode).ToList();
+                        break;
+                    case "PoName":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.PoName).ToList() : data.OrderByDescending(x => x.PoName).ToList();
                         break;
                 }
 
                 int start = initialPage.HasValue ? (int)initialPage / 10 : 0;
                 int length = pageSize ?? 10;
-                data = data.Skip(start * length).Take(length).ToList();
 
-                List<PositionViewModel> list = new List<Models.PositionViewModel>();
-                foreach (var m in data)
+                var list = data.Select((s, i) => new PositionViewModel()
                 {
-                    PositionViewModel model = new Models.PositionViewModel();
-                    model.PoID = m.PoID;
-                    model.PoShortName = m.PoShortName;
-                    model.PoFullName = m.PoFullName;
-                    model.PoGroup = m.PoGroup;
-                    list.Add(model);
-                }
+                    RowNumber = i + 1,
+                    PoID = s.PoID,
+                    PoCode = s.PoCode,
+                    PoName = s.PoName,
+                    PoStatus = s.PoStatus
+                }).Skip(start * length).Take(length).ToList();
 
                 PositionResult result = new PositionResult();
                 result.draw = draw ?? 0;

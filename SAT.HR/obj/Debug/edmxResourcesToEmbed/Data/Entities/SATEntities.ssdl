@@ -5,9 +5,9 @@
       <PropertyRef Name="ActID" />
     </Key>
     <Property Name="ActID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ActCode" Type="nvarchar" MaxLength="50" />
     <Property Name="ActName" Type="nvarchar" MaxLength="200" />
     <Property Name="ActType" Type="nvarchar" MaxLength="200" />
+    <Property Name="ActPos" Type="nchar" MaxLength="10" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -86,11 +86,29 @@
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
   </EntityType>
+  <EntityType Name="tb_DocNumber">
+    <Key>
+      <PropertyRef Name="ObjectID" />
+    </Key>
+    <Property Name="ObjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DocCode" Type="varchar" MaxLength="200" />
+    <Property Name="DocName" Type="varchar" MaxLength="200" />
+    <Property Name="Prefix" Type="varchar" MaxLength="200" />
+    <Property Name="Suffix" Type="varchar" MaxLength="200" />
+    <Property Name="NumLength" Type="int" />
+    <Property Name="CurrentNum" Type="int" />
+    <Property Name="ZeroContain" Type="bit" />
+    <Property Name="ResetMonth" Type="bit" />
+    <Property Name="ResetYear" Type="bit" />
+    <Property Name="LastMonth" Type="int" />
+    <Property Name="LastYear" Type="int" />
+  </EntityType>
   <EntityType Name="tb_Education">
     <Key>
       <PropertyRef Name="EduID" />
     </Key>
     <Property Name="EduID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EduCode" Type="int" />
     <Property Name="EduName" Type="nvarchar" MaxLength="200" />
     <Property Name="EduStatus" Type="bit" />
     <Property Name="CreateDate" Type="datetime" />
@@ -114,7 +132,6 @@
       <PropertyRef Name="HolID" />
     </Key>
     <Property Name="HolID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="HolYear" Type="nchar" MaxLength="10" />
     <Property Name="HolDate" Type="datetime" />
     <Property Name="HolDescription" Type="nvarchar(max)" />
     <Property Name="CreateDate" Type="datetime" />
@@ -127,9 +144,8 @@
       <PropertyRef Name="InsID" />
     </Key>
     <Property Name="InsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="InsFullName" Type="nvarchar" MaxLength="200" Nullable="false" />
-    <Property Name="InsShortName" Type="nchar" MaxLength="10" Nullable="false" />
-    <Property Name="InsStatus" Type="bit" />
+    <Property Name="InsFullName" Type="nvarchar" MaxLength="200" />
+    <Property Name="InsShortName" Type="nchar" MaxLength="10" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -144,6 +160,7 @@
     <Property Name="LevStartDate" Type="datetime" />
     <Property Name="LevEndDate" Type="datetime" />
     <Property Name="LevMax" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="LevName" Type="nvarchar" MaxLength="200" />
     <Property Name="LevStatus" Type="bit" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
@@ -181,7 +198,7 @@
     </Key>
     <Property Name="NatID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="NatName" Type="nvarchar" MaxLength="200" />
-    <Property Name="NatStatus" Type="bit" />
+    <Property Name="NatStatus" Type="char" MaxLength="1" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -192,9 +209,8 @@
       <PropertyRef Name="PoID" />
     </Key>
     <Property Name="PoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="PoShortName" Type="nvarchar" MaxLength="200" />
-    <Property Name="PoFullName" Type="nvarchar" MaxLength="200" />
-    <Property Name="PoGroup" Type="int" />
+    <Property Name="PoCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="PoName" Type="nvarchar" MaxLength="200" />
     <Property Name="PoStatus" Type="bit" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
@@ -226,14 +242,14 @@
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
   </EntityType>
-  <EntityType Name="tb_Salary">
+  <EntityType Name="tb_SalaryRate">
     <Key>
       <PropertyRef Name="SaID" />
     </Key>
     <Property Name="SaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="SaLevel" Type="decimal" Precision="18" Scale="2" />
     <Property Name="SaStep" Type="decimal" Precision="18" Scale="2" />
-    <Property Name="SaStatus" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="SaRate" Type="decimal" Precision="18" Scale="2" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -283,6 +299,7 @@
     <Property Name="TiFullName" Type="nvarchar" MaxLength="100" />
     <Property Name="TiShortName" Type="nvarchar" MaxLength="100" />
     <Property Name="TiStatus" Type="bit" />
+    <Property Name="SexID" Type="int" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -304,6 +321,36 @@
     <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Department' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Department">
+    <Key>
+      <PropertyRef Name="DepID" />
+      <PropertyRef Name="DepName" />
+    </Key>
+    <Property Name="DepID" Type="int" Nullable="false" />
+    <Property Name="DivID" Type="int" />
+    <Property Name="DepName" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="DivName" Type="nvarchar" MaxLength="200" />
+    <Property Name="DivStatus" Type="bit" />
+    <Property Name="DepStatus" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Section">
+    <Key>
+      <PropertyRef Name="SecID" />
+    </Key>
+    <Property Name="DivID" Type="int" />
+    <Property Name="DivName" Type="nvarchar" MaxLength="200" />
+    <Property Name="DivStatus" Type="bit" />
+    <Property Name="DepID" Type="int" />
+    <Property Name="DepName" Type="nvarchar" MaxLength="200" />
+    <Property Name="DepStatus" Type="bit" />
+    <Property Name="SecID" Type="int" Nullable="false" />
+    <Property Name="SecName" Type="nvarchar" MaxLength="200" />
+    <Property Name="SecStatus" Type="bit" />
   </EntityType>
   <Association Name="FK_tb_Capability_tb_Capability">
     <End Role="tb_CapabilityType" Type="Self.tb_CapabilityType" Multiplicity="0..1" />
@@ -377,6 +424,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tb_Title_tb_Sex">
+    <End Role="tb_Sex" Type="Self.tb_Sex" Multiplicity="0..1" />
+    <End Role="tb_Title" Type="Self.tb_Title" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Sex">
+        <PropertyRef Name="SexID" />
+      </Principal>
+      <Dependent Role="tb_Title">
+        <PropertyRef Name="SexID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tb_User_tb_GroupRole">
     <End Role="tb_GroupRole" Type="Self.tb_GroupRole" Multiplicity="0..1" />
     <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
@@ -409,6 +468,7 @@
     <EntitySet Name="tb_Degree" EntityType="Self.tb_Degree" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Department" EntityType="Self.tb_Department" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Division" EntityType="Self.tb_Division" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_DocNumber" EntityType="Self.tb_DocNumber" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Education" EntityType="Self.tb_Education" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_GroupRole" EntityType="Self.tb_GroupRole" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Holiday" EntityType="Self.tb_Holiday" Schema="dbo" store:Type="Tables" />
@@ -420,12 +480,35 @@
     <EntitySet Name="tb_Position" EntityType="Self.tb_Position" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Religion" EntityType="Self.tb_Religion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Role" EntityType="Self.tb_Role" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="tb_Salary" EntityType="Self.tb_Salary" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_SalaryRate" EntityType="Self.tb_SalaryRate" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Section" EntityType="Self.tb_Section" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Sex" EntityType="Self.tb_Sex" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_SystemConfig" EntityType="Self.tb_SystemConfig" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Title" EntityType="Self.tb_Title" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_User" EntityType="Self.tb_User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="vw_Department" EntityType="Self.vw_Department" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Department].[DepID] AS [DepID], 
+    [vw_Department].[DivID] AS [DivID], 
+    [vw_Department].[DepName] AS [DepName], 
+    [vw_Department].[DivName] AS [DivName], 
+    [vw_Department].[DivStatus] AS [DivStatus], 
+    [vw_Department].[DepStatus] AS [DepStatus]
+    FROM [dbo].[vw_Department] AS [vw_Department]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Section" EntityType="Self.vw_Section" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Section].[DivID] AS [DivID], 
+    [vw_Section].[DivName] AS [DivName], 
+    [vw_Section].[DivStatus] AS [DivStatus], 
+    [vw_Section].[DepID] AS [DepID], 
+    [vw_Section].[DepName] AS [DepName], 
+    [vw_Section].[DepStatus] AS [DepStatus], 
+    [vw_Section].[SecID] AS [SecID], 
+    [vw_Section].[SecName] AS [SecName], 
+    [vw_Section].[SecStatus] AS [SecStatus]
+    FROM [dbo].[vw_Section] AS [vw_Section]</DefiningQuery>
+    </EntitySet>
     <AssociationSet Name="FK_tb_Capability_tb_Capability" Association="Self.FK_tb_Capability_tb_Capability">
       <End Role="tb_CapabilityType" EntitySet="tb_CapabilityType" />
       <End Role="tb_Capability" EntitySet="tb_Capability" />
@@ -449,6 +532,10 @@
     <AssociationSet Name="FK_tb_Section_tb_Department" Association="Self.FK_tb_Section_tb_Department">
       <End Role="tb_Department" EntitySet="tb_Department" />
       <End Role="tb_Section" EntitySet="tb_Section" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Title_tb_Sex" Association="Self.FK_tb_Title_tb_Sex">
+      <End Role="tb_Sex" EntitySet="tb_Sex" />
+      <End Role="tb_Title" EntitySet="tb_Title" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_User_tb_GroupRole" Association="Self.FK_tb_User_tb_GroupRole">
       <End Role="tb_GroupRole" EntitySet="tb_GroupRole" />

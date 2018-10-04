@@ -13,14 +13,14 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.tb_Salary.ToList();
+                var data = db.tb_SalaryRate.ToList();
 
                 int recordsTotal = data.Count();
 
-                //if (!string.IsNullOrEmpty(filter))
-                //{
-                //    data = data.Where(x => x.SaStep.Contains(filter)).ToList();
-                //}
+                if (!string.IsNullOrEmpty(filter))
+                {
+                    data = data.Where(x => x.SaLevel.ToString().Contains(filter) || x.SaStep.ToString().Contains(filter) || x.SaRate.ToString().Contains(filter)).ToList();
+                }
 
                 int recordsFiltered = data.Count();
 
@@ -29,22 +29,26 @@ namespace SAT.HR.Data.Repository
                     case "SaLevel":
                         data = (sortDir == "asc") ? data.OrderBy(x => x.SaLevel).ToList() : data.OrderByDescending(x => x.SaLevel).ToList();
                         break;
+                    case "SaStep":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.SaStep).ToList() : data.OrderByDescending(x => x.SaStep).ToList();
+                        break;
+                    case "saRate":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.SaRate).ToList() : data.OrderByDescending(x => x.SaRate).ToList();
+                        break;
                 }
 
                 int start = initialPage.HasValue ? (int)initialPage / 10 : 0;
                 int length = pageSize ?? 10;
-                data = data.Skip(start * length).Take(length).ToList();
 
-                List<SalaryViewModel> list = new List<Models.SalaryViewModel>();
-                foreach (var m in data)
+                var list = data.Select((s, i) => new SalaryViewModel()
                 {
-                    SalaryViewModel model = new Models.SalaryViewModel();
-                    model.SaID = m.SaID;
-                    model.SaLevel = m.SaLevel;
-                    model.SaStep = m.SaStep;
-                    model.SaStatus = m.SaStatus;
-                    list.Add(model);
-                }
+                    RowNumber = i + 1,
+                    SaID = s.SaID,
+                    SaLevel = s.SaLevel,
+                    SaStep = s.SaStep,
+                    SaRate = s.SaRate
+                }).Skip(start * length).Take(length).ToList();
+
 
                 SalaryResult result = new SalaryResult();
                 result.draw = draw ?? 0;

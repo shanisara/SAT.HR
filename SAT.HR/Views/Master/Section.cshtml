@@ -13,20 +13,22 @@
                         <div class="card-icon">
                             <i class="material-icons">assignment</i>
                         </div>
-                        <h4 class="card-title">Section</h4>
+                        <h4 class="card-title">รายการหน่วยงาน</h4>
                     </div>
                     <div class="card-body">
                         <div class="toolbar">
-                            <!-- Here you can write extra buttons/actions for the toolbar -->
+                            <button class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#modalSection"><i class="material-icons">add</i> เพิ่มหน่วยงาน</button>
                         </div>
                         <div class="material-datatables">
                             <table id="datatables" data-url="@Url.Content("~/Master/Section")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Code</th>
-                                        <th>Name</th>
-                                        <th>Status</th>
-                                        <th class="disabled-sorting text-right">Actions</th>
+                                        <th style="width:10%">ลำดับ</th>
+                                        <th style="width:18%">ฝ่าย</th>
+                                        <th style="width:26%">กอง</th>
+                                        <th style="width:27%">หน่วยงาน</th>
+                                        <th style="width:10%">สถานะ</th>
+                                        <th style="width:8%" class="disabled-sorting text-right">ปฏิบัติการ</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -43,12 +45,84 @@
     </div>
 </div>
 
+<!-- Classic Modal -->
+<div class="modal fade" id="modalSection" tabindex="-1" role="dialog" aria-labelledby="modalSectionLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">ข้อมูลหน่วยงาน</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="material-icons">clear</i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div class="container-fluid">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <label class="col-sm-3 col-form-label">ฝ่าย</label>
+                                <div class="col-sm-9">
+                                    <div class="form-group bmd-form-group has-danger">
+                                        <input class="form-control" type="text" name="required" required="true" aria-required="true" aria-invalid="true">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <label class="col-sm-3 col-form-label">กอง</label>
+                                <div class="col-sm-9">
+                                    <div class="form-group bmd-form-group has-danger">
+                                        <input class="form-control" type="text" name="required" required="true" aria-required="true" aria-invalid="true">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <label class="col-sm-3 col-form-label">หน่วยงาน</label>
+                                <div class="col-sm-9">
+                                    <div class="form-group bmd-form-group has-danger">
+                                        <input class="form-control" type="text" name="required" required="true" aria-required="true" aria-invalid="true">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <label class="col-sm-3 col-form-label label-checkbox">สถานะ</label>
+                                <div class="col-sm-9">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" value="" checked="">
+                                            <span class="form-check-sign">
+                                                <span class="check"></span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link">Submit</button>
+                <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  End Modal -->
+
 
 @section Scripts {
     <script>
         $(document).ready(function () {
 
             $('#datatables').DataTable({
+                "proccessing": true,
+                "serverSide": true,
                 responsive: true,
                 language: {
                     search: "_INPUT_",
@@ -60,30 +134,21 @@
                     type: "POST",
                 },
                 "columns": [
-                    { "data": "DivCode", "orderable": true },
+                    { "data": "RowNumber", "orderable": true },
                     { "data": "DivName", "orderable": true },
-                    { "data": "DivStatus", "orderable": false, "searchable": false }
+                    { "data": "DepName", "orderable": true },
+                    { "data": "SecName", "orderable": true },
+                    { "data": "SecStatus", "orderable": false, "searchable": false }
                 ],
                 "columnDefs": [
                     {
                         "render": function (data, type, row) {
-                            return '<div style="text-align:left">' + data + '</div>';
-                        }, "targets": 0
-                    },
-                    {
-                        "render": function (data, type, row) {
-                            return '<div style="text-align:left">' + data + '</div>';
-                        }, "targets": 1
-                    },
-                    {
-                        "render": function (data, type, row) {
-                            return "<div style='text-align:left;'>" + (data == true ? "<i class='fa fa-check-circle' style='font-size:23px; color:#169F85;'></i>" : "<i class='fa fa-times-circle' style='font-size:23px;color:#fd73a2;'></i>") + "</div>";
-                        }, "targets": 2
-                    },
-                    {
-                        "render": function (data, type, row) {
-                            return "<div style='text-align:right;'><a href='#' class='btn btn-link btn-warning btn-just-icon edit'><i class='material-icons'>dvr</i></a><a href='#' class='btn btn-link btn-danger btn-just-icon remove'><i class='material-icons'>close</i></a></div>";
-                        }, "targets": 3
+                            return "<div class='td-actions text-right'>" +
+                                "<button type='button' rel='tooltip' class='btn btn-success'><i class='material-icons'>edit</i></button>" +
+                                "&nbsp;&nbsp;&nbsp;" +
+                                "<button type='button' rel='tooltip' class='btn btn-danger'><i class='material-icons'>close</i></button>" +
+                                "</div>";
+                        }, "targets": 5
                     },
                 ],
                 "order": [[1, "asc"]],

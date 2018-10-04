@@ -6,15 +6,15 @@ namespace SAT.HR.Models
 {
     public class PositionViewModel
     {
-        public string RowNumber { get; set; }
+        public int RowNumber { get; set; }
 
         public int PoID { get; set; }
 
-        public string PoShortName { get; set; }
+        public string PoCode { get; set; }
 
-        public string PoFullName { get; set; }
+        public string PoName { get; set; }
 
-        public int? PoGroup { get; set; }
+        public bool? PoStatus { get; set; }
 
         public DateTime? CreateDate { get; set; }
 

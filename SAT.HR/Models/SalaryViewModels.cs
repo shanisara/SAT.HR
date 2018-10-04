@@ -6,7 +6,7 @@ namespace SAT.HR.Models
 {
     public class SalaryViewModel
     {
-        public string RowNumber { get; set; }
+        public int RowNumber { get; set; }
 
         public int SaID { get; set; }
 
@@ -14,7 +14,7 @@ namespace SAT.HR.Models
 
         public decimal? SaStep { get; set; }
 
-        public decimal? SaStatus { get; set; }
+        public decimal? SaRate { get; set; }
 
         public DateTime? CreateDate { get; set; }
 

@@ -33,18 +33,15 @@ namespace SAT.HR.Data.Repository
 
                 int start = initialPage.HasValue ? (int)initialPage / 10 : 0;
                 int length = pageSize ?? 10;
-                data = data.Skip(start * length).Take(length).ToList();
 
-                List<InsigniaViewModel> list = new List<Models.InsigniaViewModel>();
-                foreach (var m in data)
+                var list = data.Select((s, i) => new InsigniaViewModel()
                 {
-                    InsigniaViewModel model = new Models.InsigniaViewModel();
-                    model.InsID = m.InsID;
-                    model.InsFullName = m.InsFullName;
-                    model.InsShortName = m.InsShortName;
-                    model.InsStatus = m.InsStatus;
-                    list.Add(model);
-                }
+                    RowNumber = ++i,
+                    InsID = s.InsID,
+                    InsFullName = s.InsFullName,
+                    InsShortName = s.InsShortName,
+                }).Skip(start * length).Take(length).ToList();
+
 
                 InsigniaResult result = new InsigniaResult();
                 result.draw = draw ?? 0;

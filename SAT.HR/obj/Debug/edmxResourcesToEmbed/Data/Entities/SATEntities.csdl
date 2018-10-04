@@ -7,6 +7,8 @@
     <EntitySet Name="tb_Certificate" EntityType="SAT.HR.tb_Certificate" />
     <EntitySet Name="tb_Degree" EntityType="SAT.HR.tb_Degree" />
     <EntitySet Name="tb_Department" EntityType="SAT.HR.tb_Department" />
+    <EntitySet Name="tb_Division" EntityType="SAT.HR.tb_Division" />
+    <EntitySet Name="tb_DocNumber" EntityType="SAT.HR.tb_DocNumber" />
     <EntitySet Name="tb_Education" EntityType="SAT.HR.tb_Education" />
     <EntitySet Name="tb_GroupRole" EntityType="SAT.HR.tb_GroupRole" />
     <EntitySet Name="tb_Holiday" EntityType="SAT.HR.tb_Holiday" />
@@ -15,15 +17,15 @@
     <EntitySet Name="tb_Major" EntityType="SAT.HR.tb_Major" />
     <EntitySet Name="tb_Menu" EntityType="SAT.HR.tb_Menu" />
     <EntitySet Name="tb_Nationality" EntityType="SAT.HR.tb_Nationality" />
-    <EntitySet Name="tb_Position" EntityType="SAT.HR.tb_Position" />
     <EntitySet Name="tb_Religion" EntityType="SAT.HR.tb_Religion" />
     <EntitySet Name="tb_Role" EntityType="SAT.HR.tb_Role" />
-    <EntitySet Name="tb_Salary" EntityType="SAT.HR.tb_Salary" />
     <EntitySet Name="tb_Section" EntityType="SAT.HR.tb_Section" />
     <EntitySet Name="tb_Sex" EntityType="SAT.HR.tb_Sex" />
     <EntitySet Name="tb_SystemConfig" EntityType="SAT.HR.tb_SystemConfig" />
     <EntitySet Name="tb_Title" EntityType="SAT.HR.tb_Title" />
     <EntitySet Name="tb_User" EntityType="SAT.HR.tb_User" />
+    <EntitySet Name="vw_Department" EntityType="SAT.HR.vw_Department" />
+    <EntitySet Name="vw_Section" EntityType="SAT.HR.vw_Section" />
     <AssociationSet Name="FK_tb_Capability_tb_Capability" Association="SAT.HR.FK_tb_Capability_tb_Capability">
       <End Role="tb_CapabilityType" EntitySet="tb_CapabilityType" />
       <End Role="tb_Capability" EntitySet="tb_Capability" />
@@ -31,6 +33,10 @@
     <AssociationSet Name="FK_tb_Capability_tb_Menu" Association="SAT.HR.FK_tb_Capability_tb_Menu">
       <End Role="tb_Menu" EntitySet="tb_Menu" />
       <End Role="tb_Capability" EntitySet="tb_Capability" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Department_tb_Division" Association="SAT.HR.FK_tb_Department_tb_Division">
+      <End Role="tb_Division" EntitySet="tb_Division" />
+      <End Role="tb_Department" EntitySet="tb_Department" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_Section_tb_Department" Association="SAT.HR.FK_tb_Section_tb_Department">
       <End Role="tb_Department" EntitySet="tb_Department" />
@@ -48,24 +54,25 @@
       <End Role="tb_Menu" EntitySet="tb_Menu" />
       <End Role="tb_Role" EntitySet="tb_Role" />
     </AssociationSet>
+    <AssociationSet Name="FK_tb_Title_tb_Sex" Association="SAT.HR.FK_tb_Title_tb_Sex">
+      <End Role="tb_Sex" EntitySet="tb_Sex" />
+      <End Role="tb_Title" EntitySet="tb_Title" />
+    </AssociationSet>
     <AssociationSet Name="FK_tb_User_tb_Sex" Association="SAT.HR.FK_tb_User_tb_Sex">
       <End Role="tb_Sex" EntitySet="tb_Sex" />
       <End Role="tb_User" EntitySet="tb_User" />
     </AssociationSet>
-    <EntitySet Name="tb_Division" EntityType="SAT.HR.tb_Division" />
-    <AssociationSet Name="FK_tb_Department_tb_Division" Association="SAT.HR.FK_tb_Department_tb_Division">
-      <End Role="tb_Division" EntitySet="tb_Division" />
-      <End Role="tb_Department" EntitySet="tb_Department" />
-    </AssociationSet>
+    <EntitySet Name="tb_Position" EntityType="SAT.HR.tb_Position" />
+    <EntitySet Name="tb_SalaryRate" EntityType="SAT.HR.tb_SalaryRate" />
   </EntityContainer>
   <EntityType Name="tb_ActionType">
     <Key>
       <PropertyRef Name="ActID" />
     </Key>
     <Property Name="ActID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ActCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ActName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="ActType" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ActPos" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
     <Property Name="CreateDate" Type="DateTime" Precision="3" />
     <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
@@ -134,14 +141,45 @@
     <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="tb_Section" Relationship="SAT.HR.FK_tb_Section_tb_Department" FromRole="tb_Department" ToRole="tb_Section" />
     <NavigationProperty Name="tb_Division" Relationship="SAT.HR.FK_tb_Department_tb_Division" FromRole="tb_Department" ToRole="tb_Division" />
+    <NavigationProperty Name="tb_Section" Relationship="SAT.HR.FK_tb_Section_tb_Department" FromRole="tb_Department" ToRole="tb_Section" />
+  </EntityType>
+  <EntityType Name="tb_Division">
+    <Key>
+      <PropertyRef Name="DivID" />
+    </Key>
+    <Property Name="DivID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DivName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DivStatus" Type="Boolean" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tb_Department" Relationship="SAT.HR.FK_tb_Department_tb_Division" FromRole="tb_Division" ToRole="tb_Department" />
+  </EntityType>
+  <EntityType Name="tb_DocNumber">
+    <Key>
+      <PropertyRef Name="ObjectID" />
+    </Key>
+    <Property Name="ObjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DocCode" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="DocName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Prefix" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Suffix" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="NumLength" Type="Int32" />
+    <Property Name="CurrentNum" Type="Int32" />
+    <Property Name="ZeroContain" Type="Boolean" />
+    <Property Name="ResetMonth" Type="Boolean" />
+    <Property Name="ResetYear" Type="Boolean" />
+    <Property Name="LastMonth" Type="Int32" />
+    <Property Name="LastYear" Type="Int32" />
   </EntityType>
   <EntityType Name="tb_Education">
     <Key>
       <PropertyRef Name="EduID" />
     </Key>
     <Property Name="EduID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EduCode" Type="Int32" />
     <Property Name="EduName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="EduStatus" Type="Boolean" />
     <Property Name="CreateDate" Type="DateTime" Precision="3" />
@@ -167,7 +205,6 @@
       <PropertyRef Name="HolID" />
     </Key>
     <Property Name="HolID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="HolYear" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
     <Property Name="HolDate" Type="DateTime" Precision="3" />
     <Property Name="HolDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="CreateDate" Type="DateTime" Precision="3" />
@@ -180,9 +217,8 @@
       <PropertyRef Name="InsID" />
     </Key>
     <Property Name="InsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="InsFullName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="InsShortName" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-    <Property Name="InsStatus" Type="Boolean" />
+    <Property Name="InsFullName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="InsShortName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
     <Property Name="CreateDate" Type="DateTime" Precision="3" />
     <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
@@ -197,6 +233,7 @@
     <Property Name="LevStartDate" Type="DateTime" Precision="3" />
     <Property Name="LevEndDate" Type="DateTime" Precision="3" />
     <Property Name="LevMax" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="LevName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="LevStatus" Type="Boolean" />
     <Property Name="CreateDate" Type="DateTime" Precision="3" />
     <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -236,21 +273,7 @@
     </Key>
     <Property Name="NatID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="NatName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="NatStatus" Type="Boolean" />
-    <Property Name="CreateDate" Type="DateTime" Precision="3" />
-    <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-  </EntityType>
-  <EntityType Name="tb_Position">
-    <Key>
-      <PropertyRef Name="PoID" />
-    </Key>
-    <Property Name="PoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="PoShortName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="PoFullName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="PoGroup" Type="Int32" />
-    <Property Name="PoStatus" Type="Boolean" />
+    <Property Name="NatStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
     <Property Name="CreateDate" Type="DateTime" Precision="3" />
     <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
@@ -283,19 +306,6 @@
     <NavigationProperty Name="tb_GroupRole" Relationship="SAT.HR.FK_tb_Permission_tb_GroupPermission" FromRole="tb_Role" ToRole="tb_GroupRole" />
     <NavigationProperty Name="tb_Menu" Relationship="SAT.HR.FK_tb_Permission_tb_Menu" FromRole="tb_Role" ToRole="tb_Menu" />
   </EntityType>
-  <EntityType Name="tb_Salary">
-    <Key>
-      <PropertyRef Name="SaID" />
-    </Key>
-    <Property Name="SaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="SaLevel" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="SaStep" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="SaStatus" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="CreateDate" Type="DateTime" Precision="3" />
-    <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-  </EntityType>
   <EntityType Name="tb_Section">
     <Key>
       <PropertyRef Name="SecID" />
@@ -321,6 +331,7 @@
     <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tb_Title" Relationship="SAT.HR.FK_tb_Title_tb_Sex" FromRole="tb_Sex" ToRole="tb_Title" />
     <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_User_tb_Sex" FromRole="tb_Sex" ToRole="tb_User" />
   </EntityType>
   <EntityType Name="tb_SystemConfig">
@@ -342,10 +353,12 @@
     <Property Name="TiFullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="TiShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="TiStatus" Type="Boolean" />
+    <Property Name="SexID" Type="Int32" />
     <Property Name="CreateDate" Type="DateTime" Precision="3" />
     <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tb_Sex" Relationship="SAT.HR.FK_tb_Title_tb_Sex" FromRole="tb_Title" ToRole="tb_Sex" />
   </EntityType>
   <EntityType Name="tb_User">
     <Key>
@@ -365,6 +378,32 @@
     <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="tb_GroupRole" Relationship="SAT.HR.FK_tb_User_tb_GroupRole" FromRole="tb_User" ToRole="tb_GroupRole" />
     <NavigationProperty Name="tb_Sex" Relationship="SAT.HR.FK_tb_User_tb_Sex" FromRole="tb_User" ToRole="tb_Sex" />
+  </EntityType>
+  <EntityType Name="vw_Department">
+    <Key>
+      <PropertyRef Name="DepID" />
+      <PropertyRef Name="DepName" />
+    </Key>
+    <Property Name="DepID" Type="Int32" Nullable="false" />
+    <Property Name="DivID" Type="Int32" />
+    <Property Name="DepName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DivStatus" Type="Boolean" />
+    <Property Name="DepStatus" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="vw_Section">
+    <Key>
+      <PropertyRef Name="SecID" />
+    </Key>
+    <Property Name="DivID" Type="Int32" />
+    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DivStatus" Type="Boolean" />
+    <Property Name="DepID" Type="Int32" />
+    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DepStatus" Type="Boolean" />
+    <Property Name="SecID" Type="Int32" Nullable="false" />
+    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SecStatus" Type="Boolean" />
   </EntityType>
   <Association Name="FK_tb_Capability_tb_Capability">
     <End Type="SAT.HR.tb_CapabilityType" Role="tb_CapabilityType" Multiplicity="0..1" />
@@ -387,6 +426,18 @@
       </Principal>
       <Dependent Role="tb_Capability">
         <PropertyRef Name="MenuID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Department_tb_Division">
+    <End Type="SAT.HR.tb_Division" Role="tb_Division" Multiplicity="1" />
+    <End Type="SAT.HR.tb_Department" Role="tb_Department" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Division">
+        <PropertyRef Name="DivID" />
+      </Principal>
+      <Dependent Role="tb_Department">
+        <PropertyRef Name="DivID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -438,6 +489,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tb_Title_tb_Sex">
+    <End Type="SAT.HR.tb_Sex" Role="tb_Sex" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_Title" Role="tb_Title" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Sex">
+        <PropertyRef Name="SexID" />
+      </Principal>
+      <Dependent Role="tb_Title">
+        <PropertyRef Name="SexID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tb_User_tb_Sex">
     <End Type="SAT.HR.tb_Sex" Role="tb_Sex" Multiplicity="0..1" />
     <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="*" />
@@ -450,29 +513,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="tb_Division">
+  <EntityType Name="tb_Position">
     <Key>
-      <PropertyRef Name="DivID" />
+      <PropertyRef Name="PoID" />
     </Key>
-    <Property Name="DivID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="DivName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="DivStatus" Type="Boolean" />
+    <Property Name="PoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PoCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PoStatus" Type="Boolean" />
     <Property Name="CreateDate" Type="DateTime" Precision="3" />
     <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="tb_Department" Relationship="SAT.HR.FK_tb_Department_tb_Division" FromRole="tb_Division" ToRole="tb_Department" />
   </EntityType>
-  <Association Name="FK_tb_Department_tb_Division">
-    <End Type="SAT.HR.tb_Division" Role="tb_Division" Multiplicity="1" />
-    <End Type="SAT.HR.tb_Department" Role="tb_Department" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Division">
-        <PropertyRef Name="DivID" />
-      </Principal>
-      <Dependent Role="tb_Department">
-        <PropertyRef Name="DivID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
+  <EntityType Name="tb_SalaryRate">
+    <Key>
+      <PropertyRef Name="SaID" />
+    </Key>
+    <Property Name="SaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SaLevel" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="SaStep" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="SaRate" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
 </Schema>

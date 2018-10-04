@@ -25,8 +25,8 @@ namespace SAT.HR.Controllers
         public JsonResult Division(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
             var search = Request["search[value]"];
-            var dir = string.Empty;     //order[0]["dir"].ToLower();
-            var column = string.Empty;  //columns[int.Parse(order[0]["column"])]["data"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
             var dataTableData = new DivisionRepository().GetDivision(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
@@ -51,8 +51,8 @@ namespace SAT.HR.Controllers
         public JsonResult Department(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
             var search = Request["search[value]"];
-            var dir = string.Empty;     //order[0]["dir"].ToLower();
-            var column = string.Empty;  //columns[int.Parse(order[0]["column"])]["data"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
             var dataTableData = new DepartmentRepository().GetDepartment(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
@@ -72,15 +72,15 @@ namespace SAT.HR.Controllers
             return PartialView();
         }
 
-        //[HttpPost]
-        //public JsonResult Section(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
-        //{
-        //    var search = Request["search[value]"];
-        //    var dir = string.Empty;     //order[0]["dir"].ToLower();
-        //    var column = string.Empty;  //columns[int.Parse(order[0]["column"])]["data"];
-        //    var dataTableData = new SectionRepository().GetSection(search, draw, start, length, dir, column);
-        //    return Json(dataTableData, JsonRequestBehavior.AllowGet);
-        //}
+        [HttpPost]
+        public JsonResult Section(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        {
+            var search = Request["search[value]"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
+            var dataTableData = new SectionRepository().GetSection(search, draw, start, length, dir, column);
+            return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
 
@@ -100,8 +100,8 @@ namespace SAT.HR.Controllers
         public JsonResult Position(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
             var search = Request["search[value]"];
-            var dir = string.Empty;     //order[0]["dir"].ToLower();
-            var column = string.Empty;  //columns[int.Parse(order[0]["column"])]["data"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
             var dataTableData = new PositionRepository().GetPosition(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
@@ -123,8 +123,8 @@ namespace SAT.HR.Controllers
         public JsonResult Certificate(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
             var search = Request["search[value]"];
-            var dir = string.Empty;     //order[0]["dir"].ToLower();
-            var column = string.Empty;  //columns[int.Parse(order[0]["column"])]["data"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
 
             var dataTableData = new CertificateRepository().GetCertificate(search, draw, start, length, dir, column);
 
@@ -149,8 +149,8 @@ namespace SAT.HR.Controllers
         public JsonResult Salary(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
             var search = Request["search[value]"];
-            var dir = string.Empty;     //order[0]["dir"].ToLower();
-            var column = string.Empty;  //columns[int.Parse(order[0]["column"])]["data"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
 
             var dataTableData = new SalaryRepository().GetSalary(search, draw, start, length, dir, column);
 
@@ -175,8 +175,8 @@ namespace SAT.HR.Controllers
         public JsonResult Insignia(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
             var search = Request["search[value]"];
-            var dir = string.Empty;     //order[0]["dir"].ToLower();
-            var column = string.Empty;  //columns[int.Parse(order[0]["column"])]["data"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
 
             var dataTableData = new InsigniaRepository().GetInsignia(search, draw, start, length, dir, column);
 
@@ -201,8 +201,8 @@ namespace SAT.HR.Controllers
         public JsonResult Title(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
             var search = Request["search[value]"];
-            var dir = string.Empty;     //order[0]["dir"].ToLower();
-            var column = string.Empty;  //columns[int.Parse(order[0]["column"])]["data"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
 
             var dataTableData = new TitleRepository().GetTitle(search, draw, start, length, dir, column);
 
@@ -227,8 +227,8 @@ namespace SAT.HR.Controllers
         public JsonResult Education(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
             var search = Request["search[value]"];
-            var dir = string.Empty;     //order[0]["dir"].ToLower();
-            var column = string.Empty;  //columns[int.Parse(order[0]["column"])]["data"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
             var dataTableData = new EducationRepository().GetEducation(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
@@ -251,8 +251,8 @@ namespace SAT.HR.Controllers
         public JsonResult Degree(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
             var search = Request["search[value]"];
-            var dir = string.Empty;     //order[0]["dir"].ToLower();
-            var column = string.Empty;  //columns[int.Parse(order[0]["column"])]["data"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
 
             var dataTableData = new DegreeRepository().GetDegree(search, draw, start, length, dir, column);
 
@@ -277,8 +277,8 @@ namespace SAT.HR.Controllers
         public JsonResult Major(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
             var search = Request["search[value]"];
-            var dir = string.Empty;     //order[0]["dir"].ToLower();
-            var column = string.Empty;  //columns[int.Parse(order[0]["column"])]["data"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
 
             var dataTableData = new MajorRepository().GetMajor(search, draw, start, length, dir, column);
 
@@ -303,8 +303,8 @@ namespace SAT.HR.Controllers
         public JsonResult Nationality(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
             var search = Request["search[value]"];
-            var dir = string.Empty;     //order[0]["dir"].ToLower();
-            var column = string.Empty;  //columns[int.Parse(order[0]["column"])]["data"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
             var dataTableData = new NationalityRepository().GetNationality(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
@@ -327,8 +327,8 @@ namespace SAT.HR.Controllers
         public JsonResult Religion(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
             var search = Request["search[value]"];
-            var dir = string.Empty;     //order[0]["dir"].ToLower();
-            var column = string.Empty;  //columns[int.Parse(order[0]["column"])]["data"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
             var dataTableData = new ReligionRepository().GetReligion(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
@@ -351,8 +351,8 @@ namespace SAT.HR.Controllers
         public JsonResult Capability(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
             var search = Request["search[value]"];
-            var dir = string.Empty;     //order[0]["dir"].ToLower();
-            var column = string.Empty;  //columns[int.Parse(order[0]["column"])]["data"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
             var dataTableData = new CapabilityRepository().GetCapability(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
@@ -375,8 +375,8 @@ namespace SAT.HR.Controllers
         public JsonResult LeaveType(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
             var search = Request["search[value]"];
-            var dir = string.Empty;     //order[0]["dir"].ToLower();
-            var column = string.Empty;  //columns[int.Parse(order[0]["column"])]["data"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
             var dataTableData = new LeaveTypeRepository().GetLeaveType(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
@@ -399,8 +399,8 @@ namespace SAT.HR.Controllers
         public JsonResult Holiday(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
             var search = Request["search[value]"];
-            var dir = string.Empty;     //order[0]["dir"].ToLower();
-            var column = string.Empty;  //columns[int.Parse(order[0]["column"])]["data"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
             var dataTableData = new HolidayRepository().GetHoliday(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
@@ -422,8 +422,8 @@ namespace SAT.HR.Controllers
         public JsonResult ActionType(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
             var search = Request["search[value]"];
-            var dir = string.Empty;     //order[0]["dir"].ToLower();
-            var column = string.Empty;  //columns[int.Parse(order[0]["column"])]["data"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
             var dataTableData = new ActionTypeRepository().GetActionType(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }

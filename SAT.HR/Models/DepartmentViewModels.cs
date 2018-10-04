@@ -6,15 +6,17 @@ namespace SAT.HR.Models
 {
     public class DepartmentViewModel
     {
-        public string RowNumber { get; set; }
+        public int RowNumber { get; set; }
 
         public int DepID { get; set; }
 
-        public int DivID { get; set; }
+        public int? DivID { get; set; }
 
-        public int DepCode { get; set; }
+        public string DivName { get; set; }
 
         public string DepName { get; set; }
+
+        public bool? DepStatus { get; set; }
 
         public DateTime? CreateDate { get; set; }
 

@@ -10,9 +10,9 @@
             <PropertyRef Name="ActID" />
           </Key>
           <Property Name="ActID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ActCode" Type="nvarchar" MaxLength="50" />
           <Property Name="ActName" Type="nvarchar" MaxLength="200" />
           <Property Name="ActType" Type="nvarchar" MaxLength="200" />
+          <Property Name="ActPos" Type="nchar" MaxLength="10" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifyDate" Type="datetime" />
@@ -91,11 +91,29 @@
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="tb_DocNumber">
+          <Key>
+            <PropertyRef Name="ObjectID" />
+          </Key>
+          <Property Name="ObjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DocCode" Type="varchar" MaxLength="200" />
+          <Property Name="DocName" Type="varchar" MaxLength="200" />
+          <Property Name="Prefix" Type="varchar" MaxLength="200" />
+          <Property Name="Suffix" Type="varchar" MaxLength="200" />
+          <Property Name="NumLength" Type="int" />
+          <Property Name="CurrentNum" Type="int" />
+          <Property Name="ZeroContain" Type="bit" />
+          <Property Name="ResetMonth" Type="bit" />
+          <Property Name="ResetYear" Type="bit" />
+          <Property Name="LastMonth" Type="int" />
+          <Property Name="LastYear" Type="int" />
+        </EntityType>
         <EntityType Name="tb_Education">
           <Key>
             <PropertyRef Name="EduID" />
           </Key>
           <Property Name="EduID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EduCode" Type="int" />
           <Property Name="EduName" Type="nvarchar" MaxLength="200" />
           <Property Name="EduStatus" Type="bit" />
           <Property Name="CreateDate" Type="datetime" />
@@ -119,7 +137,6 @@
             <PropertyRef Name="HolID" />
           </Key>
           <Property Name="HolID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="HolYear" Type="nchar" MaxLength="10" />
           <Property Name="HolDate" Type="datetime" />
           <Property Name="HolDescription" Type="nvarchar(max)" />
           <Property Name="CreateDate" Type="datetime" />
@@ -132,9 +149,8 @@
             <PropertyRef Name="InsID" />
           </Key>
           <Property Name="InsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="InsFullName" Type="nvarchar" MaxLength="200" Nullable="false" />
-          <Property Name="InsShortName" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="InsStatus" Type="bit" />
+          <Property Name="InsFullName" Type="nvarchar" MaxLength="200" />
+          <Property Name="InsShortName" Type="nchar" MaxLength="10" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifyDate" Type="datetime" />
@@ -149,6 +165,7 @@
           <Property Name="LevStartDate" Type="datetime" />
           <Property Name="LevEndDate" Type="datetime" />
           <Property Name="LevMax" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="LevName" Type="nvarchar" MaxLength="200" />
           <Property Name="LevStatus" Type="bit" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
@@ -186,7 +203,7 @@
           </Key>
           <Property Name="NatID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NatName" Type="nvarchar" MaxLength="200" />
-          <Property Name="NatStatus" Type="bit" />
+          <Property Name="NatStatus" Type="char" MaxLength="1" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifyDate" Type="datetime" />
@@ -197,9 +214,8 @@
             <PropertyRef Name="PoID" />
           </Key>
           <Property Name="PoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PoShortName" Type="nvarchar" MaxLength="200" />
-          <Property Name="PoFullName" Type="nvarchar" MaxLength="200" />
-          <Property Name="PoGroup" Type="int" />
+          <Property Name="PoCode" Type="nvarchar" MaxLength="200" />
+          <Property Name="PoName" Type="nvarchar" MaxLength="200" />
           <Property Name="PoStatus" Type="bit" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
@@ -231,14 +247,14 @@
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <EntityType Name="tb_Salary">
+        <EntityType Name="tb_SalaryRate">
           <Key>
             <PropertyRef Name="SaID" />
           </Key>
           <Property Name="SaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SaLevel" Type="decimal" Precision="18" Scale="2" />
           <Property Name="SaStep" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="SaStatus" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="SaRate" Type="decimal" Precision="18" Scale="2" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifyDate" Type="datetime" />
@@ -288,6 +304,7 @@
           <Property Name="TiFullName" Type="nvarchar" MaxLength="100" />
           <Property Name="TiShortName" Type="nvarchar" MaxLength="100" />
           <Property Name="TiStatus" Type="bit" />
+          <Property Name="SexID" Type="int" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifyDate" Type="datetime" />
@@ -309,6 +326,36 @@
           <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Department' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_Department">
+          <Key>
+            <PropertyRef Name="DepID" />
+            <PropertyRef Name="DepName" />
+          </Key>
+          <Property Name="DepID" Type="int" Nullable="false" />
+          <Property Name="DivID" Type="int" />
+          <Property Name="DepName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="DivName" Type="nvarchar" MaxLength="200" />
+          <Property Name="DivStatus" Type="bit" />
+          <Property Name="DepStatus" Type="bit" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_Section">
+          <Key>
+            <PropertyRef Name="SecID" />
+          </Key>
+          <Property Name="DivID" Type="int" />
+          <Property Name="DivName" Type="nvarchar" MaxLength="200" />
+          <Property Name="DivStatus" Type="bit" />
+          <Property Name="DepID" Type="int" />
+          <Property Name="DepName" Type="nvarchar" MaxLength="200" />
+          <Property Name="DepStatus" Type="bit" />
+          <Property Name="SecID" Type="int" Nullable="false" />
+          <Property Name="SecName" Type="nvarchar" MaxLength="200" />
+          <Property Name="SecStatus" Type="bit" />
         </EntityType>
         <Association Name="FK_tb_Capability_tb_Capability">
           <End Role="tb_CapabilityType" Type="Self.tb_CapabilityType" Multiplicity="0..1" />
@@ -382,6 +429,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tb_Title_tb_Sex">
+          <End Role="tb_Sex" Type="Self.tb_Sex" Multiplicity="0..1" />
+          <End Role="tb_Title" Type="Self.tb_Title" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Sex">
+              <PropertyRef Name="SexID" />
+            </Principal>
+            <Dependent Role="tb_Title">
+              <PropertyRef Name="SexID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tb_User_tb_GroupRole">
           <End Role="tb_GroupRole" Type="Self.tb_GroupRole" Multiplicity="0..1" />
           <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
@@ -414,6 +473,7 @@
           <EntitySet Name="tb_Degree" EntityType="Self.tb_Degree" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Department" EntityType="Self.tb_Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Division" EntityType="Self.tb_Division" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_DocNumber" EntityType="Self.tb_DocNumber" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Education" EntityType="Self.tb_Education" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_GroupRole" EntityType="Self.tb_GroupRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Holiday" EntityType="Self.tb_Holiday" Schema="dbo" store:Type="Tables" />
@@ -425,12 +485,35 @@
           <EntitySet Name="tb_Position" EntityType="Self.tb_Position" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Religion" EntityType="Self.tb_Religion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Role" EntityType="Self.tb_Role" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tb_Salary" EntityType="Self.tb_Salary" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_SalaryRate" EntityType="Self.tb_SalaryRate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Section" EntityType="Self.tb_Section" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Sex" EntityType="Self.tb_Sex" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_SystemConfig" EntityType="Self.tb_SystemConfig" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Title" EntityType="Self.tb_Title" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_User" EntityType="Self.tb_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vw_Department" EntityType="Self.vw_Department" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_Department].[DepID] AS [DepID], 
+    [vw_Department].[DivID] AS [DivID], 
+    [vw_Department].[DepName] AS [DepName], 
+    [vw_Department].[DivName] AS [DivName], 
+    [vw_Department].[DivStatus] AS [DivStatus], 
+    [vw_Department].[DepStatus] AS [DepStatus]
+    FROM [dbo].[vw_Department] AS [vw_Department]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_Section" EntityType="Self.vw_Section" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_Section].[DivID] AS [DivID], 
+    [vw_Section].[DivName] AS [DivName], 
+    [vw_Section].[DivStatus] AS [DivStatus], 
+    [vw_Section].[DepID] AS [DepID], 
+    [vw_Section].[DepName] AS [DepName], 
+    [vw_Section].[DepStatus] AS [DepStatus], 
+    [vw_Section].[SecID] AS [SecID], 
+    [vw_Section].[SecName] AS [SecName], 
+    [vw_Section].[SecStatus] AS [SecStatus]
+    FROM [dbo].[vw_Section] AS [vw_Section]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_tb_Capability_tb_Capability" Association="Self.FK_tb_Capability_tb_Capability">
             <End Role="tb_CapabilityType" EntitySet="tb_CapabilityType" />
             <End Role="tb_Capability" EntitySet="tb_Capability" />
@@ -455,6 +538,10 @@
             <End Role="tb_Department" EntitySet="tb_Department" />
             <End Role="tb_Section" EntitySet="tb_Section" />
           </AssociationSet>
+          <AssociationSet Name="FK_tb_Title_tb_Sex" Association="Self.FK_tb_Title_tb_Sex">
+            <End Role="tb_Sex" EntitySet="tb_Sex" />
+            <End Role="tb_Title" EntitySet="tb_Title" />
+          </AssociationSet>
           <AssociationSet Name="FK_tb_User_tb_GroupRole" Association="Self.FK_tb_User_tb_GroupRole">
             <End Role="tb_GroupRole" EntitySet="tb_GroupRole" />
             <End Role="tb_User" EntitySet="tb_User" />
@@ -475,6 +562,8 @@
           <EntitySet Name="tb_Certificate" EntityType="SAT.HR.tb_Certificate" />
           <EntitySet Name="tb_Degree" EntityType="SAT.HR.tb_Degree" />
           <EntitySet Name="tb_Department" EntityType="SAT.HR.tb_Department" />
+          <EntitySet Name="tb_Division" EntityType="SAT.HR.tb_Division" />
+          <EntitySet Name="tb_DocNumber" EntityType="SAT.HR.tb_DocNumber" />
           <EntitySet Name="tb_Education" EntityType="SAT.HR.tb_Education" />
           <EntitySet Name="tb_GroupRole" EntityType="SAT.HR.tb_GroupRole" />
           <EntitySet Name="tb_Holiday" EntityType="SAT.HR.tb_Holiday" />
@@ -483,15 +572,15 @@
           <EntitySet Name="tb_Major" EntityType="SAT.HR.tb_Major" />
           <EntitySet Name="tb_Menu" EntityType="SAT.HR.tb_Menu" />
           <EntitySet Name="tb_Nationality" EntityType="SAT.HR.tb_Nationality" />
-          <EntitySet Name="tb_Position" EntityType="SAT.HR.tb_Position" />
           <EntitySet Name="tb_Religion" EntityType="SAT.HR.tb_Religion" />
           <EntitySet Name="tb_Role" EntityType="SAT.HR.tb_Role" />
-          <EntitySet Name="tb_Salary" EntityType="SAT.HR.tb_Salary" />
           <EntitySet Name="tb_Section" EntityType="SAT.HR.tb_Section" />
           <EntitySet Name="tb_Sex" EntityType="SAT.HR.tb_Sex" />
           <EntitySet Name="tb_SystemConfig" EntityType="SAT.HR.tb_SystemConfig" />
           <EntitySet Name="tb_Title" EntityType="SAT.HR.tb_Title" />
           <EntitySet Name="tb_User" EntityType="SAT.HR.tb_User" />
+          <EntitySet Name="vw_Department" EntityType="SAT.HR.vw_Department" />
+          <EntitySet Name="vw_Section" EntityType="SAT.HR.vw_Section" />
           <AssociationSet Name="FK_tb_Capability_tb_Capability" Association="SAT.HR.FK_tb_Capability_tb_Capability">
             <End Role="tb_CapabilityType" EntitySet="tb_CapabilityType" />
             <End Role="tb_Capability" EntitySet="tb_Capability" />
@@ -499,6 +588,10 @@
           <AssociationSet Name="FK_tb_Capability_tb_Menu" Association="SAT.HR.FK_tb_Capability_tb_Menu">
             <End Role="tb_Menu" EntitySet="tb_Menu" />
             <End Role="tb_Capability" EntitySet="tb_Capability" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Department_tb_Division" Association="SAT.HR.FK_tb_Department_tb_Division">
+            <End Role="tb_Division" EntitySet="tb_Division" />
+            <End Role="tb_Department" EntitySet="tb_Department" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_Section_tb_Department" Association="SAT.HR.FK_tb_Section_tb_Department">
             <End Role="tb_Department" EntitySet="tb_Department" />
@@ -516,24 +609,25 @@
             <End Role="tb_Menu" EntitySet="tb_Menu" />
             <End Role="tb_Role" EntitySet="tb_Role" />
           </AssociationSet>
+          <AssociationSet Name="FK_tb_Title_tb_Sex" Association="SAT.HR.FK_tb_Title_tb_Sex">
+            <End Role="tb_Sex" EntitySet="tb_Sex" />
+            <End Role="tb_Title" EntitySet="tb_Title" />
+          </AssociationSet>
           <AssociationSet Name="FK_tb_User_tb_Sex" Association="SAT.HR.FK_tb_User_tb_Sex">
             <End Role="tb_Sex" EntitySet="tb_Sex" />
             <End Role="tb_User" EntitySet="tb_User" />
           </AssociationSet>
-          <EntitySet Name="tb_Division" EntityType="SAT.HR.tb_Division" />
-          <AssociationSet Name="FK_tb_Department_tb_Division" Association="SAT.HR.FK_tb_Department_tb_Division">
-            <End Role="tb_Division" EntitySet="tb_Division" />
-            <End Role="tb_Department" EntitySet="tb_Department" />
-          </AssociationSet>
+          <EntitySet Name="tb_Position" EntityType="SAT.HR.tb_Position" />
+          <EntitySet Name="tb_SalaryRate" EntityType="SAT.HR.tb_SalaryRate" />
         </EntityContainer>
         <EntityType Name="tb_ActionType">
           <Key>
             <PropertyRef Name="ActID" />
           </Key>
           <Property Name="ActID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ActCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ActName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="ActType" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ActPos" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
@@ -602,14 +696,45 @@
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tb_Section" Relationship="SAT.HR.FK_tb_Section_tb_Department" FromRole="tb_Department" ToRole="tb_Section" />
           <NavigationProperty Name="tb_Division" Relationship="SAT.HR.FK_tb_Department_tb_Division" FromRole="tb_Department" ToRole="tb_Division" />
+          <NavigationProperty Name="tb_Section" Relationship="SAT.HR.FK_tb_Section_tb_Department" FromRole="tb_Department" ToRole="tb_Section" />
+        </EntityType>
+        <EntityType Name="tb_Division">
+          <Key>
+            <PropertyRef Name="DivID" />
+          </Key>
+          <Property Name="DivID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DivName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DivStatus" Type="Boolean" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tb_Department" Relationship="SAT.HR.FK_tb_Department_tb_Division" FromRole="tb_Division" ToRole="tb_Department" />
+        </EntityType>
+        <EntityType Name="tb_DocNumber">
+          <Key>
+            <PropertyRef Name="ObjectID" />
+          </Key>
+          <Property Name="ObjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DocCode" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DocName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Prefix" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Suffix" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="NumLength" Type="Int32" />
+          <Property Name="CurrentNum" Type="Int32" />
+          <Property Name="ZeroContain" Type="Boolean" />
+          <Property Name="ResetMonth" Type="Boolean" />
+          <Property Name="ResetYear" Type="Boolean" />
+          <Property Name="LastMonth" Type="Int32" />
+          <Property Name="LastYear" Type="Int32" />
         </EntityType>
         <EntityType Name="tb_Education">
           <Key>
             <PropertyRef Name="EduID" />
           </Key>
           <Property Name="EduID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EduCode" Type="Int32" />
           <Property Name="EduName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="EduStatus" Type="Boolean" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
@@ -635,7 +760,6 @@
             <PropertyRef Name="HolID" />
           </Key>
           <Property Name="HolID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="HolYear" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="HolDate" Type="DateTime" Precision="3" />
           <Property Name="HolDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
@@ -648,9 +772,8 @@
             <PropertyRef Name="InsID" />
           </Key>
           <Property Name="InsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="InsFullName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="InsShortName" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="InsStatus" Type="Boolean" />
+          <Property Name="InsFullName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="InsShortName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
@@ -665,6 +788,7 @@
           <Property Name="LevStartDate" Type="DateTime" Precision="3" />
           <Property Name="LevEndDate" Type="DateTime" Precision="3" />
           <Property Name="LevMax" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="LevName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="LevStatus" Type="Boolean" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -704,21 +828,7 @@
           </Key>
           <Property Name="NatID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NatName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="NatStatus" Type="Boolean" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="tb_Position">
-          <Key>
-            <PropertyRef Name="PoID" />
-          </Key>
-          <Property Name="PoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PoShortName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PoFullName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PoGroup" Type="Int32" />
-          <Property Name="PoStatus" Type="Boolean" />
+          <Property Name="NatStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
@@ -751,19 +861,6 @@
           <NavigationProperty Name="tb_GroupRole" Relationship="SAT.HR.FK_tb_Permission_tb_GroupPermission" FromRole="tb_Role" ToRole="tb_GroupRole" />
           <NavigationProperty Name="tb_Menu" Relationship="SAT.HR.FK_tb_Permission_tb_Menu" FromRole="tb_Role" ToRole="tb_Menu" />
         </EntityType>
-        <EntityType Name="tb_Salary">
-          <Key>
-            <PropertyRef Name="SaID" />
-          </Key>
-          <Property Name="SaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SaLevel" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SaStep" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SaStatus" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="tb_Section">
           <Key>
             <PropertyRef Name="SecID" />
@@ -789,6 +886,7 @@
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tb_Title" Relationship="SAT.HR.FK_tb_Title_tb_Sex" FromRole="tb_Sex" ToRole="tb_Title" />
           <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_User_tb_Sex" FromRole="tb_Sex" ToRole="tb_User" />
         </EntityType>
         <EntityType Name="tb_SystemConfig">
@@ -810,10 +908,12 @@
           <Property Name="TiFullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="TiShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="TiStatus" Type="Boolean" />
+          <Property Name="SexID" Type="Int32" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tb_Sex" Relationship="SAT.HR.FK_tb_Title_tb_Sex" FromRole="tb_Title" ToRole="tb_Sex" />
         </EntityType>
         <EntityType Name="tb_User">
           <Key>
@@ -833,6 +933,32 @@
           <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tb_GroupRole" Relationship="SAT.HR.FK_tb_User_tb_GroupRole" FromRole="tb_User" ToRole="tb_GroupRole" />
           <NavigationProperty Name="tb_Sex" Relationship="SAT.HR.FK_tb_User_tb_Sex" FromRole="tb_User" ToRole="tb_Sex" />
+        </EntityType>
+        <EntityType Name="vw_Department">
+          <Key>
+            <PropertyRef Name="DepID" />
+            <PropertyRef Name="DepName" />
+          </Key>
+          <Property Name="DepID" Type="Int32" Nullable="false" />
+          <Property Name="DivID" Type="Int32" />
+          <Property Name="DepName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DivStatus" Type="Boolean" />
+          <Property Name="DepStatus" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="vw_Section">
+          <Key>
+            <PropertyRef Name="SecID" />
+          </Key>
+          <Property Name="DivID" Type="Int32" />
+          <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DivStatus" Type="Boolean" />
+          <Property Name="DepID" Type="Int32" />
+          <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DepStatus" Type="Boolean" />
+          <Property Name="SecID" Type="Int32" Nullable="false" />
+          <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SecStatus" Type="Boolean" />
         </EntityType>
         <Association Name="FK_tb_Capability_tb_Capability">
           <End Type="SAT.HR.tb_CapabilityType" Role="tb_CapabilityType" Multiplicity="0..1" />
@@ -855,6 +981,18 @@
             </Principal>
             <Dependent Role="tb_Capability">
               <PropertyRef Name="MenuID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Department_tb_Division">
+          <End Type="SAT.HR.tb_Division" Role="tb_Division" Multiplicity="1" />
+          <End Type="SAT.HR.tb_Department" Role="tb_Department" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Division">
+              <PropertyRef Name="DivID" />
+            </Principal>
+            <Dependent Role="tb_Department">
+              <PropertyRef Name="DivID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -906,6 +1044,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tb_Title_tb_Sex">
+          <End Type="SAT.HR.tb_Sex" Role="tb_Sex" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Title" Role="tb_Title" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Sex">
+              <PropertyRef Name="SexID" />
+            </Principal>
+            <Dependent Role="tb_Title">
+              <PropertyRef Name="SexID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tb_User_tb_Sex">
           <End Type="SAT.HR.tb_Sex" Role="tb_Sex" Multiplicity="0..1" />
           <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="*" />
@@ -918,31 +1068,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="tb_Division">
+        <EntityType Name="tb_Position">
           <Key>
-            <PropertyRef Name="DivID" />
+            <PropertyRef Name="PoID" />
           </Key>
-          <Property Name="DivID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DivName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="DivStatus" Type="Boolean" />
+          <Property Name="PoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PoCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PoStatus" Type="Boolean" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tb_Department" Relationship="SAT.HR.FK_tb_Department_tb_Division" FromRole="tb_Division" ToRole="tb_Department" />
         </EntityType>
-        <Association Name="FK_tb_Department_tb_Division">
-          <End Type="SAT.HR.tb_Division" Role="tb_Division" Multiplicity="1" />
-          <End Type="SAT.HR.tb_Department" Role="tb_Department" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_Division">
-              <PropertyRef Name="DivID" />
-            </Principal>
-            <Dependent Role="tb_Department">
-              <PropertyRef Name="DivID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <EntityType Name="tb_SalaryRate">
+          <Key>
+            <PropertyRef Name="SaID" />
+          </Key>
+          <Property Name="SaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SaLevel" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SaStep" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SaRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -956,9 +1107,9 @@
                 <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ActPos" ColumnName="ActPos" />
                 <ScalarProperty Name="ActType" ColumnName="ActType" />
                 <ScalarProperty Name="ActName" ColumnName="ActName" />
-                <ScalarProperty Name="ActCode" ColumnName="ActCode" />
                 <ScalarProperty Name="ActID" ColumnName="ActID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1029,6 +1180,37 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tb_Division">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Division">
+              <MappingFragment StoreEntitySet="tb_Division">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="DivStatus" ColumnName="DivStatus" />
+                <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="DivID" ColumnName="DivID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_DocNumber">
+            <EntityTypeMapping TypeName="SAT.HR.tb_DocNumber">
+              <MappingFragment StoreEntitySet="tb_DocNumber">
+                <ScalarProperty Name="LastYear" ColumnName="LastYear" />
+                <ScalarProperty Name="LastMonth" ColumnName="LastMonth" />
+                <ScalarProperty Name="ResetYear" ColumnName="ResetYear" />
+                <ScalarProperty Name="ResetMonth" ColumnName="ResetMonth" />
+                <ScalarProperty Name="ZeroContain" ColumnName="ZeroContain" />
+                <ScalarProperty Name="CurrentNum" ColumnName="CurrentNum" />
+                <ScalarProperty Name="NumLength" ColumnName="NumLength" />
+                <ScalarProperty Name="Suffix" ColumnName="Suffix" />
+                <ScalarProperty Name="Prefix" ColumnName="Prefix" />
+                <ScalarProperty Name="DocName" ColumnName="DocName" />
+                <ScalarProperty Name="DocCode" ColumnName="DocCode" />
+                <ScalarProperty Name="ObjectID" ColumnName="ObjectID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tb_Education">
             <EntityTypeMapping TypeName="SAT.HR.tb_Education">
               <MappingFragment StoreEntitySet="tb_Education">
@@ -1038,6 +1220,7 @@
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="EduStatus" ColumnName="EduStatus" />
                 <ScalarProperty Name="EduName" ColumnName="EduName" />
+                <ScalarProperty Name="EduCode" ColumnName="EduCode" />
                 <ScalarProperty Name="EduID" ColumnName="EduID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1063,7 +1246,6 @@
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="HolDescription" ColumnName="HolDescription" />
                 <ScalarProperty Name="HolDate" ColumnName="HolDate" />
-                <ScalarProperty Name="HolYear" ColumnName="HolYear" />
                 <ScalarProperty Name="HolID" ColumnName="HolID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1075,7 +1257,6 @@
                 <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="InsStatus" ColumnName="InsStatus" />
                 <ScalarProperty Name="InsShortName" ColumnName="InsShortName" />
                 <ScalarProperty Name="InsFullName" ColumnName="InsFullName" />
                 <ScalarProperty Name="InsID" ColumnName="InsID" />
@@ -1090,6 +1271,7 @@
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="LevStatus" ColumnName="LevStatus" />
+                <ScalarProperty Name="LevName" ColumnName="LevName" />
                 <ScalarProperty Name="LevMax" ColumnName="LevMax" />
                 <ScalarProperty Name="LevEndDate" ColumnName="LevEndDate" />
                 <ScalarProperty Name="LevStartDate" ColumnName="LevStartDate" />
@@ -1138,21 +1320,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tb_Position">
-            <EntityTypeMapping TypeName="SAT.HR.tb_Position">
-              <MappingFragment StoreEntitySet="tb_Position">
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="PoStatus" ColumnName="PoStatus" />
-                <ScalarProperty Name="PoGroup" ColumnName="PoGroup" />
-                <ScalarProperty Name="PoFullName" ColumnName="PoFullName" />
-                <ScalarProperty Name="PoShortName" ColumnName="PoShortName" />
-                <ScalarProperty Name="PoID" ColumnName="PoID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tb_Religion">
             <EntityTypeMapping TypeName="SAT.HR.tb_Religion">
               <MappingFragment StoreEntitySet="tb_Religion">
@@ -1177,20 +1344,6 @@
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="MenuID" ColumnName="MenuID" />
                 <ScalarProperty Name="PerID" ColumnName="PerID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tb_Salary">
-            <EntityTypeMapping TypeName="SAT.HR.tb_Salary">
-              <MappingFragment StoreEntitySet="tb_Salary">
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="SaStatus" ColumnName="SaStatus" />
-                <ScalarProperty Name="SaStep" ColumnName="SaStep" />
-                <ScalarProperty Name="SaLevel" ColumnName="SaLevel" />
-                <ScalarProperty Name="SaID" ColumnName="SaID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1240,6 +1393,7 @@
                 <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="SexID" ColumnName="SexID" />
                 <ScalarProperty Name="TiStatus" ColumnName="TiStatus" />
                 <ScalarProperty Name="TiShortName" ColumnName="TiShortName" />
                 <ScalarProperty Name="TiFullName" ColumnName="TiFullName" />
@@ -1265,16 +1419,58 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tb_Division">
-            <EntityTypeMapping TypeName="SAT.HR.tb_Division">
-              <MappingFragment StoreEntitySet="tb_Division">
+          <EntitySetMapping Name="vw_Department">
+            <EntityTypeMapping TypeName="SAT.HR.vw_Department">
+              <MappingFragment StoreEntitySet="vw_Department">
+                <ScalarProperty Name="DepStatus" ColumnName="DepStatus" />
+                <ScalarProperty Name="DivStatus" ColumnName="DivStatus" />
+                <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="DepName" ColumnName="DepName" />
+                <ScalarProperty Name="DivID" ColumnName="DivID" />
+                <ScalarProperty Name="DepID" ColumnName="DepID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_Section">
+            <EntityTypeMapping TypeName="SAT.HR.vw_Section">
+              <MappingFragment StoreEntitySet="vw_Section">
+                <ScalarProperty Name="SecStatus" ColumnName="SecStatus" />
+                <ScalarProperty Name="SecName" ColumnName="SecName" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="DepStatus" ColumnName="DepStatus" />
+                <ScalarProperty Name="DepName" ColumnName="DepName" />
+                <ScalarProperty Name="DepID" ColumnName="DepID" />
+                <ScalarProperty Name="DivStatus" ColumnName="DivStatus" />
+                <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="DivID" ColumnName="DivID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Position">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Position">
+              <MappingFragment StoreEntitySet="tb_Position">
                 <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
                 <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="DivStatus" ColumnName="DivStatus" />
-                <ScalarProperty Name="DivName" ColumnName="DivName" />
-                <ScalarProperty Name="DivID" ColumnName="DivID" />
+                <ScalarProperty Name="PoStatus" ColumnName="PoStatus" />
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="PoCode" ColumnName="PoCode" />
+                <ScalarProperty Name="PoID" ColumnName="PoID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_SalaryRate">
+            <EntityTypeMapping TypeName="SAT.HR.tb_SalaryRate">
+              <MappingFragment StoreEntitySet="tb_SalaryRate">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="SaRate" ColumnName="SaRate" />
+                <ScalarProperty Name="SaStep" ColumnName="SaStep" />
+                <ScalarProperty Name="SaLevel" ColumnName="SaLevel" />
+                <ScalarProperty Name="SaID" ColumnName="SaID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

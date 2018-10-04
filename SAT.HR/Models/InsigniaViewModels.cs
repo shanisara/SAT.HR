@@ -6,15 +6,13 @@ namespace SAT.HR.Models
 {
     public class InsigniaViewModel
     {
-        public string RowNumber { get; set; }
+        public int RowNumber { get; set; }
 
         public int InsID { get; set; }
 
         public string InsFullName { get; set; }
 
         public string InsShortName { get; set; }
-
-        public bool? InsStatus { get; set; }
 
         public DateTime? CreateDate { get; set; }
 
