@@ -43,18 +43,14 @@ namespace SAT.HR.Data.Repository
 
                 int start = initialPage.HasValue ? (int)initialPage / 10 : 0;
                 int length = pageSize ?? 10;
-                data = data.Skip(start * length).Take(length).ToList();
 
-                List<DivisionViewModel> list = new List<Models.DivisionViewModel>();
-                foreach (var m in data)
+                var list = data.Select((s, i) => new DivisionViewModel()
                 {
-                    DivisionViewModel model = new Models.DivisionViewModel();
-                    model.DivID = m.DivID;
-                    //model.DivCode = m.DivCode;
-                    model.DivName = m.DivName;
-                    model.DivStatus = m.DivStatus;
-                    list.Add(model);
-                }
+                    RowNumber = i+1,
+                    DivID = s.DivID,
+                    DivName = s.DivName,
+                    DivStatus = s.DivStatus
+                }).Skip(start * length).Take(length).ToList();
 
                 DivisionResult result = new DivisionResult();
                 result.draw = draw ?? 0;

@@ -29,8 +29,8 @@ namespace SAT.HR.Data.Entities
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public string ModifyBy { get; set; }
     
-        public virtual tb_Division tb_Division { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Section> tb_Section { get; set; }
+        public virtual tb_Division tb_Division { get; set; }
     }
 }

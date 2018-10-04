@@ -31,7 +31,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Certificate> tb_Certificate { get; set; }
         public virtual DbSet<tb_Degree> tb_Degree { get; set; }
         public virtual DbSet<tb_Department> tb_Department { get; set; }
-        public virtual DbSet<tb_Division> tb_Division { get; set; }
         public virtual DbSet<tb_Education> tb_Education { get; set; }
         public virtual DbSet<tb_GroupRole> tb_GroupRole { get; set; }
         public virtual DbSet<tb_Holiday> tb_Holiday { get; set; }
@@ -49,5 +48,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_SystemConfig> tb_SystemConfig { get; set; }
         public virtual DbSet<tb_Title> tb_Title { get; set; }
         public virtual DbSet<tb_User> tb_User { get; set; }
+        public virtual DbSet<tb_Division> tb_Division { get; set; }
     }
 }

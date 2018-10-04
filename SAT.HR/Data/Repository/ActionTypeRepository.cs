@@ -33,18 +33,15 @@ namespace SAT.HR.Data.Repository
 
                 int start = initialPage.HasValue ? (int)initialPage / 10 : 0;
                 int length = pageSize ?? 10;
-                data = data.Skip(start * length).Take(length).ToList();
 
-                List<ActionTypeViewModel> list = new List<Models.ActionTypeViewModel>();
-                foreach (var m in data)
+                var list = data.Select((s, i) => new ActionTypeViewModel()
                 {
-                    ActionTypeViewModel model = new Models.ActionTypeViewModel();
-                    model.ActID = m.ActID;
-                    model.ActCode = m.ActCode;
-                    model.ActName = m.ActName;
-                    model.ActType = m.ActType;
-                    list.Add(model);
-                }
+                    RowNumber = ++i,
+                    ActCode = s.ActCode,
+                    ActName = s.ActName,
+                    ActType = s.ActType
+                }).Skip(start * length).Take(length).ToList();
+
 
                 ActionTypeResult result = new ActionTypeResult();
                 result.draw = draw ?? 0;

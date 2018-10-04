@@ -475,7 +475,6 @@
           <EntitySet Name="tb_Certificate" EntityType="SAT.HR.tb_Certificate" />
           <EntitySet Name="tb_Degree" EntityType="SAT.HR.tb_Degree" />
           <EntitySet Name="tb_Department" EntityType="SAT.HR.tb_Department" />
-          <EntitySet Name="tb_Division" EntityType="SAT.HR.tb_Division" />
           <EntitySet Name="tb_Education" EntityType="SAT.HR.tb_Education" />
           <EntitySet Name="tb_GroupRole" EntityType="SAT.HR.tb_GroupRole" />
           <EntitySet Name="tb_Holiday" EntityType="SAT.HR.tb_Holiday" />
@@ -501,10 +500,6 @@
             <End Role="tb_Menu" EntitySet="tb_Menu" />
             <End Role="tb_Capability" EntitySet="tb_Capability" />
           </AssociationSet>
-          <AssociationSet Name="FK_tb_Department_tb_Division" Association="SAT.HR.FK_tb_Department_tb_Division">
-            <End Role="tb_Division" EntitySet="tb_Division" />
-            <End Role="tb_Department" EntitySet="tb_Department" />
-          </AssociationSet>
           <AssociationSet Name="FK_tb_Section_tb_Department" Association="SAT.HR.FK_tb_Section_tb_Department">
             <End Role="tb_Department" EntitySet="tb_Department" />
             <End Role="tb_Section" EntitySet="tb_Section" />
@@ -524,6 +519,11 @@
           <AssociationSet Name="FK_tb_User_tb_Sex" Association="SAT.HR.FK_tb_User_tb_Sex">
             <End Role="tb_Sex" EntitySet="tb_Sex" />
             <End Role="tb_User" EntitySet="tb_User" />
+          </AssociationSet>
+          <EntitySet Name="tb_Division" EntityType="SAT.HR.tb_Division" />
+          <AssociationSet Name="FK_tb_Department_tb_Division" Association="SAT.HR.FK_tb_Department_tb_Division">
+            <End Role="tb_Division" EntitySet="tb_Division" />
+            <End Role="tb_Department" EntitySet="tb_Department" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="tb_ActionType">
@@ -602,21 +602,8 @@
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tb_Division" Relationship="SAT.HR.FK_tb_Department_tb_Division" FromRole="tb_Department" ToRole="tb_Division" />
           <NavigationProperty Name="tb_Section" Relationship="SAT.HR.FK_tb_Section_tb_Department" FromRole="tb_Department" ToRole="tb_Section" />
-        </EntityType>
-        <EntityType Name="tb_Division">
-          <Key>
-            <PropertyRef Name="DivID" />
-          </Key>
-          <Property Name="DivID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DivName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="DivStatus" Type="Boolean" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tb_Department" Relationship="SAT.HR.FK_tb_Department_tb_Division" FromRole="tb_Division" ToRole="tb_Department" />
+          <NavigationProperty Name="tb_Division" Relationship="SAT.HR.FK_tb_Department_tb_Division" FromRole="tb_Department" ToRole="tb_Division" />
         </EntityType>
         <EntityType Name="tb_Education">
           <Key>
@@ -871,18 +858,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tb_Department_tb_Division">
-          <End Type="SAT.HR.tb_Division" Role="tb_Division" Multiplicity="1" />
-          <End Type="SAT.HR.tb_Department" Role="tb_Department" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_Division">
-              <PropertyRef Name="DivID" />
-            </Principal>
-            <Dependent Role="tb_Department">
-              <PropertyRef Name="DivID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tb_Section_tb_Department">
           <End Type="SAT.HR.tb_Department" Role="tb_Department" Multiplicity="0..1" />
           <End Type="SAT.HR.tb_Section" Role="tb_Section" Multiplicity="*" />
@@ -943,7 +918,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <EntityType Name="tb_Division">
+          <Key>
+            <PropertyRef Name="DivID" />
+          </Key>
+          <Property Name="DivID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DivName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DivStatus" Type="Boolean" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tb_Department" Relationship="SAT.HR.FK_tb_Department_tb_Division" FromRole="tb_Division" ToRole="tb_Department" />
+        </EntityType>
+        <Association Name="FK_tb_Department_tb_Division">
+          <End Type="SAT.HR.tb_Division" Role="tb_Division" Multiplicity="1" />
+          <End Type="SAT.HR.tb_Department" Role="tb_Department" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Division">
+              <PropertyRef Name="DivID" />
+            </Principal>
+            <Dependent Role="tb_Department">
+              <PropertyRef Name="DivID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1026,19 +1026,6 @@
                 <ScalarProperty Name="DepName" ColumnName="DepName" />
                 <ScalarProperty Name="DivID" ColumnName="DivID" />
                 <ScalarProperty Name="DepID" ColumnName="DepID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tb_Division">
-            <EntityTypeMapping TypeName="SAT.HR.tb_Division">
-              <MappingFragment StoreEntitySet="tb_Division">
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="DivStatus" ColumnName="DivStatus" />
-                <ScalarProperty Name="DivName" ColumnName="DivName" />
-                <ScalarProperty Name="DivID" ColumnName="DivID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1275,6 +1262,19 @@
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Division">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Division">
+              <MappingFragment StoreEntitySet="tb_Division">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="DivStatus" ColumnName="DivStatus" />
+                <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="DivID" ColumnName="DivID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

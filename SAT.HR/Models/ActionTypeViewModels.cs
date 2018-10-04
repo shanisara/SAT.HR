@@ -6,7 +6,7 @@ namespace SAT.HR.Models
 {
     public partial class ActionTypeViewModel
     {
-        public string RowNumber { get; set; }
+        public int RowNumber { get; set; }
 
         public int ActID { get; set; }
 
