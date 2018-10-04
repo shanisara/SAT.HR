@@ -38,8 +38,8 @@ namespace SAT.HR.Data.Repository
                 {
                     RowNumber = ++i,
                     ActID = s.ActID,
-                    ActName = s.ActName,
-                    ActType = s.ActType
+                    ActName = s.ActName
+                    //ActType = s.ActType
                 }).Skip(start * length).Take(length).ToList();
 
 
