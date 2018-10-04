@@ -6,6 +6,8 @@ namespace SAT.HR.Models
 {
     public class NationalityViewModel
     {
+        public string RowNumber { get; set; }
+
         public int NatID { get; set; }
 
         public string NatName { get; set; }

@@ -6,6 +6,8 @@ namespace SAT.HR.Models
 {
     public class TitleViewModel
     {
+        public string RowNumber { get; set; }
+
         public int TiID { get; set; }
 
         public string TiFullName { get; set; }

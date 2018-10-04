@@ -15,9 +15,10 @@ namespace SAT.HR.Data.Entities
     public partial class tb_Position
     {
         public int PoID { get; set; }
-        public Nullable<int> PoCode { get; set; }
-        public string PoName { get; set; }
+        public string PoShortName { get; set; }
+        public string PoFullName { get; set; }
         public Nullable<int> PoGroup { get; set; }
+        public Nullable<bool> PoStatus { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public string CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }

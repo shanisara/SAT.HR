@@ -50,7 +50,7 @@ namespace SAT.HR.Data.Repository
                 {
                     DivisionViewModel model = new Models.DivisionViewModel();
                     model.DivID = m.DivID;
-                    model.DivCode = m.DivCode;
+                    //model.DivCode = m.DivCode;
                     model.DivName = m.DivName;
                     model.DivStatus = m.DivStatus;
                     list.Add(model);
@@ -72,7 +72,7 @@ namespace SAT.HR.Data.Repository
             {
                 tb_Division model = new tb_Division();
                 model.DivID = data.DivID;
-                model.DivCode = data.DivCode;
+                //model.DivCode = data.DivCode;
                 model.DivName = data.DivName;
                 model.DivStatus = data.DivStatus;
                 model.CreateBy = data.ModifyBy;
@@ -89,7 +89,7 @@ namespace SAT.HR.Data.Repository
             using (SATEntities db = new SATEntities())
             {
                 var data = db.tb_Division.Single(x => x.DivID == newdata.DivID);
-                data.DivCode = newdata.DivCode;
+                //data.DivCode = newdata.DivCode;
                 data.DivName = newdata.DivName;
                 data.DivStatus = newdata.DivStatus;
                 data.ModifyBy = newdata.ModifyBy;

@@ -44,6 +44,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Religion> tb_Religion { get; set; }
         public virtual DbSet<tb_Role> tb_Role { get; set; }
         public virtual DbSet<tb_Salary> tb_Salary { get; set; }
+        public virtual DbSet<tb_Section> tb_Section { get; set; }
         public virtual DbSet<tb_Sex> tb_Sex { get; set; }
         public virtual DbSet<tb_SystemConfig> tb_SystemConfig { get; set; }
         public virtual DbSet<tb_Title> tb_Title { get; set; }

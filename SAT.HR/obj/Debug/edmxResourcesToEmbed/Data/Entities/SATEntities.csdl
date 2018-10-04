@@ -1,5 +1,63 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="SAT.HR" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="SATEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tb_ActionType" EntityType="SAT.HR.tb_ActionType" />
+    <EntitySet Name="tb_Capability" EntityType="SAT.HR.tb_Capability" />
+    <EntitySet Name="tb_CapabilityType" EntityType="SAT.HR.tb_CapabilityType" />
+    <EntitySet Name="tb_Certificate" EntityType="SAT.HR.tb_Certificate" />
+    <EntitySet Name="tb_Degree" EntityType="SAT.HR.tb_Degree" />
+    <EntitySet Name="tb_Department" EntityType="SAT.HR.tb_Department" />
+    <EntitySet Name="tb_Division" EntityType="SAT.HR.tb_Division" />
+    <EntitySet Name="tb_Education" EntityType="SAT.HR.tb_Education" />
+    <EntitySet Name="tb_GroupRole" EntityType="SAT.HR.tb_GroupRole" />
+    <EntitySet Name="tb_Holiday" EntityType="SAT.HR.tb_Holiday" />
+    <EntitySet Name="tb_Insignia" EntityType="SAT.HR.tb_Insignia" />
+    <EntitySet Name="tb_LeaveType" EntityType="SAT.HR.tb_LeaveType" />
+    <EntitySet Name="tb_Major" EntityType="SAT.HR.tb_Major" />
+    <EntitySet Name="tb_Menu" EntityType="SAT.HR.tb_Menu" />
+    <EntitySet Name="tb_Nationality" EntityType="SAT.HR.tb_Nationality" />
+    <EntitySet Name="tb_Position" EntityType="SAT.HR.tb_Position" />
+    <EntitySet Name="tb_Religion" EntityType="SAT.HR.tb_Religion" />
+    <EntitySet Name="tb_Role" EntityType="SAT.HR.tb_Role" />
+    <EntitySet Name="tb_Salary" EntityType="SAT.HR.tb_Salary" />
+    <EntitySet Name="tb_Section" EntityType="SAT.HR.tb_Section" />
+    <EntitySet Name="tb_Sex" EntityType="SAT.HR.tb_Sex" />
+    <EntitySet Name="tb_SystemConfig" EntityType="SAT.HR.tb_SystemConfig" />
+    <EntitySet Name="tb_Title" EntityType="SAT.HR.tb_Title" />
+    <EntitySet Name="tb_User" EntityType="SAT.HR.tb_User" />
+    <AssociationSet Name="FK_tb_Capability_tb_Capability" Association="SAT.HR.FK_tb_Capability_tb_Capability">
+      <End Role="tb_CapabilityType" EntitySet="tb_CapabilityType" />
+      <End Role="tb_Capability" EntitySet="tb_Capability" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Capability_tb_Menu" Association="SAT.HR.FK_tb_Capability_tb_Menu">
+      <End Role="tb_Menu" EntitySet="tb_Menu" />
+      <End Role="tb_Capability" EntitySet="tb_Capability" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Department_tb_Division" Association="SAT.HR.FK_tb_Department_tb_Division">
+      <End Role="tb_Division" EntitySet="tb_Division" />
+      <End Role="tb_Department" EntitySet="tb_Department" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Section_tb_Department" Association="SAT.HR.FK_tb_Section_tb_Department">
+      <End Role="tb_Department" EntitySet="tb_Department" />
+      <End Role="tb_Section" EntitySet="tb_Section" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Permission_tb_GroupPermission" Association="SAT.HR.FK_tb_Permission_tb_GroupPermission">
+      <End Role="tb_GroupRole" EntitySet="tb_GroupRole" />
+      <End Role="tb_Role" EntitySet="tb_Role" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_tb_GroupRole" Association="SAT.HR.FK_tb_User_tb_GroupRole">
+      <End Role="tb_GroupRole" EntitySet="tb_GroupRole" />
+      <End Role="tb_User" EntitySet="tb_User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Permission_tb_Menu" Association="SAT.HR.FK_tb_Permission_tb_Menu">
+      <End Role="tb_Menu" EntitySet="tb_Menu" />
+      <End Role="tb_Role" EntitySet="tb_Role" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_tb_Sex" Association="SAT.HR.FK_tb_User_tb_Sex">
+      <End Role="tb_Sex" EntitySet="tb_Sex" />
+      <End Role="tb_User" EntitySet="tb_User" />
+    </AssociationSet>
+  </EntityContainer>
   <EntityType Name="tb_ActionType">
     <Key>
       <PropertyRef Name="ActID" />
@@ -26,8 +84,8 @@
     <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="tb_CapabilityType" Relationship="Self.FK_tb_Capability_tb_Capability" FromRole="tb_Capability" ToRole="tb_CapabilityType" />
-    <NavigationProperty Name="tb_Menu" Relationship="Self.FK_tb_Capability_tb_Menu" FromRole="tb_Capability" ToRole="tb_Menu" />
+    <NavigationProperty Name="tb_CapabilityType" Relationship="SAT.HR.FK_tb_Capability_tb_Capability" FromRole="tb_Capability" ToRole="tb_CapabilityType" />
+    <NavigationProperty Name="tb_Menu" Relationship="SAT.HR.FK_tb_Capability_tb_Menu" FromRole="tb_Capability" ToRole="tb_Menu" />
   </EntityType>
   <EntityType Name="tb_CapabilityType">
     <Key>
@@ -39,16 +97,14 @@
     <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="tb_Capability" Relationship="Self.FK_tb_Capability_tb_Capability" FromRole="tb_CapabilityType" ToRole="tb_Capability" />
+    <NavigationProperty Name="tb_Capability" Relationship="SAT.HR.FK_tb_Capability_tb_Capability" FromRole="tb_CapabilityType" ToRole="tb_Capability" />
   </EntityType>
   <EntityType Name="tb_Certificate">
     <Key>
-      <PropertyRef Name="CerCode" />
-      <PropertyRef Name="CerName" />
+      <PropertyRef Name="CerId" />
     </Key>
     <Property Name="CerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="CerCode" Type="Int32" Nullable="false" />
-    <Property Name="CerName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CerName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="CreateDate" Type="DateTime" Precision="3" />
     <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
@@ -72,27 +128,27 @@
     </Key>
     <Property Name="DepID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="DivID" Type="Int32" Nullable="false" />
-    <Property Name="DepCode" Type="Int32" Nullable="false" />
-    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DepName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DepStatus" Type="Boolean" />
     <Property Name="CreateDate" Type="DateTime" Precision="3" />
     <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="tb_Division" Relationship="Self.FK_tb_Department_tb_Division" FromRole="tb_Department" ToRole="tb_Division" />
+    <NavigationProperty Name="tb_Division" Relationship="SAT.HR.FK_tb_Department_tb_Division" FromRole="tb_Department" ToRole="tb_Division" />
+    <NavigationProperty Name="tb_Section" Relationship="SAT.HR.FK_tb_Section_tb_Department" FromRole="tb_Department" ToRole="tb_Section" />
   </EntityType>
   <EntityType Name="tb_Division">
     <Key>
       <PropertyRef Name="DivID" />
     </Key>
     <Property Name="DivID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="DivCode" Type="Int32" Nullable="false" />
-    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DivName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="DivStatus" Type="Boolean" />
     <Property Name="CreateDate" Type="DateTime" Precision="3" />
     <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="tb_Department" Relationship="Self.FK_tb_Department_tb_Division" FromRole="tb_Division" ToRole="tb_Department" />
+    <NavigationProperty Name="tb_Department" Relationship="SAT.HR.FK_tb_Department_tb_Division" FromRole="tb_Division" ToRole="tb_Department" />
   </EntityType>
   <EntityType Name="tb_Education">
     <Key>
@@ -116,8 +172,8 @@
     <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="tb_Role" Relationship="Self.FK_tb_Permission_tb_GroupPermission" FromRole="tb_GroupRole" ToRole="tb_Role" />
-    <NavigationProperty Name="tb_User" Relationship="Self.FK_tb_User_tb_GroupRole" FromRole="tb_GroupRole" ToRole="tb_User" />
+    <NavigationProperty Name="tb_Role" Relationship="SAT.HR.FK_tb_Permission_tb_GroupPermission" FromRole="tb_GroupRole" ToRole="tb_Role" />
+    <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_User_tb_GroupRole" FromRole="tb_GroupRole" ToRole="tb_User" />
   </EntityType>
   <EntityType Name="tb_Holiday">
     <Key>
@@ -137,8 +193,8 @@
       <PropertyRef Name="InsID" />
     </Key>
     <Property Name="InsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="InsFullName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="InsShortName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="InsFullName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="InsShortName" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
     <Property Name="InsStatus" Type="Boolean" />
     <Property Name="CreateDate" Type="DateTime" Precision="3" />
     <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -165,7 +221,7 @@
       <PropertyRef Name="MajID" />
     </Key>
     <Property Name="MajID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="MajName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="MajName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="MajStatus" Type="Boolean" />
     <Property Name="CreateDate" Type="DateTime" Precision="3" />
     <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -184,8 +240,8 @@
     <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="tb_Capability" Relationship="Self.FK_tb_Capability_tb_Menu" FromRole="tb_Menu" ToRole="tb_Capability" />
-    <NavigationProperty Name="tb_Role" Relationship="Self.FK_tb_Permission_tb_Menu" FromRole="tb_Menu" ToRole="tb_Role" />
+    <NavigationProperty Name="tb_Capability" Relationship="SAT.HR.FK_tb_Capability_tb_Menu" FromRole="tb_Menu" ToRole="tb_Capability" />
+    <NavigationProperty Name="tb_Role" Relationship="SAT.HR.FK_tb_Permission_tb_Menu" FromRole="tb_Menu" ToRole="tb_Role" />
   </EntityType>
   <EntityType Name="tb_Nationality">
     <Key>
@@ -203,10 +259,11 @@
     <Key>
       <PropertyRef Name="PoID" />
     </Key>
-    <Property Name="PoID" Type="Int32" Nullable="false" />
-    <Property Name="PoCode" Type="Int32" />
-    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PoShortName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PoFullName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="PoGroup" Type="Int32" />
+    <Property Name="PoStatus" Type="Boolean" />
     <Property Name="CreateDate" Type="DateTime" Precision="3" />
     <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
@@ -236,8 +293,8 @@
     <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="tb_GroupRole" Relationship="Self.FK_tb_Permission_tb_GroupPermission" FromRole="tb_Role" ToRole="tb_GroupRole" />
-    <NavigationProperty Name="tb_Menu" Relationship="Self.FK_tb_Permission_tb_Menu" FromRole="tb_Role" ToRole="tb_Menu" />
+    <NavigationProperty Name="tb_GroupRole" Relationship="SAT.HR.FK_tb_Permission_tb_GroupPermission" FromRole="tb_Role" ToRole="tb_GroupRole" />
+    <NavigationProperty Name="tb_Menu" Relationship="SAT.HR.FK_tb_Permission_tb_Menu" FromRole="tb_Role" ToRole="tb_Menu" />
   </EntityType>
   <EntityType Name="tb_Salary">
     <Key>
@@ -252,6 +309,21 @@
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
+  <EntityType Name="tb_Section">
+    <Key>
+      <PropertyRef Name="SecID" />
+    </Key>
+    <Property Name="SecID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SecStatus" Type="Boolean" />
+    <Property Name="DivID" Type="Int32" />
+    <Property Name="DepID" Type="Int32" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tb_Department" Relationship="SAT.HR.FK_tb_Section_tb_Department" FromRole="tb_Section" ToRole="tb_Department" />
+  </EntityType>
   <EntityType Name="tb_Sex">
     <Key>
       <PropertyRef Name="SexID" />
@@ -262,13 +334,13 @@
     <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="tb_User" Relationship="Self.FK_tb_User_tb_Sex" FromRole="tb_Sex" ToRole="tb_User" />
+    <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_User_tb_Sex" FromRole="tb_Sex" ToRole="tb_User" />
   </EntityType>
   <EntityType Name="tb_SystemConfig">
     <Key>
       <PropertyRef Name="KeyName" />
     </Key>
-    <Property Name="KeyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="KeyName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="KeyValue" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="CreateDate" Type="DateTime" Precision="3" />
     <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -304,12 +376,12 @@
     <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="tb_GroupRole" Relationship="Self.FK_tb_User_tb_GroupRole" FromRole="tb_User" ToRole="tb_GroupRole" />
-    <NavigationProperty Name="tb_Sex" Relationship="Self.FK_tb_User_tb_Sex" FromRole="tb_User" ToRole="tb_Sex" />
+    <NavigationProperty Name="tb_GroupRole" Relationship="SAT.HR.FK_tb_User_tb_GroupRole" FromRole="tb_User" ToRole="tb_GroupRole" />
+    <NavigationProperty Name="tb_Sex" Relationship="SAT.HR.FK_tb_User_tb_Sex" FromRole="tb_User" ToRole="tb_Sex" />
   </EntityType>
   <Association Name="FK_tb_Capability_tb_Capability">
-    <End Role="tb_CapabilityType" Type="Self.tb_CapabilityType" Multiplicity="0..1" />
-    <End Role="tb_Capability" Type="Self.tb_Capability" Multiplicity="*" />
+    <End Type="SAT.HR.tb_CapabilityType" Role="tb_CapabilityType" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_Capability" Role="tb_Capability" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="tb_CapabilityType">
         <PropertyRef Name="CapTID" />
@@ -320,8 +392,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_tb_Capability_tb_Menu">
-    <End Role="tb_Menu" Type="Self.tb_Menu" Multiplicity="0..1" />
-    <End Role="tb_Capability" Type="Self.tb_Capability" Multiplicity="*" />
+    <End Type="SAT.HR.tb_Menu" Role="tb_Menu" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_Capability" Role="tb_Capability" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="tb_Menu">
         <PropertyRef Name="MenuID" />
@@ -332,8 +404,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_tb_Department_tb_Division">
-    <End Role="tb_Division" Type="Self.tb_Division" Multiplicity="1" />
-    <End Role="tb_Department" Type="Self.tb_Department" Multiplicity="*" />
+    <End Type="SAT.HR.tb_Division" Role="tb_Division" Multiplicity="1" />
+    <End Type="SAT.HR.tb_Department" Role="tb_Department" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="tb_Division">
         <PropertyRef Name="DivID" />
@@ -343,9 +415,21 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tb_Section_tb_Department">
+    <End Type="SAT.HR.tb_Department" Role="tb_Department" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_Section" Role="tb_Section" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Department">
+        <PropertyRef Name="DepID" />
+      </Principal>
+      <Dependent Role="tb_Section">
+        <PropertyRef Name="DepID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tb_Permission_tb_GroupPermission">
-    <End Role="tb_GroupRole" Type="Self.tb_GroupRole" Multiplicity="0..1" />
-    <End Role="tb_Role" Type="Self.tb_Role" Multiplicity="*" />
+    <End Type="SAT.HR.tb_GroupRole" Role="tb_GroupRole" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_Role" Role="tb_Role" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="tb_GroupRole">
         <PropertyRef Name="GroupID" />
@@ -356,8 +440,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_tb_User_tb_GroupRole">
-    <End Role="tb_GroupRole" Type="Self.tb_GroupRole" Multiplicity="0..1" />
-    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
+    <End Type="SAT.HR.tb_GroupRole" Role="tb_GroupRole" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="tb_GroupRole">
         <PropertyRef Name="GroupID" />
@@ -368,8 +452,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_tb_Permission_tb_Menu">
-    <End Role="tb_Menu" Type="Self.tb_Menu" Multiplicity="0..1" />
-    <End Role="tb_Role" Type="Self.tb_Role" Multiplicity="*" />
+    <End Type="SAT.HR.tb_Menu" Role="tb_Menu" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_Role" Role="tb_Role" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="tb_Menu">
         <PropertyRef Name="MenuID" />
@@ -380,8 +464,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_tb_User_tb_Sex">
-    <End Role="tb_Sex" Type="Self.tb_Sex" Multiplicity="0..1" />
-    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
+    <End Type="SAT.HR.tb_Sex" Role="tb_Sex" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="tb_Sex">
         <PropertyRef Name="SexID" />
@@ -391,57 +475,4 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="SATEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="tb_ActionType" EntityType="Self.tb_ActionType" />
-    <EntitySet Name="tb_Capability" EntityType="Self.tb_Capability" />
-    <EntitySet Name="tb_CapabilityType" EntityType="Self.tb_CapabilityType" />
-    <EntitySet Name="tb_Certificate" EntityType="Self.tb_Certificate" />
-    <EntitySet Name="tb_Degree" EntityType="Self.tb_Degree" />
-    <EntitySet Name="tb_Department" EntityType="Self.tb_Department" />
-    <EntitySet Name="tb_Division" EntityType="Self.tb_Division" />
-    <EntitySet Name="tb_Education" EntityType="Self.tb_Education" />
-    <EntitySet Name="tb_GroupRole" EntityType="Self.tb_GroupRole" />
-    <EntitySet Name="tb_Holiday" EntityType="Self.tb_Holiday" />
-    <EntitySet Name="tb_Insignia" EntityType="Self.tb_Insignia" />
-    <EntitySet Name="tb_LeaveType" EntityType="Self.tb_LeaveType" />
-    <EntitySet Name="tb_Major" EntityType="Self.tb_Major" />
-    <EntitySet Name="tb_Menu" EntityType="Self.tb_Menu" />
-    <EntitySet Name="tb_Nationality" EntityType="Self.tb_Nationality" />
-    <EntitySet Name="tb_Position" EntityType="Self.tb_Position" />
-    <EntitySet Name="tb_Religion" EntityType="Self.tb_Religion" />
-    <EntitySet Name="tb_Role" EntityType="Self.tb_Role" />
-    <EntitySet Name="tb_Salary" EntityType="Self.tb_Salary" />
-    <EntitySet Name="tb_Sex" EntityType="Self.tb_Sex" />
-    <EntitySet Name="tb_SystemConfig" EntityType="Self.tb_SystemConfig" />
-    <EntitySet Name="tb_Title" EntityType="Self.tb_Title" />
-    <EntitySet Name="tb_User" EntityType="Self.tb_User" />
-    <AssociationSet Name="FK_tb_Capability_tb_Capability" Association="Self.FK_tb_Capability_tb_Capability">
-      <End Role="tb_CapabilityType" EntitySet="tb_CapabilityType" />
-      <End Role="tb_Capability" EntitySet="tb_Capability" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Capability_tb_Menu" Association="Self.FK_tb_Capability_tb_Menu">
-      <End Role="tb_Menu" EntitySet="tb_Menu" />
-      <End Role="tb_Capability" EntitySet="tb_Capability" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Department_tb_Division" Association="Self.FK_tb_Department_tb_Division">
-      <End Role="tb_Division" EntitySet="tb_Division" />
-      <End Role="tb_Department" EntitySet="tb_Department" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Permission_tb_GroupPermission" Association="Self.FK_tb_Permission_tb_GroupPermission">
-      <End Role="tb_GroupRole" EntitySet="tb_GroupRole" />
-      <End Role="tb_Role" EntitySet="tb_Role" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_User_tb_GroupRole" Association="Self.FK_tb_User_tb_GroupRole">
-      <End Role="tb_GroupRole" EntitySet="tb_GroupRole" />
-      <End Role="tb_User" EntitySet="tb_User" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Permission_tb_Menu" Association="Self.FK_tb_Permission_tb_Menu">
-      <End Role="tb_Menu" EntitySet="tb_Menu" />
-      <End Role="tb_Role" EntitySet="tb_Role" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_User_tb_Sex" Association="Self.FK_tb_User_tb_Sex">
-      <End Role="tb_Sex" EntitySet="tb_Sex" />
-      <End Role="tb_User" EntitySet="tb_User" />
-    </AssociationSet>
-  </EntityContainer>
 </Schema>

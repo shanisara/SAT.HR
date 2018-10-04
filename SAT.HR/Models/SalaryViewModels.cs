@@ -6,6 +6,8 @@ namespace SAT.HR.Models
 {
     public class SalaryViewModel
     {
+        public string RowNumber { get; set; }
+
         public int SaID { get; set; }
 
         public decimal? SaLevel { get; set; }

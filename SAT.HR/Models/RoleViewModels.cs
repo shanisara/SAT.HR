@@ -6,6 +6,8 @@ namespace SAT.HR.Models
 {
     public class RoleViewModel
     {
+        public string RowNumber { get; set; }
+
         public int PerID { get; set; }
 
         public int? MenuID { get; set; }

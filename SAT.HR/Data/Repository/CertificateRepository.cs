@@ -40,7 +40,7 @@ namespace SAT.HR.Data.Repository
                 {
                     CertificateViewModel model = new Models.CertificateViewModel();
                     model.CerId = m.CerId;
-                    model.CerCode = m.CerCode;
+                    //model.CerCode = m.CerCode;
                     model.CerName = m.CerName;
                     list.Add(model);
                 }

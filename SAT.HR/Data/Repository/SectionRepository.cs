@@ -19,15 +19,15 @@ namespace SAT.HR.Data.Repository
 
                 if (!string.IsNullOrEmpty(filter))
                 {
-                    data = data.Where(x => x.DivName.Contains(filter)).ToList();
+                    data = data.Where(x => x.SecName.Contains(filter)).ToList();
                 }
 
                 int recordsFiltered = data.Count();
 
                 switch (sortBy)
                 {
-                    case "DivName":
-                        data = (sortDir == "asc") ? data.OrderBy(x => x.DivName).ToList() : data.OrderByDescending(x => x.DivName).ToList();
+                    case "SecName":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.SecName).ToList() : data.OrderByDescending(x => x.SecName).ToList();
                         break;
                 }
 
@@ -40,7 +40,7 @@ namespace SAT.HR.Data.Repository
                 {
                     SectionViewModel model = new Models.SectionViewModel();
                     model.SecID = m.SecID;
-                    model.SecCode = m.SecCode;
+                    //model.SecCode = m.SecCode;
                     model.SecName = m.SecName;
                     model.SecStatus = m.SecStatus;
                     list.Add(model);

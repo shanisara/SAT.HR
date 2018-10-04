@@ -6,6 +6,8 @@ namespace SAT.HR.Models
 {
     public class CertificateViewModel
     {
+        public string RowNumber { get; set; }
+
         public int CerId { get; set; }
 
         public int CerCode { get; set; }

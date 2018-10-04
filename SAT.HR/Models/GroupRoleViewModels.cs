@@ -6,6 +6,7 @@ namespace SAT.HR.Models
 {
     public class GroupRoleViewModel
     {
+        public string RowNumber { get; set; }
         public int GroupID { get; set; }
 
         public string GroupName { get; set; }

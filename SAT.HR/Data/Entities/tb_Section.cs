@@ -12,13 +12,18 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_Certificate
+    public partial class tb_Section
     {
-        public int CerId { get; set; }
-        public string CerName { get; set; }
+        public int SecID { get; set; }
+        public string SecName { get; set; }
+        public Nullable<bool> SecStatus { get; set; }
+        public Nullable<int> DivID { get; set; }
+        public Nullable<int> DepID { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public string CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public string ModifyBy { get; set; }
+    
+        public virtual tb_Department tb_Department { get; set; }
     }
 }

@@ -6,6 +6,8 @@ namespace SAT.HR.Models
 {
     public class UserViewModel
     {
+        public string RowNumber { get; set; }
+
         public int UserID { get; set; }
 
         public string UserName { get; set; }

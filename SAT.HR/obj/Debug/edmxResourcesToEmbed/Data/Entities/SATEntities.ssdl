@@ -40,12 +40,10 @@
   </EntityType>
   <EntityType Name="tb_Certificate">
     <Key>
-      <PropertyRef Name="CerCode" />
-      <PropertyRef Name="CerName" />
+      <PropertyRef Name="CerId" />
     </Key>
     <Property Name="CerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="CerCode" Type="int" Nullable="false" />
-    <Property Name="CerName" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="CerName" Type="nvarchar" MaxLength="200" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -69,8 +67,8 @@
     </Key>
     <Property Name="DepID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="DivID" Type="int" Nullable="false" />
-    <Property Name="DepCode" Type="int" Nullable="false" />
     <Property Name="DepName" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="DepStatus" Type="bit" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -81,7 +79,6 @@
       <PropertyRef Name="DivID" />
     </Key>
     <Property Name="DivID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="DivCode" Type="int" Nullable="false" />
     <Property Name="DivName" Type="nvarchar" MaxLength="200" Nullable="false" />
     <Property Name="DivStatus" Type="bit" />
     <Property Name="CreateDate" Type="datetime" />
@@ -194,10 +191,11 @@
     <Key>
       <PropertyRef Name="PoID" />
     </Key>
-    <Property Name="PoID" Type="int" Nullable="false" />
-    <Property Name="PoCode" Type="int" />
-    <Property Name="PoName" Type="nvarchar" MaxLength="200" />
+    <Property Name="PoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PoShortName" Type="nvarchar" MaxLength="200" />
+    <Property Name="PoFullName" Type="nvarchar" MaxLength="200" />
     <Property Name="PoGroup" Type="int" />
+    <Property Name="PoStatus" Type="bit" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -236,6 +234,20 @@
     <Property Name="SaLevel" Type="decimal" Precision="18" Scale="2" />
     <Property Name="SaStep" Type="decimal" Precision="18" Scale="2" />
     <Property Name="SaStatus" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_Section">
+    <Key>
+      <PropertyRef Name="SecID" />
+    </Key>
+    <Property Name="SecID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SecName" Type="nvarchar" MaxLength="200" />
+    <Property Name="SecStatus" Type="bit" />
+    <Property Name="DivID" Type="int" />
+    <Property Name="DepID" Type="int" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -353,6 +365,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tb_Section_tb_Department">
+    <End Role="tb_Department" Type="Self.tb_Department" Multiplicity="0..1" />
+    <End Role="tb_Section" Type="Self.tb_Section" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Department">
+        <PropertyRef Name="DepID" />
+      </Principal>
+      <Dependent Role="tb_Section">
+        <PropertyRef Name="DepID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tb_User_tb_GroupRole">
     <End Role="tb_GroupRole" Type="Self.tb_GroupRole" Multiplicity="0..1" />
     <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
@@ -397,6 +421,7 @@
     <EntitySet Name="tb_Religion" EntityType="Self.tb_Religion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Role" EntityType="Self.tb_Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Salary" EntityType="Self.tb_Salary" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Section" EntityType="Self.tb_Section" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Sex" EntityType="Self.tb_Sex" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_SystemConfig" EntityType="Self.tb_SystemConfig" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Title" EntityType="Self.tb_Title" Schema="dbo" store:Type="Tables" />
@@ -420,6 +445,10 @@
     <AssociationSet Name="FK_tb_Permission_tb_Menu" Association="Self.FK_tb_Permission_tb_Menu">
       <End Role="tb_Menu" EntitySet="tb_Menu" />
       <End Role="tb_Role" EntitySet="tb_Role" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Section_tb_Department" Association="Self.FK_tb_Section_tb_Department">
+      <End Role="tb_Department" EntitySet="tb_Department" />
+      <End Role="tb_Section" EntitySet="tb_Section" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_User_tb_GroupRole" Association="Self.FK_tb_User_tb_GroupRole">
       <End Role="tb_GroupRole" EntitySet="tb_GroupRole" />

@@ -21,7 +21,6 @@ namespace SAT.HR.Data.Entities
         }
     
         public int DivID { get; set; }
-        public int DivCode { get; set; }
         public string DivName { get; set; }
         public Nullable<bool> DivStatus { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }

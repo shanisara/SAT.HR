@@ -6,6 +6,7 @@ namespace SAT.HR.Models
 {
     public class LeaveTypeViewModel
     {
+        public string RowNumber { get; set; }
         public int LevID { get; set; }
 
         public string LevYear { get; set; }

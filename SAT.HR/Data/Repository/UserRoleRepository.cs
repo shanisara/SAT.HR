@@ -40,7 +40,7 @@ namespace SAT.HR.Data.Repository
                 {
                     DivisionViewModel model = new Models.DivisionViewModel();
                     model.DivID = m.DivID;
-                    model.DivCode = m.DivCode;
+                    //model.DivCode = m.DivCode;
                     model.DivName = m.DivName;
                     model.DivStatus = m.DivStatus;
                     list.Add(model);

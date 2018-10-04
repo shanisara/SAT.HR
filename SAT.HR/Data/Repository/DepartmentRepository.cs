@@ -41,7 +41,7 @@ namespace SAT.HR.Data.Repository
                     DepartmentViewModel model = new Models.DepartmentViewModel();
                     model.DepID = m.DepID;
                     model.DivID = m.DivID;
-                    model.DepCode = m.DepCode;
+                    //model.DepCode = m.DepCode;
                     model.DepName = m.DepName;
                     list.Add(model);
                 }

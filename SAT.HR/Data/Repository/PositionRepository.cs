@@ -19,15 +19,15 @@ namespace SAT.HR.Data.Repository
 
                 if (!string.IsNullOrEmpty(filter))
                 {
-                    data = data.Where(x => x.PoName.Contains(filter)).ToList();
+                    data = data.Where(x => x.PoFullName.Contains(filter)).ToList();
                 }
 
                 int recordsFiltered = data.Count();
 
                 switch (sortBy)
                 {
-                    case "PoName":
-                        data = (sortDir == "asc") ? data.OrderBy(x => x.PoName).ToList() : data.OrderByDescending(x => x.PoName).ToList();
+                    case "PoFullName":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.PoFullName).ToList() : data.OrderByDescending(x => x.PoFullName).ToList();
                         break;
                 }
 
@@ -40,8 +40,8 @@ namespace SAT.HR.Data.Repository
                 {
                     PositionViewModel model = new Models.PositionViewModel();
                     model.PoID = m.PoID;
-                    model.PoCode = m.PoCode;
-                    model.PoName = m.PoName;
+                    model.PoShortName = m.PoShortName;
+                    model.PoFullName = m.PoFullName;
                     model.PoGroup = m.PoGroup;
                     list.Add(model);
                 }

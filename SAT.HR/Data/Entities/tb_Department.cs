@@ -14,15 +14,23 @@ namespace SAT.HR.Data.Entities
     
     public partial class tb_Department
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tb_Department()
+        {
+            this.tb_Section = new HashSet<tb_Section>();
+        }
+    
         public int DepID { get; set; }
         public int DivID { get; set; }
-        public int DepCode { get; set; }
         public string DepName { get; set; }
+        public Nullable<bool> DepStatus { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public string CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public string ModifyBy { get; set; }
     
         public virtual tb_Division tb_Division { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Section> tb_Section { get; set; }
     }
 }
