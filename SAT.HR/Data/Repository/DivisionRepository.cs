@@ -13,7 +13,7 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.tb_Division.Where(x => x.DivID == id)
+                var data = db.tb_Division.Where(x => x.DivID == id);
 
             return null;
             }
