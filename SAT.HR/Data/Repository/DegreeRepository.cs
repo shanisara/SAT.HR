@@ -52,5 +52,88 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public DegreeViewModel GetByID(int id)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.tb_Degree.Where(x => x.DegID == id).FirstOrDefault();
+                DegreeViewModel model = new Models.DegreeViewModel();
+                model.DegID = data.DegID;
+                model.DegName = data.DegName;
+                model.DegStatus = data.DegStatus;
+                return model;
+            }
+        }
+
+        public ResponseData AddByEntity(DegreeViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_Degree model = new tb_Degree();
+                    model.DegID = data.DegID;
+                    model.DegName = data.DegName;
+                    model.DegStatus = data.DegStatus;
+                    model.CreateBy = data.ModifyBy;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = data.ModifyBy;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_Degree.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdateByEntity(DegreeViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var data = db.tb_Degree.Single(x => x.DegID == newdata.DegID);
+                    data.DegName = newdata.DegName;
+                    data.DegStatus = newdata.DegStatus;
+                    data.ModifyBy = newdata.ModifyBy;
+                    data.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData RemoveByID(int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var obj = db.tb_Degree.SingleOrDefault(c => c.DegID == id);
+                    if (obj != null)
+                    {
+                        db.tb_Degree.Remove(obj);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
     }
 }

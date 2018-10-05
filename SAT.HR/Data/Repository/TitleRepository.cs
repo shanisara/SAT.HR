@@ -58,5 +58,92 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public TitleViewModel GetByID(int id)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.tb_Title.Where(x => x.TiID == id).FirstOrDefault();
+                TitleViewModel model = new Models.TitleViewModel();
+                model.TiID = data.TiID;
+                model.TiFullName = data.TiFullName;
+                model.TiShortName = data.TiShortName;
+                model.TiStatus = data.TiStatus;
+                model.SexID = data.SexID;
+                return model;
+            }
+        }
+
+        public ResponseData AddByEntity(TitleViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_Title model = new tb_Title();
+                    model.TiID = data.TiID;
+                    model.TiFullName = data.TiFullName;
+                    model.TiShortName = data.TiShortName;
+                    model.TiStatus = data.TiStatus;
+                    model.CreateBy = data.ModifyBy;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = data.ModifyBy;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_Title.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdateByEntity(TitleViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var data = db.tb_Title.Single(x => x.TiID == newdata.TiID);
+                    data.TiFullName = newdata.TiFullName;
+                    data.TiShortName = newdata.TiShortName;
+                    data.TiStatus = newdata.TiStatus;
+                    data.ModifyBy = newdata.ModifyBy;
+                    data.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData RemoveByID(int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var obj = db.tb_Title.SingleOrDefault(c => c.TiID == id);
+                    if (obj != null)
+                    {
+                        db.tb_Title.Remove(obj);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
     }
 }

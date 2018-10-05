@@ -79,6 +79,17 @@
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="tb_Discipline">
+          <Key>
+            <PropertyRef Name="DisID" />
+          </Key>
+          <Property Name="DisID" Type="int" Nullable="false" />
+          <Property Name="DisName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="tb_Division">
           <Key>
             <PropertyRef Name="DivID" />
@@ -113,7 +124,7 @@
             <PropertyRef Name="EduID" />
           </Key>
           <Property Name="EduID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="EduCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="EduCode" Type="nvarchar" MaxLength="200" />
           <Property Name="EduName" Type="nvarchar" MaxLength="200" />
           <Property Name="EduStatus" Type="bit" />
           <Property Name="CreateDate" Type="datetime" />
@@ -121,16 +132,11 @@
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <EntityType Name="tb_GroupRole">
+        <EntityType Name="tb_Employee">
           <Key>
-            <PropertyRef Name="GroupID" />
+            <PropertyRef Name="EmpID" />
           </Key>
-          <Property Name="GroupID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="GroupName" Type="nvarchar" MaxLength="50" />
-          <Property Name="CreateDate" Type="datetime" />
-          <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
-          <Property Name="ModifyDate" Type="datetime" />
-          <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="EmpID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="tb_Holiday">
           <Key>
@@ -236,18 +242,27 @@
         </EntityType>
         <EntityType Name="tb_Role">
           <Key>
-            <PropertyRef Name="PerID" />
+            <PropertyRef Name="RoleID" />
           </Key>
-          <Property Name="PerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MenuID" Type="int" />
-          <Property Name="Status" Type="bit" />
-          <Property Name="GroupID" Type="int" />
+          <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <EntityType Name="tb_SalaryRate">
+        <EntityType Name="tb_RoleMenu">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MenuID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tb_Salary">
           <Key>
             <PropertyRef Name="SaID" />
           </Key>
@@ -291,6 +306,7 @@
           </Key>
           <Property Name="KeyName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="KeyValue" Type="nvarchar" MaxLength="200" />
+          <Property Name="KeyDescription" Type="nvarchar" MaxLength="200" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifyDate" Type="datetime" />
@@ -320,12 +336,19 @@
           <Property Name="ConfirmPassword" Type="nchar" MaxLength="10" />
           <Property Name="FullName" Type="nvarchar" MaxLength="200" />
           <Property Name="SurName" Type="nvarchar" MaxLength="200" />
-          <Property Name="GroupID" Type="int" />
+          <Property Name="UserType" Type="int" />
           <Property Name="SexID" Type="int" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tb_UserType">
+          <Key>
+            <PropertyRef Name="UserTID" />
+          </Key>
+          <Property Name="UserTID" Type="int" Nullable="false" />
+          <Property Name="UserTName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Department' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -406,27 +429,27 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tb_Permission_tb_GroupPermission">
-          <End Role="tb_GroupRole" Type="Self.tb_GroupRole" Multiplicity="0..1" />
-          <End Role="tb_Role" Type="Self.tb_Role" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_GroupRole">
-              <PropertyRef Name="GroupID" />
-            </Principal>
-            <Dependent Role="tb_Role">
-              <PropertyRef Name="GroupID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tb_Permission_tb_Menu">
+        <Association Name="FK_tb_RoleMenu_tb_Menu">
           <End Role="tb_Menu" Type="Self.tb_Menu" Multiplicity="0..1" />
-          <End Role="tb_Role" Type="Self.tb_Role" Multiplicity="*" />
+          <End Role="tb_RoleMenu" Type="Self.tb_RoleMenu" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Menu">
               <PropertyRef Name="MenuID" />
             </Principal>
-            <Dependent Role="tb_Role">
+            <Dependent Role="tb_RoleMenu">
               <PropertyRef Name="MenuID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_RoleMenu_tb_Role">
+          <End Role="tb_Role" Type="Self.tb_Role" Multiplicity="1" />
+          <End Role="tb_RoleMenu" Type="Self.tb_RoleMenu" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="tb_RoleMenu">
+              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -454,18 +477,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tb_User_tb_GroupRole">
-          <End Role="tb_GroupRole" Type="Self.tb_GroupRole" Multiplicity="0..1" />
-          <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_GroupRole">
-              <PropertyRef Name="GroupID" />
-            </Principal>
-            <Dependent Role="tb_User">
-              <PropertyRef Name="GroupID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tb_User_tb_Sex">
           <End Role="tb_Sex" Type="Self.tb_Sex" Multiplicity="0..1" />
           <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
@@ -485,10 +496,11 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
           <EntitySet Name="tb_Certificate" EntityType="Self.tb_Certificate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Degree" EntityType="Self.tb_Degree" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Department" EntityType="Self.tb_Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Discipline" EntityType="Self.tb_Discipline" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Division" EntityType="Self.tb_Division" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_DocNumber" EntityType="Self.tb_DocNumber" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Education" EntityType="Self.tb_Education" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tb_GroupRole" EntityType="Self.tb_GroupRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Employee" EntityType="Self.tb_Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Holiday" EntityType="Self.tb_Holiday" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Insignia" EntityType="Self.tb_Insignia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_LeaveType" EntityType="Self.tb_LeaveType" Schema="dbo" store:Type="Tables" />
@@ -498,12 +510,14 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
           <EntitySet Name="tb_Position" EntityType="Self.tb_Position" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Religion" EntityType="Self.tb_Religion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Role" EntityType="Self.tb_Role" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tb_SalaryRate" EntityType="Self.tb_SalaryRate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_RoleMenu" EntityType="Self.tb_RoleMenu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Salary" EntityType="Self.tb_Salary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Section" EntityType="Self.tb_Section" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Sex" EntityType="Self.tb_Sex" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_SystemConfig" EntityType="Self.tb_SystemConfig" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Title" EntityType="Self.tb_Title" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_User" EntityType="Self.tb_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_UserType" EntityType="Self.tb_UserType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="vw_Department" EntityType="Self.vw_Department" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_Department].[DepID] AS [DepID], 
@@ -549,13 +563,13 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
             <End Role="tb_Division" EntitySet="tb_Division" />
             <End Role="tb_Department" EntitySet="tb_Department" />
           </AssociationSet>
-          <AssociationSet Name="FK_tb_Permission_tb_GroupPermission" Association="Self.FK_tb_Permission_tb_GroupPermission">
-            <End Role="tb_GroupRole" EntitySet="tb_GroupRole" />
-            <End Role="tb_Role" EntitySet="tb_Role" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tb_Permission_tb_Menu" Association="Self.FK_tb_Permission_tb_Menu">
+          <AssociationSet Name="FK_tb_RoleMenu_tb_Menu" Association="Self.FK_tb_RoleMenu_tb_Menu">
             <End Role="tb_Menu" EntitySet="tb_Menu" />
+            <End Role="tb_RoleMenu" EntitySet="tb_RoleMenu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_RoleMenu_tb_Role" Association="Self.FK_tb_RoleMenu_tb_Role">
             <End Role="tb_Role" EntitySet="tb_Role" />
+            <End Role="tb_RoleMenu" EntitySet="tb_RoleMenu" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_Section_tb_Department" Association="Self.FK_tb_Section_tb_Department">
             <End Role="tb_Department" EntitySet="tb_Department" />
@@ -564,10 +578,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
           <AssociationSet Name="FK_tb_Title_tb_Sex" Association="Self.FK_tb_Title_tb_Sex">
             <End Role="tb_Sex" EntitySet="tb_Sex" />
             <End Role="tb_Title" EntitySet="tb_Title" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tb_User_tb_GroupRole" Association="Self.FK_tb_User_tb_GroupRole">
-            <End Role="tb_GroupRole" EntitySet="tb_GroupRole" />
-            <End Role="tb_User" EntitySet="tb_User" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_User_tb_Sex" Association="Self.FK_tb_User_tb_Sex">
             <End Role="tb_Sex" EntitySet="tb_Sex" />
@@ -585,24 +595,31 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
           <EntitySet Name="tb_Certificate" EntityType="SAT.HR.tb_Certificate" />
           <EntitySet Name="tb_Degree" EntityType="SAT.HR.tb_Degree" />
           <EntitySet Name="tb_Department" EntityType="SAT.HR.tb_Department" />
+          <EntitySet Name="tb_Discipline" EntityType="SAT.HR.tb_Discipline" />
           <EntitySet Name="tb_Division" EntityType="SAT.HR.tb_Division" />
           <EntitySet Name="tb_DocNumber" EntityType="SAT.HR.tb_DocNumber" />
-          <EntitySet Name="tb_GroupRole" EntityType="SAT.HR.tb_GroupRole" />
+          <EntitySet Name="tb_Education" EntityType="SAT.HR.tb_Education" />
+          <EntitySet Name="tb_Employee" EntityType="SAT.HR.tb_Employee" />
           <EntitySet Name="tb_Holiday" EntityType="SAT.HR.tb_Holiday" />
           <EntitySet Name="tb_Insignia" EntityType="SAT.HR.tb_Insignia" />
           <EntitySet Name="tb_LeaveType" EntityType="SAT.HR.tb_LeaveType" />
           <EntitySet Name="tb_Major" EntityType="SAT.HR.tb_Major" />
           <EntitySet Name="tb_Menu" EntityType="SAT.HR.tb_Menu" />
           <EntitySet Name="tb_Nationality" EntityType="SAT.HR.tb_Nationality" />
+          <EntitySet Name="tb_Position" EntityType="SAT.HR.tb_Position" />
           <EntitySet Name="tb_Religion" EntityType="SAT.HR.tb_Religion" />
           <EntitySet Name="tb_Role" EntityType="SAT.HR.tb_Role" />
+          <EntitySet Name="tb_RoleMenu" EntityType="SAT.HR.tb_RoleMenu" />
+          <EntitySet Name="tb_Salary" EntityType="SAT.HR.tb_Salary" />
           <EntitySet Name="tb_Section" EntityType="SAT.HR.tb_Section" />
           <EntitySet Name="tb_Sex" EntityType="SAT.HR.tb_Sex" />
           <EntitySet Name="tb_SystemConfig" EntityType="SAT.HR.tb_SystemConfig" />
           <EntitySet Name="tb_Title" EntityType="SAT.HR.tb_Title" />
           <EntitySet Name="tb_User" EntityType="SAT.HR.tb_User" />
+          <EntitySet Name="tb_UserType" EntityType="SAT.HR.tb_UserType" />
           <EntitySet Name="vw_Department" EntityType="SAT.HR.vw_Department" />
           <EntitySet Name="vw_Section" EntityType="SAT.HR.vw_Section" />
+          <EntitySet Name="vw_Title" EntityType="SAT.HR.vw_Title" />
           <AssociationSet Name="FK_tb_Capability_tb_Capability" Association="SAT.HR.FK_tb_Capability_tb_Capability">
             <End Role="tb_CapabilityType" EntitySet="tb_CapabilityType" />
             <End Role="tb_Capability" EntitySet="tb_Capability" />
@@ -619,17 +636,13 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
             <End Role="tb_Department" EntitySet="tb_Department" />
             <End Role="tb_Section" EntitySet="tb_Section" />
           </AssociationSet>
-          <AssociationSet Name="FK_tb_Permission_tb_GroupPermission" Association="SAT.HR.FK_tb_Permission_tb_GroupPermission">
-            <End Role="tb_GroupRole" EntitySet="tb_GroupRole" />
-            <End Role="tb_Role" EntitySet="tb_Role" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tb_User_tb_GroupRole" Association="SAT.HR.FK_tb_User_tb_GroupRole">
-            <End Role="tb_GroupRole" EntitySet="tb_GroupRole" />
-            <End Role="tb_User" EntitySet="tb_User" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tb_Permission_tb_Menu" Association="SAT.HR.FK_tb_Permission_tb_Menu">
+          <AssociationSet Name="FK_tb_RoleMenu_tb_Menu" Association="SAT.HR.FK_tb_RoleMenu_tb_Menu">
             <End Role="tb_Menu" EntitySet="tb_Menu" />
+            <End Role="tb_RoleMenu" EntitySet="tb_RoleMenu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_RoleMenu_tb_Role" Association="SAT.HR.FK_tb_RoleMenu_tb_Role">
             <End Role="tb_Role" EntitySet="tb_Role" />
+            <End Role="tb_RoleMenu" EntitySet="tb_RoleMenu" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_Title_tb_Sex" Association="SAT.HR.FK_tb_Title_tb_Sex">
             <End Role="tb_Sex" EntitySet="tb_Sex" />
@@ -639,10 +652,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
             <End Role="tb_Sex" EntitySet="tb_Sex" />
             <End Role="tb_User" EntitySet="tb_User" />
           </AssociationSet>
-          <EntitySet Name="tb_Position" EntityType="SAT.HR.tb_Position" />
-          <EntitySet Name="tb_SalaryRate" EntityType="SAT.HR.tb_SalaryRate" />
-          <EntitySet Name="tb_Education" EntityType="SAT.HR.tb_Education" />
-          <EntitySet Name="vw_Title" EntityType="SAT.HR.vw_Title" />
         </EntityContainer>
         <EntityType Name="tb_ActionType">
           <Key>
@@ -723,6 +732,17 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
           <NavigationProperty Name="tb_Division" Relationship="SAT.HR.FK_tb_Department_tb_Division" FromRole="tb_Department" ToRole="tb_Division" />
           <NavigationProperty Name="tb_Section" Relationship="SAT.HR.FK_tb_Section_tb_Department" FromRole="tb_Department" ToRole="tb_Section" />
         </EntityType>
+        <EntityType Name="tb_Discipline">
+          <Key>
+            <PropertyRef Name="DisID" />
+          </Key>
+          <Property Name="DisID" Type="Int32" Nullable="false" />
+          <Property Name="DisName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="tb_Division">
           <Key>
             <PropertyRef Name="DivID" />
@@ -753,18 +773,24 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
           <Property Name="LastMonth" Type="Int32" />
           <Property Name="LastYear" Type="Int32" />
         </EntityType>
-        <EntityType Name="tb_GroupRole">
+        <EntityType Name="tb_Education">
           <Key>
-            <PropertyRef Name="GroupID" />
+            <PropertyRef Name="EduID" />
           </Key>
-          <Property Name="GroupID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="GroupName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EduID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EduCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="EduName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="EduStatus" Type="Boolean" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tb_Role" Relationship="SAT.HR.FK_tb_Permission_tb_GroupPermission" FromRole="tb_GroupRole" ToRole="tb_Role" />
-          <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_User_tb_GroupRole" FromRole="tb_GroupRole" ToRole="tb_User" />
+        </EntityType>
+        <EntityType Name="tb_Employee">
+          <Key>
+            <PropertyRef Name="EmpID" />
+          </Key>
+          <Property Name="EmpID" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="tb_Holiday">
           <Key>
@@ -831,7 +857,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tb_Capability" Relationship="SAT.HR.FK_tb_Capability_tb_Menu" FromRole="tb_Menu" ToRole="tb_Capability" />
-          <NavigationProperty Name="tb_Role" Relationship="SAT.HR.FK_tb_Permission_tb_Menu" FromRole="tb_Menu" ToRole="tb_Role" />
+          <NavigationProperty Name="tb_RoleMenu" Relationship="SAT.HR.FK_tb_RoleMenu_tb_Menu" FromRole="tb_Menu" ToRole="tb_RoleMenu" />
         </EntityType>
         <EntityType Name="tb_Nationality">
           <Key>
@@ -840,6 +866,19 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
           <Property Name="NatID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NatName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="NatStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tb_Position">
+          <Key>
+            <PropertyRef Name="PoID" />
+          </Key>
+          <Property Name="PoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PoCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PoStatus" Type="Boolean" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
@@ -859,18 +898,41 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
         </EntityType>
         <EntityType Name="tb_Role">
           <Key>
-            <PropertyRef Name="PerID" />
+            <PropertyRef Name="RoleID" />
           </Key>
-          <Property Name="PerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MenuID" Type="Int32" />
-          <Property Name="Status" Type="Boolean" />
-          <Property Name="GroupID" Type="Int32" />
+          <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tb_GroupRole" Relationship="SAT.HR.FK_tb_Permission_tb_GroupPermission" FromRole="tb_Role" ToRole="tb_GroupRole" />
-          <NavigationProperty Name="tb_Menu" Relationship="SAT.HR.FK_tb_Permission_tb_Menu" FromRole="tb_Role" ToRole="tb_Menu" />
+          <NavigationProperty Name="tb_RoleMenu" Relationship="SAT.HR.FK_tb_RoleMenu_tb_Role" FromRole="tb_Role" ToRole="tb_RoleMenu" />
+        </EntityType>
+        <EntityType Name="tb_RoleMenu">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MenuID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tb_Menu" Relationship="SAT.HR.FK_tb_RoleMenu_tb_Menu" FromRole="tb_RoleMenu" ToRole="tb_Menu" />
+          <NavigationProperty Name="tb_Role" Relationship="SAT.HR.FK_tb_RoleMenu_tb_Role" FromRole="tb_RoleMenu" ToRole="tb_Role" />
+        </EntityType>
+        <EntityType Name="tb_Salary">
+          <Key>
+            <PropertyRef Name="SaID" />
+          </Key>
+          <Property Name="SaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SaLevel" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SaStep" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SaRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="tb_Section">
           <Key>
@@ -906,6 +968,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
           </Key>
           <Property Name="KeyName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="KeyValue" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="KeyDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
@@ -936,14 +999,20 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
           <Property Name="ConfirmPassword" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="FullName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="SurName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="GroupID" Type="Int32" />
+          <Property Name="UserType" Type="Int32" />
           <Property Name="SexID" Type="Int32" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tb_GroupRole" Relationship="SAT.HR.FK_tb_User_tb_GroupRole" FromRole="tb_User" ToRole="tb_GroupRole" />
           <NavigationProperty Name="tb_Sex" Relationship="SAT.HR.FK_tb_User_tb_Sex" FromRole="tb_User" ToRole="tb_Sex" />
+        </EntityType>
+        <EntityType Name="tb_UserType">
+          <Key>
+            <PropertyRef Name="UserTID" />
+          </Key>
+          <Property Name="UserTID" Type="Int32" Nullable="false" />
+          <Property Name="UserTName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="vw_Department">
           <Key>
@@ -970,6 +1039,17 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
           <Property Name="SecID" Type="Int32" Nullable="false" />
           <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="SecStatus" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="vw_Title">
+          <Key>
+            <PropertyRef Name="TiID" />
+          </Key>
+          <Property Name="TiID" Type="Int32" Nullable="false" />
+          <Property Name="TiFullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TiShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TiStatus" Type="Boolean" />
+          <Property Name="SexID" Type="Int32" />
+          <Property Name="SexName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
         </EntityType>
         <Association Name="FK_tb_Capability_tb_Capability">
           <End Type="SAT.HR.tb_CapabilityType" Role="tb_CapabilityType" Multiplicity="0..1" />
@@ -1019,39 +1099,27 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tb_Permission_tb_GroupPermission">
-          <End Type="SAT.HR.tb_GroupRole" Role="tb_GroupRole" Multiplicity="0..1" />
-          <End Type="SAT.HR.tb_Role" Role="tb_Role" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_GroupRole">
-              <PropertyRef Name="GroupID" />
-            </Principal>
-            <Dependent Role="tb_Role">
-              <PropertyRef Name="GroupID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tb_User_tb_GroupRole">
-          <End Type="SAT.HR.tb_GroupRole" Role="tb_GroupRole" Multiplicity="0..1" />
-          <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_GroupRole">
-              <PropertyRef Name="GroupID" />
-            </Principal>
-            <Dependent Role="tb_User">
-              <PropertyRef Name="GroupID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tb_Permission_tb_Menu">
+        <Association Name="FK_tb_RoleMenu_tb_Menu">
           <End Type="SAT.HR.tb_Menu" Role="tb_Menu" Multiplicity="0..1" />
-          <End Type="SAT.HR.tb_Role" Role="tb_Role" Multiplicity="*" />
+          <End Type="SAT.HR.tb_RoleMenu" Role="tb_RoleMenu" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Menu">
               <PropertyRef Name="MenuID" />
             </Principal>
-            <Dependent Role="tb_Role">
+            <Dependent Role="tb_RoleMenu">
               <PropertyRef Name="MenuID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_RoleMenu_tb_Role">
+          <End Type="SAT.HR.tb_Role" Role="tb_Role" Multiplicity="1" />
+          <End Type="SAT.HR.tb_RoleMenu" Role="tb_RoleMenu" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="tb_RoleMenu">
+              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1079,56 +1147,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="tb_Position">
-          <Key>
-            <PropertyRef Name="PoID" />
-          </Key>
-          <Property Name="PoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PoCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PoStatus" Type="Boolean" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="tb_SalaryRate">
-          <Key>
-            <PropertyRef Name="SaID" />
-          </Key>
-          <Property Name="SaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SaLevel" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SaStep" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SaRate" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="tb_Education">
-          <Key>
-            <PropertyRef Name="EduID" />
-          </Key>
-          <Property Name="EduID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EduCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="EduName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="EduStatus" Type="Boolean" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="vw_Title">
-          <Key>
-            <PropertyRef Name="TiID" />
-          </Key>
-          <Property Name="TiID" Type="Int32" Nullable="false" />
-          <Property Name="TiFullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="TiShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="TiStatus" Type="Boolean" />
-          <Property Name="SexID" Type="Int32" />
-          <Property Name="SexName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1215,6 +1233,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tb_Discipline">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Discipline">
+              <MappingFragment StoreEntitySet="tb_Discipline">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="DisName" ColumnName="DisName" />
+                <ScalarProperty Name="DisID" ColumnName="DisID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tb_Division">
             <EntityTypeMapping TypeName="SAT.HR.tb_Division">
               <MappingFragment StoreEntitySet="tb_Division">
@@ -1246,15 +1276,24 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tb_GroupRole">
-            <EntityTypeMapping TypeName="SAT.HR.tb_GroupRole">
-              <MappingFragment StoreEntitySet="tb_GroupRole">
+          <EntitySetMapping Name="tb_Education">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Education">
+              <MappingFragment StoreEntitySet="tb_Education">
                 <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
                 <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
-                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="EduStatus" ColumnName="EduStatus" />
+                <ScalarProperty Name="EduName" ColumnName="EduName" />
+                <ScalarProperty Name="EduCode" ColumnName="EduCode" />
+                <ScalarProperty Name="EduID" ColumnName="EduID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Employee">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Employee">
+              <MappingFragment StoreEntitySet="tb_Employee">
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1341,6 +1380,20 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tb_Position">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Position">
+              <MappingFragment StoreEntitySet="tb_Position">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="PoStatus" ColumnName="PoStatus" />
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="PoCode" ColumnName="PoCode" />
+                <ScalarProperty Name="PoID" ColumnName="PoID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tb_Religion">
             <EntityTypeMapping TypeName="SAT.HR.tb_Religion">
               <MappingFragment StoreEntitySet="tb_Religion">
@@ -1361,10 +1414,34 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
                 <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_RoleMenu">
+            <EntityTypeMapping TypeName="SAT.HR.tb_RoleMenu">
+              <MappingFragment StoreEntitySet="tb_RoleMenu">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="MenuID" ColumnName="MenuID" />
-                <ScalarProperty Name="PerID" ColumnName="PerID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Salary">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Salary">
+              <MappingFragment StoreEntitySet="tb_Salary">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="SaRate" ColumnName="SaRate" />
+                <ScalarProperty Name="SaStep" ColumnName="SaStep" />
+                <ScalarProperty Name="SaLevel" ColumnName="SaLevel" />
+                <ScalarProperty Name="SaID" ColumnName="SaID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1402,6 +1479,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
                 <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="KeyDescription" ColumnName="KeyDescription" />
                 <ScalarProperty Name="KeyValue" ColumnName="KeyValue" />
                 <ScalarProperty Name="KeyName" ColumnName="KeyName" />
               </MappingFragment>
@@ -1430,13 +1508,21 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="SexID" ColumnName="SexID" />
-                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
                 <ScalarProperty Name="SurName" ColumnName="SurName" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="ConfirmPassword" ColumnName="ConfirmPassword" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_UserType">
+            <EntityTypeMapping TypeName="SAT.HR.tb_UserType">
+              <MappingFragment StoreEntitySet="tb_UserType">
+                <ScalarProperty Name="UserTName" ColumnName="UserTName" />
+                <ScalarProperty Name="UserTID" ColumnName="UserTID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1464,48 +1550,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
                 <ScalarProperty Name="DivStatus" ColumnName="DivStatus" />
                 <ScalarProperty Name="DivName" ColumnName="DivName" />
                 <ScalarProperty Name="DivID" ColumnName="DivID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tb_Position">
-            <EntityTypeMapping TypeName="SAT.HR.tb_Position">
-              <MappingFragment StoreEntitySet="tb_Position">
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="PoStatus" ColumnName="PoStatus" />
-                <ScalarProperty Name="PoName" ColumnName="PoName" />
-                <ScalarProperty Name="PoCode" ColumnName="PoCode" />
-                <ScalarProperty Name="PoID" ColumnName="PoID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tb_SalaryRate">
-            <EntityTypeMapping TypeName="SAT.HR.tb_SalaryRate">
-              <MappingFragment StoreEntitySet="tb_SalaryRate">
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="SaRate" ColumnName="SaRate" />
-                <ScalarProperty Name="SaStep" ColumnName="SaStep" />
-                <ScalarProperty Name="SaLevel" ColumnName="SaLevel" />
-                <ScalarProperty Name="SaID" ColumnName="SaID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tb_Education">
-            <EntityTypeMapping TypeName="SAT.HR.tb_Education">
-              <MappingFragment StoreEntitySet="tb_Education">
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="EduStatus" ColumnName="EduStatus" />
-                <ScalarProperty Name="EduName" ColumnName="EduName" />
-                <ScalarProperty Name="EduCode" ColumnName="EduCode" />
-                <ScalarProperty Name="EduID" ColumnName="EduID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

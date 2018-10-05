@@ -51,5 +51,86 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public CertificateViewModel GetByID(int id)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.tb_Certificate.Where(x => x.CerId == id).FirstOrDefault();
+                CertificateViewModel model = new Models.CertificateViewModel();
+                model.CerID = data.CerId;
+                model.CerName = data.CerName;
+                return model;
+            }
+        }
+
+        public ResponseData AddByEntity(CertificateViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_Certificate model = new tb_Certificate();
+                    model.CerId = data.CerID;
+                    model.CerName = data.CerName;
+                    model.CreateBy = data.ModifyBy;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = data.ModifyBy;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_Certificate.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdateByEntity(CertificateViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var data = db.tb_Certificate.Single(x => x.CerId == newdata.CerID);
+                    data.CerName = newdata.CerName;
+                    data.ModifyBy = newdata.ModifyBy;
+                    data.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData RemoveByID(int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var obj = db.tb_Certificate.SingleOrDefault(c => c.CerId == id);
+                    if (obj != null)
+                    {
+                        db.tb_Certificate.Remove(obj);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
+
     }
 }

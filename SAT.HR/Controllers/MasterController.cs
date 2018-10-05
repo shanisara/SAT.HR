@@ -143,13 +143,59 @@ namespace SAT.HR.Controllers
 
         public JsonResult DeleteSection(int id)
         {
-            var result = new DivisionRepository().RemoveByID(id);
+            var result = new SectionRepository().RemoveByID(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
 
-        #region 4. ตำแหน่ง - Position
+        #region 4. สายงาน - Discipline
+
+        public ActionResult Discipline()
+        {
+            return View();
+        }
+
+        public ActionResult DisciplineDetail(int? id)
+        {
+            DisciplineViewModel model = new DisciplineViewModel();
+            if (id.HasValue)
+            {
+                model = new DisciplineRepository().GetByID((int)id);
+            }
+            return PartialView("_Section", model);
+        }
+
+        [HttpPost]
+        public JsonResult Discipline(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        {
+            var search = Request["search[value]"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
+            var dataTableData = new DisciplineRepository().GetPage(search, draw, start, length, dir, column);
+            return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SaveDiscipline(DisciplineViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (model.DisID != 0)
+                result = new DisciplineRepository().UpdateByEntity(model);
+            else
+                result = new DisciplineRepository().AddByEntity(model);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteDiscipline(int id)
+        {
+            var result = new DisciplineRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        #region 5. ตำแหน่ง - Position
 
         public ActionResult Position()
         {
@@ -195,7 +241,55 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region 5. ใบประกอบวิชาชีพ - Certificate
+        #region 6. เงินเดือน - Salary
+
+        public ActionResult Salary()
+        {
+            return View();
+        }
+
+        public ActionResult SalaryDetail(int? id)
+        {
+            SalaryViewModel model = new SalaryViewModel();
+            if (id.HasValue)
+            {
+                model = new SalaryRepository().GetByID((int)id);
+            }
+            return PartialView("_Salary", model);
+        }
+
+        [HttpPost]
+        public JsonResult Salary(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        {
+            var search = Request["search[value]"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
+
+            var dataTableData = new SalaryRepository().GetPage(search, draw, start, length, dir, column);
+
+            return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SaveSalary(SalaryViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (model.SaID != 0)
+                result = new SalaryRepository().UpdateByEntity(model);
+            else
+                result = new SalaryRepository().AddByEntity(model);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteSalary(int id)
+        {
+            var result = new SalaryRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        #region 7. ใบประกอบวิชาชีพ - Certificate
 
         public ActionResult Certificate()
         {
@@ -241,55 +335,7 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region 6. เงินเดือน - Salary
-
-        public ActionResult Salary()
-        {
-            return View();
-        }
-
-        public ActionResult SalaryDetail(int? id)
-        {
-            SalaryRateViewModel model = new SalaryRateViewModel();
-            if (id.HasValue)
-            {
-                model = new SalaryRepository().GetByID((int)id);
-            }
-            return PartialView("_Salary", model);
-        }
-
-        [HttpPost]
-        public JsonResult Salary(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
-        {
-            var search = Request["search[value]"];
-            var dir = order[0]["dir"].ToLower();
-            var column = columns[int.Parse(order[0]["column"])]["data"];
-
-            var dataTableData = new SalaryRepository().GetPage(search, draw, start, length, dir, column);
-
-            return Json(dataTableData, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult SaveSalary(SalaryRateViewModel model)
-        {
-            ResponseData result = new Models.ResponseData();
-            if (model.SaID != 0)
-                result = new SalaryRepository().UpdateByEntity(model);
-            else
-                result = new SalaryRepository().AddByEntity(model);
-
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult DeleteSalary(int id)
-        {
-            var result = new SalaryRepository().RemoveByID(id);
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-        #endregion
-
-        #region 7. เครื่องราชอิสริยาภรณ์ - Insignia
+        #region 8. เครื่องราชอิสริยาภรณ์ - Insignia
 
         public ActionResult Insignia()
         {
@@ -301,7 +347,7 @@ namespace SAT.HR.Controllers
             InsigniaViewModel model = new InsigniaViewModel();
             if (id.HasValue)
             {
-                model = new DivisionRepository().GetByID((int)id);
+                model = new InsigniaRepository().GetByID((int)id);
             }
             return PartialView("_Insignia", model);
         }
@@ -335,7 +381,7 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region 8. คำนำหน้าชื่อ - Title
+        #region 9. คำนำหน้าชื่อ - Title
 
         public ActionResult Title()
         {
@@ -383,7 +429,7 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region 9. ระดับการศึกษา - Education
+        #region 10. ระดับการศึกษา - Education
 
         public ActionResult Education()
         {
@@ -413,7 +459,7 @@ namespace SAT.HR.Controllers
         public JsonResult SaveEducation(EducationViewModel model)
         {
             ResponseData result = new Models.ResponseData();
-            if (model.EduCode != 0)
+            if (model.EduID != 0)
                 result = new EducationRepository().UpdateByEntity(model);
             else
                 result = new EducationRepository().AddByEntity(model);
@@ -429,7 +475,7 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region 10. หลักสูตรปริญญา - Degree
+        #region 11. หลักสูตรปริญญา - Degree
 
         public ActionResult Degree()
         {
@@ -475,7 +521,7 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region 11. สาขาวิชา - Major
+        #region 12. สาขาวิชา - Major
 
         public ActionResult Major()
         {
@@ -521,7 +567,7 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region 12. สัญชาติ - Nationality
+        #region 13. สัญชาติ - Nationality
 
         public ActionResult Nationality()
         {
@@ -567,7 +613,7 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region 13. ศาสนา - Religion
+        #region 14. ศาสนา - Religion
 
         public ActionResult Religion()
         {
@@ -613,7 +659,7 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region 14. สมรรถนะ - Capability
+        #region 15. สมรรถนะ - Capability
 
         public ActionResult Capability()
         {
@@ -659,7 +705,7 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region 15. ประเภทการลา - LeaveType
+        #region 16. ประเภทการลา - LeaveType
 
         public ActionResult LeaveType()
         {
@@ -705,7 +751,7 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region 16. วันหยุด - Holiday
+        #region 17. วันหยุด - Holiday
 
         public ActionResult Holiday()
         {
@@ -751,7 +797,7 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region 17. รหัสการเคลื่อนไหว - ActionType
+        #region 18. รหัสการเคลื่อนไหว - ActionType
 
         public ActionResult ActionType()
         {
@@ -797,7 +843,7 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region 18. ค่าคงที่ระบบ - SystemConfig
+        #region 19. ค่าคงที่ระบบ - SystemConfig
 
         public ActionResult SystemConfig()
         {
@@ -821,33 +867,21 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region 19. จัดการสิทธิการเข้าใช้งาน - UserRole
+        #region 20. จัดการสิทธิการเข้าใช้งาน - UserRole
 
-        public ActionResult UserRole()
-        {
-            return View();
-        }
-
-        public ActionResult UserDetail()
+        public ActionResult Role()
         {
             return PartialView("_User");
         }
 
-        public ActionResult RoleDetail()
+        public ActionResult RoleMenu()
         {
             return PartialView("_Role");
         }
 
-        public ActionResult UserRoleDetail()
-        {
-            return PartialView("_UserRole");
-        }
 
         #endregion
 
-        #region 20. สายงาน
-
-
-        #endregion
+      
     }
 }

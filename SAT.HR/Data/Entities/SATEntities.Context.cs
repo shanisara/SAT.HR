@@ -31,27 +31,30 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Certificate> tb_Certificate { get; set; }
         public virtual DbSet<tb_Degree> tb_Degree { get; set; }
         public virtual DbSet<tb_Department> tb_Department { get; set; }
+        public virtual DbSet<tb_Discipline> tb_Discipline { get; set; }
         public virtual DbSet<tb_Division> tb_Division { get; set; }
         public virtual DbSet<tb_DocNumber> tb_DocNumber { get; set; }
-        public virtual DbSet<tb_GroupRole> tb_GroupRole { get; set; }
+        public virtual DbSet<tb_Education> tb_Education { get; set; }
+        public virtual DbSet<tb_Employee> tb_Employee { get; set; }
         public virtual DbSet<tb_Holiday> tb_Holiday { get; set; }
         public virtual DbSet<tb_Insignia> tb_Insignia { get; set; }
         public virtual DbSet<tb_LeaveType> tb_LeaveType { get; set; }
         public virtual DbSet<tb_Major> tb_Major { get; set; }
         public virtual DbSet<tb_Menu> tb_Menu { get; set; }
         public virtual DbSet<tb_Nationality> tb_Nationality { get; set; }
+        public virtual DbSet<tb_Position> tb_Position { get; set; }
         public virtual DbSet<tb_Religion> tb_Religion { get; set; }
         public virtual DbSet<tb_Role> tb_Role { get; set; }
+        public virtual DbSet<tb_RoleMenu> tb_RoleMenu { get; set; }
+        public virtual DbSet<tb_Salary> tb_Salary { get; set; }
         public virtual DbSet<tb_Section> tb_Section { get; set; }
         public virtual DbSet<tb_Sex> tb_Sex { get; set; }
         public virtual DbSet<tb_SystemConfig> tb_SystemConfig { get; set; }
         public virtual DbSet<tb_Title> tb_Title { get; set; }
         public virtual DbSet<tb_User> tb_User { get; set; }
+        public virtual DbSet<tb_UserType> tb_UserType { get; set; }
         public virtual DbSet<vw_Department> vw_Department { get; set; }
         public virtual DbSet<vw_Section> vw_Section { get; set; }
-        public virtual DbSet<tb_Position> tb_Position { get; set; }
-        public virtual DbSet<tb_SalaryRate> tb_SalaryRate { get; set; }
-        public virtual DbSet<tb_Education> tb_Education { get; set; }
         public virtual DbSet<vw_Title> vw_Title { get; set; }
     }
 }

@@ -14,16 +14,13 @@ namespace SAT.HR.Data.Entities
     
     public partial class tb_Role
     {
-        public int PerID { get; set; }
-        public Nullable<int> MenuID { get; set; }
-        public Nullable<bool> Status { get; set; }
-        public Nullable<int> GroupID { get; set; }
+        public int RoleID { get; set; }
+        public string RoleName { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public string CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public string ModifyBy { get; set; }
     
-        public virtual tb_GroupRole tb_GroupRole { get; set; }
-        public virtual tb_Menu tb_Menu { get; set; }
+        public virtual tb_RoleMenu tb_RoleMenu { get; set; }
     }
 }

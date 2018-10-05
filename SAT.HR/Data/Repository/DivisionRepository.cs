@@ -9,19 +9,6 @@ namespace SAT.HR.Data.Repository
 {
     public class DivisionRepository : RepositoryBase
     {
-        public DivisionViewModel GetByID(int id)
-        {
-            using (SATEntities db = new SATEntities())
-            {
-                var data = db.tb_Division.Where(x => x.DivID == id).FirstOrDefault();
-                DivisionViewModel model = new Models.DivisionViewModel();
-                model.DivID = data.DivID;
-                model.DivName = data.DivName;
-                model.DivStatus = data.DivStatus;
-                return model;
-            }
-        }
-
         public DivisionResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
         {
             using (SATEntities db = new SATEntities())
@@ -69,6 +56,19 @@ namespace SAT.HR.Data.Repository
 
                 }
                 return result;
+            }
+        }
+
+        public DivisionViewModel GetByID(int id)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.tb_Division.Where(x => x.DivID == id).FirstOrDefault();
+                DivisionViewModel model = new Models.DivisionViewModel();
+                model.DivID = data.DivID;
+                model.DivName = data.DivName;
+                model.DivStatus = data.DivStatus;
+                return model;
             }
         }
 

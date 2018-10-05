@@ -16,6 +16,7 @@ namespace SAT.HR.Data.Entities
     {
         public string KeyName { get; set; }
         public string KeyValue { get; set; }
+        public string KeyDescription { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public string CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }

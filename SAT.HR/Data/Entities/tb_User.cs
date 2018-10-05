@@ -20,14 +20,13 @@ namespace SAT.HR.Data.Entities
         public string ConfirmPassword { get; set; }
         public string FullName { get; set; }
         public string SurName { get; set; }
-        public Nullable<int> GroupID { get; set; }
+        public Nullable<int> UserType { get; set; }
         public Nullable<int> SexID { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public string CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public string ModifyBy { get; set; }
     
-        public virtual tb_GroupRole tb_GroupRole { get; set; }
         public virtual tb_Sex tb_Sex { get; set; }
     }
 }

@@ -52,5 +52,89 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public NationalityViewModel GetByID(int id)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.tb_Nationality.Where(x => x.NatID == id).FirstOrDefault();
+                NationalityViewModel model = new Models.NationalityViewModel();
+                model.NatID = data.NatID;
+                model.NatName = data.NatName;
+                model.NatStatus = data.NatStatus;
+                return model;
+            }
+        }
+
+        public ResponseData AddByEntity(NationalityViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_Nationality model = new tb_Nationality();
+                    model.NatID = data.NatID;
+                    model.NatName = data.NatName;
+                    model.NatStatus = data.NatStatus;
+                    model.CreateBy = data.ModifyBy;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = data.ModifyBy;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_Nationality.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdateByEntity(NationalityViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var data = db.tb_Nationality.Single(x => x.NatID == newdata.NatID);
+                    data.NatName = newdata.NatName;
+                    data.NatStatus = newdata.NatStatus;
+                    data.ModifyBy = newdata.ModifyBy;
+                    data.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData RemoveByID(int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var obj = db.tb_Nationality.SingleOrDefault(c => c.NatID == id);
+                    if (obj != null)
+                    {
+                        db.tb_Nationality.Remove(obj);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
+
     }
 }

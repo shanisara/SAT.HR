@@ -9,11 +9,11 @@ namespace SAT.HR.Data.Repository
 {
     public class SalaryRepository
     {
-        public SalaryRateResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
+        public SalaryResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.tb_SalaryRate.ToList();
+                var data = db.tb_Salary.ToList();
 
                 int recordsTotal = data.Count();
 
@@ -40,7 +40,7 @@ namespace SAT.HR.Data.Repository
                 int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
                 int length = pageSize ?? 10;
 
-                var list = data.Select((s, i) => new SalaryRateViewModel()
+                var list = data.Select((s, i) => new SalaryViewModel()
                 {
                     RowNumber = i + 1,
                     SaID = s.SaID,
@@ -50,12 +50,99 @@ namespace SAT.HR.Data.Repository
                 }).Skip(start * length).Take(length).ToList();
 
 
-                SalaryRateResult result = new SalaryRateResult();
+                SalaryResult result = new SalaryResult();
                 result.draw = draw ?? 0;
                 result.recordsTotal = recordsTotal;
                 result.recordsFiltered = recordsFiltered;
                 result.data = list;
 
+                return result;
+            }
+        }
+
+        public SalaryViewModel GetByID(int id)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.tb_Salary.Where(x => x.SaID == id).FirstOrDefault();
+                SalaryViewModel model = new Models.SalaryViewModel();
+                model.SaID = data.SaID;
+                model.SaLevel = data.SaLevel;
+                model.SaStep = data.SaStep;
+                model.SaRate = data.SaRate;
+                return model;
+            }
+        }
+
+        public ResponseData AddByEntity(SalaryViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_Salary model = new tb_Salary();
+                    model.SaID = data.SaID;
+                    model.SaLevel = data.SaLevel;
+                    model.SaStep = data.SaStep;
+                    model.SaRate = data.SaRate;
+                    model.CreateBy = data.ModifyBy;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = data.ModifyBy;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_Salary.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdateByEntity(SalaryViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var data = db.tb_Salary.Single(x => x.SaID == newdata.SaID);
+                    data.SaLevel = newdata.SaLevel;
+                    data.SaStep = newdata.SaStep;
+                    data.SaRate = newdata.SaRate;
+                    data.ModifyBy = newdata.ModifyBy;
+                    data.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData RemoveByID(int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var obj = db.tb_Salary.SingleOrDefault(c => c.SaID == id);
+                    if (obj != null)
+                    {
+                        db.tb_Salary.Remove(obj);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
                 return result;
             }
         }

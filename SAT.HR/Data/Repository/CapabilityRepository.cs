@@ -54,5 +54,94 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public CapabilityViewModel GetByID(int id)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.tb_Capability.Where(x => x.CapID == id).FirstOrDefault();
+                CapabilityViewModel model = new Models.CapabilityViewModel();
+                model.CapID = data.CapID;
+                model.CapYear = data.CapYear;
+                model.CapTID = data.CapTID;
+                model.MenuID = data.MenuID;
+                model.CapGroupID = data.CapGroupID;
+                return model;
+            }
+        }
+
+        public ResponseData AddByEntity(CapabilityViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_Capability model = new tb_Capability();
+                    model.CapID = data.CapID;
+                    model.CapYear = data.CapYear;
+                    model.CapTID = data.CapTID;
+                    model.MenuID = data.MenuID;
+                    model.CapGroupID = data.CapGroupID;
+                    model.CreateBy = data.ModifyBy;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = data.ModifyBy;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_Capability.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdateByEntity(CapabilityViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var data = db.tb_Capability.Single(x => x.CapID == newdata.CapID);
+                    data.CapYear = newdata.CapYear;
+                    data.CapTID = newdata.CapTID;
+                    data.MenuID = newdata.MenuID;
+                    data.CapGroupID = newdata.CapGroupID;
+                    data.ModifyBy = newdata.ModifyBy;
+                    data.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData RemoveByID(int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var obj = db.tb_Capability.SingleOrDefault(c => c.CapID == id);
+                    if (obj != null)
+                    {
+                        db.tb_Capability.Remove(obj);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
     }
 }

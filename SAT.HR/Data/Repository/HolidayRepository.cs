@@ -57,5 +57,88 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public HolidayViewModel GetByID(int id)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.tb_Holiday.Where(x => x.HolID == id).FirstOrDefault();
+                HolidayViewModel model = new Models.HolidayViewModel();
+                model.HolID = data.HolID;
+                model.HolDate = data.HolDate;
+                model.HolDescription = data.HolDescription;
+                return model;
+            }
+        }
+
+        public ResponseData AddByEntity(HolidayViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_Holiday model = new tb_Holiday();
+                    model.HolID = data.HolID;
+                    model.HolDate = data.HolDate;
+                    model.HolDescription = data.HolDescription;
+                    model.CreateBy = data.ModifyBy;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = data.ModifyBy;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_Holiday.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdateByEntity(HolidayViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var data = db.tb_Holiday.Single(x => x.HolID == newdata.HolID);
+                    data.HolDate = newdata.HolDate;
+                    data.HolDescription = newdata.HolDescription;
+                    data.ModifyBy = newdata.ModifyBy;
+                    data.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData RemoveByID(int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var obj = db.tb_Holiday.SingleOrDefault(c => c.HolID == id);
+                    if (obj != null)
+                    {
+                        db.tb_Holiday.Remove(obj);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
     }
 }

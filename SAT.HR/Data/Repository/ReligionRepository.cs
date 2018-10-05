@@ -52,5 +52,88 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public ReligionViewModel GetByID(int id)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.tb_Religion.Where(x => x.RelD == id).FirstOrDefault();
+                ReligionViewModel model = new Models.ReligionViewModel();
+                model.RelD = data.RelD;
+                model.RelName = data.RelName;
+                model.RelStatus = data.RelStatus;
+                return model;
+            }
+        }
+
+        public ResponseData AddByEntity(ReligionViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_Religion model = new tb_Religion();
+                    model.RelD = data.RelD;
+                    model.RelName = data.RelName;
+                    model.RelStatus = data.RelStatus;
+                    model.CreateBy = data.ModifyBy;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = data.ModifyBy;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_Religion.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdateByEntity(ReligionViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var data = db.tb_Religion.Single(x => x.RelD == newdata.RelD);
+                    data.RelName = newdata.RelName;
+                    data.RelStatus = newdata.RelStatus;
+                    data.ModifyBy = newdata.ModifyBy;
+                    data.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData RemoveByID(int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var obj = db.tb_Religion.SingleOrDefault(c => c.RelD == id);
+                    if (obj != null)
+                    {
+                        db.tb_Religion.Remove(obj);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
     }
 }

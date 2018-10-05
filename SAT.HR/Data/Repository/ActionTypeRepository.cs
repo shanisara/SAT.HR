@@ -53,5 +53,92 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public ActionTypeViewModel GetByID(int id)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.tb_ActionType.Where(x => x.ActID == id).FirstOrDefault();
+                ActionTypeViewModel model = new Models.ActionTypeViewModel();
+                model.ActID = data.ActID;
+                model.ActName = data.ActName;
+                model.ActType = data.ActType;
+                model.ActPos = data.ActPos;
+                return model;
+            }
+        }
+
+        public ResponseData AddByEntity(ActionTypeViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_ActionType model = new tb_ActionType();
+                    model.ActID = data.ActID;
+                    model.ActName = data.ActName;
+                    model.ActType = data.ActType;
+                    model.ActPos = data.ActPos;
+                    model.CreateBy = data.ModifyBy;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = data.ModifyBy;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_ActionType.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdateByEntity(ActionTypeViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var data = db.tb_ActionType.Single(x => x.ActID == newdata.ActID);
+                    data.ActName = newdata.ActName;
+                    data.ActType = newdata.ActType;
+                    data.ActPos = newdata.ActPos;
+                    data.ModifyBy = newdata.ModifyBy;
+                    data.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData RemoveByID(int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var obj = db.tb_ActionType.SingleOrDefault(c => c.ActID == id);
+                    if (obj != null)
+                    {
+                        db.tb_ActionType.Remove(obj);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
+
     }
 }

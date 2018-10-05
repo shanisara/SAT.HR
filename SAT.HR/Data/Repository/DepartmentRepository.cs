@@ -58,5 +58,90 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public DepartmentViewModel GetByID(int id)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.tb_Department.Where(x => x.DepID == id).FirstOrDefault();
+                DepartmentViewModel model = new Models.DepartmentViewModel();
+                model.DepID = data.DepID;
+                model.DepName = data.DepName;
+                model.DepStatus = data.DepStatus;
+                return model;
+            }
+        }
+
+        public ResponseData AddByEntity(DepartmentViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_Department model = new tb_Department();
+                    model.DepID = data.DepID;
+                    model.DepName = data.DepName;
+                    model.DepStatus = data.DepStatus;
+                    model.DivID = (int)data.DivID;
+                    model.CreateBy = data.ModifyBy;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = data.ModifyBy;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_Department.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdateByEntity(DepartmentViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var data = db.tb_Department.Single(x => x.DepID == newdata.DivID);
+                    data.DepName = newdata.DepName;
+                    data.DepStatus = newdata.DepStatus;
+                    data.DivID = (int)newdata.DivID;
+                    data.ModifyBy = newdata.ModifyBy;
+                    data.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData RemoveByID(int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var obj = db.tb_Department.SingleOrDefault(c => c.DepID == id);
+                    if (obj != null)
+                    {
+                        db.tb_Department.Remove(obj);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
     }
 }

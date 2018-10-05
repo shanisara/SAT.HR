@@ -56,5 +56,91 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public PositionViewModel GetByID(int id)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.tb_Position.Where(x => x.PoID == id).FirstOrDefault();
+                PositionViewModel model = new Models.PositionViewModel();
+                model.PoID = data.PoID;
+                model.PoCode = data.PoCode;
+                model.PoName = data.PoName;
+                model.PoStatus = data.PoStatus;
+                return model;
+            }
+        }
+
+        public ResponseData AddByEntity(PositionViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_Position model = new tb_Position();
+                    model.PoID = data.PoID;
+                    model.PoCode = data.PoCode;
+                    model.PoName = data.PoName;
+                    model.PoStatus = data.PoStatus;
+                    model.CreateBy = data.ModifyBy;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = data.ModifyBy;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_Position.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdateByEntity(PositionViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var model = db.tb_Position.Single(x => x.PoID == newdata.PoID);
+                    model.PoCode = newdata.PoCode;
+                    model.PoName = newdata.PoName;
+                    model.PoStatus = newdata.PoStatus;
+                    model.ModifyBy = newdata.ModifyBy;
+                    model.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData RemoveByID(int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var obj = db.tb_Position.SingleOrDefault(c => c.PoID == id);
+                    if (obj != null)
+                    {
+                        db.tb_Position.Remove(obj);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
     }
 }

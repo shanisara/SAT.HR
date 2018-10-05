@@ -62,5 +62,94 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public SectionViewModel GetByID(int id)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.tb_Section.Where(x => x.SecID == id).FirstOrDefault();
+                SectionViewModel model = new Models.SectionViewModel();
+                model.SecID = data.SecID;
+                model.SecName = data.SecName;
+                model.SecStatus = data.SecStatus;
+                model.DivID = data.DivID;
+                model.DepID = data.DepID;
+                return model;
+            }
+        }
+
+        public ResponseData AddByEntity(SectionViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_Section model = new tb_Section();
+                    model.SecID = data.SecID;
+                    model.SecName = data.SecName;
+                    model.SecStatus = data.SecStatus;
+                    model.DivID = data.DivID;
+                    model.DepID = data.DepID;
+                    model.CreateBy = data.ModifyBy;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = data.ModifyBy;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_Section.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdateByEntity(SectionViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var data = db.tb_Section.Single(x => x.SecID == newdata.SecID);
+                    data.SecName = newdata.SecName;
+                    data.SecStatus = newdata.SecStatus;
+                    data.DivID = newdata.DivID;
+                    data.DepID = newdata.DepID;
+                    data.ModifyBy = newdata.ModifyBy;
+                    data.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData RemoveByID(int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var obj = db.tb_Section.SingleOrDefault(c => c.SecID == id);
+                    if (obj != null)
+                    {
+                        db.tb_Section.Remove(obj);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
     }
 }
