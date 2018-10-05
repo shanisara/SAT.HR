@@ -125,9 +125,7 @@ namespace SAT.HR.Controllers
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-
             var dataTableData = new CertificateRepository().GetCertificate(search, draw, start, length, dir, column);
-
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
 
@@ -177,9 +175,7 @@ namespace SAT.HR.Controllers
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-
             var dataTableData = new InsigniaRepository().GetInsignia(search, draw, start, length, dir, column);
-
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
 

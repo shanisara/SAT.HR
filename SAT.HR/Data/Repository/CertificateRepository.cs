@@ -31,19 +31,15 @@ namespace SAT.HR.Data.Repository
                         break;
                 }
 
-                int start = initialPage.HasValue ? (int)initialPage / 10 : 0;
+                int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
                 int length = pageSize ?? 10;
-                data = data.Skip(start * length).Take(length).ToList();
 
-                List<CertificateViewModel> list = new List<Models.CertificateViewModel>();
-                foreach (var m in data)
+                var list = data.Select((s, i) => new CertificateViewModel()
                 {
-                    CertificateViewModel model = new Models.CertificateViewModel();
-                    model.CerId = m.CerId;
-                    //model.CerCode = m.CerCode;
-                    model.CerName = m.CerName;
-                    list.Add(model);
-                }
+                    RowNumber = i + 1,
+                    CerID = s.CerId,
+                    CerName = s.CerName
+                }).Skip(start * length).Take(length).ToList();
 
                 CertificateResult result = new CertificateResult();
                 result.draw = draw ?? 0;

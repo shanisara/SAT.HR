@@ -31,19 +31,16 @@ namespace SAT.HR.Data.Repository
                         break;
                 }
 
-                int start = initialPage.HasValue ? (int)initialPage / 10 : 0;
+                int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
                 int length = pageSize ?? 10;
-                data = data.Skip(start * length).Take(length).ToList();
 
-                List<ReligionViewModel> list = new List<Models.ReligionViewModel>();
-                foreach (var m in data)
+                var list = data.Select((s, i) => new ReligionViewModel()
                 {
-                    ReligionViewModel model = new Models.ReligionViewModel();
-                    model.RelD = m.RelD;
-                    model.RelName = m.RelName;
-                    model.RelStatus = m.RelStatus;
-                    list.Add(model);
-                }
+                    RowNumber = ++i,
+                    RelD = s.RelD,
+                    RelName = s.RelName,
+                    RelStatus = s.RelStatus,
+                }).Skip(start * length).Take(length).ToList();
 
                 ReligionResult result = new ReligionResult();
                 result.draw = draw ?? 0;

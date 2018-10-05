@@ -6,7 +6,8 @@ namespace SAT.HR.Models
 {
     public class EducationViewModel
     {
-        public string RowNumber { get; set; }
+        public int RowNumber { get; set; }
+
         public int EduID { get; set; }
 
         public string EduName { get; set; }

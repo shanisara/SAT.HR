@@ -31,21 +31,18 @@ namespace SAT.HR.Data.Repository
                         break;
                 }
 
-                int start = initialPage.HasValue ? (int)initialPage / 10 : 0;
+                int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
                 int length = pageSize ?? 10;
-                data = data.Skip(start * length).Take(length).ToList();
 
-                List<CapabilityViewModel> list = new List<Models.CapabilityViewModel>();
-                foreach (var m in data)
+                var list = data.Select((s, i) => new CapabilityViewModel()
                 {
-                    CapabilityViewModel model = new Models.CapabilityViewModel();
-                    model.CapID = m.CapID;
-                    model.CapYear = m.CapYear;
-                    model.CapTID = m.CapTID;
-                    model.MenuID = m.MenuID;
-                    model.CapGroupID = m.CapGroupID;
-                    list.Add(model);
-                }
+                    RowNumber = ++i,
+                    CapID = s.CapID,
+                    CapYear = s.CapYear,
+                    CapTID = s.CapTID,
+                    MenuID = s.MenuID,
+                    CapGroupID = s.CapGroupID,
+                }).Skip(start * length).Take(length).ToList();
 
                 CapabilityResult result = new CapabilityResult();
                 result.draw = draw ?? 0;

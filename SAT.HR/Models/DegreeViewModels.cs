@@ -6,7 +6,7 @@ namespace SAT.HR.Models
 {
     public class DegreeViewModel
     {
-        public string RowNumber { get; set; }
+        public int RowNumber { get; set; }
 
         public int DegID { get; set; }
 

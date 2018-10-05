@@ -31,20 +31,17 @@ namespace SAT.HR.Data.Repository
                         break;
                 }
 
-                int start = initialPage.HasValue ? (int)initialPage / 10 : 0;
+                int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
                 int length = pageSize ?? 10;
-                data = data.Skip(start * length).Take(length).ToList();
 
-                List<TitleViewModel> list = new List<Models.TitleViewModel>();
-                foreach (var m in data)
+                var list = data.Select((s, i) => new TitleViewModel()
                 {
-                    TitleViewModel model = new Models.TitleViewModel();
-                    model.TiID = m.TiID;
-                    model.TiFullName = m.TiFullName;
-                    model.TiShortName = m.TiShortName;
-                    model.TiStatus = m.TiStatus;
-                    list.Add(model);
-                }
+                    RowNumber = i + 1,
+                    TiID = s.TiID,
+                    TiFullName = s.TiFullName,
+                    TiShortName = s.TiShortName,
+                    TiStatus = s.TiStatus
+                }).Skip(start * length).Take(length).ToList();
 
                 TitleResult result = new TitleResult();
                 result.draw = draw ?? 0;

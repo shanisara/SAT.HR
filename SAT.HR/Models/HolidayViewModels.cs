@@ -6,14 +6,15 @@ namespace SAT.HR.Models
 {
     public class HolidayViewModel
     {
-        public string RowNumber { get; set; }
+        public int RowNumber { get; set; }
+
         public int HolID { get; set; }
 
-        public string HolYear { get; set; }
+        public int HolYear { get; set; }
 
         public DateTime? HolDate { get; set; }
 
-        public string HolDesc { get; set; }
+        public string HolDescription { get; set; }
 
         public DateTime? CreateDate { get; set; }
 

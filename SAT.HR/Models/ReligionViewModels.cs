@@ -6,7 +6,7 @@ namespace SAT.HR.Models
 {
     public class ReligionViewModel
     {
-        public string RowNumber { get; set; }
+        public int RowNumber { get; set; }
 
         public int RelD { get; set; }
 

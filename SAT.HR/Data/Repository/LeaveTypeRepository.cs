@@ -31,22 +31,19 @@ namespace SAT.HR.Data.Repository
                         break;
                 }
 
-                int start = initialPage.HasValue ? (int)initialPage / 10 : 0;
+                int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
                 int length = pageSize ?? 10;
-                data = data.Skip(start * length).Take(length).ToList();
 
-                List<LeaveTypeViewModel> list = new List<Models.LeaveTypeViewModel>();
-                foreach (var m in data)
+                var list = data.Select((s, i) => new LeaveTypeViewModel()
                 {
-                    LeaveTypeViewModel model = new Models.LeaveTypeViewModel();
-                    model.LevID = m.LevID;
-                    model.LevYear = m.LevYear;
-                    model.LevStartDate = m.LevStartDate;
-                    model.LevEndDate = m.LevEndDate;
-                    model.LevMax = m.LevMax;
-                    model.LevStatus = m.LevStatus;
-                    list.Add(model);
-                }
+                    RowNumber = ++i,
+                    LevID = s.LevID,
+                    LevYear = s.LevYear,
+                    LevStartDate = s.LevStartDate,
+                    LevEndDate = s.LevEndDate,
+                    LevMax = s.LevMax,
+                    LevStatus = s.LevStatus,
+                }).Skip(start * length).Take(length).ToList();
 
                 LeaveTypeResult result = new LeaveTypeResult();
                 result.draw = draw ?? 0;

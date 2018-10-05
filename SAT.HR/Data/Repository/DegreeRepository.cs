@@ -31,19 +31,16 @@ namespace SAT.HR.Data.Repository
                         break;
                 }
 
-                int start = initialPage.HasValue ? (int)initialPage / 10 : 0;
+                int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
                 int length = pageSize ?? 10;
-                data = data.Skip(start * length).Take(length).ToList();
 
-                List<DegreeViewModel> list = new List<Models.DegreeViewModel>();
-                foreach (var m in data)
+                var list = data.Select((s, i) => new DegreeViewModel()
                 {
-                    DegreeViewModel model = new Models.DegreeViewModel();
-                    model.DegID = m.DegID;
-                    model.DegName = m.DegName;
-                    model.DegStatus = m.DegStatus;
-                    list.Add(model);
-                }
+                    RowNumber = ++i,
+                    DegID = s.DegID,
+                    DegName = s.DegName,
+                    DegStatus = s.DegStatus,
+                }).Skip(start * length).Take(length).ToList();
 
                 DegreeResult result = new DegreeResult();
                 result.draw = draw ?? 0;

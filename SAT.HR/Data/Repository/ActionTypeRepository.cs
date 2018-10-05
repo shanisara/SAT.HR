@@ -31,7 +31,7 @@ namespace SAT.HR.Data.Repository
                         break;
                 }
 
-                int start = initialPage.HasValue ? (int)initialPage / 10 : 0;
+                int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
                 int length = pageSize ?? 10;
 
                 var list = data.Select((s, i) => new ActionTypeViewModel()
@@ -39,7 +39,6 @@ namespace SAT.HR.Data.Repository
                     RowNumber = ++i,
                     ActID = s.ActID,
                     ActName = s.ActName
-                    //ActType = s.ActType
                 }).Skip(start * length).Take(length).ToList();
 
 

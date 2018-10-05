@@ -31,20 +31,18 @@ namespace SAT.HR.Data.Repository
                         break;
                 }
 
-                int start = initialPage.HasValue ? (int)initialPage / 10 : 0;
+                int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
                 int length = pageSize ?? 10;
-                data = data.Skip(start * length).Take(length).ToList();
 
-                List<HolidayViewModel> list = new List<Models.HolidayViewModel>();
-                foreach (var m in data)
+                var list = data.Select((s, i) => new HolidayViewModel()
                 {
-                    HolidayViewModel model = new Models.HolidayViewModel();
-                    model.HolID = m.HolID;
-                    model.HolYear = Convert.ToDateTime(m.HolDate).ToString("yyyy");
-                    model.HolDate = m.HolDate;
-                    model.HolDesc = m.HolDescription;
-                    list.Add(model);
-                }
+                    RowNumber = ++i,
+                    HolID = s.HolID,
+                    HolDate = s.HolDate,
+                    HolDescription = s.HolDescription,
+                    HolYear = s.HolDate.Value.Year,
+                    
+                }).Skip(start * length).Take(length).ToList();
 
                 HolidayResult result = new HolidayResult();
                 result.draw = draw ?? 0;

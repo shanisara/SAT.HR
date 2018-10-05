@@ -6,7 +6,7 @@ namespace SAT.HR.Models
 {
     public class MajorViewModel
     {
-        public string RowNumber { get; set; }
+        public int RowNumber { get; set; }
 
         public int MajID { get; set; }
 

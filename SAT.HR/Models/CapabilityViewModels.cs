@@ -6,7 +6,8 @@ namespace SAT.HR.Models
 {
     public partial class CapabilityViewModel
     {
-        public string RowNumber { get; set; }
+        public int RowNumber { get; set; }
+
         public int CapID { get; set; }
 
         public string CapYear { get; set; }
