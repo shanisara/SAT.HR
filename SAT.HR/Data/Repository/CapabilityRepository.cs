@@ -9,7 +9,7 @@ namespace SAT.HR.Data.Repository
 {
     public class CapabilityRepository
     {
-        public CapabilityResult GetCapability(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
+        public CapabilityResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
         {
             using (SATEntities db = new SATEntities())
             {

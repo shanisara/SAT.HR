@@ -10,8 +10,6 @@ namespace SAT.HR.Models
 
         public int DivID { get; set; }
 
-        public int DivCode { get; set; }
-
         public string DivName { get; set; }
 
         public bool? DivStatus { get; set; }

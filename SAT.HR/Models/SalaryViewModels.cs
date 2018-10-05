@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SAT.HR.Models
 {
-    public class SalaryViewModel
+    public class SalaryRateViewModel
     {
         public int RowNumber { get; set; }
 
@@ -25,11 +25,11 @@ namespace SAT.HR.Models
         public string ModifyBy { get; set; }
     }
 
-    public class SalaryResult
+    public class SalaryRateResult
     {
         public int draw { get; set; }
         public int recordsTotal { get; set; }
         public int recordsFiltered { get; set; }
-        public List<SalaryViewModel> data { get; set; }
+        public List<SalaryRateViewModel> data { get; set; }
     }
 }

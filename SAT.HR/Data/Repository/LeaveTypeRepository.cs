@@ -9,7 +9,7 @@ namespace SAT.HR.Data.Repository
 {
     public class LeaveTypeRepository
     {
-        public LeaveTypeResult GetLeaveType(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
+        public LeaveTypeResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
         {
             using (SATEntities db = new SATEntities())
             {

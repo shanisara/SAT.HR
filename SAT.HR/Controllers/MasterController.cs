@@ -16,22 +16,43 @@ namespace SAT.HR.Controllers
         {
             return View();
         }
-        public ActionResult _Division()
+
+        public ActionResult DivisionDetail(int? id)
         {
-            return PartialView();
+            DivisionViewModel model = new DivisionViewModel();
+            if (id.HasValue)
+            {
+                model = new DivisionRepository().GetByID((int)id);
+            }
+            return PartialView("_Division", model);
         }
 
         [HttpPost]
-        public JsonResult Division(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        public JsonResult DivisionList(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new DivisionRepository().GetDivision(search, draw, start, length, dir, column);
+            var dataTableData = new DivisionRepository().GetPage(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
+        
+        public JsonResult SaveDivision(DivisionViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            if(model.DivID != 0)
+                result = new DivisionRepository().UpdateByEntity(model);
+            else
+                result = new DivisionRepository().AddByEntity(model);
 
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
+        public JsonResult DeleteDivision(int id)
+        {
+            var result = new DivisionRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
 
@@ -42,9 +63,14 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult _Department()
+        public ActionResult DepartmentDetail(int? id)
         {
-            return PartialView();
+            DepartmentViewModel model = new DepartmentViewModel();
+            if (id.HasValue)
+            {
+                model = new DepartmentRepository().GetByID((int)id);
+            }
+            return PartialView("_Department", model);
         }
 
         [HttpPost]
@@ -53,8 +79,25 @@ namespace SAT.HR.Controllers
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new DepartmentRepository().GetDepartment(search, draw, start, length, dir, column);
+            var dataTableData = new DepartmentRepository().GetPage(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SaveDepartment(DepartmentViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (model.DepID != 0)
+                result = new DepartmentRepository().UpdateByEntity(model);
+            else
+                result = new DepartmentRepository().AddByEntity(model);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteDepartment(int id)
+        {
+            var result = new DepartmentRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -67,9 +110,14 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult _Section()
+        public ActionResult SectionnDetail(int? id)
         {
-            return PartialView();
+            SectionViewModel model = new SectionViewModel();
+            if (id.HasValue)
+            {
+                model = new SectionRepository().GetByID((int)id);
+            }
+            return PartialView("_Section", model);
         }
 
         [HttpPost]
@@ -78,8 +126,25 @@ namespace SAT.HR.Controllers
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new SectionRepository().GetSection(search, draw, start, length, dir, column);
+            var dataTableData = new SectionRepository().GetPage(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SaveSection(SectionViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (model.SecID != 0)
+                result = new SectionRepository().UpdateByEntity(model);
+            else
+                result = new SectionRepository().AddByEntity(model);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteSection(int id)
+        {
+            var result = new DivisionRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -91,9 +156,14 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult _Position()
+        public ActionResult PositionDetail(int? id)
         {
-            return PartialView();
+            PositionViewModel model = new PositionViewModel();
+            if (id.HasValue)
+            {
+                model = new PositionRepository().GetByID((int)id);
+            }
+            return PartialView("_Position", model);
         }
 
         [HttpPost]
@@ -102,9 +172,27 @@ namespace SAT.HR.Controllers
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new PositionRepository().GetPosition(search, draw, start, length, dir, column);
+            var dataTableData = new PositionRepository().GetPage(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult SavePosition(PositionViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (model.PoID != 0)
+                result = new PositionRepository().UpdateByEntity(model);
+            else
+                result = new PositionRepository().AddByEntity(model);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeletePosition(int id)
+        {
+            var result = new PositionRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         #region 5. ใบประกอบวิชาชีพ - Certificate
@@ -114,9 +202,14 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult _Certificate()
+        public ActionResult CertificateDetail(int? id)
         {
-            return PartialView();
+            CertificateViewModel model = new CertificateViewModel();
+            if (id.HasValue)
+            {
+                model = new CertificateRepository().GetByID((int)id);
+            }
+            return PartialView("_Certificate", model);
         }
 
         [HttpPost]
@@ -125,8 +218,25 @@ namespace SAT.HR.Controllers
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new CertificateRepository().GetCertificate(search, draw, start, length, dir, column);
+            var dataTableData = new CertificateRepository().GetPage(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SaveCertificate(CertificateViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (model.CerID != 0)
+                result = new CertificateRepository().UpdateByEntity(model);
+            else
+                result = new CertificateRepository().AddByEntity(model);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteCertificate(int id)
+        {
+            var result = new CertificateRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -138,9 +248,14 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult _Salary()
+        public ActionResult SalaryDetail(int? id)
         {
-            return PartialView();
+            SalaryRateViewModel model = new SalaryRateViewModel();
+            if (id.HasValue)
+            {
+                model = new SalaryRepository().GetByID((int)id);
+            }
+            return PartialView("_Salary", model);
         }
 
         [HttpPost]
@@ -150,9 +265,26 @@ namespace SAT.HR.Controllers
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
 
-            var dataTableData = new SalaryRepository().GetSalary(search, draw, start, length, dir, column);
+            var dataTableData = new SalaryRepository().GetPage(search, draw, start, length, dir, column);
 
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SaveSalary(SalaryRateViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (model.SaID != 0)
+                result = new SalaryRepository().UpdateByEntity(model);
+            else
+                result = new SalaryRepository().AddByEntity(model);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteSalary(int id)
+        {
+            var result = new SalaryRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -164,9 +296,14 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult _Insignia()
+        public ActionResult InsigniaDetail(int? id)
         {
-            return PartialView();
+            InsigniaViewModel model = new InsigniaViewModel();
+            if (id.HasValue)
+            {
+                model = new DivisionRepository().GetByID((int)id);
+            }
+            return PartialView("_Insignia", model);
         }
 
         [HttpPost]
@@ -175,8 +312,25 @@ namespace SAT.HR.Controllers
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new InsigniaRepository().GetInsignia(search, draw, start, length, dir, column);
+            var dataTableData = new InsigniaRepository().GetPage(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SaveInsignia(InsigniaViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (model.InsID != 0)
+                result = new InsigniaRepository().UpdateByEntity(model);
+            else
+                result = new InsigniaRepository().AddByEntity(model);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteInsignia(int id)
+        {
+            var result = new InsigniaRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -188,9 +342,14 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult _Title()
+        public ActionResult TitleDetail(int? id)
         {
-            return PartialView();
+            TitleViewModel model = new TitleViewModel();
+            if (id.HasValue)
+            {
+                model = new TitleRepository().GetByID((int)id);
+            }
+            return PartialView("_Title", model);
         }
 
         [HttpPost]
@@ -200,9 +359,26 @@ namespace SAT.HR.Controllers
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
 
-            var dataTableData = new TitleRepository().GetTitle(search, draw, start, length, dir, column);
+            var dataTableData = new TitleRepository().GetPage(search, draw, start, length, dir, column);
 
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SaveTitle(TitleViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (model.TiID != 0)
+                result = new TitleRepository().UpdateByEntity(model);
+            else
+                result = new TitleRepository().AddByEntity(model);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteTitle(int id)
+        {
+            var result = new TitleRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -214,9 +390,14 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult _Education()
+        public ActionResult EducationDetail(int? id)
         {
-            return PartialView();
+            EducationViewModel model = new EducationViewModel();
+            if (id.HasValue)
+            {
+                model = new EducationRepository().GetByID((int)id);
+            }
+            return PartialView("_Education", model);
         }
 
         [HttpPost]
@@ -225,8 +406,25 @@ namespace SAT.HR.Controllers
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new EducationRepository().GetEducation(search, draw, start, length, dir, column);
+            var dataTableData = new EducationRepository().GetPage(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SaveEducation(EducationViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (model.EduCode != 0)
+                result = new EducationRepository().UpdateByEntity(model);
+            else
+                result = new EducationRepository().AddByEntity(model);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteEducation(int id)
+        {
+            var result = new EducationRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -238,9 +436,14 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult _Degree()
+        public ActionResult DegreeDetail(int? id)
         {
-            return PartialView();
+            DivisionViewModel model = new DivisionViewModel();
+            if (id.HasValue)
+            {
+                model = new DivisionRepository().GetByID((int)id);
+            }
+            return PartialView("_Division", model);
         }
 
         [HttpPost]
@@ -249,10 +452,25 @@ namespace SAT.HR.Controllers
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-
-            var dataTableData = new DegreeRepository().GetDegree(search, draw, start, length, dir, column);
-
+            var dataTableData = new DegreeRepository().GetPage(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SaveDegree(DegreeViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (model.DegID != 0)
+                result = new DegreeRepository().UpdateByEntity(model);
+            else
+                result = new DegreeRepository().AddByEntity(model);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteDegree(int id)
+        {
+            var result = new DegreeRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -264,9 +482,14 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult _Major()
+        public ActionResult MajorDetail(int? id)
         {
-            return PartialView();
+            MajorViewModel model = new MajorViewModel();
+            if (id.HasValue)
+            {
+                model = new MajorRepository().GetByID((int)id);
+            }
+            return PartialView("_Major", model);
         }
 
         [HttpPost]
@@ -275,10 +498,25 @@ namespace SAT.HR.Controllers
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-
-            var dataTableData = new MajorRepository().GetMajor(search, draw, start, length, dir, column);
-
+            var dataTableData = new MajorRepository().GetPage(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SaveMajor(DivisionViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (model.DivID != 0)
+                result = new MajorRepository().UpdateByEntity(model);
+            else
+                result = new MajorRepository().AddByEntity(model);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteMajor(int id)
+        {
+            var result = new MajorRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -290,9 +528,14 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult _Nationality()
+        public ActionResult NationalityDetail(int? id)
         {
-            return PartialView();
+            NationalityViewModel model = new NationalityViewModel();
+            if (id.HasValue)
+            {
+                model = new NationalityRepository().GetByID((int)id);
+            }
+            return PartialView("_Nationality", model);
         }
 
         [HttpPost]
@@ -301,8 +544,25 @@ namespace SAT.HR.Controllers
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new NationalityRepository().GetNationality(search, draw, start, length, dir, column);
+            var dataTableData = new NationalityRepository().GetPage(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SaveNationality(NationalityViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (model.NatID != 0)
+                result = new NationalityRepository().UpdateByEntity(model);
+            else
+                result = new NationalityRepository().AddByEntity(model);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteNationality(int id)
+        {
+            var result = new NationalityRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -314,9 +574,14 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult _Religion()
+        public ActionResult DivisionDetail(int? id)
         {
-            return PartialView();
+            DivisionViewModel model = new DivisionViewModel();
+            if (id.HasValue)
+            {
+                model = new DivisionRepository().GetByID((int)id);
+            }
+            return PartialView("_Division", model);
         }
 
         [HttpPost]
@@ -325,8 +590,25 @@ namespace SAT.HR.Controllers
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new ReligionRepository().GetReligion(search, draw, start, length, dir, column);
+            var dataTableData = new ReligionRepository().GetPage(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SaveDivision(DivisionViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (model.DivID != 0)
+                result = new DivisionRepository().UpdateByEntity(model);
+            else
+                result = new DivisionRepository().AddByEntity(model);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteDivision(int id)
+        {
+            var result = new DivisionRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -337,7 +619,15 @@ namespace SAT.HR.Controllers
         {
             return View();
         }
-
+        public ActionResult DivisionDetail(int? id)
+        {
+            DivisionViewModel model = new DivisionViewModel();
+            if (id.HasValue)
+            {
+                model = new DivisionRepository().GetByID((int)id);
+            }
+            return PartialView("_Division", model);
+        }
         public ActionResult _Capability()
         {
             return PartialView();
@@ -349,8 +639,24 @@ namespace SAT.HR.Controllers
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new CapabilityRepository().GetCapability(search, draw, start, length, dir, column);
+            var dataTableData = new CapabilityRepository().GetPage(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult SaveDivision(DivisionViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (model.DivID != 0)
+                result = new DivisionRepository().UpdateByEntity(model);
+            else
+                result = new DivisionRepository().AddByEntity(model);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteDivision(int id)
+        {
+            var result = new DivisionRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -361,7 +667,15 @@ namespace SAT.HR.Controllers
         {
             return View();
         }
-
+        public ActionResult DivisionDetail(int? id)
+        {
+            DivisionViewModel model = new DivisionViewModel();
+            if (id.HasValue)
+            {
+                model = new DivisionRepository().GetByID((int)id);
+            }
+            return PartialView("_Division", model);
+        }
         public ActionResult _LeaveType()
         {
             return PartialView();
@@ -373,8 +687,24 @@ namespace SAT.HR.Controllers
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new LeaveTypeRepository().GetLeaveType(search, draw, start, length, dir, column);
+            var dataTableData = new LeaveTypeRepository().GetPage(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult SaveDivision(DivisionViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (model.DivID != 0)
+                result = new DivisionRepository().UpdateByEntity(model);
+            else
+                result = new DivisionRepository().AddByEntity(model);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteDivision(int id)
+        {
+            var result = new DivisionRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -385,7 +715,15 @@ namespace SAT.HR.Controllers
         {
             return View();
         }
-
+        public ActionResult DivisionDetail(int? id)
+        {
+            DivisionViewModel model = new DivisionViewModel();
+            if (id.HasValue)
+            {
+                model = new DivisionRepository().GetByID((int)id);
+            }
+            return PartialView("_Division", model);
+        }
         public ActionResult _Holiday()
         {
             return PartialView();
@@ -397,9 +735,26 @@ namespace SAT.HR.Controllers
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new HolidayRepository().GetHoliday(search, draw, start, length, dir, column);
+            var dataTableData = new HolidayRepository().GetPage(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult SaveDivision(DivisionViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (model.DivID != 0)
+                result = new DivisionRepository().UpdateByEntity(model);
+            else
+                result = new DivisionRepository().AddByEntity(model);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteDivision(int id)
+        {
+            var result = new DivisionRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         #region 17. รหัสการเคลื่อนไหว - ActionType
@@ -408,7 +763,15 @@ namespace SAT.HR.Controllers
         {
             return View();
         }
-
+        public ActionResult DivisionDetail(int? id)
+        {
+            DivisionViewModel model = new DivisionViewModel();
+            if (id.HasValue)
+            {
+                model = new DivisionRepository().GetByID((int)id);
+            }
+            return PartialView("_Division", model);
+        }
         public ActionResult _ActionType()
         {
             return PartialView();
@@ -420,8 +783,24 @@ namespace SAT.HR.Controllers
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new ActionTypeRepository().GetActionType(search, draw, start, length, dir, column);
+            var dataTableData = new ActionTypeRepository().GetPage(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult SaveDivision(DivisionViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (model.DivID != 0)
+                result = new DivisionRepository().UpdateByEntity(model);
+            else
+                result = new DivisionRepository().AddByEntity(model);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteDivision(int id)
+        {
+            var result = new DivisionRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion

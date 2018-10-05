@@ -9,7 +9,7 @@ namespace SAT.HR.Data.Repository
 {
     public class InsigniaRepository
     {
-        public InsigniaResult GetInsignia(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
+        public InsigniaResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
         {
             using (SATEntities db = new SATEntities())
             {

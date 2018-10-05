@@ -9,7 +9,7 @@ namespace SAT.HR.Data.Repository
 {
     public class UserRoleRepository
     {
-        public DivisionResult GetDivision(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
+        public DivisionResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
         {
             using (SATEntities db = new SATEntities())
             {

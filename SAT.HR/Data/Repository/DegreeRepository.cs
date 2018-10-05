@@ -9,7 +9,7 @@ namespace SAT.HR.Data.Repository
 {
     public class DegreeRepository
     {
-        public DegreeResult GetDegree(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
+        public DegreeResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
         {
             using (SATEntities db = new SATEntities())
             {

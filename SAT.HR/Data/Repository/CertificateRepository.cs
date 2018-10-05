@@ -9,7 +9,7 @@ namespace SAT.HR.Data.Repository
 {
     public class CertificateRepository
     {
-        public CertificateResult GetCertificate(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
+        public CertificateResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
         {
             using (SATEntities db = new SATEntities())
             {

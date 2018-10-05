@@ -9,7 +9,7 @@ namespace SAT.HR.Data.Repository
 {
     public class PositionRepository
     {
-        public PositionResult GetPosition(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
+        public PositionResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
         {
             using (SATEntities db = new SATEntities())
             {

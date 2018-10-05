@@ -9,7 +9,7 @@ namespace SAT.HR.Data.Repository
 {
     public class SalaryRepository
     {
-        public SalaryResult GetSalary(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
+        public SalaryResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
         {
             using (SATEntities db = new SATEntities())
             {

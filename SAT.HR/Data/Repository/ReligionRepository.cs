@@ -9,7 +9,7 @@ namespace SAT.HR.Data.Repository
 {
     public class ReligionRepository
     {
-        public ReligionResult GetReligion(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
+        public ReligionResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
         {
             using (SATEntities db = new SATEntities())
             {

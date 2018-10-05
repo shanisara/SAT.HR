@@ -9,7 +9,7 @@ namespace SAT.HR.Data.Repository
 {
     public class ActionTypeRepository
     {
-        public ActionTypeResult GetActionType(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
+        public ActionTypeResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
         {
             using (SATEntities db = new SATEntities())
             {
