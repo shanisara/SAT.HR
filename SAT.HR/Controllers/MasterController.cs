@@ -438,12 +438,12 @@ namespace SAT.HR.Controllers
 
         public ActionResult DegreeDetail(int? id)
         {
-            DivisionViewModel model = new DivisionViewModel();
+            DegreeViewModel model = new DegreeViewModel();
             if (id.HasValue)
             {
-                model = new DivisionRepository().GetByID((int)id);
+                model = new DegreeRepository().GetByID((int)id);
             }
-            return PartialView("_Division", model);
+            return PartialView("_Degree", model);
         }
 
         [HttpPost]
@@ -502,10 +502,10 @@ namespace SAT.HR.Controllers
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult SaveMajor(DivisionViewModel model)
+        public JsonResult SaveMajor(MajorViewModel model)
         {
             ResponseData result = new Models.ResponseData();
-            if (model.DivID != 0)
+            if (model.MajID != 0)
                 result = new MajorRepository().UpdateByEntity(model);
             else
                 result = new MajorRepository().AddByEntity(model);
@@ -574,14 +574,14 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult DivisionDetail(int? id)
+        public ActionResult ReligionDetail(int? id)
         {
-            DivisionViewModel model = new DivisionViewModel();
+            ReligionViewModel model = new ReligionViewModel();
             if (id.HasValue)
             {
-                model = new DivisionRepository().GetByID((int)id);
+                model = new ReligionRepository().GetByID((int)id);
             }
-            return PartialView("_Division", model);
+            return PartialView("_Religion", model);
         }
 
         [HttpPost]
@@ -594,20 +594,20 @@ namespace SAT.HR.Controllers
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult SaveDivision(DivisionViewModel model)
+        public JsonResult SaveReligion(ReligionViewModel model)
         {
             ResponseData result = new Models.ResponseData();
-            if (model.DivID != 0)
-                result = new DivisionRepository().UpdateByEntity(model);
+            if (model.RelD != 0)
+                result = new ReligionRepository().UpdateByEntity(model);
             else
-                result = new DivisionRepository().AddByEntity(model);
+                result = new ReligionRepository().AddByEntity(model);
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult DeleteDivision(int id)
+        public JsonResult DeleteReligion(int id)
         {
-            var result = new DivisionRepository().RemoveByID(id);
+            var result = new ReligionRepository().RemoveByID(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -619,18 +619,15 @@ namespace SAT.HR.Controllers
         {
             return View();
         }
-        public ActionResult DivisionDetail(int? id)
+
+        public ActionResult CapabilityDetail(int? id)
         {
-            DivisionViewModel model = new DivisionViewModel();
+            CapabilityViewModel model = new CapabilityViewModel();
             if (id.HasValue)
             {
-                model = new DivisionRepository().GetByID((int)id);
+                model = new CapabilityRepository().GetByID((int)id);
             }
-            return PartialView("_Division", model);
-        }
-        public ActionResult _Capability()
-        {
-            return PartialView();
+            return PartialView("_Capability", model);
         }
 
         [HttpPost]
@@ -642,20 +639,21 @@ namespace SAT.HR.Controllers
             var dataTableData = new CapabilityRepository().GetPage(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult SaveDivision(DivisionViewModel model)
+
+        public JsonResult SaveCapability(CapabilityViewModel model)
         {
             ResponseData result = new Models.ResponseData();
-            if (model.DivID != 0)
-                result = new DivisionRepository().UpdateByEntity(model);
+            if (model.CapID != 0)
+                result = new CapabilityRepository().UpdateByEntity(model);
             else
-                result = new DivisionRepository().AddByEntity(model);
+                result = new CapabilityRepository().AddByEntity(model);
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult DeleteDivision(int id)
+        public JsonResult DeleteCapability(int id)
         {
-            var result = new DivisionRepository().RemoveByID(id);
+            var result = new CapabilityRepository().RemoveByID(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -667,18 +665,15 @@ namespace SAT.HR.Controllers
         {
             return View();
         }
-        public ActionResult DivisionDetail(int? id)
+
+        public ActionResult LeaveTypeDetail(int? id)
         {
-            DivisionViewModel model = new DivisionViewModel();
+            LeaveTypeViewModel model = new LeaveTypeViewModel();
             if (id.HasValue)
             {
-                model = new DivisionRepository().GetByID((int)id);
+                model = new LeaveTypeRepository().GetByID((int)id);
             }
-            return PartialView("_Division", model);
-        }
-        public ActionResult _LeaveType()
-        {
-            return PartialView();
+            return PartialView("_LeaveType", model);
         }
 
         [HttpPost]
@@ -690,20 +685,21 @@ namespace SAT.HR.Controllers
             var dataTableData = new LeaveTypeRepository().GetPage(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult SaveDivision(DivisionViewModel model)
+
+        public JsonResult SaveLeaveType(LeaveTypeViewModel model)
         {
             ResponseData result = new Models.ResponseData();
-            if (model.DivID != 0)
-                result = new DivisionRepository().UpdateByEntity(model);
+            if (model.LevID != 0)
+                result = new LeaveTypeRepository().UpdateByEntity(model);
             else
-                result = new DivisionRepository().AddByEntity(model);
+                result = new LeaveTypeRepository().AddByEntity(model);
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult DeleteDivision(int id)
+        public JsonResult DeleteLeaveType(int id)
         {
-            var result = new DivisionRepository().RemoveByID(id);
+            var result = new LeaveTypeRepository().RemoveByID(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -715,18 +711,15 @@ namespace SAT.HR.Controllers
         {
             return View();
         }
-        public ActionResult DivisionDetail(int? id)
+
+        public ActionResult HolidayDetail(int? id)
         {
-            DivisionViewModel model = new DivisionViewModel();
+            HolidayViewModel model = new HolidayViewModel();
             if (id.HasValue)
             {
-                model = new DivisionRepository().GetByID((int)id);
+                model = new HolidayRepository().GetByID((int)id);
             }
-            return PartialView("_Division", model);
-        }
-        public ActionResult _Holiday()
-        {
-            return PartialView();
+            return PartialView("_Holiday", model);
         }
 
         [HttpPost]
@@ -738,20 +731,21 @@ namespace SAT.HR.Controllers
             var dataTableData = new HolidayRepository().GetPage(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult SaveDivision(DivisionViewModel model)
+
+        public JsonResult SaveHoliday(HolidayViewModel model)
         {
             ResponseData result = new Models.ResponseData();
-            if (model.DivID != 0)
-                result = new DivisionRepository().UpdateByEntity(model);
+            if (model.HolID != 0)
+                result = new HolidayRepository().UpdateByEntity(model);
             else
-                result = new DivisionRepository().AddByEntity(model);
+                result = new HolidayRepository().AddByEntity(model);
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult DeleteDivision(int id)
+        public JsonResult DeleteHoliday(int id)
         {
-            var result = new DivisionRepository().RemoveByID(id);
+            var result = new HolidayRepository().RemoveByID(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -763,18 +757,15 @@ namespace SAT.HR.Controllers
         {
             return View();
         }
-        public ActionResult DivisionDetail(int? id)
+
+        public ActionResult ActionTypeDetail(int? id)
         {
-            DivisionViewModel model = new DivisionViewModel();
+            ActionTypeViewModel model = new ActionTypeViewModel();
             if (id.HasValue)
             {
-                model = new DivisionRepository().GetByID((int)id);
+                model = new ActionTypeRepository().GetByID((int)id);
             }
-            return PartialView("_Division", model);
-        }
-        public ActionResult _ActionType()
-        {
-            return PartialView();
+            return PartialView("_ActionType", model);
         }
 
         [HttpPost]
@@ -786,20 +777,21 @@ namespace SAT.HR.Controllers
             var dataTableData = new ActionTypeRepository().GetPage(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult SaveDivision(DivisionViewModel model)
+
+        public JsonResult SaveActionType(ActionTypeViewModel model)
         {
             ResponseData result = new Models.ResponseData();
-            if (model.DivID != 0)
-                result = new DivisionRepository().UpdateByEntity(model);
+            if (model.ActID != 0)
+                result = new ActionTypeRepository().UpdateByEntity(model);
             else
-                result = new DivisionRepository().AddByEntity(model);
+                result = new ActionTypeRepository().AddByEntity(model);
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult DeleteDivision(int id)
+        public JsonResult DeleteActionType(int id)
         {
-            var result = new DivisionRepository().RemoveByID(id);
+            var result = new ActionTypeRepository().RemoveByID(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -809,7 +801,22 @@ namespace SAT.HR.Controllers
 
         public ActionResult SystemConfig()
         {
-            return View();
+            var data = new SystemConfigRepository().GetAll();
+            return View(data);
+        }
+
+        //[HttpPost]
+        //public JsonResult SystemConfigDetail()
+        //{
+        //    var data = new SystemConfigRepository().GetAll();
+        //    return Json(new { data = data }, JsonRequestBehavior.AllowGet);
+        //}
+
+        public JsonResult SaveSystemConfig(SystemConfigViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            result = new SystemConfigRepository().UpdateByEntity(model);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -820,20 +827,27 @@ namespace SAT.HR.Controllers
         {
             return View();
         }
-        public ActionResult _User()
+
+        public ActionResult UserDetail()
         {
-            return PartialView();
+            return PartialView("_User");
         }
-        public ActionResult _Role()
+
+        public ActionResult RoleDetail()
         {
-            return PartialView();
+            return PartialView("_Role");
         }
-        public ActionResult _UserRole()
+
+        public ActionResult UserRoleDetail()
         {
-            return PartialView();
+            return PartialView("_UserRole");
         }
 
         #endregion
 
+        #region 20. สายงาน
+
+
+        #endregion
     }
 }

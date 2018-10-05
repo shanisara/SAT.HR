@@ -9,9 +9,23 @@ namespace SAT.HR.Controllers
     public class PayrollController : Controller
     {
         // ระบบเงินเดือนและโบนัส
-        public ActionResult Index()
+
+        #region 1. การเลื่อนขั้นเงินเดือน
+
+        public ActionResult SalaryIncrease()
         {
             return View();
         }
+
+        #endregion
+
+        #region 2. การคำนวณโบนัส
+
+        public ActionResult BonusCalculator()
+        {
+            return View();
+        }
+
+        #endregion
     }
 }

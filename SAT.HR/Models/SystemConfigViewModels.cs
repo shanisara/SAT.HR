@@ -6,9 +6,13 @@ namespace SAT.HR.Models
 {
     public class SystemConfigViewModel
     {
+        public int RowNumber { get; set; }
+
         public string KeyName { get; set; }
 
         public string KeyValue { get; set; }
+
+        public string KeyDescription { get; set; }
 
         public DateTime? CreateDate { get; set; }
 

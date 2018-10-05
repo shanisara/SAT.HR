@@ -9,7 +9,7 @@ namespace SAT.HR.Data.Repository
 {
     public class SalaryRepository
     {
-        public SalaryResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
+        public SalaryRateResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
         {
             using (SATEntities db = new SATEntities())
             {
@@ -40,7 +40,7 @@ namespace SAT.HR.Data.Repository
                 int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
                 int length = pageSize ?? 10;
 
-                var list = data.Select((s, i) => new SalaryViewModel()
+                var list = data.Select((s, i) => new SalaryRateViewModel()
                 {
                     RowNumber = i + 1,
                     SaID = s.SaID,
@@ -50,7 +50,7 @@ namespace SAT.HR.Data.Repository
                 }).Skip(start * length).Take(length).ToList();
 
 
-                SalaryResult result = new SalaryResult();
+                SalaryRateResult result = new SalaryRateResult();
                 result.draw = draw ?? 0;
                 result.recordsTotal = recordsTotal;
                 result.recordsFiltered = recordsFiltered;

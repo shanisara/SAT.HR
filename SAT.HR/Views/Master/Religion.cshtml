@@ -1,3 +1,4 @@
+<<<<<<< HEAD:SAT.HR/SAT.HR/Views/Master/Religion.cshtml
 ﻿
 @{
     ViewBag.Title = "Religion";
@@ -150,4 +151,205 @@
 
         });
     </script>
+=======
+﻿
+@{
+    ViewBag.Title = "Division";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">assignment</i>
+                        </div>
+                        <h4 class="card-title">รายการฝ่าย</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="toolbar">
+                            <button class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#modalDivsion" id="btnAdd"><i class="material-icons">add</i> เพิ่มฝ่าย</button>
+                        </div>
+                        <div class="material-datatables">
+                            <table id="datatables" data-url="@Url.Content("~/Master/Division")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th style="width:10%">ลำดับ</th>
+                                        <th style="width:70%">ฝ่าย</th>
+                                        <th style="width:10%">สถานะ</th>
+                                        <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- end content -->
+                </div>
+                <!--  end card  -->
+            </div>
+            <!-- end col-md-12 -->
+        </div>
+        <!-- end row -->
+    </div>
+</div>
+
+<!-- Classic Modal -->
+<div class="modal fade" id="modalDivsion" tabindex="-1" role="dialog" aria-labelledby="modalDivsionLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">ข้อมูลกอง</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="material-icons">clear</i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div class="container-fluid">
+                        <div id="divsion"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSave" type="button" class="btn btn-link">Submit</button>
+                <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  End Modal -->
+
+
+
+@section Scripts {
+
+    <script>
+
+        $(document).ready(function () {
+
+            $('#datatables').DataTable({
+                "proccessing": true,
+                "serverSide": true,
+                responsive: true,
+                language: {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search records",
+                },
+                ajax: {
+                    url: "@Url.Action("DivisionList", "Master")",
+                    dataType: "json",
+                    type: "POST",
+                },
+                "columns": [
+                    { "data": "RowNumber", "orderable": true },
+                    { "data": "DivName", "orderable": true },
+                    { "data": "DivStatus", "orderable": true }
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return '<div class="td-actions text-left">' + data + '</div>';
+                        }, "targets": 0
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<div class="td-actions text-left">' + data + '</div>';
+                        }, "targets": 1
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return "<div class='td-actions text-right'>" +
+                                        "<button type='button' rel='tooltip' class='btn btn-round btn-success edit'><i class='material-icons'>edit</i></button>&nbsp;&nbsp;&nbsp;" +
+                                        "<button type='button' rel='tooltip' class='btn btn-round btn-danger remove'><i class='material-icons'>close</i></button>" +
+                                   "</div>";
+                        }, "targets": 3
+                    }
+                ],
+                "order": [[1, "asc"]],
+                "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                "pagingType": "full_numbers",
+            });
+
+
+            var table = $('#datatables').DataTable();
+
+            // Edit record
+            table.on('click', '.edit', function () {
+                $tr = $(this).closest('tr');
+                var data = table.row($tr).data();
+                var url = '@Url.Action("DivisionDetail", "Master")/' + data.DivID;
+                $.post(url, function (data) {
+                    $("#divsion").html(data);
+                    $('#modalDivsion').modal('show');
+                });
+            });
+
+            // Delete a record
+            table.on('click', '.remove', function (e) {
+                /////////// เพิ่ม confirm alert();
+
+                $tr = $(this).closest('tr');
+                var data = table.row($tr).data();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("DeleteDivision", "Master")/' + data.DivID,
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.MessageCode == "") {
+                            ///////////เพิ่ม alert deleted success
+
+                        }
+                        else {
+                            alert(res.MessageText);
+                        }
+                    }
+                });
+                e.preventDefault();
+            });
+
+            // Add record
+            $("#btnAdd").click(function () {
+                var url = '@Url.Action("DivisionDetail", "Master")';
+                $.post(url, function (data) {
+                    $("#divsion").html(data);
+                    $('#modalDivsion').modal('show');
+                });
+            });
+
+            // Save record
+            $("#btnSave").click(function () {
+                var status = $("#divisionform").valid();
+                if (status) {
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("SaveDivision", "Master")',
+                        data: $("#divisionform").serialize(),
+                        dataType: 'json',
+                        success: function (res) {
+                            if (res.MessageCode != null) {
+                                alert(res.MessageText);
+                            }
+                            else {
+                                ///////////เพิ่ม alert save success
+                                $('#modalDivsion').modal('hide');
+                            }
+                        }
+                    });
+                }
+                
+            });
+
+           
+
+        });
+
+
+
+    </script>
+>>>>>>> 8df5c5029a358487d63263b7ae6c34791a6c1afe:SAT.HR/Views/Master/Division.cshtml
 }
