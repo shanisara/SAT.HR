@@ -12,7 +12,7 @@ namespace SAT.HR.Models
 
         public string NatName { get; set; }
 
-        public bool? NatStatus { get; set; }
+        public string NatStatus { get; set; }
 
         public DateTime? CreateDate { get; set; }
 

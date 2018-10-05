@@ -37,9 +37,9 @@ namespace SAT.HR.Data.Repository
                 var list = data.Select((s, i) => new ActionTypeViewModel()
                 {
                     RowNumber = ++i,
-                    ActCode = s.ActCode,
-                    ActName = s.ActName,
-                    ActType = s.ActType
+                    ActID = s.ActID,
+                    ActName = s.ActName
+                    //ActType = s.ActType
                 }).Skip(start * length).Take(length).ToList();
 
 

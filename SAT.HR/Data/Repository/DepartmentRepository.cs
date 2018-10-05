@@ -13,19 +13,22 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.tb_Department.ToList();
+                var data = db.vw_Department.ToList();
 
                 int recordsTotal = data.Count();
 
                 if (!string.IsNullOrEmpty(filter))
                 {
-                    data = data.Where(x => x.DepName.Contains(filter)).ToList();
+                    data = data.Where(x => x.DivName.Contains(filter) || x.DepName.Contains(filter)).ToList();
                 }
 
                 int recordsFiltered = data.Count();
 
                 switch (sortBy)
                 {
+                    case "DivName":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.DivName).ToList() : data.OrderByDescending(x => x.DivName).ToList();
+                        break;
                     case "DepName":
                         data = (sortDir == "asc") ? data.OrderBy(x => x.DepName).ToList() : data.OrderByDescending(x => x.DepName).ToList();
                         break;
@@ -33,18 +36,17 @@ namespace SAT.HR.Data.Repository
 
                 int start = initialPage.HasValue ? (int)initialPage / 10 : 0;
                 int length = pageSize ?? 10;
-                data = data.Skip(start * length).Take(length).ToList();
 
-                List<DepartmentViewModel> list = new List<Models.DepartmentViewModel>();
-                foreach (var m in data)
+                var list = data.Select((s, i) => new DepartmentViewModel()
                 {
-                    DepartmentViewModel model = new Models.DepartmentViewModel();
-                    model.DepID = m.DepID;
-                    model.DivID = m.DivID;
-                    //model.DepCode = m.DepCode;
-                    model.DepName = m.DepName;
-                    list.Add(model);
-                }
+                    RowNumber = i + 1,
+                    DepID = s.DepID,
+                    DepName = s.DepName,
+                    DivID = s.DivID,
+                    DivName = s.DivName,
+                    DepStatus = s.DepStatus
+                }).Skip(start * length).Take(length).ToList();
+
 
                 DepartmentResult result = new DepartmentResult();
                 result.draw = draw ?? 0;

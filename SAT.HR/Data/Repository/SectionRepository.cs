@@ -13,19 +13,25 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.tb_Section.ToList();
+                var data = db.vw_Section.ToList();
 
                 int recordsTotal = data.Count();
 
                 if (!string.IsNullOrEmpty(filter))
                 {
-                    data = data.Where(x => x.SecName.Contains(filter)).ToList();
+                    data = data.Where(x => x.DivName.Contains(filter) || x.DepName.Contains(filter) || x.SecName.Contains(filter)).ToList();
                 }
 
                 int recordsFiltered = data.Count();
 
                 switch (sortBy)
                 {
+                    case "DivName":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.DivName).ToList() : data.OrderByDescending(x => x.DivName).ToList();
+                        break;
+                    case "DepName":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.DepName).ToList() : data.OrderByDescending(x => x.DepName).ToList();
+                        break;
                     case "SecName":
                         data = (sortDir == "asc") ? data.OrderBy(x => x.SecName).ToList() : data.OrderByDescending(x => x.SecName).ToList();
                         break;
@@ -33,18 +39,18 @@ namespace SAT.HR.Data.Repository
 
                 int start = initialPage.HasValue ? (int)initialPage / 10 : 0;
                 int length = pageSize ?? 10;
-                data = data.Skip(start * length).Take(length).ToList();
 
-                List<SectionViewModel> list = new List<Models.SectionViewModel>();
-                foreach (var m in data)
+                var list = data.Select((m, i) => new SectionViewModel()
                 {
-                    SectionViewModel model = new Models.SectionViewModel();
-                    model.SecID = m.SecID;
-                    //model.SecCode = m.SecCode;
-                    model.SecName = m.SecName;
-                    model.SecStatus = m.SecStatus;
-                    list.Add(model);
-                }
+                    RowNumber = i + 1,
+                    SecID = m.SecID,
+                    SecName = m.SecName,
+                    SecStatus = m.SecStatus,
+                    DivID = m.DivID,
+                    DivName = m.DivName,
+                    DepID = m.DepID,
+                    DepName = m.DepName,
+                }).Skip(start * length).Take(length).ToList();
 
                 SectionResult result = new SectionResult();
                 result.draw = draw ?? 0;

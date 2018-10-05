@@ -19,15 +19,15 @@ namespace SAT.HR.Data.Repository
 
                 if (!string.IsNullOrEmpty(filter))
                 {
-                    data = data.Where(x => x.HolYear.Contains(filter)).ToList();
+                    data = data.Where(x => x.HolDescription.Contains(filter)).ToList();
                 }
 
                 int recordsFiltered = data.Count();
 
                 switch (sortBy)
                 {
-                    case "HolYear":
-                        data = (sortDir == "asc") ? data.OrderBy(x => x.HolYear).ToList() : data.OrderByDescending(x => x.HolYear).ToList();
+                    case "HolDescription":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.HolDescription).ToList() : data.OrderByDescending(x => x.HolDescription).ToList();
                         break;
                 }
 
@@ -40,7 +40,7 @@ namespace SAT.HR.Data.Repository
                 {
                     HolidayViewModel model = new Models.HolidayViewModel();
                     model.HolID = m.HolID;
-                    model.HolYear = m.HolYear;
+                    model.HolYear = Convert.ToDateTime(m.HolDate).ToString("yyyy");
                     model.HolDate = m.HolDate;
                     model.HolDesc = m.HolDescription;
                     list.Add(model);
