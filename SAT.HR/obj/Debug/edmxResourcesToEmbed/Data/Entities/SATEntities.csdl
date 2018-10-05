@@ -9,7 +9,6 @@
     <EntitySet Name="tb_Department" EntityType="SAT.HR.tb_Department" />
     <EntitySet Name="tb_Division" EntityType="SAT.HR.tb_Division" />
     <EntitySet Name="tb_DocNumber" EntityType="SAT.HR.tb_DocNumber" />
-    <EntitySet Name="tb_Education" EntityType="SAT.HR.tb_Education" />
     <EntitySet Name="tb_GroupRole" EntityType="SAT.HR.tb_GroupRole" />
     <EntitySet Name="tb_Holiday" EntityType="SAT.HR.tb_Holiday" />
     <EntitySet Name="tb_Insignia" EntityType="SAT.HR.tb_Insignia" />
@@ -64,6 +63,8 @@
     </AssociationSet>
     <EntitySet Name="tb_Position" EntityType="SAT.HR.tb_Position" />
     <EntitySet Name="tb_SalaryRate" EntityType="SAT.HR.tb_SalaryRate" />
+    <EntitySet Name="tb_Education" EntityType="SAT.HR.tb_Education" />
+    <EntitySet Name="vw_Title" EntityType="SAT.HR.vw_Title" />
   </EntityContainer>
   <EntityType Name="tb_ActionType">
     <Key>
@@ -173,19 +174,6 @@
     <Property Name="ResetYear" Type="Boolean" />
     <Property Name="LastMonth" Type="Int32" />
     <Property Name="LastYear" Type="Int32" />
-  </EntityType>
-  <EntityType Name="tb_Education">
-    <Key>
-      <PropertyRef Name="EduID" />
-    </Key>
-    <Property Name="EduID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="EduCode" Type="Int32" />
-    <Property Name="EduName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="EduStatus" Type="Boolean" />
-    <Property Name="CreateDate" Type="DateTime" Precision="3" />
-    <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="tb_GroupRole">
     <Key>
@@ -538,5 +526,29 @@
     <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tb_Education">
+    <Key>
+      <PropertyRef Name="EduID" />
+    </Key>
+    <Property Name="EduID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EduCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="EduName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="EduStatus" Type="Boolean" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="vw_Title">
+    <Key>
+      <PropertyRef Name="TiID" />
+    </Key>
+    <Property Name="TiID" Type="Int32" Nullable="false" />
+    <Property Name="TiFullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="TiShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="TiStatus" Type="Boolean" />
+    <Property Name="SexID" Type="Int32" />
+    <Property Name="SexName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
   </EntityType>
 </Schema>

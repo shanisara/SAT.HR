@@ -14,6 +14,8 @@ namespace SAT.HR.Models
 
         public DateTime? HolDate { get; set; }
 
+        public string HolDateText { get; set; }
+
         public string HolDescription { get; set; }
 
         public DateTime? CreateDate { get; set; }

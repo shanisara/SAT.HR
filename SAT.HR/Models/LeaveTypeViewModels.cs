@@ -12,6 +12,8 @@ namespace SAT.HR.Models
 
         public string LevYear { get; set; }
 
+        public string LevName { get; set; }
+
         public DateTime? LevStartDate { get; set; }
 
         public DateTime? LevEndDate { get; set; }
@@ -27,6 +29,10 @@ namespace SAT.HR.Models
         public DateTime? ModifyDate { get; set; }
 
         public string ModifyBy { get; set; }
+
+        public string LevStartDateText { get; set; }
+
+        public string LevEndDateText { get; set; }
     }
 
     public class LeaveTypeResult

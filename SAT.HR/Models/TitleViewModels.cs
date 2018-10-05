@@ -14,7 +14,7 @@ namespace SAT.HR.Models
 
         public string TiShortName { get; set; }
 
-        public int SexID { get; set; }
+        public int? SexID { get; set; }
 
         public string SexName { get; set; }
 

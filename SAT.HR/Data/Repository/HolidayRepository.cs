@@ -29,6 +29,9 @@ namespace SAT.HR.Data.Repository
                     case "HolDescription":
                         data = (sortDir == "asc") ? data.OrderBy(x => x.HolDescription).ToList() : data.OrderByDescending(x => x.HolDescription).ToList();
                         break;
+                    case "HolDateText":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.HolDate).ToList() : data.OrderByDescending(x => x.HolDate).ToList();
+                        break;
                 }
 
                 int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
@@ -41,7 +44,7 @@ namespace SAT.HR.Data.Repository
                     HolDate = s.HolDate,
                     HolDescription = s.HolDescription,
                     HolYear = s.HolDate.Value.Year,
-                    
+                    HolDateText = s.HolDate.Value.ToString("dd/MM/yyyy"),
                 }).Skip(start * length).Take(length).ToList();
 
                 HolidayResult result = new HolidayResult();

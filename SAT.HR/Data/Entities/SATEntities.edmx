@@ -113,7 +113,7 @@
             <PropertyRef Name="EduID" />
           </Key>
           <Property Name="EduID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="EduCode" Type="int" />
+          <Property Name="EduCode" Type="nvarchar" MaxLength="10" />
           <Property Name="EduName" Type="nvarchar" MaxLength="200" />
           <Property Name="EduStatus" Type="bit" />
           <Property Name="CreateDate" Type="datetime" />
@@ -357,6 +357,19 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primar
           <Property Name="SecName" Type="nvarchar" MaxLength="200" />
           <Property Name="SecStatus" Type="bit" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_Title">
+          <Key>
+            <PropertyRef Name="TiID" />
+          </Key>
+          <Property Name="TiID" Type="int" Nullable="false" />
+          <Property Name="TiFullName" Type="nvarchar" MaxLength="100" />
+          <Property Name="TiShortName" Type="nvarchar" MaxLength="100" />
+          <Property Name="TiStatus" Type="bit" />
+          <Property Name="SexID" Type="int" />
+          <Property Name="SexName" Type="nchar" MaxLength="10" />
+        </EntityType>
         <Association Name="FK_tb_Capability_tb_Capability">
           <End Role="tb_CapabilityType" Type="Self.tb_CapabilityType" Multiplicity="0..1" />
           <End Role="tb_Capability" Type="Self.tb_Capability" Multiplicity="*" />
@@ -514,6 +527,16 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primar
     [vw_Section].[SecStatus] AS [SecStatus]
     FROM [dbo].[vw_Section] AS [vw_Section]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_Title" EntityType="Self.vw_Title" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_Title].[TiID] AS [TiID], 
+    [vw_Title].[TiFullName] AS [TiFullName], 
+    [vw_Title].[TiShortName] AS [TiShortName], 
+    [vw_Title].[TiStatus] AS [TiStatus], 
+    [vw_Title].[SexID] AS [SexID], 
+    [vw_Title].[SexName] AS [SexName]
+    FROM [dbo].[vw_Title] AS [vw_Title]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_tb_Capability_tb_Capability" Association="Self.FK_tb_Capability_tb_Capability">
             <End Role="tb_CapabilityType" EntitySet="tb_CapabilityType" />
             <End Role="tb_Capability" EntitySet="tb_Capability" />
@@ -564,7 +587,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primar
           <EntitySet Name="tb_Department" EntityType="SAT.HR.tb_Department" />
           <EntitySet Name="tb_Division" EntityType="SAT.HR.tb_Division" />
           <EntitySet Name="tb_DocNumber" EntityType="SAT.HR.tb_DocNumber" />
-          <EntitySet Name="tb_Education" EntityType="SAT.HR.tb_Education" />
           <EntitySet Name="tb_GroupRole" EntityType="SAT.HR.tb_GroupRole" />
           <EntitySet Name="tb_Holiday" EntityType="SAT.HR.tb_Holiday" />
           <EntitySet Name="tb_Insignia" EntityType="SAT.HR.tb_Insignia" />
@@ -619,6 +641,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primar
           </AssociationSet>
           <EntitySet Name="tb_Position" EntityType="SAT.HR.tb_Position" />
           <EntitySet Name="tb_SalaryRate" EntityType="SAT.HR.tb_SalaryRate" />
+          <EntitySet Name="tb_Education" EntityType="SAT.HR.tb_Education" />
+          <EntitySet Name="vw_Title" EntityType="SAT.HR.vw_Title" />
         </EntityContainer>
         <EntityType Name="tb_ActionType">
           <Key>
@@ -728,19 +752,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primar
           <Property Name="ResetYear" Type="Boolean" />
           <Property Name="LastMonth" Type="Int32" />
           <Property Name="LastYear" Type="Int32" />
-        </EntityType>
-        <EntityType Name="tb_Education">
-          <Key>
-            <PropertyRef Name="EduID" />
-          </Key>
-          <Property Name="EduID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EduCode" Type="Int32" />
-          <Property Name="EduName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="EduStatus" Type="Boolean" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="tb_GroupRole">
           <Key>
@@ -1094,6 +1105,30 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primar
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="tb_Education">
+          <Key>
+            <PropertyRef Name="EduID" />
+          </Key>
+          <Property Name="EduID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EduCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="EduName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="EduStatus" Type="Boolean" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="vw_Title">
+          <Key>
+            <PropertyRef Name="TiID" />
+          </Key>
+          <Property Name="TiID" Type="Int32" Nullable="false" />
+          <Property Name="TiFullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TiShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TiStatus" Type="Boolean" />
+          <Property Name="SexID" Type="Int32" />
+          <Property Name="SexName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1208,20 +1243,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primar
                 <ScalarProperty Name="DocName" ColumnName="DocName" />
                 <ScalarProperty Name="DocCode" ColumnName="DocCode" />
                 <ScalarProperty Name="ObjectID" ColumnName="ObjectID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tb_Education">
-            <EntityTypeMapping TypeName="SAT.HR.tb_Education">
-              <MappingFragment StoreEntitySet="tb_Education">
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="EduStatus" ColumnName="EduStatus" />
-                <ScalarProperty Name="EduName" ColumnName="EduName" />
-                <ScalarProperty Name="EduCode" ColumnName="EduCode" />
-                <ScalarProperty Name="EduID" ColumnName="EduID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1471,6 +1492,32 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primar
                 <ScalarProperty Name="SaStep" ColumnName="SaStep" />
                 <ScalarProperty Name="SaLevel" ColumnName="SaLevel" />
                 <ScalarProperty Name="SaID" ColumnName="SaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Education">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Education">
+              <MappingFragment StoreEntitySet="tb_Education">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="EduStatus" ColumnName="EduStatus" />
+                <ScalarProperty Name="EduName" ColumnName="EduName" />
+                <ScalarProperty Name="EduCode" ColumnName="EduCode" />
+                <ScalarProperty Name="EduID" ColumnName="EduID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_Title">
+            <EntityTypeMapping TypeName="SAT.HR.vw_Title">
+              <MappingFragment StoreEntitySet="vw_Title">
+                <ScalarProperty Name="SexName" ColumnName="SexName" />
+                <ScalarProperty Name="SexID" ColumnName="SexID" />
+                <ScalarProperty Name="TiStatus" ColumnName="TiStatus" />
+                <ScalarProperty Name="TiShortName" ColumnName="TiShortName" />
+                <ScalarProperty Name="TiFullName" ColumnName="TiFullName" />
+                <ScalarProperty Name="TiID" ColumnName="TiID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -38,6 +38,7 @@ namespace SAT.HR.Data.Repository
                 {
                     RowNumber = ++i,
                     EduID = s.EduID,
+                    EduCode = s.EduCode,
                     EduName = s.EduName,
                     EduStatus = s.EduStatus,
                 }).Skip(start * length).Take(length).ToList();

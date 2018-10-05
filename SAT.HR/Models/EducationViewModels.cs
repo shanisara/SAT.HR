@@ -10,6 +10,8 @@ namespace SAT.HR.Models
 
         public int EduID { get; set; }
 
+        public string EduCode { get; set; }
+
         public string EduName { get; set; }
 
         public bool? EduStatus { get; set; }

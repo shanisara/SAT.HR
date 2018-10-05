@@ -108,7 +108,7 @@
       <PropertyRef Name="EduID" />
     </Key>
     <Property Name="EduID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="EduCode" Type="int" />
+    <Property Name="EduCode" Type="nvarchar" MaxLength="10" />
     <Property Name="EduName" Type="nvarchar" MaxLength="200" />
     <Property Name="EduStatus" Type="bit" />
     <Property Name="CreateDate" Type="datetime" />
@@ -352,6 +352,19 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primar
     <Property Name="SecName" Type="nvarchar" MaxLength="200" />
     <Property Name="SecStatus" Type="bit" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Title">
+    <Key>
+      <PropertyRef Name="TiID" />
+    </Key>
+    <Property Name="TiID" Type="int" Nullable="false" />
+    <Property Name="TiFullName" Type="nvarchar" MaxLength="100" />
+    <Property Name="TiShortName" Type="nvarchar" MaxLength="100" />
+    <Property Name="TiStatus" Type="bit" />
+    <Property Name="SexID" Type="int" />
+    <Property Name="SexName" Type="nchar" MaxLength="10" />
+  </EntityType>
   <Association Name="FK_tb_Capability_tb_Capability">
     <End Role="tb_CapabilityType" Type="Self.tb_CapabilityType" Multiplicity="0..1" />
     <End Role="tb_Capability" Type="Self.tb_Capability" Multiplicity="*" />
@@ -508,6 +521,16 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primar
     [vw_Section].[SecName] AS [SecName], 
     [vw_Section].[SecStatus] AS [SecStatus]
     FROM [dbo].[vw_Section] AS [vw_Section]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Title" EntityType="Self.vw_Title" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Title].[TiID] AS [TiID], 
+    [vw_Title].[TiFullName] AS [TiFullName], 
+    [vw_Title].[TiShortName] AS [TiShortName], 
+    [vw_Title].[TiStatus] AS [TiStatus], 
+    [vw_Title].[SexID] AS [SexID], 
+    [vw_Title].[SexName] AS [SexName]
+    FROM [dbo].[vw_Title] AS [vw_Title]</DefiningQuery>
     </EntitySet>
     <AssociationSet Name="FK_tb_Capability_tb_Capability" Association="Self.FK_tb_Capability_tb_Capability">
       <End Role="tb_CapabilityType" EntitySet="tb_CapabilityType" />

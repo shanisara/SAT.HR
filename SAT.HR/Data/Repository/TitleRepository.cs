@@ -13,7 +13,7 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.tb_Title.ToList();
+                var data = db.vw_Title.ToList();
 
                 int recordsTotal = data.Count();
 
@@ -27,8 +27,11 @@ namespace SAT.HR.Data.Repository
                 switch (sortBy)
                 {
                     case "TiFullName":
-                        data = (sortDir == "asc") ? data.OrderBy(x => x.TiFullName).ToList() : data.OrderByDescending(x => x.TiFullName).ToList();
-                        break;
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.TiFullName).ToList() : data.OrderByDescending(x => x.TiFullName).ToList(); break;
+                    case "TiShortName":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.TiShortName).ToList() : data.OrderByDescending(x => x.TiShortName).ToList(); break;
+                    case "SexName":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.SexName).ToList() : data.OrderByDescending(x => x.SexName).ToList(); break;
                 }
 
                 int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
@@ -40,7 +43,9 @@ namespace SAT.HR.Data.Repository
                     TiID = s.TiID,
                     TiFullName = s.TiFullName,
                     TiShortName = s.TiShortName,
-                    TiStatus = s.TiStatus
+                    TiStatus = s.TiStatus,
+                    SexID = s.SexID,
+                    SexName = s.SexName,
                 }).Skip(start * length).Take(length).ToList();
 
                 TitleResult result = new TitleResult();

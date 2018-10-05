@@ -29,6 +29,7 @@ namespace SAT.HR.Data.Repository
                     case "ActName":
                         data = (sortDir == "asc") ? data.OrderBy(x => x.ActName).ToList() : data.OrderByDescending(x => x.ActName).ToList();
                         break;
+                    
                 }
 
                 int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;

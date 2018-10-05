@@ -24,12 +24,13 @@
                                 <thead>
                                     <tr>
                                         <th style="width:10%">ลำดับ</th>
-                                        <th style="width:10%">ปี</th>
-                                        <th style="width:40%">ประเภทการลา</th>
-                                        <th style="width:10%">วันที่เริ่ม</th>
-                                        <th style="width:10%">วันที่สิ้นสุด</th>
-                                        <th style="width:10%">สิทธิลาสูงสุด</th>
-                                        <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
+                                        <th style="width:8%">ปี</th>
+                                        <th style="width:25%">ประเภทการลา</th>
+                                        <th style="width:12%">วันที่เริ่ม</th>
+                                        <th style="width:12%">วันที่สิ้นสุด</th>
+                                        <th style="width:13%">สิทธิลาสูงสุด</th>
+                                        <th style="width:10%">สถานะ</th>
+                                        <th style="width:15%" class="disabled-sorting text-right">ปฏิบัติการ</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -121,7 +122,6 @@
 </div>
 <!--  End Modal -->
 
-
 @section Scripts {
     <script>
         $(document).ready(function () {
@@ -143,21 +143,26 @@
                     { "data": "RowNumber", "orderable": true },
                     { "data": "LevYear", "orderable": true },
                     { "data": "LevName", "orderable": true },
-                    { "data": "LevStartDate", "orderable": true },
-                    { "data": "LevEndDate", "orderable": true },
+                    { "data": "LevStartDateText", "orderable": true },
+                    { "data": "LevEndDateText", "orderable": true },
                     { "data": "LevMax", "orderable": true },
-                    { "data": "DivStatus", "orderable": false, "searchable": false }
+                    { "data": "LevStatus", "orderable": true }
                 ],
                 "columnDefs": [
-                    {
+                   {
                         "render": function (data, type, row) {
-                            return "<div class='td-actions text-right'>" +
-                                "<button type='button' rel='tooltip' class='btn btn-round btn-success'><i class='material-icons'>edit</i></button>" +
-                                "&nbsp;&nbsp;&nbsp;" +
-                                "<button type='button' rel='tooltip' class='btn btn-round btn-danger'><i class='material-icons'>close</i></button>" +
-                                "</div>";
-                        }, "targets": 7
-                    },
+                            return '<div class="td-actions text-right">' + data + '</div>';
+                        }, "targets": 6
+                   },
+                   {
+                       "render": function (data, type, row) {
+                           return "<div class='td-actions text-right'>" +
+                               "<button type='button' rel='tooltip' class='btn btn-round  btn-success'><i class='material-icons'>edit</i></button>" +
+                               "&nbsp;&nbsp;&nbsp;" +
+                               "<button type='button' rel='tooltip' class='btn btn-round  btn-danger'><i class='material-icons'>close</i></button>" +
+                               "</div>";
+                       }, "targets": 7
+                   },
                 ],
                 "order": [[1, "asc"]],
                 "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
