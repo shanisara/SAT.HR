@@ -72,6 +72,20 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<DivisionViewModel> GetAll()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Division.Select(s => new DivisionViewModel()
+                {
+                    DivID = s.DivID,
+                    DivName = s.DivName,
+                    DivStatus = s.DivStatus
+                }).OrderBy(x => x.DivName).ToList();
+                return list;
+            }
+        }
+
         public ResponseData AddByEntity(DivisionViewModel data)
         {
             using (SATEntities db = new SATEntities())

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SAT.HR.Models
 {
-    public class SystemConfigViewModel
+    public class SysConfigViewModel
     {
         public int RowNumber { get; set; }
 
@@ -12,7 +12,7 @@ namespace SAT.HR.Models
 
         public string KeyValue { get; set; }
 
-        public string KeyDescription { get; set; }
+        public string KeyDesc { get; set; }
 
         public DateTime? CreateDate { get; set; }
 

@@ -58,6 +58,20 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<DepartmentViewModel> GetAll()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Department.Select(s => new DepartmentViewModel()
+                {
+                    DepID = s.DepID,
+                    DepName = s.DepName,
+                    DepStatus = s.DepStatus
+                }).OrderBy(x => x.DepName).ToList();
+                return list;
+            }
+        }
+
         public DepartmentViewModel GetByID(int id)
         {
             using (SATEntities db = new SATEntities())

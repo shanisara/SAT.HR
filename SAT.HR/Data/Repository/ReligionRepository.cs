@@ -52,6 +52,20 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<ReligionViewModel> GetAll()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Religion.Select(s => new ReligionViewModel()
+                {
+                    RelD = s.RelD,
+                    RelName = s.RelName,
+                    RelStatus = s.RelStatus,
+                }).OrderBy(x => x.RelName).ToList();
+                return list;
+            }
+        }
+
         public ReligionViewModel GetByID(int id)
         {
             using (SATEntities db = new SATEntities())

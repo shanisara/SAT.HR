@@ -58,6 +58,19 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<DisciplineViewModel> GetAll()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Discipline.Select(s => new DisciplineViewModel()
+                {
+                    DisID = s.DisID,
+                    DisName = s.DisName,
+                }).OrderBy(x => x.DisName).ToList();
+                return list;
+            }
+        }
+
         public DisciplineViewModel GetByID(int id)
         {
             using (SATEntities db = new SATEntities())

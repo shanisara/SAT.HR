@@ -17,10 +17,10 @@ namespace SAT.HR.Data.Repository
 
                 int recordsTotal = data.Count();
 
-                if (!string.IsNullOrEmpty(filter))
-                {
-                    data = data.Where(x => x.CapYear.Contains(filter)).ToList();
-                }
+                //if (!string.IsNullOrEmpty(filter))
+                //{
+                //    data = data.Where(x => x.CapYear.Contains(filter)).ToList();
+                //}
 
                 int recordsFiltered = data.Count();
 
@@ -66,6 +66,22 @@ namespace SAT.HR.Data.Repository
                 model.MenuID = data.MenuID;
                 model.CapGroupID = data.CapGroupID;
                 return model;
+            }
+        }
+
+        public List<CapabilityViewModel> GetAll()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Capability.Select(s => new CapabilityViewModel()
+                {
+                    CapID = s.CapID,
+                    CapYear = s.CapYear,
+                    CapTID = s.CapTID,
+                    MenuID = s.MenuID,
+                    CapGroupID = s.CapGroupID,
+                }).OrderBy(x => x.CapYear).ToList();
+                return list;
             }
         }
 

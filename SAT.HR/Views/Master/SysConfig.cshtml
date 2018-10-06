@@ -1,0 +1,86 @@
+﻿@model List<SAT.HR.Models.SysConfigViewModel>
+
+@{
+    ViewBag.Title = "SystemConfig";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-icon card-header-primary">
+                        <div class="card-icon">
+                            <i class="material-icons">perm_identity</i>
+                        </div>
+                        <h4 class="card-title">
+                            ค่าคงที่ระบบ @*<small class="category">Complete your profile</small>*@
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table" id="table-config">
+                                <thead class="text-primary">
+                                    <th style="width:30%">รายการ</th>
+                                    <th style="width:70%">ค่าคงที่</th>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            @Html.Hidden("KeyName", item.KeyName)
+                                            <td>@item.KeyDesc</td>
+                                            <td>@Html.TextBox("KeyValue", item.KeyValue)</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <button class="btn btn-primary pull-right" type="button" id="btnSave">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            $("#btnSave").click(function () {
+                var $tableList = $('#table-config tbody tr');
+                var postData = [];
+
+                $tableList.each(function (i, tr) {
+                    var keyname = $(tr).find('input[name="KeyName"]').val();
+                    var keyvalue = $(tr).find('input[name="KeyValue"]').val();
+                    postData.push({ "KeyName": keyname, "KeyValue": keyvalue });
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SaveSysConfig", "Master")',
+                    data: JSON.stringify(postData),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function (res) {
+                        if (res.MessageCode == null) {
+                            swal({
+                                title: "Save success!",
+                                text: "Your record has been submited.",
+                                type: "success",
+                                buttonsStyling: false,
+                                confirmButtonClass: "btn btn-success",
+                            }).catch(swal.noop)
+                        }
+                    }
+                });
+
+            });
+        });
+
+    </script>
+}

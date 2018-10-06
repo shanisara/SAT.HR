@@ -56,6 +56,21 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<EducationViewModel> GetAll()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Education.Select(s => new EducationViewModel()
+                {
+                    EduID = s.EduID,
+                    EduCode = s.EduCode,
+                    EduName = s.EduName,
+                    EduStatus = s.EduStatus,
+                }).OrderBy(x => x.EduName).ToList();
+                return list;
+            }
+        }
+
         public EducationViewModel GetByID(int id)
         {
             using (SATEntities db = new SATEntities())

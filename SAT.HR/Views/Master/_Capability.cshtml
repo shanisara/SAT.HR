@@ -1,36 +1,38 @@
-﻿
-<div class="col-md-12">
-    <div class="row">
-        <label class="col-sm-2 col-form-label">ปี</label>
-        <div class="col-sm-10">
-            <div class="form-group bmd-form-group has-danger">
-                <input class="form-control" type="text" name="required" required="true" aria-required="true" aria-invalid="true">
+﻿@model SAT.HR.Models.CapabilityViewModel
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formDetail" }))
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(m => m.CapID)
+
+        <div class="col-md-12">
+            <div class="row">
+                @Html.Label("ปี", null, new { @class = "col-sm-2 col-form-label" })
+                <div class="col-sm-10">
+                    <div class="form-group bmd-form-group">
+                        @Html.TextBoxFor(m => m.CapYear, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.CapYear)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                @Html.Label("CapGroupID", null, new { @class = "col-sm-2 col-form-label" })
+                <div class="col-sm-10">
+                    <div class="form-group bmd-form-group">
+                        @Html.TextBoxFor(m => m.CapGroupID, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.CapGroupID)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                @Html.Label("CapTID", null, new { @class = "col-sm-2 col-form-label" })
+                <div class="col-sm-10">
+                    <div class="form-group bmd-form-group">
+                        @Html.TextBoxFor(m => m.CapTID, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.CapTID)
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-<div class="col-md-12">
-    <div class="row">
-        <label class="col-sm-2 col-form-label">สมรรถนะ</label>
-        <div class="col-sm-10">
-            <div class="form-group bmd-form-group has-danger">
-                <input class="form-control" type="text" name="required" required="true" aria-required="true" aria-invalid="true">
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col-md-12">
-    <div class="row">
-        <label class="col-sm-2 col-form-label label-checkbox">สถานะ</label>
-        <div class="col-sm-10">
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" value="" checked="">
-                    <span class="form-check-sign">
-                        <span class="check"></span>
-                    </span>
-                </label>
-            </div>
-        </div>
-    </div>
-</div>
+    }

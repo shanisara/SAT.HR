@@ -1,10 +1,7 @@
-<<<<<<< HEAD:SAT.HR/SAT.HR/Views/Master/Religion.cshtml
-﻿
-@{
+﻿@{
     ViewBag.Title = "Religion";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -14,11 +11,11 @@
                         <div class="card-icon">
                             <i class="material-icons">assignment</i>
                         </div>
-                        <h4 class="card-title">Religion</h4>
+                        <h4 class="card-title">รายการศาสนา</h4>
                     </div>
                     <div class="card-body">
                         <div class="toolbar">
-                            <button class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#modalReligion"><i class="material-icons">add</i> เพิ่มกอง</button>
+                            <button class="btn btn-primary btn-sm pull-right" data-toggle="modal" id="btnAdd"><i class="material-icons">add</i> เพิ่มศาสนา</button>
                         </div>
                         <div class="material-datatables">
                             <table id="datatables" data-url="@Url.Content("~/Master/Religion")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
@@ -43,13 +40,12 @@
         <!-- end row -->
     </div>
 </div>
-
 <!-- Classic Modal -->
-<div class="modal fade" id="modalReligion" tabindex="-1" role="dialog" aria-labelledby="modalReligionLabel" aria-hidden="true">
+<div class="modal fade modal-large" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">ข้อมูลกอง</h4>
+                <h4 class="modal-title">ข้อมูลศาสนา</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     <i class="material-icons">clear</i>
                 </button>
@@ -57,73 +53,165 @@
             <div class="modal-body">
                 <div class="content">
                     <div class="container-fluid">
-                        <div id="religion"></div>
+                        <div id="detail"></div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-link">Submit</button>
+                <button type="button" class="btn btn-link" id="btnSave">Submit</button>
                 <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 <!--  End Modal -->
-
 @section Scripts {
     <script>
         $(document).ready(function () {
 
-            $('#datatables').DataTable({
-                "proccessing": true,
-                "serverSide": true,
-                responsive: true,
-                language: {
-                    search: "_INPUT_",
-                    searchPlaceholder: "Search records",
+            var dataTable = {
+                table: null,
+                initializeDataTable: function () {
+                    $table = $('#datatables');
+
+                    dataTable.table = $table.DataTable({
+                        "proccessing": true,
+                        "serverSide": true,
+                        responsive: true,
+                        language: {
+                            search: "_INPUT_",
+                            searchPlaceholder: "Search records",
+                        },
+                        ajax: {
+                            url: $table[0].dataset["url"],
+                            type: "POST",
+                        },
+                        "columns": [
+                            { "data": "RowNumber", "orderable": true },
+                            { "data": "RelName", "orderable": true },
+                            { "data": "RelStatus", "orderable": false, "searchable": false }
+                        ],
+                        "columnDefs": [
+                            {
+                                "render": function (data, type, row) {
+                                    var inner = '<div class="td-actions text-right">' +
+                                        '<button type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.relID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;' +
+                                        '<button type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.relID + '"><i class="material-icons">close</i></button>' +
+                                        '</div>';
+                                    return inner;
+                                }, "targets": 3
+                            },
+                        ],
+                        "order": [[1, "asc"]],
+                        "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                        "pagingType": "full_numbers",
+                    });
+
+
+                    dataTable.table.on('click', '.edit', function () {
+                        var id = $(this)[0].dataset["id"];
+                        var url = '@Url.Action("ReligionDetail", "Master")/' + id;
+                        $.post(url, function (data) {
+                            $("#detail").html(data);
+                            $('#modalDetail').modal('show');
+                        });
+                    });
+
+                    dataTable.table.on('click', '.delete', function () {
+                        var id = $(this)[0].dataset["id"];
+                        showSwal.confirmDeleteMessage(id);
+                    });
+
                 },
-                ajax: {
-                    url: "/Master/Religion",
-                    dataType: "json",
-                    type: "POST",
+                getData: function () {
+                    if (dataTable.table == null)
+                        dataTable.initializeDataTable();
+                    else
+                        dataTable.table.ajax.reload();
+                }
+            }
+
+            var showSwal = {
+                saveMessage: function () {
+                    swal({
+                        title: "Save success!",
+                        text: "Your record has been submited.",
+                        type: "success",
+                        buttonsStyling: false,
+                        confirmButtonClass: "btn btn-success",
+                    }).catch(swal.noop)
                 },
-                "columns": [
-                    { "data": "RowNumber", "orderable": true },
-                    { "data": "RelName", "orderable": true },
-                    { "data": "RelStatus", "orderable": false, "searchable": false }
-                ],
-                "columnDefs": [
-                    {
-                        "render": function (data, type, row) {
-                            return "<div class='td-actions text-right'>" +
-                                "<button type='button' rel='tooltip' class='btn btn-round btn-success'><i class='material-icons'>edit</i></button>" +
-                                "&nbsp;&nbsp;&nbsp;" +
-                                "<button type='button' rel='tooltip' class='btn btn-round btn-danger'><i class='material-icons'>close</i></button>" +
-                                "</div>";
-                        }, "targets": 3
-                    },
-                ],
-                "order": [[1, "asc"]],
-                "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
-                "pagingType": "full_numbers",
+                deleteMessage: function () {
+                    swal({
+                        title: 'Deleted!',
+                        text: 'Your file has been deleted.',
+                        type: 'success',
+                        confirmButtonClass: "btn btn-success",
+                        buttonsStyling: false
+                    }).catch(swal.noop)
+                },
+                confirmDeleteMessage: function (id) {
+                    swal({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonClass: 'btn btn-success',
+                        cancelButtonClass: 'btn btn-danger',
+                        confirmButtonText: 'Yes, delete it!',
+                        buttonsStyling: false
+                    }).then(function () {
+                        var url = '@Url.Action("DeleteReligion", "Master")/' + id;
+                        $.ajax({
+                            type: 'POST',
+                            url: url,
+                            success: function (res) {
+                                if (res.MessageCode == null) {
+                                    showSwal.deleteMessage();
+                                    dataTable.getData();
+                                }
+                                else {
+                                    alert(res.MessageText);
+                                }
+                            }
+                        });
+                    }).catch(swal.noop)
+                }
+            }
+
+            // Add record
+            $("#btnAdd").click(function () {
+                var url = '@Url.Action("ReligionDetail", "Master")';
+                $.post(url, function (data) {
+                    $("#detail").html(data);
+                    $('#modalDetail').modal('show');
+                });
             });
 
-
-            var table = $('#datatables').DataTable();
-
-            // Edit record
-            table.on('click', '.edit', function () {
-                $tr = $(this).closest('tr');
-                var data = table.row($tr).data();
-                alert('You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.');
+            // Save record
+            $("#btnSave").click(function () {
+                var status = $("#formDetail").valid();
+                if (status) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("SaveReligion", "Master")',
+                        data: $("#formDetail").serialize(),
+                        dataType: 'json',
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                showSwal.saveMessage();
+                                dataTable.getData();
+                                $('#modalDetail').modal('hide');
+                            }
+                            else {
+                                alert(res.MessageText);
+                            }
+                        }
+                    });
+                }
             });
 
-            // Delete a record
-            table.on('click', '.remove', function (e) {
-                $tr = $(this).closest('tr');
-                table.row($tr).remove().draw();
-                e.preventDefault();
-            });
+            dataTable.getData();
 
         });
     </script>

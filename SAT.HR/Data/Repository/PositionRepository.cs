@@ -56,6 +56,21 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<PositionViewModel> GetAll()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Position.Select(s => new PositionViewModel()
+                {
+                    PoID = s.PoID,
+                    PoCode = s.PoCode,
+                    PoName = s.PoName,
+                    PoStatus = s.PoStatus
+                }).OrderBy(x => x.PoName).ToList();
+                return list;
+            }
+        }
+
         public PositionViewModel GetByID(int id)
         {
             using (SATEntities db = new SATEntities())

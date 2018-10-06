@@ -53,6 +53,20 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<InsigniaViewModel> GetAll()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Insignia.Select(s => new InsigniaViewModel()
+                {
+                    InsID = s.InsID,
+                    InsFullName = s.InsFullName,
+                    InsShortName = s.InsShortName,
+                }).OrderBy(x => x.InsFullName).ToList();
+                return list;
+            }
+        }
+
         public InsigniaViewModel GetByID(int id)
         {
             using (SATEntities db = new SATEntities())

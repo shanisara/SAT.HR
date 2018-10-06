@@ -63,6 +63,24 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<LeaveTypeViewModel> GetAll()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_LeaveType.Select(s => new LeaveTypeViewModel()
+                {
+                    LevID = s.LevID,
+                    LevYear = s.LevYear,
+                    LevName = s.LevName,
+                    LevStartDateText = s.LevStartDate.Value.ToString("dd/MM/yyyy"),
+                    LevEndDateText = s.LevEndDate.Value.ToString("dd/MM/yyyy"),
+                    LevMax = s.LevMax,
+                    LevStatus = s.LevStatus,
+                }).OrderBy(x => x.LevName).ToList();
+                return list;
+            }
+        }
+
         public LeaveTypeViewModel GetByID(int id)
         {
             using (SATEntities db = new SATEntities())

@@ -16,7 +16,7 @@ namespace SAT.HR.Data.Entities
     {
         public int NatID { get; set; }
         public string NatName { get; set; }
-        public string NatStatus { get; set; }
+        public Nullable<bool> NatStatus { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public string CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }

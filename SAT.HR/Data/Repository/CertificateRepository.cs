@@ -51,6 +51,19 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<CertificateViewModel> GetAll()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Certificate.Select(s => new CertificateViewModel()
+                {
+                    CerID = s.CerId,
+                    CerName = s.CerName
+                }).OrderBy(x => x.CerName).ToList();
+                return list;
+            }
+        }
+
         public CertificateViewModel GetByID(int id)
         {
             using (SATEntities db = new SATEntities())

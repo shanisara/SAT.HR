@@ -32,4 +32,9 @@ namespace SAT.HR.Models
         public int recordsFiltered { get; set; }
         public List<SalaryViewModel> data { get; set; }
     }
+
+    public class LevelViewModel
+    {
+        public int Level { get; set; }
+    }
 }

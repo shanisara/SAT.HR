@@ -1,0 +1,590 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SAT.HR.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tb_ActionType">
+    <Key>
+      <PropertyRef Name="ActID" />
+    </Key>
+    <Property Name="ActID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ActName" Type="nvarchar" MaxLength="200" />
+    <Property Name="ActType" Type="nvarchar" MaxLength="200" />
+    <Property Name="ActPos" Type="nchar" MaxLength="10" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_Capability">
+    <Key>
+      <PropertyRef Name="CapID" />
+    </Key>
+    <Property Name="CapID" Type="int" Nullable="false" />
+    <Property Name="CapYear" Type="int" />
+    <Property Name="CapTID" Type="int" />
+    <Property Name="MenuID" Type="int" />
+    <Property Name="CapGroupID" Type="int" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_CapabilityType">
+    <Key>
+      <PropertyRef Name="CapTID" />
+    </Key>
+    <Property Name="CapTID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CapTName" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_Certificate">
+    <Key>
+      <PropertyRef Name="CerId" />
+    </Key>
+    <Property Name="CerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CerName" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_Degree">
+    <Key>
+      <PropertyRef Name="DegID" />
+    </Key>
+    <Property Name="DegID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DegName" Type="nvarchar" MaxLength="200" />
+    <Property Name="DegStatus" Type="bit" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_Department">
+    <Key>
+      <PropertyRef Name="DepID" />
+    </Key>
+    <Property Name="DepID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DivID" Type="int" Nullable="false" />
+    <Property Name="DepName" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="DepStatus" Type="bit" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_Discipline">
+    <Key>
+      <PropertyRef Name="DisID" />
+    </Key>
+    <Property Name="DisID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DisName" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_Division">
+    <Key>
+      <PropertyRef Name="DivID" />
+    </Key>
+    <Property Name="DivID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DivName" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="DivStatus" Type="bit" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_DocNumber">
+    <Key>
+      <PropertyRef Name="ObjectID" />
+    </Key>
+    <Property Name="ObjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DocCode" Type="varchar" MaxLength="200" />
+    <Property Name="DocName" Type="varchar" MaxLength="200" />
+    <Property Name="Prefix" Type="varchar" MaxLength="200" />
+    <Property Name="Suffix" Type="varchar" MaxLength="200" />
+    <Property Name="NumLength" Type="int" />
+    <Property Name="CurrentNum" Type="int" />
+    <Property Name="ZeroContain" Type="bit" />
+    <Property Name="ResetMonth" Type="bit" />
+    <Property Name="ResetYear" Type="bit" />
+    <Property Name="LastMonth" Type="int" />
+    <Property Name="LastYear" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Education">
+    <Key>
+      <PropertyRef Name="EduID" />
+    </Key>
+    <Property Name="EduID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EduCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="EduName" Type="nvarchar" MaxLength="200" />
+    <Property Name="EduStatus" Type="bit" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_Employee">
+    <Key>
+      <PropertyRef Name="EmpID" />
+    </Key>
+    <Property Name="EmpID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tb_Holiday">
+    <Key>
+      <PropertyRef Name="HolID" />
+    </Key>
+    <Property Name="HolID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="HolDate" Type="datetime" />
+    <Property Name="HolDescription" Type="nvarchar(max)" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_Insignia">
+    <Key>
+      <PropertyRef Name="InsID" />
+    </Key>
+    <Property Name="InsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InsFullName" Type="nvarchar" MaxLength="200" />
+    <Property Name="InsShortName" Type="nchar" MaxLength="10" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_LeaveType">
+    <Key>
+      <PropertyRef Name="LevID" />
+    </Key>
+    <Property Name="LevID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LevYear" Type="nchar" MaxLength="10" />
+    <Property Name="LevStartDate" Type="datetime" />
+    <Property Name="LevEndDate" Type="datetime" />
+    <Property Name="LevMax" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="LevName" Type="nvarchar" MaxLength="200" />
+    <Property Name="LevStatus" Type="bit" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_Level">
+    <Key>
+      <PropertyRef Name="Level" />
+    </Key>
+    <Property Name="Level" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tb_Major">
+    <Key>
+      <PropertyRef Name="MajID" />
+    </Key>
+    <Property Name="MajID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MajName" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="MajStatus" Type="bit" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_Menu">
+    <Key>
+      <PropertyRef Name="MenuID" />
+    </Key>
+    <Property Name="MenuID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MenuName" Type="nvarchar" MaxLength="200" />
+    <Property Name="ControllerName" Type="nvarchar(max)" />
+    <Property Name="ActionName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Icon" Type="nvarchar" MaxLength="50" />
+    <Property Name="Sequence" Type="int" />
+    <Property Name="ParentID" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Nationality">
+    <Key>
+      <PropertyRef Name="NatID" />
+    </Key>
+    <Property Name="NatID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NatName" Type="nvarchar" MaxLength="200" />
+    <Property Name="NatStatus" Type="bit" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_Position">
+    <Key>
+      <PropertyRef Name="PoID" />
+    </Key>
+    <Property Name="PoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PoCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="PoName" Type="nvarchar" MaxLength="200" />
+    <Property Name="PoStatus" Type="bit" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_Religion">
+    <Key>
+      <PropertyRef Name="RelD" />
+    </Key>
+    <Property Name="RelD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RelName" Type="nvarchar" MaxLength="200" />
+    <Property Name="RelStatus" Type="bit" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_Role">
+    <Key>
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
+    <Property Name="RoleDesc" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_RoleMenu">
+    <Key>
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MenuID" Type="int" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_Salary">
+    <Key>
+      <PropertyRef Name="SaID" />
+    </Key>
+    <Property Name="SaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SaLevel" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="SaStep" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="SaRate" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_Section">
+    <Key>
+      <PropertyRef Name="SecID" />
+    </Key>
+    <Property Name="SecID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SecName" Type="nvarchar" MaxLength="200" />
+    <Property Name="SecStatus" Type="bit" />
+    <Property Name="DivID" Type="int" />
+    <Property Name="DepID" Type="int" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_Sex">
+    <Key>
+      <PropertyRef Name="SexID" />
+    </Key>
+    <Property Name="SexID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SexName" Type="nchar" MaxLength="10" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_SysConfig">
+    <Key>
+      <PropertyRef Name="KeyName" />
+    </Key>
+    <Property Name="KeyName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="KeyValue" Type="nvarchar" MaxLength="200" />
+    <Property Name="KeyDesc" Type="nvarchar" MaxLength="200" />
+    <Property Name="Visible" Type="bit" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_Title">
+    <Key>
+      <PropertyRef Name="TiID" />
+    </Key>
+    <Property Name="TiID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TiFullName" Type="nvarchar" MaxLength="100" />
+    <Property Name="TiShortName" Type="nvarchar" MaxLength="100" />
+    <Property Name="TiStatus" Type="bit" />
+    <Property Name="SexID" Type="int" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_User">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nchar" MaxLength="10" />
+    <Property Name="Password" Type="nchar" MaxLength="10" />
+    <Property Name="ConfirmPassword" Type="nchar" MaxLength="10" />
+    <Property Name="FullName" Type="nvarchar" MaxLength="200" />
+    <Property Name="SurName" Type="nvarchar" MaxLength="200" />
+    <Property Name="UserType" Type="int" />
+    <Property Name="SexID" Type="int" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_UserType">
+    <Key>
+      <PropertyRef Name="UserTID" />
+    </Key>
+    <Property Name="UserTID" Type="int" Nullable="false" />
+    <Property Name="UserTName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Department' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Department">
+    <Key>
+      <PropertyRef Name="DepID" />
+      <PropertyRef Name="DepName" />
+    </Key>
+    <Property Name="DepID" Type="int" Nullable="false" />
+    <Property Name="DivID" Type="int" />
+    <Property Name="DepName" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="DivName" Type="nvarchar" MaxLength="200" />
+    <Property Name="DivStatus" Type="bit" />
+    <Property Name="DepStatus" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Section">
+    <Key>
+      <PropertyRef Name="SecID" />
+    </Key>
+    <Property Name="DivID" Type="int" />
+    <Property Name="DivName" Type="nvarchar" MaxLength="200" />
+    <Property Name="DivStatus" Type="bit" />
+    <Property Name="DepID" Type="int" />
+    <Property Name="DepName" Type="nvarchar" MaxLength="200" />
+    <Property Name="DepStatus" Type="bit" />
+    <Property Name="SecID" Type="int" Nullable="false" />
+    <Property Name="SecName" Type="nvarchar" MaxLength="200" />
+    <Property Name="SecStatus" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Title">
+    <Key>
+      <PropertyRef Name="TiID" />
+    </Key>
+    <Property Name="TiID" Type="int" Nullable="false" />
+    <Property Name="TiFullName" Type="nvarchar" MaxLength="100" />
+    <Property Name="TiShortName" Type="nvarchar" MaxLength="100" />
+    <Property Name="TiStatus" Type="bit" />
+    <Property Name="SexID" Type="int" />
+    <Property Name="SexName" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <Association Name="FK_tb_Capability_tb_Capability">
+    <End Role="tb_CapabilityType" Type="Self.tb_CapabilityType" Multiplicity="0..1" />
+    <End Role="tb_Capability" Type="Self.tb_Capability" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_CapabilityType">
+        <PropertyRef Name="CapTID" />
+      </Principal>
+      <Dependent Role="tb_Capability">
+        <PropertyRef Name="CapTID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Capability_tb_Menu">
+    <End Role="tb_Menu" Type="Self.tb_Menu" Multiplicity="0..1" />
+    <End Role="tb_Capability" Type="Self.tb_Capability" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Menu">
+        <PropertyRef Name="MenuID" />
+      </Principal>
+      <Dependent Role="tb_Capability">
+        <PropertyRef Name="MenuID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Department_tb_Division">
+    <End Role="tb_Division" Type="Self.tb_Division" Multiplicity="1" />
+    <End Role="tb_Department" Type="Self.tb_Department" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Division">
+        <PropertyRef Name="DivID" />
+      </Principal>
+      <Dependent Role="tb_Department">
+        <PropertyRef Name="DivID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_RoleMenu_tb_Menu">
+    <End Role="tb_Menu" Type="Self.tb_Menu" Multiplicity="0..1" />
+    <End Role="tb_RoleMenu" Type="Self.tb_RoleMenu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Menu">
+        <PropertyRef Name="MenuID" />
+      </Principal>
+      <Dependent Role="tb_RoleMenu">
+        <PropertyRef Name="MenuID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_RoleMenu_tb_Role">
+    <End Role="tb_Role" Type="Self.tb_Role" Multiplicity="1" />
+    <End Role="tb_RoleMenu" Type="Self.tb_RoleMenu" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Role">
+        <PropertyRef Name="RoleID" />
+      </Principal>
+      <Dependent Role="tb_RoleMenu">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Section_tb_Department">
+    <End Role="tb_Department" Type="Self.tb_Department" Multiplicity="0..1" />
+    <End Role="tb_Section" Type="Self.tb_Section" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Department">
+        <PropertyRef Name="DepID" />
+      </Principal>
+      <Dependent Role="tb_Section">
+        <PropertyRef Name="DepID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Title_tb_Sex">
+    <End Role="tb_Sex" Type="Self.tb_Sex" Multiplicity="0..1" />
+    <End Role="tb_Title" Type="Self.tb_Title" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Sex">
+        <PropertyRef Name="SexID" />
+      </Principal>
+      <Dependent Role="tb_Title">
+        <PropertyRef Name="SexID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_tb_Sex">
+    <End Role="tb_Sex" Type="Self.tb_Sex" Multiplicity="0..1" />
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Sex">
+        <PropertyRef Name="SexID" />
+      </Principal>
+      <Dependent Role="tb_User">
+        <PropertyRef Name="SexID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SATHRStoreContainer">
+    <EntitySet Name="tb_ActionType" EntityType="Self.tb_ActionType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Capability" EntityType="Self.tb_Capability" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_CapabilityType" EntityType="Self.tb_CapabilityType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Certificate" EntityType="Self.tb_Certificate" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Degree" EntityType="Self.tb_Degree" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Department" EntityType="Self.tb_Department" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Discipline" EntityType="Self.tb_Discipline" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Division" EntityType="Self.tb_Division" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_DocNumber" EntityType="Self.tb_DocNumber" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Education" EntityType="Self.tb_Education" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Employee" EntityType="Self.tb_Employee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Holiday" EntityType="Self.tb_Holiday" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Insignia" EntityType="Self.tb_Insignia" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_LeaveType" EntityType="Self.tb_LeaveType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Level" EntityType="Self.tb_Level" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Major" EntityType="Self.tb_Major" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Menu" EntityType="Self.tb_Menu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Nationality" EntityType="Self.tb_Nationality" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Position" EntityType="Self.tb_Position" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Religion" EntityType="Self.tb_Religion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Role" EntityType="Self.tb_Role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_RoleMenu" EntityType="Self.tb_RoleMenu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Salary" EntityType="Self.tb_Salary" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Section" EntityType="Self.tb_Section" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Sex" EntityType="Self.tb_Sex" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_SysConfig" EntityType="Self.tb_SysConfig" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Title" EntityType="Self.tb_Title" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_User" EntityType="Self.tb_User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_UserType" EntityType="Self.tb_UserType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="vw_Department" EntityType="Self.vw_Department" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Department].[DepID] AS [DepID], 
+    [vw_Department].[DivID] AS [DivID], 
+    [vw_Department].[DepName] AS [DepName], 
+    [vw_Department].[DivName] AS [DivName], 
+    [vw_Department].[DivStatus] AS [DivStatus], 
+    [vw_Department].[DepStatus] AS [DepStatus]
+    FROM [dbo].[vw_Department] AS [vw_Department]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Section" EntityType="Self.vw_Section" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Section].[DivID] AS [DivID], 
+    [vw_Section].[DivName] AS [DivName], 
+    [vw_Section].[DivStatus] AS [DivStatus], 
+    [vw_Section].[DepID] AS [DepID], 
+    [vw_Section].[DepName] AS [DepName], 
+    [vw_Section].[DepStatus] AS [DepStatus], 
+    [vw_Section].[SecID] AS [SecID], 
+    [vw_Section].[SecName] AS [SecName], 
+    [vw_Section].[SecStatus] AS [SecStatus]
+    FROM [dbo].[vw_Section] AS [vw_Section]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Title" EntityType="Self.vw_Title" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Title].[TiID] AS [TiID], 
+    [vw_Title].[TiFullName] AS [TiFullName], 
+    [vw_Title].[TiShortName] AS [TiShortName], 
+    [vw_Title].[TiStatus] AS [TiStatus], 
+    [vw_Title].[SexID] AS [SexID], 
+    [vw_Title].[SexName] AS [SexName]
+    FROM [dbo].[vw_Title] AS [vw_Title]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_tb_Capability_tb_Capability" Association="Self.FK_tb_Capability_tb_Capability">
+      <End Role="tb_CapabilityType" EntitySet="tb_CapabilityType" />
+      <End Role="tb_Capability" EntitySet="tb_Capability" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Capability_tb_Menu" Association="Self.FK_tb_Capability_tb_Menu">
+      <End Role="tb_Menu" EntitySet="tb_Menu" />
+      <End Role="tb_Capability" EntitySet="tb_Capability" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Department_tb_Division" Association="Self.FK_tb_Department_tb_Division">
+      <End Role="tb_Division" EntitySet="tb_Division" />
+      <End Role="tb_Department" EntitySet="tb_Department" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_RoleMenu_tb_Menu" Association="Self.FK_tb_RoleMenu_tb_Menu">
+      <End Role="tb_Menu" EntitySet="tb_Menu" />
+      <End Role="tb_RoleMenu" EntitySet="tb_RoleMenu" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_RoleMenu_tb_Role" Association="Self.FK_tb_RoleMenu_tb_Role">
+      <End Role="tb_Role" EntitySet="tb_Role" />
+      <End Role="tb_RoleMenu" EntitySet="tb_RoleMenu" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Section_tb_Department" Association="Self.FK_tb_Section_tb_Department">
+      <End Role="tb_Department" EntitySet="tb_Department" />
+      <End Role="tb_Section" EntitySet="tb_Section" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Title_tb_Sex" Association="Self.FK_tb_Title_tb_Sex">
+      <End Role="tb_Sex" EntitySet="tb_Sex" />
+      <End Role="tb_Title" EntitySet="tb_Title" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_tb_Sex" Association="Self.FK_tb_User_tb_Sex">
+      <End Role="tb_Sex" EntitySet="tb_Sex" />
+      <End Role="tb_User" EntitySet="tb_User" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

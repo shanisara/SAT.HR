@@ -10,13 +10,13 @@ namespace SAT.HR.Models
 
         public int CapID { get; set; }
 
-        public string CapYear { get; set; }
+        public int? CapYear { get; set; }
+
+        public int? CapGroupID { get; set; }
 
         public int? CapTID { get; set; }
 
         public int? MenuID { get; set; }
-
-        public int? CapGroupID { get; set; }
 
         public DateTime? CreateDate { get; set; }
 

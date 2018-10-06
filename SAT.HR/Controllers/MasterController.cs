@@ -28,7 +28,7 @@ namespace SAT.HR.Controllers
         }
 
         [HttpPost]
-        public JsonResult DivisionList(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        public JsonResult Division(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
@@ -845,25 +845,19 @@ namespace SAT.HR.Controllers
 
         #region 19. ค่าคงที่ระบบ - SystemConfig
 
-        public ActionResult SystemConfig()
+        public ActionResult SysConfig()
         {
-            var data = new SystemConfigRepository().GetAll();
+            var data = new SysConfigRepository().GetAll();
             return View(data);
         }
 
-        //[HttpPost]
-        //public JsonResult SystemConfigDetail()
-        //{
-        //    var data = new SystemConfigRepository().GetAll();
-        //    return Json(new { data = data }, JsonRequestBehavior.AllowGet);
-        //}
-
-        public JsonResult SaveSystemConfig(SystemConfigViewModel model)
+        public JsonResult SaveSysConfig(List<SysConfigViewModel> model)
         {
             ResponseData result = new Models.ResponseData();
-            result = new SystemConfigRepository().UpdateByEntity(model);
+            result = new SysConfigRepository().UpdateByEntity(model);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
 
         #endregion
 

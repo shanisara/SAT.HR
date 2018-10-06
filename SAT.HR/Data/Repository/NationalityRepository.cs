@@ -52,6 +52,20 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<NationalityViewModel> GetAll()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Nationality.Select(s => new NationalityViewModel()
+                {
+                    NatID = s.NatID,
+                    NatName = s.NatName,
+                    NatStatus = s.NatStatus,
+                }).OrderBy(x => x.NatName).ToList();
+                return list;
+            }
+        }
+
         public NationalityViewModel GetByID(int id)
         {
             using (SATEntities db = new SATEntities())

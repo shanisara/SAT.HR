@@ -58,6 +58,22 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<TitleViewModel> GetAll()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Title.Select(s => new TitleViewModel()
+                {
+                    TiID = s.TiID,
+                    TiFullName = s.TiFullName,
+                    TiShortName = s.TiShortName,
+                    TiStatus = s.TiStatus,
+                    SexID = s.SexID,
+                }).OrderBy(x => x.TiFullName).ToList();
+                return list;
+            }
+        }
+
         public TitleViewModel GetByID(int id)
         {
             using (SATEntities db = new SATEntities())

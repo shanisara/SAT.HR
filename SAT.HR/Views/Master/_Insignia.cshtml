@@ -1,36 +1,46 @@
-﻿
-<div class="col-md-12">
-    <div class="row">
-        <label class="col-sm-4 col-form-label">เครื่องราชอิสริยาภรณ์</label>
-        <div class="col-sm-8">
-            <div class="form-group bmd-form-group has-danger">
-                <input class="form-control" type="text" name="required" required="true" aria-required="true" aria-invalid="true">
+﻿@model SAT.HR.Models.InsigniaViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formDetail" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => m.InsID)
+
+    <div class="col-md-12">
+        <div class="row">
+            @Html.Label("เครื่องราชอิสริยาภรณ์", null, new { @class = "col-sm-2 col-form-label" })
+            <label class="col-sm-3 col-form-label"></label>
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.InsFullName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.InsFullName)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("ชื่อย่อ", null, new { @class = "col-sm-2 col-form-label" })
+            <label class="col-sm-3 col-form-label"></label>
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.InsShortName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.InsShortName)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("สถานะ", null, new { @class = "col-sm-2 col-form-label label-checkbox" })
+            <div class="col-sm-10">
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value="" checked="">
+                        <span class="form-check-sign">
+                            <span class="check"></span>
+                        </span>
+                        @*@Html.CheckBoxFor(m => m.DivStatus.Value)
+                            @Html.ValidationMessageFor(m => m.DivStatus)*@
+                    </label>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="col-md-12">
-    <div class="row">
-        <label class="col-sm-4 col-form-label">ชื่อย่อ</label>
-        <div class="col-sm-8">
-            <div class="form-group bmd-form-group has-danger">
-                <input class="form-control" type="text" name="required" required="true" aria-required="true" aria-invalid="true">
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col-md-12">
-    <div class="row">
-        <label class="col-sm-4 col-form-label label-checkbox">สถานะ</label>
-        <div class="col-sm-8">
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" value="" checked="">
-                    <span class="form-check-sign">
-                        <span class="check"></span>
-                    </span>
-                </label>
-            </div>
-        </div>
-    </div>
-</div>
+}

@@ -62,6 +62,22 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<SectionViewModel> GetAll()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Section.Select(m => new SectionViewModel()
+                {
+                    SecID = m.SecID,
+                    SecName = m.SecName,
+                    SecStatus = m.SecStatus,
+                    DivID = m.DivID,
+                    DepID = m.DepID,
+                }).OrderBy(x => x.SecName).ToList();
+                return list;
+            }
+        }
+
         public SectionViewModel GetByID(int id)
         {
             using (SATEntities db = new SATEntities())

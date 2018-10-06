@@ -60,6 +60,34 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<SalaryViewModel> GetAll()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Salary.Select(s => new SalaryViewModel()
+                {
+                    SaID = s.SaID,
+                    SaLevel = s.SaLevel,
+                    SaStep = s.SaStep,
+                    SaRate = s.SaRate
+                }).OrderBy(x => x.SaLevel).ToList();
+                return list;
+            }
+        }
+
+        public List<LevelViewModel> GetSalaryLevel()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Level.Select(s => new LevelViewModel()
+                {
+                    Level = s.Level
+                })
+                .OrderBy(x => x.Level).ToList();
+                return list;
+            }
+        }
+
         public SalaryViewModel GetByID(int id)
         {
             using (SATEntities db = new SATEntities())
@@ -71,6 +99,15 @@ namespace SAT.HR.Data.Repository
                 model.SaStep = data.SaStep;
                 model.SaRate = data.SaRate;
                 return model;
+            }
+        }
+
+        public decimal GetSalaryRate(int level, int step)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.tb_Salary.Where(m => m.SaLevel == level && m.SaStep == step).FirstOrDefault();
+                return Convert.ToDecimal(data.SaRate);
             }
         }
 

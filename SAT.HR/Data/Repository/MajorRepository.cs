@@ -52,6 +52,20 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<MajorViewModel> GetAll()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Major.Select(s => new MajorViewModel()
+                {
+                    MajID = s.MajID,
+                    MajName = s.MajName,
+                    MajStatus = s.MajStatus,
+                }).OrderBy(x => x.MajName).ToList();
+                return list;
+            }
+        }
+
         public MajorViewModel GetByID(int id)
         {
             using (SATEntities db = new SATEntities())

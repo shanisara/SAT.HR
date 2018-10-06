@@ -15,7 +15,7 @@ namespace SAT.HR.Data.Entities
     public partial class tb_Capability
     {
         public int CapID { get; set; }
-        public string CapYear { get; set; }
+        public Nullable<int> CapYear { get; set; }
         public Nullable<int> CapTID { get; set; }
         public Nullable<int> MenuID { get; set; }
         public Nullable<int> CapGroupID { get; set; }

@@ -52,6 +52,20 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<DegreeViewModel> GetAll()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Degree.Select(s => new DegreeViewModel()
+                {
+                    DegID = s.DegID,
+                    DegName = s.DegName,
+                    DegStatus = s.DegStatus,
+                }).OrderBy(x => x.DegName).ToList();
+                return list;
+            }
+        }
+
         public DegreeViewModel GetByID(int id)
         {
             using (SATEntities db = new SATEntities())

@@ -57,6 +57,22 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<HolidayViewModel> GetAll()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Holiday.Select(s => new HolidayViewModel()
+                {
+                    HolID = s.HolID,
+                    HolDate = s.HolDate,
+                    HolDescription = s.HolDescription,
+                    HolYear = s.HolDate.Value.Year,
+                    HolDateText = s.HolDate.Value.ToString("dd/MM/yyyy"),
+                }).OrderBy(x => x.HolDescription).ToList();
+                return list;
+            }
+        }
+
         public HolidayViewModel GetByID(int id)
         {
             using (SATEntities db = new SATEntities())

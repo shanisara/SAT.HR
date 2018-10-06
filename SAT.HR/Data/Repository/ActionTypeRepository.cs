@@ -67,6 +67,19 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<ActionTypeViewModel> GetAll()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_ActionType.Select(s => new ActionTypeViewModel()
+                {
+                    ActID = s.ActID,
+                    ActName = s.ActName
+                }).OrderBy(x => x.ActName).ToList();
+                return list;
+            }
+        }
+
         public ResponseData AddByEntity(ActionTypeViewModel data)
         {
             using (SATEntities db = new SATEntities())
