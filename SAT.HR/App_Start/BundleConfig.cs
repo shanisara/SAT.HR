@@ -22,7 +22,7 @@ namespace SAT.HR
 
             bundles.Add(new ScriptBundle("~/bundles/plugin").Include(
                         "~/Content/assets/js/core/popper.min.js",
-                        "~/Content/assets/js/core/bootstrap-material-design.min.js",
+                        "~/Content/assets/js/plugins/moment.min.js",
                         "~/Content/assets/js/plugins/perfect-scrollbar.jquery.min.js",
                         "~/Content/assets/js/plugins/bootstrap-selectpicker.js",
                         "~/Content/assets/js/plugins/bootstrap-datetimepicker.min.js",
@@ -30,7 +30,6 @@ namespace SAT.HR
                         "~/Content/assets/js/plugins/bootstrap-tagsinput.js",
                         "~/Content/assets/js/plugins/jasny-bootstrap.min.js",
                         "~/Content/assets/js/plugins/nouislider.min.js",
-                        "~/Content/assets/js/plugins/moment.min.js",
                         "~/Content/assets/js/plugins/sweetalert2.js",
                         "~/Content/assets/js/plugins/arrive.min.js",
                         "~/Content/assets/js/plugins/jquery.validate.min.js",
@@ -38,6 +37,7 @@ namespace SAT.HR
                         "~/Content/assets/js/plugins/jquery.dataTables.min.js",
                         "~/Content/assets/js/plugins/chartist.min.js",
                         "~/Content/assets/js/material-dashboard.min.js?v=2.0.2",
+                        "~/Content/assets/js/core/bootstrap-material-design.min.js",
                         "~/Content/assets/demo/demo.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

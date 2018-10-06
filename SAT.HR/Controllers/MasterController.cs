@@ -111,13 +111,15 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult SectionnDetail(int? id)
+        public ActionResult SectionDetail(int? id)
         {
             SectionViewModel model = new SectionViewModel();
             if (id.HasValue)
             {
                 model = new SectionRepository().GetByID((int)id);
             }
+            ViewBag.Division = DropDownList.GetDivision();
+            ViewBag.Department = DropDownList.GetDepartment(null);
             return PartialView("_Section", model);
         }
 
@@ -396,6 +398,7 @@ namespace SAT.HR.Controllers
             {
                 model = new TitleRepository().GetByID((int)id);
             }
+            ViewBag.Sex = DropDownList.getSex();
             return PartialView("_Title", model);
         }
 
@@ -865,6 +868,11 @@ namespace SAT.HR.Controllers
         #region 20. จัดการสิทธิการเข้าใช้งาน - UserRole
 
         public ActionResult Role()
+        {
+            return PartialView("_User");
+        }
+
+        public ActionResult UserRole()
         {
             return PartialView("_User");
         }

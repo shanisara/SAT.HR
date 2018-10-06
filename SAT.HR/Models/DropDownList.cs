@@ -323,6 +323,24 @@ namespace SAT.HR.Models
             }
             return list;
         }
+
+        public static List<SelectListItem> getSex()
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new SexRepository().GetAll();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.SexID.ToString();
+                select.Text = item.SexName;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        
     }
 
 }
