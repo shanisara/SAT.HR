@@ -163,7 +163,7 @@ namespace SAT.HR.Controllers
             {
                 model = new DisciplineRepository().GetByID((int)id);
             }
-            return PartialView("_Section", model);
+            return PartialView("_Discipline", model);
         }
 
         [HttpPost]

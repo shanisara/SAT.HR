@@ -83,8 +83,8 @@
           <Key>
             <PropertyRef Name="DisID" />
           </Key>
-          <Property Name="DisID" Type="int" Nullable="false" />
-          <Property Name="DisName" Type="nvarchar" MaxLength="50" />
+          <Property Name="DisID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DisName" Type="nvarchar" MaxLength="200" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifyDate" Type="datetime" />
@@ -196,12 +196,11 @@
           </Key>
           <Property Name="MenuID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MenuName" Type="nvarchar" MaxLength="200" />
-          <Property Name="ActionName" Type="nchar" MaxLength="10" />
           <Property Name="ControllerName" Type="nvarchar(max)" />
-          <Property Name="CreateDate" Type="datetime" />
-          <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
-          <Property Name="ModifyDate" Type="datetime" />
-          <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="ActionName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Icon" Type="nvarchar" MaxLength="50" />
+          <Property Name="Sequence" Type="int" />
+          <Property Name="ParentID" Type="int" />
         </EntityType>
         <EntityType Name="tb_Nationality">
           <Key>
@@ -246,6 +245,7 @@
           </Key>
           <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="RoleDesc" Type="nvarchar" MaxLength="200" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifyDate" Type="datetime" />
@@ -736,8 +736,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
           <Key>
             <PropertyRef Name="DisID" />
           </Key>
-          <Property Name="DisID" Type="Int32" Nullable="false" />
-          <Property Name="DisName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DisID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DisName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
@@ -850,12 +850,11 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
           </Key>
           <Property Name="MenuID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MenuName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="ActionName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="ControllerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ActionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Icon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sequence" Type="Int32" />
+          <Property Name="ParentID" Type="Int32" />
           <NavigationProperty Name="tb_Capability" Relationship="SAT.HR.FK_tb_Capability_tb_Menu" FromRole="tb_Menu" ToRole="tb_Capability" />
           <NavigationProperty Name="tb_RoleMenu" Relationship="SAT.HR.FK_tb_RoleMenu_tb_Menu" FromRole="tb_Menu" ToRole="tb_RoleMenu" />
         </EntityType>
@@ -902,6 +901,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
           </Key>
           <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RoleDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
@@ -1356,12 +1356,11 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
           <EntitySetMapping Name="tb_Menu">
             <EntityTypeMapping TypeName="SAT.HR.tb_Menu">
               <MappingFragment StoreEntitySet="tb_Menu">
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
                 <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
                 <ScalarProperty Name="MenuName" ColumnName="MenuName" />
                 <ScalarProperty Name="MenuID" ColumnName="MenuID" />
               </MappingFragment>
@@ -1414,6 +1413,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
                 <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="RoleDesc" ColumnName="RoleDesc" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
               </MappingFragment>

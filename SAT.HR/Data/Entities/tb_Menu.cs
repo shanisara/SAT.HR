@@ -23,12 +23,11 @@ namespace SAT.HR.Data.Entities
     
         public int MenuID { get; set; }
         public string MenuName { get; set; }
-        public string ActionName { get; set; }
         public string ControllerName { get; set; }
-        public Nullable<System.DateTime> CreateDate { get; set; }
-        public string CreateBy { get; set; }
-        public Nullable<System.DateTime> ModifyDate { get; set; }
-        public string ModifyBy { get; set; }
+        public string ActionName { get; set; }
+        public string Icon { get; set; }
+        public Nullable<int> Sequence { get; set; }
+        public Nullable<int> ParentID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Capability> tb_Capability { get; set; }

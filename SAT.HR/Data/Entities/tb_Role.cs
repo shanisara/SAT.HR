@@ -16,6 +16,7 @@ namespace SAT.HR.Data.Entities
     {
         public int RoleID { get; set; }
         public string RoleName { get; set; }
+        public string RoleDesc { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public string CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
