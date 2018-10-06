@@ -44,7 +44,7 @@ namespace SAT.HR.Data.Repository
                     DepName = s.DepName,
                     DivID = s.DivID,
                     DivName = s.DivName,
-                    DepStatus = s.DepStatus
+                    DepStatus = (bool)s.DepStatus
                 }).Skip(start * length).Take(length).ToList();
 
 
@@ -66,7 +66,7 @@ namespace SAT.HR.Data.Repository
                 {
                     DepID = s.DepID,
                     DepName = s.DepName,
-                    DepStatus = s.DepStatus
+                    DepStatus = (bool)s.DepStatus
                 }).OrderBy(x => x.DepName).ToList();
                 return list;
             }
@@ -80,7 +80,7 @@ namespace SAT.HR.Data.Repository
                 DepartmentViewModel model = new Models.DepartmentViewModel();
                 model.DepID = data.DepID;
                 model.DepName = data.DepName;
-                model.DepStatus = data.DepStatus;
+                model.DepStatus = (bool)data.DepStatus;
                 return model;
             }
         }

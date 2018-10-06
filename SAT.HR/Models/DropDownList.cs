@@ -23,6 +23,7 @@ namespace SAT.HR.Models
                 select.Text = item.DivName;
                 list.Add(select);
             }
+            //list.Insert(0, (new SelectListItem { Text = "-- กรุณาเลือก -- ", Value = "-1" }));
             return list;
         }
 

@@ -70,6 +70,7 @@ namespace SAT.HR.Controllers
             {
                 model = new DepartmentRepository().GetByID((int)id);
             }
+            ViewBag.Division = DropDownList.GetDivision();
             return PartialView("_Department", model);
         }
 

@@ -16,7 +16,7 @@ namespace SAT.HR.Models
 
         public string DepName { get; set; }
 
-        public bool? DepStatus { get; set; }
+        public bool DepStatus { get; set; }
 
         public DateTime? CreateDate { get; set; }
 
