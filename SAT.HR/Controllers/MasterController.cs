@@ -909,6 +909,7 @@ namespace SAT.HR.Controllers
         #endregion
 
         #region RoleUser
+
         public ActionResult RoleUser(int id)
         {
             var data = new PermissionRepository().GetRoleUser(id);
@@ -927,7 +928,6 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-
         [HttpPost]
         public JsonResult Employee(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
@@ -938,24 +938,13 @@ namespace SAT.HR.Controllers
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
 
-        //public ActionResult UserList()
-        //{
-        //    var result = new EmployeeRepository().GetAll();
-        //    //EmployeePageResult data = new EmployeePageResult();
-        //    //data.draw = 0;
-        //    //data.recordsTotal = result.Count();
-        //    //data.recordsFiltered = result.Count();
-        //    //data.data = result;
-        //    return PartialView("_RoleUser", result);
-        //}
-
         #endregion
 
         #region RoleMenu
 
         public ActionResult RoleMenu(int id)
         {
-            var data = new PermissionRepository().GetMenuByRole(id);
+            var data = new PermissionRepository().GetRoleMenu(id);
             return View(data);
         }
 

@@ -208,9 +208,24 @@ namespace SAT.HR.Data.Repository
         }
 
 
-        #endregion 
+        #endregion
 
         #region  RoleMenu
+
+        public RoleViewModel GetRoleMenu(int id)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                RoleViewModel model = new RoleViewModel();
+                var data = db.tb_Role.Where(x => x.RoleID == id).FirstOrDefault();
+                model.RoleID = data.RoleID;
+                model.RoleName = data.RoleName;
+                model.RoleDesc = data.RoleDesc;
+                model.RoleStatus = data.RoleStatus;
+                model.ListRoleMenu = GetMenuByRole(id);
+                return model;
+            }
+        }
 
         public List<RoleMenuViewModel> GetMenuByRole(int roleid)
         {
@@ -224,6 +239,39 @@ namespace SAT.HR.Data.Repository
                     MenuName = s.MenuName,
                 }).OrderBy(x => x.MenuName).ToList();
                 return data;
+            }
+        }
+
+        public ResponseData SaveRoleMenu(int roleid, string menus)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    if (!string.IsNullOrEmpty(menus))
+                    {
+                        string[] menu = menus.Split(',');
+                        foreach (var menuid in menu)
+                        {
+                            tb_RoleMenu model = new tb_RoleMenu();
+                            model.RoleID = roleid;
+                            model.MenuID = Convert.ToInt32(menuid);
+                            model.CreateBy = string.Empty;
+                            model.CreateDate = DateTime.Now;
+                            model.ModifyBy = string.Empty;
+                            model.ModifyDate = DateTime.Now;
+                            db.tb_RoleMenu.Add(model);
+                            db.SaveChanges();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
             }
         }
 

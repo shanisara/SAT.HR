@@ -1,4 +1,4 @@
-﻿@model List<SAT.HR.Models.RoleMenuViewModel>
+﻿@model SAT.HR.Models.RoleViewModel
 
 @{
     ViewBag.Title = "RoleMenu";
@@ -6,91 +6,81 @@
 }
 
 <div class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header card-header-primary card-header-icon">
-                        <div class="card-icon">
-                            <i class="material-icons">assignment</i>
-                        </div>
-                        <h4 class="card-title">รายการผู้ใช้งาน</h4>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">assignment</i>
                     </div>
-                    <div class="card-body">
-                        <div class="toolbar">
-                            <button class="btn btn-primary btn-sm pull-right" data-toggle="modal" id="btnAdd"><i class="material-icons">add</i> เพิ่มผู้ใช้งาน</button>
+                    <h4 class="card-title">รายการผู้ใช้งาน</h4>
+                </div>
+                <div class="card-body">
+                    <div class="form-horizontal">
+                        @Html.HiddenFor(m => m.RoleID)
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">Role Name</label>
+                            <div class="col-sm-5">
+                                <div class="form-group bmd-form-group">
+                                    @Model.RoleName
+                                </div>
+                            </div>
                         </div>
-                        <div class="material-datatables">
-                            <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
-                                <thead>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">Role Description</label>
+                            <div class="col-sm-5">
+                                <div class="form-group bmd-form-group">
+                                    @Model.RoleDesc
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="toolbar">
+                        @*<button class="btn btn-primary btn-sm pull-right btnAdd" data-toggle="modal"><i class="material-icons">add</i> เพิ่มผู้ใช้งาน</button>*@
+                    </div>
+                    <div class="material-datatables">
+                        <table class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th style="width:10%">ลำดับ</th>
+                                    <th style="width:10%">รหัส</th>
+                                    <th style="width:10%">ชื่อ</th>
+                                    <th style="width:10%">ตำแหน่ง</th>
+                                    <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ int index = 1; }
+                                @foreach (var item in Model.ListRoleMenu)
+                                {
                                     <tr>
-                                        <th style="width:10%">ลำดับ</th>
-                                        <th style="width:10%">รหัส</th>
-                                        <th style="width:10%">ชื่อ</th>
-                                        <th style="width:10%">ตำแหน่ง</th>
-
-                                        <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
+                                        <td>@index</td>
+                                        <td>@item.MenuID</td>
+                                        <td>@item.MenuName</td>
+                                        <td>@item.MenuName</td>
+                                        <td class="td-actions text-right">
+                                            <button type="button" rel="tooltip" class="btn btn-round btn-danger btnDelete" value="@item.MenuID"><i class="material-icons">close</i></button>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @{ int index = 1; }
-                                    @foreach (var item in Model)
-                                    {
-                                        <tr id="@item.RoleID">
-                                            <td>@index</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td class="td-actions text-right">
-                                                <button type="button" rel="tooltip" class="btn btn-round btn-danger delete"><i class="material-icons">close</i></button>
-                                            </td>
-                                        </tr>
-                                        index++;
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="card-footer text-right">
-                        <div class="form-check mr-auto"></div>
-                        <button class="btn btn-primary" type="button" id="btnBack">ย้อนกลับ<div class="ripple-container"></div></button>
-                    </div>
-                    <!-- end content -->
-                </div>
-                <!--  end card  -->
-            </div>
-            <!-- end col-md-12 -->
-        </div>
-        <!-- end row -->
-    </div>
-</div>
+                                    index++;
+                                }
+                            </tbody>
 
-<!-- Classic Modal -->
-<div class="modal fade modal-large" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">รายการพนักงาน</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    <i class="material-icons">clear</i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="content">
-                    <div class="container-fluid">
-                        <div id="detail"></div>
+                        </table>
                     </div>
                 </div>
+                <div class="card-footer text-right">
+                    <div class="form-check mr-auto"></div>
+                    <button class="btn btn-primary" type="button" id="btnBack">ย้อนกลับ<div class="ripple-container"></div></button>
+                </div>
+                <!-- end content -->
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-link" id="btnSave">Submit</button>
-                <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Close</button>
-            </div>
+            <!--  end card  -->
         </div>
+        <!-- end col-md-12 -->
     </div>
+    <!-- end row -->
 </div>
-<!--  End Modal -->
 
 @section Scripts {
     <script>
@@ -113,7 +103,7 @@
                 }).catch(swal.noop)
             });
 
-
+            
 
 
         });
