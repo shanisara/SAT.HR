@@ -867,24 +867,57 @@ namespace SAT.HR.Controllers
 
         #region 20. จัดการสิทธิการเข้าใช้งาน - UserRole
 
+        public ActionResult Permission()
+        {
+            var data = new PermissionRepository().GetRoleAll();
+            return View(data);
+        }
+        public ActionResult RoleUser(int roleid)
+        {
+            var data = new PermissionRepository().GetUserByRole(roleid);
+            return View(data);
+        }
+
+        public ActionResult RoleMenu(int roleid)
+        {
+            var data = new PermissionRepository().GetMenuByRole(roleid);
+            return View(data);
+        }
+
         public ActionResult Role()
-        {
-            return PartialView("_User");
-        }
-
-        public ActionResult UserRole()
-        {
-            return PartialView("_User");
-        }
-
-        public ActionResult RoleMenu()
         {
             return PartialView("_Role");
         }
 
+        public ActionResult RoleDetail(int? id)
+        {
+            RoleViewModel model = new RoleViewModel();
+            if (id.HasValue)
+            {
+                model = new PermissionRepository().GetRoleByID((int)id);
+            }
+            return PartialView("_Role", model);
+        }
+
+        public JsonResult SaveRole(RoleViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (model.RoleID != 0)
+                result = new PermissionRepository().UpdateRoleByEntity(model);
+            else
+                result = new PermissionRepository().AddRoleByEntity(model);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteRole(int id)
+        {
+            var result = new PermissionRepository().RemoveRoleByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
 
-      
+
     }
 }

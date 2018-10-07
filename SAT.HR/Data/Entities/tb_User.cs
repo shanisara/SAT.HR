@@ -14,6 +14,12 @@ namespace SAT.HR.Data.Entities
     
     public partial class tb_User
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tb_User()
+        {
+            this.tb_RoleUser = new HashSet<tb_RoleUser>();
+        }
+    
         public int UserID { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
@@ -27,6 +33,8 @@ namespace SAT.HR.Data.Entities
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public string ModifyBy { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_RoleUser> tb_RoleUser { get; set; }
         public virtual tb_Sex tb_Sex { get; set; }
     }
 }

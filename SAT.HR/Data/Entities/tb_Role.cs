@@ -14,14 +14,23 @@ namespace SAT.HR.Data.Entities
     
     public partial class tb_Role
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tb_Role()
+        {
+            this.tb_RoleUser = new HashSet<tb_RoleUser>();
+        }
+    
         public int RoleID { get; set; }
         public string RoleName { get; set; }
         public string RoleDesc { get; set; }
+        public Nullable<bool> RoleStatus { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public string CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public string ModifyBy { get; set; }
     
         public virtual tb_RoleMenu tb_RoleMenu { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_RoleUser> tb_RoleUser { get; set; }
     }
 }

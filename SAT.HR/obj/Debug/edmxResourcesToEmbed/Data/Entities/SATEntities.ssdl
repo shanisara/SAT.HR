@@ -247,6 +247,7 @@
     <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
     <Property Name="RoleDesc" Type="nvarchar" MaxLength="200" />
+    <Property Name="RoleStatus" Type="bit" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -258,6 +259,18 @@
     </Key>
     <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="MenuID" Type="int" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_RoleUser">
+    <Key>
+      <PropertyRef Name="RoleID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="RoleID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -367,6 +380,29 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Department' does not have a pri
     <Property Name="DepStatus" Type="bit" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenu' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_RoleMenu">
+    <Key>
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Name="RoleID" Type="int" Nullable="false" />
+    <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
+    <Property Name="MenuID" Type="int" />
+    <Property Name="MenuName" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleUser' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_RoleUser">
+    <Key>
+      <PropertyRef Name="RoleID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="RoleID" Type="int" Nullable="false" />
+    <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Section">
     <Key>
@@ -455,6 +491,30 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tb_RoleUser_tb_Role">
+    <End Role="tb_Role" Type="Self.tb_Role" Multiplicity="1" />
+    <End Role="tb_RoleUser" Type="Self.tb_RoleUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Role">
+        <PropertyRef Name="RoleID" />
+      </Principal>
+      <Dependent Role="tb_RoleUser">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_RoleUser_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
+    <End Role="tb_RoleUser" Type="Self.tb_RoleUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_RoleUser">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tb_Section_tb_Department">
     <End Role="tb_Department" Type="Self.tb_Department" Multiplicity="0..1" />
     <End Role="tb_Section" Type="Self.tb_Section" Multiplicity="*" />
@@ -514,6 +574,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
     <EntitySet Name="tb_Religion" EntityType="Self.tb_Religion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Role" EntityType="Self.tb_Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_RoleMenu" EntityType="Self.tb_RoleMenu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_RoleUser" EntityType="Self.tb_RoleUser" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Salary" EntityType="Self.tb_Salary" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Section" EntityType="Self.tb_Section" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Sex" EntityType="Self.tb_Sex" Schema="dbo" store:Type="Tables" />
@@ -530,6 +591,22 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
     [vw_Department].[DivStatus] AS [DivStatus], 
     [vw_Department].[DepStatus] AS [DepStatus]
     FROM [dbo].[vw_Department] AS [vw_Department]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_RoleMenu" EntityType="Self.vw_RoleMenu" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_RoleMenu].[RoleID] AS [RoleID], 
+    [vw_RoleMenu].[RoleName] AS [RoleName], 
+    [vw_RoleMenu].[MenuID] AS [MenuID], 
+    [vw_RoleMenu].[MenuName] AS [MenuName]
+    FROM [dbo].[vw_RoleMenu] AS [vw_RoleMenu]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_RoleUser" EntityType="Self.vw_RoleUser" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_RoleUser].[RoleID] AS [RoleID], 
+    [vw_RoleUser].[RoleName] AS [RoleName], 
+    [vw_RoleUser].[UserID] AS [UserID], 
+    [vw_RoleUser].[UserName] AS [UserName]
+    FROM [dbo].[vw_RoleUser] AS [vw_RoleUser]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vw_Section" EntityType="Self.vw_Section" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
@@ -573,6 +650,14 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
     <AssociationSet Name="FK_tb_RoleMenu_tb_Role" Association="Self.FK_tb_RoleMenu_tb_Role">
       <End Role="tb_Role" EntitySet="tb_Role" />
       <End Role="tb_RoleMenu" EntitySet="tb_RoleMenu" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_RoleUser_tb_Role" Association="Self.FK_tb_RoleUser_tb_Role">
+      <End Role="tb_Role" EntitySet="tb_Role" />
+      <End Role="tb_RoleUser" EntitySet="tb_RoleUser" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_RoleUser_tb_User" Association="Self.FK_tb_RoleUser_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_RoleUser" EntitySet="tb_RoleUser" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_Section_tb_Department" Association="Self.FK_tb_Section_tb_Department">
       <End Role="tb_Department" EntitySet="tb_Department" />
