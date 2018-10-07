@@ -35,7 +35,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Division> tb_Division { get; set; }
         public virtual DbSet<tb_DocNumber> tb_DocNumber { get; set; }
         public virtual DbSet<tb_Education> tb_Education { get; set; }
-        public virtual DbSet<tb_Employee> tb_Employee { get; set; }
         public virtual DbSet<tb_Holiday> tb_Holiday { get; set; }
         public virtual DbSet<tb_Insignia> tb_Insignia { get; set; }
         public virtual DbSet<tb_LeaveType> tb_LeaveType { get; set; }
@@ -60,5 +59,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_RoleUser> vw_RoleUser { get; set; }
         public virtual DbSet<vw_Section> vw_Section { get; set; }
         public virtual DbSet<vw_Title> vw_Title { get; set; }
+        public virtual DbSet<vw_User> vw_User { get; set; }
     }
 }

@@ -23,6 +23,11 @@ namespace SAT.HR.Models
         public DateTime? ModifyDate { get; set; }
 
         public string ModifyBy { get; set; }
+
+        public List<RoleUserViewModel> ListRoleUser { get; set; }
+
+        public List<RoleMenuViewModel> ListRoleMenu { get; set; }
+
     }
 
     public class RoleUserViewModel
@@ -66,4 +71,5 @@ namespace SAT.HR.Models
 
         public string ModifyBy { get; set; }
     }
+
 }

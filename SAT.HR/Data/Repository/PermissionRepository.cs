@@ -121,6 +121,21 @@ namespace SAT.HR.Data.Repository
 
         #region  RoleUser
 
+        public RoleViewModel GetRoleUser(int id)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                RoleViewModel model = new RoleViewModel();
+                var data = db.tb_Role.Where(x => x.RoleID == id).FirstOrDefault();
+                model.RoleID = data.RoleID;
+                model.RoleName = data.RoleName;
+                model.RoleDesc = data.RoleDesc;
+                model.RoleStatus = data.RoleStatus;
+                model.ListRoleUser = GetUserByRole(id);
+                return model;
+            }
+        }
+
         public List<RoleUserViewModel> GetUserByRole(int roleid)
         {
             using (SATEntities db = new SATEntities())
@@ -135,6 +150,63 @@ namespace SAT.HR.Data.Repository
                 return data;
             }
         }
+
+        public ResponseData SaveRoleUser(int roleid, string users)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    if (!string.IsNullOrEmpty(users))
+                    {
+                        string[] user = users.Split(',');
+                        foreach (var userid in user)
+                        {
+                            tb_RoleUser model = new tb_RoleUser();
+                            model.RoleID = roleid;
+                            model.UserID = Convert.ToInt32(userid);
+                            model.CreateBy = string.Empty;
+                            model.CreateDate = DateTime.Now;
+                            model.ModifyBy = string.Empty;
+                            model.ModifyDate = DateTime.Now;
+                            db.tb_RoleUser.Add(model);
+                            db.SaveChanges();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
+
+        public ResponseData RemoveRoleUser(int roleid, int userid)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var obj = db.tb_RoleUser.SingleOrDefault(m => m.RoleID == roleid && m.UserID == userid);
+                    if (obj != null)
+                    {
+                        db.tb_RoleUser.Remove(obj);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
+
 
         #endregion 
 
