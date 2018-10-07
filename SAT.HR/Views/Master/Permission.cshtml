@@ -21,7 +21,7 @@
                             <button class="btn btn-primary btn-sm pull-right" data-toggle="modal" id="btnAdd"><i class="material-icons">add</i> เพิ่มกฎ</button>
                         </div>
                         <div class="material-datatables">
-                            <table id="datatables" data-url="@Url.Content("~/Master/Division")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                            <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th style="width:10%">ลำดับ</th>
@@ -108,6 +108,9 @@
                         type: "success",
                         buttonsStyling: false,
                         confirmButtonClass: "btn btn-success",
+                    }).then(function () {
+                        window.location.href = '@Url.Action("Permission", "Master")';
+                        $('#modalDetail').modal('hide');
                     }).catch(swal.noop)
                 },
                 deleteMessage: function () {
@@ -117,6 +120,8 @@
                         type: 'success',
                         confirmButtonClass: "btn btn-success",
                         buttonsStyling: false
+                    }).then(function () {
+                        window.location.href = '@Url.Action("Permission", "Master")';
                     }).catch(swal.noop)
                 },
                 confirmDeleteMessage: function (id) {
@@ -137,7 +142,7 @@
                             success: function (res) {
                                 if (res.MessageCode == null) {
                                     showSwal.deleteMessage();
-                                    dataTable.getData();
+                                    window.location.href = '@Url.Action("Permission", "Master")';
                                 }
                                 else {
                                     alert(res.MessageText);
@@ -161,7 +166,8 @@
             });
 
             // Delete Role
-            $table.on('click', '.remove', function (e) {
+            $table.on('click', '.delete', function (e) {
+                var id = $(this).closest('tr').attr('id');
                 swal({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
@@ -172,7 +178,6 @@
                     confirmButtonText: 'Yes, delete it!',
                     buttonsStyling: false
                 }).then(function () {
-                    var id = $(this).closest('tr').attr('id');
                     var url = '@Url.Action("DeleteRole", "Master")/' + id;
                     $.ajax({
                         type: 'POST',
@@ -180,7 +185,6 @@
                         success: function (res) {
                             if (res.MessageCode == null) {
                                 showSwal.deleteMessage();
-                                $table.ajax.reload();
                             }
                             else {
                                 alert(res.MessageText);
@@ -195,14 +199,16 @@
             // Manage User
             $table.on('click', '.manage-user', function () {
                 var id = $(this).closest('tr').attr('id');
-
+                var url = '@Url.Action("RoleUser", "Master")/' + id;
+                window.location.href = url;
             });
 
 
             // Manage Role
             $table.on('click', '.manage-menu', function () {
                 var id = $(this).closest('tr').attr('id');
-
+                var url = '@Url.Action("RoleMenu", "Master")/' + id;
+                window.location.href = url;
             });
 
 
@@ -227,8 +233,6 @@
                         success: function (res) {
                             if (res.MessageCode == null) {
                                 showSwal.saveMessage();
-                                $table.ajax.reload();
-                                $('#modalDetail').modal('hide');
                             }
                             else {
                                 alert(res.MessageText);

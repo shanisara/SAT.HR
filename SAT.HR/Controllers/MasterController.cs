@@ -872,15 +872,16 @@ namespace SAT.HR.Controllers
             var data = new PermissionRepository().GetRoleAll();
             return View(data);
         }
-        public ActionResult RoleUser(int roleid)
+
+        public ActionResult RoleUser(int id)
         {
-            var data = new PermissionRepository().GetUserByRole(roleid);
+            var data = new PermissionRepository().GetUserByRole(id);
             return View(data);
         }
 
-        public ActionResult RoleMenu(int roleid)
+        public ActionResult RoleMenu(int id)
         {
-            var data = new PermissionRepository().GetMenuByRole(roleid);
+            var data = new PermissionRepository().GetMenuByRole(id);
             return View(data);
         }
 
