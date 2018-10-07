@@ -101,6 +101,7 @@ namespace SAT.HR.Data.Repository
                     model.TiFullName = data.TiFullName;
                     model.TiShortName = data.TiShortName;
                     model.TiStatus = data.TiStatus;
+                    model.SexID = data.SexID;
                     model.CreateBy = data.ModifyBy;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = data.ModifyBy;
@@ -127,6 +128,7 @@ namespace SAT.HR.Data.Repository
                     data.TiFullName = newdata.TiFullName;
                     data.TiShortName = newdata.TiShortName;
                     data.TiStatus = newdata.TiStatus;
+                    data.SexID = newdata.SexID;
                     data.ModifyBy = newdata.ModifyBy;
                     data.ModifyDate = DateTime.Now;
                     db.SaveChanges();

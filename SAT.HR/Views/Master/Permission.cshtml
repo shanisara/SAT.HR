@@ -1,6 +1,7 @@
-﻿
+﻿@model List<SAT.HR.Models.RoleViewModel>
+
 @{
-    ViewBag.Title = "Holiday";
+    ViewBag.Title = "Permission";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -13,23 +14,48 @@
                         <div class="card-icon">
                             <i class="material-icons">assignment</i>
                         </div>
-                        <h4 class="card-title">รายการวันหยุด</h4>
+                        <h4 class="card-title">รายการกฎ</h4>
                     </div>
                     <div class="card-body">
                         <div class="toolbar">
-                            <button class="btn btn-primary btn-sm pull-right" data-toggle="modal" id="btnAdd"><i class="material-icons">add</i> เพิ่มวันหยุด</button>
+                            <button class="btn btn-primary btn-sm pull-right" data-toggle="modal" id="btnAdd"><i class="material-icons">add</i> เพิ่มกฎ</button>
                         </div>
                         <div class="material-datatables">
-                            <table id="datatables" data-url="@Url.Content("~/Master/Holiday")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                            <table id="datatables" data-url="@Url.Content("~/Master/Division")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th style="width:10%">ลำดับ</th>
-                                        <th style="width:20%">วันที่</th>
-                                        <th style="width:50%">วันหยุด</th>
+                                        <th style="width:15%">กฎ</th>
+                                        <th style="width:25%">รายละเอียด</th>
+                                        <th style="width:10%">สถานะ</th>
+                                        <th style="width:15%" class="disabled-sorting text-left">กำหนดผู้ใช้งาน</th>
+                                        <th style="width:15%" class="disabled-sorting text-left">กำหนดสิทธิ์</th>
                                         <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
                                     </tr>
                                 </thead>
-                                <tbody></tbody>
+                                <tbody>
+                                    @{ int index = 1; }
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr id="@item.RoleID">
+                                            <td>@index</td>
+                                            <td>@item.RoleName</td>
+                                            <td>@item.RoleDesc</td>
+                                            <td>@item.RoleStatus</td>
+                                            <td>
+                                                <button class="btn btn-facebook btn-sm manage-user" type="button">กำหนดผู้ใช้งาน</button>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-facebook btn-sm manage-menu" type="button">กำหนดสิทธิ์</button>
+                                            </td>
+                                            <td class="td-actions text-right">
+                                                <button type="button" rel="tooltip" class="btn btn-round btn-success edit"><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;
+                                                <button type="button" rel="tooltip" class="btn btn-round btn-danger delete"><i class="material-icons">close</i></button>
+                                            </td>
+                                        </tr>
+                                        index++;
+                                    }
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -43,12 +69,13 @@
     </div>
 </div>
 
+
 <!-- Classic Modal -->
 <div class="modal fade modal-large" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">ข้อมูลวันหยุด</h4>
+                <h4 class="modal-title">ข้อมูลกฎ</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     <i class="material-icons">clear</i>
                 </button>
@@ -69,72 +96,9 @@
 </div>
 <!--  End Modal -->
 
-
 @section Scripts {
-<script>
+    <script>
         $(document).ready(function () {
-
-            var dataTable = {
-                table: null,
-                initializeDataTable: function () {
-                    $table = $('#datatables');
-
-                    dataTable.table = $table.DataTable({
-                        "proccessing": true,
-                        "serverSide": true,
-                        responsive: true,
-                        language: {
-                            search: "_INPUT_",
-                            searchPlaceholder: "Search records",
-                        },
-                        ajax: {
-                            url: $table[0].dataset["url"],
-                            type: "POST",
-                        },
-                        "columns": [
-                            { "data": "RowNumber", "orderable": true },
-                            { "data": "HolDateText", "orderable": true },
-                            { "data": "HolDescription", "orderable": true }
-                        ],
-                        "columnDefs": [
-                            {
-                                "render": function (data, type, row) {
-                                    var inner = '<div class="td-actions text-right">' +
-                                        '<button type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.HolID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;' +
-                                        '<button type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.HolID + '"><i class="material-icons">close</i></button>' +
-                                        '</div>';
-                                    return inner;
-                                }, "targets": 3
-                            },
-                        ],
-                        "order": [[1, "asc"]],
-                        "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
-                        "pagingType": "full_numbers",
-                    });
-
-
-                    dataTable.table.on('click', '.edit', function () {
-                        var id = $(this)[0].dataset["id"];
-                        var url = '@Url.Action("HolidayDetail", "Master")/' + id;
-                        $.post(url, function (data) {
-                            $("#detail").html(data);
-                            $('#modalDetail').modal('show');
-                        });
-                    });
-
-                    dataTable.table.on('click', '.delete', function () {
-                        var id = $(this)[0].dataset["id"];
-                        showSwal.confirmDeleteMessage(id);
-                    });
-
-                },
-                getData: function () {
-                    if (dataTable.table == null)
-                        dataTable.initializeDataTable();
-                    else
-                        dataTable.table.ajax.reload();
-                }
-            }
 
             var showSwal = {
                 saveMessage: function () {
@@ -166,8 +130,7 @@
                         confirmButtonText: 'Yes, delete it!',
                         buttonsStyling: false
                     }).then(function () {
-
-                        var url = '@Url.Action("DeleteHoliday", "Master")/' + id;
+                        var url = '@Url.Action("DeleteNationality", "Master")/' + id;
                         $.ajax({
                             type: 'POST',
                             url: url,
@@ -185,9 +148,67 @@
                 }
             }
 
-            // Add record
+            $table = $('#datatables');
+
+            // Edit Role
+            $table.on('click', '.edit', function () {
+                var id = $(this).closest('tr').attr('id');
+                var url = '@Url.Action("RoleDetail", "Master")/' + id;
+                $.post(url, function (data) {
+                    $("#detail").html(data);
+                    $('#modalDetail').modal('show');
+                });
+            });
+
+            // Delete Role
+            $table.on('click', '.remove', function (e) {
+                swal({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: 'Yes, delete it!',
+                    buttonsStyling: false
+                }).then(function () {
+                    var id = $(this).closest('tr').attr('id');
+                    var url = '@Url.Action("DeleteRole", "Master")/' + id;
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                showSwal.deleteMessage();
+                                $table.ajax.reload();
+                            }
+                            else {
+                                alert(res.MessageText);
+                            }
+                        }
+                    });
+                }).catch(swal.noop)
+                e.preventDefault();
+            });
+
+
+            // Manage User
+            $table.on('click', '.manage-user', function () {
+                var id = $(this).closest('tr').attr('id');
+
+            });
+
+
+            // Manage Role
+            $table.on('click', '.manage-menu', function () {
+                var id = $(this).closest('tr').attr('id');
+
+            });
+
+
+            // Add Role
             $("#btnAdd").click(function () {
-                var url = '@Url.Action("HolidayDetail", "Master")';
+                var url = '@Url.Action("RoleDetail", "Master")';
                 $.post(url, function (data) {
                     $("#detail").html(data);
                     $('#modalDetail').modal('show');
@@ -200,13 +221,13 @@
                 if (status) {
                     $.ajax({
                         type: 'POST',
-                        url: '@Url.Action("SaveHoliday", "Master")',
+                        url: '@Url.Action("SaveRole", "Master")',
                         data: $("#formDetail").serialize(),
                         dataType: 'json',
                         success: function (res) {
                             if (res.MessageCode == null) {
                                 showSwal.saveMessage();
-                                dataTable.getData();
+                                $table.ajax.reload();
                                 $('#modalDetail').modal('hide');
                             }
                             else {
@@ -217,8 +238,6 @@
                 }
             });
 
-            dataTable.getData();
-
         });
-</script>
+    </script>
 }

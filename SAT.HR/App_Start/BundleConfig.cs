@@ -44,7 +44,8 @@ namespace SAT.HR
                       "~/Content/assets/css/material-dashboard.css",
                       "~/Content/assets/demo/demo.css",
                       "~/fonts/font-awesome/css/font-awesome.min.css",
-                      "~/fonts/font-materialicons/fonts/material-icons.css"));
+                      "~/fonts/font-materialicons/fonts/material-icons.css",
+                      "~/fonts/font-prompt/css/Prompt.css"));
         }
     }
 }

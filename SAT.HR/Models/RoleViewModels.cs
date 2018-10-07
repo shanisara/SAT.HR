@@ -6,15 +6,15 @@ namespace SAT.HR.Models
 {
     public class RoleViewModel
     {
-        public string RowNumber { get; set; }
+        public int RowNumber { get; set; }
 
-        public int PerID { get; set; }
+        public int RoleID { get; set; }
 
-        public int? MenuID { get; set; }
+        public string RoleName { get; set; }
 
-        public bool? Status { get; set; }
+        public string RoleDesc { get; set; }
 
-        public int? GroupID { get; set; }
+        public bool? RoleStatus { get; set; }
 
         public DateTime? CreateDate { get; set; }
 
@@ -25,11 +25,45 @@ namespace SAT.HR.Models
         public string ModifyBy { get; set; }
     }
 
-    public class RoleResult
+    public class RoleUserViewModel
     {
-        public int draw { get; set; }
-        public int recordsTotal { get; set; }
-        public int recordsFiltered { get; set; }
-        public List<RoleViewModel> data { get; set; }
+        public int RowNumber { get; set; }
+
+        public int RoleID { get; set; }
+
+        public string RoleName { get; set; }
+
+        public int UserID { get; set; }
+
+        public string UserName { get; set; }
+
+        public DateTime? CreateDate { get; set; }
+
+        public string CreateBy { get; set; }
+
+        public DateTime? ModifyDate { get; set; }
+
+        public string ModifyBy { get; set; }
+    }
+
+    public class RoleMenuViewModel
+    {
+        public int RowNumber { get; set; }
+
+        public int RoleID { get; set; }
+
+        public string RoleName { get; set; }
+
+        public int MenuID { get; set; }
+
+        public string MenuName { get; set; }
+
+        public DateTime? CreateDate { get; set; }
+
+        public string CreateBy { get; set; }
+
+        public DateTime? ModifyDate { get; set; }
+
+        public string ModifyBy { get; set; }
     }
 }

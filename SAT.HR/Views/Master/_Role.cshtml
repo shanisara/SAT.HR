@@ -1,1 +1,42 @@
-﻿
+﻿@model SAT.HR.Models.RoleViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formDetail" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => m.RoleID)
+
+    <div class="col-md-12">
+        <div class="row">
+            @Html.Label("กฎ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.RoleName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.RoleName)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("รายละเอียด", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.RoleDesc, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.RoleDesc)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("สถานะ", null, new { @class = "col-sm-3 col-form-label label-checkbox" })
+            <div class="col-sm-9">
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value="" checked="">
+                        <span class="form-check-sign">
+                            <span class="check"></span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+}
