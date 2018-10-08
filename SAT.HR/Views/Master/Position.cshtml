@@ -197,8 +197,14 @@
 
             // Save record
             $("#btnSave").click(function () {
-                var status = $("#formDetail").valid();
-                if (status) {
+                if ($('#PoCode').val() == "") {
+                    $('#PoCode').focus();
+                }
+                else if ($('#PoName').val() == "")
+                {
+                    $('#PoName').focus();
+                }
+                else {
                     $.ajax({
                         type: 'POST',
                         url: '@Url.Action("SavePosition", "Master")',

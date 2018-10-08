@@ -49,7 +49,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">ข้อมูลกอง</h4>
+                <h4 class="modal-title">ระดับขั้นเงินเดือน</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     <i class="material-icons">clear</i>
                 </button>
@@ -73,6 +73,17 @@
 @section Scripts {
 <script>
         $(document).ready(function () {
+
+            $(".numeric-decimal").keydown(function (e) {
+                if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                    (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                    (e.keyCode >= 35 && e.keyCode <= 40) || (e.key != 'ๅ')) {
+                    if (($(this).val().indexOf('.') !== -1 && e.keyCode == 190)) {
+                        e.preventDefault();
+                    }
+                    return;
+                }
+            });
 
             var dataTable = {
                 table: null,
@@ -202,8 +213,21 @@
 
             // Save record
             $("#btnSave").click(function () {
-                var status = $("#formDetail").valid();
-                if (status) {
+                //var status = $("#formDetail").valid();
+                //if (status) {
+                if ($('#SaLevel').val() == "") {
+                    $('#SaLevel').focus();
+                }
+                else if ($('#SaStep').val() == "")
+                {
+                    $('#SaStep').focus();
+                }
+                else if($('#SaRate').val() == "")
+                {
+                    $('#SaRate').focus();
+                }
+                else
+                    {
                     $.ajax({
                         type: 'POST',
                         url: '@Url.Action("SaveSalary", "Master")',
@@ -223,7 +247,7 @@
                 }
             });
 
-            dataTable.getData();
+            dataTable.getData();            
 
         });
 </script>

@@ -194,8 +194,15 @@
 
             // Save record
             $("#btnSave").click(function () {
-                var status = $("#formDetail").valid();
-                if (status) {
+                //var status = $("#formDetail").valid();
+                //if (status)
+                if ($('#InsFullName').val() == "") {
+                    $('#InsFullName').focus();
+                }
+                else if ($('#InsShortName').val() == "") {
+                    $('#InsShortName').focus();
+                }
+                else{
                     $.ajax({
                         type: 'POST',
                         url: '@Url.Action("SaveInsignia", "Master")',

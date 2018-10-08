@@ -74,8 +74,11 @@
 <!--  End Modal -->
 
 @section Scripts {
+@Scripts.Render("~/plugins/boostrap-datetimepicker.min.js")
 <script>
         $(document).ready(function () {
+
+           
 
             var dataTable = {
                 table: null,
@@ -202,8 +205,29 @@
 
             // Save record
             $("#btnSave").click(function () {
-                var status = $("#formDetail").valid();
-                if (status) {
+                //var status = $("#formDetail").valid();
+                //if (status) {
+                if ($('#LevYear').val() == "") {
+                    $('#LevYear').focus();
+                }
+                else if ($('#LevName').val() == "")
+                {
+                    $('#LevName').focus();
+                }
+                else if ($('#LevStartDate').val() == "")
+                {
+                    $('#LevStartDate').focus();
+                }
+                else if ($('#LevEndDate').val() == "")
+                {
+                    $('#LevEndDate').focus();
+                }
+                else if ($('#LevMax').val() == "")
+                {
+                    $('#LevMax').focus();
+                }
+                else 
+                    {
                     $.ajax({
                         type: 'POST',
                         url: '@Url.Action("SaveLeaveType", "Master")',
@@ -224,6 +248,27 @@
             });
 
             dataTable.getData();
+
+            $('.datetimepicker').datetimepicker({
+                icons: {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-chevron-up",
+                    down: "fa fa-chevron-down",
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-screenshot',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-remove',
+                    todayBtn: "linked",
+                    keyboardNavigation: false,
+                    forceParse: false,
+                    calendarWeeks: true,
+                    autoclose: true,
+                    format: 'dd/mm/yyyy'
+
+                }
+            });           
 
         });
 </script>

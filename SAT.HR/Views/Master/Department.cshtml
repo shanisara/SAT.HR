@@ -197,8 +197,19 @@
 
             // Save record
             $("#btnSave").click(function () {
-                var status = $("#formDetail").valid();
-                if (status) {
+                //var status = $("#formDetail").valid();
+                //if (status) {
+
+                var whon = $('#DivID').val();
+                alert(whon);
+
+                if ($('#DepName').val() == "") {
+                    $('#DepName').focus();
+                }                
+                else if ($('#DivID').val() == 0) {
+                    $('#DivID').focus();
+                }
+                else {
                     $.ajax({
                         type: 'POST',
                         url: '@Url.Action("SaveDepartment", "Master")',

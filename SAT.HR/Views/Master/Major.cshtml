@@ -196,8 +196,12 @@
 
             // Save record
             $("#btnSave").click(function () {
-                var status = $("#formDetail").valid();
-                if (status) {
+                //var status = $("#formDetail").valid();
+                //if (status)
+                if ($('#MajName').val() == "") {
+                    $('#MajName').focus();
+                }
+                else{
                     $.ajax({
                         type: 'POST',
                         url: '@Url.Action("SaveMajor", "Master")',

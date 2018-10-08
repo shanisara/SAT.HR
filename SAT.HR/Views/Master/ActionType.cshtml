@@ -47,7 +47,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">ข้อมูลกอง</h4>
+                <h4 class="modal-title">ประเภทการเคลื่อนไหว</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     <i class="material-icons">clear</i>
                 </button>
@@ -193,8 +193,13 @@
 
             // Save record
             $("#btnSave").click(function () {
-                var status = $("#formDetail").valid();
-                if (status) {
+                //var status = $("#formDetail").valid();
+                //if (status) {
+                if ($('#ActName').val() == "") {
+                    $('#ActName').focus();
+                }
+                else
+                    {
                     $.ajax({
                         type: 'POST',
                         url: '@Url.Action("SaveActionType", "Master")',
