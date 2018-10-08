@@ -1,1 +1,142 @@
-﻿
+﻿@model SAT.HR.Models.RoleViewModel
+
+@{
+    ViewBag.Title = "RoleMenu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">assignment</i>
+                    </div>
+                    <h4 class="card-title">รายการผู้ใช้งาน</h4>
+                </div>
+                <div class="card-body">
+                    <div class="form-horizontal">
+                        @Html.HiddenFor(m => m.RoleID)
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">Role Name</label>
+                            <div class="col-sm-5">
+                                <div class="form-group bmd-form-group">
+                                    @Model.RoleName
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">Role Description</label>
+                            <div class="col-sm-5">
+                                <div class="form-group bmd-form-group">
+                                    @Model.RoleDesc
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card ">
+                            <div class="card-header ">
+                                <h4 class="card-title">
+                                    กำหนดสิทธิ์
+                                    <small class="description"></small>
+                                </h4>
+                            </div>
+                            <div class="card-body ">
+                                <ul class="nav nav-pills" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" role="tablist" href="#link1" data-toggle="tab">
+                                            เมนู
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" role="tablist" href="#link2" data-toggle="tab">
+                                            แท็บ
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content tab-space">
+                                    <div class="tab-pane" id="link1">
+                                        @*<div class="material-datatables">
+                                            <table class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width:10%">ลำดับ</th>
+                                                        <th style="width:10%">เมนู</th>
+                                                        <th style="width:10%"></th>
+                                                        <th style="width:10%"></th>
+                                                        <th style="width:10%"></th>
+                                                        <th style="width:10%"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @{ int index = 1; }
+                                                    @foreach (var item in Model.ListRoleMenu)
+                                                    {
+                                                        <tr>
+                                                            @item.MenuID
+                                                            <td>@index</td>
+                                                            <td>@item.MenuName</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </tr>
+                                                        index++;
+                                                    }
+                                                </tbody>
+
+                                            </table>
+                                        </div>*@
+                                    </div>
+                                    <div class="tab-pane" id="link2">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-footer text-right">
+                    <div class="form-check mr-auto"></div>
+                    <button type="button" class="btn" id="btnBack">ย้อนกลับ<div class="ripple-container"></div></button>&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-primary" id="btnSave">บันทึก<div class="ripple-container"></div></button>
+                </div>
+                <!-- end content -->
+            </div>
+            <!--  end card  -->
+        </div>
+        <!-- end col-md-12 -->
+    </div>
+    <!-- end row -->
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+             $("#btnBack").click(function () {
+                swal({
+                    title: '',
+                    text: "ท่านต้องการกลับไปยังรายการก่อนหน้า?!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: 'ใช่',
+                    cancelButtonText: 'ไม่',
+                    buttonsStyling: false
+                }).then(function () {
+                    var url = '@Url.Action("Permission", "Master")';
+                    window.location.href = url;
+                }).catch(swal.noop)
+            });
+
+            
+
+
+        });
+    </script>
+}

@@ -1,1 +1,301 @@
-﻿
+﻿@model SAT.HR.Models.RoleViewModel
+
+@{
+    ViewBag.Title = "RoleUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">assignment</i>
+                    </div>
+                    <h4 class="card-title">กำหนดผู้ใช้งาน</h4>
+                </div>
+                <div class="card-body">
+                    <div class="form-horizontal">
+                        @Html.HiddenFor(m => m.RoleID)
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">Role Name</label>
+                            <div class="col-sm-5">
+                                <div class="form-group bmd-form-group">
+                                    @Model.RoleName
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">Role Description</label>
+                            <div class="col-sm-5">
+                                <div class="form-group bmd-form-group">
+                                    @Model.RoleDesc
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="toolbar">
+                        <button class="btn btn-success btn-sm pull-right btnAdd" data-toggle="modal"><i class="material-icons">add</i> เพิ่มผู้ใช้งาน</button>
+                    </div>
+                    <div class="card ">
+                        <div class="card-body ">
+                            <div class="material-datatables">
+                                <table class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:10%">ลำดับ</th>
+                                            <th style="width:10%">รหัส</th>
+                                            <th style="width:10%">ชื่อ</th>
+                                            <th style="width:10%">ตำแหน่ง</th>
+                                            <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{ int index = 1; }
+                                        @foreach (var item in Model.ListRoleUser)
+                                            {
+                                            <tr>
+                                                <td>@index</td>
+                                                <td>@item.UserID</td>
+                                                <td>@item.UserName</td>
+                                                <td>@item.UserName</td>
+                                                <td class="td-actions text-right">
+                                                    <button type="button" rel="tooltip" class="btn btn-round btn-danger btnDelete" value="@item.UserID"><i class="material-icons">close</i></button>
+                                                </td>
+                                            </tr>
+                                                index++;
+                                            }
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <div class="form-check mr-auto"></div>
+                    <button class="btn" type="button" id="btnBack">ย้อนกลับ<div class="ripple-container"></div></button>
+                </div>
+                <!-- end content -->
+            </div>
+            <!--  end card  -->
+        </div>
+        <!-- end col-md-12 -->
+    </div>
+    <!-- end row -->
+</div>
+
+<!-- Classic Modal -->
+<div class="modal fade modal-large" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">รายการพนักงาน</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="material-icons">clear</i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div class="container-fluid">
+                        @*<div id="detail"></div>*@
+                        <div class="toolbar">
+                            <button class="btn btn-primary btn-sm pull-right" data-toggle="modal" id="btnSelect"> เพิ่ม</button>
+                        </div>
+                        <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th style="width:5%">ลำดับ</th>
+                                    <th style="width:5%">เลือก</th>
+                                    <th style="width:10%">รหัส</th>
+                                    <th style="width:15%">ชื่อ</th>
+                                    <th style="width:20%">นามสกุล</th>
+                                    <th style="width:15%">ฝ่าย</th>
+                                    <th style="width:15%">กอง</th>
+                                    <th style="width:15%">หน่วยงาน</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" id="btnSave">Submit</button>
+                    <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  End Modal -->
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            $("#btnBack").click(function () {
+                swal({
+                    title: '',
+                    text: "ท่านต้องการกลับไปยังรายการก่อนหน้า?!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: 'ใช่',
+                    cancelButtonText: 'ไม่',
+                    buttonsStyling: false
+                }).then(function () {
+                    var url = '@Url.Action("Permission", "Master")';
+                    window.location.href = url;
+                }).catch(swal.noop)
+            });
+
+            // Add User
+            $(".btnAdd").click(function () {
+                $('#modalDetail').modal('show');
+            });
+
+
+            // Delete User
+            $(".btnDelete").click(function () {
+                var userid = $(this).val();
+                var roleid = $('#RoleID').val();
+                var $row = $(this).closest('tr');
+                swal({
+                    title: '',
+                    text: "ยืนยันการลบข้อมูล?!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: 'ใช่',
+                    cancelButtonText: 'ไม่',
+                    buttonsStyling: false
+                }).then(function () {
+                    $.ajax({
+                        url: '@Url.Action("DeleteRoleUser", "Master")',
+                        data: { userid: userid, roleid: roleid },
+                        type: 'POST',
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                swal({
+                                    title: 'Deleted!',
+                                    text: 'Your file has been deleted.',
+                                    type: 'success',
+                                    confirmButtonClass: "btn btn-success",
+                                    buttonsStyling: false
+                                }).then(function () {
+                                    $row.remove();
+                                }).catch(swal.noop)
+                            }
+                            else {
+                                alert(res.MessageText);
+                            }
+                        }
+                    });
+                }).catch(swal.noop)
+            });
+
+        });
+    </script>
+
+    <script>
+
+    $(document).ready(function () {
+
+        var dataTable = {
+            table: null,
+            initializeDataTable: function () {
+
+                $table = $('#datatables');
+
+                dataTable.table = $table.DataTable({
+                    "proccessing": true,
+                    "serverSide": true,
+                    responsive: true,
+                    language: {
+                        search: "_INPUT_",
+                        searchPlaceholder: "Search records",
+                    },
+                    ajax: {
+                        url: '@Url.Action("Employee", "Master")',
+                        type: "POST",
+                    },
+                    "columns": [
+                        { "data": "RowNumber", "orderable": true },
+                        { "data": "UserID", "orderable": false },
+                        { "data": "UserName", "orderable": true },
+                        { "data": "FirstName", "orderable": true },
+                        { "data": "LastName", "orderable": true },
+                    ],
+                    "columnDefs": [
+                        {
+                            "render": function (data, type, row) {
+                                var inner = '<div class="td-actions text-right">' +
+                                                '<div class="form-check">' +
+                                                '<label class="form-check-label">' +
+                                                    '<input class="form-check-input call-checkbox" type="checkbox" value="' + row.UserID + '">' +
+                                                    '<span class="form-check-sign"><span class="check"></span></span>' +
+                                                '</label>' +
+                                                '</div>' +
+                                            '</div>';
+                                return inner;
+                            }, "targets": 1
+                        },
+                    ],
+                    "order": [[1, "asc"]],
+                    "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                    "pagingType": "full_numbers",
+                });
+            },
+            getData: function () {
+                if (dataTable.table == null)
+                    dataTable.initializeDataTable();
+                else
+                    dataTable.table.ajax.reload();
+            }
+        }
+
+        dataTable.getData();
+
+
+        // Select User
+        $("#btnSelect").click(function () {
+            var roleid = $('#RoleID').val();
+            var selected = '';
+            $('#datatables').find('input[type="checkbox"]:checked').each(function () {
+                var id = $(this).val();
+                selected += (selected == '') ? id : "," + id;
+            });
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SaveRoleUser", "Master")',
+                data: { roleid: roleid, users: selected },
+                dataType: 'json',
+                success: function (res) {
+                    if (res.MessageCode == null) {
+                        swal({
+                            title: "Save success!",
+                            text: "Your record has been submited.",
+                            type: "success",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-success",
+                        }).then(function () {
+                            window.location.reload();
+                            $('#modalDetail').modal('hide');
+                        }).catch(swal.noop)
+                    }
+                    else {
+                        alert(res.MessageText);
+                    }
+                }
+            });
+        });
+
+
+    });
+
+    </script>
+
+}

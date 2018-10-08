@@ -872,18 +872,8 @@ namespace SAT.HR.Controllers
             var data = new PermissionRepository().GetRoleAll();
             return View(data);
         }
-        public ActionResult RoleUser(int roleid)
-        {
-            var data = new PermissionRepository().GetUserByRole(roleid);
-            return View(data);
-        }
 
-        public ActionResult RoleMenu(int roleid)
-        {
-            var data = new PermissionRepository().GetMenuByRole(roleid);
-            return View(data);
-        }
-
+        #region Role
         public ActionResult Role()
         {
             return PartialView("_Role");
@@ -915,6 +905,50 @@ namespace SAT.HR.Controllers
             var result = new PermissionRepository().RemoveRoleByID(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        #endregion
+
+        #region RoleUser
+
+        public ActionResult RoleUser(int id)
+        {
+            var data = new PermissionRepository().GetRoleUser(id);
+            return View(data);
+        }
+
+        public JsonResult SaveRoleUser(int roleid, string users)
+        {
+            var result = new PermissionRepository().SaveRoleUser(roleid, users);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteRoleUser(int roleid, int userid)
+        {
+            var result = new PermissionRepository().RemoveRoleUser(roleid, userid);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult Employee(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        {
+            var search = Request["search[value]"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
+            var dataTableData = new EmployeeRepository().GetPage(search, draw, start, length, dir, column);
+            return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        #region RoleMenu
+
+        public ActionResult RoleMenu(int id)
+        {
+            var data = new PermissionRepository().GetRoleMenu(id);
+            return View(data);
+        }
+
+        #endregion
 
         #endregion
 

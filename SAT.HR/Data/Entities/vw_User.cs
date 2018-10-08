@@ -12,8 +12,16 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_Employee
+    public partial class vw_User
     {
-        public int EmpID { get; set; }
+        public int UserID { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string ConfirmPassword { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public Nullable<int> UserType { get; set; }
+        public Nullable<int> SexID { get; set; }
+        public string SexName { get; set; }
     }
 }

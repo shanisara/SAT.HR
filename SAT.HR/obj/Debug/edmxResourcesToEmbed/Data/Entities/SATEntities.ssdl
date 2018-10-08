@@ -127,12 +127,6 @@
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="nvarchar" MaxLength="50" />
   </EntityType>
-  <EntityType Name="tb_Employee">
-    <Key>
-      <PropertyRef Name="EmpID" />
-    </Key>
-    <Property Name="EmpID" Type="int" Nullable="false" />
-  </EntityType>
   <EntityType Name="tb_Holiday">
     <Key>
       <PropertyRef Name="HolID" />
@@ -349,8 +343,8 @@
     <Property Name="UserName" Type="nchar" MaxLength="10" />
     <Property Name="Password" Type="nchar" MaxLength="10" />
     <Property Name="ConfirmPassword" Type="nchar" MaxLength="10" />
-    <Property Name="FullName" Type="nvarchar" MaxLength="200" />
-    <Property Name="SurName" Type="nvarchar" MaxLength="200" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="200" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="200" />
     <Property Name="UserType" Type="int" />
     <Property Name="SexID" Type="int" />
     <Property Name="CreateDate" Type="datetime" />
@@ -428,6 +422,22 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
     <Property Name="TiFullName" Type="nvarchar" MaxLength="100" />
     <Property Name="TiShortName" Type="nvarchar" MaxLength="100" />
     <Property Name="TiStatus" Type="bit" />
+    <Property Name="SexID" Type="int" />
+    <Property Name="SexName" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_User">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nchar" MaxLength="10" />
+    <Property Name="Password" Type="nchar" MaxLength="10" />
+    <Property Name="ConfirmPassword" Type="nchar" MaxLength="10" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="200" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="200" />
+    <Property Name="UserType" Type="int" />
     <Property Name="SexID" Type="int" />
     <Property Name="SexName" Type="nchar" MaxLength="10" />
   </EntityType>
@@ -562,7 +572,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
     <EntitySet Name="tb_Division" EntityType="Self.tb_Division" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_DocNumber" EntityType="Self.tb_DocNumber" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Education" EntityType="Self.tb_Education" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="tb_Employee" EntityType="Self.tb_Employee" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Holiday" EntityType="Self.tb_Holiday" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Insignia" EntityType="Self.tb_Insignia" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_LeaveType" EntityType="Self.tb_LeaveType" Schema="dbo" store:Type="Tables" />
@@ -630,6 +639,19 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
     [vw_Title].[SexID] AS [SexID], 
     [vw_Title].[SexName] AS [SexName]
     FROM [dbo].[vw_Title] AS [vw_Title]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_User" EntityType="Self.vw_User" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_User].[UserID] AS [UserID], 
+    [vw_User].[UserName] AS [UserName], 
+    [vw_User].[Password] AS [Password], 
+    [vw_User].[ConfirmPassword] AS [ConfirmPassword], 
+    [vw_User].[FirstName] AS [FirstName], 
+    [vw_User].[LastName] AS [LastName], 
+    [vw_User].[UserType] AS [UserType], 
+    [vw_User].[SexID] AS [SexID], 
+    [vw_User].[SexName] AS [SexName]
+    FROM [dbo].[vw_User] AS [vw_User]</DefiningQuery>
     </EntitySet>
     <AssociationSet Name="FK_tb_Capability_tb_Capability" Association="Self.FK_tb_Capability_tb_Capability">
       <End Role="tb_CapabilityType" EntitySet="tb_CapabilityType" />
