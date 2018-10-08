@@ -8,32 +8,38 @@
 
     <div class="col-md-12">
         <div class="row">
-            @Html.Label("ฝ่าย", null, new { @class = "col-sm-3 col-form-label" })
-            <div class="col-sm-9">
-                <div class="form-group bmd-form-group">
-                    @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "-- กรุณาเลือก / Please choose --", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.DivID)
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            @Html.Label("กอง", null, new { @class = "col-sm-3 col-form-label" })
-            <div class="col-sm-9">
-                <div class="form-group bmd-form-group">
-                    @Html.DropDownListFor(n => n.DepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Department, "Value", "Text"), "-- กรุณาเลือก / Please choose --", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.DepID)
-                </div>
-            </div>
-        </div>
-        <div class="row">
             @Html.Label("หน่วยงาน", null, new { @class = "col-sm-3 col-form-label" })
             <div class="col-sm-9">
                 <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.SecName, new { @class = "form-control" })
+                    <label class="bmd-label-floating">ใส่ข้อมูลหน่วยงาน</label>
+                    @Html.TextBoxFor(m => m.SecName, new { @class = "form-control", required = "true" })
                     @Html.ValidationMessageFor(m => m.SecName)
                 </div>
             </div>
         </div>
+        
+        <div class="row">
+            @Html.Label("กอง", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating"></label>
+                    @Html.DropDownListFor(n => n.DepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Department, "Value", "Text"), "-- กรุณาเลือก / Please choose --", new { @class = "form-control", required = "true" })
+                    @Html.ValidationMessageFor(m => m.DepID)
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            @Html.Label("ฝ่าย", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating"></label>
+                    @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "-- กรุณาเลือก / Please choose --", new { @class = "form-control", required = "true" })
+                    @Html.ValidationMessageFor(m => m.DivID)
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             @Html.Label("สถานะ", null, new { @class = "col-sm-3 col-form-label label-checkbox" })
             <div class="col-sm-9">

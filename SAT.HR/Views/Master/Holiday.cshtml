@@ -196,8 +196,16 @@
 
             // Save record
             $("#btnSave").click(function () {
-                var status = $("#formDetail").valid();
-                if (status) {
+                //var status = $("#formDetail").valid();
+                //if (status) {
+                if ($('#HolDate').val() == "") {
+                    $('#HolDate').focus();
+                }
+                else if ($('#HolDescription').val() == "")
+                {
+                    $('#HolDescription').focus();
+                }
+                else{
                     $.ajax({
                         type: 'POST',
                         url: '@Url.Action("SaveHoliday", "Master")',
