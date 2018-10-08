@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using SAT.HR.Authorize;
+using System.Web;
 using System.Web.Mvc;
 
 namespace SAT.HR
@@ -8,6 +9,7 @@ namespace SAT.HR
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new MultilingualismAttribute());
         }
     }
 }

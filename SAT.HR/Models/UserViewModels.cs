@@ -34,12 +34,18 @@ namespace SAT.HR.Models
         
     }
 
-
     public class UserResult
     {
         public int draw { get; set; }
         public int recordsTotal { get; set; }
         public int recordsFiltered { get; set; }
         public List<UserViewModel> data { get; set; }
+    }
+
+    public class UserProfile
+    {
+        public string UserName { get; set; }
+
+        public string Password { get; set; }
     }
 }
