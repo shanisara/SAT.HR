@@ -8,25 +8,32 @@
     @Html.HiddenFor(m => m.DivID)
 
     <div class="col-md-12">
+
         <div class="row">
-            @Html.Label("ฝ่าย", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-3">
+                @Html.Label("กอง", null, new { @class = "bmd-label-floating text-danger" })
+            </div>
             <div class="col-sm-9">
                 <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.DepName, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.DepName, new { @class = "form-control", required = "true" })
                     @Html.ValidationMessageFor(m => m.DepName)
                 </div>
             </div>
         </div>
+        
         <div class="row">
-            @Html.Label("กอง", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-3">
+                @Html.Label("ฝ่าย", null, new { @class = "bmd-label-floating text-danger" })
+            </div>
             <div class="col-sm-9">
                 <div class="form-group bmd-form-group">
-                    @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "-- กรุณาเลือก / Please choose --", new { @class = "form-control" })
+                    @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "  -- กรุณาเลือก / Please choose --", new { @class = "form-control", required = "true" })
                     @Html.ValidationMessageFor(m => m.DivName)
                 </div>
             </div>
-        </div>
-        <div class="row">
+        </div>        
+
+        <div class="form-check">
             @Html.Label("สถานะ", null, new { @class = "col-sm-2 col-form-label label-checkbox" })
             <div class="col-sm-10">
                 <div class="form-check">
@@ -41,3 +48,11 @@
         </div>
     </div>
 }
+<script>
+    $(document).ready(function () {
+        $('.form-group').click(function () {
+            $(this).toggleClass("is-focused");
+        });
+
+    });
+</script>

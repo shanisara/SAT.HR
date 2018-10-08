@@ -147,6 +147,14 @@
                 }
             }
 
+            //var checkValidate = {
+            //    valid: function () {
+            //        if ($("#divname").val() == "") {
+            //            $("#division").toggleClass("has-danger is-focused");
+            //        }
+            //    }
+            //}
+
             var showSwal = {
                 saveMessage: function () {
                     swal({
@@ -206,8 +214,11 @@
 
             // Save record
             $("#btnSave").click(function () {
-                var status = $("#formDetail").valid();
-                if (status) {
+                debugger;                
+                if ($('.div-name').val() == "") {
+                    $('.form-control div-name').focus();
+                }
+                else {
                     $.ajax({
                         type: 'POST',
                         url: '@Url.Action("SaveDivision", "Master")',
@@ -227,8 +238,7 @@
                 }
             });
 
-            dataTable.getData();
-
+            dataTable.getData();           
 
             @*
             // Edit record
@@ -255,7 +265,7 @@
                 e.preventDefault();
             });
 
-            *@
+            *@          
 
         });
     </script>
