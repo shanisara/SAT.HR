@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace SAT.HR.Authorize
+namespace SAT.HR.Helpers
 {
     public class MultilingualismAttribute : ActionFilterAttribute
     {

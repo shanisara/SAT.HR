@@ -1,4 +1,4 @@
-﻿using SAT.HR.Authorize;
+﻿using SAT.HR.Helpers;
 using log4net;
 using System;
 using System.Collections.Generic;

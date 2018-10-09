@@ -222,6 +222,68 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public ResponseData SaveRoleMenu(int roleid, string menus)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    if (!string.IsNullOrEmpty(menus))
+                    {
+                        string[] menu = menus.Split(',');
+                        foreach (var menuid in menu)
+                        {
+                            tb_RoleMenu model = new tb_RoleMenu();
+                            model.RoleID = roleid;
+                            model.MenuID = Convert.ToInt32(menuid);
+                            model.CreateBy = string.Empty;
+                            model.CreateDate = DateTime.Now;
+                            model.ModifyBy = string.Empty;
+                            model.ModifyDate = DateTime.Now;
+                            db.tb_RoleMenu.Add(model);
+                            db.SaveChanges();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
+
+        #endregion
+
+        #region Load Menu
+
+        public UserRoleMenuViewModel MenuByUser(int userid)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                UserRoleMenuViewModel model = new UserRoleMenuViewModel();
+                model.UserID = userid;
+                model.UserName = "ชนิสรา เมืองทรัพย์";
+                model.Avatar = "~/Content/assets/img/faces/avatar.jpg";
+
+                var data = db.sp_Menu_GetByUser(userid).Select(s => new MenuViewModel()
+                {
+                    MenuID = s.MenuID,
+                    MenuName = s.MenuName,
+                    ControllerName = s.ControllerName,
+                    ActionName = s.ActionName,
+                    Icon = s.Icon,
+                    ParentID = s.ParentID,
+                    MenuType = s.MenuType
+                }).ToList();
+
+                model.ListMenu = data;
+                return model;
+            }
+        }
+
         public RoleMenuViewModel MenuByRole(int roleid, int menuid)
         {
             using (SATEntities db = new SATEntities())
@@ -299,72 +361,17 @@ namespace SAT.HR.Data.Repository
                     ActionName = s.ActionName,
                     Icon = s.Icon,
                     //R_View = s.R_View,
-                    //R_Add = s.R_Add,
-                    //R_Edit = s.R_Edit,
-                    //R_Delete = s.R_Delete
                 }).ToList();
 
                 data.RoleID = model[0].RoleID;
                 data.RoleName = model[0].RoleName;
                 data.RoleDesc = model[0].RoleDesc;
+                data.ListRoleMenuReport = model;
 
                 return data;
-            }
-        }
-
-        public ResponseData SaveRoleMenu(int roleid, string menus)
-        {
-            ResponseData result = new Models.ResponseData();
-            using (SATEntities db = new SATEntities())
-            {
-                try
-                {
-                    if (!string.IsNullOrEmpty(menus))
-                    {
-                        string[] menu = menus.Split(',');
-                        foreach (var menuid in menu)
-                        {
-                            tb_RoleMenu model = new tb_RoleMenu();
-                            model.RoleID = roleid;
-                            model.MenuID = Convert.ToInt32(menuid);
-                            model.CreateBy = string.Empty;
-                            model.CreateDate = DateTime.Now;
-                            model.ModifyBy = string.Empty;
-                            model.ModifyDate = DateTime.Now;
-                            db.tb_RoleMenu.Add(model);
-                            db.SaveChanges();
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    result.MessageCode = "";
-                    result.MessageText = ex.Message;
-                }
-                return result;
             }
         }
 
         #endregion
-
-        public List<RoleMenuViewModel> MenuByUser(int userid)
-        {
-            using (SATEntities db = new SATEntities())
-            {
-                var data = db.sp_Menu_GetByUser(userid).Select(s => new RoleMenuViewModel()
-                {
-                    MenuID = s.MenuID,
-                    MenuName = s.MenuName,
-                    ControllerName = s.ControllerName,
-                    ActionName = s.ActionName,
-                    Icon = s.Icon,
-                    ParentID = s.ParentID,
-                    MenuType = s.MenuType
-                }).ToList();
-
-                return data;
-            }
-        }
-
     }
 }

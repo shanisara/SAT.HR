@@ -1,0 +1,79 @@
+﻿@model SAT.HR.Models.UserRoleMenuViewModel
+
+<div class="user">
+    <div class="photo">
+        <img src="@Url.Content(Model.Avatar)" />
+    </div>
+    <div class="user-info">
+        <a data-toggle="collapse" href="#collapseExample" class="username">
+            <span>
+                @Model.UserName
+                <b class="caret"></b>
+            </span>
+        </a>
+        <div class="collapse" id="collapseExample">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="">
+                        <span class="sidebar-mini"></span>
+                        <span class="sidebar-normal"> เปลี่ยนรหัสผ่าน </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "Home")">
+                        <span class="sidebar-mini"></span>
+                        <span class="sidebar-normal"> ออกจากระบบ </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<ul class="nav">
+    <li class="nav-item ">
+        <a class="nav-link active" href="@Url.Action("Dashboard", "Home")">
+            <i class="material-icons">home</i>
+            <p> หน้าแรก </p>
+        </a>
+    </li>
+
+    <!-- Menu -->
+    @foreach (var item in Model.ListMenu.Where(m => m.ParentID == 0))
+    {
+        <li class="nav-item ">
+            <a class="nav-link" data-toggle="collapse" href="#@item.MenuID">
+                <i class="material-icons">@item.Icon</i>
+                <p>
+                    @item.MenuName
+                    <b class="caret"></b>
+                </p>
+            </a>
+            <div class="collapse" id="@item.MenuID">
+                <ul class="nav">
+                    @foreach (var item2 in Model.ListMenu.Where(m => m.ParentID == @item.MenuID))
+                    {
+                        int count = Model.ListMenu.Where(m => m.ParentID == @item2.MenuID && m.MenuType == "R").Count();
+                        if (count > 0)
+                        {
+                            <li class="nav-item ">
+                                <a class="nav-link" href="@Url.Action(@item2.ActionName, @item2.ControllerName, new { menuid = item2.MenuID })">
+                                    <span class="sidebar-normal"> @item2.MenuName </span>
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item ">
+                                <a class="nav-link" href="@Url.Action(@item2.ActionName, @item2.ControllerName)">
+                                    <span class="sidebar-normal"> @item2.MenuName </span>
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </li>
+    }
+    <!-- End Menu -->
+</ul>

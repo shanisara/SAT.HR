@@ -100,5 +100,29 @@ namespace SAT.HR.Models
         public List<RoleMenuViewModel> ListRoleMenuReport { get; set; }
     }
 
+    public class UserRoleMenuViewModel
+    {
+        public int UserID { get; set; }
 
+        public string UserName { get; set; }
+
+        public string Avatar { get; set; }
+
+        public int MenuID { get; set; }
+
+        public string MenuName { get; set; }
+
+        public string ControllerName { get; set; }
+
+        public string ActionName { get; set; }
+
+        public string Icon { get; set; }
+
+        public int? ParentID { get; set; }
+
+        public string MenuType { get; set; }
+
+        public List<MenuViewModel> ListMenu { get; set; }
+
+}
 }

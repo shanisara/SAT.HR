@@ -1,4 +1,4 @@
-﻿using SAT.HR.Authorize;
+﻿using SAT.HR.Helpers;
 using System.Web;
 using System.Web.Mvc;
 

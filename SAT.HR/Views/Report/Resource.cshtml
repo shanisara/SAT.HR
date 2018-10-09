@@ -9,13 +9,18 @@
         margin-left: 30px;
     }
 
-    .m-b-10 {
-        margin-bottom: 10px;
+    .m-b-15 {
+        margin-bottom: 15px;
     }
 
-    .h-430 {
-        height: 430px;
+    .m-b-20 {
+        margin-bottom: 20px;
     }
+
+    .p-l-10 {
+        padding-left: 10px;
+    }
+    
 </style>
 <div class="content">
     <div class="row">
@@ -28,15 +33,18 @@
                     <h4 class="card-title"><span>รายงานส่วนงานทรัพยากรบุคคล</span></h4>
                 </div>
                 <div class="card-body ">
-                    <div class="form-horizontal h-430 ">
-                        <div class="row m-b-10"></div>
-                        @if (Model.ListRoleMenuReport != null)
+                    <div class="m-b-20"></div>
+                    <div class="row m-b-20">
+                        @if (Model != null)
                         {
-                            for (int i = 0; i < Model.ListRoleMenuReport.Count; i++)
+                            if (Model.ListRoleMenuReport != null)
                             {
-                                <div class="col-sm-6 p-l-10 m-b-15">
-                                    <a class="m-l-30" href="">รายงาน : แสดงการฝึกอบรม ศึกษาดูงาน (รายบุคคล)</a>
-                                </div>
+                                foreach (var item in Model.ListRoleMenuReport)
+                                {
+                                    <div class="col-sm-6 p-l-10 m-b-15">
+                                        <a class="m-l-30" href="@Url.Action(@item.ActionName, @item.ControllerName)">@item.MenuName</a>
+                                    </div>
+                                }
                             }
                         }
                     </div>

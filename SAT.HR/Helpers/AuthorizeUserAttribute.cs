@@ -10,7 +10,7 @@ using System.Web.Routing;
 using System.Web.Security;
 using System.Web.UI;
 
-namespace SAT.HR.Authorize
+namespace SAT.HR.Helpers
 {
     public class AuthorizeUserAttribute : AuthorizeAttribute
     {

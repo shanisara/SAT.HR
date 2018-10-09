@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace SAT.HR.Authorize
+namespace SAT.HR.Helpers
 {
     public class DateTimeModelBinder : DefaultModelBinder
     {
