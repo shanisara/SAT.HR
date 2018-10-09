@@ -25,12 +25,7 @@ namespace SAT.HR.Models
         public string ModifyBy { get; set; }
 
         public List<RoleUserViewModel> ListRoleUser { get; set; }
-
-        public List<RoleMenuViewModel> ListRoleMenu { get; set; }
-
-        public List<RoleMenuViewModel> ListRoleMenuTab { get; set; }
-
-        public List<RoleMenuViewModel> ListRoleMenuReport { get; set; }
+        
     }
 
     public class RoleUserViewModel
@@ -40,6 +35,8 @@ namespace SAT.HR.Models
         public int RoleID { get; set; }
 
         public string RoleName { get; set; }
+
+        public string RoleDesc { get; set; }
 
         public int UserID { get; set; }
 
@@ -68,6 +65,18 @@ namespace SAT.HR.Models
 
         public string MenuName { get; set; }
 
+        public string ControllerName { get; set; }
+
+        public string ActionName { get; set; }
+
+        public string Icon { get; set; }
+
+        public int? ParentID { get; set; }
+
+        public string MenuType { get; set; }
+
+        public int? Sequence { get; set; }
+
         public int R_View { get; set; }
 
         public int R_Add { get; set; }
@@ -83,6 +92,13 @@ namespace SAT.HR.Models
         public DateTime? ModifyDate { get; set; }
 
         public string ModifyBy { get; set; }
+
+        public List<RoleMenuViewModel> ListRoleMenu { get; set; }
+
+        public List<RoleMenuViewModel> ListRoleMenuTab { get; set; }
+
+        public List<RoleMenuViewModel> ListRoleMenuReport { get; set; }
     }
+
 
 }

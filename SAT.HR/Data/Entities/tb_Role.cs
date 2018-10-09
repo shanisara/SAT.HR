@@ -17,6 +17,7 @@ namespace SAT.HR.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tb_Role()
         {
+            this.tb_RoleMenu = new HashSet<tb_RoleMenu>();
             this.tb_RoleUser = new HashSet<tb_RoleUser>();
         }
     
@@ -29,7 +30,8 @@ namespace SAT.HR.Data.Entities
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public string ModifyBy { get; set; }
     
-        public virtual tb_RoleMenu tb_RoleMenu { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_RoleMenu> tb_RoleMenu { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_RoleUser> tb_RoleUser { get; set; }
     }

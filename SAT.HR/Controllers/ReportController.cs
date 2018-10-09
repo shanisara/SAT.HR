@@ -10,7 +10,7 @@ namespace SAT.HR.Controllers
     {
         #region // รายงาน:ส่วนงานทรัพยากรบุคคล
 
-        public ActionResult ReportHuman()
+        public ActionResult Resource()
         {
             return View();
         }
@@ -19,7 +19,7 @@ namespace SAT.HR.Controllers
 
         #region // รายงาน:ส่วนงานสวัสดิการ
 
-        public ActionResult ReportBenefit()
+        public ActionResult Benefit()
         {
             return View();
         }
@@ -28,7 +28,7 @@ namespace SAT.HR.Controllers
 
         #region // รายงาน:ส่วนงานพัฒนาบุคลากร
 
-        public ActionResult HumanResource()
+        public ActionResult Human()
         {
             return View();
         }
