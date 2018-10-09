@@ -201,6 +201,7 @@
           <Property Name="Icon" Type="nvarchar" MaxLength="50" />
           <Property Name="Sequence" Type="int" />
           <Property Name="ParentID" Type="int" />
+          <Property Name="MenuType" Type="nvarchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="tb_Nationality">
           <Key>
@@ -383,11 +384,63 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenu' does not have a prima
         <EntityType Name="vw_RoleMenu">
           <Key>
             <PropertyRef Name="RoleID" />
+            <PropertyRef Name="R_View" />
+            <PropertyRef Name="R_Add" />
+            <PropertyRef Name="R_Edit" />
+            <PropertyRef Name="R_Delete" />
           </Key>
           <Property Name="RoleID" Type="int" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="RoleDesc" Type="nvarchar" MaxLength="200" />
           <Property Name="MenuID" Type="int" />
           <Property Name="MenuName" Type="nvarchar" MaxLength="200" />
+          <Property Name="MenuType" Type="nvarchar" MaxLength="10" />
+          <Property Name="R_View" Type="int" Nullable="false" />
+          <Property Name="R_Add" Type="int" Nullable="false" />
+          <Property Name="R_Edit" Type="int" Nullable="false" />
+          <Property Name="R_Delete" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenuReport' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_RoleMenuReport">
+          <Key>
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="R_View" />
+            <PropertyRef Name="R_Add" />
+            <PropertyRef Name="R_Edit" />
+            <PropertyRef Name="R_Delete" />
+          </Key>
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="RoleDesc" Type="nvarchar" MaxLength="200" />
+          <Property Name="MenuID" Type="int" />
+          <Property Name="MenuName" Type="nvarchar" MaxLength="200" />
+          <Property Name="MenuType" Type="nvarchar" MaxLength="10" />
+          <Property Name="R_View" Type="int" Nullable="false" />
+          <Property Name="R_Add" Type="int" Nullable="false" />
+          <Property Name="R_Edit" Type="int" Nullable="false" />
+          <Property Name="R_Delete" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenuTab' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_RoleMenuTab">
+          <Key>
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="R_View" />
+            <PropertyRef Name="R_Add" />
+            <PropertyRef Name="R_Edit" />
+            <PropertyRef Name="R_Delete" />
+          </Key>
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="RoleDesc" Type="nvarchar" MaxLength="200" />
+          <Property Name="MenuID" Type="int" />
+          <Property Name="MenuName" Type="nvarchar" MaxLength="200" />
+          <Property Name="MenuType" Type="nvarchar" MaxLength="10" />
+          <Property Name="R_View" Type="int" Nullable="false" />
+          <Property Name="R_Add" Type="int" Nullable="false" />
+          <Property Name="R_Edit" Type="int" Nullable="false" />
+          <Property Name="R_Delete" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleUser' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -610,9 +663,43 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
             <DefiningQuery>SELECT 
     [vw_RoleMenu].[RoleID] AS [RoleID], 
     [vw_RoleMenu].[RoleName] AS [RoleName], 
+    [vw_RoleMenu].[RoleDesc] AS [RoleDesc], 
     [vw_RoleMenu].[MenuID] AS [MenuID], 
-    [vw_RoleMenu].[MenuName] AS [MenuName]
+    [vw_RoleMenu].[MenuName] AS [MenuName], 
+    [vw_RoleMenu].[MenuType] AS [MenuType], 
+    [vw_RoleMenu].[R_View] AS [R_View], 
+    [vw_RoleMenu].[R_Add] AS [R_Add], 
+    [vw_RoleMenu].[R_Edit] AS [R_Edit], 
+    [vw_RoleMenu].[R_Delete] AS [R_Delete]
     FROM [dbo].[vw_RoleMenu] AS [vw_RoleMenu]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_RoleMenuReport" EntityType="Self.vw_RoleMenuReport" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_RoleMenuReport].[RoleID] AS [RoleID], 
+    [vw_RoleMenuReport].[RoleName] AS [RoleName], 
+    [vw_RoleMenuReport].[RoleDesc] AS [RoleDesc], 
+    [vw_RoleMenuReport].[MenuID] AS [MenuID], 
+    [vw_RoleMenuReport].[MenuName] AS [MenuName], 
+    [vw_RoleMenuReport].[MenuType] AS [MenuType], 
+    [vw_RoleMenuReport].[R_View] AS [R_View], 
+    [vw_RoleMenuReport].[R_Add] AS [R_Add], 
+    [vw_RoleMenuReport].[R_Edit] AS [R_Edit], 
+    [vw_RoleMenuReport].[R_Delete] AS [R_Delete]
+    FROM [dbo].[vw_RoleMenuReport] AS [vw_RoleMenuReport]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_RoleMenuTab" EntityType="Self.vw_RoleMenuTab" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_RoleMenuTab].[RoleID] AS [RoleID], 
+    [vw_RoleMenuTab].[RoleName] AS [RoleName], 
+    [vw_RoleMenuTab].[RoleDesc] AS [RoleDesc], 
+    [vw_RoleMenuTab].[MenuID] AS [MenuID], 
+    [vw_RoleMenuTab].[MenuName] AS [MenuName], 
+    [vw_RoleMenuTab].[MenuType] AS [MenuType], 
+    [vw_RoleMenuTab].[R_View] AS [R_View], 
+    [vw_RoleMenuTab].[R_Add] AS [R_Add], 
+    [vw_RoleMenuTab].[R_Edit] AS [R_Edit], 
+    [vw_RoleMenuTab].[R_Delete] AS [R_Delete]
+    FROM [dbo].[vw_RoleMenuTab] AS [vw_RoleMenuTab]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_RoleUser" EntityType="Self.vw_RoleUser" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -735,6 +822,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <EntitySet Name="tb_UserType" EntityType="SAT.HR.tb_UserType" />
           <EntitySet Name="vw_Department" EntityType="SAT.HR.vw_Department" />
           <EntitySet Name="vw_RoleMenu" EntityType="SAT.HR.vw_RoleMenu" />
+          <EntitySet Name="vw_RoleMenuReport" EntityType="SAT.HR.vw_RoleMenuReport" />
+          <EntitySet Name="vw_RoleMenuTab" EntityType="SAT.HR.vw_RoleMenuTab" />
           <EntitySet Name="vw_RoleUser" EntityType="SAT.HR.vw_RoleUser" />
           <EntitySet Name="vw_Section" EntityType="SAT.HR.vw_Section" />
           <EntitySet Name="vw_Title" EntityType="SAT.HR.vw_Title" />
@@ -982,6 +1071,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <Property Name="Icon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Sequence" Type="Int32" />
           <Property Name="ParentID" Type="Int32" />
+          <Property Name="MenuType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tb_Capability" Relationship="SAT.HR.FK_tb_Capability_tb_Menu" FromRole="tb_Menu" ToRole="tb_Capability" />
           <NavigationProperty Name="tb_RoleMenu" Relationship="SAT.HR.FK_tb_RoleMenu_tb_Menu" FromRole="tb_Menu" ToRole="tb_RoleMenu" />
         </EntityType>
@@ -1174,11 +1264,59 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
         <EntityType Name="vw_RoleMenu">
           <Key>
             <PropertyRef Name="RoleID" />
+            <PropertyRef Name="R_View" />
+            <PropertyRef Name="R_Add" />
+            <PropertyRef Name="R_Edit" />
+            <PropertyRef Name="R_Delete" />
           </Key>
           <Property Name="RoleID" Type="Int32" Nullable="false" />
           <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RoleDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="MenuID" Type="Int32" />
           <Property Name="MenuName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MenuType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="R_View" Type="Int32" Nullable="false" />
+          <Property Name="R_Add" Type="Int32" Nullable="false" />
+          <Property Name="R_Edit" Type="Int32" Nullable="false" />
+          <Property Name="R_Delete" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vw_RoleMenuReport">
+          <Key>
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="R_View" />
+            <PropertyRef Name="R_Add" />
+            <PropertyRef Name="R_Edit" />
+            <PropertyRef Name="R_Delete" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RoleDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MenuID" Type="Int32" />
+          <Property Name="MenuName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MenuType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="R_View" Type="Int32" Nullable="false" />
+          <Property Name="R_Add" Type="Int32" Nullable="false" />
+          <Property Name="R_Edit" Type="Int32" Nullable="false" />
+          <Property Name="R_Delete" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vw_RoleMenuTab">
+          <Key>
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="R_View" />
+            <PropertyRef Name="R_Add" />
+            <PropertyRef Name="R_Edit" />
+            <PropertyRef Name="R_Delete" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RoleDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MenuID" Type="Int32" />
+          <Property Name="MenuName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MenuType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="R_View" Type="Int32" Nullable="false" />
+          <Property Name="R_Add" Type="Int32" Nullable="false" />
+          <Property Name="R_Edit" Type="Int32" Nullable="false" />
+          <Property Name="R_Delete" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="vw_RoleUser">
           <Key>
@@ -1558,6 +1696,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <EntitySetMapping Name="tb_Menu">
             <EntityTypeMapping TypeName="SAT.HR.tb_Menu">
               <MappingFragment StoreEntitySet="tb_Menu">
+                <ScalarProperty Name="MenuType" ColumnName="MenuType" />
                 <ScalarProperty Name="ParentID" ColumnName="ParentID" />
                 <ScalarProperty Name="Sequence" ColumnName="Sequence" />
                 <ScalarProperty Name="Icon" ColumnName="Icon" />
@@ -1757,8 +1896,46 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <EntitySetMapping Name="vw_RoleMenu">
             <EntityTypeMapping TypeName="SAT.HR.vw_RoleMenu">
               <MappingFragment StoreEntitySet="vw_RoleMenu">
+                <ScalarProperty Name="R_Delete" ColumnName="R_Delete" />
+                <ScalarProperty Name="R_Edit" ColumnName="R_Edit" />
+                <ScalarProperty Name="R_Add" ColumnName="R_Add" />
+                <ScalarProperty Name="R_View" ColumnName="R_View" />
+                <ScalarProperty Name="MenuType" ColumnName="MenuType" />
                 <ScalarProperty Name="MenuName" ColumnName="MenuName" />
                 <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+                <ScalarProperty Name="RoleDesc" ColumnName="RoleDesc" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_RoleMenuReport">
+            <EntityTypeMapping TypeName="SAT.HR.vw_RoleMenuReport">
+              <MappingFragment StoreEntitySet="vw_RoleMenuReport">
+                <ScalarProperty Name="R_Delete" ColumnName="R_Delete" />
+                <ScalarProperty Name="R_Edit" ColumnName="R_Edit" />
+                <ScalarProperty Name="R_Add" ColumnName="R_Add" />
+                <ScalarProperty Name="R_View" ColumnName="R_View" />
+                <ScalarProperty Name="MenuType" ColumnName="MenuType" />
+                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+                <ScalarProperty Name="RoleDesc" ColumnName="RoleDesc" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_RoleMenuTab">
+            <EntityTypeMapping TypeName="SAT.HR.vw_RoleMenuTab">
+              <MappingFragment StoreEntitySet="vw_RoleMenuTab">
+                <ScalarProperty Name="R_Delete" ColumnName="R_Delete" />
+                <ScalarProperty Name="R_Edit" ColumnName="R_Edit" />
+                <ScalarProperty Name="R_Add" ColumnName="R_Add" />
+                <ScalarProperty Name="R_View" ColumnName="R_View" />
+                <ScalarProperty Name="MenuType" ColumnName="MenuType" />
+                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+                <ScalarProperty Name="RoleDesc" ColumnName="RoleDesc" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
               </MappingFragment>

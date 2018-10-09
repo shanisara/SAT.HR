@@ -28,6 +28,9 @@ namespace SAT.HR.Models
 
         public List<RoleMenuViewModel> ListRoleMenu { get; set; }
 
+        public List<RoleMenuViewModel> ListRoleMenuTab { get; set; }
+
+        public List<RoleMenuViewModel> ListRoleMenuReport { get; set; }
     }
 
     public class RoleUserViewModel
@@ -59,9 +62,19 @@ namespace SAT.HR.Models
 
         public string RoleName { get; set; }
 
+        public string RoleDesc { get; set; }
+
         public int MenuID { get; set; }
 
         public string MenuName { get; set; }
+
+        public int R_View { get; set; }
+
+        public int R_Add { get; set; }
+
+        public int R_Edit { get; set; }
+
+        public int R_Delete { get; set; }
 
         public DateTime? CreateDate { get; set; }
 

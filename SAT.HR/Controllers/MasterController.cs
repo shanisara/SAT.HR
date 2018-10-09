@@ -944,8 +944,25 @@ namespace SAT.HR.Controllers
 
         public ActionResult RoleMenu(int id)
         {
-            var data = new PermissionRepository().GetRoleMenu(id);
+            var data = new PermissionRepository().RoleMenu(id);
             return View(data);
+        }
+
+
+        public ActionResult Menu(int id)
+        {
+            var data = new PermissionRepository().MenuTabByRole(id);
+            return PartialView("_Menu", data);
+        }
+        public ActionResult MenuTab(int id)
+        {
+            var data = new PermissionRepository().MenuReportByRole(id);
+            return PartialView("_MenuTab", data);
+        }
+        public ActionResult MenuReport(int id)
+        {
+            var data = new PermissionRepository().MenuReportByRole(id);
+            return PartialView("_MenuReport", data);
         }
 
         #endregion

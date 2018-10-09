@@ -13,6 +13,11 @@ namespace SAT.HR.Controllers
 
         #region 1. ทะเบียนประวัติ
 
+        public ActionResult Index()
+        {
+            return View();
+        }
+
         public ActionResult Employee()
         {
             return View();

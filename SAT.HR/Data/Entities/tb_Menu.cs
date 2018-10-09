@@ -28,6 +28,7 @@ namespace SAT.HR.Data.Entities
         public string Icon { get; set; }
         public Nullable<int> Sequence { get; set; }
         public Nullable<int> ParentID { get; set; }
+        public string MenuType { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Capability> tb_Capability { get; set; }

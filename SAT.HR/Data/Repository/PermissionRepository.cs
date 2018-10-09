@@ -212,7 +212,7 @@ namespace SAT.HR.Data.Repository
 
         #region  RoleMenu
 
-        public RoleViewModel GetRoleMenu(int id)
+        public RoleViewModel RoleMenu(int id)
         {
             using (SATEntities db = new SATEntities())
             {
@@ -222,21 +222,63 @@ namespace SAT.HR.Data.Repository
                 model.RoleName = data.RoleName;
                 model.RoleDesc = data.RoleDesc;
                 model.RoleStatus = data.RoleStatus;
-                model.ListRoleMenu = GetMenuByRole(id);
+                //model.ListRoleMenu = GetMenuByRole(id);
+                //model.ListRoleMenuTab = GetMenuTabByRole(id);
+                //model.ListRoleMenuReport = GetMenuReportByRole(id);
                 return model;
             }
         }
 
-        public List<RoleMenuViewModel> GetMenuByRole(int roleid)
+        public List<RoleMenuViewModel> MenuByRole(int roleid)
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.vw_RoleMenu.Where(x => x.RoleID == roleid).Select(s => new RoleMenuViewModel()
+                var data = db.vw_RoleMenu.Where(x => x.RoleID == roleid && x.MenuType == "M").Select(s => new RoleMenuViewModel()
+                {
+                    RoleID = s.RoleID,
+                    RoleName = s.RoleName,
+                    RoleDesc = s.RoleDesc,
+                    MenuID = (int)s.MenuID,
+                    MenuName = s.MenuName,
+                    R_View = s.R_View,
+                    R_Add = s.R_Add,
+                    R_Edit = s.R_Edit,
+                    R_Delete = s.R_Delete
+                }).OrderBy(x => x.MenuName).ToList();
+                return data;
+            }
+        }
+
+        public List<RoleMenuViewModel> MenuTabByRole(int roleid)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.vw_RoleMenu.Where(x => x.RoleID == roleid && x.MenuType == "T").Select(s => new RoleMenuViewModel()
                 {
                     RoleID = s.RoleID,
                     RoleName = s.RoleName,
                     MenuID = (int)s.MenuID,
                     MenuName = s.MenuName,
+                    R_View = s.R_View,
+                    R_Add = s.R_Add,
+                    R_Edit = s.R_Edit,
+                    R_Delete = s.R_Delete
+                }).OrderBy(x => x.MenuName).ToList();
+                return data;
+            }
+        }
+
+        public List<RoleMenuViewModel> MenuReportByRole(int roleid)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.vw_RoleMenu.Where(x => x.RoleID == roleid && x.MenuType == "R").Select(s => new RoleMenuViewModel()
+                {
+                    RoleID = s.RoleID,
+                    RoleName = s.RoleName,
+                    MenuID = (int)s.MenuID,
+                    MenuName = s.MenuName,
+                    R_View = s.R_View,
                 }).OrderBy(x => x.MenuName).ToList();
                 return data;
             }

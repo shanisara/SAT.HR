@@ -32,6 +32,8 @@
     <EntitySet Name="tb_UserType" EntityType="SAT.HR.tb_UserType" />
     <EntitySet Name="vw_Department" EntityType="SAT.HR.vw_Department" />
     <EntitySet Name="vw_RoleMenu" EntityType="SAT.HR.vw_RoleMenu" />
+    <EntitySet Name="vw_RoleMenuReport" EntityType="SAT.HR.vw_RoleMenuReport" />
+    <EntitySet Name="vw_RoleMenuTab" EntityType="SAT.HR.vw_RoleMenuTab" />
     <EntitySet Name="vw_RoleUser" EntityType="SAT.HR.vw_RoleUser" />
     <EntitySet Name="vw_Section" EntityType="SAT.HR.vw_Section" />
     <EntitySet Name="vw_Title" EntityType="SAT.HR.vw_Title" />
@@ -279,6 +281,7 @@
     <Property Name="Icon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Sequence" Type="Int32" />
     <Property Name="ParentID" Type="Int32" />
+    <Property Name="MenuType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="tb_Capability" Relationship="SAT.HR.FK_tb_Capability_tb_Menu" FromRole="tb_Menu" ToRole="tb_Capability" />
     <NavigationProperty Name="tb_RoleMenu" Relationship="SAT.HR.FK_tb_RoleMenu_tb_Menu" FromRole="tb_Menu" ToRole="tb_RoleMenu" />
   </EntityType>
@@ -471,11 +474,59 @@
   <EntityType Name="vw_RoleMenu">
     <Key>
       <PropertyRef Name="RoleID" />
+      <PropertyRef Name="R_View" />
+      <PropertyRef Name="R_Add" />
+      <PropertyRef Name="R_Edit" />
+      <PropertyRef Name="R_Delete" />
     </Key>
     <Property Name="RoleID" Type="Int32" Nullable="false" />
     <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RoleDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="MenuID" Type="Int32" />
     <Property Name="MenuName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="MenuType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="R_View" Type="Int32" Nullable="false" />
+    <Property Name="R_Add" Type="Int32" Nullable="false" />
+    <Property Name="R_Edit" Type="Int32" Nullable="false" />
+    <Property Name="R_Delete" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="vw_RoleMenuReport">
+    <Key>
+      <PropertyRef Name="RoleID" />
+      <PropertyRef Name="R_View" />
+      <PropertyRef Name="R_Add" />
+      <PropertyRef Name="R_Edit" />
+      <PropertyRef Name="R_Delete" />
+    </Key>
+    <Property Name="RoleID" Type="Int32" Nullable="false" />
+    <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RoleDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="MenuID" Type="Int32" />
+    <Property Name="MenuName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="MenuType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="R_View" Type="Int32" Nullable="false" />
+    <Property Name="R_Add" Type="Int32" Nullable="false" />
+    <Property Name="R_Edit" Type="Int32" Nullable="false" />
+    <Property Name="R_Delete" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="vw_RoleMenuTab">
+    <Key>
+      <PropertyRef Name="RoleID" />
+      <PropertyRef Name="R_View" />
+      <PropertyRef Name="R_Add" />
+      <PropertyRef Name="R_Edit" />
+      <PropertyRef Name="R_Delete" />
+    </Key>
+    <Property Name="RoleID" Type="Int32" Nullable="false" />
+    <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RoleDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="MenuID" Type="Int32" />
+    <Property Name="MenuName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="MenuType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="R_View" Type="Int32" Nullable="false" />
+    <Property Name="R_Add" Type="Int32" Nullable="false" />
+    <Property Name="R_Edit" Type="Int32" Nullable="false" />
+    <Property Name="R_Delete" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="vw_RoleUser">
     <Key>

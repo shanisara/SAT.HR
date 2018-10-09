@@ -56,6 +56,8 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_UserType> tb_UserType { get; set; }
         public virtual DbSet<vw_Department> vw_Department { get; set; }
         public virtual DbSet<vw_RoleMenu> vw_RoleMenu { get; set; }
+        public virtual DbSet<vw_RoleMenuReport> vw_RoleMenuReport { get; set; }
+        public virtual DbSet<vw_RoleMenuTab> vw_RoleMenuTab { get; set; }
         public virtual DbSet<vw_RoleUser> vw_RoleUser { get; set; }
         public virtual DbSet<vw_Section> vw_Section { get; set; }
         public virtual DbSet<vw_Title> vw_Title { get; set; }
