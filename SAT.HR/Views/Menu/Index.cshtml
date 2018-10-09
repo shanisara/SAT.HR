@@ -39,41 +39,51 @@
     </li>
 
     <!-- Menu -->
+    @{
+        string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+        string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    }
+
     @foreach (var item in Model.ListMenu.Where(m => m.ParentID == 0))
     {
-        <li class="nav-item ">
-            <a class="nav-link" data-toggle="collapse" href="#@item.MenuID">
+        string active = (controllerName == @item.ControllerName) ? "active" : string.Empty;
+        string show = (controllerName == @item.ControllerName) ? "show" : string.Empty;
+
+        <li class="nav-item @active" id="li_@item.MenuID">
+            <a class="nav-link" data-toggle="collapse" href="#m_@item.MenuID">
                 <i class="material-icons">@item.Icon</i>
                 <p>
                     @item.MenuName
                     <b class="caret"></b>
                 </p>
             </a>
-            <div class="collapse" id="@item.MenuID">
+            <div class="collapse @show" id="m_@item.MenuID">
                 <ul class="nav">
                     @foreach (var item2 in Model.ListMenu.Where(m => m.ParentID == @item.MenuID))
                     {
+                        string active2 = (actionName == @item2.ActionName) ? "active" : string.Empty;
+
                         int count = Model.ListMenu.Where(m => m.ParentID == @item2.MenuID && m.MenuType == "R").Count();
                         if (count > 0)
                         {
-                            <li class="nav-item ">
-                                <a class="nav-link" href="@Url.Action(@item2.ActionName, @item2.ControllerName, new { menuid = item2.MenuID })">
-                                    <span class="sidebar-normal"> @item2.MenuName </span>
-                                </a>
-                            </li>
+                    <li class="nav-item @active2">
+                        <a class="nav-link" href="@Url.Action(@item2.ActionName, @item2.ControllerName, new { menuid = item2.MenuID })">
+                            <span class="sidebar-normal"> @item2.MenuName </span>
+                        </a>
+                    </li>
                         }
                         else
                         {
-                            <li class="nav-item ">
-                                <a class="nav-link" href="@Url.Action(@item2.ActionName, @item2.ControllerName)">
-                                    <span class="sidebar-normal"> @item2.MenuName </span>
-                                </a>
-                            </li>
+                    <li class="nav-item @active2">
+                        <a class="nav-link" href="@Url.Action(@item2.ActionName, @item2.ControllerName)">
+                            <span class="sidebar-normal"> @item2.MenuName </span>
+                        </a>
+                    </li>
                         }
                     }
                 </ul>
             </div>
         </li>
     }
-    <!-- End Menu -->
+
 </ul>
