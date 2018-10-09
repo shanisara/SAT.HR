@@ -121,11 +121,6 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult PositionTransferDetail()
-        {
-            return View();
-        }
-
         public ActionResult _PositionTransferDetail()
         {
             return PartialView("_PositionTransferDetail");

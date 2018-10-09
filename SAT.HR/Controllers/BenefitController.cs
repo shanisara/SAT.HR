@@ -16,7 +16,7 @@ namespace SAT.HR.Controllers
 
         #region  1. เงินตอบแทนความชอบ
 
-        public ActionResult _Remuneration()
+        public ActionResult Remuneration()
         {
             return PartialView("_Remuneration");
         }
@@ -27,7 +27,7 @@ namespace SAT.HR.Controllers
 
         public ActionResult ProvidentFund()
         {
-            return PartialView("");
+            return PartialView("_ProvidentFund");
         }
 
         #endregion
@@ -43,7 +43,7 @@ namespace SAT.HR.Controllers
 
         #region  4. เงินกู้
 
-        public ActionResult _Loan()
+        public ActionResult Loan()
         {
             return PartialView("_Loan");
         }
@@ -52,7 +52,7 @@ namespace SAT.HR.Controllers
 
         #region  5. ค่าเช่าบ้าน
 
-        public ActionResult _HomeRental()
+        public ActionResult HomeRental()
         {
             return PartialView("_HomeRental");
         }
@@ -61,7 +61,7 @@ namespace SAT.HR.Controllers
 
         #region  6. เงินช่วยเหลือบุตร
 
-        public ActionResult _ChildcareGrant()
+        public ActionResult ChildcareGrant()
         {
             return PartialView("_ChildcareGrant");
         }
@@ -70,7 +70,7 @@ namespace SAT.HR.Controllers
 
         #region  7. เงินช่วยเหลือการศึกษาบุตร
 
-        public ActionResult _EducationalGrant()
+        public ActionResult EducationalGrant()
         {
             return PartialView("_EducationalGrant");
         }
@@ -79,7 +79,7 @@ namespace SAT.HR.Controllers
 
         #region  8. ฌาปนกิจสงเคราะห์
 
-        public ActionResult _ChaponkitRelief()
+        public ActionResult ChaponkitRelief()
         {
             return PartialView("_ChaponkitRelief");
         }
@@ -88,7 +88,7 @@ namespace SAT.HR.Controllers
 
         #region  9. เงินทดแทนกรณีเสียชีวิต
 
-        public ActionResult _CompensationDeath()
+        public ActionResult CompensationDeath()
         {
             return PartialView("_OtherWelfare");
         }
@@ -97,7 +97,7 @@ namespace SAT.HR.Controllers
 
         #region  10.เงินช่วยเหลือพิเศษกรณีเสียชีวิต
 
-        public ActionResult _SpecialGrantDeath()
+        public ActionResult SpecialGrantDeath()
         {
             return PartialView("_SpecialGrantDeath");
         }
@@ -106,7 +106,7 @@ namespace SAT.HR.Controllers
 
         #region 11.สวัสดิการอื่นๆ
 
-        public ActionResult _OtherWelfare()
+        public ActionResult OtherWelfare()
         {
             return PartialView("_OtherWelfare");
         }
