@@ -9,7 +9,8 @@ namespace SAT.HR.Controllers
     public class ReportController : Controller
     {
         #region // รายงาน:ส่วนงานทรัพยากรบุคคล
-        public ActionResult HumanResource()
+
+        public ActionResult ReportHuman()
         {
             return View();
         }
@@ -17,7 +18,8 @@ namespace SAT.HR.Controllers
         #endregion 
 
         #region // รายงาน:ส่วนงานสวัสดิการ
-        public ActionResult Benefit()
+
+        public ActionResult ReportBenefit()
         {
             return View();
         }
@@ -25,7 +27,8 @@ namespace SAT.HR.Controllers
         #endregion 
 
         #region // รายงาน:ส่วนงานพัฒนาบุคลากร
-        public ActionResult HumanDevelopment()
+
+        public ActionResult HumanResource()
         {
             return View();
         }
