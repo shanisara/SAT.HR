@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using SAT.HR.Data.Entities;
 using SAT.HR.Models;
+using SAT.HR.Helpers;
 
 namespace SAT.HR.Data.Repository
 {
@@ -86,9 +87,9 @@ namespace SAT.HR.Data.Repository
                     tb_Certificate model = new tb_Certificate();
                     model.CerId = data.CerID;
                     model.CerName = data.CerName;
-                    model.CreateBy = data.ModifyBy;
+                    model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
-                    model.ModifyBy = data.ModifyBy;
+                    model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.tb_Certificate.Add(model);
                     db.SaveChanges();

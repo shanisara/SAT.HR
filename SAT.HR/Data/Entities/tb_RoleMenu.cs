@@ -17,9 +17,9 @@ namespace SAT.HR.Data.Entities
         public int RoleID { get; set; }
         public int MenuID { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
-        public string CreateBy { get; set; }
+        public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
-        public string ModifyBy { get; set; }
+        public Nullable<int> ModifyBy { get; set; }
     
         public virtual tb_Menu tb_Menu { get; set; }
         public virtual tb_Role tb_Role { get; set; }

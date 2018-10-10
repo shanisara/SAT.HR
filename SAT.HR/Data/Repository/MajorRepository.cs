@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using SAT.HR.Data.Entities;
 using SAT.HR.Models;
+using SAT.HR.Helpers;
 
 namespace SAT.HR.Data.Repository
 {
@@ -90,9 +91,9 @@ namespace SAT.HR.Data.Repository
                     model.MajID = data.MajID;
                     model.MajName = data.MajName;
                     model.MajStatus = data.MajStatus;
-                    model.CreateBy = data.ModifyBy;
+                    model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
-                    model.ModifyBy = data.ModifyBy;
+                    model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.tb_Major.Add(model);
                     db.SaveChanges();
@@ -115,7 +116,7 @@ namespace SAT.HR.Data.Repository
                     var data = db.tb_Major.Single(x => x.MajID == newdata.MajID);
                     data.MajName = newdata.MajName;
                     data.MajStatus = newdata.MajStatus;
-                    data.ModifyBy = newdata.ModifyBy;
+                    data.ModifyBy = UtilityService.User.UserID;
                     data.ModifyDate = DateTime.Now;
                     db.SaveChanges();
                 }

@@ -4,11 +4,20 @@ using System.Linq;
 using System.Web;
 using SAT.HR.Data.Entities;
 using SAT.HR.Models;
+using SAT.HR.Helpers;
 
 namespace SAT.HR.Data.Repository
 {
     public class SysConfigRepository
     {
+        public static string GetKeyValue(string keyname)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.tb_SysConfig.Where(x => x.KeyName == keyname).FirstOrDefault();
+                return data.KeyValue;
+            }
+        }
         public SysConfigViewModel GetByKeyName(string keyname)
         {
             using (SATEntities db = new SATEntities())
@@ -18,7 +27,7 @@ namespace SAT.HR.Data.Repository
                 model.KeyName = data.KeyName;
                 model.KeyValue = data.KeyValue;
                 model.KeyDesc = data.KeyDesc;
-                model.ModifyBy = data.ModifyBy;
+                model.ModifyBy = UtilityService.User.UserID;
                 model.ModifyDate = data.ModifyDate;
                 return model;
             }
@@ -28,12 +37,13 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.tb_SysConfig.Select(s => new SysConfigViewModel() {
+                var data = db.tb_SysConfig.Select(s => new SysConfigViewModel()
+                {
                     KeyName = s.KeyName,
                     KeyValue = s.KeyValue,
                     KeyDesc = s.KeyDesc
                 }).ToList();
-                
+
                 return data;
             }
         }
@@ -49,12 +59,12 @@ namespace SAT.HR.Data.Repository
                     {
                         var data = db.tb_SysConfig.Single(x => x.KeyName == item.KeyName);
                         data.KeyValue = item.KeyValue;
-                        //data.KeyDescription = item.KeyDescription;
-                        data.ModifyBy = item.ModifyBy;
+                        data.KeyDesc = item.KeyDesc;
+                        data.ModifyBy = UtilityService.User.UserID;
                         data.ModifyDate = DateTime.Now;
                         db.SaveChanges();
                     }
-                    
+
                 }
                 catch (Exception)
                 {

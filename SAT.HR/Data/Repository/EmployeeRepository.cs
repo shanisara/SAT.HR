@@ -20,8 +20,16 @@ namespace SAT.HR.Data.Repository
                     Password = s.Password,
                     FirstName = s.FirstName,
                     LastName = s.LastName,
-                    UserType = s.UserType,
-                    //UserTypeName = s.UserTypeName,
+                    UserTID = s.UserTID,
+                    //UserTName = s.UserTName,
+                    DivID = s.DivID,
+                    //DivName = s.DivName,
+                    DepID = s.DepID,
+                    //DepName = s.DepName,
+                    SecID = s.SecID,
+                    //SecName = s.SecName,
+                    PoID = s.PoID,
+                    //PoName = s.PoName,
                     SexID = s.SexID,
                     //SexName = s.SexName,
                 })
@@ -74,8 +82,15 @@ namespace SAT.HR.Data.Repository
                     Password = s.Password,
                     FirstName = s.FirstName,
                     LastName = s.LastName,
-                    UserType = s.UserType,
-                    //UserTypeName = s.UserTypeName,
+                    //UserTName = s.UserTName,
+                    DivID = s.DivID,
+                    //DivName = s.DivName,
+                    DepID = s.DepID,
+                    //DepName = s.DepName,
+                    SecID = s.SecID,
+                    //SecName = s.SecName,
+                    PoID = s.PoID,
+                    //PoName = s.PoName,
                     SexID = s.SexID,
                     //SexName = s.SexName,
                 }).Skip(start * length).Take(length).ToList();
@@ -95,18 +110,26 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.tb_User.Where(m => m.UserName == model.UserName && m.Password == model.Password).Select(s => new EmployeeViewModel()
+                var data = db.vw_User.Where(m => m.UserName == model.UserName && m.Password == model.Password).Select(s => new EmployeeViewModel()
                 {
                     UserID = s.UserID,
                     UserName = s.UserName,
                     Password = s.Password,
                     FirstName = s.FirstName,
                     LastName = s.LastName,
-                    UserType = s.UserType,
-                    //UserTypeName = s.UserTypeName,
+                    DivID = s.DivID,
+                    DivName = s.DivName,
+                    DepID = s.DepID,
+                    DepName = s.DepName,
+                    SecID = s.SecID,
+                    SecName = s.SecName,
+                    PoID = s.PoID,
+                    PoName = s.PoName,
+                    UserTID = s.UserTID,
+                    UserTName = s.UserTName,
                     SexID = s.SexID,
-                    //SexName = s.SexName,
-                }).FirstOrDefault();
+                    SexName = s.SexName
+            }).FirstOrDefault();
 
                 return data;
             }

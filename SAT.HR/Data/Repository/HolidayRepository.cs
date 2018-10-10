@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using SAT.HR.Data.Entities;
 using SAT.HR.Models;
+using SAT.HR.Helpers;
 
 namespace SAT.HR.Data.Repository
 {
@@ -97,9 +98,9 @@ namespace SAT.HR.Data.Repository
                     model.HolID = data.HolID;
                     model.HolDate = data.HolDate;
                     model.HolDescription = data.HolDescription;
-                    model.CreateBy = data.ModifyBy;
+                    model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
-                    model.ModifyBy = data.ModifyBy;
+                    model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.tb_Holiday.Add(model);
                     db.SaveChanges();
@@ -122,7 +123,7 @@ namespace SAT.HR.Data.Repository
                     var data = db.tb_Holiday.Single(x => x.HolID == newdata.HolID);
                     data.HolDate = newdata.HolDate;
                     data.HolDescription = newdata.HolDescription;
-                    data.ModifyBy = newdata.ModifyBy;
+                    data.ModifyBy = UtilityService.User.UserID;
                     data.ModifyDate = DateTime.Now;
                     db.SaveChanges();
                 }

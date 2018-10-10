@@ -1,5 +1,6 @@
 ﻿using SAT.HR.Data.Entities;
 using SAT.HR.Data.Repository;
+using SAT.HR.Helpers;
 using SAT.HR.Models;
 using System;
 using System.Collections.Generic;
@@ -43,11 +44,20 @@ namespace SAT.HR.Controllers
                 var emp = new EmployeeRepository().Login(model);
                 if (emp != null)
                 {
-                    string msg = emp.UserID + "|" + emp.UserName + "|" + emp.UserName;
-                    FormsAuthentication.SetAuthCookie(msg, true);
-
-                    var data = new PermissionRepository().MenuByUser(emp.UserID);
-                    Session.Add("Permission_SAT", data);
+                    UserProfile obj = new Models.UserProfile();
+                    obj.UserID = emp.UserID;
+                    obj.UserName = emp.UserName;
+                    obj.DivID = emp.DivID;
+                    obj.DivName = emp.DivName;
+                    obj.DepID = emp.DepID;
+                    obj.DepName = emp.DepName;
+                    obj.SecID = emp.SecID;
+                    obj.SecName = emp.SecName;
+                    obj.PoID = emp.PoID;
+                    obj.PoName = emp.PoName;
+                    obj.UserTypeID = emp.UserTID;
+                    obj.UserTypeName = emp.UserTName;
+                    UtilityService.User = obj;
                 }
             }
             catch (Exception e)

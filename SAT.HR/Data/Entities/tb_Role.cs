@@ -26,9 +26,9 @@ namespace SAT.HR.Data.Entities
         public string RoleDesc { get; set; }
         public Nullable<bool> RoleStatus { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
-        public string CreateBy { get; set; }
+        public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
-        public string ModifyBy { get; set; }
+        public Nullable<int> ModifyBy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_RoleMenu> tb_RoleMenu { get; set; }

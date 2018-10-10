@@ -1,4 +1,5 @@
 ﻿using SAT.HR.Data.Repository;
+using SAT.HR.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace SAT.HR.Controllers
 
         public ActionResult Resource(int id)
         {
-            int userid = 1;
+            int userid = UtilityService.User.UserID;
             var data = new PermissionRepository().MenuReportByRole(userid, id);
             return View(data);
         }
@@ -24,7 +25,7 @@ namespace SAT.HR.Controllers
 
         public ActionResult Benefit(int id)
         {
-            int userid = 1;
+            int userid = UtilityService.User.UserID;
             var data = new PermissionRepository().MenuReportByRole(userid, id);
             return View(data);
         }
@@ -35,7 +36,7 @@ namespace SAT.HR.Controllers
 
         public ActionResult Human(int id)
         {
-            int userid = 1;
+            int userid = UtilityService.User.UserID;
             var data = new PermissionRepository().MenuReportByRole(userid, id);
             return View(data);
         }

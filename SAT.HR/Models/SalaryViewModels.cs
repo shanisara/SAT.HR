@@ -18,11 +18,11 @@ namespace SAT.HR.Models
 
         public DateTime? CreateDate { get; set; }
 
-        public string CreateBy { get; set; }
+        public Nullable<int> CreateBy { get; set; }
 
         public DateTime? ModifyDate { get; set; }
 
-        public string ModifyBy { get; set; }
+        public Nullable<int> ModifyBy { get; set; }
     }
 
     public class SalaryResult

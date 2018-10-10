@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using SAT.HR.Data.Entities;
 using SAT.HR.Models;
+using SAT.HR.Helpers;
 
 namespace SAT.HR.Data.Repository
 {
@@ -97,9 +98,9 @@ namespace SAT.HR.Data.Repository
                     model.PoCode = data.PoCode;
                     model.PoName = data.PoName;
                     model.PoStatus = data.PoStatus;
-                    model.CreateBy = data.ModifyBy;
+                    model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
-                    model.ModifyBy = data.ModifyBy;
+                    model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.tb_Position.Add(model);
                     db.SaveChanges();
@@ -123,7 +124,7 @@ namespace SAT.HR.Data.Repository
                     model.PoCode = newdata.PoCode;
                     model.PoName = newdata.PoName;
                     model.PoStatus = newdata.PoStatus;
-                    model.ModifyBy = newdata.ModifyBy;
+                    model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
                 }

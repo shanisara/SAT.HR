@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using SAT.HR.Data.Entities;
 using SAT.HR.Models;
+using SAT.HR.Helpers;
 
 namespace SAT.HR.Data.Repository
 {
@@ -160,9 +161,9 @@ namespace SAT.HR.Data.Repository
                             tb_RoleUser model = new tb_RoleUser();
                             model.RoleID = roleid;
                             model.UserID = Convert.ToInt32(userid);
-                            model.CreateBy = string.Empty;
+                            model.CreateBy = UtilityService.User.UserID;
                             model.CreateDate = DateTime.Now;
-                            model.ModifyBy = string.Empty;
+                            model.ModifyBy = UtilityService.User.UserID;
                             model.ModifyDate = DateTime.Now;
                             db.tb_RoleUser.Add(model);
                             db.SaveChanges();

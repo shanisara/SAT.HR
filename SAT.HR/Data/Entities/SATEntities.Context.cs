@@ -60,10 +60,10 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_RoleMenu> vw_RoleMenu { get; set; }
         public virtual DbSet<vw_RoleMenuReport> vw_RoleMenuReport { get; set; }
         public virtual DbSet<vw_RoleMenuTab> vw_RoleMenuTab { get; set; }
+        public virtual DbSet<vw_RoleUser> vw_RoleUser { get; set; }
         public virtual DbSet<vw_Section> vw_Section { get; set; }
         public virtual DbSet<vw_Title> vw_Title { get; set; }
         public virtual DbSet<vw_User> vw_User { get; set; }
-        public virtual DbSet<vw_RoleUser> vw_RoleUser { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result1> sp_Menu_GetByUser(Nullable<int> userID)
         {

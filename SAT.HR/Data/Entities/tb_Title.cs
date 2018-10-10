@@ -20,9 +20,9 @@ namespace SAT.HR.Data.Entities
         public Nullable<bool> TiStatus { get; set; }
         public Nullable<int> SexID { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
-        public string CreateBy { get; set; }
+        public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
-        public string ModifyBy { get; set; }
+        public Nullable<int> ModifyBy { get; set; }
     
         public virtual tb_Sex tb_Sex { get; set; }
     }

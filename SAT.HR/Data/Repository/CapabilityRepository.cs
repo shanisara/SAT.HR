@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using SAT.HR.Data.Entities;
 using SAT.HR.Models;
+using SAT.HR.Helpers;
 
 namespace SAT.HR.Data.Repository
 {
@@ -98,9 +99,9 @@ namespace SAT.HR.Data.Repository
                     model.CapTID = data.CapTID;
                     model.MenuID = data.MenuID;
                     model.CapGroupID = data.CapGroupID;
-                    model.CreateBy = data.ModifyBy;
+                    model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
-                    model.ModifyBy = data.ModifyBy;
+                    model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.tb_Capability.Add(model);
                     db.SaveChanges();
@@ -125,7 +126,7 @@ namespace SAT.HR.Data.Repository
                     data.CapTID = newdata.CapTID;
                     data.MenuID = newdata.MenuID;
                     data.CapGroupID = newdata.CapGroupID;
-                    data.ModifyBy = newdata.ModifyBy;
+                    data.ModifyBy = UtilityService.User.UserID;
                     data.ModifyDate = DateTime.Now;
                     db.SaveChanges();
                 }

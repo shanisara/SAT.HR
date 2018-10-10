@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using SAT.HR.Data.Entities;
 using SAT.HR.Models;
+using SAT.HR.Helpers;
 
 namespace SAT.HR.Data.Repository
 {
@@ -97,9 +98,9 @@ namespace SAT.HR.Data.Repository
                     model.DepName = data.DepName;
                     model.DepStatus = data.DepStatus;
                     model.DivID = (int)data.DivID;
-                    model.CreateBy = data.ModifyBy;
+                    model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
-                    model.ModifyBy = data.ModifyBy;
+                    model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.tb_Department.Add(model);
                     db.SaveChanges();
@@ -123,7 +124,7 @@ namespace SAT.HR.Data.Repository
                     data.DepName = newdata.DepName;
                     data.DepStatus = newdata.DepStatus;
                     data.DivID = (int)newdata.DivID;
-                    data.ModifyBy = newdata.ModifyBy;
+                    data.ModifyBy = UtilityService.User.UserID;
                     data.ModifyDate = DateTime.Now;
                     db.SaveChanges();
                 }

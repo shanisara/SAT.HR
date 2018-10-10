@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using SAT.HR.Data.Entities;
 using SAT.HR.Models;
+using SAT.HR.Helpers;
 
 namespace SAT.HR.Data.Repository
 {
@@ -91,9 +92,9 @@ namespace SAT.HR.Data.Repository
                     model.InsID = data.InsID;
                     model.InsFullName = data.InsFullName;
                     model.InsShortName = data.InsShortName;
-                    model.CreateBy = data.ModifyBy;
+                    model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
-                    model.ModifyBy = data.ModifyBy;
+                    model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.tb_Insignia.Add(model);
                     db.SaveChanges();
@@ -116,7 +117,7 @@ namespace SAT.HR.Data.Repository
                     var data = db.tb_Insignia.Single(x => x.InsID == newdata.InsID);
                     data.InsFullName = newdata.InsFullName;
                     data.InsShortName = newdata.InsShortName;
-                    data.ModifyBy = newdata.ModifyBy;
+                    data.ModifyBy = UtilityService.User.UserID;
                     data.ModifyDate = DateTime.Now;
                     db.SaveChanges();
                 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using SAT.HR.Data.Entities;
 using SAT.HR.Models;
+using SAT.HR.Helpers;
 
 namespace SAT.HR.Data.Repository
 {
@@ -111,9 +112,9 @@ namespace SAT.HR.Data.Repository
                     model.LevStartDate = data.LevStartDate;
                     model.LevEndDate = data.LevEndDate;
                     model.LevMax = data.LevMax;
-                    model.CreateBy = data.ModifyBy;
+                    model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
-                    model.ModifyBy = data.ModifyBy;
+                    model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.tb_LeaveType.Add(model);
                     db.SaveChanges();
@@ -139,7 +140,7 @@ namespace SAT.HR.Data.Repository
                     data.LevStartDate = newdata.LevStartDate;
                     data.LevEndDate = newdata.LevEndDate;
                     data.LevMax = newdata.LevMax;
-                    data.ModifyBy = newdata.ModifyBy;
+                    data.ModifyBy = UtilityService.User.UserID;
                     data.ModifyDate = DateTime.Now;
                     db.SaveChanges();
                 }

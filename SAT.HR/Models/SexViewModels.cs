@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SAT.HR.Models
 {
-    public class SexViewModelsViewModel
+    public class SexViewModel
     {
         public int SexID { get; set; }
 
