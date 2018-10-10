@@ -238,9 +238,9 @@ namespace SAT.HR.Data.Repository
                             tb_RoleMenu model = new tb_RoleMenu();
                             model.RoleID = roleid;
                             model.MenuID = Convert.ToInt32(menuid);
-                            model.CreateBy = string.Empty;
+                            model.CreateBy = UtilityService.User.UserID;
                             model.CreateDate = DateTime.Now;
-                            model.ModifyBy = string.Empty;
+                            model.ModifyBy = UtilityService.User.UserID;
                             model.ModifyDate = DateTime.Now;
                             db.tb_RoleMenu.Add(model);
                             db.SaveChanges();
@@ -265,11 +265,13 @@ namespace SAT.HR.Data.Repository
             using (SATEntities db = new SATEntities())
             {
                 UserRoleMenuViewModel model = new UserRoleMenuViewModel();
-                model.UserID = userid;
-                model.UserName = "ชนิสรา เมืองทรัพย์";
-                model.Avatar = "~/Content/assets/img/faces/avatar.jpg";
 
-                var data = db.sp_Menu_GetByUser(userid).Select(s => new MenuViewModel()
+                var user = db.tb_User.Where(m => m.UserID == userid).FirstOrDefault();
+                model.UserID = user.UserID;
+                model.UserName = user.UserName;
+                model.Avatar = SysConfig.PathUploadAvatar + "/" + user.Avatar; //"~/Upload/Avatar/avatar.jpg";
+
+                var menu = db.sp_Menu_GetByUser(userid).Select(s => new MenuViewModel()
                 {
                     MenuID = s.MenuID,
                     MenuName = s.MenuName,
@@ -280,7 +282,8 @@ namespace SAT.HR.Data.Repository
                     MenuType = s.MenuType
                 }).ToList();
 
-                model.ListMenu = data;
+                model.ListMenu = menu;
+
                 return model;
             }
         }

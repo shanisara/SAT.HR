@@ -97,5 +97,13 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("SMTPMAILFROM");
             }
         }
+
+        public static string PathUploadAvatar
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathUploadAvatar");
+            }
+        }
     }
  }

@@ -106,11 +106,11 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public EmployeeViewModel Login(EmployeeViewModel model)
+        public EmployeeViewModel Login(string username, string password)
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.vw_User.Where(m => m.UserName == model.UserName && m.Password == model.Password).Select(s => new EmployeeViewModel()
+                var data = db.vw_User.Where(m => m.UserName == username && m.Password == password).Select(s => new EmployeeViewModel()
                 {
                     UserID = s.UserID,
                     UserName = s.UserName,
@@ -134,5 +134,35 @@ namespace SAT.HR.Data.Repository
                 return data;
             }
         }
+
+        //public EmployeeViewModel Login(EmployeeViewModel model)
+        //{
+        //    using (SATEntities db = new SATEntities())
+        //    {
+        //        var data = db.vw_User.Where(m => m.UserName == model.UserName && m.Password == model.Password).Select(s => new EmployeeViewModel()
+        //        {
+        //            UserID = s.UserID,
+        //            UserName = s.UserName,
+        //            Password = s.Password,
+        //            FirstName = s.FirstName,
+        //            LastName = s.LastName,
+        //            DivID = s.DivID,
+        //            DivName = s.DivName,
+        //            DepID = s.DepID,
+        //            DepName = s.DepName,
+        //            SecID = s.SecID,
+        //            SecName = s.SecName,
+        //            PoID = s.PoID,
+        //            PoName = s.PoName,
+        //            UserTID = s.UserTID,
+        //            UserTName = s.UserTName,
+        //            SexID = s.SexID,
+        //            SexName = s.SexName
+        //        }).FirstOrDefault();
+
+        //        return data;
+        //    }
+        //}
+
     }
 }

@@ -36,7 +36,6 @@
     <EntitySet Name="tb_Sex" EntityType="SAT.HR.tb_Sex" />
     <EntitySet Name="tb_SysConfig" EntityType="SAT.HR.tb_SysConfig" />
     <EntitySet Name="tb_Title" EntityType="SAT.HR.tb_Title" />
-    <EntitySet Name="tb_User" EntityType="SAT.HR.tb_User" />
     <EntitySet Name="tb_UserType" EntityType="SAT.HR.tb_UserType" />
     <EntitySet Name="vw_Department" EntityType="SAT.HR.vw_Department" />
     <EntitySet Name="vw_RoleMenu" EntityType="SAT.HR.vw_RoleMenu" />
@@ -74,13 +73,14 @@
       <End Role="tb_Role" EntitySet="tb_Role" />
       <End Role="tb_RoleUser" EntitySet="tb_RoleUser" />
     </AssociationSet>
-    <AssociationSet Name="FK_tb_RoleUser_tb_User" Association="SAT.HR.FK_tb_RoleUser_tb_User">
-      <End Role="tb_User" EntitySet="tb_User" />
-      <End Role="tb_RoleUser" EntitySet="tb_RoleUser" />
-    </AssociationSet>
     <AssociationSet Name="FK_tb_Title_tb_Sex" Association="SAT.HR.FK_tb_Title_tb_Sex">
       <End Role="tb_Sex" EntitySet="tb_Sex" />
       <End Role="tb_Title" EntitySet="tb_Title" />
+    </AssociationSet>
+    <EntitySet Name="tb_User" EntityType="SAT.HR.tb_User" />
+    <AssociationSet Name="FK_tb_RoleUser_tb_User" Association="SAT.HR.FK_tb_RoleUser_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_RoleUser" EntitySet="tb_RoleUser" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_User_tb_Sex" Association="SAT.HR.FK_tb_User_tb_Sex">
       <End Role="tb_Sex" EntitySet="tb_Sex" />
@@ -493,29 +493,6 @@
     <Property Name="ModifyBy" Type="Int32" />
     <NavigationProperty Name="tb_Sex" Relationship="SAT.HR.FK_tb_Title_tb_Sex" FromRole="tb_Title" ToRole="tb_Sex" />
   </EntityType>
-  <EntityType Name="tb_User">
-    <Key>
-      <PropertyRef Name="UserID" />
-    </Key>
-    <Property Name="UserID" Type="Int32" Nullable="false" />
-    <Property Name="UserName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-    <Property Name="Password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-    <Property Name="ConfirmPassword" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-    <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="DivID" Type="Int32" Nullable="false" />
-    <Property Name="DepID" Type="Int32" Nullable="false" />
-    <Property Name="SecID" Type="Int32" Nullable="false" />
-    <Property Name="PoID" Type="Int32" Nullable="false" />
-    <Property Name="UserTID" Type="Int32" />
-    <Property Name="SexID" Type="Int32" />
-    <Property Name="CreateDate" Type="DateTime" Precision="3" />
-    <Property Name="CreateBy" Type="Int32" />
-    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifyBy" Type="Int32" />
-    <NavigationProperty Name="tb_RoleUser" Relationship="SAT.HR.FK_tb_RoleUser_tb_User" FromRole="tb_User" ToRole="tb_RoleUser" />
-    <NavigationProperty Name="tb_Sex" Relationship="SAT.HR.FK_tb_User_tb_Sex" FromRole="tb_User" ToRole="tb_Sex" />
-  </EntityType>
   <EntityType Name="tb_UserType">
     <Key>
       <PropertyRef Name="UserTID" />
@@ -739,18 +716,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_RoleUser_tb_User">
-    <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
-    <End Type="SAT.HR.tb_RoleUser" Role="tb_RoleUser" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_User">
-        <PropertyRef Name="UserID" />
-      </Principal>
-      <Dependent Role="tb_RoleUser">
-        <PropertyRef Name="UserID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_tb_Title_tb_Sex">
     <End Type="SAT.HR.tb_Sex" Role="tb_Sex" Multiplicity="0..1" />
     <End Type="SAT.HR.tb_Title" Role="tb_Title" Multiplicity="*" />
@@ -760,6 +725,42 @@
       </Principal>
       <Dependent Role="tb_Title">
         <PropertyRef Name="SexID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="tb_User">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="ConfirmPassword" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DivID" Type="Int32" Nullable="false" />
+    <Property Name="DepID" Type="Int32" Nullable="false" />
+    <Property Name="SecID" Type="Int32" Nullable="false" />
+    <Property Name="PoID" Type="Int32" Nullable="false" />
+    <Property Name="UserTID" Type="Int32" />
+    <Property Name="SexID" Type="Int32" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+    <Property Name="Avatar" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tb_RoleUser" Relationship="SAT.HR.FK_tb_RoleUser_tb_User" FromRole="tb_User" ToRole="tb_RoleUser" />
+    <NavigationProperty Name="tb_Sex" Relationship="SAT.HR.FK_tb_User_tb_Sex" FromRole="tb_User" ToRole="tb_Sex" />
+  </EntityType>
+  <Association Name="FK_tb_RoleUser_tb_User">
+    <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
+    <End Type="SAT.HR.tb_RoleUser" Role="tb_RoleUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_RoleUser">
+        <PropertyRef Name="UserID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

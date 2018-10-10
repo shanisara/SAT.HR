@@ -928,15 +928,15 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public JsonResult Employee(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
-        {
-            var search = Request["search[value]"];
-            var dir = order[0]["dir"].ToLower();
-            var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new EmployeeRepository().GetPage(search, draw, start, length, dir, column);
-            return Json(dataTableData, JsonRequestBehavior.AllowGet);
-        }
+        //[HttpPost]
+        //public JsonResult Employee(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        //{
+        //    var search = Request["search[value]"];
+        //    var dir = order[0]["dir"].ToLower();
+        //    var column = columns[int.Parse(order[0]["column"])]["data"];
+        //    var dataTableData = new EmployeeRepository().GetPage(search, draw, start, length, dir, column);
+        //    return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        //}
 
         #endregion
 

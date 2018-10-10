@@ -35,7 +35,7 @@ namespace SAT.HR.Controllers
         }
 
         
-        public ActionResult Login(EmployeeViewModel model)
+        public ActionResult Login(/*EmployeeViewModel model*/ string username, string password)
         {
             ResponseData result = new ResponseData();
 
@@ -65,9 +65,7 @@ namespace SAT.HR.Controllers
                 
             }
 
-            return View("DashBoard");
-
-            //return Json(new { MessageCode = result.MessageCode, MessageText = result.MessageText }, JsonRequestBehavior.AllowGet);
+            return Json(new { MessageCode = result.MessageCode, MessageText = result.MessageText }, JsonRequestBehavior.AllowGet);
         }
 
 
