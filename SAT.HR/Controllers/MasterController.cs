@@ -908,11 +908,25 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region User Role
+        #region User
+
+        [HttpPost]
+        public JsonResult Employee(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        {
+            var search = Request["search[value]"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
+            var dataTableData = new EmployeeRepository().GetPage(search, draw, start, length, dir, column);
+            return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        #region Role User
 
         public ActionResult RoleUser(int id)
         {
-            var data = new PermissionRepository().UserByRole(id);
+            var data = new PermissionRepository().RoleUser(id);
             return View(data);
         }
 
@@ -928,41 +942,32 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        //[HttpPost]
-        //public JsonResult Employee(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
-        //{
-        //    var search = Request["search[value]"];
-        //    var dir = order[0]["dir"].ToLower();
-        //    var column = columns[int.Parse(order[0]["column"])]["data"];
-        //    var dataTableData = new EmployeeRepository().GetPage(search, draw, start, length, dir, column);
-        //    return Json(dataTableData, JsonRequestBehavior.AllowGet);
-        //}
 
         #endregion
 
-        #region Menu Role
+        #region Role Menu
 
         public ActionResult RoleMenu(int id)
         {
-            var data = new PermissionRepository().MenuByRole(id);
+            var data = new PermissionRepository().MenuRole(id);
             return View(data);
         }
 
-        public ActionResult Menu(int roleid, int menuid)
+        public ActionResult Menu(int roleid)
         {
-            var data = new PermissionRepository().MenuTabByRole(roleid, menuid);
+            var data = new PermissionRepository().MenuByRole(roleid);
             return PartialView("_Menu", data);
         }
 
         public ActionResult MenuTab(int menuid, int roleid)
         {
-            var data = new PermissionRepository().MenuReportByRole(roleid, menuid);
+            var data = new PermissionRepository().MenuTabByRole(roleid);
             return PartialView("_MenuTab", data);
         }
 
         public ActionResult MenuReport(int menuid, int roleid)
         {
-            var data = new PermissionRepository().MenuReportByRole(roleid, menuid);
+            var data = new PermissionRepository().MenuReportByRole(roleid);
             return PartialView("_MenuReport", data);
         }
 

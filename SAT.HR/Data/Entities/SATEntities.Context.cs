@@ -65,30 +65,26 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Title> vw_Title { get; set; }
         public virtual DbSet<vw_User> vw_User { get; set; }
     
-        public virtual ObjectResult<sp_Menu_GetByUser_Result1> sp_Menu_GetByUser(Nullable<int> userID)
+        public virtual ObjectResult<sp_Menu_GetByUser_Result3> sp_Menu_GetByUser(Nullable<int> userID)
         {
             var userIDParameter = userID.HasValue ?
                 new ObjectParameter("UserID", userID) :
                 new ObjectParameter("UserID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Menu_GetByUser_Result1>("sp_Menu_GetByUser", userIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Menu_GetByUser_Result3>("sp_Menu_GetByUser", userIDParameter);
         }
     
-        public virtual ObjectResult<sp_Menu_GetByRole_Result2> sp_Menu_GetByRole(Nullable<int> roleID, Nullable<int> parentID, string menuType)
+        public virtual ObjectResult<sp_Menu_Report_GetByUser_Result> sp_Menu_Report_GetByUser(Nullable<int> userID, Nullable<int> parentID)
         {
-            var roleIDParameter = roleID.HasValue ?
-                new ObjectParameter("RoleID", roleID) :
-                new ObjectParameter("RoleID", typeof(int));
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
     
             var parentIDParameter = parentID.HasValue ?
                 new ObjectParameter("ParentID", parentID) :
                 new ObjectParameter("ParentID", typeof(int));
     
-            var menuTypeParameter = menuType != null ?
-                new ObjectParameter("MenuType", menuType) :
-                new ObjectParameter("MenuType", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Menu_GetByRole_Result2>("sp_Menu_GetByRole", roleIDParameter, parentIDParameter, menuTypeParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Menu_Report_GetByUser_Result>("sp_Menu_Report_GetByUser", userIDParameter, parentIDParameter);
         }
     }
 }

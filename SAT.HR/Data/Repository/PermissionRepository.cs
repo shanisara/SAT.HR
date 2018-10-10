@@ -122,7 +122,7 @@ namespace SAT.HR.Data.Repository
 
         #region  User Role
 
-        public RoleViewModel UserByRole(int roleid)
+        public RoleViewModel RoleUser(int roleid)
         {
             using (SATEntities db = new SATEntities())
             {
@@ -137,9 +137,12 @@ namespace SAT.HR.Data.Repository
                     UserName = s.UserName,
                 }).OrderBy(x => x.UserName).ToList();
 
-                model.RoleID = data[0].RoleID;
-                model.RoleName = data[0].RoleName;
-                model.RoleDesc = data[0].RoleDesc;
+                if (data.Count > 0)
+                {
+                    model.RoleID = data[0].RoleID;
+                    model.RoleName = data[0].RoleName;
+                    model.RoleDesc = data[0].RoleDesc;
+                }
                 model.ListRoleUser = data;
 
                 return model;
@@ -207,7 +210,7 @@ namespace SAT.HR.Data.Repository
 
         #region  Menu Role
 
-        public RoleViewModel MenuByRole(int roleid)
+        public RoleViewModel RoleMenu(int roleid)
         {
             using (SATEntities db = new SATEntities())
             {
@@ -256,120 +259,78 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        #endregion
-
-        #region Load Menu
-
-        public UserRoleMenuViewModel MenuByUser()
+        public RoleMenuViewModel MenuRole(int roleid)
         {
             using (SATEntities db = new SATEntities())
             {
-                UserRoleMenuViewModel model = new UserRoleMenuViewModel();
+                RoleMenuViewModel model = new RoleMenuViewModel();
 
-                model.UserID = UtilityService.User.UserID;
-                model.FullName = UtilityService.User.FullName;
-                model.Avatar = !string.IsNullOrEmpty(UtilityService.User.Avatar) ? UtilityService.User.Avatar : "avatar.png";
+                var role = GetRoleByID(roleid);
+                model.RoleID = role.RoleID;
+                model.RoleName = role.RoleName;
+                model.RoleDesc = role.RoleDesc;
 
-                var menu = db.sp_Menu_GetByUser(model.UserID).Select(s => new MenuViewModel()
-                {
-                    MenuID = s.MenuID,
-                    MenuName = s.MenuName,
-                    ControllerName = s.ControllerName,
-                    ActionName = s.ActionName,
-                    Icon = s.Icon,
-                    ParentID = s.ParentID,
-                    MenuType = s.MenuType
-                }).ToList();
-
-                model.ListMenu = menu;
+                model.ListRoleMenu = MenuByRole(roleid);
+                model.ListRoleMenuTab = MenuTabByRole(roleid);
+                model.ListRoleMenuReport = MenuReportByRole(roleid);
 
                 return model;
             }
         }
 
-        public RoleMenuViewModel MenuByRole(int roleid, int menuid)
+        public List<RoleMenuViewModel> MenuByRole(int roleid)
         {
             using (SATEntities db = new SATEntities())
             {
-                RoleMenuViewModel data = new RoleMenuViewModel();
-
-                string type = "M";
-                var model = db.sp_Menu_GetByRole(roleid, menuid, type).Select(s => new RoleMenuViewModel()
+                var data = db.vw_RoleMenu.Select(s => new RoleMenuViewModel()
                 {
                     RoleID = s.RoleID,
                     RoleName = s.RoleName,
                     MenuID = (int)s.MenuID,
                     MenuName = s.MenuName,
-                    ControllerName = s.ControllerName,
-                    ActionName = s.ActionName,
-                    Icon = s.Icon,
                     //R_View = s.R_View,
                     //R_Add = s.R_Add,
                     //R_Edit = s.R_Edit,
                     //R_Delete = s.R_Delete
                 }).ToList();
 
-                data.RoleID = model[0].RoleID;
-                data.RoleName = model[0].RoleName;
-                data.RoleDesc = model[0].RoleDesc;
-
                 return data;
             }
         }
 
-        public RoleMenuViewModel MenuTabByRole(int roleid, int menuid)
+        public List<RoleMenuViewModel> MenuTabByRole(int roleid)
         {
             using (SATEntities db = new SATEntities())
             {
-                RoleMenuViewModel data = new RoleMenuViewModel();
-
-                string type = "T";
-                var model = db.sp_Menu_GetByRole(roleid, menuid, type).Select(s => new RoleMenuViewModel()
+                var data = db.vw_RoleMenuTab.Select(s => new RoleMenuViewModel()
                 {
                     RoleID = s.RoleID,
                     RoleName = s.RoleName,
                     MenuID = (int)s.MenuID,
                     MenuName = s.MenuName,
-                    ControllerName = s.ControllerName,
-                    ActionName = s.ActionName,
-                    Icon = s.Icon,
                     //R_View = s.R_View,
                     //R_Add = s.R_Add,
                     //R_Edit = s.R_Edit,
                     //R_Delete = s.R_Delete
                 }).ToList();
 
-                data.RoleID = model[0].RoleID;
-                data.RoleName = model[0].RoleName;
-                data.RoleDesc = model[0].RoleDesc;
-
                 return data;
             }
         }
 
-        public RoleMenuViewModel MenuReportByRole(int roleid, int menuid)
+        public List<RoleMenuViewModel> MenuReportByRole(int roleid)
         {
             using (SATEntities db = new SATEntities())
             {
-                RoleMenuViewModel data = new RoleMenuViewModel();
-
-                string type = "R";
-                var model = db.sp_Menu_GetByRole(roleid, menuid, type).Select(s => new RoleMenuViewModel()
+                var data = db.vw_RoleMenuReport.Select(s => new RoleMenuViewModel()
                 {
                     RoleID = s.RoleID,
                     RoleName = s.RoleName,
                     MenuID = (int)s.MenuID,
                     MenuName = s.MenuName,
-                    ControllerName = s.ControllerName,
-                    ActionName = s.ActionName,
-                    Icon = s.Icon,
-                    //R_View = s.R_View,
+                    R_View = s.R_View,
+                    //R_Download = s.R_Download,
                 }).ToList();
-
-                data.RoleID = model[0].RoleID;
-                data.RoleName = model[0].RoleName;
-                data.RoleDesc = model[0].RoleDesc;
-                data.ListRoleMenuReport = model;
 
                 return data;
             }

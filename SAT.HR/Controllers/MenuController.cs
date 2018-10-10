@@ -15,7 +15,7 @@ namespace SAT.HR.Controllers
         [ChildActionOnly]
         public ActionResult Index()
         {
-            var data = new PermissionRepository().MenuByUser();
+            var data = new MenuRepository().MenuByUser();
             return PartialView(data);
         }
     }

@@ -649,13 +649,12 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
         <Function Name="fm_fn_ConvertMinutesToHour" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
           <Parameter Name="TotalMinutes" Type="int" Mode="In" />
         </Function>
-        <Function Name="sp_Menu_GetByRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="RoleID" Type="int" Mode="In" />
-          <Parameter Name="ParentID" Type="int" Mode="In" />
-          <Parameter Name="MenuType" Type="nvarchar" Mode="In" />
-        </Function>
         <Function Name="sp_Menu_GetByUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_Menu_Report_GetByUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="ParentID" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="SATHRStoreContainer">
           <EntitySet Name="tb_ActionType" EntityType="Self.tb_ActionType" Schema="dbo" store:Type="Tables" />
@@ -841,14 +840,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     <edmx:ConceptualModels>
       <Schema Namespace="SAT.HR" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="SATEntities" annotation:LazyLoadingEnabled="true">
-          <FunctionImport Name="sp_Menu_GetByUser" ReturnType="Collection(SAT.HR.sp_Menu_GetByUser_Result1)">
-          <Parameter Name="UserID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_Menu_GetByRole" ReturnType="Collection(SAT.HR.sp_Menu_GetByRole_Result2)">
-            <Parameter Name="RoleID" Mode="In" Type="Int32" />
-            <Parameter Name="ParentID" Mode="In" Type="Int32" />
-            <Parameter Name="MenuType" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="tb_ActionType" EntityType="SAT.HR.tb_ActionType" />
           <EntitySet Name="tb_Capability" EntityType="SAT.HR.tb_Capability" />
           <EntitySet Name="tb_CapabilityType" EntityType="SAT.HR.tb_CapabilityType" />
@@ -926,7 +917,14 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
             <End Role="tb_Sex" EntitySet="tb_Sex" />
             <End Role="tb_User" EntitySet="tb_User" />
           </AssociationSet>
-          </EntityContainer>
+          <FunctionImport Name="sp_Menu_GetByUser" ReturnType="Collection(SAT.HR.sp_Menu_GetByUser_Result3)">
+          <Parameter Name="UserID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Menu_Report_GetByUser" ReturnType="Collection(SAT.HR.sp_Menu_Report_GetByUser_Result)">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="ParentID" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
         <ComplexType Name="sp_Menu_GetByRole_Result">
           <Property Type="Int32" Name="RoleID" Nullable="false" />
           <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
@@ -1619,40 +1617,43 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="sp_Menu_GetByUser_Result2">
+          <Property Type="Int32" Name="RoleID" Nullable="false" />
+          <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="MenuID" Nullable="true" />
+          <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ControllerName" Nullable="true" />
+          <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ParentID" Nullable="true" />
+          <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="sp_Menu_GetByUser_Result3">
+          <Property Type="Int32" Name="MenuID" Nullable="false" />
+          <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ControllerName" Nullable="true" />
+          <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ParentID" Nullable="true" />
+          <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="sp_Menu_Report_GetByUser_Result">
+          <Property Type="Int32" Name="RoleID" Nullable="false" />
+          <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="MenuID" Nullable="true" />
+          <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ControllerName" Nullable="true" />
+          <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ParentID" Nullable="true" />
+          <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="SATHRStoreContainer" CdmEntityContainer="SATEntities">
-          <FunctionImportMapping FunctionImportName="sp_Menu_GetByUser" FunctionName="SAT.HR.Store.sp_Menu_GetByUser">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SAT.HR.sp_Menu_GetByUser_Result1">
-                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
-                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
-                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
-                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
-                <ScalarProperty Name="Icon" ColumnName="Icon" />
-                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
-                <ScalarProperty Name="MenuType" ColumnName="MenuType" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_Menu_GetByRole" FunctionName="SAT.HR.Store.sp_Menu_GetByRole">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SAT.HR.sp_Menu_GetByRole_Result2">
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
-                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
-                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
-                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
-                <ScalarProperty Name="Icon" ColumnName="Icon" />
-                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
-                <ScalarProperty Name="MenuType" ColumnName="MenuType" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="tb_ActionType">
             <EntityTypeMapping TypeName="SAT.HR.tb_ActionType">
               <MappingFragment StoreEntitySet="tb_ActionType">
@@ -2171,7 +2172,35 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          </EntityContainerMapping>
+          <FunctionImportMapping FunctionImportName="sp_Menu_GetByUser" FunctionName="SAT.HR.Store.sp_Menu_GetByUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_Menu_GetByUser_Result3">
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
+                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="MenuType" ColumnName="MenuType" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Menu_Report_GetByUser" FunctionName="SAT.HR.Store.sp_Menu_Report_GetByUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_Menu_Report_GetByUser_Result">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
+                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="MenuType" ColumnName="MenuType" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

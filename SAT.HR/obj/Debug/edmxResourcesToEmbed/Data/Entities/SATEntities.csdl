@@ -1,14 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="SAT.HR" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityContainer Name="SATEntities" annotation:LazyLoadingEnabled="true">
-    <FunctionImport Name="sp_Menu_GetByUser" ReturnType="Collection(SAT.HR.sp_Menu_GetByUser_Result1)">
-      <Parameter Name="UserID" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_Menu_GetByRole" ReturnType="Collection(SAT.HR.sp_Menu_GetByRole_Result2)">
-      <Parameter Name="RoleID" Mode="In" Type="Int32" />
-      <Parameter Name="ParentID" Mode="In" Type="Int32" />
-      <Parameter Name="MenuType" Mode="In" Type="String" />
-    </FunctionImport>
     <EntitySet Name="tb_ActionType" EntityType="SAT.HR.tb_ActionType" />
     <EntitySet Name="tb_Capability" EntityType="SAT.HR.tb_Capability" />
     <EntitySet Name="tb_CapabilityType" EntityType="SAT.HR.tb_CapabilityType" />
@@ -86,6 +78,13 @@
       <End Role="tb_Sex" EntitySet="tb_Sex" />
       <End Role="tb_User" EntitySet="tb_User" />
     </AssociationSet>
+    <FunctionImport Name="sp_Menu_GetByUser" ReturnType="Collection(SAT.HR.sp_Menu_GetByUser_Result3)">
+      <Parameter Name="UserID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Menu_Report_GetByUser" ReturnType="Collection(SAT.HR.sp_Menu_Report_GetByUser_Result)">
+      <Parameter Name="UserID" Mode="In" Type="Int32" />
+      <Parameter Name="ParentID" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_Menu_GetByRole_Result">
     <Property Type="Int32" Name="RoleID" Nullable="false" />
@@ -779,4 +778,35 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <ComplexType Name="sp_Menu_GetByUser_Result2">
+    <Property Type="Int32" Name="RoleID" Nullable="false" />
+    <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="MenuID" Nullable="true" />
+    <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="ControllerName" Nullable="true" />
+    <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="ParentID" Nullable="true" />
+    <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
+  </ComplexType>
+  <ComplexType Name="sp_Menu_GetByUser_Result3">
+    <Property Type="Int32" Name="MenuID" Nullable="false" />
+    <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="ControllerName" Nullable="true" />
+    <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="ParentID" Nullable="true" />
+    <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
+  </ComplexType>
+  <ComplexType Name="sp_Menu_Report_GetByUser_Result">
+    <Property Type="Int32" Name="RoleID" Nullable="false" />
+    <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="MenuID" Nullable="true" />
+    <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="ControllerName" Nullable="true" />
+    <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="ParentID" Nullable="true" />
+    <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
+  </ComplexType>
 </Schema>

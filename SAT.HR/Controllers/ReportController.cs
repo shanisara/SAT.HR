@@ -14,8 +14,7 @@ namespace SAT.HR.Controllers
 
         public ActionResult Resource(int id)
         {
-            int userid = UtilityService.User.UserID;
-            var data = new PermissionRepository().MenuReportByRole(userid, id);
+            var data = new MenuRepository().MenuReportByRole(id);
             return View(data);
         }
 
@@ -25,8 +24,7 @@ namespace SAT.HR.Controllers
 
         public ActionResult Benefit(int id)
         {
-            int userid = UtilityService.User.UserID;
-            var data = new PermissionRepository().MenuReportByRole(userid, id);
+            var data = new MenuRepository().MenuReportByRole(id);
             return View(data);
         }
 
@@ -36,8 +34,7 @@ namespace SAT.HR.Controllers
 
         public ActionResult Human(int id)
         {
-            int userid = UtilityService.User.UserID;
-            var data = new PermissionRepository().MenuReportByRole(userid, id);
+            var data = new MenuRepository().MenuReportByRole(id);
             return View(data);
         }
 
