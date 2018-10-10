@@ -17,9 +17,6 @@ namespace SAT.HR.Controllers
     {
         public ActionResult Index()
         {
-            Session.RemoveAll();
-            FormsAuthentication.SignOut();
-
             return View();
         }
 
@@ -34,30 +31,48 @@ namespace SAT.HR.Controllers
             return PartialView();
         }
 
-        
+        public ActionResult Logout()
+        {
+            UtilityService.ClearSession();
+            return RedirectToAction("Index", "Home");
+        }
+
         public ActionResult Login(/*EmployeeViewModel model*/ string username, string password)
         {
             ResponseData result = new ResponseData();
 
             try
             {
-                var emp = new EmployeeRepository().Login(model);
+                var emp = new EmployeeRepository().Login(username, password);
                 if (emp != null)
                 {
-                    UserProfile obj = new Models.UserProfile();
-                    obj.UserID = emp.UserID;
-                    obj.UserName = emp.UserName;
-                    obj.DivID = emp.DivID;
-                    obj.DivName = emp.DivName;
-                    obj.DepID = emp.DepID;
-                    obj.DepName = emp.DepName;
-                    obj.SecID = emp.SecID;
-                    obj.SecName = emp.SecName;
-                    obj.PoID = emp.PoID;
-                    obj.PoName = emp.PoName;
-                    obj.UserTypeID = emp.UserTID;
-                    obj.UserTypeName = emp.UserTName;
-                    UtilityService.User = obj;
+                    if (emp.IsActive)
+                    {
+                        UserProfile obj = new Models.UserProfile();
+                        obj.UserID = emp.UserID;
+                        obj.UserName = emp.UserName;
+                        obj.DivID = emp.DivID;
+                        obj.DivName = emp.DivName;
+                        obj.DepID = emp.DepID;
+                        obj.DepName = emp.DepName;
+                        obj.SecID = emp.SecID;
+                        obj.SecName = emp.SecName;
+                        obj.PoID = emp.PoID;
+                        obj.PoName = emp.PoName;
+                        obj.UserTypeID = emp.UserTID;
+                        obj.UserTypeName = emp.UserTName;
+                        UtilityService.User = obj;
+                    }
+                    else
+                    {
+                        result.MessageCode = "001";
+                        result.MessageText = "Your account has not activate";
+                    }
+                }
+                else
+                {
+                    result.MessageCode = "002";
+                    result.MessageText = "Username or Password incorrect";
                 }
             }
             catch (Exception e)

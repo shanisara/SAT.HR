@@ -267,22 +267,25 @@ namespace SAT.HR.Data.Repository
                 UserRoleMenuViewModel model = new UserRoleMenuViewModel();
 
                 var user = db.tb_User.Where(m => m.UserID == userid).FirstOrDefault();
-                model.UserID = user.UserID;
-                model.UserName = user.UserName;
-                model.Avatar = SysConfig.PathUploadAvatar + "/" + user.Avatar; //"~/Upload/Avatar/avatar.jpg";
-
-                var menu = db.sp_Menu_GetByUser(userid).Select(s => new MenuViewModel()
+                if (user != null)
                 {
-                    MenuID = s.MenuID,
-                    MenuName = s.MenuName,
-                    ControllerName = s.ControllerName,
-                    ActionName = s.ActionName,
-                    Icon = s.Icon,
-                    ParentID = s.ParentID,
-                    MenuType = s.MenuType
-                }).ToList();
+                    model.UserID = user.UserID;
+                    model.UserName = user.UserName;
+                    model.Avatar = SysConfig.PathUploadAvatar + "/" + user.Avatar; //"~/Upload/Avatar/avatar.jpg";
 
-                model.ListMenu = menu;
+                    var menu = db.sp_Menu_GetByUser(userid).Select(s => new MenuViewModel()
+                    {
+                        MenuID = s.MenuID,
+                        MenuName = s.MenuName,
+                        ControllerName = s.ControllerName,
+                        ActionName = s.ActionName,
+                        Icon = s.Icon,
+                        ParentID = s.ParentID,
+                        MenuType = s.MenuType
+                    }).ToList();
+
+                    model.ListMenu = menu;
+                }
 
                 return model;
             }

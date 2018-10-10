@@ -363,6 +363,7 @@
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
           <Property Name="Avatar" Type="nvarchar" MaxLength="200" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <EntityType Name="tb_UserType">
           <Key>
@@ -518,6 +519,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <Property Name="PoName" Type="nvarchar" MaxLength="200" />
           <Property Name="SexID" Type="int" />
           <Property Name="SexName" Type="nchar" MaxLength="10" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <Association Name="FK_tb_Capability_tb_Capability">
           <End Role="tb_CapabilityType" Type="Self.tb_CapabilityType" Multiplicity="0..1" />
@@ -787,7 +789,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     [vw_User].[PoID] AS [PoID], 
     [vw_User].[PoName] AS [PoName], 
     [vw_User].[SexID] AS [SexID], 
-    [vw_User].[SexName] AS [SexName]
+    [vw_User].[SexName] AS [SexName], 
+    [vw_User].[IsActive] AS [IsActive]
     FROM [dbo].[vw_User] AS [vw_User]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_tb_Capability_tb_Capability" Association="Self.FK_tb_Capability_tb_Capability">
@@ -879,7 +882,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <EntitySet Name="vw_RoleUser" EntityType="SAT.HR.vw_RoleUser" />
           <EntitySet Name="vw_Section" EntityType="SAT.HR.vw_Section" />
           <EntitySet Name="vw_Title" EntityType="SAT.HR.vw_Title" />
-          <EntitySet Name="vw_User" EntityType="SAT.HR.vw_User" />
           <AssociationSet Name="FK_tb_Capability_tb_Capability" Association="SAT.HR.FK_tb_Capability_tb_Capability">
             <End Role="tb_CapabilityType" EntitySet="tb_CapabilityType" />
             <End Role="tb_Capability" EntitySet="tb_Capability" />
@@ -913,6 +915,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
             <End Role="tb_Title" EntitySet="tb_Title" />
           </AssociationSet>
           <EntitySet Name="tb_User" EntityType="SAT.HR.tb_User" />
+          <EntitySet Name="vw_User" EntityType="SAT.HR.vw_User" />
           <AssociationSet Name="FK_tb_RoleUser_tb_User" Association="SAT.HR.FK_tb_RoleUser_tb_User">
             <End Role="tb_User" EntitySet="tb_User" />
             <End Role="tb_RoleUser" EntitySet="tb_RoleUser" />
@@ -1440,33 +1443,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <Property Name="SexID" Type="Int32" />
           <Property Name="SexName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
         </EntityType>
-        <EntityType Name="vw_User">
-          <Key>
-            <PropertyRef Name="UserID" />
-            <PropertyRef Name="DivID" />
-            <PropertyRef Name="DepID" />
-            <PropertyRef Name="SecID" />
-            <PropertyRef Name="PoID" />
-          </Key>
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="ConfirmPassword" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="UserTID" Type="Int32" />
-          <Property Name="UserTName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DivID" Type="Int32" Nullable="false" />
-          <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="DepID" Type="Int32" Nullable="false" />
-          <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="SecID" Type="Int32" Nullable="false" />
-          <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PoID" Type="Int32" Nullable="false" />
-          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="SexID" Type="Int32" />
-          <Property Name="SexName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-        </EntityType>
         <Association Name="FK_tb_Capability_tb_Capability">
           <End Type="SAT.HR.tb_CapabilityType" Role="tb_CapabilityType" Multiplicity="0..1" />
           <End Type="SAT.HR.tb_Capability" Role="tb_Capability" Multiplicity="*" />
@@ -1584,8 +1560,37 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="Int32" />
           <Property Name="Avatar" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
           <NavigationProperty Name="tb_RoleUser" Relationship="SAT.HR.FK_tb_RoleUser_tb_User" FromRole="tb_User" ToRole="tb_RoleUser" />
           <NavigationProperty Name="tb_Sex" Relationship="SAT.HR.FK_tb_User_tb_Sex" FromRole="tb_User" ToRole="tb_Sex" />
+        </EntityType>
+        <EntityType Name="vw_User">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="DivID" />
+            <PropertyRef Name="DepID" />
+            <PropertyRef Name="SecID" />
+            <PropertyRef Name="PoID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="ConfirmPassword" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UserTID" Type="Int32" />
+          <Property Name="UserTName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DivID" Type="Int32" Nullable="false" />
+          <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DepID" Type="Int32" Nullable="false" />
+          <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SecID" Type="Int32" Nullable="false" />
+          <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PoID" Type="Int32" Nullable="false" />
+          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SexID" Type="Int32" />
+          <Property Name="SexName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
         </EntityType>
         <Association Name="FK_tb_RoleUser_tb_User">
           <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
@@ -2113,9 +2118,34 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tb_User">
+            <EntityTypeMapping TypeName="SAT.HR.tb_User">
+              <MappingFragment StoreEntitySet="tb_User">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="SexID" ColumnName="SexID" />
+                <ScalarProperty Name="UserTID" ColumnName="UserTID" />
+                <ScalarProperty Name="PoID" ColumnName="PoID" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="DepID" ColumnName="DepID" />
+                <ScalarProperty Name="DivID" ColumnName="DivID" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="ConfirmPassword" ColumnName="ConfirmPassword" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="vw_User">
             <EntityTypeMapping TypeName="SAT.HR.vw_User">
               <MappingFragment StoreEntitySet="vw_User">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="SexName" ColumnName="SexName" />
                 <ScalarProperty Name="SexID" ColumnName="SexID" />
                 <ScalarProperty Name="PoName" ColumnName="PoName" />
@@ -2128,29 +2158,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
                 <ScalarProperty Name="DivID" ColumnName="DivID" />
                 <ScalarProperty Name="UserTName" ColumnName="UserTName" />
                 <ScalarProperty Name="UserTID" ColumnName="UserTID" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="ConfirmPassword" ColumnName="ConfirmPassword" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tb_User">
-            <EntityTypeMapping TypeName="SAT.HR.tb_User">
-              <MappingFragment StoreEntitySet="tb_User">
-                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="SexID" ColumnName="SexID" />
-                <ScalarProperty Name="UserTID" ColumnName="UserTID" />
-                <ScalarProperty Name="PoID" ColumnName="PoID" />
-                <ScalarProperty Name="SecID" ColumnName="SecID" />
-                <ScalarProperty Name="DepID" ColumnName="DepID" />
-                <ScalarProperty Name="DivID" ColumnName="DivID" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="ConfirmPassword" ColumnName="ConfirmPassword" />

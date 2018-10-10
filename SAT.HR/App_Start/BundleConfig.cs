@@ -36,8 +36,8 @@ namespace SAT.HR
                         "~/Content/assets/js/plugins/jquery.bootstrap-wizard.js",
                         "~/Content/assets/js/plugins/jquery.dataTables.min.js",
                         "~/Content/assets/js/plugins/chartist.min.js",
-                        "~/Content/assets/js/material-dashboard.min.js?v=2.0.2",
                         "~/Content/assets/js/core/bootstrap-material-design.min.js",
+                        "~/Content/assets/js/material-dashboard.min.js?v=2.0.2",
                         "~/Content/assets/demo/demo.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

@@ -17,7 +17,7 @@ namespace SAT.HR.Helpers
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            if (string.IsNullOrEmpty(HttpContext.Current.User.Identity.Name))
+            if (HttpContext.Current.Session == null)
             {
                 return false;
             }
@@ -26,7 +26,10 @@ namespace SAT.HR.Helpers
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
-            filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Home", action = "Index" }));
+            if (UtilityService.User == null && !filterContext.IsChildAction)
+            {
+                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Home", action = "Index" }));
+            }
         }
     }
 }
