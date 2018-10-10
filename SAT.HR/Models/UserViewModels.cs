@@ -70,6 +70,8 @@ namespace SAT.HR.Models
 
         public string UserTypeName { get; set; }
 
-        
-    }
+        public string FullName { get; set; }
+
+        public string Avatar { get; set; }
+}
 }

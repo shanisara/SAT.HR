@@ -106,6 +106,8 @@ namespace SAT.HR.Models
 
         public string UserName { get; set; }
 
+        public string FullName { get; set; }
+
         public string Avatar { get; set; }
 
         public int MenuID { get; set; }

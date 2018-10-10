@@ -128,8 +128,11 @@ namespace SAT.HR.Data.Repository
                     UserTID = s.UserTID,
                     UserTName = s.UserTName,
                     SexID = s.SexID,
-                    SexName = s.SexName
-            }).FirstOrDefault();
+                    SexName = s.SexName,
+                    IsActive = s.IsActive,
+                    FullName = s.FirstName + " " + s.LastName,
+                    Avatar = s.Avatar,
+                }).FirstOrDefault();
 
                 return data;
             }

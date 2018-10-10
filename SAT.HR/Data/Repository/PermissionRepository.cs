@@ -260,32 +260,28 @@ namespace SAT.HR.Data.Repository
 
         #region Load Menu
 
-        public UserRoleMenuViewModel MenuByUser(int userid)
+        public UserRoleMenuViewModel MenuByUser()
         {
             using (SATEntities db = new SATEntities())
             {
                 UserRoleMenuViewModel model = new UserRoleMenuViewModel();
 
-                var user = db.tb_User.Where(m => m.UserID == userid).FirstOrDefault();
-                if (user != null)
+                model.UserID = UtilityService.User.UserID;
+                model.FullName = UtilityService.User.FullName;
+                model.Avatar = !string.IsNullOrEmpty(UtilityService.User.Avatar) ? UtilityService.User.Avatar : "avatar.png";
+
+                var menu = db.sp_Menu_GetByUser(model.UserID).Select(s => new MenuViewModel()
                 {
-                    model.UserID = user.UserID;
-                    model.UserName = user.UserName;
-                    model.Avatar = SysConfig.PathUploadAvatar + "/" + user.Avatar; //"~/Upload/Avatar/avatar.jpg";
+                    MenuID = s.MenuID,
+                    MenuName = s.MenuName,
+                    ControllerName = s.ControllerName,
+                    ActionName = s.ActionName,
+                    Icon = s.Icon,
+                    ParentID = s.ParentID,
+                    MenuType = s.MenuType
+                }).ToList();
 
-                    var menu = db.sp_Menu_GetByUser(userid).Select(s => new MenuViewModel()
-                    {
-                        MenuID = s.MenuID,
-                        MenuName = s.MenuName,
-                        ControllerName = s.ControllerName,
-                        ActionName = s.ActionName,
-                        Icon = s.Icon,
-                        ParentID = s.ParentID,
-                        MenuType = s.MenuType
-                    }).ToList();
-
-                    model.ListMenu = menu;
-                }
+                model.ListMenu = menu;
 
                 return model;
             }

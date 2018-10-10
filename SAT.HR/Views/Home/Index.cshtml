@@ -9,11 +9,12 @@
         <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
         <div class="container">
             <div class="col-lg-4 col-md-6 col-sm-6 ml-auto mr-auto">
-                <img width="343" src="~/Content/assets/img/logo.png" /><br />
-                <form class="form">
+                <img width="343" src="~/Content/assets/img/logo.png" />
+                <br /><br />
+                <form id="authenticationForm" class="form">
                     <div class="card card-login card-hidden">
                         <div class="card-header card-header-primary text-center">
-                            <h4 class="card-title">ระบบบริหารงานบุคคล</h4>
+                            <h4 class="card-title"><span>ระบบบริหารงานบุคคล</span></h4>
                         </div>
                         <div class="card-body">
                             <span class="bmd-form-group">
@@ -38,8 +39,7 @@
                             </span>
                         </div>
                         <div class="card-footer justify-content-center">
-                            <button id="submit-auth" class="btn btn-primary btn-round">Login<div class="ripple-container"></div></button>
-                            @*<a  class="btn btn-link btn-lg">Login</a>*@
+                            <button id="submit-auth" class="btn btn-primary btn-round">เข้าสู่ระบบ<div class="ripple-container"></div></button>
                         </div>
                     </div>
                 </form>
@@ -81,7 +81,7 @@
                     $.ajax({
                         type: 'POST',
                         url: '@Url.Action("Login", "Home")',
-                        data: { username: $('#UserName').val(), password: $('#Password').val() },
+                        data: $("#authenticationForm").serialize(),
                         dataType: 'json',
                         success: function (res) {
                             if (res.MessageCode == null) {
@@ -89,7 +89,7 @@
                                 window.location.href = url;
                             }
                             else {
-                                alert(res.MessageText);
+                                alert(res.MessageText + '(' + res.MessageCode + ')');
                             }
                         }
                     });

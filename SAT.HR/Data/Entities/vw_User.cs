@@ -33,5 +33,6 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> SexID { get; set; }
         public string SexName { get; set; }
         public Nullable<bool> IsActive { get; set; }
+        public string Avatar { get; set; }
     }
 }

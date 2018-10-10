@@ -54,6 +54,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Sex> tb_Sex { get; set; }
         public virtual DbSet<tb_SysConfig> tb_SysConfig { get; set; }
         public virtual DbSet<tb_Title> tb_Title { get; set; }
+        public virtual DbSet<tb_User> tb_User { get; set; }
         public virtual DbSet<tb_UserType> tb_UserType { get; set; }
         public virtual DbSet<vw_Department> vw_Department { get; set; }
         public virtual DbSet<vw_RoleMenu> vw_RoleMenu { get; set; }
@@ -62,7 +63,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_RoleUser> vw_RoleUser { get; set; }
         public virtual DbSet<vw_Section> vw_Section { get; set; }
         public virtual DbSet<vw_Title> vw_Title { get; set; }
-        public virtual DbSet<tb_User> tb_User { get; set; }
         public virtual DbSet<vw_User> vw_User { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result1> sp_Menu_GetByUser(Nullable<int> userID)

@@ -27,7 +27,9 @@ namespace SAT.HR.Models
         public string PoName { get; set; }
         public Nullable<int> SexID { get; set; }
         public string SexName { get; set; }
-        public bool IsActive { get; set; }
+        public bool? IsActive { get; set; }
+        public string FullName { get; set; }
+        public string Avatar { get; set; }
 
         public Nullable<System.DateTime> CreateDate { get; set; }
 

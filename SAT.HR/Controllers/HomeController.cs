@@ -37,16 +37,17 @@ namespace SAT.HR.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult Login(/*EmployeeViewModel model*/ string username, string password)
+        public ActionResult Login(EmployeeViewModel model)
         {
             ResponseData result = new ResponseData();
 
             try
             {
-                var emp = new EmployeeRepository().Login(username, password);
+                var emp = new EmployeeRepository().Login(model.UserName, model.Password);
                 if (emp != null)
                 {
-                    if (emp.IsActive)
+                    bool activate = emp.IsActive.HasValue ? (bool)emp.IsActive : false;
+                    if (activate)
                     {
                         UserProfile obj = new Models.UserProfile();
                         obj.UserID = emp.UserID;
@@ -61,6 +62,8 @@ namespace SAT.HR.Controllers
                         obj.PoName = emp.PoName;
                         obj.UserTypeID = emp.UserTID;
                         obj.UserTypeName = emp.UserTName;
+                        obj.FullName = emp.FirstName + " " + emp.LastName;
+                        obj.Avatar = !string.IsNullOrEmpty(emp.Avatar) ? emp.Avatar : "avatar.png";
                         UtilityService.User = obj;
                     }
                     else
