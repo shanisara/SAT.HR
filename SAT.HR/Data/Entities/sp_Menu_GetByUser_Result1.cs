@@ -10,18 +10,15 @@
 namespace SAT.HR.Data.Entities
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class tb_RoleMenu
+    public partial class sp_Menu_GetByUser_Result1
     {
-        public int RoleID { get; set; }
         public int MenuID { get; set; }
-        public Nullable<System.DateTime> CreateDate { get; set; }
-        public string CreateBy { get; set; }
-        public Nullable<System.DateTime> ModifyDate { get; set; }
-        public string ModifyBy { get; set; }
-    
-        public virtual tb_Menu tb_Menu { get; set; }
-        public virtual tb_Role tb_Role { get; set; }
+        public string MenuName { get; set; }
+        public string ControllerName { get; set; }
+        public string ActionName { get; set; }
+        public string Icon { get; set; }
+        public Nullable<int> ParentID { get; set; }
+        public string MenuType { get; set; }
     }
 }

@@ -35,7 +35,7 @@ namespace SAT.HR.Data.Repository
             using (SATEntities db = new SATEntities())
             {
                 var list = GetAll();
-                
+
                 return list;
             }
         }
@@ -91,5 +91,25 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public EmployeeViewModel Login(EmployeeViewModel model)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.tb_User.Where(m => m.UserName == model.UserName && m.Password == model.Password).Select(s => new EmployeeViewModel()
+                {
+                    UserID = s.UserID,
+                    UserName = s.UserName,
+                    Password = s.Password,
+                    FirstName = s.FirstName,
+                    LastName = s.LastName,
+                    UserType = s.UserType,
+                    //UserTypeName = s.UserTypeName,
+                    SexID = s.SexID,
+                    //SexName = s.SexName,
+                }).FirstOrDefault();
+
+                return data;
+            }
+        }
     }
 }

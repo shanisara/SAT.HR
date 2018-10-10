@@ -251,9 +251,10 @@
   <EntityType Name="tb_RoleMenu">
     <Key>
       <PropertyRef Name="RoleID" />
+      <PropertyRef Name="MenuID" />
     </Key>
-    <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="MenuID" Type="int" />
+    <Property Name="RoleID" Type="int" Nullable="false" />
+    <Property Name="MenuID" Type="int" Nullable="false" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -446,6 +447,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleUser' does not have a prima
     </Key>
     <Property Name="RoleID" Type="int" Nullable="false" />
     <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
+    <Property Name="RoleDesc" Type="nvarchar" MaxLength="200" />
     <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="UserName" Type="nchar" MaxLength="10" />
   </EntityType>
@@ -531,7 +533,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_tb_RoleMenu_tb_Menu">
-    <End Role="tb_Menu" Type="Self.tb_Menu" Multiplicity="0..1" />
+    <End Role="tb_Menu" Type="Self.tb_Menu" Multiplicity="1" />
     <End Role="tb_RoleMenu" Type="Self.tb_RoleMenu" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="tb_Menu">
@@ -544,7 +546,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
   </Association>
   <Association Name="FK_tb_RoleMenu_tb_Role">
     <End Role="tb_Role" Type="Self.tb_Role" Multiplicity="1" />
-    <End Role="tb_RoleMenu" Type="Self.tb_RoleMenu" Multiplicity="0..1" />
+    <End Role="tb_RoleMenu" Type="Self.tb_RoleMenu" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="tb_Role">
         <PropertyRef Name="RoleID" />
@@ -614,6 +616,21 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="fm_fn_ConvertHourToMinutes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
+    <Parameter Name="TotalHour" Type="decimal" Mode="In" />
+    <Parameter Name="FormMasterOID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="fm_fn_ConvertMinutesToHour" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="TotalMinutes" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_Menu_GetByRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="RoleID" Type="int" Mode="In" />
+    <Parameter Name="ParentID" Type="int" Mode="In" />
+    <Parameter Name="MenuType" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_Menu_GetByUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserID" Type="int" Mode="In" />
+  </Function>
   <EntityContainer Name="SATHRStoreContainer">
     <EntitySet Name="tb_ActionType" EntityType="Self.tb_ActionType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Capability" EntityType="Self.tb_Capability" Schema="dbo" store:Type="Tables" />
@@ -700,6 +717,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
       <DefiningQuery>SELECT 
     [vw_RoleUser].[RoleID] AS [RoleID], 
     [vw_RoleUser].[RoleName] AS [RoleName], 
+    [vw_RoleUser].[RoleDesc] AS [RoleDesc], 
     [vw_RoleUser].[UserID] AS [UserID], 
     [vw_RoleUser].[UserName] AS [UserName]
     FROM [dbo].[vw_RoleUser] AS [vw_RoleUser]</DefiningQuery>

@@ -908,11 +908,11 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region RoleUser
+        #region User Role
 
         public ActionResult RoleUser(int id)
         {
-            var data = new PermissionRepository().GetRoleUser(id);
+            var data = new PermissionRepository().UserByRole(id);
             return View(data);
         }
 
@@ -940,28 +940,29 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region RoleMenu
+        #region Menu Role
 
         public ActionResult RoleMenu(int id)
         {
-            var data = new PermissionRepository().RoleMenu(id);
+            var data = new PermissionRepository().MenuByRole(id);
             return View(data);
         }
 
-
-        public ActionResult Menu(int id)
+        public ActionResult Menu(int roleid, int menuid)
         {
-            var data = new PermissionRepository().MenuTabByRole(id);
+            var data = new PermissionRepository().MenuTabByRole(roleid, menuid);
             return PartialView("_Menu", data);
         }
-        public ActionResult MenuTab(int id)
+
+        public ActionResult MenuTab(int menuid, int roleid)
         {
-            var data = new PermissionRepository().MenuReportByRole(id);
+            var data = new PermissionRepository().MenuReportByRole(roleid, menuid);
             return PartialView("_MenuTab", data);
         }
-        public ActionResult MenuReport(int id)
+
+        public ActionResult MenuReport(int menuid, int roleid)
         {
-            var data = new PermissionRepository().MenuReportByRole(id);
+            var data = new PermissionRepository().MenuReportByRole(roleid, menuid);
             return PartialView("_MenuReport", data);
         }
 

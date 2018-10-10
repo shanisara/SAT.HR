@@ -16,6 +16,7 @@ namespace SAT.HR.Data.Entities
     {
         public int RoleID { get; set; }
         public string RoleName { get; set; }
+        public string RoleDesc { get; set; }
         public int UserID { get; set; }
         public string UserName { get; set; }
     }

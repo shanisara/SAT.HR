@@ -12,6 +12,8 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class SATEntities : DbContext
     {
@@ -58,9 +60,35 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_RoleMenu> vw_RoleMenu { get; set; }
         public virtual DbSet<vw_RoleMenuReport> vw_RoleMenuReport { get; set; }
         public virtual DbSet<vw_RoleMenuTab> vw_RoleMenuTab { get; set; }
-        public virtual DbSet<vw_RoleUser> vw_RoleUser { get; set; }
         public virtual DbSet<vw_Section> vw_Section { get; set; }
         public virtual DbSet<vw_Title> vw_Title { get; set; }
         public virtual DbSet<vw_User> vw_User { get; set; }
+        public virtual DbSet<vw_RoleUser> vw_RoleUser { get; set; }
+    
+        public virtual ObjectResult<sp_Menu_GetByUser_Result1> sp_Menu_GetByUser(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Menu_GetByUser_Result1>("sp_Menu_GetByUser", userIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_Menu_GetByRole_Result2> sp_Menu_GetByRole(Nullable<int> roleID, Nullable<int> parentID, string menuType)
+        {
+            var roleIDParameter = roleID.HasValue ?
+                new ObjectParameter("RoleID", roleID) :
+                new ObjectParameter("RoleID", typeof(int));
+    
+            var parentIDParameter = parentID.HasValue ?
+                new ObjectParameter("ParentID", parentID) :
+                new ObjectParameter("ParentID", typeof(int));
+    
+            var menuTypeParameter = menuType != null ?
+                new ObjectParameter("MenuType", menuType) :
+                new ObjectParameter("MenuType", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Menu_GetByRole_Result2>("sp_Menu_GetByRole", roleIDParameter, parentIDParameter, menuTypeParameter);
+        }
     }
 }
