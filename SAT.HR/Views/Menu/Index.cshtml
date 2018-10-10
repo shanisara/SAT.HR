@@ -5,13 +5,13 @@
         <img src="@Url.Content(Model.Avatar)" />
     </div>
     <div class="user-info">
-        <a data-toggle="collapse" href="#collapseExample" class="username">
+        <a data-toggle="collapse" href="#collapseMenu" class="username">
             <span>
                 @Model.UserName
                 <b class="caret"></b>
             </span>
         </a>
-        <div class="collapse" id="collapseExample">
+        <div class="collapse" id="collapseMenu">
             <ul class="nav">
                 <li class="nav-item">
                     <a class="nav-link" href="">
@@ -59,15 +59,15 @@
             </a>
             <div class="collapse @show" id="m_@item.MenuID">
                 <ul class="nav">
-                    @foreach (var item2 in Model.ListMenu.Where(m => m.ParentID == @item.MenuID))
-                    {
-                        string active2 = (actionName == @item2.ActionName) ? "active" : string.Empty;
+                @foreach (var item2 in Model.ListMenu.Where(m => m.ParentID == @item.MenuID))
+                {
+                    string active2 = (actionName == @item2.ActionName) ? "active" : string.Empty;
 
-                        int count = Model.ListMenu.Where(m => m.ParentID == @item2.MenuID && m.MenuType == "R").Count();
-                        if (count > 0)
-                        {
+                    int count = Model.ListMenu.Where(m => m.ParentID == @item2.MenuID && m.MenuType == "R").Count();
+                    if (count > 0)
+                    {
                     <li class="nav-item @active2">
-                        <a class="nav-link" href="@Url.Action(@item2.ActionName, @item2.ControllerName, new { menuid = item2.MenuID })">
+                        <a class="nav-link" href="@Url.Action(@item2.ActionName, @item2.ControllerName)/@item2.MenuID">
                             <span class="sidebar-normal"> @item2.MenuName </span>
                         </a>
                     </li>

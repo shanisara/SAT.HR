@@ -11,10 +11,10 @@ namespace SAT.HR.Controllers
     {
         #region // รายงาน:ส่วนงานทรัพยากรบุคคล
 
-        public ActionResult Resource(int menuid)
+        public ActionResult Resource(int id)
         {
             int userid = 1;
-            var data = new PermissionRepository().MenuReportByRole(userid, menuid);
+            var data = new PermissionRepository().MenuReportByRole(userid, id);
             return View(data);
         }
 
@@ -22,10 +22,10 @@ namespace SAT.HR.Controllers
 
         #region // รายงาน:ส่วนงานสวัสดิการ
 
-        public ActionResult Benefit(int menuid)
+        public ActionResult Benefit(int id)
         {
             int userid = 1;
-            var data = new PermissionRepository().MenuReportByRole(userid, menuid);
+            var data = new PermissionRepository().MenuReportByRole(userid, id);
             return View(data);
         }
 
@@ -33,10 +33,10 @@ namespace SAT.HR.Controllers
 
         #region // รายงาน:ส่วนงานพัฒนาบุคลากร
 
-        public ActionResult Human(int menuid)
+        public ActionResult Human(int id)
         {
             int userid = 1;
-            var data = new PermissionRepository().MenuReportByRole(userid, menuid);
+            var data = new PermissionRepository().MenuReportByRole(userid, id);
             return View(data);
         }
 
