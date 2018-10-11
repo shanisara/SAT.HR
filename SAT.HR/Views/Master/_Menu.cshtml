@@ -5,21 +5,21 @@
         font-size: 14px;
     }
 </style>
-
-<table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
-    <thead>
-        <tr>
-            <th style="width:10%" class="text-center td-font-size">ลำดับ</th>
-            <th style="width:60%" class="text-left td-font-size">เมนู</th>
-            <th style="width:5%" class="text-center td-font-size">แสดง</th>
-            <th style="width:5%" class="text-center td-font-size">เพิ่ม</th>
-            <th style="width:5%" class="text-center td-font-size">แก้ไข</th>
-            <th style="width:10%" class="text-center td-font-size">ลบ</th>
-            @*<th style="width:5%" class="td-font-size">ดาวน์โหลด</th>
-            <th style="width:5%" class="td-font-size">อัพโหลด</th>*@
-        </tr>
-    </thead>
-    <tbody>
+<div id="formRoleMenu">
+    <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+        <thead class="text-primary">
+            <tr class="td-font-size">
+                <th style="width:10%" class="text-center">ลำดับ</th>
+                <th style="width:70%" class="text-left">เมนู</th>
+                <th style="width:5%" class="text-center">แสดง</th>
+                <th style="width:5%" class="text-center">เพิ่ม</th>
+                <th style="width:5%" class="text-center">แก้ไข</th>
+                <th style="width:5%" class="text-center">ลบ</th>
+                @*<th style="width:5%" class="td-font-size">ดาวน์โหลด</th>
+                    <th style="width:5%" class="td-font-size">อัพโหลด</th>*@
+            </tr>
+        </thead>
+        <tbody>
         @{ int index = 1;}
         @foreach (var item in Model)
         {
@@ -29,57 +29,58 @@
             string _edit = @item.R_Edit == true ? "checked" : "";
             string _delete = @item.R_Delete == true ? "checked" : "";
 
-            <tr data-menu="@item.MenuID" data-role="@item.RoleID">
-                <td class="text-center">@index</td>
-                <td>@item.MenuName</td>
-                <td class="text-center">
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            @*<input class="form-check-input" type="checkbox" >*@
-                            @Html.CheckBox("R_View", new { @class = "form-check-input", @checked = _view })
-                            <span class="form-check-sign">
-                                <span class="check"></span>
-                            </span>
-                        </label>
-                    </div>
-                </td>
-                <td>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            @Html.CheckBox("R_Add", new { @class = "form-check-input", @checked = _add })
-                            <span class="form-check-sign">
-                                <span class="check"></span>
-                            </span>
-                        </label>
-                    </div>
-                </td>
-                <td>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            @Html.CheckBox("R_Edit", new { @class = "form-check-input", @checked = _edit })
-                            <span class="form-check-sign">
-                                <span class="check"></span>
-                            </span>
-                        </label>
-                    </div>
-                </td>
-                <td>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            @Html.CheckBox("R_Delete", new { @class = "form-check-input", @checked = _delete })
-                            <span class="form-check-sign">
-                                <span class="check"></span>
-                            </span>
-                        </label>
-                    </div>
-                </td>
-            </tr>
+                <tr data-menu="@item.MenuID" data-role="@item.RoleID">
+                    <td class="text-center">@index</td>
+                    <td>@item.MenuName</td>
+                    <td class="text-center">
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input R_View" type="checkbox" @_view>
+                                @*@Html.CheckBox("R_View", new { @class = "form-check-input", @checked = _view })*@
+                                <span class="form-check-sign">
+                                    <span class="check"></span>
+                                </span>
+                            </label>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                @Html.CheckBox("R_Add", new { @class = "form-check-input", @checked = _add })
+                                <span class="form-check-sign">
+                                    <span class="check"></span>
+                                </span>
+                            </label>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                @Html.CheckBox("R_Edit", new { @class = "form-check-input", @checked = _edit })
+                                <span class="form-check-sign">
+                                    <span class="check"></span>
+                                </span>
+                            </label>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                @Html.CheckBox("R_Delete", new { @class = "form-check-input", @checked = _delete })
+                                <span class="form-check-sign">
+                                    <span class="check"></span>
+                                </span>
+                            </label>
+                        </div>
+                    </td>
+                </tr>
             ++index;
         }
-    </tbody>
-</table>
-<div class="card-footer text-right">
-    <div class="form-check mr-auto"></div>
-    <button type="button" class="btn btn-Back">ย้อนกลับ<div class="ripple-container"></div></button>&nbsp;&nbsp;&nbsp;
-    <button type="button" class="btn btn-primary btn-save">บันทึก<div class="ripple-container"></div></button>
+        </tbody>
+    </table>
+    <div class="card-footer text-right">
+        <div class="form-check mr-auto"></div>
+        <button type="button" class="btn btn-Back">ย้อนกลับ<div class="ripple-container"></div></button>&nbsp;&nbsp;&nbsp;
+        <button type="button" class="btn btn-primary btn-save">บันทึก<div class="ripple-container"></div></button>
+    </div>
 </div>

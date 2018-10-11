@@ -235,7 +235,7 @@ namespace SAT.HR.Data.Repository
         //    }
         //}
 
-        public ResponseData SaveRoleMenu(int roleid, List<RoleMenuViewModel> model)
+        public ResponseData SaveRoleMenu(List<RoleMenuViewModel> model)
         {
             ResponseData result = new Models.ResponseData();
             using (SATEntities db = new SATEntities())
@@ -247,12 +247,10 @@ namespace SAT.HR.Data.Repository
                         tb_RoleMenu obj = new tb_RoleMenu();
                         obj.RoleID = item.RoleID;
                         obj.MenuID = item.MenuID;
-
                         obj.R_View = item.R_View;
                         obj.R_Add = item.R_Add;
                         obj.R_Edit = item.R_Edit;
                         obj.R_Delete = item.R_Delete;
-
                         obj.CreateBy = UtilityService.User.UserID;
                         obj.CreateDate = DateTime.Now;
                         obj.ModifyBy = UtilityService.User.UserID;
@@ -297,6 +295,7 @@ namespace SAT.HR.Data.Repository
                     //RoleName = s.RoleName,
                     MenuID = (int)s.MenuID,
                     MenuName = s.MenuName,
+                    ParentID = s.ParentID,
                     R_View = (bool)s.R_View,
                     R_Add = (bool)s.R_Add,
                     R_Edit = (bool)s.R_Edit,

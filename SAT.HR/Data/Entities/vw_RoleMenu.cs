@@ -18,6 +18,7 @@ namespace SAT.HR.Data.Entities
         public string RoleName { get; set; }
         public string RoleDesc { get; set; }
         public int MenuID { get; set; }
+        public Nullable<int> ParentID { get; set; }
         public string MenuName { get; set; }
         public string MenuType { get; set; }
         public Nullable<bool> R_View { get; set; }

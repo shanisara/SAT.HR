@@ -95,13 +95,13 @@ namespace SAT.HR.Models
 
         public int? Sequence { get; set; }
 
-        public bool R_View { get; set; }
+        public Nullable<bool> R_View { get; set; }
 
-        public bool R_Add { get; set; }
+        public Nullable<bool> R_Add { get; set; }
 
-        public bool R_Edit { get; set; }
+        public Nullable<bool> R_Edit { get; set; }
 
-        public bool R_Delete { get; set; }
+        public Nullable<bool> R_Delete { get; set; }
 
         public DateTime? CreateDate { get; set; }
 
