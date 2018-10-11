@@ -10,13 +10,13 @@ namespace SAT.HR.Data.Repository
 {
     public class MenuRepository
     {
-        public UserRoleMenuViewModel MenuByUser()
+        public UserRoleMenuViewModel MenuByUser(int userid)
         {
             using (SATEntities db = new SATEntities())
             {
                 UserRoleMenuViewModel model = new UserRoleMenuViewModel();
 
-                model.UserID = UtilityService.User.UserID;
+                model.UserID = userid;
                 model.FullName = UtilityService.User.FullName;
                 model.Avatar = !string.IsNullOrEmpty(UtilityService.User.Avatar) ? UtilityService.User.Avatar : "avatar.png";
 

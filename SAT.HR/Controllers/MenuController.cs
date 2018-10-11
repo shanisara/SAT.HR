@@ -15,7 +15,8 @@ namespace SAT.HR.Controllers
         [ChildActionOnly]
         public ActionResult Index()
         {
-            var data = new MenuRepository().MenuByUser();
+            int userid = UtilityService.User.UserID;
+            var data = new MenuRepository().MenuByUser(userid);
             return PartialView(data);
         }
     }
