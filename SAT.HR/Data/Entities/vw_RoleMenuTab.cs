@@ -20,9 +20,9 @@ namespace SAT.HR.Data.Entities
         public int MenuID { get; set; }
         public string MenuName { get; set; }
         public Nullable<int> ParentID { get; set; }
-        public int R_View { get; set; }
-        public int R_Add { get; set; }
-        public int R_Edit { get; set; }
-        public int R_Delete { get; set; }
+        public Nullable<bool> R_View { get; set; }
+        public Nullable<bool> R_Add { get; set; }
+        public Nullable<bool> R_Edit { get; set; }
+        public Nullable<bool> R_Delete { get; set; }
     }
 }

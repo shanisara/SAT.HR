@@ -14,7 +14,7 @@
                     <h4 class="card-title">
                         <span>รายการกฎ > รายการผู้ใช้งาน</span>
                     </h4>
-                    <button class="btn pull-right" id="btnBack">ย้อนกลับ<div class="ripple-container"></div></button>
+                    <button class="btn pull-right btn-Back">ย้อนกลับ<div class="ripple-container"></div></button>
                     <div class="row">
                         <label class="col-sm-2 col-form-label">กฎ</label>
                         <div class="col-sm-5">
@@ -85,7 +85,7 @@
     <script>
         $(document).ready(function () {
 
-            $("#btnBack").click(function () {
+            $(".btn-Back").click(function () {
                 swal({
                     title: '',
                     text: "ท่านต้องการกลับไปยังรายการก่อนหน้า?!",
@@ -102,7 +102,22 @@
                 }).catch(swal.noop)
             });
 
-
+            $(".btn-save-menu").click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SaveRole", "Master")',
+                    data: $("#formDetail").serialize(),
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.MessageCode == null) {
+                            showSwal.saveMessage();
+                        }
+                        else {
+                            alert(res.MessageText);
+                        }
+                    }
+                });
+            });
 
 
         });

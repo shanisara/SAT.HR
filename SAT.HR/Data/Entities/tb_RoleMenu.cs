@@ -16,6 +16,10 @@ namespace SAT.HR.Data.Entities
     {
         public int RoleID { get; set; }
         public int MenuID { get; set; }
+        public Nullable<bool> R_View { get; set; }
+        public Nullable<bool> R_Add { get; set; }
+        public Nullable<bool> R_Edit { get; set; }
+        public Nullable<bool> R_Delete { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }

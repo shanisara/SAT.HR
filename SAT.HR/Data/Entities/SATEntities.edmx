@@ -260,6 +260,10 @@
           </Key>
           <Property Name="RoleID" Type="int" Nullable="false" />
           <Property Name="MenuID" Type="int" Nullable="false" />
+          <Property Name="R_View" Type="bit" />
+          <Property Name="R_Add" Type="bit" />
+          <Property Name="R_Edit" Type="bit" />
+          <Property Name="R_Delete" Type="bit" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="int" />
           <Property Name="ModifyDate" Type="datetime" />
@@ -390,21 +394,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenu' does not have a prima
         <EntityType Name="vw_RoleMenu">
           <Key>
             <PropertyRef Name="RoleID" />
-            <PropertyRef Name="R_View" />
-            <PropertyRef Name="R_Add" />
-            <PropertyRef Name="R_Edit" />
-            <PropertyRef Name="R_Delete" />
+            <PropertyRef Name="MenuID" />
           </Key>
           <Property Name="RoleID" Type="int" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
           <Property Name="RoleDesc" Type="nvarchar" MaxLength="200" />
-          <Property Name="MenuID" Type="int" />
+          <Property Name="MenuID" Type="int" Nullable="false" />
           <Property Name="MenuName" Type="nvarchar" MaxLength="200" />
           <Property Name="MenuType" Type="nvarchar" MaxLength="10" />
-          <Property Name="R_View" Type="int" Nullable="false" />
-          <Property Name="R_Add" Type="int" Nullable="false" />
-          <Property Name="R_Edit" Type="int" Nullable="false" />
-          <Property Name="R_Delete" Type="int" Nullable="false" />
+          <Property Name="R_View" Type="bit" />
+          <Property Name="R_Add" Type="bit" />
+          <Property Name="R_Edit" Type="bit" />
+          <Property Name="R_Delete" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenuReport' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -412,10 +413,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenuReport' does not have a
           <Key>
             <PropertyRef Name="RoleID" />
             <PropertyRef Name="MenuID" />
-            <PropertyRef Name="R_View" />
-            <PropertyRef Name="R_Add" />
-            <PropertyRef Name="R_Edit" />
-            <PropertyRef Name="R_Delete" />
           </Key>
           <Property Name="RoleID" Type="int" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
@@ -423,10 +420,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenuReport' does not have a
           <Property Name="MenuID" Type="int" Nullable="false" />
           <Property Name="ParentID" Type="int" />
           <Property Name="MenuName" Type="nvarchar" MaxLength="200" />
-          <Property Name="R_View" Type="int" Nullable="false" />
-          <Property Name="R_Add" Type="int" Nullable="false" />
-          <Property Name="R_Edit" Type="int" Nullable="false" />
-          <Property Name="R_Delete" Type="int" Nullable="false" />
+          <Property Name="R_View" Type="bit" />
+          <Property Name="R_Add" Type="bit" />
+          <Property Name="R_Edit" Type="bit" />
+          <Property Name="R_Delete" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenuTab' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -434,10 +431,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenuTab' does not have a pr
           <Key>
             <PropertyRef Name="RoleID" />
             <PropertyRef Name="MenuID" />
-            <PropertyRef Name="R_View" />
-            <PropertyRef Name="R_Add" />
-            <PropertyRef Name="R_Edit" />
-            <PropertyRef Name="R_Delete" />
           </Key>
           <Property Name="RoleID" Type="int" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
@@ -445,10 +438,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenuTab' does not have a pr
           <Property Name="MenuID" Type="int" Nullable="false" />
           <Property Name="MenuName" Type="nvarchar" MaxLength="200" />
           <Property Name="ParentID" Type="int" />
-          <Property Name="R_View" Type="int" Nullable="false" />
-          <Property Name="R_Add" Type="int" Nullable="false" />
-          <Property Name="R_Edit" Type="int" Nullable="false" />
-          <Property Name="R_Delete" Type="int" Nullable="false" />
+          <Property Name="R_View" Type="bit" />
+          <Property Name="R_Add" Type="bit" />
+          <Property Name="R_Edit" Type="bit" />
+          <Property Name="R_Delete" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleUser' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1304,6 +1297,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           </Key>
           <Property Name="RoleID" Type="Int32" Nullable="false" />
           <Property Name="MenuID" Type="Int32" Nullable="false" />
+          <Property Name="R_View" Type="Boolean" />
+          <Property Name="R_Add" Type="Boolean" />
+          <Property Name="R_Edit" Type="Boolean" />
+          <Property Name="R_Delete" Type="Boolean" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="CreateBy" Type="Int32" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
@@ -1440,30 +1437,23 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
         <EntityType Name="vw_RoleMenu">
           <Key>
             <PropertyRef Name="RoleID" />
-            <PropertyRef Name="R_View" />
-            <PropertyRef Name="R_Add" />
-            <PropertyRef Name="R_Edit" />
-            <PropertyRef Name="R_Delete" />
+            <PropertyRef Name="MenuID" />
           </Key>
           <Property Name="RoleID" Type="Int32" Nullable="false" />
           <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RoleDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="MenuID" Type="Int32" />
+          <Property Name="MenuID" Type="Int32" Nullable="false" />
           <Property Name="MenuName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="MenuType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="R_View" Type="Int32" Nullable="false" />
-          <Property Name="R_Add" Type="Int32" Nullable="false" />
-          <Property Name="R_Edit" Type="Int32" Nullable="false" />
-          <Property Name="R_Delete" Type="Int32" Nullable="false" />
+          <Property Name="R_View" Type="Boolean" />
+          <Property Name="R_Add" Type="Boolean" />
+          <Property Name="R_Edit" Type="Boolean" />
+          <Property Name="R_Delete" Type="Boolean" />
         </EntityType>
         <EntityType Name="vw_RoleMenuReport">
           <Key>
             <PropertyRef Name="RoleID" />
             <PropertyRef Name="MenuID" />
-            <PropertyRef Name="R_View" />
-            <PropertyRef Name="R_Add" />
-            <PropertyRef Name="R_Edit" />
-            <PropertyRef Name="R_Delete" />
           </Key>
           <Property Name="RoleID" Type="Int32" Nullable="false" />
           <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1471,19 +1461,15 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <Property Name="MenuID" Type="Int32" Nullable="false" />
           <Property Name="ParentID" Type="Int32" />
           <Property Name="MenuName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="R_View" Type="Int32" Nullable="false" />
-          <Property Name="R_Add" Type="Int32" Nullable="false" />
-          <Property Name="R_Edit" Type="Int32" Nullable="false" />
-          <Property Name="R_Delete" Type="Int32" Nullable="false" />
+          <Property Name="R_View" Type="Boolean" />
+          <Property Name="R_Add" Type="Boolean" />
+          <Property Name="R_Edit" Type="Boolean" />
+          <Property Name="R_Delete" Type="Boolean" />
         </EntityType>
         <EntityType Name="vw_RoleMenuTab">
           <Key>
             <PropertyRef Name="RoleID" />
             <PropertyRef Name="MenuID" />
-            <PropertyRef Name="R_View" />
-            <PropertyRef Name="R_Add" />
-            <PropertyRef Name="R_Edit" />
-            <PropertyRef Name="R_Delete" />
           </Key>
           <Property Name="RoleID" Type="Int32" Nullable="false" />
           <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1491,10 +1477,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <Property Name="MenuID" Type="Int32" Nullable="false" />
           <Property Name="MenuName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="ParentID" Type="Int32" />
-          <Property Name="R_View" Type="Int32" Nullable="false" />
-          <Property Name="R_Add" Type="Int32" Nullable="false" />
-          <Property Name="R_Edit" Type="Int32" Nullable="false" />
-          <Property Name="R_Delete" Type="Int32" Nullable="false" />
+          <Property Name="R_View" Type="Boolean" />
+          <Property Name="R_Add" Type="Boolean" />
+          <Property Name="R_Edit" Type="Boolean" />
+          <Property Name="R_Delete" Type="Boolean" />
         </EntityType>
         <EntityType Name="vw_RoleUser">
           <Key>
@@ -2005,6 +1991,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
                 <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="R_Delete" ColumnName="R_Delete" />
+                <ScalarProperty Name="R_Edit" ColumnName="R_Edit" />
+                <ScalarProperty Name="R_Add" ColumnName="R_Add" />
+                <ScalarProperty Name="R_View" ColumnName="R_View" />
                 <ScalarProperty Name="MenuID" ColumnName="MenuID" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
               </MappingFragment>

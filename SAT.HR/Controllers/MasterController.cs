@@ -955,6 +955,13 @@ namespace SAT.HR.Controllers
             return View(data);
         }
 
+        public JsonResult SaveRoleMenu(int roleid, List<RoleMenuViewModel> model)
+        {
+            var result = new PermissionRepository().SaveRoleMenu(roleid, model);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
         //public ActionResult Menu(int roleid)
         //{
         //    var data = new PermissionRepository().MenuByRole(roleid);

@@ -235,28 +235,30 @@ namespace SAT.HR.Data.Repository
         //    }
         //}
 
-        public ResponseData SaveRoleMenu(int roleid, string menus)
+        public ResponseData SaveRoleMenu(int roleid, List<RoleMenuViewModel> model)
         {
             ResponseData result = new Models.ResponseData();
             using (SATEntities db = new SATEntities())
             {
                 try
                 {
-                    if (!string.IsNullOrEmpty(menus))
+                    foreach (var item in model)
                     {
-                        string[] menu = menus.Split(',');
-                        foreach (var menuid in menu)
-                        {
-                            tb_RoleMenu model = new tb_RoleMenu();
-                            model.RoleID = roleid;
-                            model.MenuID = Convert.ToInt32(menuid);
-                            model.CreateBy = UtilityService.User.UserID;
-                            model.CreateDate = DateTime.Now;
-                            model.ModifyBy = UtilityService.User.UserID;
-                            model.ModifyDate = DateTime.Now;
-                            db.tb_RoleMenu.Add(model);
-                            db.SaveChanges();
-                        }
+                        tb_RoleMenu obj = new tb_RoleMenu();
+                        obj.RoleID = item.RoleID;
+                        obj.MenuID = item.MenuID;
+
+                        obj.R_View = item.R_View;
+                        obj.R_Add = item.R_Add;
+                        obj.R_Edit = item.R_Edit;
+                        obj.R_Delete = item.R_Delete;
+
+                        obj.CreateBy = UtilityService.User.UserID;
+                        obj.CreateDate = DateTime.Now;
+                        obj.ModifyBy = UtilityService.User.UserID;
+                        obj.ModifyDate = DateTime.Now;
+                        db.tb_RoleMenu.Add(obj);
+                        db.SaveChanges();
                     }
                 }
                 catch (Exception ex)
@@ -295,10 +297,10 @@ namespace SAT.HR.Data.Repository
                     //RoleName = s.RoleName,
                     MenuID = (int)s.MenuID,
                     MenuName = s.MenuName,
-                    //R_View = s.R_View,
-                    //R_Add = s.R_Add,
-                    //R_Edit = s.R_Edit,
-                    //R_Delete = s.R_Delete
+                    R_View = (bool)s.R_View,
+                    R_Add = (bool)s.R_Add,
+                    R_Edit = (bool)s.R_Edit,
+                    R_Delete = (bool)s.R_Delete
                 }).ToList();
 
                 return data;
@@ -315,11 +317,11 @@ namespace SAT.HR.Data.Repository
                     //RoleName = s.RoleName,
                     MenuID = (int)s.MenuID,
                     MenuName = s.MenuName,
-                    ParentID = s.ParentID
-                    //R_View = s.R_View,
-                    //R_Add = s.R_Add,
-                    //R_Edit = s.R_Edit,
-                    //R_Delete = s.R_Delete
+                    ParentID = s.ParentID,
+                    R_View = (bool)s.R_View,
+                    R_Add = (bool)s.R_Add,
+                    R_Edit = (bool)s.R_Edit,
+                    R_Delete = (bool)s.R_Delete
                 }).ToList();
 
                 return data;
@@ -336,8 +338,8 @@ namespace SAT.HR.Data.Repository
                     //RoleName = s.RoleName,
                     MenuID = (int)s.MenuID,
                     MenuName = s.MenuName,
-                    ParentID = s.ParentID
-                    //R_View = s.R_View,
+                    ParentID = s.ParentID,
+                    R_View = (bool)s.R_View,
                     //R_Download = s.R_Download,
                 }).ToList();
 
