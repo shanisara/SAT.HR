@@ -11,7 +11,7 @@
             <div class="col-lg-4 col-md-6 col-sm-6 ml-auto mr-auto">
                 <img width="343" src="~/Content/assets/img/logo.png" />
                 <br /><br />
-                <form id="authenticationForm" class="form">
+                <div id="authenticationForm" class="form">
                     <div class="card card-login card-hidden">
                         <div class="card-header card-header-primary text-center">
                             <h4 class="card-title"><span>ระบบบริหารงานบุคคล</span></h4>
@@ -42,7 +42,7 @@
                             <button id="submit-auth" class="btn btn-primary btn-round">เข้าสู่ระบบ<div class="ripple-container"></div></button>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
         <footer class="footer">
@@ -81,7 +81,7 @@
                     $.ajax({
                         type: 'POST',
                         url: '@Url.Action("Login", "Home")',
-                        data: $("#authenticationForm").serialize(),
+                        data: { username: $('#UserName').val(), password: $('#Password').val() },
                         dataType: 'json',
                         success: function (res) {
                             if (res.MessageCode == null) {
@@ -89,7 +89,7 @@
                                 window.location.href = url;
                             }
                             else {
-                                alert(res.MessageText + '(' + res.MessageCode + ')');
+                                alert(res.MessageText);
                             }
                         },
                         error: function (req, status, err) {

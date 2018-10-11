@@ -38,13 +38,13 @@ namespace SAT.HR.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult Login(EmployeeViewModel model)
+        public ActionResult Login(string username, string password)
         {
             ResponseData result = new ResponseData();
 
             try
             {
-                var emp = new EmployeeRepository().Login(model.UserName, model.Password);
+                var emp = new EmployeeRepository().Login(username, password);
                 if (emp != null)
                 {
                     bool activate = emp.IsActive.HasValue ? (bool)emp.IsActive : false;
