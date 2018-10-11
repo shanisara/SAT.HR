@@ -5,9 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using SAT.HR.Models;
 using SAT.HR.Data.Repository;
+using SAT.HR.Helpers;
 
 namespace SAT.HR.Controllers
 {
+    [AuthorizeUser]
     public class MasterController : Controller
     {
         #region 1. ฝ่าย - Division
@@ -953,23 +955,23 @@ namespace SAT.HR.Controllers
             return View(data);
         }
 
-        public ActionResult Menu(int roleid)
-        {
-            var data = new PermissionRepository().MenuByRole(roleid);
-            return PartialView("_Menu", data);
-        }
+        //public ActionResult Menu(int roleid)
+        //{
+        //    var data = new PermissionRepository().MenuByRole(roleid);
+        //    return PartialView("_Menu", data);
+        //}
 
-        public ActionResult MenuTab(int menuid, int roleid)
-        {
-            var data = new PermissionRepository().MenuTabByRole(roleid);
-            return PartialView("_MenuTab", data);
-        }
+        //public ActionResult MenuTab(int menuid, int roleid)
+        //{
+        //    var data = new PermissionRepository().MenuTabByRole(roleid);
+        //    return PartialView("_MenuTab", data);
+        //}
 
-        public ActionResult MenuReport(int menuid, int roleid)
-        {
-            var data = new PermissionRepository().MenuReportByRole(roleid);
-            return PartialView("_MenuReport", data);
-        }
+        //public ActionResult MenuReport(int menuid, int roleid)
+        //{
+        //    var data = new PermissionRepository().MenuReportByRole(roleid);
+        //    return PartialView("_MenuReport", data);
+        //}
 
         #endregion
 

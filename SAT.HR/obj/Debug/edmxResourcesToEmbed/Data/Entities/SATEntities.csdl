@@ -1,6 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="SAT.HR" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityContainer Name="SATEntities" annotation:LazyLoadingEnabled="true">
+    <FunctionImport Name="sp_Menu_GetByUser" ReturnType="Collection(SAT.HR.sp_Menu_GetByUser_Result3)">
+      <Parameter Name="UserID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Menu_Report_GetByUser" ReturnType="Collection(SAT.HR.sp_Menu_Report_GetByUser_Result)">
+      <Parameter Name="UserID" Mode="In" Type="Int32" />
+      <Parameter Name="ParentID" Mode="In" Type="Int32" />
+    </FunctionImport>
     <EntitySet Name="tb_ActionType" EntityType="SAT.HR.tb_ActionType" />
     <EntitySet Name="tb_Capability" EntityType="SAT.HR.tb_Capability" />
     <EntitySet Name="tb_CapabilityType" EntityType="SAT.HR.tb_CapabilityType" />
@@ -78,13 +85,6 @@
       <End Role="tb_Sex" EntitySet="tb_Sex" />
       <End Role="tb_User" EntitySet="tb_User" />
     </AssociationSet>
-    <FunctionImport Name="sp_Menu_GetByUser" ReturnType="Collection(SAT.HR.sp_Menu_GetByUser_Result3)">
-      <Parameter Name="UserID" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_Menu_Report_GetByUser" ReturnType="Collection(SAT.HR.sp_Menu_Report_GetByUser_Result)">
-      <Parameter Name="UserID" Mode="In" Type="Int32" />
-      <Parameter Name="ParentID" Mode="In" Type="Int32" />
-    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_Menu_GetByRole_Result">
     <Property Type="Int32" Name="RoleID" Nullable="false" />
@@ -127,6 +127,37 @@
     <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
   </ComplexType>
   <ComplexType Name="sp_Menu_GetByRole_Result2">
+    <Property Type="Int32" Name="RoleID" Nullable="false" />
+    <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="MenuID" Nullable="true" />
+    <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="ControllerName" Nullable="true" />
+    <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="ParentID" Nullable="true" />
+    <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
+  </ComplexType>
+  <ComplexType Name="sp_Menu_GetByUser_Result2">
+    <Property Type="Int32" Name="RoleID" Nullable="false" />
+    <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="MenuID" Nullable="true" />
+    <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="ControllerName" Nullable="true" />
+    <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="ParentID" Nullable="true" />
+    <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
+  </ComplexType>
+  <ComplexType Name="sp_Menu_GetByUser_Result3">
+    <Property Type="Int32" Name="MenuID" Nullable="false" />
+    <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="ControllerName" Nullable="true" />
+    <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="ParentID" Nullable="true" />
+    <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
+  </ComplexType>
+  <ComplexType Name="sp_Menu_Report_GetByUser_Result">
     <Property Type="Int32" Name="RoleID" Nullable="false" />
     <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
     <Property Type="Int32" Name="MenuID" Nullable="true" />
@@ -499,7 +530,6 @@
     <Property Name="UserID" Type="Int32" Nullable="false" />
     <Property Name="UserName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
     <Property Name="Password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-    <Property Name="ConfirmPassword" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
     <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="DivID" Type="Int32" Nullable="false" />
@@ -558,6 +588,7 @@
   <EntityType Name="vw_RoleMenuReport">
     <Key>
       <PropertyRef Name="RoleID" />
+      <PropertyRef Name="MenuID" />
       <PropertyRef Name="R_View" />
       <PropertyRef Name="R_Add" />
       <PropertyRef Name="R_Edit" />
@@ -566,9 +597,9 @@
     <Property Name="RoleID" Type="Int32" Nullable="false" />
     <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="RoleDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="MenuID" Type="Int32" />
+    <Property Name="MenuID" Type="Int32" Nullable="false" />
+    <Property Name="ParentID" Type="Int32" />
     <Property Name="MenuName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="MenuType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
     <Property Name="R_View" Type="Int32" Nullable="false" />
     <Property Name="R_Add" Type="Int32" Nullable="false" />
     <Property Name="R_Edit" Type="Int32" Nullable="false" />
@@ -577,6 +608,7 @@
   <EntityType Name="vw_RoleMenuTab">
     <Key>
       <PropertyRef Name="RoleID" />
+      <PropertyRef Name="MenuID" />
       <PropertyRef Name="R_View" />
       <PropertyRef Name="R_Add" />
       <PropertyRef Name="R_Edit" />
@@ -585,9 +617,9 @@
     <Property Name="RoleID" Type="Int32" Nullable="false" />
     <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="RoleDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="MenuID" Type="Int32" />
+    <Property Name="MenuID" Type="Int32" Nullable="false" />
     <Property Name="MenuName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="MenuType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="ParentID" Type="Int32" />
     <Property Name="R_View" Type="Int32" Nullable="false" />
     <Property Name="R_Add" Type="Int32" Nullable="false" />
     <Property Name="R_Edit" Type="Int32" Nullable="false" />
@@ -596,13 +628,29 @@
   <EntityType Name="vw_RoleUser">
     <Key>
       <PropertyRef Name="RoleID" />
-      <PropertyRef Name="UserID" />
     </Key>
     <Property Name="RoleID" Type="Int32" Nullable="false" />
     <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="RoleDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="UserID" Type="Int32" />
     <Property Name="UserName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="UserTID" Type="Int32" />
+    <Property Name="UserTName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DivID" Type="Int32" />
+    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DepID" Type="Int32" />
+    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SecID" Type="Int32" />
+    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PoID" Type="Int32" />
+    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SexID" Type="Int32" />
+    <Property Name="SexName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="Avatar" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="vw_Section">
     <Key>
@@ -640,7 +688,6 @@
     <Property Name="UserID" Type="Int32" Nullable="false" />
     <Property Name="UserName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
     <Property Name="Password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-    <Property Name="ConfirmPassword" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
     <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="UserTID" Type="Int32" />
@@ -778,35 +825,4 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <ComplexType Name="sp_Menu_GetByUser_Result2">
-    <Property Type="Int32" Name="RoleID" Nullable="false" />
-    <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="MenuID" Nullable="true" />
-    <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="ControllerName" Nullable="true" />
-    <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="ParentID" Nullable="true" />
-    <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
-  </ComplexType>
-  <ComplexType Name="sp_Menu_GetByUser_Result3">
-    <Property Type="Int32" Name="MenuID" Nullable="false" />
-    <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="ControllerName" Nullable="true" />
-    <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="ParentID" Nullable="true" />
-    <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
-  </ComplexType>
-  <ComplexType Name="sp_Menu_Report_GetByUser_Result">
-    <Property Type="Int32" Name="RoleID" Nullable="false" />
-    <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="MenuID" Nullable="true" />
-    <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="ControllerName" Nullable="true" />
-    <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="ParentID" Nullable="true" />
-    <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
-  </ComplexType>
 </Schema>

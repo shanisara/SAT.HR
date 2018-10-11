@@ -133,8 +133,17 @@ namespace SAT.HR.Data.Repository
                     RoleID = s.RoleID,
                     RoleName = s.RoleName,
                     RoleDesc = s.RoleDesc,
-                    UserID = s.UserID,
+                    UserID = (int)s.UserID,
                     UserName = s.UserName,
+                    FullName = s.FirstName + " " + s.LastName,
+                    DivID = (int)s.DivID,
+                    DivName = s.DivName,
+                    DepID = (int)s.DepID,
+                    DepName = s.DepName,
+                    SecID = (int)s.SecID,
+                    SecName = s.SecName,
+                    PoID = (int)s.PoID,
+                    PoName = s.PoName
                 }).OrderBy(x => x.UserName).ToList();
 
                 if (data.Count > 0)
@@ -143,7 +152,7 @@ namespace SAT.HR.Data.Repository
                     model.RoleName = data[0].RoleName;
                     model.RoleDesc = data[0].RoleDesc;
                 }
-                model.ListRoleUser = data;
+                model.ListUserRole = data;
 
                 return model;
             }
@@ -210,21 +219,21 @@ namespace SAT.HR.Data.Repository
 
         #region  Menu Role
 
-        public RoleViewModel RoleMenu(int roleid)
-        {
-            using (SATEntities db = new SATEntities())
-            {
-                RoleViewModel model = new RoleViewModel();
-                var data = db.vw_RoleMenu.Where(x => x.RoleID == roleid).FirstOrDefault();
-                model.RoleID = data.RoleID;
-                model.RoleName = data.RoleName;
-                model.RoleDesc = data.RoleDesc;
-                //model.ListRoleMenu = GetMenuByRole(id);
-                //model.ListRoleMenuTab = GetMenuTabByRole(id);
-                //model.ListRoleMenuReport = GetMenuReportByRole(id);
-                return model;
-            }
-        }
+        //public RoleViewModel RoleMenu(int roleid)
+        //{
+        //    using (SATEntities db = new SATEntities())
+        //    {
+        //        RoleViewModel model = new RoleViewModel();
+        //        var data = db.vw_RoleMenu.Where(x => x.RoleID == roleid).FirstOrDefault();
+        //        model.RoleID = data.RoleID;
+        //        model.RoleName = data.RoleName;
+        //        model.RoleDesc = data.RoleDesc;
+        //        //model.ListRoleMenu = MenuByRole(roleid);
+        //        //model.ListRoleMenuTab = MenuTabByRole(roleid);
+        //        //model.ListRoleMenuReport = MenuReportByRole(roleid);
+        //        return model;
+        //    }
+        //}
 
         public ResponseData SaveRoleMenu(int roleid, string menus)
         {
@@ -269,11 +278,9 @@ namespace SAT.HR.Data.Repository
                 model.RoleID = role.RoleID;
                 model.RoleName = role.RoleName;
                 model.RoleDesc = role.RoleDesc;
-
                 model.ListRoleMenu = MenuByRole(roleid);
                 model.ListRoleMenuTab = MenuTabByRole(roleid);
                 model.ListRoleMenuReport = MenuReportByRole(roleid);
-
                 return model;
             }
         }
@@ -285,7 +292,7 @@ namespace SAT.HR.Data.Repository
                 var data = db.vw_RoleMenu.Select(s => new RoleMenuViewModel()
                 {
                     RoleID = s.RoleID,
-                    RoleName = s.RoleName,
+                    //RoleName = s.RoleName,
                     MenuID = (int)s.MenuID,
                     MenuName = s.MenuName,
                     //R_View = s.R_View,
@@ -305,9 +312,10 @@ namespace SAT.HR.Data.Repository
                 var data = db.vw_RoleMenuTab.Select(s => new RoleMenuViewModel()
                 {
                     RoleID = s.RoleID,
-                    RoleName = s.RoleName,
+                    //RoleName = s.RoleName,
                     MenuID = (int)s.MenuID,
                     MenuName = s.MenuName,
+                    ParentID = s.ParentID
                     //R_View = s.R_View,
                     //R_Add = s.R_Add,
                     //R_Edit = s.R_Edit,
@@ -325,10 +333,11 @@ namespace SAT.HR.Data.Repository
                 var data = db.vw_RoleMenuReport.Select(s => new RoleMenuViewModel()
                 {
                     RoleID = s.RoleID,
-                    RoleName = s.RoleName,
+                    //RoleName = s.RoleName,
                     MenuID = (int)s.MenuID,
                     MenuName = s.MenuName,
-                    R_View = s.R_View,
+                    ParentID = s.ParentID
+                    //R_View = s.R_View,
                     //R_Download = s.R_Download,
                 }).ToList();
 

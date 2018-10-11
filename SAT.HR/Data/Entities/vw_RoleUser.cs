@@ -17,7 +17,24 @@ namespace SAT.HR.Data.Entities
         public int RoleID { get; set; }
         public string RoleName { get; set; }
         public string RoleDesc { get; set; }
-        public int UserID { get; set; }
+        public Nullable<int> UserID { get; set; }
         public string UserName { get; set; }
+        public string Password { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public Nullable<int> UserTID { get; set; }
+        public string UserTName { get; set; }
+        public Nullable<int> DivID { get; set; }
+        public string DivName { get; set; }
+        public Nullable<int> DepID { get; set; }
+        public string DepName { get; set; }
+        public Nullable<int> SecID { get; set; }
+        public string SecName { get; set; }
+        public Nullable<int> PoID { get; set; }
+        public string PoName { get; set; }
+        public Nullable<int> SexID { get; set; }
+        public string SexName { get; set; }
+        public Nullable<bool> IsActive { get; set; }
+        public string Avatar { get; set; }
     }
 }

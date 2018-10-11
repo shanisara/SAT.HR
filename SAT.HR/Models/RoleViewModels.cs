@@ -24,7 +24,7 @@ namespace SAT.HR.Models
 
         public Nullable<int> ModifyBy { get; set; }
 
-        public List<RoleUserViewModel> ListRoleUser { get; set; }
+        public List<RoleUserViewModel> ListUserRole { get; set; }
         
     }
 
@@ -41,6 +41,24 @@ namespace SAT.HR.Models
         public int UserID { get; set; }
 
         public string UserName { get; set; }
+
+        public string FullName { get; set; }
+
+        public int DivID { get; set; }
+
+        public string DivName { get; set; }
+
+        public int DepID { get; set; }
+
+        public string DepName { get; set; }
+
+        public int SecID { get; set; }
+
+        public string SecName { get; set; }
+
+        public int PoID { get; set; }
+
+        public string PoName { get; set; }
 
         public DateTime? CreateDate { get; set; }
 

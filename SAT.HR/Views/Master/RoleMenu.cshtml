@@ -8,92 +8,84 @@
 <div class="content">
     <div class="row">
         <div class="col-md-12">
-            <div class="card">
-                <div class="card-header card-header-primary card-header-icon">
-                    <div class="card-icon">
-                        <i class="material-icons">assignment</i>
+            <div class="card-body">
+                <div class="form-horizontal">
+                    @Html.HiddenFor(m => m.RoleID)
+                    <h4 class="card-title">
+                        <span>รายการกฎ > รายการผู้ใช้งาน</span>
+                    </h4>
+                    <button class="btn pull-right" id="btnBack">ย้อนกลับ<div class="ripple-container"></div></button>
+                    <div class="row">
+                        <label class="col-sm-2 col-form-label">กฎ</label>
+                        <div class="col-sm-5">
+                            <div class="form-group bmd-form-group">
+                                @Model.RoleName
+                            </div>
+                        </div>
                     </div>
-                    <h4 class="card-title"><span>รายการกฎ  >  รายการผู้ใช้งาน</span></h4>
-                    
+                    <div class="row">
+                        <label class="col-sm-2 col-form-label">รายละเอียด</label>
+                        <div class="col-sm-5">
+                            <div class="form-group bmd-form-group">
+                                @Model.RoleDesc
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-tabs card-header-primary">
+                    <div class="nav-tabs-navigation">
+                        <div class="nav-tabs-wrapper">
+                            <span class="nav-tabs-title">กำหนดสิทธิ์:</span>
+                            <ul class="nav nav-tabs" data-tabs="tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active show" href="#menu-sat" data-toggle="tab">
+                                        <i class="material-icons">share</i> เมนู
+                                        <div class="ripple-container"></div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#menu-tab" data-toggle="tab">
+                                        <i class="material-icons">reorder</i> แท็บ
+                                        <div class="ripple-container"></div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#menu-report" data-toggle="tab">
+                                        <i class="material-icons">equalizer</i> รายงาน
+                                        <div class="ripple-container"></div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
-                    <div class="form-horizontal">
-                        @Html.HiddenFor(m => m.RoleID)
-                        <div class="row">
-                            <label class="col-sm-2 col-form-label">Role Name</label>
-                            <div class="col-sm-5">
-                                <div class="form-group bmd-form-group">
-                                    @Model.RoleName
-                                </div>
-                            </div>
+                    <div class="tab-content">
+                        <div class="tab-pane active show" id="menu-sat">
+                            @Html.Partial("_Menu", Model.ListRoleMenu)
                         </div>
-                        <div class="row">
-                            <label class="col-sm-2 col-form-label">Role Description</label>
-                            <div class="col-sm-5">
-                                <div class="form-group bmd-form-group">
-                                    @Model.RoleDesc
-                                </div>
-                            </div>
+                        <div class="tab-pane" id="menu-tab">
+                            @Html.Partial("_MenuTab", Model.ListRoleMenuTab)
+                        </div>
+                        <div class="tab-pane" id="menu-report">
+                            @Html.Partial("_MenuReport", Model.ListRoleMenuReport)
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="card ">
-                            <div class="card-header ">
-                                <h4 class="card-title">
-                                    กำหนดสิทธิ์
-                                    <small class="description"></small>
-                                </h4>
-                            </div>
-                            <div class="card-body ">
-                                <ul class="nav nav-pills" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" role="tablist" href="#tabMenu" data-toggle="tab"> เมนู </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" role="tablist" href="#tabTab" data-toggle="tab"> แท็บ  </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" role="tablist" href="#tabReport" data-toggle="tab"> รายงาน </a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content tab-space">
-                                    <div class="tab-pane active" id="tabMenu">
-                                        <div id=""></div>
-                                        @*@{Html.RenderPartial("_Menu", new { id = Model.RoleID });}*@
-                                    </div>
-                                    <div class="tab-pane" id="tabTab">
-                                        <div id=""></div>
-                                        @*@{Html.RenderPartial("_MenuTab", new { id = Model.RoleID });}*@
-                                    </div>
-                                    <div class="tab-pane" id="tabReport">
-                                        <div id=""></div>
-                                        @*@{Html.RenderPartial("_MenuReport", new { id = Model.RoleID });}*@
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
-                @*<div class="card-footer text-right">
-                    <div class="form-check mr-auto"></div>
-                    <button type="button" class="btn" id="btnBack">ย้อนกลับ<div class="ripple-container"></div></button>&nbsp;&nbsp;&nbsp;
-                    <button type="button" class="btn btn-primary" id="btnSave">บันทึก<div class="ripple-container"></div></button>
-                </div>*@
-                <!-- end content -->
             </div>
-            <!--  end card  -->
         </div>
-        <!-- end col-md-12 -->
     </div>
-    <!-- end row -->
 </div>
 
 @section Scripts {
     <script>
         $(document).ready(function () {
 
-             $("#btnBack").click(function () {
+            $("#btnBack").click(function () {
                 swal({
                     title: '',
                     text: "ท่านต้องการกลับไปยังรายการก่อนหน้า?!",

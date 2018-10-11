@@ -344,7 +344,6 @@
     <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="UserName" Type="nchar" MaxLength="10" />
     <Property Name="Password" Type="nchar" MaxLength="10" />
-    <Property Name="ConfirmPassword" Type="nchar" MaxLength="10" />
     <Property Name="FirstName" Type="nvarchar" MaxLength="200" />
     <Property Name="LastName" Type="nvarchar" MaxLength="200" />
     <Property Name="DivID" Type="int" Nullable="false" />
@@ -407,6 +406,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenuReport' does not have a
   <EntityType Name="vw_RoleMenuReport">
     <Key>
       <PropertyRef Name="RoleID" />
+      <PropertyRef Name="MenuID" />
       <PropertyRef Name="R_View" />
       <PropertyRef Name="R_Add" />
       <PropertyRef Name="R_Edit" />
@@ -415,9 +415,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenuReport' does not have a
     <Property Name="RoleID" Type="int" Nullable="false" />
     <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
     <Property Name="RoleDesc" Type="nvarchar" MaxLength="200" />
-    <Property Name="MenuID" Type="int" />
+    <Property Name="MenuID" Type="int" Nullable="false" />
+    <Property Name="ParentID" Type="int" />
     <Property Name="MenuName" Type="nvarchar" MaxLength="200" />
-    <Property Name="MenuType" Type="nvarchar" MaxLength="10" />
     <Property Name="R_View" Type="int" Nullable="false" />
     <Property Name="R_Add" Type="int" Nullable="false" />
     <Property Name="R_Edit" Type="int" Nullable="false" />
@@ -428,6 +428,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenuTab' does not have a pr
   <EntityType Name="vw_RoleMenuTab">
     <Key>
       <PropertyRef Name="RoleID" />
+      <PropertyRef Name="MenuID" />
       <PropertyRef Name="R_View" />
       <PropertyRef Name="R_Add" />
       <PropertyRef Name="R_Edit" />
@@ -436,9 +437,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenuTab' does not have a pr
     <Property Name="RoleID" Type="int" Nullable="false" />
     <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
     <Property Name="RoleDesc" Type="nvarchar" MaxLength="200" />
-    <Property Name="MenuID" Type="int" />
+    <Property Name="MenuID" Type="int" Nullable="false" />
     <Property Name="MenuName" Type="nvarchar" MaxLength="200" />
-    <Property Name="MenuType" Type="nvarchar" MaxLength="10" />
+    <Property Name="ParentID" Type="int" />
     <Property Name="R_View" Type="int" Nullable="false" />
     <Property Name="R_Add" Type="int" Nullable="false" />
     <Property Name="R_Edit" Type="int" Nullable="false" />
@@ -449,13 +450,29 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleUser' does not have a prima
   <EntityType Name="vw_RoleUser">
     <Key>
       <PropertyRef Name="RoleID" />
-      <PropertyRef Name="UserID" />
     </Key>
     <Property Name="RoleID" Type="int" Nullable="false" />
     <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
     <Property Name="RoleDesc" Type="nvarchar" MaxLength="200" />
-    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" />
     <Property Name="UserName" Type="nchar" MaxLength="10" />
+    <Property Name="Password" Type="nchar" MaxLength="10" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="200" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="200" />
+    <Property Name="UserTID" Type="int" />
+    <Property Name="UserTName" Type="nvarchar" MaxLength="50" />
+    <Property Name="DivID" Type="int" />
+    <Property Name="DivName" Type="nvarchar" MaxLength="200" />
+    <Property Name="DepID" Type="int" />
+    <Property Name="DepName" Type="nvarchar" MaxLength="200" />
+    <Property Name="SecID" Type="int" />
+    <Property Name="SecName" Type="nvarchar" MaxLength="200" />
+    <Property Name="PoID" Type="int" />
+    <Property Name="PoName" Type="nvarchar" MaxLength="200" />
+    <Property Name="SexID" Type="int" />
+    <Property Name="SexName" Type="nchar" MaxLength="10" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="Avatar" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -499,7 +516,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="UserName" Type="nchar" MaxLength="10" />
     <Property Name="Password" Type="nchar" MaxLength="10" />
-    <Property Name="ConfirmPassword" Type="nchar" MaxLength="10" />
     <Property Name="FirstName" Type="nvarchar" MaxLength="200" />
     <Property Name="LastName" Type="nvarchar" MaxLength="200" />
     <Property Name="UserTID" Type="int" />
@@ -711,8 +727,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     [vw_RoleMenuReport].[RoleName] AS [RoleName], 
     [vw_RoleMenuReport].[RoleDesc] AS [RoleDesc], 
     [vw_RoleMenuReport].[MenuID] AS [MenuID], 
+    [vw_RoleMenuReport].[ParentID] AS [ParentID], 
     [vw_RoleMenuReport].[MenuName] AS [MenuName], 
-    [vw_RoleMenuReport].[MenuType] AS [MenuType], 
     [vw_RoleMenuReport].[R_View] AS [R_View], 
     [vw_RoleMenuReport].[R_Add] AS [R_Add], 
     [vw_RoleMenuReport].[R_Edit] AS [R_Edit], 
@@ -726,7 +742,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     [vw_RoleMenuTab].[RoleDesc] AS [RoleDesc], 
     [vw_RoleMenuTab].[MenuID] AS [MenuID], 
     [vw_RoleMenuTab].[MenuName] AS [MenuName], 
-    [vw_RoleMenuTab].[MenuType] AS [MenuType], 
+    [vw_RoleMenuTab].[ParentID] AS [ParentID], 
     [vw_RoleMenuTab].[R_View] AS [R_View], 
     [vw_RoleMenuTab].[R_Add] AS [R_Add], 
     [vw_RoleMenuTab].[R_Edit] AS [R_Edit], 
@@ -739,7 +755,24 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     [vw_RoleUser].[RoleName] AS [RoleName], 
     [vw_RoleUser].[RoleDesc] AS [RoleDesc], 
     [vw_RoleUser].[UserID] AS [UserID], 
-    [vw_RoleUser].[UserName] AS [UserName]
+    [vw_RoleUser].[UserName] AS [UserName], 
+    [vw_RoleUser].[Password] AS [Password], 
+    [vw_RoleUser].[FirstName] AS [FirstName], 
+    [vw_RoleUser].[LastName] AS [LastName], 
+    [vw_RoleUser].[UserTID] AS [UserTID], 
+    [vw_RoleUser].[UserTName] AS [UserTName], 
+    [vw_RoleUser].[DivID] AS [DivID], 
+    [vw_RoleUser].[DivName] AS [DivName], 
+    [vw_RoleUser].[DepID] AS [DepID], 
+    [vw_RoleUser].[DepName] AS [DepName], 
+    [vw_RoleUser].[SecID] AS [SecID], 
+    [vw_RoleUser].[SecName] AS [SecName], 
+    [vw_RoleUser].[PoID] AS [PoID], 
+    [vw_RoleUser].[PoName] AS [PoName], 
+    [vw_RoleUser].[SexID] AS [SexID], 
+    [vw_RoleUser].[SexName] AS [SexName], 
+    [vw_RoleUser].[IsActive] AS [IsActive], 
+    [vw_RoleUser].[Avatar] AS [Avatar]
     FROM [dbo].[vw_RoleUser] AS [vw_RoleUser]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vw_Section" EntityType="Self.vw_Section" store:Type="Views" store:Schema="dbo">
@@ -770,7 +803,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     [vw_User].[UserID] AS [UserID], 
     [vw_User].[UserName] AS [UserName], 
     [vw_User].[Password] AS [Password], 
-    [vw_User].[ConfirmPassword] AS [ConfirmPassword], 
     [vw_User].[FirstName] AS [FirstName], 
     [vw_User].[LastName] AS [LastName], 
     [vw_User].[UserTID] AS [UserTID], 

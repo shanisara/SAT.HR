@@ -349,7 +349,6 @@
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nchar" MaxLength="10" />
           <Property Name="Password" Type="nchar" MaxLength="10" />
-          <Property Name="ConfirmPassword" Type="nchar" MaxLength="10" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="200" />
           <Property Name="LastName" Type="nvarchar" MaxLength="200" />
           <Property Name="DivID" Type="int" Nullable="false" />
@@ -412,6 +411,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenuReport' does not have a
         <EntityType Name="vw_RoleMenuReport">
           <Key>
             <PropertyRef Name="RoleID" />
+            <PropertyRef Name="MenuID" />
             <PropertyRef Name="R_View" />
             <PropertyRef Name="R_Add" />
             <PropertyRef Name="R_Edit" />
@@ -420,9 +420,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenuReport' does not have a
           <Property Name="RoleID" Type="int" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
           <Property Name="RoleDesc" Type="nvarchar" MaxLength="200" />
-          <Property Name="MenuID" Type="int" />
+          <Property Name="MenuID" Type="int" Nullable="false" />
+          <Property Name="ParentID" Type="int" />
           <Property Name="MenuName" Type="nvarchar" MaxLength="200" />
-          <Property Name="MenuType" Type="nvarchar" MaxLength="10" />
           <Property Name="R_View" Type="int" Nullable="false" />
           <Property Name="R_Add" Type="int" Nullable="false" />
           <Property Name="R_Edit" Type="int" Nullable="false" />
@@ -433,6 +433,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenuTab' does not have a pr
         <EntityType Name="vw_RoleMenuTab">
           <Key>
             <PropertyRef Name="RoleID" />
+            <PropertyRef Name="MenuID" />
             <PropertyRef Name="R_View" />
             <PropertyRef Name="R_Add" />
             <PropertyRef Name="R_Edit" />
@@ -441,9 +442,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenuTab' does not have a pr
           <Property Name="RoleID" Type="int" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
           <Property Name="RoleDesc" Type="nvarchar" MaxLength="200" />
-          <Property Name="MenuID" Type="int" />
+          <Property Name="MenuID" Type="int" Nullable="false" />
           <Property Name="MenuName" Type="nvarchar" MaxLength="200" />
-          <Property Name="MenuType" Type="nvarchar" MaxLength="10" />
+          <Property Name="ParentID" Type="int" />
           <Property Name="R_View" Type="int" Nullable="false" />
           <Property Name="R_Add" Type="int" Nullable="false" />
           <Property Name="R_Edit" Type="int" Nullable="false" />
@@ -454,13 +455,29 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleUser' does not have a prima
         <EntityType Name="vw_RoleUser">
           <Key>
             <PropertyRef Name="RoleID" />
-            <PropertyRef Name="UserID" />
           </Key>
           <Property Name="RoleID" Type="int" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
           <Property Name="RoleDesc" Type="nvarchar" MaxLength="200" />
-          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" />
           <Property Name="UserName" Type="nchar" MaxLength="10" />
+          <Property Name="Password" Type="nchar" MaxLength="10" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="200" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="200" />
+          <Property Name="UserTID" Type="int" />
+          <Property Name="UserTName" Type="nvarchar" MaxLength="50" />
+          <Property Name="DivID" Type="int" />
+          <Property Name="DivName" Type="nvarchar" MaxLength="200" />
+          <Property Name="DepID" Type="int" />
+          <Property Name="DepName" Type="nvarchar" MaxLength="200" />
+          <Property Name="SecID" Type="int" />
+          <Property Name="SecName" Type="nvarchar" MaxLength="200" />
+          <Property Name="PoID" Type="int" />
+          <Property Name="PoName" Type="nvarchar" MaxLength="200" />
+          <Property Name="SexID" Type="int" />
+          <Property Name="SexName" Type="nchar" MaxLength="10" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="Avatar" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -504,7 +521,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nchar" MaxLength="10" />
           <Property Name="Password" Type="nchar" MaxLength="10" />
-          <Property Name="ConfirmPassword" Type="nchar" MaxLength="10" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="200" />
           <Property Name="LastName" Type="nvarchar" MaxLength="200" />
           <Property Name="UserTID" Type="int" />
@@ -716,8 +732,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     [vw_RoleMenuReport].[RoleName] AS [RoleName], 
     [vw_RoleMenuReport].[RoleDesc] AS [RoleDesc], 
     [vw_RoleMenuReport].[MenuID] AS [MenuID], 
+    [vw_RoleMenuReport].[ParentID] AS [ParentID], 
     [vw_RoleMenuReport].[MenuName] AS [MenuName], 
-    [vw_RoleMenuReport].[MenuType] AS [MenuType], 
     [vw_RoleMenuReport].[R_View] AS [R_View], 
     [vw_RoleMenuReport].[R_Add] AS [R_Add], 
     [vw_RoleMenuReport].[R_Edit] AS [R_Edit], 
@@ -731,7 +747,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     [vw_RoleMenuTab].[RoleDesc] AS [RoleDesc], 
     [vw_RoleMenuTab].[MenuID] AS [MenuID], 
     [vw_RoleMenuTab].[MenuName] AS [MenuName], 
-    [vw_RoleMenuTab].[MenuType] AS [MenuType], 
+    [vw_RoleMenuTab].[ParentID] AS [ParentID], 
     [vw_RoleMenuTab].[R_View] AS [R_View], 
     [vw_RoleMenuTab].[R_Add] AS [R_Add], 
     [vw_RoleMenuTab].[R_Edit] AS [R_Edit], 
@@ -744,7 +760,24 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     [vw_RoleUser].[RoleName] AS [RoleName], 
     [vw_RoleUser].[RoleDesc] AS [RoleDesc], 
     [vw_RoleUser].[UserID] AS [UserID], 
-    [vw_RoleUser].[UserName] AS [UserName]
+    [vw_RoleUser].[UserName] AS [UserName], 
+    [vw_RoleUser].[Password] AS [Password], 
+    [vw_RoleUser].[FirstName] AS [FirstName], 
+    [vw_RoleUser].[LastName] AS [LastName], 
+    [vw_RoleUser].[UserTID] AS [UserTID], 
+    [vw_RoleUser].[UserTName] AS [UserTName], 
+    [vw_RoleUser].[DivID] AS [DivID], 
+    [vw_RoleUser].[DivName] AS [DivName], 
+    [vw_RoleUser].[DepID] AS [DepID], 
+    [vw_RoleUser].[DepName] AS [DepName], 
+    [vw_RoleUser].[SecID] AS [SecID], 
+    [vw_RoleUser].[SecName] AS [SecName], 
+    [vw_RoleUser].[PoID] AS [PoID], 
+    [vw_RoleUser].[PoName] AS [PoName], 
+    [vw_RoleUser].[SexID] AS [SexID], 
+    [vw_RoleUser].[SexName] AS [SexName], 
+    [vw_RoleUser].[IsActive] AS [IsActive], 
+    [vw_RoleUser].[Avatar] AS [Avatar]
     FROM [dbo].[vw_RoleUser] AS [vw_RoleUser]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_Section" EntityType="Self.vw_Section" store:Type="Views" store:Schema="dbo">
@@ -775,7 +808,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     [vw_User].[UserID] AS [UserID], 
     [vw_User].[UserName] AS [UserName], 
     [vw_User].[Password] AS [Password], 
-    [vw_User].[ConfirmPassword] AS [ConfirmPassword], 
     [vw_User].[FirstName] AS [FirstName], 
     [vw_User].[LastName] AS [LastName], 
     [vw_User].[UserTID] AS [UserTID], 
@@ -840,6 +872,13 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     <edmx:ConceptualModels>
       <Schema Namespace="SAT.HR" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="SATEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="sp_Menu_GetByUser" ReturnType="Collection(SAT.HR.sp_Menu_GetByUser_Result3)">
+          <Parameter Name="UserID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Menu_Report_GetByUser" ReturnType="Collection(SAT.HR.sp_Menu_Report_GetByUser_Result)">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="ParentID" Mode="In" Type="Int32" />
+          </FunctionImport>
           <EntitySet Name="tb_ActionType" EntityType="SAT.HR.tb_ActionType" />
           <EntitySet Name="tb_Capability" EntityType="SAT.HR.tb_Capability" />
           <EntitySet Name="tb_CapabilityType" EntityType="SAT.HR.tb_CapabilityType" />
@@ -917,14 +956,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
             <End Role="tb_Sex" EntitySet="tb_Sex" />
             <End Role="tb_User" EntitySet="tb_User" />
           </AssociationSet>
-          <FunctionImport Name="sp_Menu_GetByUser" ReturnType="Collection(SAT.HR.sp_Menu_GetByUser_Result3)">
-          <Parameter Name="UserID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_Menu_Report_GetByUser" ReturnType="Collection(SAT.HR.sp_Menu_Report_GetByUser_Result)">
-            <Parameter Name="UserID" Mode="In" Type="Int32" />
-            <Parameter Name="ParentID" Mode="In" Type="Int32" />
-          </FunctionImport>
-        </EntityContainer>
+          </EntityContainer>
         <ComplexType Name="sp_Menu_GetByRole_Result">
           <Property Type="Int32" Name="RoleID" Nullable="false" />
           <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
@@ -966,6 +998,37 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
         </ComplexType>
         <ComplexType Name="sp_Menu_GetByRole_Result2">
+          <Property Type="Int32" Name="RoleID" Nullable="false" />
+          <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="MenuID" Nullable="true" />
+          <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ControllerName" Nullable="true" />
+          <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ParentID" Nullable="true" />
+          <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="sp_Menu_GetByUser_Result2">
+          <Property Type="Int32" Name="RoleID" Nullable="false" />
+          <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="MenuID" Nullable="true" />
+          <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ControllerName" Nullable="true" />
+          <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ParentID" Nullable="true" />
+          <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="sp_Menu_GetByUser_Result3">
+          <Property Type="Int32" Name="MenuID" Nullable="false" />
+          <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ControllerName" Nullable="true" />
+          <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ParentID" Nullable="true" />
+          <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="sp_Menu_Report_GetByUser_Result">
           <Property Type="Int32" Name="RoleID" Nullable="false" />
           <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="MenuID" Nullable="true" />
@@ -1338,7 +1401,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="UserName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="ConfirmPassword" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="DivID" Type="Int32" Nullable="false" />
@@ -1397,6 +1459,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
         <EntityType Name="vw_RoleMenuReport">
           <Key>
             <PropertyRef Name="RoleID" />
+            <PropertyRef Name="MenuID" />
             <PropertyRef Name="R_View" />
             <PropertyRef Name="R_Add" />
             <PropertyRef Name="R_Edit" />
@@ -1405,9 +1468,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <Property Name="RoleID" Type="Int32" Nullable="false" />
           <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RoleDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="MenuID" Type="Int32" />
+          <Property Name="MenuID" Type="Int32" Nullable="false" />
+          <Property Name="ParentID" Type="Int32" />
           <Property Name="MenuName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="MenuType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="R_View" Type="Int32" Nullable="false" />
           <Property Name="R_Add" Type="Int32" Nullable="false" />
           <Property Name="R_Edit" Type="Int32" Nullable="false" />
@@ -1416,6 +1479,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
         <EntityType Name="vw_RoleMenuTab">
           <Key>
             <PropertyRef Name="RoleID" />
+            <PropertyRef Name="MenuID" />
             <PropertyRef Name="R_View" />
             <PropertyRef Name="R_Add" />
             <PropertyRef Name="R_Edit" />
@@ -1424,9 +1488,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <Property Name="RoleID" Type="Int32" Nullable="false" />
           <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RoleDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="MenuID" Type="Int32" />
+          <Property Name="MenuID" Type="Int32" Nullable="false" />
           <Property Name="MenuName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="MenuType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ParentID" Type="Int32" />
           <Property Name="R_View" Type="Int32" Nullable="false" />
           <Property Name="R_Add" Type="Int32" Nullable="false" />
           <Property Name="R_Edit" Type="Int32" Nullable="false" />
@@ -1435,13 +1499,29 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
         <EntityType Name="vw_RoleUser">
           <Key>
             <PropertyRef Name="RoleID" />
-            <PropertyRef Name="UserID" />
           </Key>
           <Property Name="RoleID" Type="Int32" Nullable="false" />
           <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RoleDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" />
           <Property Name="UserName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UserTID" Type="Int32" />
+          <Property Name="UserTName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DivID" Type="Int32" />
+          <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DepID" Type="Int32" />
+          <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SecID" Type="Int32" />
+          <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PoID" Type="Int32" />
+          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SexID" Type="Int32" />
+          <Property Name="SexName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="Avatar" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="vw_Section">
           <Key>
@@ -1479,7 +1559,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="UserName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="ConfirmPassword" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="UserTID" Type="Int32" />
@@ -1617,43 +1696,40 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="sp_Menu_GetByUser_Result2">
-          <Property Type="Int32" Name="RoleID" Nullable="false" />
-          <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="MenuID" Nullable="true" />
-          <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="ControllerName" Nullable="true" />
-          <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="ParentID" Nullable="true" />
-          <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
-        </ComplexType>
-        <ComplexType Name="sp_Menu_GetByUser_Result3">
-          <Property Type="Int32" Name="MenuID" Nullable="false" />
-          <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="ControllerName" Nullable="true" />
-          <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="ParentID" Nullable="true" />
-          <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
-        </ComplexType>
-        <ComplexType Name="sp_Menu_Report_GetByUser_Result">
-          <Property Type="Int32" Name="RoleID" Nullable="false" />
-          <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="MenuID" Nullable="true" />
-          <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="ControllerName" Nullable="true" />
-          <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="ParentID" Nullable="true" />
-          <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
-        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="SATHRStoreContainer" CdmEntityContainer="SATEntities">
+          <FunctionImportMapping FunctionImportName="sp_Menu_GetByUser" FunctionName="SAT.HR.Store.sp_Menu_GetByUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_Menu_GetByUser_Result3">
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
+                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="MenuType" ColumnName="MenuType" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Menu_Report_GetByUser" FunctionName="SAT.HR.Store.sp_Menu_Report_GetByUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_Menu_Report_GetByUser_Result">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
+                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="MenuType" ColumnName="MenuType" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <EntitySetMapping Name="tb_ActionType">
             <EntityTypeMapping TypeName="SAT.HR.tb_ActionType">
               <MappingFragment StoreEntitySet="tb_ActionType">
@@ -2033,7 +2109,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
                 <ScalarProperty Name="DivID" ColumnName="DivID" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="ConfirmPassword" ColumnName="ConfirmPassword" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
@@ -2083,8 +2158,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
                 <ScalarProperty Name="R_Edit" ColumnName="R_Edit" />
                 <ScalarProperty Name="R_Add" ColumnName="R_Add" />
                 <ScalarProperty Name="R_View" ColumnName="R_View" />
-                <ScalarProperty Name="MenuType" ColumnName="MenuType" />
                 <ScalarProperty Name="MenuName" ColumnName="MenuName" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
                 <ScalarProperty Name="MenuID" ColumnName="MenuID" />
                 <ScalarProperty Name="RoleDesc" ColumnName="RoleDesc" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
@@ -2099,7 +2174,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
                 <ScalarProperty Name="R_Edit" ColumnName="R_Edit" />
                 <ScalarProperty Name="R_Add" ColumnName="R_Add" />
                 <ScalarProperty Name="R_View" ColumnName="R_View" />
-                <ScalarProperty Name="MenuType" ColumnName="MenuType" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
                 <ScalarProperty Name="MenuName" ColumnName="MenuName" />
                 <ScalarProperty Name="MenuID" ColumnName="MenuID" />
                 <ScalarProperty Name="RoleDesc" ColumnName="RoleDesc" />
@@ -2111,6 +2186,23 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <EntitySetMapping Name="vw_RoleUser">
             <EntityTypeMapping TypeName="SAT.HR.vw_RoleUser">
               <MappingFragment StoreEntitySet="vw_RoleUser">
+                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="SexName" ColumnName="SexName" />
+                <ScalarProperty Name="SexID" ColumnName="SexID" />
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="PoID" ColumnName="PoID" />
+                <ScalarProperty Name="SecName" ColumnName="SecName" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="DepName" ColumnName="DepName" />
+                <ScalarProperty Name="DepID" ColumnName="DepID" />
+                <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="DivID" ColumnName="DivID" />
+                <ScalarProperty Name="UserTName" ColumnName="UserTName" />
+                <ScalarProperty Name="UserTID" ColumnName="UserTID" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="RoleDesc" ColumnName="RoleDesc" />
@@ -2165,42 +2257,13 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
                 <ScalarProperty Name="UserTID" ColumnName="UserTID" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="ConfirmPassword" ColumnName="ConfirmPassword" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_Menu_GetByUser" FunctionName="SAT.HR.Store.sp_Menu_GetByUser">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SAT.HR.sp_Menu_GetByUser_Result3">
-                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
-                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
-                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
-                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
-                <ScalarProperty Name="Icon" ColumnName="Icon" />
-                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
-                <ScalarProperty Name="MenuType" ColumnName="MenuType" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_Menu_Report_GetByUser" FunctionName="SAT.HR.Store.sp_Menu_Report_GetByUser">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SAT.HR.sp_Menu_Report_GetByUser_Result">
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
-                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
-                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
-                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
-                <ScalarProperty Name="Icon" ColumnName="Icon" />
-                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
-                <ScalarProperty Name="MenuType" ColumnName="MenuType" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

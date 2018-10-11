@@ -13,6 +13,7 @@ using System.Web.Security;
 
 namespace SAT.HR.Controllers
 {
+    [AuthorizeUser]
     public class HomeController : Controller
     {
         public ActionResult Index()

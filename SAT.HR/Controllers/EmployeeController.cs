@@ -1,4 +1,5 @@
 ﻿using SAT.HR.Data.Repository;
+using SAT.HR.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Web.Mvc;
 
 namespace SAT.HR.Controllers
 {
+    [AuthorizeUser]
     public class EmployeeController : Controller
     {
         // ระบบพนักงาน/ลูกจ้าง 
