@@ -135,13 +135,11 @@
                         var roleid = $(this).data("role-id");       // $(this).attr("data-role-id")
                         var menuid = $(this).data("menu-id");       // $(this).attr("data-menu-id")
                         var type = $(this).data("type-name");       // $(this).attr("data-type-name")
-                        if (parentid != 0 && (type == "T" || type == "R")) {
-                            var view = $(this).find("td").eq(2).find('input[type="checkbox"]').is(":checked");
-                            var add = $(this).find("td").eq(3).find('input[type="checkbox"]').is(":checked");
-                            var edit = $(this).find("td").eq(4).find('input[type="checkbox"]').is(":checked");
-                            var del = $(this).find("td").eq(5).find('input[type="checkbox"]').is(":checked");
-                            postData.push({ "RoleID": roleid, "MenuID": menuid, "R_View": view, "R_Add": add, "R_Edit": edit, "R_Delete": del });
-                        }
+                        var view = $(this).find("td").eq(2).find('input[type="checkbox"]').is(":checked");
+                        var add = $(this).find("td").eq(3).find('input[type="checkbox"]').is(":checked");
+                        var edit = $(this).find("td").eq(4).find('input[type="checkbox"]').is(":checked");
+                        var del = $(this).find("td").eq(5).find('input[type="checkbox"]').is(":checked");
+                        postData.push({ "RoleID": roleid, "MenuID": menuid, MenuType: type, "R_View": view, "R_Add": add, "R_Edit": edit, "R_Delete": del });
                     });
                     return postData;
                 },

@@ -241,34 +241,44 @@ namespace SAT.HR.Data.Repository
             {
                 try
                 {
-                    foreach (var item in model)
+                    if (model != null)
                     {
-                        var data = db.tb_RoleMenu.Where(m => m.RoleID == item.RoleID && m.MenuID == item.MenuID).FirstOrDefault();
-                        if (data != null)
+                        foreach (var item in model)
                         {
-                            data.R_View = item.R_View;
-                            data.R_Add = item.R_Add;
-                            data.R_Edit = item.R_Edit;
-                            data.R_Delete = item.R_Delete;
-                            data.ModifyBy = UtilityService.User.UserID;
-                            data.ModifyDate = DateTime.Now;
-                            db.SaveChanges();
-                        }
-                        else
-                        {
-                            tb_RoleMenu obj = new tb_RoleMenu();
-                            obj.RoleID = item.RoleID;
-                            obj.MenuID = item.MenuID;
-                            obj.R_View = item.R_View;
-                            obj.R_Add = item.R_Add;
-                            obj.R_Edit = item.R_Edit;
-                            obj.R_Delete = item.R_Delete;
-                            obj.CreateBy = UtilityService.User.UserID;
-                            obj.CreateDate = DateTime.Now;
-                            obj.ModifyBy = UtilityService.User.UserID;
-                            obj.ModifyDate = DateTime.Now;
-                            db.tb_RoleMenu.Add(obj);
-                            db.SaveChanges();
+                            if (item.MenuType == "M" || (item.ParentID != 0 && (item.MenuType == "T" || item.MenuType == "R")))
+                            {
+                                var data = db.tb_RoleMenu.Where(m => m.RoleID == item.RoleID && m.MenuID == item.MenuID).FirstOrDefault();
+                                if (data != null)
+                                {
+                                    data.R_View = item.R_View;
+                                    data.R_Add = item.R_Add;
+                                    data.R_Edit = item.R_Edit;
+                                    data.R_Delete = item.R_Delete;
+                                    data.ModifyBy = UtilityService.User.UserID;
+                                    data.ModifyDate = DateTime.Now;
+                                    db.SaveChanges();
+                                }
+                                else
+                                {
+                                    #region
+
+                                    tb_RoleMenu obj = new tb_RoleMenu();
+                                    obj.RoleID = item.RoleID;
+                                    obj.MenuID = item.MenuID;
+                                    obj.R_View = item.R_View;
+                                    obj.R_Add = item.R_Add;
+                                    obj.R_Edit = item.R_Edit;
+                                    obj.R_Delete = item.R_Delete;
+                                    obj.CreateBy = UtilityService.User.UserID;
+                                    obj.CreateDate = DateTime.Now;
+                                    obj.ModifyBy = UtilityService.User.UserID;
+                                    obj.ModifyDate = DateTime.Now;
+                                    db.tb_RoleMenu.Add(obj);
+                                    db.SaveChanges();
+
+                                    #endregion
+                                }
+                            }
                         }
                     }
                 }
