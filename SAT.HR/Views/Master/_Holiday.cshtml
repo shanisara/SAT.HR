@@ -1,5 +1,9 @@
 ﻿@model SAT.HR.Models.HolidayViewModel
 
+<style>
+    .datepicker{ z-index:99999 !important; }
+</style>
+
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formDetail" }))
 {
     @Html.AntiForgeryToken()
@@ -13,7 +17,6 @@
                 <div class="form-group bmd-form-group">
                     <label class="bmd-label-floating">ใส่ข้อมูลวันที่</label>
                     @Html.TextBoxFor(m => m.HolDate, new { @class = "form-control datetimepicker", required = "true" })
-                    @Html.ValidationMessageFor(m => m.HolDate)
                 </div>
             </div>
         </div>
@@ -22,8 +25,10 @@
             <div class="col-sm-9">
                 <div class="form-group bmd-form-group">
                     <label class="bmd-label-floating">ใส่ข้อมูลวันหยุด</label>
-                    @Html.TextBoxFor(m => m.HolDescription, new { @class = "form-control", required = "true" })
-                    @Html.ValidationMessageFor(m => m.HolDescription)
+                    <div class="form-group">
+                        @Html.TextBoxFor(m => m.HolDescription, new { @class = "form-control datepicker", required = "true" })
+                        @*<input type="text" class="form-control datepicker">*@
+                    </div>
                 </div>
             </div>
         </div>
@@ -43,6 +48,23 @@
             </div>
         </div>       
     </div>
-
-
 }
+<script>
+    $(document).ready(function () {
+        $('.datepicker').datetimepicker({
+            format: 'DD/MM/YYYY',
+            icons: {
+                time: "fa fa-clock-o",
+                date: "fa fa-calendar",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            }
+        });
+
+    });
+</script>
