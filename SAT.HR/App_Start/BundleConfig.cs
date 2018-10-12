@@ -14,6 +14,9 @@ namespace SAT.HR
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Content/assets/js/plugins/jquery.validate.min.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
+                        "~/Scripts/modernizr-*"));
+
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Content/assets/js/core/bootstrap-material-design.min.js",
                       "~/Content/assets/js/plugins/perfect-scrollbar.jquery.min.js"));
