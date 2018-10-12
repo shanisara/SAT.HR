@@ -961,24 +961,6 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        //public ActionResult Menu(int roleid)
-        //{
-        //    var data = new PermissionRepository().MenuByRole(roleid);
-        //    return PartialView("_Menu", data);
-        //}
-
-        //public ActionResult MenuTab(int menuid, int roleid)
-        //{
-        //    var data = new PermissionRepository().MenuTabByRole(roleid);
-        //    return PartialView("_MenuTab", data);
-        //}
-
-        //public ActionResult MenuReport(int menuid, int roleid)
-        //{
-        //    var data = new PermissionRepository().MenuReportByRole(roleid);
-        //    return PartialView("_MenuReport", data);
-        //}
-
         #endregion
 
         #endregion

@@ -177,7 +177,6 @@ namespace SAT.HR.Data.Repository
                             model.CreateDate = DateTime.Now;
                             model.ModifyBy = UtilityService.User.UserID;
                             model.ModifyDate = DateTime.Now;
-                            db.tb_RoleUser.Add(model);
                             db.SaveChanges();
                         }
                     }
@@ -244,19 +243,33 @@ namespace SAT.HR.Data.Repository
                 {
                     foreach (var item in model)
                     {
-                        tb_RoleMenu obj = new tb_RoleMenu();
-                        obj.RoleID = item.RoleID;
-                        obj.MenuID = item.MenuID;
-                        obj.R_View = item.R_View;
-                        obj.R_Add = item.R_Add;
-                        obj.R_Edit = item.R_Edit;
-                        obj.R_Delete = item.R_Delete;
-                        obj.CreateBy = UtilityService.User.UserID;
-                        obj.CreateDate = DateTime.Now;
-                        obj.ModifyBy = UtilityService.User.UserID;
-                        obj.ModifyDate = DateTime.Now;
-                        db.tb_RoleMenu.Add(obj);
-                        db.SaveChanges();
+                        var data = db.tb_RoleMenu.Where(m => m.RoleID == item.RoleID && m.MenuID == item.MenuID).FirstOrDefault();
+                        if (data != null)
+                        {
+                            data.R_View = item.R_View;
+                            data.R_Add = item.R_Add;
+                            data.R_Edit = item.R_Edit;
+                            data.R_Delete = item.R_Delete;
+                            data.ModifyBy = UtilityService.User.UserID;
+                            data.ModifyDate = DateTime.Now;
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            tb_RoleMenu obj = new tb_RoleMenu();
+                            obj.RoleID = item.RoleID;
+                            obj.MenuID = item.MenuID;
+                            obj.R_View = item.R_View;
+                            obj.R_Add = item.R_Add;
+                            obj.R_Edit = item.R_Edit;
+                            obj.R_Delete = item.R_Delete;
+                            obj.CreateBy = UtilityService.User.UserID;
+                            obj.CreateDate = DateTime.Now;
+                            obj.ModifyBy = UtilityService.User.UserID;
+                            obj.ModifyDate = DateTime.Now;
+                            db.tb_RoleMenu.Add(obj);
+                            db.SaveChanges();
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -289,10 +302,9 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.vw_RoleMenu.Select(s => new RoleMenuViewModel()
+                var data = db.vw_RoleMenu.Where(m => m.RoleID == roleid).Select(s => new RoleMenuViewModel()
                 {
                     RoleID = s.RoleID,
-                    //RoleName = s.RoleName,
                     MenuID = (int)s.MenuID,
                     MenuName = s.MenuName,
                     ParentID = s.ParentID,
@@ -302,6 +314,21 @@ namespace SAT.HR.Data.Repository
                     R_Delete = (bool)s.R_Delete
                 }).ToList();
 
+                if (data.Count == 0)
+                {
+                    data = db.tb_Menu.Where(m => m.MenuType == "M").Select(s => new RoleMenuViewModel()
+                    {
+                        RoleID = roleid,
+                        MenuID = (int)s.MenuID,
+                        MenuName = s.MenuName,
+                        ParentID = s.ParentID,
+                        R_View = false,
+                        R_Add = false,
+                        R_Edit = false,
+                        R_Delete = false
+                    }).ToList();
+                }
+
                 return data;
             }
         }
@@ -310,17 +337,16 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.vw_RoleMenuTab.Select(s => new RoleMenuViewModel()
+                var data = db.sp_Menu_GetByRole(roleid, "T").Select(s => new RoleMenuViewModel()
                 {
                     RoleID = s.RoleID,
-                    //RoleName = s.RoleName,
                     MenuID = (int)s.MenuID,
                     MenuName = s.MenuName,
                     ParentID = s.ParentID,
-                    R_View = (bool)s.R_View,
-                    R_Add = (bool)s.R_Add,
-                    R_Edit = (bool)s.R_Edit,
-                    R_Delete = (bool)s.R_Delete
+                    R_View = s.R_View ?? false,
+                    R_Add = s.R_Add ?? false,
+                    R_Edit = s.R_Edit ?? false,
+                    R_Delete = s.R_Delete ?? false,
                 }).ToList();
 
                 return data;
@@ -331,15 +357,16 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.vw_RoleMenuReport.Select(s => new RoleMenuViewModel()
+                var data = db.sp_Menu_GetByRole(roleid, "R").Select(s => new RoleMenuViewModel()
                 {
                     RoleID = s.RoleID,
-                    //RoleName = s.RoleName,
                     MenuID = (int)s.MenuID,
                     MenuName = s.MenuName,
                     ParentID = s.ParentID,
-                    R_View = (bool)s.R_View,
-                    //R_Download = s.R_Download,
+                    R_View = s.R_View ?? false,
+                    R_Add = s.R_Add ?? false,
+                    R_Edit = s.R_Edit ?? false,
+                    R_Delete = s.R_Delete ?? false,
                 }).ToList();
 
                 return data;

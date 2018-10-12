@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="SAT.HR" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityContainer Name="SATEntities" annotation:LazyLoadingEnabled="true">
-    <FunctionImport Name="sp_Menu_GetByUser" ReturnType="Collection(SAT.HR.sp_Menu_GetByUser_Result3)">
+    <FunctionImport Name="sp_Menu_GetByUser" ReturnType="Collection(SAT.HR.sp_Menu_GetByUser_Result)">
       <Parameter Name="UserID" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="sp_Menu_Report_GetByUser" ReturnType="Collection(SAT.HR.sp_Menu_Report_GetByUser_Result)">
@@ -39,8 +39,6 @@
     <EntitySet Name="tb_UserType" EntityType="SAT.HR.tb_UserType" />
     <EntitySet Name="vw_Department" EntityType="SAT.HR.vw_Department" />
     <EntitySet Name="vw_RoleMenu" EntityType="SAT.HR.vw_RoleMenu" />
-    <EntitySet Name="vw_RoleMenuReport" EntityType="SAT.HR.vw_RoleMenuReport" />
-    <EntitySet Name="vw_RoleMenuTab" EntityType="SAT.HR.vw_RoleMenuTab" />
     <EntitySet Name="vw_RoleUser" EntityType="SAT.HR.vw_RoleUser" />
     <EntitySet Name="vw_Section" EntityType="SAT.HR.vw_Section" />
     <EntitySet Name="vw_Title" EntityType="SAT.HR.vw_Title" />
@@ -85,70 +83,12 @@
       <End Role="tb_Sex" EntitySet="tb_Sex" />
       <End Role="tb_User" EntitySet="tb_User" />
     </AssociationSet>
+    <FunctionImport Name="sp_Menu_GetByRole" ReturnType="Collection(SAT.HR.sp_Menu_GetByRole_Result)">
+      <Parameter Name="RoleID" Mode="In" Type="Int32" />
+      <Parameter Name="MenuType" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
-  <ComplexType Name="sp_Menu_GetByRole_Result">
-    <Property Type="Int32" Name="RoleID" Nullable="false" />
-    <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="MenuID" Nullable="true" />
-    <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="ControllerName" Nullable="true" />
-    <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="ParentID" Nullable="true" />
-    <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
-  </ComplexType>
   <ComplexType Name="sp_Menu_GetByUser_Result">
-    <Property Type="Int32" Name="MenuID" Nullable="false" />
-    <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="ControllerName" Nullable="true" />
-    <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="ParentID" Nullable="true" />
-    <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
-  </ComplexType>
-  <ComplexType Name="sp_Menu_GetByRole_Result1">
-    <Property Type="Int32" Name="RoleID" Nullable="false" />
-    <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="MenuID" Nullable="true" />
-    <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="ControllerName" Nullable="true" />
-    <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="ParentID" Nullable="true" />
-    <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
-  </ComplexType>
-  <ComplexType Name="sp_Menu_GetByUser_Result1">
-    <Property Type="Int32" Name="MenuID" Nullable="false" />
-    <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="ControllerName" Nullable="true" />
-    <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="ParentID" Nullable="true" />
-    <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
-  </ComplexType>
-  <ComplexType Name="sp_Menu_GetByRole_Result2">
-    <Property Type="Int32" Name="RoleID" Nullable="false" />
-    <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="MenuID" Nullable="true" />
-    <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="ControllerName" Nullable="true" />
-    <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="ParentID" Nullable="true" />
-    <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
-  </ComplexType>
-  <ComplexType Name="sp_Menu_GetByUser_Result2">
-    <Property Type="Int32" Name="RoleID" Nullable="false" />
-    <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="MenuID" Nullable="true" />
-    <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="ControllerName" Nullable="true" />
-    <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="ParentID" Nullable="true" />
-    <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
-  </ComplexType>
-  <ComplexType Name="sp_Menu_GetByUser_Result3">
     <Property Type="Int32" Name="MenuID" Nullable="false" />
     <Property Type="String" Name="MenuName" Nullable="true" MaxLength="200" />
     <Property Type="String" Name="ControllerName" Nullable="true" />
@@ -167,6 +107,16 @@
     <Property Type="String" Name="Icon" Nullable="true" MaxLength="50" />
     <Property Type="Int32" Name="ParentID" Nullable="true" />
     <Property Type="String" Name="MenuType" Nullable="true" MaxLength="10" />
+  </ComplexType>
+  <ComplexType Name="sp_Menu_GetByRole_Result">
+    <Property Type="Int32" Name="RoleID" Nullable="false" />
+    <Property Type="String" Name="MenuName" Nullable="false" />
+    <Property Type="Int32" Name="ParentID" Nullable="true" />
+    <Property Type="Int32" Name="MenuID" Nullable="false" />
+    <Property Type="Boolean" Name="R_View" Nullable="false" />
+    <Property Type="Boolean" Name="R_Add" Nullable="false" />
+    <Property Type="Boolean" Name="R_Edit" Nullable="false" />
+    <Property Type="Boolean" Name="R_Delete" Nullable="false" />
   </ComplexType>
   <EntityType Name="tb_ActionType">
     <Key>
@@ -582,38 +532,6 @@
     <Property Name="ParentID" Type="Int32" />
     <Property Name="MenuName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="MenuType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-    <Property Name="R_View" Type="Boolean" />
-    <Property Name="R_Add" Type="Boolean" />
-    <Property Name="R_Edit" Type="Boolean" />
-    <Property Name="R_Delete" Type="Boolean" />
-  </EntityType>
-  <EntityType Name="vw_RoleMenuReport">
-    <Key>
-      <PropertyRef Name="RoleID" />
-      <PropertyRef Name="MenuID" />
-    </Key>
-    <Property Name="RoleID" Type="Int32" Nullable="false" />
-    <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="RoleDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="MenuID" Type="Int32" Nullable="false" />
-    <Property Name="ParentID" Type="Int32" />
-    <Property Name="MenuName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="R_View" Type="Boolean" />
-    <Property Name="R_Add" Type="Boolean" />
-    <Property Name="R_Edit" Type="Boolean" />
-    <Property Name="R_Delete" Type="Boolean" />
-  </EntityType>
-  <EntityType Name="vw_RoleMenuTab">
-    <Key>
-      <PropertyRef Name="RoleID" />
-      <PropertyRef Name="MenuID" />
-    </Key>
-    <Property Name="RoleID" Type="Int32" Nullable="false" />
-    <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="RoleDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="MenuID" Type="Int32" Nullable="false" />
-    <Property Name="MenuName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="ParentID" Type="Int32" />
     <Property Name="R_View" Type="Boolean" />
     <Property Name="R_Add" Type="Boolean" />
     <Property Name="R_Edit" Type="Boolean" />

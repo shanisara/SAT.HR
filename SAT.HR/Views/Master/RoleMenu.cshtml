@@ -5,6 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        padding: 3px 8px;
+    }
+</style>
 <div class="content">
     <div class="row">
         <div class="col-md-12">
@@ -42,13 +47,13 @@
                             <span class="nav-tabs-title">กำหนดสิทธิ์:</span>
                             <ul class="nav nav-tabs" data-tabs="tabs">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#menu-sat" data-toggle="tab">
+                                    <a class="nav-link active show" href="#menu-sat" data-toggle="tab">
                                         <i class="material-icons">toc</i> เมนู
                                         <div class="ripple-container"></div>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link active show" href="#menu-tab" data-toggle="tab">
+                                    <a class="nav-link" href="#menu-tab" data-toggle="tab">
                                         <i class="material-icons">tab</i> แท็บ
                                         <div class="ripple-container"></div>
                                     </a>
@@ -65,10 +70,10 @@
                 </div>
                 <div class="card-body">
                     <div class="tab-content">
-                        <div class="tab-pane" id="menu-sat">
+                        <div class="tab-pane active show" id="menu-sat">
                             @Html.Partial("_Menu", Model.ListRoleMenu)
                         </div>
-                        <div class="tab-pane active show" id="menu-tab">
+                        <div class="tab-pane" id="menu-tab">
                             @Html.Partial("_MenuTab", Model.ListRoleMenuTab)
                         </div>
                         <div class="tab-pane" id="menu-report">
@@ -88,7 +93,10 @@
         $(document).ready(function () {
 
             $(".btn-Back").click(function () {
-                swal({
+                var url = '@Url.Action("Permission", "Master")';
+                window.location.href = url;
+
+                @*swal({
                     title: '',
                     text: "ท่านต้องการกลับไปยังรายการก่อนหน้า?!",
                     type: 'warning',
@@ -101,50 +109,73 @@
                 }).then(function () {
                     var url = '@Url.Action("Permission", "Master")';
                     window.location.href = url;
-                }).catch(swal.noop)
+                }).catch(swal.noop)*@
             });
 
-            $(".btn-save").click(function () {
-                var postData = [];
-                var $table = $("#tb-menu tbody");
-                $table.find('tr').each(function (i, el) {
-                    var parentid = $(this).data("parent-id");   // $(this).attr("data-parent-id")
-                    var roleid = $(this).data("role-id");       // $(this).attr("data-role-id")
-                    var menuid = $(this).data("menu-id");       // $(this).attr("data-menu-id")
-                    var type = $(this).data("type-name");       // $(this).attr("data-type-name")
-                    if (parentid != 0 && (type == "T" || type == "R")) {
-                        var view = $(this).find("td").eq(2).find('input[type="checkbox"]').is(":checked");
-                        var add = $(this).find("td").eq(3).find('input[type="checkbox"]').is(":checked");
-                        var edit = $(this).find("td").eq(4).find('input[type="checkbox"]').is(":checked");
-                        var del = $(this).find("td").eq(5).find('input[type="checkbox"]').is(":checked");
-                        postData.push({ "RoleID": roleid, "MenuID": menuid, "R_View": view, "R_Add": add, "R_Edit": edit, "R_Delete": del });
-                    }
-                });
 
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("SaveRoleMenu", "Master")',
-                    data: JSON.stringify(postData),
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    success: function (res) {
-                        if (res.MessageCode == null) {
-                            swal({
-                                title: "Save success!",
-                                text: "Your record has been submited.",
-                                type: "success",
-                                buttonsStyling: false,
-                                confirmButtonClass: "btn btn-success",
-                            }).catch(swal.noop)
-                        }
-                        else {
-
-                        }
-                    }
-                });
+            $(".btn-save-menu").click(function () {
+                dataTable.saveData("tb-menu");
             });
 
-           
+            $(".btn-save-tab").click(function () {
+                dataTable.saveData("tb-menu-tab");
+            });
+
+            $(".btn-save-report").click(function () {
+                dataTable.saveData("tb-menu-report");
+            });
+
+
+            var dataTable = {
+                getData: function (el) {
+                    var postData = [];
+                    var $table = $("#" + el + " tbody");
+                    $table.find('tr').each(function (i, el) {
+                        var parentid = $(this).data("parent-id");   // $(this).attr("data-parent-id")
+                        var roleid = $(this).data("role-id");       // $(this).attr("data-role-id")
+                        var menuid = $(this).data("menu-id");       // $(this).attr("data-menu-id")
+                        var type = $(this).data("type-name");       // $(this).attr("data-type-name")
+                        if (parentid != 0 && (type == "T" || type == "R")) {
+                            var view = $(this).find("td").eq(2).find('input[type="checkbox"]').is(":checked");
+                            var add = $(this).find("td").eq(3).find('input[type="checkbox"]').is(":checked");
+                            var edit = $(this).find("td").eq(4).find('input[type="checkbox"]').is(":checked");
+                            var del = $(this).find("td").eq(5).find('input[type="checkbox"]').is(":checked");
+                            postData.push({ "RoleID": roleid, "MenuID": menuid, "R_View": view, "R_Add": add, "R_Edit": edit, "R_Delete": del });
+                        }
+                    });
+                    return postData;
+                },
+                saveData: function (el) {
+                    var postData = dataTable.getData(el);
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("SaveRoleMenu", "Master")',
+                        data: JSON.stringify(postData),
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                swal({
+                                    title: "Save success!",
+                                    text: "Your record has been submited.",
+                                    type: "success",
+                                    buttonsStyling: false,
+                                    confirmButtonClass: "btn btn-success",
+                                }).catch(swal.noop)
+                            }
+                            else {
+                                swal({
+                                    title: "Save failed!",
+                                    text: res.MessageText,
+                                    type: "error",
+                                    buttonsStyling: false,
+                                    confirmButtonClass: "btn btn-info",
+                                }).catch(swal.noop)
+                            }
+                        }
+                    });
+                }
+            }
 
         });
     </script>

@@ -6,7 +6,7 @@
     }
 </style>
 
-<table id="datatables" class="table table-hover" cellspacing="0" cellpadding="0" style="width:100%">
+<table id="tb-menu-report" class="table table-hover" cellspacing="0" cellpadding="0" style="width:100%">
     <thead class="text-primary">
         <tr class="td-font-size">
             <th style="width:10%" class="text-center">ลำดับ</th>
@@ -25,16 +25,15 @@
 
             foreach (var item2 in Model.Where(x => x.ParentID == @item.MenuID))
             {
-                <tr data-menu="@item2.MenuID" data-role="@item2.RoleID">
+                string _view = @item.R_View == true ? "checked" : "";
+                <tr data-type-name="R" data-menu-id="@item2.MenuID" data-role-id="@item2.RoleID" data-parent-id="@item2.ParentID">
                     <td class="text-center">@index</td>
                     <td>@item2.MenuName</td>
                     <td class="text-center">
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" value="">
-                                <span class="form-check-sign">
-                                    <span class="check"></span>
-                                </span>
+                                <input class="form-check-input r_view" type="checkbox" @_view>
+                                <span class="form-check-sign"><span class="check"></span></span>
                             </label>
                         </div>
                     </td>
@@ -48,5 +47,5 @@
 <div class="card-footer text-right">
     <div class="form-check mr-auto"></div>
     <button type="button" class="btn btn-Back">ย้อนกลับ<div class="ripple-container"></div></button>&nbsp;&nbsp;&nbsp;
-    <button type="button" class="btn btn-primary btn-save">บันทึก<div class="ripple-container"></div></button>
+    <button type="button" class="btn btn-primary btn-save-report">บันทึก<div class="ripple-container"></div></button>
 </div>

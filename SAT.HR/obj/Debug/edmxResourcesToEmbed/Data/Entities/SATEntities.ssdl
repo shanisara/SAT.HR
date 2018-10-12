@@ -404,42 +404,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenu' does not have a prima
     <Property Name="R_Delete" Type="bit" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenuReport' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-  <EntityType Name="vw_RoleMenuReport">
-    <Key>
-      <PropertyRef Name="RoleID" />
-      <PropertyRef Name="MenuID" />
-    </Key>
-    <Property Name="RoleID" Type="int" Nullable="false" />
-    <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
-    <Property Name="RoleDesc" Type="nvarchar" MaxLength="200" />
-    <Property Name="MenuID" Type="int" Nullable="false" />
-    <Property Name="ParentID" Type="int" />
-    <Property Name="MenuName" Type="nvarchar" MaxLength="200" />
-    <Property Name="R_View" Type="bit" />
-    <Property Name="R_Add" Type="bit" />
-    <Property Name="R_Edit" Type="bit" />
-    <Property Name="R_Delete" Type="bit" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenuTab' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-  <EntityType Name="vw_RoleMenuTab">
-    <Key>
-      <PropertyRef Name="RoleID" />
-      <PropertyRef Name="MenuID" />
-    </Key>
-    <Property Name="RoleID" Type="int" Nullable="false" />
-    <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
-    <Property Name="RoleDesc" Type="nvarchar" MaxLength="200" />
-    <Property Name="MenuID" Type="int" Nullable="false" />
-    <Property Name="MenuName" Type="nvarchar" MaxLength="200" />
-    <Property Name="ParentID" Type="int" />
-    <Property Name="R_View" Type="bit" />
-    <Property Name="R_Add" Type="bit" />
-    <Property Name="R_Edit" Type="bit" />
-    <Property Name="R_Delete" Type="bit" />
-  </EntityType>
-  <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleUser' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_RoleUser">
     <Key>
@@ -654,6 +618,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
   <Function Name="fm_fn_ConvertMinutesToHour" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
     <Parameter Name="TotalMinutes" Type="int" Mode="In" />
   </Function>
+  <Function Name="sp_Menu_GetByRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="RoleID" Type="int" Mode="In" />
+    <Parameter Name="MenuType" Type="nvarchar" Mode="In" />
+  </Function>
   <Function Name="sp_Menu_GetByUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="UserID" Type="int" Mode="In" />
   </Function>
@@ -715,34 +683,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     [vw_RoleMenu].[R_Edit] AS [R_Edit], 
     [vw_RoleMenu].[R_Delete] AS [R_Delete]
     FROM [dbo].[vw_RoleMenu] AS [vw_RoleMenu]</DefiningQuery>
-    </EntitySet>
-    <EntitySet Name="vw_RoleMenuReport" EntityType="Self.vw_RoleMenuReport" store:Type="Views" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [vw_RoleMenuReport].[RoleID] AS [RoleID], 
-    [vw_RoleMenuReport].[RoleName] AS [RoleName], 
-    [vw_RoleMenuReport].[RoleDesc] AS [RoleDesc], 
-    [vw_RoleMenuReport].[MenuID] AS [MenuID], 
-    [vw_RoleMenuReport].[ParentID] AS [ParentID], 
-    [vw_RoleMenuReport].[MenuName] AS [MenuName], 
-    [vw_RoleMenuReport].[R_View] AS [R_View], 
-    [vw_RoleMenuReport].[R_Add] AS [R_Add], 
-    [vw_RoleMenuReport].[R_Edit] AS [R_Edit], 
-    [vw_RoleMenuReport].[R_Delete] AS [R_Delete]
-    FROM [dbo].[vw_RoleMenuReport] AS [vw_RoleMenuReport]</DefiningQuery>
-    </EntitySet>
-    <EntitySet Name="vw_RoleMenuTab" EntityType="Self.vw_RoleMenuTab" store:Type="Views" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [vw_RoleMenuTab].[RoleID] AS [RoleID], 
-    [vw_RoleMenuTab].[RoleName] AS [RoleName], 
-    [vw_RoleMenuTab].[RoleDesc] AS [RoleDesc], 
-    [vw_RoleMenuTab].[MenuID] AS [MenuID], 
-    [vw_RoleMenuTab].[MenuName] AS [MenuName], 
-    [vw_RoleMenuTab].[ParentID] AS [ParentID], 
-    [vw_RoleMenuTab].[R_View] AS [R_View], 
-    [vw_RoleMenuTab].[R_Add] AS [R_Add], 
-    [vw_RoleMenuTab].[R_Edit] AS [R_Edit], 
-    [vw_RoleMenuTab].[R_Delete] AS [R_Delete]
-    FROM [dbo].[vw_RoleMenuTab] AS [vw_RoleMenuTab]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vw_RoleUser" EntityType="Self.vw_RoleUser" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 

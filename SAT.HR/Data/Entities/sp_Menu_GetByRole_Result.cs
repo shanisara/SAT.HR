@@ -14,13 +14,12 @@ namespace SAT.HR.Data.Entities
     public partial class sp_Menu_GetByRole_Result
     {
         public int RoleID { get; set; }
-        public string RoleName { get; set; }
-        public Nullable<int> MenuID { get; set; }
         public string MenuName { get; set; }
-        public string ControllerName { get; set; }
-        public string ActionName { get; set; }
-        public string Icon { get; set; }
         public Nullable<int> ParentID { get; set; }
-        public string MenuType { get; set; }
+        public int MenuID { get; set; }
+        public Nullable<bool> R_View { get; set; }
+        public Nullable<bool> R_Add { get; set; }
+        public Nullable<bool> R_Edit { get; set; }
+        public Nullable<bool> R_Delete { get; set; }
     }
 }
