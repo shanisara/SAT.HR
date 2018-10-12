@@ -16,6 +16,8 @@ namespace SAT.HR.Models
 
         public bool? RoleStatus { get; set; }
 
+        public string Status { get; set; }
+
         public DateTime? CreateDate { get; set; }
 
         public Nullable<int> CreateBy { get; set; }
