@@ -245,6 +245,11 @@ namespace SAT.HR.Data.Repository
                     {
                         foreach (var item in model)
                         {
+                            if (item.MenuID == 7)
+                            {
+                                string xxxx = "xx";
+                            }
+
                             if (item.MenuType == "M" || (item.ParentID != 0 && (item.MenuType == "T" || item.MenuType == "R")))
                             {
                                 var data = db.tb_RoleMenu.Where(m => m.RoleID == item.RoleID && m.MenuID == item.MenuID).FirstOrDefault();
