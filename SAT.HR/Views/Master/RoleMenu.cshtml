@@ -92,40 +92,6 @@
     <script>
         $(document).ready(function () {
 
-            $(".btn-Back").click(function () {
-                var url = '@Url.Action("Permission", "Master")';
-                window.location.href = url;
-
-                @*swal({
-                    title: '',
-                    text: "ท่านต้องการกลับไปยังรายการก่อนหน้า?!",
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonClass: 'btn btn-success',
-                    cancelButtonClass: 'btn btn-danger',
-                    confirmButtonText: 'ใช่',
-                    cancelButtonText: 'ไม่',
-                    buttonsStyling: false
-                }).then(function () {
-                    var url = '@Url.Action("Permission", "Master")';
-                    window.location.href = url;
-                }).catch(swal.noop)*@
-            });
-
-
-            $(".btn-save-menu").click(function () {
-                dataTable.saveData("tb-menu");
-            });
-
-            $(".btn-save-tab").click(function () {
-                dataTable.saveData("tb-menu-tab");
-            });
-
-            $(".btn-save-report").click(function () {
-                dataTable.saveData("tb-menu-report");
-            });
-
-
             var dataTable = {
                 getData: function (el) {
                     var postData = [];
@@ -135,7 +101,7 @@
                         var roleid = $(this).data("role-id");       // $(this).attr("data-role-id")
                         var menuid = $(this).data("menu-id");       // $(this).attr("data-menu-id")
                         var type = $(this).data("type-name");       // $(this).attr("data-type-name")
-                        var view = $(this).find("td").eq(2).find('input[type="checkbox"]').is(":checked");
+                        var view = parentid != 0 ? $(this).find("td").eq(2).find('input[type="checkbox"]').is(":checked") : $(this).find("td").eq(1).find('input[type="checkbox"]').is(":checked");
                         var add = $(this).find("td").eq(3).find('input[type="checkbox"]').is(":checked");
                         var edit = $(this).find("td").eq(4).find('input[type="checkbox"]').is(":checked");
                         var del = $(this).find("td").eq(5).find('input[type="checkbox"]').is(":checked");
@@ -172,8 +138,227 @@
                             }
                         }
                     });
-                }
+                },
+                MenuCheckAllView: function () {
+                    if ($(".m-view").length == $(".m-view:checked").length) {
+                        $(".all-m-view").prop("checked", true);
+                    } else {
+                        $(".all-m-view").prop('checked', false);
+                    }
+                },
+                MenuCheckAllAdd: function () {
+                    if ($(".m-add").length == $(".m-add:checked").length) {
+                        $(".all-m-add").prop("checked", true);
+                    } else {
+                        $(".all-m-add").prop('checked', false);
+                    }
+                },
+                MenuCheckAllEdit: function () {
+                    if ($(".m-edit").length == $(".m-edit:checked").length) {
+                        $(".all-m-edit").prop("checked", true);
+                    } else {
+                        $(".all-m-edit").prop('checked', false);
+                    }
+                },
+                MenuCheckAllDelete: function () {
+                    if ($(".m-del").length == $(".m-del:checked").length) {
+                        $(".all-m-del").prop("checked", true);
+                    } else {
+                        $(".all-m-del").prop('checked', false);
+                    }
+                },
+                TabCheckAllView: function () {
+                    if ($(".t-view").length == $(".t-view:checked").length) {
+                        $(".all-t-view").prop("checked", true);
+                    } else {
+                        $(".all-t-view").prop('checked', false);
+                    }
+                },
+                TabCheckAllAdd: function () {
+                    if ($(".t-add").length == $(".t-add:checked").length) {
+                        $(".all-t-add").prop("checked", true);
+                    } else {
+                        $(".all-t-add").prop('checked', false);
+                    }
+                },
+                TabCheckAllEdit: function () {
+                    if ($(".t-edit").length == $(".t-edit:checked").length) {
+                        $(".all-t-edit").prop("checked", true);
+                    } else {
+                        $(".all-t-edit").prop('checked', false);
+                    }
+                },
+                TabCheckAllDelete: function () {
+                    if ($(".t-del").length == $(".t-del:checked").length) {
+                        $(".all-t-del").prop("checked", true);
+                    } else {
+                        $(".all-t-del").prop('checked', false);
+                    }
+                },
+                ReportCheckAllView: function () {
+                    if ($(".r-view").length == $(".r-view:checked").length) {
+                        $(".all-r-view").prop("checked", true);
+                    } else {
+                        $(".all-r-view").prop('checked', false);
+                    }
+                },
             }
+
+            dataTable.MenuCheckAllView();
+            dataTable.MenuCheckAllAdd();
+            dataTable.MenuCheckAllEdit();
+            dataTable.MenuCheckAllDelete();
+            dataTable.TabCheckAllView();
+            dataTable.TabCheckAllAdd();
+            dataTable.TabCheckAllEdit();
+            dataTable.TabCheckAllDelete();
+            dataTable.ReportCheckAllView();
+
+            $(".btn-Back").click(function () {
+                var url = '@Url.Action("Permission", "Master")';
+                window.location.href = url;
+            });
+
+            $(".btn-save-menu").click(function () {
+                dataTable.saveData("tb-menu");
+            });
+
+            $(".btn-save-tab").click(function () {
+                dataTable.saveData("tb-menu-tab");
+            });
+
+            $(".btn-save-report").click(function () {
+                dataTable.saveData("tb-menu-report");
+            });
+
+            // Menu
+            $(".all-m-view").change(function () {
+                var checked = $(this).is(':checked');
+                if(checked){
+                    $('.m-view').prop('checked', true);
+                }
+                else {
+                    $('.m-view').prop('checked', false);
+                }
+            });
+
+            $(".all-m-add").change(function () {
+                var checked = $(this).is(':checked');
+                if (checked) {
+                    $('.m-add').prop('checked', true);
+                }
+                else {
+                    $('.m-add').prop('checked', false);
+                }
+            });
+
+            $(".all-m-edit").change(function () {
+                var checked = $(this).is(':checked');
+                if (checked) {
+                    $('.m-edit').prop('checked', true);
+                }
+                else {
+                    $('.m-edit').prop('checked', false);
+                }
+            });
+
+            $(".all-m-del").change(function () {
+                var checked = $(this).is(':checked');
+                if (checked) {
+                    $('.m-del').prop('checked', true);
+                }
+                else {
+                    $('.m-del').prop('checked', false);
+                }
+            });
+
+            $(".m-view").click(function () {
+                dataTable.MenuCheckAllView();
+            });
+
+            $(".m-add").click(function () {
+                dataTable.MenuCheckAllAdd();
+            });
+
+            $(".m-edit").click(function () {
+                dataTable.MenuCheckAllEdit();
+            });
+
+            $(".m-delete").click(function () {
+                dataTable.MenuCheckAllDelete();
+            });
+
+            // Tab
+            $(".all-t-view").change(function () {
+                var checked = $(this).is(':checked');
+                if (checked) {
+                    $('.t-view').prop('checked', true);
+                }
+                else {
+                    $('.t-view').prop('checked', false);
+                }
+            });
+
+            $(".all-t-add").change(function () {
+                var checked = $(this).is(':checked');
+                if (checked) {
+                    $('.t-add').prop('checked', true);
+                }
+                else {
+                    $('.t-add').prop('checked', false);
+                }
+            });
+
+            $(".all-t-edit").change(function () {
+                var checked = $(this).is(':checked');
+                if (checked) {
+                    $('.t-edit').prop('checked', true);
+                }
+                else {
+                    $('.t-edit').prop('checked', false);
+                }
+            });
+
+            $(".all-t-del").change(function () {
+                var checked = $(this).is(':checked');
+                if (checked) {
+                    $('.t-del').prop('checked', true);
+                }
+                else {
+                    $('.t-del').prop('checked', false);
+                }
+            });
+
+            $(".t-view").click(function () {
+                dataTable.TabCheckAllView();
+            });
+
+            $(".t-add").click(function () {
+                dataTable.TabCheckAllAdd();
+            });
+
+            $(".t-edit").click(function () {
+                dataTable.TabCheckAllEdit();
+            });
+
+            $(".t-del").click(function () {
+                dataTable.TabCheckAllDelete();
+            });
+
+            // Report
+            $(".all-r-view").change(function () {
+                var checked = $(this).is(':checked');
+                if (checked) {
+                    $('.r-view').prop('checked', true);
+                }
+                else {
+                    $('.r-view').prop('checked', false);
+                }
+            });
+
+            $(".r-view").click(function () {
+                dataTable.ReportCheckAllView();
+            });
 
         });
     </script>
