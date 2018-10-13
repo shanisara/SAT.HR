@@ -82,6 +82,7 @@ namespace SAT.HR.Data.Repository
                 HolidayViewModel model = new Models.HolidayViewModel();
                 model.HolID = data.HolID;
                 model.HolDate = data.HolDate;
+                model.HolDateText = Convert.ToDateTime(data.HolDate).ToString("dd/MM/yyyy");
                 model.HolDescription = data.HolDescription;
                 return model;
             }
@@ -96,7 +97,7 @@ namespace SAT.HR.Data.Repository
                 {
                     tb_Holiday model = new tb_Holiday();
                     model.HolID = data.HolID;
-                    model.HolDate = data.HolDate;
+                    model.HolDate = Convert.ToDateTime(data.HolDateText);
                     model.HolDescription = data.HolDescription;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
@@ -121,7 +122,7 @@ namespace SAT.HR.Data.Repository
                 try
                 {
                     var data = db.tb_Holiday.Single(x => x.HolID == newdata.HolID);
-                    data.HolDate = newdata.HolDate;
+                    data.HolDate = Convert.ToDateTime(newdata.HolDateText);
                     data.HolDescription = newdata.HolDescription;
                     data.ModifyBy = UtilityService.User.UserID;
                     data.ModifyDate = DateTime.Now;
