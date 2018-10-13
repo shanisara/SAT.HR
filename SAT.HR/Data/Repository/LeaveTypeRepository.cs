@@ -20,7 +20,7 @@ namespace SAT.HR.Data.Repository
 
                 if (!string.IsNullOrEmpty(filter))
                 {
-                    data = data.Where(x => x.LevYear.Contains(filter)).ToList();
+                    data = data.Where(x => x.LevName.Contains(filter)).ToList();
                 }
 
                 int recordsFiltered = data.Count();

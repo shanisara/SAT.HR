@@ -162,7 +162,7 @@
             <PropertyRef Name="LevID" />
           </Key>
           <Property Name="LevID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="LevYear" Type="nchar" MaxLength="10" />
+          <Property Name="LevYear" Type="int" Nullable="false" />
           <Property Name="LevStartDate" Type="datetime" />
           <Property Name="LevEndDate" Type="datetime" />
           <Property Name="LevMax" Type="decimal" Precision="18" Scale="2" />
@@ -815,6 +815,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
             <Parameter Name="UserID" Mode="In" Type="Int32" />
             <Parameter Name="ParentID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="sp_Menu_GetByRole" ReturnType="Collection(SAT.HR.sp_Menu_GetByRole_Result)">
+            <Parameter Name="RoleID" Mode="In" Type="Int32" />
+            <Parameter Name="MenuType" Mode="In" Type="String" />
+          </FunctionImport>
           <EntitySet Name="tb_ActionType" EntityType="SAT.HR.tb_ActionType" />
           <EntitySet Name="tb_Capability" EntityType="SAT.HR.tb_Capability" />
           <EntitySet Name="tb_CapabilityType" EntityType="SAT.HR.tb_CapabilityType" />
@@ -826,6 +830,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <EntitySet Name="tb_DocNumber" EntityType="SAT.HR.tb_DocNumber" />
           <EntitySet Name="tb_Education" EntityType="SAT.HR.tb_Education" />
           <EntitySet Name="tb_Holiday" EntityType="SAT.HR.tb_Holiday" />
+          <EntitySet Name="tb_Insignia" EntityType="SAT.HR.tb_Insignia" />
           <EntitySet Name="tb_LeaveType" EntityType="SAT.HR.tb_LeaveType" />
           <EntitySet Name="tb_Level" EntityType="SAT.HR.tb_Level" />
           <EntitySet Name="tb_Major" EntityType="SAT.HR.tb_Major" />
@@ -889,11 +894,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
             <End Role="tb_Sex" EntitySet="tb_Sex" />
             <End Role="tb_User" EntitySet="tb_User" />
           </AssociationSet>
-          <FunctionImport Name="sp_Menu_GetByRole" ReturnType="Collection(SAT.HR.sp_Menu_GetByRole_Result)">
-            <Parameter Name="RoleID" Mode="In" Type="Int32" />
-            <Parameter Name="MenuType" Mode="In" Type="String" />
-          </FunctionImport>
-          <EntitySet Name="tb_Insignia" EntityType="SAT.HR.tb_Insignia" />
           </EntityContainer>
         <ComplexType Name="sp_Menu_GetByUser_Result">
           <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -1070,12 +1070,25 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="Int32" />
         </EntityType>
+        <EntityType Name="tb_Insignia">
+          <Key>
+            <PropertyRef Name="InsID" />
+          </Key>
+          <Property Name="InsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InsFullName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="InsShortName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="InsStatus" Type="Boolean" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+        </EntityType>
         <EntityType Name="tb_LeaveType">
           <Key>
             <PropertyRef Name="LevID" />
           </Key>
           <Property Name="LevID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LevYear" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="LevYear" Type="Int32" Nullable="false" />
           <Property Name="LevStartDate" Type="DateTime" Precision="3" />
           <Property Name="LevEndDate" Type="DateTime" Precision="3" />
           <Property Name="LevMax" Type="Decimal" Precision="18" Scale="2" />
@@ -1532,19 +1545,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="tb_Insignia">
-          <Key>
-            <PropertyRef Name="InsID" />
-          </Key>
-          <Property Name="InsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="InsFullName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="InsShortName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="InsStatus" Type="Boolean" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="Int32" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="Int32" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1576,6 +1576,20 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
                 <ScalarProperty Name="Icon" ColumnName="Icon" />
                 <ScalarProperty Name="ParentID" ColumnName="ParentID" />
                 <ScalarProperty Name="MenuType" ColumnName="MenuType" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Menu_GetByRole" FunctionName="SAT.HR.Store.sp_Menu_GetByRole">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_Menu_GetByRole_Result">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+                <ScalarProperty Name="R_View" ColumnName="R_View" />
+                <ScalarProperty Name="R_Add" ColumnName="R_Add" />
+                <ScalarProperty Name="R_Edit" ColumnName="R_Edit" />
+                <ScalarProperty Name="R_Delete" ColumnName="R_Delete" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -1726,6 +1740,20 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
                 <ScalarProperty Name="HolDescription" ColumnName="HolDescription" />
                 <ScalarProperty Name="HolDate" ColumnName="HolDate" />
                 <ScalarProperty Name="HolID" ColumnName="HolID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Insignia">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Insignia">
+              <MappingFragment StoreEntitySet="tb_Insignia">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="InsStatus" ColumnName="InsStatus" />
+                <ScalarProperty Name="InsShortName" ColumnName="InsShortName" />
+                <ScalarProperty Name="InsFullName" ColumnName="InsFullName" />
+                <ScalarProperty Name="InsID" ColumnName="InsID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2072,34 +2100,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_Menu_GetByRole" FunctionName="SAT.HR.Store.sp_Menu_GetByRole">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SAT.HR.sp_Menu_GetByRole_Result">
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
-                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
-                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
-                <ScalarProperty Name="R_View" ColumnName="R_View" />
-                <ScalarProperty Name="R_Add" ColumnName="R_Add" />
-                <ScalarProperty Name="R_Edit" ColumnName="R_Edit" />
-                <ScalarProperty Name="R_Delete" ColumnName="R_Delete" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <EntitySetMapping Name="tb_Insignia">
-            <EntityTypeMapping TypeName="SAT.HR.tb_Insignia">
-              <MappingFragment StoreEntitySet="tb_Insignia">
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="InsStatus" ColumnName="InsStatus" />
-                <ScalarProperty Name="InsShortName" ColumnName="InsShortName" />
-                <ScalarProperty Name="InsFullName" ColumnName="InsFullName" />
-                <ScalarProperty Name="InsID" ColumnName="InsID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -2114,8 +2114,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="False" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

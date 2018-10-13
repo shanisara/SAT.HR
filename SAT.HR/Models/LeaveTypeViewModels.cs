@@ -10,7 +10,7 @@ namespace SAT.HR.Models
 
         public int LevID { get; set; }
 
-        public string LevYear { get; set; }
+        public int LevYear { get; set; }
 
         public string LevName { get; set; }
 
