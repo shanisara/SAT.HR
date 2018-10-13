@@ -71,7 +71,8 @@ namespace SAT.HR.Data.Repository
                 {
                     DepID = s.DepID,
                     DepName = s.DepName,
-                    DepStatus = (bool)s.DepStatus
+                    DepStatus = (bool)s.DepStatus,
+                    DivID = s.DivID
                 }).OrderBy(x => x.DepName).ToList();
                 return list;
             }
@@ -87,6 +88,7 @@ namespace SAT.HR.Data.Repository
                 model.DepName = data.DepName;
                 model.DepStatus = (bool)data.DepStatus;
                 model.Status = data.DepStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive;
+                model.DivID = data.DivID;
                 return model;
             }
         }

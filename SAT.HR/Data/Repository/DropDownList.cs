@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using SAT.HR.Data.Repository;
 
-namespace SAT.HR.Models
+namespace SAT.HR.Data.Repository
 {
     public class DropDownList
     {
@@ -35,7 +35,7 @@ namespace SAT.HR.Models
             data = data.Where(m => m.DepStatus == true).ToList();
 
             if (divid.HasValue)
-                data.Where(m => m.DivID == divid).ToList();
+                data = data.Where(m => m.DivID == divid).ToList();
 
             foreach (var item in data)
             {
@@ -55,10 +55,10 @@ namespace SAT.HR.Models
             data = data.Where(m => m.SecStatus == true).ToList();
 
             if (divid.HasValue)
-                data.Where(m => m.DivID == divid).ToList();
+                data = data.Where(m => m.DivID == divid).ToList();
 
             if (depid.HasValue)
-                data.Where(m => m.DepID == depid).ToList();
+                data = data.Where(m => m.DepID == depid).ToList();
 
             foreach (var item in data)
             {

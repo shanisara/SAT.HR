@@ -103,6 +103,11 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult DepartmentByDiv(int divid)
+        {
+            var result = DropDownList.GetDepartment(divid);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
 

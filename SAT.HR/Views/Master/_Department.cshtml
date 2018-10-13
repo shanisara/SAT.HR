@@ -8,24 +8,24 @@
 
     <div class="col-md-12">
         <div class="row">
-            @Html.Label("กอง", null, new { @class = "col-sm-2 col-form-label" })
+            @Html.Label("กอง", null, new { @class = "col-sm-2 bmd-label-floating" })
             <div class="col-sm-10">
                 <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating">ใส่ข้อมูลกอง</label>
+                    @*<label class="bmd-label-floating">ใส่ข้อมูลกอง</label>*@
+                    @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "  -- กรุณาเลือก / Please choose --", new { @class = "form-control", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top:15px;">
+            @Html.Label("ฝ่าย", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                <div class="form-group bmd-form-group">
+                    @*<label class="bmd-label-floating">ใส่ข้อมูลฝ่าย</label>*@
                     @Html.TextBoxFor(m => m.DepName, new { @class = "form-control", required = "true" })
                 </div>
             </div>
         </div>
         <div class="row">
-            @Html.Label("ฝ่าย", null, new { @class = "col-sm-2 bmd-label-floating" })
-            <div class="col-sm-10">
-                <div class="form-group bmd-form-group">
-                    @*<label class="bmd-label-floating">ใส่ข้อมูลฝ่าย</label>*@
-                    @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "  -- กรุณาเลือก / Please choose --", new { @class = "form-control", required = "true" })
-                </div>
-            </div>
-        </div>
-        <div class="row" style="margin-top:30px;">
             @Html.Label("สถานะ", null, new { @class = "col-sm-2 col-form-label label-checkbox" })
             <div class="col-sm-10">
                 <div class="form-check">
@@ -41,9 +41,14 @@
 <script>
     $(document).ready(function () {
 
+        @*debugger;
+        if ('@Model.DivID' != '') {
+            $('#DivID').val('@Model.DivID');
+        }
+
         if ('@Model.DepStatus' == 'True') {
             $(".checkbox").prop("checked", true);
-        }
+        }*@
 
         $(".checkbox").click(function () {
             var checked = $(this).is(':checked');
@@ -54,5 +59,6 @@
                 $('#Status').val('0');
             }
         });
+
     });
 </script>
