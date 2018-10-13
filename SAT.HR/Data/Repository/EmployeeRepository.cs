@@ -13,7 +13,7 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var list = db.tb_User.Select(s => new EmployeeViewModel()
+                var list = db.vw_User.Select(s => new EmployeeViewModel()
                 {
                     UserID = s.UserID,
                     UserName = s.UserName,
@@ -21,17 +21,17 @@ namespace SAT.HR.Data.Repository
                     FirstName = s.FirstName,
                     LastName = s.LastName,
                     UserTID = s.UserTID,
-                    //UserTName = s.UserTName,
+                    UserTName = s.UserTName,
                     DivID = s.DivID,
-                    //DivName = s.DivName,
+                    DivName = s.DivName,
                     DepID = s.DepID,
-                    //DepName = s.DepName,
+                    DepName = s.DepName,
                     SecID = s.SecID,
-                    //SecName = s.SecName,
+                    SecName = s.SecName,
                     PoID = s.PoID,
-                    //PoName = s.PoName,
+                    PoName = s.PoName,
                     SexID = s.SexID,
-                    //SexName = s.SexName,
+                    SexName = s.SexName,
                 })
                 .OrderBy(x => x.UserName).ToList();
                 return list;
@@ -48,11 +48,11 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public EmployeePageResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
+        public EmployeePageResult GetUserNotInUserRole(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.tb_User.ToList();
+                var data = db.vw_UserNotInUserRole.ToList();
 
                 int recordsTotal = data.Count();
 
@@ -82,17 +82,18 @@ namespace SAT.HR.Data.Repository
                     Password = s.Password,
                     FirstName = s.FirstName,
                     LastName = s.LastName,
-                    //UserTName = s.UserTName,
+                    FullName = s.FirstName + " " + s.LastName,
+                    UserTName = s.UserTName,
                     DivID = s.DivID,
-                    //DivName = s.DivName,
+                    DivName = s.DivName,
                     DepID = s.DepID,
-                    //DepName = s.DepName,
+                    DepName = s.DepName,
                     SecID = s.SecID,
-                    //SecName = s.SecName,
+                    SecName = s.SecName,
                     PoID = s.PoID,
-                    //PoName = s.PoName,
+                    PoName = s.PoName,
                     SexID = s.SexID,
-                    //SexName = s.SexName,
+                    SexName = s.SexName,
                 }).Skip(start * length).Take(length).ToList();
 
 
@@ -138,34 +139,6 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        //public EmployeeViewModel Login(EmployeeViewModel model)
-        //{
-        //    using (SATEntities db = new SATEntities())
-        //    {
-        //        var data = db.vw_User.Where(m => m.UserName == model.UserName && m.Password == model.Password).Select(s => new EmployeeViewModel()
-        //        {
-        //            UserID = s.UserID,
-        //            UserName = s.UserName,
-        //            Password = s.Password,
-        //            FirstName = s.FirstName,
-        //            LastName = s.LastName,
-        //            DivID = s.DivID,
-        //            DivName = s.DivName,
-        //            DepID = s.DepID,
-        //            DepName = s.DepName,
-        //            SecID = s.SecID,
-        //            SecName = s.SecName,
-        //            PoID = s.PoID,
-        //            PoName = s.PoName,
-        //            UserTID = s.UserTID,
-        //            UserTName = s.UserTName,
-        //            SexID = s.SexID,
-        //            SexName = s.SexName
-        //        }).FirstOrDefault();
-
-        //        return data;
-        //    }
-        //}
 
     }
 }

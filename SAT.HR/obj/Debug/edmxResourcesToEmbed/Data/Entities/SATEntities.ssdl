@@ -492,6 +492,36 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     <Property Name="IsActive" Type="bit" />
     <Property Name="Avatar" Type="nvarchar" MaxLength="200" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_UserNotInUserRole">
+    <Key>
+      <PropertyRef Name="UserID" />
+      <PropertyRef Name="DivID" />
+      <PropertyRef Name="DepID" />
+      <PropertyRef Name="SecID" />
+      <PropertyRef Name="PoID" />
+    </Key>
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nchar" MaxLength="10" />
+    <Property Name="Password" Type="nchar" MaxLength="10" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="200" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="200" />
+    <Property Name="UserTID" Type="int" />
+    <Property Name="UserTName" Type="nvarchar" MaxLength="50" />
+    <Property Name="DivID" Type="int" Nullable="false" />
+    <Property Name="DivName" Type="nvarchar" MaxLength="200" />
+    <Property Name="DepID" Type="int" Nullable="false" />
+    <Property Name="DepName" Type="nvarchar" MaxLength="200" />
+    <Property Name="SecID" Type="int" Nullable="false" />
+    <Property Name="SecName" Type="nvarchar" MaxLength="200" />
+    <Property Name="PoID" Type="int" Nullable="false" />
+    <Property Name="PoName" Type="nvarchar" MaxLength="200" />
+    <Property Name="SexID" Type="int" />
+    <Property Name="SexName" Type="nchar" MaxLength="10" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="Avatar" Type="nvarchar" MaxLength="200" />
+  </EntityType>
   <Association Name="FK_tb_Capability_tb_Capability">
     <End Role="tb_CapabilityType" Type="Self.tb_CapabilityType" Multiplicity="0..1" />
     <End Role="tb_Capability" Type="Self.tb_Capability" Multiplicity="*" />
@@ -756,6 +786,29 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     [vw_User].[IsActive] AS [IsActive], 
     [vw_User].[Avatar] AS [Avatar]
     FROM [dbo].[vw_User] AS [vw_User]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_UserNotInUserRole" EntityType="Self.vw_UserNotInUserRole" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_UserNotInUserRole].[UserID] AS [UserID], 
+    [vw_UserNotInUserRole].[UserName] AS [UserName], 
+    [vw_UserNotInUserRole].[Password] AS [Password], 
+    [vw_UserNotInUserRole].[FirstName] AS [FirstName], 
+    [vw_UserNotInUserRole].[LastName] AS [LastName], 
+    [vw_UserNotInUserRole].[UserTID] AS [UserTID], 
+    [vw_UserNotInUserRole].[UserTName] AS [UserTName], 
+    [vw_UserNotInUserRole].[DivID] AS [DivID], 
+    [vw_UserNotInUserRole].[DivName] AS [DivName], 
+    [vw_UserNotInUserRole].[DepID] AS [DepID], 
+    [vw_UserNotInUserRole].[DepName] AS [DepName], 
+    [vw_UserNotInUserRole].[SecID] AS [SecID], 
+    [vw_UserNotInUserRole].[SecName] AS [SecName], 
+    [vw_UserNotInUserRole].[PoID] AS [PoID], 
+    [vw_UserNotInUserRole].[PoName] AS [PoName], 
+    [vw_UserNotInUserRole].[SexID] AS [SexID], 
+    [vw_UserNotInUserRole].[SexName] AS [SexName], 
+    [vw_UserNotInUserRole].[IsActive] AS [IsActive], 
+    [vw_UserNotInUserRole].[Avatar] AS [Avatar]
+    FROM [dbo].[vw_UserNotInUserRole] AS [vw_UserNotInUserRole]</DefiningQuery>
     </EntitySet>
     <AssociationSet Name="FK_tb_Capability_tb_Capability" Association="Self.FK_tb_Capability_tb_Capability">
       <End Role="tb_CapabilityType" EntitySet="tb_CapabilityType" />

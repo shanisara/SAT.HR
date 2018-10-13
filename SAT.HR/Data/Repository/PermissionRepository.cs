@@ -177,6 +177,7 @@ namespace SAT.HR.Data.Repository
                             model.CreateDate = DateTime.Now;
                             model.ModifyBy = UtilityService.User.UserID;
                             model.ModifyDate = DateTime.Now;
+                            db.tb_RoleUser.Add(model);
                             db.SaveChanges();
                         }
                     }

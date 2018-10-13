@@ -59,7 +59,7 @@ namespace SAT.HR.Resources {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to ยกเลิก.
         /// </summary>
@@ -68,7 +68,7 @@ namespace SAT.HR.Resources {
                 return ResourceManager.GetString("btnCancel", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to ปิด.
         /// </summary>
@@ -147,6 +147,15 @@ namespace SAT.HR.Resources {
         public static string SaveSucceed {
             get {
                 return ResourceManager.GetString("SaveSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ค้นหา.
+        /// </summary>
+        public static string searchPlaceholder {
+            get {
+                return ResourceManager.GetString("searchPlaceholder", resourceCulture);
             }
         }
     }
