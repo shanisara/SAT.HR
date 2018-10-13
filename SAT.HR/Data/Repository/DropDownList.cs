@@ -9,30 +9,32 @@ namespace SAT.HR.Data.Repository
 {
     public class DropDownList
     {
-        public static List<SelectListItem> GetDivision()
+        public static List<SelectListItem> GetDivision(int? defaultValue, bool isActive)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
             var data = new DivisionRepository().GetAll();
-            data = data.Where(m => m.DivStatus == true).ToList();
+            if (isActive == true)
+                data = data.Where(m => m.DivStatus == true).ToList();
 
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
                 select.Value = item.DivID.ToString();
                 select.Text = item.DivName;
+                select.Selected = defaultValue.HasValue ? (item.DivID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
-            //list.Insert(0, (new SelectListItem { Text = "-- กรุณาเลือก -- ", Value = "-1" }));
             return list;
         }
 
-        public static List<SelectListItem> GetDepartment(int? divid)
+        public static List<SelectListItem> GetDepartment(int? divid, int? defaultValue, bool isActive)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
             var data = new DepartmentRepository().GetAll();
-            data = data.Where(m => m.DepStatus == true).ToList();
+            if (isActive == true)
+                data = data.Where(m => m.DepStatus == true).ToList();
 
             if (divid.HasValue)
                 data = data.Where(m => m.DivID == divid).ToList();
@@ -42,17 +44,19 @@ namespace SAT.HR.Data.Repository
                 SelectListItem select = new SelectListItem();
                 select.Value = item.DepID.ToString();
                 select.Text = item.DepName;
+                select.Selected = defaultValue.HasValue ? (item.DepID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
         }
 
-        public static List<SelectListItem> GetSection(int? divid, int? depid)
+        public static List<SelectListItem> GetSection(int? divid, int? depid, int? defaultValue, bool isActive)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
             var data = new SectionRepository().GetAll();
-            data = data.Where(m => m.SecStatus == true).ToList();
+            if (isActive == true)
+                data = data.Where(m => m.SecStatus == true).ToList();
 
             if (divid.HasValue)
                 data = data.Where(m => m.DivID == divid).ToList();
@@ -65,12 +69,13 @@ namespace SAT.HR.Data.Repository
                 SelectListItem select = new SelectListItem();
                 select.Value = item.SecID.ToString();
                 select.Text = item.SecName;
+                select.Selected = defaultValue.HasValue ? (item.SecID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
         }
 
-        public static List<SelectListItem> GetDiscipline()
+        public static List<SelectListItem> GetDiscipline(int? defaultValue, bool isActive)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
@@ -81,29 +86,32 @@ namespace SAT.HR.Data.Repository
                 SelectListItem select = new SelectListItem();
                 select.Value = item.DisID.ToString();
                 select.Text = item.DisName;
+                select.Selected = defaultValue.HasValue ? (item.DisID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
         }
 
-        public static List<SelectListItem> GetPosition()
+        public static List<SelectListItem> GetPosition(int? defaultValue, bool isActive)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
             var data = new PositionRepository().GetAll();
-            data = data.Where(m => m.PoStatus == true).ToList();
+            if (isActive == true)
+                data = data.Where(m => m.PoStatus == true).ToList();
 
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
                 select.Value = item.PoID.ToString();
                 select.Text = item.PoName;
+                select.Selected = defaultValue.HasValue ? (item.PoID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
         }
 
-        public static List<SelectListItem> GetLevel()
+        public static List<SelectListItem> GetLevel(int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
@@ -119,7 +127,7 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
-        public static List<SelectListItem> GetCertificate()
+        public static List<SelectListItem> GetCertificate(int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
@@ -130,28 +138,32 @@ namespace SAT.HR.Data.Repository
                 SelectListItem select = new SelectListItem();
                 select.Value = item.CerID.ToString();
                 select.Text = item.CerName;
+                select.Selected = defaultValue.HasValue ? (item.CerID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
         }
 
-        public static List<SelectListItem> GetInsignia()
+        public static List<SelectListItem> GetInsignia(int? defaultValue, bool isActive)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
             var data = new InsigniaRepository().GetAll();
+            if (isActive == true)
+                data = data.Where(m => m.InsStatus == true).ToList();
 
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
                 select.Value = item.InsID.ToString();
                 select.Text = item.InsFullName;
+                select.Selected = defaultValue.HasValue ? (item.InsID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
         }
 
-        public static List<SelectListItem> GetTitle(int? sexid)
+        public static List<SelectListItem> GetTitle(int? sexid, int? defaultValue, bool isActive)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
@@ -165,97 +177,108 @@ namespace SAT.HR.Data.Repository
                 SelectListItem select = new SelectListItem();
                 select.Value = item.TiID.ToString();
                 select.Text = item.TiFullName;
+                select.Selected = defaultValue.HasValue ? (item.TiID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
         }
 
-        public static List<SelectListItem> GetEducation()
+        public static List<SelectListItem> GetEducation(int? defaultValue, bool isActive)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
             var data = new EducationRepository().GetAll();
-            data = data.Where(m => m.EduStatus == true).ToList();
+            if (isActive == true)
+                data = data.Where(m => m.EduStatus == true).ToList();
 
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
                 select.Value = item.EduID.ToString();
                 select.Text = item.EduName;
+                select.Selected = defaultValue.HasValue ? (item.EduID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
         }
 
-        public static List<SelectListItem> GetDegree()
+        public static List<SelectListItem> GetDegree(int? defaultValue, bool isActive)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
             var data = new DegreeRepository().GetAll();
-            data.Where(m => m.DegStatus == true).ToList();
+            if (isActive == true)
+                data.Where(m => m.DegStatus == true).ToList();
 
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
                 select.Value = item.DegID.ToString();
                 select.Text = item.DegName;
+                select.Selected = defaultValue.HasValue ? (item.DegID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
         }
 
-        public static List<SelectListItem> GetMajor()
+        public static List<SelectListItem> GetMajor(int? defaultValue, bool isActive)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
             var data = new MajorRepository().GetAll();
-            data = data.Where(m => m.MajStatus == true).ToList();
+            if (isActive == true)
+                data = data.Where(m => m.MajStatus == true).ToList();
 
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
                 select.Value = item.MajID.ToString();
                 select.Text = item.MajName;
+                select.Selected = defaultValue.HasValue ? (item.MajID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
         }
 
-        public static List<SelectListItem> GetNationality()
+        public static List<SelectListItem> GetNationality(int? defaultValue, bool isActive)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
             var data = new NationalityRepository().GetAll();
-            data = data.Where(m => m.NatStatus == true).ToList();
+            if (isActive == true)
+                data = data.Where(m => m.NatStatus == true).ToList();
 
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
                 select.Value = item.NatID.ToString();
                 select.Text = item.NatName;
+                select.Selected = defaultValue.HasValue ? (item.NatID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
         }
 
-        public static List<SelectListItem> GetReligion()
+        public static List<SelectListItem> GetReligion(int? defaultValue, bool isActive)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
             var data = new ReligionRepository().GetAll();
-            data = data.Where(m => m.RelStatus == true).ToList();
+            if (isActive == true)
+                data = data.Where(m => m.RelStatus == true).ToList();
 
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
                 select.Value = item.RelD.ToString();
                 select.Text = item.RelName;
+                select.Selected = defaultValue.HasValue ? (item.RelD == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
         }
 
-        public static List<SelectListItem> GetLeaveType()
+        public static List<SelectListItem> GetLeaveType(int? defaultValue, bool isActive)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
@@ -269,6 +292,7 @@ namespace SAT.HR.Data.Repository
                 SelectListItem select = new SelectListItem();
                 select.Value = item.LevID.ToString();
                 select.Text = item.LevName;
+                select.Selected = defaultValue.HasValue ? (item.LevID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
@@ -296,7 +320,7 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
-        public static List<SelectListItem> GetCapability(int? year, int? menuid, int? typeid, int? groupid)
+        public static List<SelectListItem> GetCapability(int? year, int? menuid, int? typeid, int? groupid, int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
@@ -319,12 +343,13 @@ namespace SAT.HR.Data.Repository
                 SelectListItem select = new SelectListItem();
                 select.Value = item.CapID.ToString();
                 select.Text = item.CapTID.ToString();
+                select.Selected = defaultValue.HasValue ? (item.CapID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
         }
 
-        public static List<SelectListItem> getSex()
+        public static List<SelectListItem> getSex(int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
@@ -335,12 +360,13 @@ namespace SAT.HR.Data.Repository
                 SelectListItem select = new SelectListItem();
                 select.Value = item.SexID.ToString();
                 select.Text = item.SexName;
+                select.Selected = defaultValue.HasValue ? (item.SexID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
         }
 
-        
+
     }
 
 }

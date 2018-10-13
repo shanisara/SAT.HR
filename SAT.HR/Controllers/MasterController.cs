@@ -58,7 +58,7 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region 2. กอง - Department
+        #region 2. ฝ่าย - Department
 
         public ActionResult Department()
         {
@@ -72,7 +72,7 @@ namespace SAT.HR.Controllers
             {
                 model = new DepartmentRepository().GetByID((int)id);
             }
-            ViewBag.Division = DropDownList.GetDivision();
+            ViewBag.Division = DropDownList.GetDivision(model.DivID, false);
             return PartialView("_Department", model);
         }
 
@@ -105,7 +105,7 @@ namespace SAT.HR.Controllers
 
         public JsonResult DepartmentByDiv(int divid)
         {
-            var result = DropDownList.GetDepartment(divid);
+            var result = DropDownList.GetDepartment(divid, null, false);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -125,8 +125,8 @@ namespace SAT.HR.Controllers
             {
                 model = new SectionRepository().GetByID((int)id);
             }
-            ViewBag.Division = DropDownList.GetDivision();
-            ViewBag.Department = DropDownList.GetDepartment(null);
+            ViewBag.Division = DropDownList.GetDivision(model.DivID, false);
+            ViewBag.Department = DropDownList.GetDepartment(model.DivID, model.DepID, false);
             return PartialView("_Section", model);
         }
 
@@ -405,7 +405,7 @@ namespace SAT.HR.Controllers
             {
                 model = new TitleRepository().GetByID((int)id);
             }
-            ViewBag.Sex = DropDownList.getSex();
+            ViewBag.Sex = DropDownList.getSex(model.SexID);
             return PartialView("_Title", model);
         }
 

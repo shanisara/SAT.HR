@@ -25,7 +25,7 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region  2. กองทุน
+        #region  2. ฝ่ายทุน
 
         public ActionResult ProvidentFund()
         {
