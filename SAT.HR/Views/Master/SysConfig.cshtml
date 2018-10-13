@@ -5,6 +5,19 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .table thead th {
+        /*vertical-align: bottom;*/
+        border-bottom: 0px solid rgba(0,0,0,.06); 
+    }
+
+    .table td, .table th {
+         /*padding: .75rem; 
+         vertical-align: top;*/ 
+         border-top: 0px solid rgba(0,0,0,.06); 
+    }
+
+</style>
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -20,24 +33,26 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table" id="table-config">
+                            <table class="table" id="table-config" border="0">
                                 <thead class="text-primary">
-                                    <th style="width:30%">รายการ</th>
-                                    <th style="width:70%">ค่าคงที่</th>
+                                    <tr>
+                                        <th style="width:20%">รายละเอียก</th>
+                                        <th style="width:80%">ค่าคงที่</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
                                         <tr>
                                             @Html.Hidden("KeyName", item.KeyName)
-                                            <td>@item.KeyDesc</td>
-                                            <td>@Html.TextBox("KeyValue", item.KeyValue)</td>
+                                            <td>@item.KeyDesc :</td>
+                                            <td>@Html.TextBox("KeyValue", item.KeyValue, new { @class = "form-control" })</td>
                                         </tr>
                                     }
                                 </tbody>
                             </table>
                         </div>
-                        <button class="btn btn-primary pull-right" type="button" id="btnSave">Update</button>
+                        <button class="btn btn-primary pull-right" type="button" id="btnSave">บันทึก</button>
                     </div>
                 </div>
             </div>

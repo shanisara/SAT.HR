@@ -30,6 +30,9 @@ namespace SAT.HR.Data.Repository
                     case "DegName":
                         data = (sortDir == "asc") ? data.OrderBy(x => x.DegName).ToList() : data.OrderByDescending(x => x.DegName).ToList();
                         break;
+                    case "Status":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.DegStatus).ToList() : data.OrderByDescending(x => x.DegStatus).ToList();
+                        break;
                 }
 
                 int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
@@ -41,6 +44,7 @@ namespace SAT.HR.Data.Repository
                     DegID = s.DegID,
                     DegName = s.DegName,
                     DegStatus = s.DegStatus,
+                    Status = s.DegStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive
                 }).Skip(start * length).Take(length).ToList();
 
                 DegreeResult result = new DegreeResult();
@@ -76,6 +80,7 @@ namespace SAT.HR.Data.Repository
                 model.DegID = data.DegID;
                 model.DegName = data.DegName;
                 model.DegStatus = data.DegStatus;
+                model.Status = data.DegStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive;
                 return model;
             }
         }
@@ -90,7 +95,7 @@ namespace SAT.HR.Data.Repository
                     tb_Degree model = new tb_Degree();
                     model.DegID = data.DegID;
                     model.DegName = data.DegName;
-                    model.DegStatus = data.DegStatus;
+                    model.DegStatus = (data.Status == "1") ? true : false;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -115,7 +120,7 @@ namespace SAT.HR.Data.Repository
                 {
                     var data = db.tb_Degree.Single(x => x.DegID == newdata.DegID);
                     data.DegName = newdata.DegName;
-                    data.DegStatus = newdata.DegStatus;
+                    data.DegStatus = (newdata.Status == "1") ? true : false;
                     data.ModifyBy = UtilityService.User.UserID;
                     data.ModifyDate = DateTime.Now;
                     db.SaveChanges();

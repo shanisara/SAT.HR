@@ -30,6 +30,9 @@ namespace SAT.HR.Data.Repository
                     case "RelName":
                         data = (sortDir == "asc") ? data.OrderBy(x => x.RelName).ToList() : data.OrderByDescending(x => x.RelName).ToList();
                         break;
+                    case "Status":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.RelStatus).ToList() : data.OrderByDescending(x => x.RelStatus).ToList();
+                        break;
                 }
 
                 int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
@@ -41,6 +44,7 @@ namespace SAT.HR.Data.Repository
                     RelD = s.RelD,
                     RelName = s.RelName,
                     RelStatus = s.RelStatus,
+                    Status = s.RelStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive
                 }).Skip(start * length).Take(length).ToList();
 
                 ReligionResult result = new ReligionResult();
@@ -76,6 +80,7 @@ namespace SAT.HR.Data.Repository
                 model.RelD = data.RelD;
                 model.RelName = data.RelName;
                 model.RelStatus = data.RelStatus;
+                model.Status = data.RelStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive;
                 return model;
             }
         }
@@ -90,7 +95,7 @@ namespace SAT.HR.Data.Repository
                     tb_Religion model = new tb_Religion();
                     model.RelD = data.RelD;
                     model.RelName = data.RelName;
-                    model.RelStatus = data.RelStatus;
+                    model.RelStatus = (data.Status == "1") ? true : false;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -115,7 +120,7 @@ namespace SAT.HR.Data.Repository
                 {
                     var data = db.tb_Religion.Single(x => x.RelD == newdata.RelD);
                     data.RelName = newdata.RelName;
-                    data.RelStatus = newdata.RelStatus;
+                    data.RelStatus = (newdata.Status == "1") ? true : false;
                     data.ModifyBy = UtilityService.User.UserID;
                     data.ModifyDate = DateTime.Now;
                     db.SaveChanges();

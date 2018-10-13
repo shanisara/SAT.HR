@@ -33,6 +33,9 @@ namespace SAT.HR.Data.Repository
                     case "EduName":
                         data = (sortDir == "asc") ? data.OrderBy(x => x.EduName).ToList() : data.OrderByDescending(x => x.EduName).ToList();
                         break;
+                    case "Status":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.EduStatus).ToList() : data.OrderByDescending(x => x.EduStatus).ToList();
+                        break;
                 }
 
                 int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
@@ -45,6 +48,7 @@ namespace SAT.HR.Data.Repository
                     EduCode = s.EduCode,
                     EduName = s.EduName,
                     EduStatus = s.EduStatus,
+                    Status = s.EduStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive
                 }).Skip(start * length).Take(length).ToList();
 
                 EducationResult result = new EducationResult();
@@ -82,6 +86,7 @@ namespace SAT.HR.Data.Repository
                 model.EduCode = data.EduCode;
                 model.EduName = data.EduName;
                 model.EduStatus = data.EduStatus;
+                model.Status = data.EduStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive;
                 return model;
             }
         }
@@ -97,7 +102,7 @@ namespace SAT.HR.Data.Repository
                     model.EduID = data.EduID;
                     model.EduCode = data.EduCode;
                     model.EduName = data.EduName;
-                    model.EduStatus = data.EduStatus;
+                    model.EduStatus = (data.Status == "1") ? true : false;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -123,7 +128,7 @@ namespace SAT.HR.Data.Repository
                     var data = db.tb_Education.Single(x => x.EduID == newdata.EduID);
                     data.EduCode = newdata.EduCode;
                     data.EduName = newdata.EduName;
-                    data.EduStatus = newdata.EduStatus;
+                    data.EduStatus = (newdata.Status == "1") ? true : false;
                     data.ModifyBy = newdata.ModifyBy;
                     data.ModifyDate = DateTime.Now;
                     db.SaveChanges();

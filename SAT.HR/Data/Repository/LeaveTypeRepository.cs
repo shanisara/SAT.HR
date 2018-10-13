@@ -37,6 +37,8 @@ namespace SAT.HR.Data.Repository
                         data = (sortDir == "asc") ? data.OrderBy(x => x.LevEndDate).ToList() : data.OrderByDescending(x => x.LevEndDate).ToList(); break;
                     case "LevMax":
                         data = (sortDir == "asc") ? data.OrderBy(x => x.LevMax).ToList() : data.OrderByDescending(x => x.LevMax).ToList(); break;
+                    case "Status":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.LevStatus).ToList() : data.OrderByDescending(x => x.LevStatus).ToList(); break;
                 }
 
                 int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
@@ -52,6 +54,7 @@ namespace SAT.HR.Data.Repository
                     LevEndDateText = s.LevEndDate.Value.ToString("dd/MM/yyyy"),
                     LevMax = s.LevMax,
                     LevStatus = s.LevStatus,
+                    Status = s.LevStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive
                 }).Skip(start * length).Take(length).ToList();
 
                 LeaveTypeResult result = new LeaveTypeResult();

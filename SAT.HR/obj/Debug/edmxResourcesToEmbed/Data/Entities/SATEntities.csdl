@@ -19,7 +19,6 @@
     <EntitySet Name="tb_DocNumber" EntityType="SAT.HR.tb_DocNumber" />
     <EntitySet Name="tb_Education" EntityType="SAT.HR.tb_Education" />
     <EntitySet Name="tb_Holiday" EntityType="SAT.HR.tb_Holiday" />
-    <EntitySet Name="tb_Insignia" EntityType="SAT.HR.tb_Insignia" />
     <EntitySet Name="tb_LeaveType" EntityType="SAT.HR.tb_LeaveType" />
     <EntitySet Name="tb_Level" EntityType="SAT.HR.tb_Level" />
     <EntitySet Name="tb_Major" EntityType="SAT.HR.tb_Major" />
@@ -87,6 +86,7 @@
       <Parameter Name="RoleID" Mode="In" Type="Int32" />
       <Parameter Name="MenuType" Mode="In" Type="String" />
     </FunctionImport>
+    <EntitySet Name="tb_Insignia" EntityType="SAT.HR.tb_Insignia" />
   </EntityContainer>
   <ComplexType Name="sp_Menu_GetByUser_Result">
     <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -113,10 +113,10 @@
     <Property Type="String" Name="MenuName" Nullable="false" />
     <Property Type="Int32" Name="ParentID" Nullable="true" />
     <Property Type="Int32" Name="MenuID" Nullable="false" />
-    <Property Type="Boolean" Name="R_View" Nullable="false" />
-    <Property Type="Boolean" Name="R_Add" Nullable="false" />
-    <Property Type="Boolean" Name="R_Edit" Nullable="false" />
-    <Property Type="Boolean" Name="R_Delete" Nullable="false" />
+    <Property Type="Boolean" Name="R_View" Nullable="true" />
+    <Property Type="Boolean" Name="R_Add" Nullable="true" />
+    <Property Type="Boolean" Name="R_Edit" Nullable="true" />
+    <Property Type="Boolean" Name="R_Delete" Nullable="true" />
   </ComplexType>
   <EntityType Name="tb_ActionType">
     <Key>
@@ -258,18 +258,6 @@
     <Property Name="HolID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="HolDate" Type="DateTime" Precision="3" />
     <Property Name="HolDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="CreateDate" Type="DateTime" Precision="3" />
-    <Property Name="CreateBy" Type="Int32" />
-    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifyBy" Type="Int32" />
-  </EntityType>
-  <EntityType Name="tb_Insignia">
-    <Key>
-      <PropertyRef Name="InsID" />
-    </Key>
-    <Property Name="InsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="InsFullName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="InsShortName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
     <Property Name="CreateDate" Type="DateTime" Precision="3" />
     <Property Name="CreateBy" Type="Int32" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
@@ -737,4 +725,17 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="tb_Insignia">
+    <Key>
+      <PropertyRef Name="InsID" />
+    </Key>
+    <Property Name="InsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="InsFullName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="InsShortName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="InsStatus" Type="Boolean" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+  </EntityType>
 </Schema>

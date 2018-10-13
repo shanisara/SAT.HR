@@ -26,6 +26,7 @@ namespace SAT.HR.Models
 
         public Nullable<int> ModifyBy { get; set; }
 
+        public string Status { get; set; }
     }
 
 

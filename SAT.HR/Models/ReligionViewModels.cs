@@ -21,6 +21,8 @@ namespace SAT.HR.Models
         public DateTime? ModifyDate { get; set; }
 
         public Nullable<int> ModifyBy { get; set; }
+
+        public string Status { get; set; }
     }
 
     public class ReligionResult

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using SAT.HR.Data.Entities;
 using SAT.HR.Models;
+using SAT.HR.Helpers;
 
 namespace SAT.HR.Data.Repository
 {
@@ -32,6 +33,8 @@ namespace SAT.HR.Data.Repository
                         data = (sortDir == "asc") ? data.OrderBy(x => x.TiShortName).ToList() : data.OrderByDescending(x => x.TiShortName).ToList(); break;
                     case "SexName":
                         data = (sortDir == "asc") ? data.OrderBy(x => x.SexName).ToList() : data.OrderByDescending(x => x.SexName).ToList(); break;
+                    case "Status":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.TiStatus).ToList() : data.OrderByDescending(x => x.TiStatus).ToList(); break;
                 }
 
                 int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
@@ -46,6 +49,7 @@ namespace SAT.HR.Data.Repository
                     TiStatus = s.TiStatus,
                     SexID = s.SexID,
                     SexName = s.SexName,
+                    Status = s.TiStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive
                 }).Skip(start * length).Take(length).ToList();
 
                 TitleResult result = new TitleResult();
@@ -85,6 +89,7 @@ namespace SAT.HR.Data.Repository
                 model.TiShortName = data.TiShortName;
                 model.TiStatus = data.TiStatus;
                 model.SexID = data.SexID;
+                model.Status = data.TiStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive;
                 return model;
             }
         }
@@ -100,11 +105,11 @@ namespace SAT.HR.Data.Repository
                     model.TiID = data.TiID;
                     model.TiFullName = data.TiFullName;
                     model.TiShortName = data.TiShortName;
-                    model.TiStatus = data.TiStatus;
+                    model.TiStatus = (data.Status == "1") ? true : false;
                     model.SexID = data.SexID;
-                    model.CreateBy = data.ModifyBy;
+                    model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
-                    model.ModifyBy = data.ModifyBy;
+                    model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.tb_Title.Add(model);
                     db.SaveChanges();
@@ -127,9 +132,9 @@ namespace SAT.HR.Data.Repository
                     var data = db.tb_Title.Single(x => x.TiID == newdata.TiID);
                     data.TiFullName = newdata.TiFullName;
                     data.TiShortName = newdata.TiShortName;
-                    data.TiStatus = newdata.TiStatus;
+                    data.TiStatus = (newdata.Status == "1") ? true : false;
                     data.SexID = newdata.SexID;
-                    data.ModifyBy = newdata.ModifyBy;
+                    data.ModifyBy = UtilityService.User.UserID;
                     data.ModifyDate = DateTime.Now;
                     db.SaveChanges();
                 }

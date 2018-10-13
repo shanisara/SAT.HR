@@ -33,6 +33,9 @@ namespace SAT.HR.Data.Repository
                     case "PoName":
                         data = (sortDir == "asc") ? data.OrderBy(x => x.PoName).ToList() : data.OrderByDescending(x => x.PoName).ToList();
                         break;
+                    case "Status":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.PoStatus).ToList() : data.OrderByDescending(x => x.PoStatus).ToList();
+                        break;
                 }
 
                 int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
@@ -44,7 +47,8 @@ namespace SAT.HR.Data.Repository
                     PoID = s.PoID,
                     PoCode = s.PoCode,
                     PoName = s.PoName,
-                    PoStatus = s.PoStatus
+                    PoStatus = s.PoStatus,
+                    Status = s.PoStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive
                 }).Skip(start * length).Take(length).ToList();
 
                 PositionResult result = new PositionResult();
@@ -82,6 +86,7 @@ namespace SAT.HR.Data.Repository
                 model.PoCode = data.PoCode;
                 model.PoName = data.PoName;
                 model.PoStatus = data.PoStatus;
+                model.Status = data.PoStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive;
                 return model;
             }
         }
@@ -97,7 +102,7 @@ namespace SAT.HR.Data.Repository
                     model.PoID = data.PoID;
                     model.PoCode = data.PoCode;
                     model.PoName = data.PoName;
-                    model.PoStatus = data.PoStatus;
+                    model.PoStatus = (data.Status == "1") ? true : false;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -123,7 +128,7 @@ namespace SAT.HR.Data.Repository
                     var model = db.tb_Position.Single(x => x.PoID == newdata.PoID);
                     model.PoCode = newdata.PoCode;
                     model.PoName = newdata.PoName;
-                    model.PoStatus = newdata.PoStatus;
+                    model.PoStatus = (newdata.Status == "1") ? true : false;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();

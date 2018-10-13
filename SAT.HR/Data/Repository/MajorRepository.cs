@@ -30,6 +30,9 @@ namespace SAT.HR.Data.Repository
                     case "MajName":
                         data = (sortDir == "asc") ? data.OrderBy(x => x.MajName).ToList() : data.OrderByDescending(x => x.MajName).ToList();
                         break;
+                    case "Status":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.MajStatus).ToList() : data.OrderByDescending(x => x.MajStatus).ToList();
+                        break;
                 }
 
                 int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
@@ -41,6 +44,7 @@ namespace SAT.HR.Data.Repository
                     MajID = s.MajID,
                     MajName = s.MajName,
                     MajStatus = s.MajStatus,
+                    Status = s.MajStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive
                 }).Skip(start * length).Take(length).ToList();
 
                 MajorResult result = new MajorResult();
@@ -76,6 +80,7 @@ namespace SAT.HR.Data.Repository
                 model.MajID = data.MajID;
                 model.MajName = data.MajName;
                 model.MajStatus = data.MajStatus;
+                model.Status = data.MajStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive;
                 return model;
             }
         }
@@ -90,7 +95,7 @@ namespace SAT.HR.Data.Repository
                     tb_Major model = new tb_Major();
                     model.MajID = data.MajID;
                     model.MajName = data.MajName;
-                    model.MajStatus = data.MajStatus;
+                    model.MajStatus = (data.Status == "1") ? true : false;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -115,7 +120,7 @@ namespace SAT.HR.Data.Repository
                 {
                     var data = db.tb_Major.Single(x => x.MajID == newdata.MajID);
                     data.MajName = newdata.MajName;
-                    data.MajStatus = newdata.MajStatus;
+                    data.MajStatus = (newdata.Status == "1") ? true : false;
                     data.ModifyBy = UtilityService.User.UserID;
                     data.ModifyDate = DateTime.Now;
                     db.SaveChanges();

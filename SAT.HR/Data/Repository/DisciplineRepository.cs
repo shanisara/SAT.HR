@@ -8,7 +8,7 @@ using SAT.HR.Helpers;
 
 namespace SAT.HR.Data.Repository
 {
-    public class DisciplineRepository : RepositoryBase
+    public class DisciplineRepository
     {
         public DisciplineResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
         {

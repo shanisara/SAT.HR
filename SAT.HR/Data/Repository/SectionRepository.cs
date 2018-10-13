@@ -36,21 +36,25 @@ namespace SAT.HR.Data.Repository
                     case "SecName":
                         data = (sortDir == "asc") ? data.OrderBy(x => x.SecName).ToList() : data.OrderByDescending(x => x.SecName).ToList();
                         break;
+                    case "Status":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.SecStatus).ToList() : data.OrderByDescending(x => x.SecStatus).ToList();
+                        break;
                 }
 
                 int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
                 int length = pageSize ?? 10;
 
-                var list = data.Select((m, i) => new SectionViewModel()
+                var list = data.Select((s, i) => new SectionViewModel()
                 {
                     RowNumber = i + 1,
-                    SecID = m.SecID,
-                    SecName = m.SecName,
-                    SecStatus = m.SecStatus,
-                    DivID = m.DivID,
-                    DivName = m.DivName,
-                    DepID = m.DepID,
-                    DepName = m.DepName,
+                    SecID = s.SecID,
+                    SecName = s.SecName,
+                    SecStatus = s.SecStatus,
+                    DivID = s.DivID,
+                    DivName = s.DivName,
+                    DepID = s.DepID,
+                    DepName = s.DepName,
+                    Status = s.SecStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive
                 }).Skip(start * length).Take(length).ToList();
 
                 SectionResult result = new SectionResult();
@@ -90,6 +94,7 @@ namespace SAT.HR.Data.Repository
                 model.SecStatus = data.SecStatus;
                 model.DivID = data.DivID;
                 model.DepID = data.DepID;
+                model.Status = data.SecStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive;
                 return model;
             }
         }
@@ -104,7 +109,7 @@ namespace SAT.HR.Data.Repository
                     tb_Section model = new tb_Section();
                     model.SecID = data.SecID;
                     model.SecName = data.SecName;
-                    model.SecStatus = data.SecStatus;
+                    model.SecStatus = (data.Status == "1") ? true : false;
                     model.DivID = data.DivID;
                     model.DepID = data.DepID;
                     model.CreateBy = UtilityService.User.UserID;
@@ -131,7 +136,7 @@ namespace SAT.HR.Data.Repository
                 {
                     var data = db.tb_Section.Single(x => x.SecID == newdata.SecID);
                     data.SecName = newdata.SecName;
-                    data.SecStatus = newdata.SecStatus;
+                    data.SecStatus = (newdata.Status == "1") ? true : false;
                     data.DivID = newdata.DivID;
                     data.DepID = newdata.DepID;
                     data.ModifyBy = newdata.ModifyBy;

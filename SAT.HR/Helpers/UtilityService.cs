@@ -106,4 +106,11 @@ namespace SAT.HR.Helpers
             }
         }
     }
- }
+
+    public class EnumType
+    {
+        public static string StatusNameActive = "ใช้งาน";
+        public static string StatusNameNotActive = "ไม่ใช้งาน";
+
+    }
+}

@@ -17,6 +17,7 @@ namespace SAT.HR.Data.Entities
         public int InsID { get; set; }
         public string InsFullName { get; set; }
         public string InsShortName { get; set; }
+        public Nullable<bool> InsStatus { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }

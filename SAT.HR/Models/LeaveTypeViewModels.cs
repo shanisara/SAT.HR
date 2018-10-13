@@ -33,6 +33,8 @@ namespace SAT.HR.Models
         public string LevStartDateText { get; set; }
 
         public string LevEndDateText { get; set; }
+
+        public string Status { get; set; }
     }
 
     public class LeaveTypeResult

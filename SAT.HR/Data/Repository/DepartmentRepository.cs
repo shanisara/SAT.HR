@@ -33,6 +33,9 @@ namespace SAT.HR.Data.Repository
                     case "DepName":
                         data = (sortDir == "asc") ? data.OrderBy(x => x.DepName).ToList() : data.OrderByDescending(x => x.DepName).ToList();
                         break;
+                    case "Status":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.DepStatus).ToList() : data.OrderByDescending(x => x.DepStatus).ToList();
+                        break;
                 }
 
                 int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
@@ -45,7 +48,8 @@ namespace SAT.HR.Data.Repository
                     DepName = s.DepName,
                     DivID = s.DivID,
                     DivName = s.DivName,
-                    DepStatus = (bool)s.DepStatus
+                    DepStatus = (bool)s.DepStatus,
+                    Status = s.DepStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive
                 }).Skip(start * length).Take(length).ToList();
 
 
@@ -82,6 +86,7 @@ namespace SAT.HR.Data.Repository
                 model.DepID = data.DepID;
                 model.DepName = data.DepName;
                 model.DepStatus = (bool)data.DepStatus;
+                model.Status = data.DepStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive;
                 return model;
             }
         }
@@ -96,7 +101,7 @@ namespace SAT.HR.Data.Repository
                     tb_Department model = new tb_Department();
                     model.DepID = data.DepID;
                     model.DepName = data.DepName;
-                    model.DepStatus = data.DepStatus;
+                    model.DepStatus = (data.Status == "1") ? true : false;
                     model.DivID = (int)data.DivID;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
@@ -122,7 +127,7 @@ namespace SAT.HR.Data.Repository
                 {
                     var data = db.tb_Department.Single(x => x.DepID == newdata.DivID);
                     data.DepName = newdata.DepName;
-                    data.DepStatus = newdata.DepStatus;
+                    data.DepStatus = (newdata.Status == "1") ? true : false;
                     data.DivID = (int)newdata.DivID;
                     data.ModifyBy = UtilityService.User.UserID;
                     data.ModifyDate = DateTime.Now;

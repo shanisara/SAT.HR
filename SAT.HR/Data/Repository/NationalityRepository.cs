@@ -30,6 +30,9 @@ namespace SAT.HR.Data.Repository
                     case "NatName":
                         data = (sortDir == "asc") ? data.OrderBy(x => x.NatName).ToList() : data.OrderByDescending(x => x.NatName).ToList();
                         break;
+                    case "Status":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.NatStatus).ToList() : data.OrderByDescending(x => x.NatStatus).ToList();
+                        break;
                 }
 
                 int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
@@ -41,6 +44,7 @@ namespace SAT.HR.Data.Repository
                     NatID = s.NatID,
                     NatName = s.NatName,
                     NatStatus = s.NatStatus,
+                    Status = s.NatStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive
                 }).Skip(start * length).Take(length).ToList();
 
                 NationalityResult result = new NationalityResult();
@@ -76,6 +80,7 @@ namespace SAT.HR.Data.Repository
                 model.NatID = data.NatID;
                 model.NatName = data.NatName;
                 model.NatStatus = data.NatStatus;
+                model.Status = data.NatStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive;
                 return model;
             }
         }
@@ -90,7 +95,7 @@ namespace SAT.HR.Data.Repository
                     tb_Nationality model = new tb_Nationality();
                     model.NatID = data.NatID;
                     model.NatName = data.NatName;
-                    model.NatStatus = data.NatStatus;
+                    model.NatStatus = (data.Status == "1") ? true : false;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -115,7 +120,7 @@ namespace SAT.HR.Data.Repository
                 {
                     var data = db.tb_Nationality.Single(x => x.NatID == newdata.NatID);
                     data.NatName = newdata.NatName;
-                    data.NatStatus = newdata.NatStatus;
+                    data.NatStatus = (newdata.Status == "1") ? true : false;
                     data.ModifyBy = UtilityService.User.UserID;
                     data.ModifyDate = DateTime.Now;
                     db.SaveChanges();

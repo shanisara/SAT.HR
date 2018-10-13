@@ -56,7 +56,7 @@ namespace SAT.HR.Data.Repository
                     model.RoleID = data.RoleID;
                     model.RoleName = data.RoleName;
                     data.RoleDesc = data.RoleDesc;
-                    model.RoleStatus = data.RoleStatus;
+                    model.RoleStatus = (data.Status == "1") ? true : false;
                     model.CreateBy = data.ModifyBy;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = data.ModifyBy;
@@ -82,7 +82,7 @@ namespace SAT.HR.Data.Repository
                     var data = db.tb_Role.Single(x => x.RoleID == newdata.RoleID);
                     data.RoleName = newdata.RoleName;
                     data.RoleDesc = newdata.RoleDesc;
-                    data.RoleStatus = newdata.RoleStatus;
+                    data.RoleStatus = (newdata.Status == "1") ? true : false;
                     data.ModifyBy = newdata.ModifyBy;
                     data.ModifyDate = DateTime.Now;
                     db.SaveChanges();
@@ -218,22 +218,6 @@ namespace SAT.HR.Data.Repository
 
         #region  Menu Role
 
-        //public RoleViewModel RoleMenu(int roleid)
-        //{
-        //    using (SATEntities db = new SATEntities())
-        //    {
-        //        RoleViewModel model = new RoleViewModel();
-        //        var data = db.vw_RoleMenu.Where(x => x.RoleID == roleid).FirstOrDefault();
-        //        model.RoleID = data.RoleID;
-        //        model.RoleName = data.RoleName;
-        //        model.RoleDesc = data.RoleDesc;
-        //        //model.ListRoleMenu = MenuByRole(roleid);
-        //        //model.ListRoleMenuTab = MenuTabByRole(roleid);
-        //        //model.ListRoleMenuReport = MenuReportByRole(roleid);
-        //        return model;
-        //    }
-        //}
-
         public ResponseData SaveRoleMenu(List<RoleMenuViewModel> model)
         {
             ResponseData result = new Models.ResponseData();
@@ -260,8 +244,6 @@ namespace SAT.HR.Data.Repository
                                 }
                                 else
                                 {
-                                    #region
-
                                     tb_RoleMenu obj = new tb_RoleMenu();
                                     obj.RoleID = item.RoleID;
                                     obj.MenuID = item.MenuID;
@@ -275,8 +257,6 @@ namespace SAT.HR.Data.Repository
                                     obj.ModifyDate = DateTime.Now;
                                     db.tb_RoleMenu.Add(obj);
                                     db.SaveChanges();
-
-                                    #endregion
                                 }
                             }
                         }

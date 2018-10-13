@@ -151,6 +151,7 @@
           <Property Name="InsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="InsFullName" Type="nvarchar" MaxLength="200" />
           <Property Name="InsShortName" Type="nchar" MaxLength="10" />
+          <Property Name="InsStatus" Type="bit" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="int" />
           <Property Name="ModifyDate" Type="datetime" />
@@ -825,7 +826,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <EntitySet Name="tb_DocNumber" EntityType="SAT.HR.tb_DocNumber" />
           <EntitySet Name="tb_Education" EntityType="SAT.HR.tb_Education" />
           <EntitySet Name="tb_Holiday" EntityType="SAT.HR.tb_Holiday" />
-          <EntitySet Name="tb_Insignia" EntityType="SAT.HR.tb_Insignia" />
           <EntitySet Name="tb_LeaveType" EntityType="SAT.HR.tb_LeaveType" />
           <EntitySet Name="tb_Level" EntityType="SAT.HR.tb_Level" />
           <EntitySet Name="tb_Major" EntityType="SAT.HR.tb_Major" />
@@ -893,6 +893,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
             <Parameter Name="RoleID" Mode="In" Type="Int32" />
             <Parameter Name="MenuType" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="tb_Insignia" EntityType="SAT.HR.tb_Insignia" />
           </EntityContainer>
         <ComplexType Name="sp_Menu_GetByUser_Result">
           <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -919,10 +920,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <Property Type="String" Name="MenuName" Nullable="false" />
           <Property Type="Int32" Name="ParentID" Nullable="true" />
           <Property Type="Int32" Name="MenuID" Nullable="false" />
-          <Property Type="Boolean" Name="R_View" Nullable="false" />
-          <Property Type="Boolean" Name="R_Add" Nullable="false" />
-          <Property Type="Boolean" Name="R_Edit" Nullable="false" />
-          <Property Type="Boolean" Name="R_Delete" Nullable="false" />
+          <Property Type="Boolean" Name="R_View" Nullable="true" />
+          <Property Type="Boolean" Name="R_Add" Nullable="true" />
+          <Property Type="Boolean" Name="R_Edit" Nullable="true" />
+          <Property Type="Boolean" Name="R_Delete" Nullable="true" />
         </ComplexType>
         <EntityType Name="tb_ActionType">
           <Key>
@@ -1064,18 +1065,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <Property Name="HolID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="HolDate" Type="DateTime" Precision="3" />
           <Property Name="HolDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="Int32" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="Int32" />
-        </EntityType>
-        <EntityType Name="tb_Insignia">
-          <Key>
-            <PropertyRef Name="InsID" />
-          </Key>
-          <Property Name="InsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="InsFullName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="InsShortName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="CreateBy" Type="Int32" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
@@ -1543,6 +1532,19 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="tb_Insignia">
+          <Key>
+            <PropertyRef Name="InsID" />
+          </Key>
+          <Property Name="InsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InsFullName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="InsShortName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="InsStatus" Type="Boolean" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1724,19 +1726,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
                 <ScalarProperty Name="HolDescription" ColumnName="HolDescription" />
                 <ScalarProperty Name="HolDate" ColumnName="HolDate" />
                 <ScalarProperty Name="HolID" ColumnName="HolID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tb_Insignia">
-            <EntityTypeMapping TypeName="SAT.HR.tb_Insignia">
-              <MappingFragment StoreEntitySet="tb_Insignia">
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="InsShortName" ColumnName="InsShortName" />
-                <ScalarProperty Name="InsFullName" ColumnName="InsFullName" />
-                <ScalarProperty Name="InsID" ColumnName="InsID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2097,6 +2086,20 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="tb_Insignia">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Insignia">
+              <MappingFragment StoreEntitySet="tb_Insignia">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="InsStatus" ColumnName="InsStatus" />
+                <ScalarProperty Name="InsShortName" ColumnName="InsShortName" />
+                <ScalarProperty Name="InsFullName" ColumnName="InsFullName" />
+                <ScalarProperty Name="InsID" ColumnName="InsID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

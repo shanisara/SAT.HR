@@ -14,6 +14,8 @@ namespace SAT.HR.Models
 
         public string InsShortName { get; set; }
 
+        public bool? InsStatus { get; set; }
+
         public DateTime? CreateDate { get; set; }
 
         public Nullable<int> CreateBy { get; set; }
@@ -21,6 +23,8 @@ namespace SAT.HR.Models
         public DateTime? ModifyDate { get; set; }
 
         public Nullable<int> ModifyBy { get; set; }
+
+        public string Status { get; set; }
     }
 
     public class InsigniaResult

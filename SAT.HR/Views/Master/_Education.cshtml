@@ -3,8 +3,8 @@
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formDetail" }))
 {
     @Html.AntiForgeryToken()
-
     @Html.HiddenFor(m => m.EduID)
+    @Html.Hidden("Status")
 
     <div class="col-md-12">
         <div class="row">
@@ -32,13 +32,29 @@
             <div class="col-sm-8">
                 <div class="form-check">
                     <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" value="" checked="">
-                        <span class="form-check-sign">
-                            <span class="check"></span>
-                        </span>
+                        <input class="form-check-input checkbox" type="checkbox">
+                        <span class="form-check-sign" style="top:0px"><span class="check"></span></span>
                     </label>
                 </div>
             </div>
         </div>
     </div>
 }
+<script>
+    $(document).ready(function () {
+
+        if ('@Model.EduStatus' == 'True') {
+            $(".checkbox").prop("checked", true);
+        }
+
+        $(".checkbox").click(function () {
+            var checked = $(this).is(':checked');
+            if (checked) {
+                $('#Status').val('1');
+            }
+            else {
+                $('#Status').val('0');
+            }
+        });
+    });
+</script>

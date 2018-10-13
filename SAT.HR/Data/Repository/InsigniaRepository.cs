@@ -41,6 +41,7 @@ namespace SAT.HR.Data.Repository
                     InsID = s.InsID,
                     InsFullName = s.InsFullName,
                     InsShortName = s.InsShortName,
+                    Status = s.InsStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive
                 }).Skip(start * length).Take(length).ToList();
 
 
@@ -63,6 +64,7 @@ namespace SAT.HR.Data.Repository
                     InsID = s.InsID,
                     InsFullName = s.InsFullName,
                     InsShortName = s.InsShortName,
+                    InsStatus = s.InsStatus
                 }).OrderBy(x => x.InsFullName).ToList();
                 return list;
             }
@@ -77,6 +79,8 @@ namespace SAT.HR.Data.Repository
                 model.InsID = data.InsID;
                 model.InsFullName = data.InsFullName;
                 model.InsShortName = data.InsShortName;
+                model.InsStatus = data.InsStatus;
+                model.Status = data.InsStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive;
                 return model;
             }
         }
@@ -92,6 +96,7 @@ namespace SAT.HR.Data.Repository
                     model.InsID = data.InsID;
                     model.InsFullName = data.InsFullName;
                     model.InsShortName = data.InsShortName;
+                    model.InsStatus = (data.Status == "1") ? true : false;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -117,6 +122,7 @@ namespace SAT.HR.Data.Repository
                     var data = db.tb_Insignia.Single(x => x.InsID == newdata.InsID);
                     data.InsFullName = newdata.InsFullName;
                     data.InsShortName = newdata.InsShortName;
+                    data.InsStatus = (newdata.Status == "1") ? true : false;
                     data.ModifyBy = UtilityService.User.UserID;
                     data.ModifyDate = DateTime.Now;
                     db.SaveChanges();
