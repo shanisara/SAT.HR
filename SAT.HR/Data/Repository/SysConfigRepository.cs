@@ -59,7 +59,6 @@ namespace SAT.HR.Data.Repository
                     {
                         var data = db.tb_SysConfig.Single(x => x.KeyName == item.KeyName);
                         data.KeyValue = item.KeyValue;
-                        data.KeyDesc = item.KeyDesc;
                         data.ModifyBy = UtilityService.User.UserID;
                         data.ModifyDate = DateTime.Now;
                         db.SaveChanges();
