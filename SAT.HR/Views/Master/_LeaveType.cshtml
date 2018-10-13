@@ -1,5 +1,11 @@
 ﻿@model SAT.HR.Models.LeaveTypeViewModel
 
+<style>
+    .datepicker {
+        z-index: 99999 !important;
+    }
+</style>
+
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formDetail" }))
 {
     @Html.AntiForgeryToken()
@@ -29,8 +35,8 @@
             @Html.Label("วันที่เริ่ม", null, new { @class = "col-sm-3 col-form-label" })
             <div class="col-sm-9">
                 <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating">ใส่ข้อมูลวันที่เริ่ม</label>
-                    @Html.TextBoxFor(m => m.LevStartDate, new { @class = "form-control datetimepicker", required = "true" })
+                    @*<label class="bmd-label-floating">ใส่ข้อมูลวันที่เริ่ม</label>*@
+                    @Html.TextBoxFor(m => m.LevStartDateText, new { @class = "form-control datepicker", required = "true" })
                 </div>
             </div>
         </div>
@@ -38,8 +44,8 @@
             @Html.Label("วันที่สิ้นสุด", null, new { @class = "col-sm-3 col-form-label" })
             <div class="col-sm-9">
                 <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating">ใส่ข้อมูลวันที่สิ้นสุด</label>
-                    @Html.TextBoxFor(m => m.LevEndDate, new { @class = "form-control datetimepicker", required = "true" })                    
+                    @*<label class="bmd-label-floating">ใส่ข้อมูลวันที่สิ้นสุด</label>*@
+                    @Html.TextBoxFor(m => m.LevEndDateText, new { @class = "form-control datepicker", required = "true" })             
                 </div>
             </div>
         </div>
@@ -53,6 +59,14 @@
             </div>
         </div>
         <div class="row">
+            @Html.Label("เพศ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    @Html.DropDownListFor(n => n.SexID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Sex, "Value", "Text"), "  -- กรุณาเลือก / Please choose --", new { @class = "form-control", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top:15px;">
             @Html.Label("สถานะ", null, new { @class = "col-sm-3 col-form-label label-checkbox" })
             <div class="col-sm-9">
                 <div class="form-check">
@@ -67,6 +81,21 @@
 }
 <script>
     $(document).ready(function () {
+
+        $('.datepicker').datetimepicker({
+            format: 'DD/MM/YYYY',
+            icons: {
+                time: "fa fa-clock-o",
+                date: "fa fa-calendar",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            }
+        });
 
         if ('@Model.LevStatus' == 'True') {
             $(".checkbox").prop("checked", true);

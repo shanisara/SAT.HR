@@ -54,7 +54,8 @@ namespace SAT.HR.Data.Repository
                     LevEndDateText = s.LevEndDate.Value.ToString("dd/MM/yyyy"),
                     LevMax = s.LevMax,
                     LevStatus = s.LevStatus,
-                    Status = s.LevStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive
+                    Status = s.LevStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive,
+                    SexID = s.SexID
                 }).Skip(start * length).Take(length).ToList();
 
                 LeaveTypeResult result = new LeaveTypeResult();
@@ -80,6 +81,7 @@ namespace SAT.HR.Data.Repository
                     LevEndDateText = s.LevEndDate.Value.ToString("dd/MM/yyyy"),
                     LevMax = s.LevMax,
                     LevStatus = s.LevStatus,
+                    SexID = s.SexID,
                 }).OrderBy(x => x.LevName).ToList();
                 return list;
             }
@@ -97,6 +99,10 @@ namespace SAT.HR.Data.Repository
                 model.LevStartDate = data.LevStartDate;
                 model.LevEndDate = data.LevEndDate;
                 model.LevMax = data.LevMax;
+                model.SexID = data.SexID;
+                model.LevStartDateText = data.LevStartDate.Value.ToString("dd/MM/yyyy");
+                model.LevEndDateText = data.LevEndDate.Value.ToString("dd/MM/yyyy");
+                model.LevStatus = data.LevStatus;
                 return model;
             }
         }
@@ -112,9 +118,10 @@ namespace SAT.HR.Data.Repository
                     model.LevID = data.LevID;
                     model.LevYear = data.LevYear;
                     model.LevName = data.LevName;
-                    model.LevStartDate = data.LevStartDate;
-                    model.LevEndDate = data.LevEndDate;
+                    model.LevStartDate = Convert.ToDateTime(data.LevStartDateText);
+                    model.LevEndDate = Convert.ToDateTime(data.LevEndDateText);
                     model.LevMax = data.LevMax;
+                    model.SexID = data.SexID;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -140,9 +147,10 @@ namespace SAT.HR.Data.Repository
                     var data = db.tb_LeaveType.Single(x => x.LevID == newdata.LevID);
                     data.LevYear = newdata.LevYear;
                     data.LevName = newdata.LevName;
-                    data.LevStartDate = newdata.LevStartDate;
-                    data.LevEndDate = newdata.LevEndDate;
+                    data.LevStartDate = Convert.ToDateTime(newdata.LevStartDateText);
+                    data.LevEndDate = Convert.ToDateTime(newdata.LevEndDateText);
                     data.LevMax = newdata.LevMax;
+                    data.SexID = newdata.SexID;
                     data.ModifyBy = UtilityService.User.UserID;
                     data.ModifyDate = DateTime.Now;
                     db.SaveChanges();

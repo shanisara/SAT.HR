@@ -20,6 +20,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<System.DateTime> LevEndDate { get; set; }
         public Nullable<decimal> LevMax { get; set; }
         public string LevName { get; set; }
+        public Nullable<int> SexID { get; set; }
         public Nullable<bool> LevStatus { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }

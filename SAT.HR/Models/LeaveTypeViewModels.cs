@@ -20,6 +20,8 @@ namespace SAT.HR.Models
 
         public decimal? LevMax { get; set; }
 
+        public int? SexID { get; set; }
+
         public bool? LevStatus { get; set; }
 
         public DateTime? CreateDate { get; set; }
