@@ -14,17 +14,9 @@
 <body>
 
     <div class="wrapper ">
-        <!-- Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger" / Tip 2: you can also add an image using data-image tag -->
-        <div class="sidebar" data-color="rose" data-background-color="black" data-image="@Url.Content("~/Content/assets/img/sidebar-1.jpg")">
-            <div class="logo">
-                <a href="#" class="simple-text logo-mini"> HR </a>
-                <a href="#" class="simple-text logo-normal"> ระบบบริหารงานบุคคล </a>
-            </div>
-            <div class="sidebar-wrapper">
-                <!-- Menu -->
-                @Html.Action("Index", "Menu")
-            </div>
-        </div>
+        <!-- Menu -->
+        @Html.Action("Index", "Menu")
+
         <div class="main-panel">
             <!-- Top Navbar -->
             @Html.Partial("_TopNavbar")
@@ -50,10 +42,21 @@
 
             md.initFormExtendedDatetimepickers();
 
+            //if ($('.slider').length != 0) {
+            //    md.initSliders();
+            //}
 
-            if ($('.slider').length != 0) {
-                md.initSliders();
-            }
+            $("#minimizeSidebar").click(function () {
+                $body = $('body');
+                if ($body.hasClass('sidebar-mini')) {
+                    $body.removeClass('sidebar-mini');
+                }
+                else {
+                    $body.addClass('sidebar-mini');
+                }
+            });
+
+
         });
     </script>
 
