@@ -14,7 +14,7 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.tb_ActionType.ToList();
+                var data = db.tb_Action_Type.ToList();
 
                 int recordsTotal = data.Count();
 
@@ -58,7 +58,7 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.tb_ActionType.Where(x => x.ActID == id).FirstOrDefault();
+                var data = db.tb_Action_Type.Where(x => x.ActID == id).FirstOrDefault();
                 ActionTypeViewModel model = new Models.ActionTypeViewModel();
                 model.ActID = data.ActID;
                 model.ActName = data.ActName;
@@ -72,7 +72,7 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var list = db.tb_ActionType.Select(s => new ActionTypeViewModel()
+                var list = db.tb_Action_Type.Select(s => new ActionTypeViewModel()
                 {
                     ActID = s.ActID,
                     ActName = s.ActName
@@ -88,7 +88,7 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    tb_ActionType model = new tb_ActionType();
+                    tb_Action_Type model = new tb_Action_Type();
                     model.ActID = data.ActID;
                     model.ActName = data.ActName;
                     model.ActType = data.ActType;
@@ -97,7 +97,7 @@ namespace SAT.HR.Data.Repository
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
-                    db.tb_ActionType.Add(model);
+                    db.tb_Action_Type.Add(model);
                     db.SaveChanges();
                 }
                 catch (Exception)
@@ -115,7 +115,7 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    var data = db.tb_ActionType.Single(x => x.ActID == newdata.ActID);
+                    var data = db.tb_Action_Type.Single(x => x.ActID == newdata.ActID);
                     data.ActName = newdata.ActName;
                     data.ActType = newdata.ActType;
                     data.ActPos = newdata.ActPos;
@@ -138,10 +138,10 @@ namespace SAT.HR.Data.Repository
             {
                 try
                 {
-                    var obj = db.tb_ActionType.SingleOrDefault(c => c.ActID == id);
+                    var obj = db.tb_Action_Type.SingleOrDefault(c => c.ActID == id);
                     if (obj != null)
                     {
-                        db.tb_ActionType.Remove(obj);
+                        db.tb_Action_Type.Remove(obj);
                         db.SaveChanges();
                     }
                 }

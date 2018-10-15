@@ -14,7 +14,7 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.tb_LeaveType.ToList();
+                var data = db.tb_Leave_Type.ToList();
 
                 int recordsTotal = data.Count();
 
@@ -72,7 +72,7 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var list = db.tb_LeaveType.Select(s => new LeaveTypeViewModel()
+                var list = db.tb_Leave_Type.Select(s => new LeaveTypeViewModel()
                 {
                     LevID = s.LevID,
                     LevYear = s.LevYear,
@@ -91,7 +91,7 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.tb_LeaveType.Where(x => x.LevID == id).FirstOrDefault();
+                var data = db.tb_Leave_Type.Where(x => x.LevID == id).FirstOrDefault();
                 LeaveTypeViewModel model = new Models.LeaveTypeViewModel();
                 model.LevID = data.LevID;
                 model.LevYear = data.LevYear;
@@ -114,7 +114,7 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    tb_LeaveType model = new tb_LeaveType();
+                    tb_Leave_Type model = new tb_Leave_Type();
                     model.LevID = data.LevID;
                     model.LevYear = data.LevYear;
                     model.LevName = data.LevName;
@@ -126,7 +126,7 @@ namespace SAT.HR.Data.Repository
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
-                    db.tb_LeaveType.Add(model);
+                    db.tb_Leave_Type.Add(model);
                     db.SaveChanges();
                 }
                 catch (Exception)
@@ -144,7 +144,7 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    var data = db.tb_LeaveType.Single(x => x.LevID == newdata.LevID);
+                    var data = db.tb_Leave_Type.Single(x => x.LevID == newdata.LevID);
                     data.LevYear = newdata.LevYear;
                     data.LevName = newdata.LevName;
                     data.LevStartDate = Convert.ToDateTime(newdata.LevStartDateText);
@@ -170,10 +170,10 @@ namespace SAT.HR.Data.Repository
             {
                 try
                 {
-                    var obj = db.tb_LeaveType.SingleOrDefault(c => c.LevID == id);
+                    var obj = db.tb_Leave_Type.SingleOrDefault(c => c.LevID == id);
                     if (obj != null)
                     {
-                        db.tb_LeaveType.Remove(obj);
+                        db.tb_Leave_Type.Remove(obj);
                         db.SaveChanges();
                     }
                 }

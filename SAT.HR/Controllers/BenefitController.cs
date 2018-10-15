@@ -31,7 +31,7 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region  2. ฝ่ายทุน
+        #region  2. กองทุน
 
         public ActionResult ProvidentFund()
         {
@@ -69,18 +69,18 @@ namespace SAT.HR.Controllers
 
         #region  6. เงินช่วยเหลือบุตร
 
-        public ActionResult ChildcareGrant()
+        public ActionResult ChildFund()
         {
-            return PartialView("_ChildcareGrant");
+            return PartialView("_ChildFund");
         }
 
         #endregion
 
         #region  7. เงินช่วยเหลือการศึกษาบุตร
 
-        public ActionResult EducationalGrant()
+        public ActionResult ChildEducation()
         {
-            return PartialView("_EducationalGrant");
+            return PartialView("_ChildEducation");
         }
 
         #endregion
@@ -96,18 +96,18 @@ namespace SAT.HR.Controllers
 
         #region  9. เงินทดแทนกรณีเสียชีวิต
 
-        public ActionResult CompensationDeath()
+        public ActionResult DeathReplacement()
         {
-            return PartialView("_OtherWelfare");
+            return PartialView("_DeathReplacement");
         }
 
         #endregion
 
         #region  10.เงินช่วยเหลือพิเศษกรณีเสียชีวิต
 
-        public ActionResult SpecialGrantDeath()
+        public ActionResult DeathSubsidy()
         {
-            return PartialView("_SpecialGrantDeath");
+            return PartialView("_DeathSubsidy");
         }
 
         #endregion
@@ -120,6 +120,7 @@ namespace SAT.HR.Controllers
         }
 
         #endregion
+
 
     }
 }

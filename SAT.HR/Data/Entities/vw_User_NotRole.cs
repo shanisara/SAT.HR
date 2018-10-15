@@ -12,7 +12,7 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class vw_UserNotInUserRole
+    public partial class vw_User_NotRole
     {
         public int UserID { get; set; }
         public string UserName { get; set; }

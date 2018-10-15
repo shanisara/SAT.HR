@@ -12,14 +12,16 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_CapabilityDetail
+    public partial class tb_Leave_Type
     {
-        public int CapDID { get; set; }
-        public string CapDName { get; set; }
-        public Nullable<int> CapID { get; set; }
-        public string CapDDesc { get; set; }
-        public Nullable<int> Score1 { get; set; }
-        public Nullable<int> Score2 { get; set; }
+        public int LevID { get; set; }
+        public int LevYear { get; set; }
+        public Nullable<System.DateTime> LevStartDate { get; set; }
+        public Nullable<System.DateTime> LevEndDate { get; set; }
+        public Nullable<decimal> LevMax { get; set; }
+        public string LevName { get; set; }
+        public Nullable<int> SexID { get; set; }
+        public Nullable<bool> LevStatus { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }

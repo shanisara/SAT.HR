@@ -12,7 +12,7 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_PositionType
+    public partial class tb_Position_Type
     {
         public int PoTID { get; set; }
         public string PoTName { get; set; }

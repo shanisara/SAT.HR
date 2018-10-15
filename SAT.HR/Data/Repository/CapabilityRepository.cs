@@ -101,7 +101,7 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var list = db.tb_CapabilityType.Select(s => new CapabilityTypeViewModel()
+                var list = db.tb_Capability_Type.Select(s => new CapabilityTypeViewModel()
                 {
                     CapTID = s.CapTID,
                     CapTName = s.CapTName,
@@ -114,7 +114,7 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var list = db.tb_CapabilityGroup.Select(s => new CapabilityGroupViewModel()
+                var list = db.tb_Capability_Group.Select(s => new CapabilityGroupViewModel()
                 {
                     CapGID = s.CapGID,
                     CapGName = s.CapGName,

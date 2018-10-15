@@ -49,5 +49,10 @@ namespace SAT.HR.Models
         public List<EmployeeViewModel> data { get; set; }
     }
 
-
+    public class FamilyTypeViewModel
+    {
+        public int FamTID { get; set; }
+        public string FamTName { get; set; }
+    }
+    
 }

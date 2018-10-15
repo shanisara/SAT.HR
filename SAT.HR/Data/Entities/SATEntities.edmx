@@ -5,7 +5,7 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="SAT.HR.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="tb_ActionType">
+        <EntityType Name="tb_Action_Type">
           <Key>
             <PropertyRef Name="ActID" />
           </Key>
@@ -18,7 +18,7 @@
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
         </EntityType>
-        <EntityType Name="tb_BenefitType">
+        <EntityType Name="tb_Benefit_Type">
           <Key>
             <PropertyRef Name="BenTID" />
           </Key>
@@ -40,7 +40,7 @@
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
         </EntityType>
-        <EntityType Name="tb_CapabilityDetail">
+        <EntityType Name="tb_Capability_Detail">
           <Key>
             <PropertyRef Name="CapDID" />
           </Key>
@@ -55,7 +55,7 @@
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
         </EntityType>
-        <EntityType Name="tb_CapabilityGroup">
+        <EntityType Name="tb_Capability_Group">
           <Key>
             <PropertyRef Name="CapGID" />
           </Key>
@@ -63,7 +63,7 @@
           <Property Name="CapGName" Type="nvarchar" MaxLength="200" />
           <Property Name="TableName" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <EntityType Name="tb_CapabilityType">
+        <EntityType Name="tb_Capability_Type">
           <Key>
             <PropertyRef Name="CapTID" />
           </Key>
@@ -159,6 +159,19 @@
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
         </EntityType>
+        <EntityType Name="tb_Family_Type">
+          <Key>
+            <PropertyRef Name="FamTID" />
+          </Key>
+          <Property Name="FamTID" Type="int" Nullable="false" />
+          <Property Name="FamTName" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.tb_Fund_Rate' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="tb_Fund_Rate">
+          <Property Name="FunRID" Type="int" />
+          <Property Name="FunRName" Type="nvarchar" MaxLength="50" />
+        </EntityType>-->
         <EntityType Name="tb_Holiday">
           <Key>
             <PropertyRef Name="HolID" />
@@ -184,7 +197,7 @@
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
         </EntityType>
-        <EntityType Name="tb_LeaveType">
+        <EntityType Name="tb_Leave_Type">
           <Key>
             <PropertyRef Name="LevID" />
           </Key>
@@ -232,6 +245,22 @@
           <Property Name="ParentID" Type="int" />
           <Property Name="MenuType" Type="nvarchar" MaxLength="10" />
         </EntityType>
+        <EntityType Name="tb_Menu_Role">
+          <Key>
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="MenuID" />
+          </Key>
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="MenuID" Type="int" Nullable="false" />
+          <Property Name="R_View" Type="bit" />
+          <Property Name="R_Add" Type="bit" />
+          <Property Name="R_Edit" Type="bit" />
+          <Property Name="R_Delete" Type="bit" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="int" />
+        </EntityType>
         <EntityType Name="tb_Nationality">
           <Key>
             <PropertyRef Name="NatID" />
@@ -257,7 +286,7 @@
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
         </EntityType>
-        <EntityType Name="tb_PositionType">
+        <EntityType Name="tb_Position_Type">
           <Key>
             <PropertyRef Name="PoTID" />
           </Key>
@@ -284,34 +313,6 @@
           <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
           <Property Name="RoleDesc" Type="nvarchar" MaxLength="200" />
           <Property Name="RoleStatus" Type="bit" />
-          <Property Name="CreateDate" Type="datetime" />
-          <Property Name="CreateBy" Type="int" />
-          <Property Name="ModifyDate" Type="datetime" />
-          <Property Name="ModifyBy" Type="int" />
-        </EntityType>
-        <EntityType Name="tb_RoleMenu">
-          <Key>
-            <PropertyRef Name="RoleID" />
-            <PropertyRef Name="MenuID" />
-          </Key>
-          <Property Name="RoleID" Type="int" Nullable="false" />
-          <Property Name="MenuID" Type="int" Nullable="false" />
-          <Property Name="R_View" Type="bit" />
-          <Property Name="R_Add" Type="bit" />
-          <Property Name="R_Edit" Type="bit" />
-          <Property Name="R_Delete" Type="bit" />
-          <Property Name="CreateDate" Type="datetime" />
-          <Property Name="CreateBy" Type="int" />
-          <Property Name="ModifyDate" Type="datetime" />
-          <Property Name="ModifyBy" Type="int" />
-        </EntityType>
-        <EntityType Name="tb_RoleUser">
-          <Key>
-            <PropertyRef Name="RoleID" />
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="RoleID" Type="int" Nullable="false" />
-          <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="int" />
           <Property Name="ModifyDate" Type="datetime" />
@@ -404,7 +405,26 @@
           <Property Name="Avatar" Type="nvarchar" MaxLength="200" />
           <Property Name="IsActive" Type="bit" />
         </EntityType>
-        <EntityType Name="tb_UserType">
+        <EntityType Name="tb_User_Role">
+          <Key>
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="int" />
+        </EntityType>
+        <EntityType Name="tb_User_Status">
+          <Key>
+            <PropertyRef Name="UserSID" />
+          </Key>
+          <Property Name="UserSID" Type="int" Nullable="false" />
+          <Property Name="UserSName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tb_User_Type">
           <Key>
             <PropertyRef Name="UserTID" />
           </Key>
@@ -442,8 +462,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Department' does not have a pri
           <Property Name="DepStatus" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenu' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="vw_RoleMenu">
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Menu_Role' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_Menu_Role">
           <Key>
             <PropertyRef Name="RoleID" />
             <PropertyRef Name="MenuID" />
@@ -459,35 +479,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleMenu' does not have a prima
           <Property Name="R_Add" Type="bit" />
           <Property Name="R_Edit" Type="bit" />
           <Property Name="R_Delete" Type="bit" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_RoleUser' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="vw_RoleUser">
-          <Key>
-            <PropertyRef Name="RoleID" />
-          </Key>
-          <Property Name="RoleID" Type="int" Nullable="false" />
-          <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
-          <Property Name="RoleDesc" Type="nvarchar" MaxLength="200" />
-          <Property Name="UserID" Type="int" />
-          <Property Name="UserName" Type="nchar" MaxLength="10" />
-          <Property Name="Password" Type="nchar" MaxLength="10" />
-          <Property Name="FirstName" Type="nvarchar" MaxLength="200" />
-          <Property Name="LastName" Type="nvarchar" MaxLength="200" />
-          <Property Name="UserTID" Type="int" />
-          <Property Name="UserTName" Type="nvarchar" MaxLength="50" />
-          <Property Name="DivID" Type="int" />
-          <Property Name="DivName" Type="nvarchar" MaxLength="200" />
-          <Property Name="DepID" Type="int" />
-          <Property Name="DepName" Type="nvarchar" MaxLength="200" />
-          <Property Name="SecID" Type="int" />
-          <Property Name="SecName" Type="nvarchar" MaxLength="200" />
-          <Property Name="PoID" Type="int" />
-          <Property Name="PoName" Type="nvarchar" MaxLength="200" />
-          <Property Name="SexID" Type="int" />
-          <Property Name="SexName" Type="nchar" MaxLength="10" />
-          <Property Name="IsActive" Type="bit" />
-          <Property Name="Avatar" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -550,8 +541,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <Property Name="Avatar" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="vw_UserNotInUserRole">
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_NotRole' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_User_NotRole">
           <Key>
             <PropertyRef Name="UserID" />
             <PropertyRef Name="DivID" />
@@ -579,11 +570,40 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
           <Property Name="IsActive" Type="bit" />
           <Property Name="Avatar" Type="nvarchar" MaxLength="200" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_User_Role">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="RoleDesc" Type="nvarchar" MaxLength="200" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="UserName" Type="nchar" MaxLength="10" />
+          <Property Name="Password" Type="nchar" MaxLength="10" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="200" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="200" />
+          <Property Name="UserTID" Type="int" />
+          <Property Name="UserTName" Type="nvarchar" MaxLength="50" />
+          <Property Name="DivID" Type="int" />
+          <Property Name="DivName" Type="nvarchar" MaxLength="200" />
+          <Property Name="DepID" Type="int" />
+          <Property Name="DepName" Type="nvarchar" MaxLength="200" />
+          <Property Name="SecID" Type="int" />
+          <Property Name="SecName" Type="nvarchar" MaxLength="200" />
+          <Property Name="PoID" Type="int" />
+          <Property Name="PoName" Type="nvarchar" MaxLength="200" />
+          <Property Name="SexID" Type="int" />
+          <Property Name="SexName" Type="nchar" MaxLength="10" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="Avatar" Type="nvarchar" MaxLength="200" />
+        </EntityType>
         <Association Name="FK_tb_Capability_tb_Capability">
-          <End Role="tb_CapabilityType" Type="Self.tb_CapabilityType" Multiplicity="0..1" />
+          <End Role="tb_Capability_Type" Type="Self.tb_Capability_Type" Multiplicity="0..1" />
           <End Role="tb_Capability" Type="Self.tb_Capability" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="tb_CapabilityType">
+            <Principal Role="tb_Capability_Type">
               <PropertyRef Name="CapTID" />
             </Principal>
             <Dependent Role="tb_Capability">
@@ -617,48 +637,48 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
         </Association>
         <Association Name="FK_tb_RoleMenu_tb_Menu">
           <End Role="tb_Menu" Type="Self.tb_Menu" Multiplicity="1" />
-          <End Role="tb_RoleMenu" Type="Self.tb_RoleMenu" Multiplicity="*" />
+          <End Role="tb_Menu_Role" Type="Self.tb_Menu_Role" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Menu">
               <PropertyRef Name="MenuID" />
             </Principal>
-            <Dependent Role="tb_RoleMenu">
+            <Dependent Role="tb_Menu_Role">
               <PropertyRef Name="MenuID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tb_RoleMenu_tb_Role">
           <End Role="tb_Role" Type="Self.tb_Role" Multiplicity="1" />
-          <End Role="tb_RoleMenu" Type="Self.tb_RoleMenu" Multiplicity="*" />
+          <End Role="tb_Menu_Role" Type="Self.tb_Menu_Role" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Role">
               <PropertyRef Name="RoleID" />
             </Principal>
-            <Dependent Role="tb_RoleMenu">
+            <Dependent Role="tb_Menu_Role">
               <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tb_RoleUser_tb_Role">
           <End Role="tb_Role" Type="Self.tb_Role" Multiplicity="1" />
-          <End Role="tb_RoleUser" Type="Self.tb_RoleUser" Multiplicity="*" />
+          <End Role="tb_User_Role" Type="Self.tb_User_Role" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Role">
               <PropertyRef Name="RoleID" />
             </Principal>
-            <Dependent Role="tb_RoleUser">
+            <Dependent Role="tb_User_Role">
               <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tb_RoleUser_tb_User">
           <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
-          <End Role="tb_RoleUser" Type="Self.tb_RoleUser" Multiplicity="*" />
+          <End Role="tb_User_Role" Type="Self.tb_User_Role" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_User">
               <PropertyRef Name="UserID" />
             </Principal>
-            <Dependent Role="tb_RoleUser">
+            <Dependent Role="tb_User_Role">
               <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
@@ -727,12 +747,12 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
           <Parameter Name="ParentID" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="SATHRStoreContainer">
-          <EntitySet Name="tb_ActionType" EntityType="Self.tb_ActionType" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tb_BenefitType" EntityType="Self.tb_BenefitType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Action_Type" EntityType="Self.tb_Action_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Benefit_Type" EntityType="Self.tb_Benefit_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Capability" EntityType="Self.tb_Capability" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tb_CapabilityDetail" EntityType="Self.tb_CapabilityDetail" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tb_CapabilityGroup" EntityType="Self.tb_CapabilityGroup" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tb_CapabilityType" EntityType="Self.tb_CapabilityType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Capability_Detail" EntityType="Self.tb_Capability_Detail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Capability_Group" EntityType="Self.tb_Capability_Group" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Capability_Type" EntityType="Self.tb_Capability_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Certificate" EntityType="Self.tb_Certificate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Degree" EntityType="Self.tb_Degree" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Department" EntityType="Self.tb_Department" Schema="dbo" store:Type="Tables" />
@@ -740,26 +760,28 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
           <EntitySet Name="tb_Division" EntityType="Self.tb_Division" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_DocNumber" EntityType="Self.tb_DocNumber" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Education" EntityType="Self.tb_Education" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Family_Type" EntityType="Self.tb_Family_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Holiday" EntityType="Self.tb_Holiday" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Insignia" EntityType="Self.tb_Insignia" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tb_LeaveType" EntityType="Self.tb_LeaveType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Leave_Type" EntityType="Self.tb_Leave_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Level" EntityType="Self.tb_Level" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Major" EntityType="Self.tb_Major" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Menu" EntityType="Self.tb_Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Menu_Role" EntityType="Self.tb_Menu_Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Nationality" EntityType="Self.tb_Nationality" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Position" EntityType="Self.tb_Position" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tb_PositionType" EntityType="Self.tb_PositionType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Position_Type" EntityType="Self.tb_Position_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Religion" EntityType="Self.tb_Religion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Role" EntityType="Self.tb_Role" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tb_RoleMenu" EntityType="Self.tb_RoleMenu" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tb_RoleUser" EntityType="Self.tb_RoleUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Salary" EntityType="Self.tb_Salary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Section" EntityType="Self.tb_Section" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Sex" EntityType="Self.tb_Sex" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_SysConfig" EntityType="Self.tb_SysConfig" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Title" EntityType="Self.tb_Title" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_User" EntityType="Self.tb_User" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tb_UserType" EntityType="Self.tb_UserType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_User_Role" EntityType="Self.tb_User_Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_User_Status" EntityType="Self.tb_User_Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_User_Type" EntityType="Self.tb_User_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="vw_Capability" EntityType="Self.vw_Capability" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_Capability].[CapYear] AS [CapYear], 
@@ -783,46 +805,20 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
     [vw_Department].[DepStatus] AS [DepStatus]
     FROM [dbo].[vw_Department] AS [vw_Department]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="vw_RoleMenu" EntityType="Self.vw_RoleMenu" store:Type="Views" store:Schema="dbo">
+          <EntitySet Name="vw_Menu_Role" EntityType="Self.vw_Menu_Role" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [vw_RoleMenu].[RoleID] AS [RoleID], 
-    [vw_RoleMenu].[RoleName] AS [RoleName], 
-    [vw_RoleMenu].[RoleDesc] AS [RoleDesc], 
-    [vw_RoleMenu].[MenuID] AS [MenuID], 
-    [vw_RoleMenu].[ParentID] AS [ParentID], 
-    [vw_RoleMenu].[MenuName] AS [MenuName], 
-    [vw_RoleMenu].[MenuType] AS [MenuType], 
-    [vw_RoleMenu].[R_View] AS [R_View], 
-    [vw_RoleMenu].[R_Add] AS [R_Add], 
-    [vw_RoleMenu].[R_Edit] AS [R_Edit], 
-    [vw_RoleMenu].[R_Delete] AS [R_Delete]
-    FROM [dbo].[vw_RoleMenu] AS [vw_RoleMenu]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="vw_RoleUser" EntityType="Self.vw_RoleUser" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [vw_RoleUser].[RoleID] AS [RoleID], 
-    [vw_RoleUser].[RoleName] AS [RoleName], 
-    [vw_RoleUser].[RoleDesc] AS [RoleDesc], 
-    [vw_RoleUser].[UserID] AS [UserID], 
-    [vw_RoleUser].[UserName] AS [UserName], 
-    [vw_RoleUser].[Password] AS [Password], 
-    [vw_RoleUser].[FirstName] AS [FirstName], 
-    [vw_RoleUser].[LastName] AS [LastName], 
-    [vw_RoleUser].[UserTID] AS [UserTID], 
-    [vw_RoleUser].[UserTName] AS [UserTName], 
-    [vw_RoleUser].[DivID] AS [DivID], 
-    [vw_RoleUser].[DivName] AS [DivName], 
-    [vw_RoleUser].[DepID] AS [DepID], 
-    [vw_RoleUser].[DepName] AS [DepName], 
-    [vw_RoleUser].[SecID] AS [SecID], 
-    [vw_RoleUser].[SecName] AS [SecName], 
-    [vw_RoleUser].[PoID] AS [PoID], 
-    [vw_RoleUser].[PoName] AS [PoName], 
-    [vw_RoleUser].[SexID] AS [SexID], 
-    [vw_RoleUser].[SexName] AS [SexName], 
-    [vw_RoleUser].[IsActive] AS [IsActive], 
-    [vw_RoleUser].[Avatar] AS [Avatar]
-    FROM [dbo].[vw_RoleUser] AS [vw_RoleUser]</DefiningQuery>
+    [vw_Menu_Role].[RoleID] AS [RoleID], 
+    [vw_Menu_Role].[RoleName] AS [RoleName], 
+    [vw_Menu_Role].[RoleDesc] AS [RoleDesc], 
+    [vw_Menu_Role].[MenuID] AS [MenuID], 
+    [vw_Menu_Role].[ParentID] AS [ParentID], 
+    [vw_Menu_Role].[MenuName] AS [MenuName], 
+    [vw_Menu_Role].[MenuType] AS [MenuType], 
+    [vw_Menu_Role].[R_View] AS [R_View], 
+    [vw_Menu_Role].[R_Add] AS [R_Add], 
+    [vw_Menu_Role].[R_Edit] AS [R_Edit], 
+    [vw_Menu_Role].[R_Delete] AS [R_Delete]
+    FROM [dbo].[vw_Menu_Role] AS [vw_Menu_Role]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_Section" EntityType="Self.vw_Section" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -871,31 +867,57 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
     [vw_User].[Avatar] AS [Avatar]
     FROM [dbo].[vw_User] AS [vw_User]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="vw_UserNotInUserRole" EntityType="Self.vw_UserNotInUserRole" store:Type="Views" store:Schema="dbo">
+          <EntitySet Name="vw_User_NotRole" EntityType="Self.vw_User_NotRole" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [vw_UserNotInUserRole].[UserID] AS [UserID], 
-    [vw_UserNotInUserRole].[UserName] AS [UserName], 
-    [vw_UserNotInUserRole].[Password] AS [Password], 
-    [vw_UserNotInUserRole].[FirstName] AS [FirstName], 
-    [vw_UserNotInUserRole].[LastName] AS [LastName], 
-    [vw_UserNotInUserRole].[UserTID] AS [UserTID], 
-    [vw_UserNotInUserRole].[UserTName] AS [UserTName], 
-    [vw_UserNotInUserRole].[DivID] AS [DivID], 
-    [vw_UserNotInUserRole].[DivName] AS [DivName], 
-    [vw_UserNotInUserRole].[DepID] AS [DepID], 
-    [vw_UserNotInUserRole].[DepName] AS [DepName], 
-    [vw_UserNotInUserRole].[SecID] AS [SecID], 
-    [vw_UserNotInUserRole].[SecName] AS [SecName], 
-    [vw_UserNotInUserRole].[PoID] AS [PoID], 
-    [vw_UserNotInUserRole].[PoName] AS [PoName], 
-    [vw_UserNotInUserRole].[SexID] AS [SexID], 
-    [vw_UserNotInUserRole].[SexName] AS [SexName], 
-    [vw_UserNotInUserRole].[IsActive] AS [IsActive], 
-    [vw_UserNotInUserRole].[Avatar] AS [Avatar]
-    FROM [dbo].[vw_UserNotInUserRole] AS [vw_UserNotInUserRole]</DefiningQuery>
+    [vw_User_NotRole].[UserID] AS [UserID], 
+    [vw_User_NotRole].[UserName] AS [UserName], 
+    [vw_User_NotRole].[Password] AS [Password], 
+    [vw_User_NotRole].[FirstName] AS [FirstName], 
+    [vw_User_NotRole].[LastName] AS [LastName], 
+    [vw_User_NotRole].[UserTID] AS [UserTID], 
+    [vw_User_NotRole].[UserTName] AS [UserTName], 
+    [vw_User_NotRole].[DivID] AS [DivID], 
+    [vw_User_NotRole].[DivName] AS [DivName], 
+    [vw_User_NotRole].[DepID] AS [DepID], 
+    [vw_User_NotRole].[DepName] AS [DepName], 
+    [vw_User_NotRole].[SecID] AS [SecID], 
+    [vw_User_NotRole].[SecName] AS [SecName], 
+    [vw_User_NotRole].[PoID] AS [PoID], 
+    [vw_User_NotRole].[PoName] AS [PoName], 
+    [vw_User_NotRole].[SexID] AS [SexID], 
+    [vw_User_NotRole].[SexName] AS [SexName], 
+    [vw_User_NotRole].[IsActive] AS [IsActive], 
+    [vw_User_NotRole].[Avatar] AS [Avatar]
+    FROM [dbo].[vw_User_NotRole] AS [vw_User_NotRole]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_User_Role" EntityType="Self.vw_User_Role" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_User_Role].[RoleID] AS [RoleID], 
+    [vw_User_Role].[RoleName] AS [RoleName], 
+    [vw_User_Role].[RoleDesc] AS [RoleDesc], 
+    [vw_User_Role].[UserID] AS [UserID], 
+    [vw_User_Role].[UserName] AS [UserName], 
+    [vw_User_Role].[Password] AS [Password], 
+    [vw_User_Role].[FirstName] AS [FirstName], 
+    [vw_User_Role].[LastName] AS [LastName], 
+    [vw_User_Role].[UserTID] AS [UserTID], 
+    [vw_User_Role].[UserTName] AS [UserTName], 
+    [vw_User_Role].[DivID] AS [DivID], 
+    [vw_User_Role].[DivName] AS [DivName], 
+    [vw_User_Role].[DepID] AS [DepID], 
+    [vw_User_Role].[DepName] AS [DepName], 
+    [vw_User_Role].[SecID] AS [SecID], 
+    [vw_User_Role].[SecName] AS [SecName], 
+    [vw_User_Role].[PoID] AS [PoID], 
+    [vw_User_Role].[PoName] AS [PoName], 
+    [vw_User_Role].[SexID] AS [SexID], 
+    [vw_User_Role].[SexName] AS [SexName], 
+    [vw_User_Role].[IsActive] AS [IsActive], 
+    [vw_User_Role].[Avatar] AS [Avatar]
+    FROM [dbo].[vw_User_Role] AS [vw_User_Role]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_tb_Capability_tb_Capability" Association="Self.FK_tb_Capability_tb_Capability">
-            <End Role="tb_CapabilityType" EntitySet="tb_CapabilityType" />
+            <End Role="tb_Capability_Type" EntitySet="tb_Capability_Type" />
             <End Role="tb_Capability" EntitySet="tb_Capability" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_Capability_tb_Menu" Association="Self.FK_tb_Capability_tb_Menu">
@@ -908,19 +930,19 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
           </AssociationSet>
           <AssociationSet Name="FK_tb_RoleMenu_tb_Menu" Association="Self.FK_tb_RoleMenu_tb_Menu">
             <End Role="tb_Menu" EntitySet="tb_Menu" />
-            <End Role="tb_RoleMenu" EntitySet="tb_RoleMenu" />
+            <End Role="tb_Menu_Role" EntitySet="tb_Menu_Role" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_RoleMenu_tb_Role" Association="Self.FK_tb_RoleMenu_tb_Role">
             <End Role="tb_Role" EntitySet="tb_Role" />
-            <End Role="tb_RoleMenu" EntitySet="tb_RoleMenu" />
+            <End Role="tb_Menu_Role" EntitySet="tb_Menu_Role" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_RoleUser_tb_Role" Association="Self.FK_tb_RoleUser_tb_Role">
             <End Role="tb_Role" EntitySet="tb_Role" />
-            <End Role="tb_RoleUser" EntitySet="tb_RoleUser" />
+            <End Role="tb_User_Role" EntitySet="tb_User_Role" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_RoleUser_tb_User" Association="Self.FK_tb_RoleUser_tb_User">
             <End Role="tb_User" EntitySet="tb_User" />
-            <End Role="tb_RoleUser" EntitySet="tb_RoleUser" />
+            <End Role="tb_User_Role" EntitySet="tb_User_Role" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_Section_tb_Department" Association="Self.FK_tb_Section_tb_Department">
             <End Role="tb_Department" EntitySet="tb_Department" />
@@ -960,11 +982,12 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
             <Parameter Name="UserType" Mode="In" Type="Int32" />
             <Parameter Name="Keyword" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="tb_ActionType" EntityType="SAT.HR.tb_ActionType" />
-          <EntitySet Name="tb_BenefitType" EntityType="SAT.HR.tb_BenefitType" />
+          <EntitySet Name="tb_Action_Type" EntityType="SAT.HR.tb_Action_Type" />
+          <EntitySet Name="tb_Benefit_Type" EntityType="SAT.HR.tb_Benefit_Type" />
           <EntitySet Name="tb_Capability" EntityType="SAT.HR.tb_Capability" />
-          <EntitySet Name="tb_CapabilityGroup" EntityType="SAT.HR.tb_CapabilityGroup" />
-          <EntitySet Name="tb_CapabilityType" EntityType="SAT.HR.tb_CapabilityType" />
+          <EntitySet Name="tb_Capability_Detail" EntityType="SAT.HR.tb_Capability_Detail" />
+          <EntitySet Name="tb_Capability_Group" EntityType="SAT.HR.tb_Capability_Group" />
+          <EntitySet Name="tb_Capability_Type" EntityType="SAT.HR.tb_Capability_Type" />
           <EntitySet Name="tb_Certificate" EntityType="SAT.HR.tb_Certificate" />
           <EntitySet Name="tb_Degree" EntityType="SAT.HR.tb_Degree" />
           <EntitySet Name="tb_Department" EntityType="SAT.HR.tb_Department" />
@@ -972,36 +995,38 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
           <EntitySet Name="tb_Division" EntityType="SAT.HR.tb_Division" />
           <EntitySet Name="tb_DocNumber" EntityType="SAT.HR.tb_DocNumber" />
           <EntitySet Name="tb_Education" EntityType="SAT.HR.tb_Education" />
+          <EntitySet Name="tb_Family_Type" EntityType="SAT.HR.tb_Family_Type" />
           <EntitySet Name="tb_Holiday" EntityType="SAT.HR.tb_Holiday" />
           <EntitySet Name="tb_Insignia" EntityType="SAT.HR.tb_Insignia" />
-          <EntitySet Name="tb_LeaveType" EntityType="SAT.HR.tb_LeaveType" />
+          <EntitySet Name="tb_Leave_Type" EntityType="SAT.HR.tb_Leave_Type" />
           <EntitySet Name="tb_Level" EntityType="SAT.HR.tb_Level" />
           <EntitySet Name="tb_Major" EntityType="SAT.HR.tb_Major" />
           <EntitySet Name="tb_Menu" EntityType="SAT.HR.tb_Menu" />
+          <EntitySet Name="tb_Menu_Role" EntityType="SAT.HR.tb_Menu_Role" />
           <EntitySet Name="tb_Nationality" EntityType="SAT.HR.tb_Nationality" />
           <EntitySet Name="tb_Position" EntityType="SAT.HR.tb_Position" />
-          <EntitySet Name="tb_PositionType" EntityType="SAT.HR.tb_PositionType" />
+          <EntitySet Name="tb_Position_Type" EntityType="SAT.HR.tb_Position_Type" />
           <EntitySet Name="tb_Religion" EntityType="SAT.HR.tb_Religion" />
           <EntitySet Name="tb_Role" EntityType="SAT.HR.tb_Role" />
-          <EntitySet Name="tb_RoleMenu" EntityType="SAT.HR.tb_RoleMenu" />
-          <EntitySet Name="tb_RoleUser" EntityType="SAT.HR.tb_RoleUser" />
           <EntitySet Name="tb_Salary" EntityType="SAT.HR.tb_Salary" />
           <EntitySet Name="tb_Section" EntityType="SAT.HR.tb_Section" />
           <EntitySet Name="tb_Sex" EntityType="SAT.HR.tb_Sex" />
           <EntitySet Name="tb_SysConfig" EntityType="SAT.HR.tb_SysConfig" />
           <EntitySet Name="tb_Title" EntityType="SAT.HR.tb_Title" />
           <EntitySet Name="tb_User" EntityType="SAT.HR.tb_User" />
-          <EntitySet Name="tb_UserType" EntityType="SAT.HR.tb_UserType" />
+          <EntitySet Name="tb_User_Role" EntityType="SAT.HR.tb_User_Role" />
+          <EntitySet Name="tb_User_Status" EntityType="SAT.HR.tb_User_Status" />
+          <EntitySet Name="tb_User_Type" EntityType="SAT.HR.tb_User_Type" />
           <EntitySet Name="vw_Capability" EntityType="SAT.HR.vw_Capability" />
           <EntitySet Name="vw_Department" EntityType="SAT.HR.vw_Department" />
-          <EntitySet Name="vw_RoleMenu" EntityType="SAT.HR.vw_RoleMenu" />
-          <EntitySet Name="vw_RoleUser" EntityType="SAT.HR.vw_RoleUser" />
+          <EntitySet Name="vw_Menu_Role" EntityType="SAT.HR.vw_Menu_Role" />
           <EntitySet Name="vw_Section" EntityType="SAT.HR.vw_Section" />
           <EntitySet Name="vw_Title" EntityType="SAT.HR.vw_Title" />
           <EntitySet Name="vw_User" EntityType="SAT.HR.vw_User" />
-          <EntitySet Name="vw_UserNotInUserRole" EntityType="SAT.HR.vw_UserNotInUserRole" />
+          <EntitySet Name="vw_User_NotRole" EntityType="SAT.HR.vw_User_NotRole" />
+          <EntitySet Name="vw_User_Role" EntityType="SAT.HR.vw_User_Role" />
           <AssociationSet Name="FK_tb_Capability_tb_Capability" Association="SAT.HR.FK_tb_Capability_tb_Capability">
-            <End Role="tb_CapabilityType" EntitySet="tb_CapabilityType" />
+            <End Role="tb_Capability_Type" EntitySet="tb_Capability_Type" />
             <End Role="tb_Capability" EntitySet="tb_Capability" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_Capability_tb_Menu" Association="SAT.HR.FK_tb_Capability_tb_Menu">
@@ -1018,19 +1043,15 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
           </AssociationSet>
           <AssociationSet Name="FK_tb_RoleMenu_tb_Menu" Association="SAT.HR.FK_tb_RoleMenu_tb_Menu">
             <End Role="tb_Menu" EntitySet="tb_Menu" />
-            <End Role="tb_RoleMenu" EntitySet="tb_RoleMenu" />
+            <End Role="tb_Menu_Role" EntitySet="tb_Menu_Role" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_RoleMenu_tb_Role" Association="SAT.HR.FK_tb_RoleMenu_tb_Role">
             <End Role="tb_Role" EntitySet="tb_Role" />
-            <End Role="tb_RoleMenu" EntitySet="tb_RoleMenu" />
+            <End Role="tb_Menu_Role" EntitySet="tb_Menu_Role" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_RoleUser_tb_Role" Association="SAT.HR.FK_tb_RoleUser_tb_Role">
             <End Role="tb_Role" EntitySet="tb_Role" />
-            <End Role="tb_RoleUser" EntitySet="tb_RoleUser" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tb_RoleUser_tb_User" Association="SAT.HR.FK_tb_RoleUser_tb_User">
-            <End Role="tb_User" EntitySet="tb_User" />
-            <End Role="tb_RoleUser" EntitySet="tb_RoleUser" />
+            <End Role="tb_User_Role" EntitySet="tb_User_Role" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_Title_tb_Sex" Association="SAT.HR.FK_tb_Title_tb_Sex">
             <End Role="tb_Sex" EntitySet="tb_Sex" />
@@ -1040,7 +1061,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
             <End Role="tb_Sex" EntitySet="tb_Sex" />
             <End Role="tb_User" EntitySet="tb_User" />
           </AssociationSet>
-          <EntitySet Name="tb_CapabilityDetail" EntityType="SAT.HR.tb_CapabilityDetail" />
+          <AssociationSet Name="FK_tb_RoleUser_tb_User" Association="SAT.HR.FK_tb_RoleUser_tb_User">
+            <End Role="tb_User" EntitySet="tb_User" />
+            <End Role="tb_User_Role" EntitySet="tb_User_Role" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_Menu_GetByUser_Result">
           <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -1072,7 +1096,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
           <Property Type="Boolean" Name="R_Edit" Nullable="true" />
           <Property Type="Boolean" Name="R_Delete" Nullable="true" />
         </ComplexType>
-        <EntityType Name="tb_ActionType">
+        <EntityType Name="tb_Action_Type">
           <Key>
             <PropertyRef Name="ActID" />
           </Key>
@@ -1085,7 +1109,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="Int32" />
         </EntityType>
-        <EntityType Name="tb_BenefitType">
+        <EntityType Name="tb_Benefit_Type">
           <Key>
             <PropertyRef Name="BenTID" />
           </Key>
@@ -1106,10 +1130,25 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
           <Property Name="CreateBy" Type="Int32" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="Int32" />
-          <NavigationProperty Name="tb_CapabilityType" Relationship="SAT.HR.FK_tb_Capability_tb_Capability" FromRole="tb_Capability" ToRole="tb_CapabilityType" />
+          <NavigationProperty Name="tb_Capability_Type" Relationship="SAT.HR.FK_tb_Capability_tb_Capability" FromRole="tb_Capability" ToRole="tb_Capability_Type" />
           <NavigationProperty Name="tb_Menu" Relationship="SAT.HR.FK_tb_Capability_tb_Menu" FromRole="tb_Capability" ToRole="tb_Menu" />
         </EntityType>
-        <EntityType Name="tb_CapabilityGroup">
+        <EntityType Name="tb_Capability_Detail">
+          <Key>
+            <PropertyRef Name="CapDID" />
+          </Key>
+          <Property Name="CapDID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CapDName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CapID" Type="Int32" />
+          <Property Name="CapDDesc" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Score1" Type="Int32" />
+          <Property Name="Score2" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tb_Capability_Group">
           <Key>
             <PropertyRef Name="CapGID" />
           </Key>
@@ -1117,13 +1156,13 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
           <Property Name="CapGName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="TableName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="tb_CapabilityType">
+        <EntityType Name="tb_Capability_Type">
           <Key>
             <PropertyRef Name="CapTID" />
           </Key>
           <Property Name="CapTID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CapTName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tb_Capability" Relationship="SAT.HR.FK_tb_Capability_tb_Capability" FromRole="tb_CapabilityType" ToRole="tb_Capability" />
+          <NavigationProperty Name="tb_Capability" Relationship="SAT.HR.FK_tb_Capability_tb_Capability" FromRole="tb_Capability_Type" ToRole="tb_Capability" />
         </EntityType>
         <EntityType Name="tb_Certificate">
           <Key>
@@ -1217,6 +1256,13 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="Int32" />
         </EntityType>
+        <EntityType Name="tb_Family_Type">
+          <Key>
+            <PropertyRef Name="FamTID" />
+          </Key>
+          <Property Name="FamTID" Type="Int32" Nullable="false" />
+          <Property Name="FamTName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="tb_Holiday">
           <Key>
             <PropertyRef Name="HolID" />
@@ -1242,7 +1288,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="Int32" />
         </EntityType>
-        <EntityType Name="tb_LeaveType">
+        <EntityType Name="tb_Leave_Type">
           <Key>
             <PropertyRef Name="LevID" />
           </Key>
@@ -1290,7 +1336,25 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
           <Property Name="ParentID" Type="Int32" />
           <Property Name="MenuType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tb_Capability" Relationship="SAT.HR.FK_tb_Capability_tb_Menu" FromRole="tb_Menu" ToRole="tb_Capability" />
-          <NavigationProperty Name="tb_RoleMenu" Relationship="SAT.HR.FK_tb_RoleMenu_tb_Menu" FromRole="tb_Menu" ToRole="tb_RoleMenu" />
+          <NavigationProperty Name="tb_Menu_Role" Relationship="SAT.HR.FK_tb_RoleMenu_tb_Menu" FromRole="tb_Menu" ToRole="tb_Menu_Role" />
+        </EntityType>
+        <EntityType Name="tb_Menu_Role">
+          <Key>
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="MenuID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="MenuID" Type="Int32" Nullable="false" />
+          <Property Name="R_View" Type="Boolean" />
+          <Property Name="R_Add" Type="Boolean" />
+          <Property Name="R_Edit" Type="Boolean" />
+          <Property Name="R_Delete" Type="Boolean" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+          <NavigationProperty Name="tb_Menu" Relationship="SAT.HR.FK_tb_RoleMenu_tb_Menu" FromRole="tb_Menu_Role" ToRole="tb_Menu" />
+          <NavigationProperty Name="tb_Role" Relationship="SAT.HR.FK_tb_RoleMenu_tb_Role" FromRole="tb_Menu_Role" ToRole="tb_Role" />
         </EntityType>
         <EntityType Name="tb_Nationality">
           <Key>
@@ -1317,7 +1381,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="Int32" />
         </EntityType>
-        <EntityType Name="tb_PositionType">
+        <EntityType Name="tb_Position_Type">
           <Key>
             <PropertyRef Name="PoTID" />
           </Key>
@@ -1348,40 +1412,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
           <Property Name="CreateBy" Type="Int32" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="Int32" />
-          <NavigationProperty Name="tb_RoleMenu" Relationship="SAT.HR.FK_tb_RoleMenu_tb_Role" FromRole="tb_Role" ToRole="tb_RoleMenu" />
-          <NavigationProperty Name="tb_RoleUser" Relationship="SAT.HR.FK_tb_RoleUser_tb_Role" FromRole="tb_Role" ToRole="tb_RoleUser" />
-        </EntityType>
-        <EntityType Name="tb_RoleMenu">
-          <Key>
-            <PropertyRef Name="RoleID" />
-            <PropertyRef Name="MenuID" />
-          </Key>
-          <Property Name="RoleID" Type="Int32" Nullable="false" />
-          <Property Name="MenuID" Type="Int32" Nullable="false" />
-          <Property Name="R_View" Type="Boolean" />
-          <Property Name="R_Add" Type="Boolean" />
-          <Property Name="R_Edit" Type="Boolean" />
-          <Property Name="R_Delete" Type="Boolean" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="Int32" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="Int32" />
-          <NavigationProperty Name="tb_Menu" Relationship="SAT.HR.FK_tb_RoleMenu_tb_Menu" FromRole="tb_RoleMenu" ToRole="tb_Menu" />
-          <NavigationProperty Name="tb_Role" Relationship="SAT.HR.FK_tb_RoleMenu_tb_Role" FromRole="tb_RoleMenu" ToRole="tb_Role" />
-        </EntityType>
-        <EntityType Name="tb_RoleUser">
-          <Key>
-            <PropertyRef Name="RoleID" />
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="RoleID" Type="Int32" Nullable="false" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="Int32" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="Int32" />
-          <NavigationProperty Name="tb_Role" Relationship="SAT.HR.FK_tb_RoleUser_tb_Role" FromRole="tb_RoleUser" ToRole="tb_Role" />
-          <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_RoleUser_tb_User" FromRole="tb_RoleUser" ToRole="tb_User" />
+          <NavigationProperty Name="tb_Menu_Role" Relationship="SAT.HR.FK_tb_RoleMenu_tb_Role" FromRole="tb_Role" ToRole="tb_Menu_Role" />
+          <NavigationProperty Name="tb_User_Role" Relationship="SAT.HR.FK_tb_RoleUser_tb_Role" FromRole="tb_Role" ToRole="tb_User_Role" />
         </EntityType>
         <EntityType Name="tb_Salary">
           <Key>
@@ -1473,10 +1505,31 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
           <Property Name="ModifyBy" Type="Int32" />
           <Property Name="Avatar" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" />
-          <NavigationProperty Name="tb_RoleUser" Relationship="SAT.HR.FK_tb_RoleUser_tb_User" FromRole="tb_User" ToRole="tb_RoleUser" />
           <NavigationProperty Name="tb_Sex" Relationship="SAT.HR.FK_tb_User_tb_Sex" FromRole="tb_User" ToRole="tb_Sex" />
+          <NavigationProperty Name="tb_User_Role" Relationship="SAT.HR.FK_tb_RoleUser_tb_User" FromRole="tb_User" ToRole="tb_User_Role" />
         </EntityType>
-        <EntityType Name="tb_UserType">
+        <EntityType Name="tb_User_Role">
+          <Key>
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+          <NavigationProperty Name="tb_Role" Relationship="SAT.HR.FK_tb_RoleUser_tb_Role" FromRole="tb_User_Role" ToRole="tb_Role" />
+          <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_RoleUser_tb_User" FromRole="tb_User_Role" ToRole="tb_User" />
+        </EntityType>
+        <EntityType Name="tb_User_Status">
+          <Key>
+            <PropertyRef Name="UserSID" />
+          </Key>
+          <Property Name="UserSID" Type="Int32" Nullable="false" />
+          <Property Name="UserSName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tb_User_Type">
           <Key>
             <PropertyRef Name="UserTID" />
           </Key>
@@ -1509,7 +1562,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
           <Property Name="DivStatus" Type="Boolean" />
           <Property Name="DepStatus" Type="Boolean" />
         </EntityType>
-        <EntityType Name="vw_RoleMenu">
+        <EntityType Name="vw_Menu_Role">
           <Key>
             <PropertyRef Name="RoleID" />
             <PropertyRef Name="MenuID" />
@@ -1525,33 +1578,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
           <Property Name="R_Add" Type="Boolean" />
           <Property Name="R_Edit" Type="Boolean" />
           <Property Name="R_Delete" Type="Boolean" />
-        </EntityType>
-        <EntityType Name="vw_RoleUser">
-          <Key>
-            <PropertyRef Name="RoleID" />
-          </Key>
-          <Property Name="RoleID" Type="Int32" Nullable="false" />
-          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="RoleDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="UserID" Type="Int32" />
-          <Property Name="UserName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="UserTID" Type="Int32" />
-          <Property Name="UserTName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DivID" Type="Int32" />
-          <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="DepID" Type="Int32" />
-          <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="SecID" Type="Int32" />
-          <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PoID" Type="Int32" />
-          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="SexID" Type="Int32" />
-          <Property Name="SexName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" />
-          <Property Name="Avatar" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="vw_Section">
           <Key>
@@ -1607,7 +1633,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="Avatar" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="vw_UserNotInUserRole">
+        <EntityType Name="vw_User_NotRole">
           <Key>
             <PropertyRef Name="UserID" />
             <PropertyRef Name="DivID" />
@@ -1635,11 +1661,38 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="Avatar" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="vw_User_Role">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RoleDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="UserName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UserTID" Type="Int32" />
+          <Property Name="UserTName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DivID" Type="Int32" />
+          <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DepID" Type="Int32" />
+          <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SecID" Type="Int32" />
+          <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PoID" Type="Int32" />
+          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SexID" Type="Int32" />
+          <Property Name="SexName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="Avatar" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
         <Association Name="FK_tb_Capability_tb_Capability">
-          <End Type="SAT.HR.tb_CapabilityType" Role="tb_CapabilityType" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Capability_Type" Role="tb_Capability_Type" Multiplicity="0..1" />
           <End Type="SAT.HR.tb_Capability" Role="tb_Capability" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="tb_CapabilityType">
+            <Principal Role="tb_Capability_Type">
               <PropertyRef Name="CapTID" />
             </Principal>
             <Dependent Role="tb_Capability">
@@ -1685,49 +1738,37 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
         </Association>
         <Association Name="FK_tb_RoleMenu_tb_Menu">
           <End Type="SAT.HR.tb_Menu" Role="tb_Menu" Multiplicity="1" />
-          <End Type="SAT.HR.tb_RoleMenu" Role="tb_RoleMenu" Multiplicity="*" />
+          <End Type="SAT.HR.tb_Menu_Role" Role="tb_Menu_Role" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Menu">
               <PropertyRef Name="MenuID" />
             </Principal>
-            <Dependent Role="tb_RoleMenu">
+            <Dependent Role="tb_Menu_Role">
               <PropertyRef Name="MenuID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tb_RoleMenu_tb_Role">
           <End Type="SAT.HR.tb_Role" Role="tb_Role" Multiplicity="1" />
-          <End Type="SAT.HR.tb_RoleMenu" Role="tb_RoleMenu" Multiplicity="*" />
+          <End Type="SAT.HR.tb_Menu_Role" Role="tb_Menu_Role" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Role">
               <PropertyRef Name="RoleID" />
             </Principal>
-            <Dependent Role="tb_RoleMenu">
+            <Dependent Role="tb_Menu_Role">
               <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tb_RoleUser_tb_Role">
           <End Type="SAT.HR.tb_Role" Role="tb_Role" Multiplicity="1" />
-          <End Type="SAT.HR.tb_RoleUser" Role="tb_RoleUser" Multiplicity="*" />
+          <End Type="SAT.HR.tb_User_Role" Role="tb_User_Role" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tb_Role">
               <PropertyRef Name="RoleID" />
             </Principal>
-            <Dependent Role="tb_RoleUser">
+            <Dependent Role="tb_User_Role">
               <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tb_RoleUser_tb_User">
-          <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
-          <End Type="SAT.HR.tb_RoleUser" Role="tb_RoleUser" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_User">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="tb_RoleUser">
-              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1755,21 +1796,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="tb_CapabilityDetail">
-          <Key>
-            <PropertyRef Name="CapDID" />
-          </Key>
-          <Property Name="CapDID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CapDName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CapID" Type="Int32" />
-          <Property Name="CapDDesc" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Score1" Type="Int32" />
-          <Property Name="Score2" Type="Int32" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="Int32" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="Int32" />
-        </EntityType>
+        <Association Name="FK_tb_RoleUser_tb_User">
+          <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
+          <End Type="SAT.HR.tb_User_Role" Role="tb_User_Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tb_User_Role">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1819,9 +1857,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_Employee_List" FunctionName="SAT.HR.Store.sp_Employee_List" />
-          <EntitySetMapping Name="tb_ActionType">
-            <EntityTypeMapping TypeName="SAT.HR.tb_ActionType">
-              <MappingFragment StoreEntitySet="tb_ActionType">
+          <EntitySetMapping Name="tb_Action_Type">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Action_Type">
+              <MappingFragment StoreEntitySet="tb_Action_Type">
                 <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
                 <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
@@ -1833,9 +1871,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tb_BenefitType">
-            <EntityTypeMapping TypeName="SAT.HR.tb_BenefitType">
-              <MappingFragment StoreEntitySet="tb_BenefitType">
+          <EntitySetMapping Name="tb_Benefit_Type">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Benefit_Type">
+              <MappingFragment StoreEntitySet="tb_Benefit_Type">
                 <ScalarProperty Name="BenTName" ColumnName="BenTName" />
                 <ScalarProperty Name="BenTID" ColumnName="BenTID" />
               </MappingFragment>
@@ -1857,18 +1895,34 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tb_CapabilityGroup">
-            <EntityTypeMapping TypeName="SAT.HR.tb_CapabilityGroup">
-              <MappingFragment StoreEntitySet="tb_CapabilityGroup">
+          <EntitySetMapping Name="tb_Capability_Detail">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Capability_Detail">
+              <MappingFragment StoreEntitySet="tb_Capability_Detail">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Score2" ColumnName="Score2" />
+                <ScalarProperty Name="Score1" ColumnName="Score1" />
+                <ScalarProperty Name="CapDDesc" ColumnName="CapDDesc" />
+                <ScalarProperty Name="CapID" ColumnName="CapID" />
+                <ScalarProperty Name="CapDName" ColumnName="CapDName" />
+                <ScalarProperty Name="CapDID" ColumnName="CapDID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Capability_Group">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Capability_Group">
+              <MappingFragment StoreEntitySet="tb_Capability_Group">
                 <ScalarProperty Name="TableName" ColumnName="TableName" />
                 <ScalarProperty Name="CapGName" ColumnName="CapGName" />
                 <ScalarProperty Name="CapGID" ColumnName="CapGID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tb_CapabilityType">
-            <EntityTypeMapping TypeName="SAT.HR.tb_CapabilityType">
-              <MappingFragment StoreEntitySet="tb_CapabilityType">
+          <EntitySetMapping Name="tb_Capability_Type">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Capability_Type">
+              <MappingFragment StoreEntitySet="tb_Capability_Type">
                 <ScalarProperty Name="CapTName" ColumnName="CapTName" />
                 <ScalarProperty Name="CapTID" ColumnName="CapTID" />
               </MappingFragment>
@@ -1970,6 +2024,14 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tb_Family_Type">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Family_Type">
+              <MappingFragment StoreEntitySet="tb_Family_Type">
+                <ScalarProperty Name="FamTName" ColumnName="FamTName" />
+                <ScalarProperty Name="FamTID" ColumnName="FamTID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tb_Holiday">
             <EntityTypeMapping TypeName="SAT.HR.tb_Holiday">
               <MappingFragment StoreEntitySet="tb_Holiday">
@@ -1997,9 +2059,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tb_LeaveType">
-            <EntityTypeMapping TypeName="SAT.HR.tb_LeaveType">
-              <MappingFragment StoreEntitySet="tb_LeaveType">
+          <EntitySetMapping Name="tb_Leave_Type">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Leave_Type">
+              <MappingFragment StoreEntitySet="tb_Leave_Type">
                 <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
                 <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
@@ -2049,6 +2111,22 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tb_Menu_Role">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Menu_Role">
+              <MappingFragment StoreEntitySet="tb_Menu_Role">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="R_Delete" ColumnName="R_Delete" />
+                <ScalarProperty Name="R_Edit" ColumnName="R_Edit" />
+                <ScalarProperty Name="R_Add" ColumnName="R_Add" />
+                <ScalarProperty Name="R_View" ColumnName="R_View" />
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tb_Nationality">
             <EntityTypeMapping TypeName="SAT.HR.tb_Nationality">
               <MappingFragment StoreEntitySet="tb_Nationality">
@@ -2076,9 +2154,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tb_PositionType">
-            <EntityTypeMapping TypeName="SAT.HR.tb_PositionType">
-              <MappingFragment StoreEntitySet="tb_PositionType">
+          <EntitySetMapping Name="tb_Position_Type">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Position_Type">
+              <MappingFragment StoreEntitySet="tb_Position_Type">
                 <ScalarProperty Name="PoTName" ColumnName="PoTName" />
                 <ScalarProperty Name="PoTID" ColumnName="PoTID" />
               </MappingFragment>
@@ -2107,34 +2185,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
                 <ScalarProperty Name="RoleStatus" ColumnName="RoleStatus" />
                 <ScalarProperty Name="RoleDesc" ColumnName="RoleDesc" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tb_RoleMenu">
-            <EntityTypeMapping TypeName="SAT.HR.tb_RoleMenu">
-              <MappingFragment StoreEntitySet="tb_RoleMenu">
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="R_Delete" ColumnName="R_Delete" />
-                <ScalarProperty Name="R_Edit" ColumnName="R_Edit" />
-                <ScalarProperty Name="R_Add" ColumnName="R_Add" />
-                <ScalarProperty Name="R_View" ColumnName="R_View" />
-                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tb_RoleUser">
-            <EntityTypeMapping TypeName="SAT.HR.tb_RoleUser">
-              <MappingFragment StoreEntitySet="tb_RoleUser">
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -2232,9 +2282,29 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tb_UserType">
-            <EntityTypeMapping TypeName="SAT.HR.tb_UserType">
-              <MappingFragment StoreEntitySet="tb_UserType">
+          <EntitySetMapping Name="tb_User_Role">
+            <EntityTypeMapping TypeName="SAT.HR.tb_User_Role">
+              <MappingFragment StoreEntitySet="tb_User_Role">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_User_Status">
+            <EntityTypeMapping TypeName="SAT.HR.tb_User_Status">
+              <MappingFragment StoreEntitySet="tb_User_Status">
+                <ScalarProperty Name="UserSName" ColumnName="UserSName" />
+                <ScalarProperty Name="UserSID" ColumnName="UserSID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_User_Type">
+            <EntityTypeMapping TypeName="SAT.HR.tb_User_Type">
+              <MappingFragment StoreEntitySet="tb_User_Type">
                 <ScalarProperty Name="UserTName" ColumnName="UserTName" />
                 <ScalarProperty Name="UserTID" ColumnName="UserTID" />
               </MappingFragment>
@@ -2267,9 +2337,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="vw_RoleMenu">
-            <EntityTypeMapping TypeName="SAT.HR.vw_RoleMenu">
-              <MappingFragment StoreEntitySet="vw_RoleMenu">
+          <EntitySetMapping Name="vw_Menu_Role">
+            <EntityTypeMapping TypeName="SAT.HR.vw_Menu_Role">
+              <MappingFragment StoreEntitySet="vw_Menu_Role">
                 <ScalarProperty Name="R_Delete" ColumnName="R_Delete" />
                 <ScalarProperty Name="R_Edit" ColumnName="R_Edit" />
                 <ScalarProperty Name="R_Add" ColumnName="R_Add" />
@@ -2278,34 +2348,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
                 <ScalarProperty Name="MenuName" ColumnName="MenuName" />
                 <ScalarProperty Name="ParentID" ColumnName="ParentID" />
                 <ScalarProperty Name="MenuID" ColumnName="MenuID" />
-                <ScalarProperty Name="RoleDesc" ColumnName="RoleDesc" />
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="vw_RoleUser">
-            <EntityTypeMapping TypeName="SAT.HR.vw_RoleUser">
-              <MappingFragment StoreEntitySet="vw_RoleUser">
-                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="SexName" ColumnName="SexName" />
-                <ScalarProperty Name="SexID" ColumnName="SexID" />
-                <ScalarProperty Name="PoName" ColumnName="PoName" />
-                <ScalarProperty Name="PoID" ColumnName="PoID" />
-                <ScalarProperty Name="SecName" ColumnName="SecName" />
-                <ScalarProperty Name="SecID" ColumnName="SecID" />
-                <ScalarProperty Name="DepName" ColumnName="DepName" />
-                <ScalarProperty Name="DepID" ColumnName="DepID" />
-                <ScalarProperty Name="DivName" ColumnName="DivName" />
-                <ScalarProperty Name="DivID" ColumnName="DivID" />
-                <ScalarProperty Name="UserTName" ColumnName="UserTName" />
-                <ScalarProperty Name="UserTID" ColumnName="UserTID" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="RoleDesc" ColumnName="RoleDesc" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
@@ -2365,9 +2407,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="vw_UserNotInUserRole">
-            <EntityTypeMapping TypeName="SAT.HR.vw_UserNotInUserRole">
-              <MappingFragment StoreEntitySet="vw_UserNotInUserRole">
+          <EntitySetMapping Name="vw_User_NotRole">
+            <EntityTypeMapping TypeName="SAT.HR.vw_User_NotRole">
+              <MappingFragment StoreEntitySet="vw_User_NotRole">
                 <ScalarProperty Name="Avatar" ColumnName="Avatar" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="SexName" ColumnName="SexName" />
@@ -2390,19 +2432,31 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tb_CapabilityDetail">
-            <EntityTypeMapping TypeName="SAT.HR.tb_CapabilityDetail">
-              <MappingFragment StoreEntitySet="tb_CapabilityDetail">
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="Score2" ColumnName="Score2" />
-                <ScalarProperty Name="Score1" ColumnName="Score1" />
-                <ScalarProperty Name="CapDDesc" ColumnName="CapDDesc" />
-                <ScalarProperty Name="CapID" ColumnName="CapID" />
-                <ScalarProperty Name="CapDName" ColumnName="CapDName" />
-                <ScalarProperty Name="CapDID" ColumnName="CapDID" />
+          <EntitySetMapping Name="vw_User_Role">
+            <EntityTypeMapping TypeName="SAT.HR.vw_User_Role">
+              <MappingFragment StoreEntitySet="vw_User_Role">
+                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="SexName" ColumnName="SexName" />
+                <ScalarProperty Name="SexID" ColumnName="SexID" />
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="PoID" ColumnName="PoID" />
+                <ScalarProperty Name="SecName" ColumnName="SecName" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="DepName" ColumnName="DepName" />
+                <ScalarProperty Name="DepID" ColumnName="DepID" />
+                <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="DivID" ColumnName="DivID" />
+                <ScalarProperty Name="UserTName" ColumnName="UserTName" />
+                <ScalarProperty Name="UserTID" ColumnName="UserTID" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="RoleDesc" ColumnName="RoleDesc" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

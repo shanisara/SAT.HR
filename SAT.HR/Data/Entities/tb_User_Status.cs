@@ -12,10 +12,9 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_CapabilityGroup
+    public partial class tb_User_Status
     {
-        public int CapGID { get; set; }
-        public string CapGName { get; set; }
-        public string TableName { get; set; }
+        public int UserSID { get; set; }
+        public string UserSName { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using SAT.HR.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq;
 using System.Web;
 
@@ -108,11 +109,28 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public EmployeeViewModel GetByID(int id)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.vw_User.Where(x => x.SecID == id).FirstOrDefault();
+                EmployeeViewModel model = new Models.EmployeeViewModel();
+                model.SecID = data.SecID;
+                model.SecName = data.SecName;
+                model.DivID = data.DivID;
+                model.DepID = data.DepID;
+
+
+                return model;
+            }
+        }
+
+
         public EmployeePageResult GetUserNotInUserRole(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.vw_UserNotInUserRole.ToList();
+                var data = db.vw_User_NotRole.ToList();
 
                 int recordsTotal = data.Count();
 
@@ -199,6 +217,17 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-
+        public List<FamilyTypeViewModel> GetFamilyType()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Family_Type.Select(s => new FamilyTypeViewModel()
+                {
+                    FamTID = s.FamTID,
+                    FamTName = s.FamTName
+                }).OrderBy(x => x.FamTName).ToList();
+                return list;
+            }
+        }
     }
 }

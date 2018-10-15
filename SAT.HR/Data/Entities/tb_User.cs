@@ -17,7 +17,7 @@ namespace SAT.HR.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tb_User()
         {
-            this.tb_RoleUser = new HashSet<tb_RoleUser>();
+            this.tb_User_Role = new HashSet<tb_User_Role>();
         }
     
         public int UserID { get; set; }
@@ -38,8 +38,8 @@ namespace SAT.HR.Data.Entities
         public string Avatar { get; set; }
         public Nullable<bool> IsActive { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_RoleUser> tb_RoleUser { get; set; }
         public virtual tb_Sex tb_Sex { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_User_Role> tb_User_Role { get; set; }
     }
 }

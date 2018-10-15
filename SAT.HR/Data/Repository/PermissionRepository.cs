@@ -128,7 +128,7 @@ namespace SAT.HR.Data.Repository
             {
                 RoleViewModel model = new RoleViewModel();
 
-                var data = db.vw_RoleUser.Where(x => x.RoleID == roleid).Select(s => new RoleUserViewModel()
+                var data = db.vw_User_Role.Where(x => x.RoleID == roleid).Select(s => new RoleUserViewModel()
                 {
                     RoleID = s.RoleID,
                     RoleName = s.RoleName,
@@ -170,14 +170,14 @@ namespace SAT.HR.Data.Repository
                         string[] user = users.Split(',');
                         foreach (var userid in user)
                         {
-                            tb_RoleUser model = new tb_RoleUser();
+                            tb_User_Role model = new tb_User_Role();
                             model.RoleID = roleid;
                             model.UserID = Convert.ToInt32(userid);
                             model.CreateBy = UtilityService.User.UserID;
                             model.CreateDate = DateTime.Now;
                             model.ModifyBy = UtilityService.User.UserID;
                             model.ModifyDate = DateTime.Now;
-                            db.tb_RoleUser.Add(model);
+                            db.tb_User_Role.Add(model);
                             db.SaveChanges();
                         }
                     }
@@ -198,10 +198,10 @@ namespace SAT.HR.Data.Repository
             {
                 try
                 {
-                    var obj = db.tb_RoleUser.SingleOrDefault(m => m.RoleID == roleid && m.UserID == userid);
+                    var obj = db.tb_User_Role.SingleOrDefault(m => m.RoleID == roleid && m.UserID == userid);
                     if (obj != null)
                     {
-                        db.tb_RoleUser.Remove(obj);
+                        db.tb_User_Role.Remove(obj);
                         db.SaveChanges();
                     }
                 }
@@ -232,7 +232,7 @@ namespace SAT.HR.Data.Repository
                         {
                             if (item.MenuType == "M" || (item.ParentID != 0 && (item.MenuType == "T" || item.MenuType == "R")))
                             {
-                                var data = db.tb_RoleMenu.Where(m => m.RoleID == item.RoleID && m.MenuID == item.MenuID).FirstOrDefault();
+                                var data = db.tb_Menu_Role.Where(m => m.RoleID == item.RoleID && m.MenuID == item.MenuID).FirstOrDefault();
                                 if (data != null)
                                 {
                                     data.R_View = item.R_View;
@@ -245,7 +245,7 @@ namespace SAT.HR.Data.Repository
                                 }
                                 else
                                 {
-                                    tb_RoleMenu obj = new tb_RoleMenu();
+                                    tb_Menu_Role obj = new tb_Menu_Role();
                                     obj.RoleID = item.RoleID;
                                     obj.MenuID = item.MenuID;
                                     obj.R_View = item.R_View;
@@ -256,7 +256,7 @@ namespace SAT.HR.Data.Repository
                                     obj.CreateDate = DateTime.Now;
                                     obj.ModifyBy = UtilityService.User.UserID;
                                     obj.ModifyDate = DateTime.Now;
-                                    db.tb_RoleMenu.Add(obj);
+                                    db.tb_Menu_Role.Add(obj);
                                     db.SaveChanges();
                                 }
                             }
@@ -293,7 +293,7 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.vw_RoleMenu.Where(m => m.RoleID == roleid).Select(s => new RoleMenuViewModel()
+                var data = db.vw_Menu_Role.Where(m => m.RoleID == roleid).Select(s => new RoleMenuViewModel()
                 {
                     RoleID = s.RoleID,
                     MenuID = (int)s.MenuID,

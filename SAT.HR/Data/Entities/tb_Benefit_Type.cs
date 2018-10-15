@@ -12,7 +12,7 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_BenefitType
+    public partial class tb_Benefit_Type
     {
         public int BenTID { get; set; }
         public string BenTName { get; set; }

@@ -777,7 +777,7 @@ namespace SAT.HR.Controllers
             {
                 model = new LeaveTypeRepository().GetByID((int)id);
             }
-            ViewBag.Sex = DropDownList.GetLeaveType(id, false);
+            ViewBag.Sex = DropDownList.GetSex(model.SexID);
             return PartialView("_LeaveType", model);
         }
 

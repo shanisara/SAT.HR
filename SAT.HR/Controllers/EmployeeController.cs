@@ -1,5 +1,6 @@
 ﻿using SAT.HR.Data.Repository;
 using SAT.HR.Helpers;
+using SAT.HR.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,67 +41,111 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult Employee()
+        //public JsonResult SaveEmployee(SectionViewModel model)
+        //{
+        //    ResponseData result = new Models.ResponseData();
+        //    if (model.UserID != 0)
+        //        result = new EmployeeRepository().UpdateEmployee(model);
+        //    else
+        //        result = new EmployeeRepository().AddEmployee(model);
+
+        //    return Json(result, JsonRequestBehavior.AllowGet);
+        //}
+
+        //public JsonResult DeleteEmployee(int id)
+        //{
+        //    var result = new EmployeeRepository().DeleteEmployee(id);
+        //    return Json(result, JsonRequestBehavior.AllowGet);
+        //}
+
+
+        #region Partial
+
+        public ActionResult Employee(int id)
         {
-            return PartialView("_Employee");
+            EmployeeViewModel model = new EmployeeViewModel();
+            model = new EmployeeRepository().GetByID(id);
+
+            //ViewBag.Title = DropDownList.GetTitle(model.TitleID);
+            //ViewBag.UserStatus = DropDownList.UserStatus(model.UserStatusID);
+            ViewBag.Sex = DropDownList.GetSex(model.SexID);
+            //ViewBag.Religion = DropDownList.GetReligion(model.Religion, true);
+            //ViewBag.Ethnicity = DropDownList.GetNationality(model.Ethnicity, true)      //-- > เชื้อชาติ
+            //ViewBag.Nationality = DropDownList.GetNationality(model.Nationalit, true)   //--> สัญชาติ 
+            //ViewBag.BloodType = DropDownList
+            //ViewBag.MaritalStatus = DropDownList
+            ViewBag.Position = DropDownList.GetPosition(model.PoID, true);
+            ViewBag.Division = DropDownList.GetDivision(model.DivID, true);
+            ViewBag.Department = DropDownList.GetDepartment(model.DivID, model.DepID, true);
+            ViewBag.Section = DropDownList.GetSection(model.DivID, model.DepID, model.SecID, true);
+            //ViewBag.Level = DropDownList.GetLevel(model.Level);
+            //ViewBag.Step = DropDownList.GetStep(model.Step);
+            //ViewBag. = DropDownList --> ช่วยราชการ
+            //ViewBag. = DropDownList --> รักษาการแทน
+            //ViewBag.Province = DropDownList.GetProvince(model.ProvinceID);
+            //ViewBag.District = DropDownList.GetDistrict(model.DistrictID);
+            //ViewBag.SubDistrict = DropDownList.GetSubDistrict(model.SubDistrictID);
+
+            return PartialView("_Employee", model);
         }
 
         public ActionResult Family()
         {
+
             return PartialView("_Family");
         }
 
         public ActionResult Education()
         {
+
             return PartialView("_Education");
         }
 
         public ActionResult Position()
         {
+
             return PartialView("_Position");
         }
 
         public ActionResult Trainning()
         {
+
             return PartialView("_Trainning");
         }
 
         public ActionResult Insignia()
         {
+
             return PartialView("_Insignia");
         }
 
         public ActionResult Outstanding()
         {
+
             return PartialView("_Outstanding");
         }
 
         public ActionResult Certificate()
         {
+
             return PartialView("_Certificate");
         }
 
         public ActionResult History()
         {
+
             return PartialView("_History");
         }
 
         public ActionResult Remuneration()
         {
+
             return PartialView("_Remuneration");
         }
 
-        //[HttpPost]
-        //public JsonResult Employee(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
-        //{
-        //    var search = Request["search[value]"];
-        //    var dir = order[0]["dir"].ToLower();
-        //    var column = columns[int.Parse(order[0]["column"])]["data"];
-        //    var dataTableData = new EmployeeRepository().GetPage(search, draw, start, length, dir, column);
-        //    return Json(dataTableData, JsonRequestBehavior.AllowGet);
-        //}
-
         #endregion
+
+        #endregion 
 
         #region 2. อัตรากำลังพล
 

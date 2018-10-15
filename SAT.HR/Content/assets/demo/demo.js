@@ -97,7 +97,6 @@ demo = {
         });
     },
 
-
     initPickColor: function () {
         $('.pick-class-label').click(function () {
             var new_class = $(this).attr('new-class');
@@ -123,6 +122,7 @@ demo = {
     },
 
     initMaterialWizard: function () {
+
         // Code for the Validator
         var $validator = $('.card-wizard form').validate({
             rules: {
@@ -150,6 +150,7 @@ demo = {
                 $(element).append(error);
             }
         });
+
 
         // Wizard Initialization
         $('.card-wizard').bootstrapWizard({
@@ -255,8 +256,8 @@ demo = {
 
         $('.set-full-height').css('height', 'auto');
 
-        //Function to show image before upload
 
+        //Function to show image before upload
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();

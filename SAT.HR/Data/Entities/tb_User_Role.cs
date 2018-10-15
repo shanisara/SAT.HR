@@ -12,9 +12,16 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_UserType
+    public partial class tb_User_Role
     {
-        public int UserTID { get; set; }
-        public string UserTName { get; set; }
+        public int RoleID { get; set; }
+        public int UserID { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<int> CreateBy { get; set; }
+        public Nullable<System.DateTime> ModifyDate { get; set; }
+        public Nullable<int> ModifyBy { get; set; }
+    
+        public virtual tb_Role tb_Role { get; set; }
+        public virtual tb_User tb_User { get; set; }
     }
 }

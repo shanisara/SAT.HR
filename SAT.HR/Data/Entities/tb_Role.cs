@@ -17,8 +17,8 @@ namespace SAT.HR.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tb_Role()
         {
-            this.tb_RoleMenu = new HashSet<tb_RoleMenu>();
-            this.tb_RoleUser = new HashSet<tb_RoleUser>();
+            this.tb_Menu_Role = new HashSet<tb_Menu_Role>();
+            this.tb_User_Role = new HashSet<tb_User_Role>();
         }
     
         public int RoleID { get; set; }
@@ -31,8 +31,8 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> ModifyBy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_RoleMenu> tb_RoleMenu { get; set; }
+        public virtual ICollection<tb_Menu_Role> tb_Menu_Role { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_RoleUser> tb_RoleUser { get; set; }
+        public virtual ICollection<tb_User_Role> tb_User_Role { get; set; }
     }
 }

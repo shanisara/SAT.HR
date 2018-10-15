@@ -14,7 +14,7 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.tb_CapabilityDetail.Where(x => x.CapID == capis).Select(s => new CapabilityDetailViewModel
+                var data = db.tb_Capability_Detail.Where(x => x.CapID == capis).Select(s => new CapabilityDetailViewModel
                 {
                     CapDID = s.CapDID,
                     CapDName = s.CapDName,
@@ -34,7 +34,7 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    tb_CapabilityDetail model = new tb_CapabilityDetail();
+                    tb_Capability_Detail model = new tb_Capability_Detail();
                     model.CapDID = data.CapDID;
                     model.CapDName = data.CapDName;
                     model.CapDDesc = data.CapDDesc;
@@ -45,7 +45,7 @@ namespace SAT.HR.Data.Repository
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
-                    db.tb_CapabilityDetail.Add(model);
+                    db.tb_Capability_Detail.Add(model);
                     db.SaveChanges();
                 }
                 catch (Exception)
@@ -63,7 +63,7 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    var data = db.tb_CapabilityDetail.Single(x => x.CapID == newdata.CapID);
+                    var data = db.tb_Capability_Detail.Single(x => x.CapID == newdata.CapID);
                     data.CapDID = newdata.CapDID;
                     data.CapDName = newdata.CapDName;
                     data.CapDDesc = newdata.CapDDesc;
@@ -93,7 +93,7 @@ namespace SAT.HR.Data.Repository
                     {
                         if (item.CapDID != 0)
                         {
-                            var data = db.tb_CapabilityDetail.Single(x => x.CapDID == item.CapDID);
+                            var data = db.tb_Capability_Detail.Single(x => x.CapDID == item.CapDID);
                             data.CapDID = item.CapDID;
                             data.CapDName = item.CapDName;
                             data.CapDDesc = item.CapDDesc;
@@ -106,7 +106,7 @@ namespace SAT.HR.Data.Repository
                         }
                         else
                         {
-                            tb_CapabilityDetail model = new tb_CapabilityDetail();
+                            tb_Capability_Detail model = new tb_Capability_Detail();
                             model.CapDID = item.CapDID;
                             model.CapDName = item.CapDName;
                             model.CapDDesc = item.CapDDesc;
@@ -117,7 +117,7 @@ namespace SAT.HR.Data.Repository
                             model.CreateDate = DateTime.Now;
                             model.ModifyBy = UtilityService.User.UserID;
                             model.ModifyDate = DateTime.Now;
-                            db.tb_CapabilityDetail.Add(model);
+                            db.tb_Capability_Detail.Add(model);
                             db.SaveChanges();
                         }
                     }
@@ -137,10 +137,10 @@ namespace SAT.HR.Data.Repository
             {
                 try
                 {
-                    var obj = db.tb_CapabilityDetail.SingleOrDefault(c => c.CapDID == id);
+                    var obj = db.tb_Capability_Detail.SingleOrDefault(c => c.CapDID == id);
                     if (obj != null)
                     {
-                        db.tb_CapabilityDetail.Remove(obj);
+                        db.tb_Capability_Detail.Remove(obj);
                         db.SaveChanges();
                     }
                 }

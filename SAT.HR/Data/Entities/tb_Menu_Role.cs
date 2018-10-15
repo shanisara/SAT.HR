@@ -12,18 +12,20 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class vw_RoleMenu
+    public partial class tb_Menu_Role
     {
         public int RoleID { get; set; }
-        public string RoleName { get; set; }
-        public string RoleDesc { get; set; }
         public int MenuID { get; set; }
-        public Nullable<int> ParentID { get; set; }
-        public string MenuName { get; set; }
-        public string MenuType { get; set; }
         public Nullable<bool> R_View { get; set; }
         public Nullable<bool> R_Add { get; set; }
         public Nullable<bool> R_Edit { get; set; }
         public Nullable<bool> R_Delete { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<int> CreateBy { get; set; }
+        public Nullable<System.DateTime> ModifyDate { get; set; }
+        public Nullable<int> ModifyBy { get; set; }
+    
+        public virtual tb_Menu tb_Menu { get; set; }
+        public virtual tb_Role tb_Role { get; set; }
     }
 }

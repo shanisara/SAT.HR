@@ -44,8 +44,6 @@ namespace SAT.HR.Controllers
 
             try
             {
-                
-
                 var emp = new EmployeeRepository().Login(username, password);
                 if (emp != null)
                 {
@@ -75,6 +73,8 @@ namespace SAT.HR.Controllers
                         result.MessageText = "ถูกปิดการใช้งาน กรุณาติดต่อผู้ดูแลระบบ!";
                     }
 
+                    //bool inrole = 
+
                     //ไม่มีกลุ่มผู้ใช้งาน กรุณาติดต่อผู้ดูแลระบบ!
                 }
                 else
@@ -85,7 +85,8 @@ namespace SAT.HR.Controllers
             }
             catch (Exception e)
             {
-                
+                result.MessageCode = "003";
+                result.MessageText = e.Message;
             }
 
             return Json(new { MessageCode = result.MessageCode, MessageText = result.MessageText }, JsonRequestBehavior.AllowGet);
