@@ -3,8 +3,8 @@
 <!-- Tip 1: You can change the color of the sidebar using: data-color="rose | azure | green | orange | danger" / Tip 2: you can also add an image using data-image tag -->
 <div class="sidebar" data-color="purple" data-background-color="black" data-image="@Url.Content("~/Content/assets/img/sidebar-1.jpg")">
     <div class="logo">
-        <a href="#" class="simple-text logo-mini"> HR </a>
-        <a href="#" class="simple-text logo-normal"> ระบบบริหารงานบุคคล </a>
+        <a href="javascript:void(0)" class="simple-text logo-mini"> HR </a>
+        <a href="#javascript:void(0)" class="simple-text logo-normal"> ระบบบริหารงานบุคคล </a>
     </div>
     <div class="sidebar-wrapper">
         <div class="user">
@@ -21,7 +21,7 @@
                 <div class="collapse" id="collapseMenu">
                     <ul class="nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="">
+                            <a class="nav-link" href="javascript:void(0)">
                                 <span class="sidebar-mini"></span>
                                 <span class="sidebar-normal"> เปลี่ยนรหัสผ่าน </span>
                             </a>
@@ -54,41 +54,42 @@
                 string active = (controllerName == @item.ControllerName) ? "active" : string.Empty;
                 string show = (controllerName == @item.ControllerName) ? "show" : string.Empty;
 
-            <li class="nav-item @active" id="li_@item.MenuID">
-                <a class="nav-link" data-toggle="collapse" href="#m_@item.MenuID">
-                    <i class="material-icons">@item.Icon</i>
-                    <p>
-                        @item.MenuName
-                        <b class="caret"></b>
-                    </p>
-                </a>
-                <div class="collapse @show" id="m_@item.MenuID">
-                    <ul class="nav">
-                        @foreach (var item2 in Model.ListMenu.Where(m => m.ParentID == @item.MenuID))
-                {
-                    string active2 = (actionName == @item2.ActionName) ? "active" : string.Empty;
+                <li class="nav-item @active" id="li_@item.MenuID">
+                    <a class="nav-link" data-toggle="collapse" href="#m_@item.MenuID">
+                        <i class="material-icons">@item.Icon</i>
+                        <p>
+                            @item.MenuName
+                            <b class="caret"></b>
+                        </p>
+                    </a>
+                    <div class="collapse @show" id="m_@item.MenuID">
+                        <ul class="nav">
 
-                    int count = Model.ListMenu.Where(m => m.ParentID == @item2.MenuID && m.MenuType == "R").Count();
-                    if (count > 0)
-                    {
-                            <li class="nav-item @active2">
-                                <a class="nav-link" href="@Url.Action(@item2.ActionName, @item2.ControllerName)/@item2.MenuID">
-                                    <span class="sidebar-normal"> @item2.MenuName </span>
-                                </a>
-                            </li>
-                                }
-                                else
-                                {
-                            <li class="nav-item @active2">
-                                <a class="nav-link" href="@Url.Action(@item2.ActionName, @item2.ControllerName)">
-                                    <span class="sidebar-normal"> @item2.MenuName </span>
-                                </a>
-                            </li>
-                                }
+                        @foreach (var item2 in Model.ListMenu.Where(m => m.ParentID == @item.MenuID))
+                        {
+                            string active2 = (actionName == @item2.ActionName) ? "active" : string.Empty;
+                            int count = Model.ListMenu.Where(m => m.ParentID == @item2.MenuID && m.MenuType == "R").Count();
+
+                            if (count > 0)
+                            {
+                                <li class="nav-item @active2">
+                                    <a class="nav-link" href="@Url.Action(@item2.ActionName, @item2.ControllerName)/@item2.MenuID">
+                                        <span class="sidebar-normal"> @item2.MenuName </span>
+                                    </a>
+                                </li>
                             }
-                    </ul>
-                </div>
-            </li>
+                            else
+                            {
+                                <li class="nav-item @active2">
+                                    <a class="nav-link" href="@Url.Action(@item2.ActionName, @item2.ControllerName)">
+                                        <span class="sidebar-normal"> @item2.MenuName </span>
+                                    </a>
+                                </li>
+                            }
+                        }
+                        </ul>
+                    </div>
+                </li>
             }
 
         </ul>
