@@ -12,11 +12,17 @@ namespace SAT.HR.Models
 
         public int? CapYear { get; set; }
 
-        public int? CapGroupID { get; set; }
-
         public int? CapTID { get; set; }
 
-        public int? MenuID { get; set; }
+        public string CapTName { get; set; }
+
+        public int? CapGID { get; set; }
+
+        public string CapGName { get; set; }
+
+        public int? CapGTID { get; set; }
+
+        public string CapGTName { get; set; }
 
         public DateTime? CreateDate { get; set; }
 
@@ -27,20 +33,43 @@ namespace SAT.HR.Models
         public Nullable<int> ModifyBy { get; set; }
     }
 
+    public class CapabilityDetailViewModel
+    {
+        public int CapDID { get; set; }
+
+        public string CapDName { get; set; }
+
+        public string CapDDesc { get; set; }
+
+        public int? CapID { get; set; }
+
+        public int? Score1 { get; set; }
+
+        public int? Score2 { get; set; }
+    }
+    
 
     public class CapabilityTypeViewModel
     {
         public int CapTID { get; set; }
 
         public string CapTName { get; set; }
+    }
 
-        public Nullable<System.DateTime> CreateDate { get; set; }
+    public class CapabilityGroupViewModel
+    {
+        public int CapGID { get; set; }
 
-        public string CreateBy { get; set; }
+        public string CapGName { get; set; }
 
-        public Nullable<System.DateTime> ModifyDate { get; set; }
+        public string TableName { get; set; }
+    }
 
-        public string ModifyBy { get; set; }
+    public class CapabilityGroupTypeViewModel
+    {
+        public int CapGTID { get; set; }
+
+        public string CapGTName { get; set; }
     }
 
     public class CapabilityResult

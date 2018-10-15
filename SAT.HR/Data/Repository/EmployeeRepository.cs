@@ -9,6 +9,66 @@ namespace SAT.HR.Data.Repository
 {
     public class EmployeeRepository
     {
+        public EmployeePageResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.vw_User.ToList();
+
+                int recordsTotal = data.Count();
+
+                if (!string.IsNullOrEmpty(filter))
+                {
+                    data = data.Where(x => x.UserName.Contains(filter)).ToList();
+                }
+
+                int recordsFiltered = data.Count();
+
+                switch (sortBy)
+                {
+                    case "UserName":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.UserName).ToList() : data.OrderByDescending(x => x.UserName).ToList();
+                        break;
+
+                }
+
+                int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
+                int length = pageSize ?? 10;
+
+                var list = data.Select((s, i) => new EmployeeViewModel()
+                {
+                    RowNumber = ++i,
+                    UserID = s.UserID,
+                    UserName = s.UserName,
+                    Password = s.Password,
+                    FirstName = s.FirstName,
+                    LastName = s.LastName,
+                    FullName = s.FirstName + " " + s.LastName,
+                    UserTName = s.UserTName,
+                    DivID = s.DivID,
+                    DivName = s.DivName,
+                    DepID = s.DepID,
+                    DepName = s.DepName,
+                    SecID = s.SecID,
+                    SecName = s.SecName,
+                    PoID = s.PoID,
+                    //PoCode = s.PoCode,
+                    PoName = s.PoName,
+                    SexID = s.SexID,
+                    SexName = s.SexName,
+                }).Skip(start * length).Take(length).ToList();
+
+
+                EmployeePageResult result = new EmployeePageResult();
+                result.draw = draw ?? 0;
+                result.recordsTotal = recordsTotal;
+                result.recordsFiltered = recordsFiltered;
+                result.data = list;
+
+                return result;
+            }
+        }
+
         public List<EmployeeViewModel> GetAll()
         {
             using (SATEntities db = new SATEntities())

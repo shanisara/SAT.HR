@@ -320,36 +320,7 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
-        public static List<SelectListItem> GetCapability(int? year, int? menuid, int? typeid, int? groupid, int? defaultValue)
-        {
-            List<SelectListItem> list = new List<SelectListItem>();
-
-            var data = new CapabilityRepository().GetAll();
-
-            if (year.HasValue)
-                data = data.Where(m => m.CapYear == year).ToList();
-
-            if (menuid.HasValue)
-                data = data.Where(m => m.MenuID == menuid).ToList();
-
-            if (typeid.HasValue)
-                data = data.Where(m => m.CapTID == typeid).ToList();
-
-            if (groupid.HasValue)
-                data = data.Where(m => m.CapGroupID == groupid).ToList();
-
-            foreach (var item in data)
-            {
-                SelectListItem select = new SelectListItem();
-                select.Value = item.CapID.ToString();
-                select.Text = item.CapTID.ToString();
-                select.Selected = defaultValue.HasValue ? (item.CapID == defaultValue ? true : false) : false;
-                list.Add(select);
-            }
-            return list;
-        }
-
-        public static List<SelectListItem> getSex(int? defaultValue)
+        public static List<SelectListItem> GetSex(int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
@@ -366,6 +337,114 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
+        public static List<SelectListItem> GetCapabilityType(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new CapabilityRepository().GetCapabilityType();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.CapTID.ToString();
+                select.Text = item.CapTName;
+                select.Selected = defaultValue.HasValue ? (item.CapTID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetCapabilityGroup(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new CapabilityRepository().GetCapabilityGroup();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.CapGID.ToString();
+                select.Text = item.CapGName;
+                select.Selected = defaultValue.HasValue ? (item.CapGID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetCapabilityGroupType(int? capgid, int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new CapabilityRepository().GetCapabilityGroup();
+
+            var group = data.Where(w => w.CapGID == capgid).FirstOrDefault();
+
+            string table = string.Empty;
+            if (group != null)
+                table = group.TableName;
+
+            if (table == "tb_Division")
+                list = GetDivision(defaultValue, false);
+            else if (table == "tb_Department")
+                list = GetDepartmentFull(null, defaultValue, false);
+            else if (table == "tb_Section")
+                list = GetSectionFull(null, null, defaultValue, false);
+            else if (table == "tb_Position")
+                list = GetPosition(defaultValue, false);
+            else if (table == "tb_Level")
+                list = GetLevel(defaultValue);
+            else if (table == "tb_Discipline")
+                list = GetDiscipline(defaultValue, false);
+
+            return list;
+        }
+
+        public static List<SelectListItem> GetDepartmentFull(int? divid, int? defaultValue, bool isActive)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new DepartmentRepository().GetAll();
+            if (isActive == true)
+                data = data.Where(m => m.DepStatus == true).ToList();
+
+            if (divid.HasValue)
+                data = data.Where(m => m.DivID == divid).ToList();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.DepID.ToString();
+                select.Text = item.DivName + "/" + item.DepName;
+                select.Selected = defaultValue.HasValue ? (item.DepID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetSectionFull(int? divid, int? depid, int? defaultValue, bool isActive)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new SectionRepository().GetAll();
+            if (isActive == true)
+                data = data.Where(m => m.SecStatus == true).ToList();
+
+            if (divid.HasValue)
+                data = data.Where(m => m.DivID == divid).ToList();
+
+            if (depid.HasValue)
+                data = data.Where(m => m.DepID == depid).ToList();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.SecID.ToString();
+                select.Text = item.DivName + "/" + item.DepName + "/" +item.SecName;
+                select.Selected = defaultValue.HasValue ? (item.SecID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
 
     }
 

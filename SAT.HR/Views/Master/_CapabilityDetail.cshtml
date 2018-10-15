@@ -1,0 +1,49 @@
+﻿@model List<SAT.HR.Models.CapabilityDetailViewModel>
+
+
+<style>
+    .table thead tr th {
+        font-size: 14px;
+    }
+    .table > tbody > tr > td {
+        font-size: 14px;
+    }
+</style>
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formDetail" }))
+{
+    <div class="col-md-12">
+        <div class="row">
+            <div class="material-datatables">
+                <button class="btn btn-primary btn-sm pull-right" data-toggle="modal"><i class="material-icons">add</i> เพิ่มรายการ</button>
+                <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th style="width:5%">ลำดับ</th>
+                            <th style="width:16%">ชื่อสมรรถนะ</th>
+                            <th style="width:7%">คะแนน(1)</th>
+                            <th style="width:7%">คะแนน(2)</th>
+                            <th style="width:55%">รายละเอียด</th>
+                            <th style="width:10%">ปฏิบัติการ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            <tr>
+                                <td>@(i + 1)</td>
+                                <td>@Model[i].CapDName</td>
+                                <td>@Model[i].Score1</td>
+                                <td>@Model[i].Score2</td>
+                                <td>@Model[i].CapDDesc</td>
+                                <td class="td-actions text-center">
+                                    <button type="button" rel="tooltip" class="btn btn-round btn-danger delete"><i class="material-icons">close</i></button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+

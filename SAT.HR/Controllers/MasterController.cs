@@ -405,7 +405,7 @@ namespace SAT.HR.Controllers
             {
                 model = new TitleRepository().GetByID((int)id);
             }
-            ViewBag.Sex = DropDownList.getSex(model.SexID);
+            ViewBag.Sex = DropDownList.GetTitle(model.SexID, id, true);
             return PartialView("_Title", model);
         }
 
@@ -677,14 +677,23 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult CapabilityDetail(int? id)
+        public ActionResult CapabilityHeader(int? id)
         {
             CapabilityViewModel model = new CapabilityViewModel();
             if (id.HasValue)
             {
                 model = new CapabilityRepository().GetByID((int)id);
             }
+            ViewBag.CapabilityType = DropDownList.GetCapabilityType(model.CapTID);
+            ViewBag.CapabilityGroup = DropDownList.GetCapabilityGroup(model.CapGID);
+            ViewBag.CapabilityGroupType = DropDownList.GetCapabilityGroupType(model.CapGID, model.CapGTID);
             return PartialView("_Capability", model);
+        }
+
+        public JsonResult CapabilityGroupType(int capgid)
+        {
+            var result = DropDownList.GetCapabilityGroupType(capgid, null);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -714,6 +723,44 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult CapabilityDetail(int? id)
+        {
+            List<CapabilityDetailViewModel> model = new List<CapabilityDetailViewModel>();
+            if (id.HasValue)
+            {
+                model = new CapabilityDetailRepository().GetByCap((int)id);
+            }
+
+            return PartialView("_CapabilityDetail", model);
+        }
+
+        public JsonResult SaveCapabilityDetail(CapabilityDetailViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (model.CapID != 0)
+                result = new CapabilityDetailRepository().UpdateByEntity(model);
+            else
+                result = new CapabilityDetailRepository().AddByEntity(model);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SubmitCapabilityDetail(List<CapabilityDetailViewModel> model)
+        {
+            ResponseData result = new Models.ResponseData();
+            result = new CapabilityDetailRepository().SubmitByEntity(model);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult DeleteCapabilityDetail(int id)
+        {
+            var result = new CapabilityDetailRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
         #endregion
 
         #region 16. ประเภทการลา - LeaveType
@@ -730,7 +777,7 @@ namespace SAT.HR.Controllers
             {
                 model = new LeaveTypeRepository().GetByID((int)id);
             }
-            ViewBag.Sex = DropDownList.getSex(model.SexID);
+            ViewBag.Sex = DropDownList.GetLeaveType(id, false);
             return PartialView("_LeaveType", model);
         }
 

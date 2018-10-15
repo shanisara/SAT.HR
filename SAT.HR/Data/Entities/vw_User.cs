@@ -28,6 +28,7 @@ namespace SAT.HR.Data.Entities
         public int SecID { get; set; }
         public string SecName { get; set; }
         public int PoID { get; set; }
+        public string PoCode { get; set; }
         public string PoName { get; set; }
         public Nullable<int> SexID { get; set; }
         public string SexName { get; set; }

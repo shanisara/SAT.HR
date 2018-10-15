@@ -1,38 +1,69 @@
 ﻿@model SAT.HR.Models.CapabilityViewModel
 
-    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formDetail" }))
-    {
-        @Html.AntiForgeryToken()
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formDetail" }))
+{
+    @Html.AntiForgeryToken()
 
-        @Html.HiddenFor(m => m.CapID)
+    @Html.HiddenFor(m => m.CapID)
 
-        <div class="col-md-12">
-            <div class="row">
-                @Html.Label("ปี", null, new { @class = "col-sm-2 col-form-label" })
-                <div class="col-sm-10">
-                    <div class="form-group bmd-form-group">
-                        @Html.TextBoxFor(m => m.CapYear, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.CapYear)
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                @Html.Label("CapGroupID", null, new { @class = "col-sm-2 col-form-label" })
-                <div class="col-sm-10">
-                    <div class="form-group bmd-form-group">
-                        @Html.TextBoxFor(m => m.CapGroupID, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.CapGroupID)
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                @Html.Label("CapTID", null, new { @class = "col-sm-2 col-form-label" })
-                <div class="col-sm-10">
-                    <div class="form-group bmd-form-group">
-                        @Html.TextBoxFor(m => m.CapTID, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.CapTID)
-                    </div>
+    <div class="col-md-12">
+        <div class="row">
+            @Html.Label("ปี", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating">ใส่ข้อมูลปี</label>
+                    @Html.TextBoxFor(m => m.CapYear, new { @class = "form-control", type = "number", required = "true" })
                 </div>
             </div>
         </div>
-    }
+        <div class="row">
+            @Html.Label("ประเภท", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                <div class="form-group bmd-form-group">
+                    @*<label class="bmd-label-floating">ใส่ข้อมูลประเภท</label>*@
+                    @Html.DropDownListFor(n => n.CapTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.CapabilityType, "Value", "Text"), "  -- กรุณาเลือก / Please choose --", new { @class = "form-control", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top:15px;">
+            @Html.Label("กลุ่มหลัก", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                <div class="form-group bmd-form-group">
+                    @*<label class="bmd-label-floating">ใส่ข้อมูลกลุ่มหลัก</label>*@
+                    @Html.DropDownListFor(n => n.CapGID, new SelectList((IEnumerable<SelectListItem>)ViewBag.CapabilityGroup, "Value", "Text"), "  -- กรุณาเลือก / Please choose --", new { @class = "form-control", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top:15px;">
+            @Html.Label("กลุ่มย่อย", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                <div class="form-group bmd-form-group">
+                    @*<label class="bmd-label-floating">ใส่ข้อมูลกลุ่มย่อย</label>*@
+                    @Html.DropDownListFor(n => n.CapGTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.CapabilityGroupType, "Value", "Text"), "  -- กรุณาเลือก / Please choose --", new { @class = "form-control", required = "true" })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+
+        $("#CapGID").change(function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("CapabilityGroupType", "Master")',
+                data: { capgid: $('#CapGID').val() },
+                dataType: 'json',
+                success: function (res) {
+                    $('#CapGTID').empty().append('<option value=""> -- กรุณาเลือก / Please choose -- </option>');
+                    $.each(res, function (key, entry) {
+
+                        $('#CapGTID').append($('<option></option>').attr('value', entry.Value).text(entry.Text));
+                    })
+                }
+            });
+        });
+
+    });
+</script>

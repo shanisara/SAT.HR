@@ -12,8 +12,19 @@
       <Parameter Name="RoleID" Mode="In" Type="Int32" />
       <Parameter Name="MenuType" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="sp_Employee_List">
+      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+      <Parameter Name="InitialPage" Mode="In" Type="Int32" />
+      <Parameter Name="SortBy" Mode="In" Type="String" />
+      <Parameter Name="SortrDir" Mode="In" Type="String" />
+      <Parameter Name="UserStatus" Mode="In" Type="Int32" />
+      <Parameter Name="UserType" Mode="In" Type="Int32" />
+      <Parameter Name="Keyword" Mode="In" Type="String" />
+    </FunctionImport>
     <EntitySet Name="tb_ActionType" EntityType="SAT.HR.tb_ActionType" />
+    <EntitySet Name="tb_BenefitType" EntityType="SAT.HR.tb_BenefitType" />
     <EntitySet Name="tb_Capability" EntityType="SAT.HR.tb_Capability" />
+    <EntitySet Name="tb_CapabilityGroup" EntityType="SAT.HR.tb_CapabilityGroup" />
     <EntitySet Name="tb_CapabilityType" EntityType="SAT.HR.tb_CapabilityType" />
     <EntitySet Name="tb_Certificate" EntityType="SAT.HR.tb_Certificate" />
     <EntitySet Name="tb_Degree" EntityType="SAT.HR.tb_Degree" />
@@ -24,11 +35,13 @@
     <EntitySet Name="tb_Education" EntityType="SAT.HR.tb_Education" />
     <EntitySet Name="tb_Holiday" EntityType="SAT.HR.tb_Holiday" />
     <EntitySet Name="tb_Insignia" EntityType="SAT.HR.tb_Insignia" />
+    <EntitySet Name="tb_LeaveType" EntityType="SAT.HR.tb_LeaveType" />
     <EntitySet Name="tb_Level" EntityType="SAT.HR.tb_Level" />
     <EntitySet Name="tb_Major" EntityType="SAT.HR.tb_Major" />
     <EntitySet Name="tb_Menu" EntityType="SAT.HR.tb_Menu" />
     <EntitySet Name="tb_Nationality" EntityType="SAT.HR.tb_Nationality" />
     <EntitySet Name="tb_Position" EntityType="SAT.HR.tb_Position" />
+    <EntitySet Name="tb_PositionType" EntityType="SAT.HR.tb_PositionType" />
     <EntitySet Name="tb_Religion" EntityType="SAT.HR.tb_Religion" />
     <EntitySet Name="tb_Role" EntityType="SAT.HR.tb_Role" />
     <EntitySet Name="tb_RoleMenu" EntityType="SAT.HR.tb_RoleMenu" />
@@ -40,12 +53,14 @@
     <EntitySet Name="tb_Title" EntityType="SAT.HR.tb_Title" />
     <EntitySet Name="tb_User" EntityType="SAT.HR.tb_User" />
     <EntitySet Name="tb_UserType" EntityType="SAT.HR.tb_UserType" />
+    <EntitySet Name="vw_Capability" EntityType="SAT.HR.vw_Capability" />
     <EntitySet Name="vw_Department" EntityType="SAT.HR.vw_Department" />
     <EntitySet Name="vw_RoleMenu" EntityType="SAT.HR.vw_RoleMenu" />
     <EntitySet Name="vw_RoleUser" EntityType="SAT.HR.vw_RoleUser" />
     <EntitySet Name="vw_Section" EntityType="SAT.HR.vw_Section" />
     <EntitySet Name="vw_Title" EntityType="SAT.HR.vw_Title" />
     <EntitySet Name="vw_User" EntityType="SAT.HR.vw_User" />
+    <EntitySet Name="vw_UserNotInUserRole" EntityType="SAT.HR.vw_UserNotInUserRole" />
     <AssociationSet Name="FK_tb_Capability_tb_Capability" Association="SAT.HR.FK_tb_Capability_tb_Capability">
       <End Role="tb_CapabilityType" EntitySet="tb_CapabilityType" />
       <End Role="tb_Capability" EntitySet="tb_Capability" />
@@ -86,8 +101,7 @@
       <End Role="tb_Sex" EntitySet="tb_Sex" />
       <End Role="tb_User" EntitySet="tb_User" />
     </AssociationSet>
-    <EntitySet Name="vw_UserNotInUserRole" EntityType="SAT.HR.vw_UserNotInUserRole" />
-    <EntitySet Name="tb_LeaveType" EntityType="SAT.HR.tb_LeaveType" />
+    <EntitySet Name="tb_CapabilityDetail" EntityType="SAT.HR.tb_CapabilityDetail" />
   </EntityContainer>
   <ComplexType Name="sp_Menu_GetByUser_Result">
     <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -132,15 +146,23 @@
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
   </EntityType>
+  <EntityType Name="tb_BenefitType">
+    <Key>
+      <PropertyRef Name="BenTID" />
+    </Key>
+    <Property Name="BenTID" Type="Int32" Nullable="false" />
+    <Property Name="BenTName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+  </EntityType>
   <EntityType Name="tb_Capability">
     <Key>
       <PropertyRef Name="CapID" />
     </Key>
-    <Property Name="CapID" Type="Int32" Nullable="false" />
+    <Property Name="CapID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="CapYear" Type="Int32" />
     <Property Name="CapTID" Type="Int32" />
+    <Property Name="CapGID" Type="Int32" />
+    <Property Name="CapGTID" Type="Int32" />
     <Property Name="MenuID" Type="Int32" />
-    <Property Name="CapGroupID" Type="Int32" />
     <Property Name="CreateDate" Type="DateTime" Precision="3" />
     <Property Name="CreateBy" Type="Int32" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
@@ -148,16 +170,20 @@
     <NavigationProperty Name="tb_CapabilityType" Relationship="SAT.HR.FK_tb_Capability_tb_Capability" FromRole="tb_Capability" ToRole="tb_CapabilityType" />
     <NavigationProperty Name="tb_Menu" Relationship="SAT.HR.FK_tb_Capability_tb_Menu" FromRole="tb_Capability" ToRole="tb_Menu" />
   </EntityType>
+  <EntityType Name="tb_CapabilityGroup">
+    <Key>
+      <PropertyRef Name="CapGID" />
+    </Key>
+    <Property Name="CapGID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CapGName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="TableName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
   <EntityType Name="tb_CapabilityType">
     <Key>
       <PropertyRef Name="CapTID" />
     </Key>
     <Property Name="CapTID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="CapTName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="CreateDate" Type="DateTime" Precision="3" />
-    <Property Name="CreateBy" Type="Int32" />
-    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifyBy" Type="Int32" />
     <NavigationProperty Name="tb_Capability" Relationship="SAT.HR.FK_tb_Capability_tb_Capability" FromRole="tb_CapabilityType" ToRole="tb_Capability" />
   </EntityType>
   <EntityType Name="tb_Certificate">
@@ -277,6 +303,23 @@
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
   </EntityType>
+  <EntityType Name="tb_LeaveType">
+    <Key>
+      <PropertyRef Name="LevID" />
+    </Key>
+    <Property Name="LevID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LevYear" Type="Int32" Nullable="false" />
+    <Property Name="LevStartDate" Type="DateTime" Precision="3" />
+    <Property Name="LevEndDate" Type="DateTime" Precision="3" />
+    <Property Name="LevMax" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="LevName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SexID" Type="Int32" />
+    <Property Name="LevStatus" Type="Boolean" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+  </EntityType>
   <EntityType Name="tb_Level">
     <Key>
       <PropertyRef Name="Level" />
@@ -334,6 +377,13 @@
     <Property Name="CreateBy" Type="Int32" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tb_PositionType">
+    <Key>
+      <PropertyRef Name="PoTID" />
+    </Key>
+    <Property Name="PoTID" Type="Int32" Nullable="false" />
+    <Property Name="PoTName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="tb_Religion">
     <Key>
@@ -494,6 +544,20 @@
     <Property Name="UserTID" Type="Int32" Nullable="false" />
     <Property Name="UserTName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
+  <EntityType Name="vw_Capability">
+    <Key>
+      <PropertyRef Name="CapID" />
+    </Key>
+    <Property Name="CapYear" Type="Int32" />
+    <Property Name="CapID" Type="Int32" Nullable="false" />
+    <Property Name="CapTID" Type="Int32" />
+    <Property Name="CapTName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="CapGID" Type="Int32" />
+    <Property Name="CapGName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="TableName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CapGTID" Type="Int32" />
+    <Property Name="CapGTName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+  </EntityType>
   <EntityType Name="vw_Department">
     <Key>
       <PropertyRef Name="DepID" />
@@ -576,6 +640,35 @@
     <Property Name="SexName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
   </EntityType>
   <EntityType Name="vw_User">
+    <Key>
+      <PropertyRef Name="UserID" />
+      <PropertyRef Name="DivID" />
+      <PropertyRef Name="DepID" />
+      <PropertyRef Name="SecID" />
+      <PropertyRef Name="PoID" />
+    </Key>
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="UserTID" Type="Int32" />
+    <Property Name="UserTName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DivID" Type="Int32" Nullable="false" />
+    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DepID" Type="Int32" Nullable="false" />
+    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SecID" Type="Int32" Nullable="false" />
+    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PoID" Type="Int32" Nullable="false" />
+    <Property Name="PoCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SexID" Type="Int32" />
+    <Property Name="SexName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="Avatar" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="vw_UserNotInUserRole">
     <Key>
       <PropertyRef Name="UserID" />
       <PropertyRef Name="DivID" />
@@ -723,46 +816,16 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="vw_UserNotInUserRole">
+  <EntityType Name="tb_CapabilityDetail">
     <Key>
-      <PropertyRef Name="UserID" />
-      <PropertyRef Name="DivID" />
-      <PropertyRef Name="DepID" />
-      <PropertyRef Name="SecID" />
-      <PropertyRef Name="PoID" />
+      <PropertyRef Name="CapDID" />
     </Key>
-    <Property Name="UserID" Type="Int32" Nullable="false" />
-    <Property Name="UserName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-    <Property Name="Password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-    <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="UserTID" Type="Int32" />
-    <Property Name="UserTName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="DivID" Type="Int32" Nullable="false" />
-    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="DepID" Type="Int32" Nullable="false" />
-    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="SecID" Type="Int32" Nullable="false" />
-    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="PoID" Type="Int32" Nullable="false" />
-    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="SexID" Type="Int32" />
-    <Property Name="SexName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-    <Property Name="IsActive" Type="Boolean" />
-    <Property Name="Avatar" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-  </EntityType>
-  <EntityType Name="tb_LeaveType">
-    <Key>
-      <PropertyRef Name="LevID" />
-    </Key>
-    <Property Name="LevID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="LevYear" Type="Int32" Nullable="false" />
-    <Property Name="LevStartDate" Type="DateTime" Precision="3" />
-    <Property Name="LevEndDate" Type="DateTime" Precision="3" />
-    <Property Name="LevMax" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="LevName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="SexID" Type="Int32" />
-    <Property Name="LevStatus" Type="Boolean" />
+    <Property Name="CapDID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CapDName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="CapID" Type="Int32" />
+    <Property Name="CapDDesc" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="Score1" Type="Int32" />
+    <Property Name="Score2" Type="Int32" />
     <Property Name="CreateDate" Type="DateTime" Precision="3" />
     <Property Name="CreateBy" Type="Int32" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />

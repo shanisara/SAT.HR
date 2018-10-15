@@ -28,7 +28,9 @@ namespace SAT.HR.Data.Entities
         }
     
         public virtual DbSet<tb_ActionType> tb_ActionType { get; set; }
+        public virtual DbSet<tb_BenefitType> tb_BenefitType { get; set; }
         public virtual DbSet<tb_Capability> tb_Capability { get; set; }
+        public virtual DbSet<tb_CapabilityGroup> tb_CapabilityGroup { get; set; }
         public virtual DbSet<tb_CapabilityType> tb_CapabilityType { get; set; }
         public virtual DbSet<tb_Certificate> tb_Certificate { get; set; }
         public virtual DbSet<tb_Degree> tb_Degree { get; set; }
@@ -39,11 +41,13 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Education> tb_Education { get; set; }
         public virtual DbSet<tb_Holiday> tb_Holiday { get; set; }
         public virtual DbSet<tb_Insignia> tb_Insignia { get; set; }
+        public virtual DbSet<tb_LeaveType> tb_LeaveType { get; set; }
         public virtual DbSet<tb_Level> tb_Level { get; set; }
         public virtual DbSet<tb_Major> tb_Major { get; set; }
         public virtual DbSet<tb_Menu> tb_Menu { get; set; }
         public virtual DbSet<tb_Nationality> tb_Nationality { get; set; }
         public virtual DbSet<tb_Position> tb_Position { get; set; }
+        public virtual DbSet<tb_PositionType> tb_PositionType { get; set; }
         public virtual DbSet<tb_Religion> tb_Religion { get; set; }
         public virtual DbSet<tb_Role> tb_Role { get; set; }
         public virtual DbSet<tb_RoleMenu> tb_RoleMenu { get; set; }
@@ -55,6 +59,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Title> tb_Title { get; set; }
         public virtual DbSet<tb_User> tb_User { get; set; }
         public virtual DbSet<tb_UserType> tb_UserType { get; set; }
+        public virtual DbSet<vw_Capability> vw_Capability { get; set; }
         public virtual DbSet<vw_Department> vw_Department { get; set; }
         public virtual DbSet<vw_RoleMenu> vw_RoleMenu { get; set; }
         public virtual DbSet<vw_RoleUser> vw_RoleUser { get; set; }
@@ -62,7 +67,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Title> vw_Title { get; set; }
         public virtual DbSet<vw_User> vw_User { get; set; }
         public virtual DbSet<vw_UserNotInUserRole> vw_UserNotInUserRole { get; set; }
-        public virtual DbSet<tb_LeaveType> tb_LeaveType { get; set; }
+        public virtual DbSet<tb_CapabilityDetail> tb_CapabilityDetail { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {
@@ -97,6 +102,39 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("MenuType", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Menu_GetByRole_Result>("sp_Menu_GetByRole", roleIDParameter, menuTypeParameter);
+        }
+    
+        public virtual int sp_Employee_List(Nullable<int> pageSize, Nullable<int> initialPage, string sortBy, string sortrDir, Nullable<int> userStatus, Nullable<int> userType, string keyword)
+        {
+            var pageSizeParameter = pageSize.HasValue ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(int));
+    
+            var initialPageParameter = initialPage.HasValue ?
+                new ObjectParameter("InitialPage", initialPage) :
+                new ObjectParameter("InitialPage", typeof(int));
+    
+            var sortByParameter = sortBy != null ?
+                new ObjectParameter("SortBy", sortBy) :
+                new ObjectParameter("SortBy", typeof(string));
+    
+            var sortrDirParameter = sortrDir != null ?
+                new ObjectParameter("SortrDir", sortrDir) :
+                new ObjectParameter("SortrDir", typeof(string));
+    
+            var userStatusParameter = userStatus.HasValue ?
+                new ObjectParameter("UserStatus", userStatus) :
+                new ObjectParameter("UserStatus", typeof(int));
+    
+            var userTypeParameter = userType.HasValue ?
+                new ObjectParameter("UserType", userType) :
+                new ObjectParameter("UserType", typeof(int));
+    
+            var keywordParameter = keyword != null ?
+                new ObjectParameter("Keyword", keyword) :
+                new ObjectParameter("Keyword", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Employee_List", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, userStatusParameter, userTypeParameter, keywordParameter);
         }
     }
 }

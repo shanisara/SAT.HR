@@ -22,10 +22,6 @@ namespace SAT.HR.Data.Entities
     
         public int CapTID { get; set; }
         public string CapTName { get; set; }
-        public Nullable<System.DateTime> CreateDate { get; set; }
-        public Nullable<int> CreateBy { get; set; }
-        public Nullable<System.DateTime> ModifyDate { get; set; }
-        public Nullable<int> ModifyBy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Capability> tb_Capability { get; set; }

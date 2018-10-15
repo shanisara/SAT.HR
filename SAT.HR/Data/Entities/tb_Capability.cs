@@ -17,8 +17,9 @@ namespace SAT.HR.Data.Entities
         public int CapID { get; set; }
         public Nullable<int> CapYear { get; set; }
         public Nullable<int> CapTID { get; set; }
+        public Nullable<int> CapGID { get; set; }
+        public Nullable<int> CapGTID { get; set; }
         public Nullable<int> MenuID { get; set; }
-        public Nullable<int> CapGroupID { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }

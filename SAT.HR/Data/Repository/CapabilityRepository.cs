@@ -14,14 +14,14 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.tb_Capability.ToList();
+                var data = db.vw_Capability.ToList();
 
                 int recordsTotal = data.Count();
 
-                //if (!string.IsNullOrEmpty(filter))
-                //{
-                //    data = data.Where(x => x.CapYear.Contains(filter)).ToList();
-                //}
+                if (!string.IsNullOrEmpty(filter))
+                {
+                    data = data.Where(x => x.CapTName.Contains(filter) || x.CapGName.Contains(filter) || x.CapGTName.Contains(filter)).ToList();
+                }
 
                 int recordsFiltered = data.Count();
 
@@ -29,6 +29,15 @@ namespace SAT.HR.Data.Repository
                 {
                     case "CapYear":
                         data = (sortDir == "asc") ? data.OrderBy(x => x.CapYear).ToList() : data.OrderByDescending(x => x.CapYear).ToList();
+                        break;
+                    case "CapTName":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.CapTName).ToList() : data.OrderByDescending(x => x.CapTName).ToList();
+                        break;
+                    case "CapGName":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.CapGName).ToList() : data.OrderByDescending(x => x.CapGName).ToList();
+                        break;
+                    case "CapGTName":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.CapGTName).ToList() : data.OrderByDescending(x => x.CapGTName).ToList();
                         break;
                 }
 
@@ -41,8 +50,11 @@ namespace SAT.HR.Data.Repository
                     CapID = s.CapID,
                     CapYear = s.CapYear,
                     CapTID = s.CapTID,
-                    MenuID = s.MenuID,
-                    CapGroupID = s.CapGroupID,
+                    CapTName = s.CapTName,
+                    CapGID = s.CapGID,
+                    CapGName =s.CapGName,
+                    CapGTID = s.CapGTID,
+                    CapGTName = s.CapGTName
                 }).Skip(start * length).Take(length).ToList();
 
                 CapabilityResult result = new CapabilityResult();
@@ -64,8 +76,8 @@ namespace SAT.HR.Data.Repository
                 model.CapID = data.CapID;
                 model.CapYear = data.CapYear;
                 model.CapTID = data.CapTID;
-                model.MenuID = data.MenuID;
-                model.CapGroupID = data.CapGroupID;
+                model.CapGID = data.CapGID;
+                model.CapGTID = data.CapGTID;
                 return model;
             }
         }
@@ -79,9 +91,35 @@ namespace SAT.HR.Data.Repository
                     CapID = s.CapID,
                     CapYear = s.CapYear,
                     CapTID = s.CapTID,
-                    MenuID = s.MenuID,
-                    CapGroupID = s.CapGroupID,
+                    CapGID = s.CapGID,
                 }).OrderBy(x => x.CapYear).ToList();
+                return list;
+            }
+        }
+
+        public List<CapabilityTypeViewModel> GetCapabilityType()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_CapabilityType.Select(s => new CapabilityTypeViewModel()
+                {
+                    CapTID = s.CapTID,
+                    CapTName = s.CapTName,
+                }).OrderBy(x => x.CapTName).ToList();
+                return list;
+            }
+        }
+
+        public List<CapabilityGroupViewModel> GetCapabilityGroup()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_CapabilityGroup.Select(s => new CapabilityGroupViewModel()
+                {
+                    CapGID = s.CapGID,
+                    CapGName = s.CapGName,
+                    TableName = s.TableName
+                }).OrderBy(x => x.CapGName).ToList();
                 return list;
             }
         }
@@ -97,8 +135,8 @@ namespace SAT.HR.Data.Repository
                     model.CapID = data.CapID;
                     model.CapYear = data.CapYear;
                     model.CapTID = data.CapTID;
-                    model.MenuID = data.MenuID;
-                    model.CapGroupID = data.CapGroupID;
+                    model.CapGID = data.CapGID;
+                    model.CapGTID = data.CapGTID;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -124,8 +162,8 @@ namespace SAT.HR.Data.Repository
                     var data = db.tb_Capability.Single(x => x.CapID == newdata.CapID);
                     data.CapYear = newdata.CapYear;
                     data.CapTID = newdata.CapTID;
-                    data.MenuID = newdata.MenuID;
-                    data.CapGroupID = newdata.CapGroupID;
+                    data.CapGID = newdata.CapGID;
+                    data.CapGTID = newdata.CapGTID;
                     data.ModifyBy = UtilityService.User.UserID;
                     data.ModifyDate = DateTime.Now;
                     db.SaveChanges();
@@ -160,5 +198,7 @@ namespace SAT.HR.Data.Repository
                 return result;
             }
         }
+
+
     }
 }

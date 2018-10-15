@@ -4,5 +4,197 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>EmployeeTransfer</h2>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">group</i>
+                    </div>
+                    <h4 class="card-title"><span> โยกย้ายระดับ / </span></h4>
+                </div>
+                <div class="card-body">
+                    <div class="toolbar pull-right">
+                        <button class="btn btn-primary btn-sm" data-toggle="modal" id="btnAdd"><i class="material-icons">add</i> เพิ่มรายการ </button>
+                    </div>
+                    <div class="material-datatables">
+                        <table id="datatables" data-url="@Url.Content("~/Employee/Index")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th style="width:5%" class="disabled-sorting">ลำดับ</th>
+                                    <th style="width:20%">ปีบัญชี</th>
+                                    <th style="width:20%">เลขที่หนังสือคำสั่ง</th>
+                                    <th style="width:10%">สถานะ</th>
+                                    <th style="width:10%">จำนวน(คน)</th>
+                                    <th style="width:15%">วันที่ทำรายการ</th>
+                                    <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Classic Modal -->
+<div class="modal fade modal-large" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span>ข้อมูลโยกย้ายระดับ</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="material-icons">clear</i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div id="detail"></div>
+                    <div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group">
+                                    @Html.Label("ปีบัญชี", null, new { @class = "bmd-label-floating" })
+                                    <input class="form-control" type="text">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group">
+                                    @Html.Label("เลขที่หนังสือคำสั่ง", null, new { @class = "bmd-label-floating" })
+                                    <input class="form-control" type="text">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group">
+                                    @Html.Label("วันที่ลงคำสั่ง", null, new { @class = "bmd-label-floating" })
+                                    <input class="form-control" type="text">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group">
+                                    @Html.Label("ผู้ลงนาม", null, new { @class = "bmd-label-floating" })
+                                    <input class="form-control" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group bmd-form-group">
+                                    @Html.Label("ไฟล์หนังสือคำสั่ง", null, new { @class = "bmd-label-floating" })
+                                    <input class="form-control" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <table id="datatables">
+                                <thead>
+                                    <tr>
+                                        <th style="width:5%" class="disabled-sorting">ลำดับ</th>
+                                        <th style="width:25%">ชื่อ - นามสกุล</th>
+                                        <th style="width:10%">ระดับเก่า</th>
+                                        <th style="width:10%">ขั้นเก่า</th>
+                                        <th style="width:10%">เงินเดือนเก่า</th>
+                                        <th style="width:10%">ระดับใหม่</th>
+                                        <th style="width:10%">ขั้นใหม่</th>
+                                        <th style="width:10%">เงินเดือนใหม่</th>
+                                        <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-sm btn-primary" id="btnSave">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  End Modal -->
+<!-- Classic Modal -->
+<div class="modal fade modal-large" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span>ข้อมูลโยกย้ายระดับ</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="material-icons">clear</i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                @Html.Label("ชื่อพนักงาน", null, new { @class = "bmd-label-floating" })
+                                <input class="form-control" type="text">
+                            </div>
+                        </div>
+                        ฝ่าย/กอง/งาน
+                        ตำแหน่งปัจจุบัน
+                        ระดับ 
+                        ขั้น 
+                        เงินเดือน
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                @Html.Label("ระดับ", null, new { @class = "bmd-label-floating" })
+                                <input class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                @Html.Label("ขั้น", null, new { @class = "bmd-label-floating" })
+                                <input class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                @Html.Label("เงินเดือน", null, new { @class = "bmd-label-floating" })
+                                <input class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-sm btn-primary" id="btnSave">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  End Modal -->
 
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            // Add record
+            $("#btnAdd").click(function () {
+                $('#modalDetail').modal('show');
+
+                @*var url = '@Url.Action("EmployeeTransferDetail", "Employee")';
+                $.post(url, function (data) {
+                    $("#detail").html(data);
+                    $('#modalDetail').modal('show');
+                });*@
+            });
+
+        });
+    </script>
+}

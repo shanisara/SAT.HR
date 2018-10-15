@@ -1,4 +1,5 @@
-﻿using SAT.HR.Helpers;
+﻿using SAT.HR.Data.Repository;
+using SAT.HR.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,11 @@ namespace SAT.HR.Controllers
     {
         // ระบบสวัสดิการ
         public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult Detail()
         {
             return View();
         }
@@ -81,9 +87,9 @@ namespace SAT.HR.Controllers
 
         #region  8. ฌาปนกิจสงเคราะห์
 
-        public ActionResult ChaponkitRelief()
+        public ActionResult Cremation()
         {
-            return PartialView("_ChaponkitRelief");
+            return PartialView("_Cremation");
         }
 
         #endregion

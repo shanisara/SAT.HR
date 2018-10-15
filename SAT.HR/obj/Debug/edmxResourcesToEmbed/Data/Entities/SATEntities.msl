@@ -43,6 +43,7 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_Employee_List" FunctionName="SAT.HR.Store.sp_Employee_List" />
     <EntitySetMapping Name="tb_ActionType">
       <EntityTypeMapping TypeName="SAT.HR.tb_ActionType">
         <MappingFragment StoreEntitySet="tb_ActionType">
@@ -57,6 +58,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="tb_BenefitType">
+      <EntityTypeMapping TypeName="SAT.HR.tb_BenefitType">
+        <MappingFragment StoreEntitySet="tb_BenefitType">
+          <ScalarProperty Name="BenTName" ColumnName="BenTName" />
+          <ScalarProperty Name="BenTID" ColumnName="BenTID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="tb_Capability">
       <EntityTypeMapping TypeName="SAT.HR.tb_Capability">
         <MappingFragment StoreEntitySet="tb_Capability">
@@ -64,21 +73,27 @@
           <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
           <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-          <ScalarProperty Name="CapGroupID" ColumnName="CapGroupID" />
           <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+          <ScalarProperty Name="CapGTID" ColumnName="CapGTID" />
+          <ScalarProperty Name="CapGID" ColumnName="CapGID" />
           <ScalarProperty Name="CapTID" ColumnName="CapTID" />
           <ScalarProperty Name="CapYear" ColumnName="CapYear" />
           <ScalarProperty Name="CapID" ColumnName="CapID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="tb_CapabilityGroup">
+      <EntityTypeMapping TypeName="SAT.HR.tb_CapabilityGroup">
+        <MappingFragment StoreEntitySet="tb_CapabilityGroup">
+          <ScalarProperty Name="TableName" ColumnName="TableName" />
+          <ScalarProperty Name="CapGName" ColumnName="CapGName" />
+          <ScalarProperty Name="CapGID" ColumnName="CapGID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="tb_CapabilityType">
       <EntityTypeMapping TypeName="SAT.HR.tb_CapabilityType">
         <MappingFragment StoreEntitySet="tb_CapabilityType">
-          <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-          <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-          <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
           <ScalarProperty Name="CapTName" ColumnName="CapTName" />
           <ScalarProperty Name="CapTID" ColumnName="CapTID" />
         </MappingFragment>
@@ -207,6 +222,24 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="tb_LeaveType">
+      <EntityTypeMapping TypeName="SAT.HR.tb_LeaveType">
+        <MappingFragment StoreEntitySet="tb_LeaveType">
+          <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+          <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+          <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="LevStatus" ColumnName="LevStatus" />
+          <ScalarProperty Name="SexID" ColumnName="SexID" />
+          <ScalarProperty Name="LevName" ColumnName="LevName" />
+          <ScalarProperty Name="LevMax" ColumnName="LevMax" />
+          <ScalarProperty Name="LevEndDate" ColumnName="LevEndDate" />
+          <ScalarProperty Name="LevStartDate" ColumnName="LevStartDate" />
+          <ScalarProperty Name="LevYear" ColumnName="LevYear" />
+          <ScalarProperty Name="LevID" ColumnName="LevID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="tb_Level">
       <EntityTypeMapping TypeName="SAT.HR.tb_Level">
         <MappingFragment StoreEntitySet="tb_Level">
@@ -265,6 +298,14 @@
           <ScalarProperty Name="PoName" ColumnName="PoName" />
           <ScalarProperty Name="PoCode" ColumnName="PoCode" />
           <ScalarProperty Name="PoID" ColumnName="PoID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_PositionType">
+      <EntityTypeMapping TypeName="SAT.HR.tb_PositionType">
+        <MappingFragment StoreEntitySet="tb_PositionType">
+          <ScalarProperty Name="PoTName" ColumnName="PoTName" />
+          <ScalarProperty Name="PoTID" ColumnName="PoTID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -424,6 +465,21 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="vw_Capability">
+      <EntityTypeMapping TypeName="SAT.HR.vw_Capability">
+        <MappingFragment StoreEntitySet="vw_Capability">
+          <ScalarProperty Name="CapGTName" ColumnName="CapGTName" />
+          <ScalarProperty Name="CapGTID" ColumnName="CapGTID" />
+          <ScalarProperty Name="TableName" ColumnName="TableName" />
+          <ScalarProperty Name="CapGName" ColumnName="CapGName" />
+          <ScalarProperty Name="CapGID" ColumnName="CapGID" />
+          <ScalarProperty Name="CapTName" ColumnName="CapTName" />
+          <ScalarProperty Name="CapTID" ColumnName="CapTID" />
+          <ScalarProperty Name="CapID" ColumnName="CapID" />
+          <ScalarProperty Name="CapYear" ColumnName="CapYear" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="vw_Department">
       <EntityTypeMapping TypeName="SAT.HR.vw_Department">
         <MappingFragment StoreEntitySet="vw_Department">
@@ -516,6 +572,7 @@
           <ScalarProperty Name="SexName" ColumnName="SexName" />
           <ScalarProperty Name="SexID" ColumnName="SexID" />
           <ScalarProperty Name="PoName" ColumnName="PoName" />
+          <ScalarProperty Name="PoCode" ColumnName="PoCode" />
           <ScalarProperty Name="PoID" ColumnName="PoID" />
           <ScalarProperty Name="SecName" ColumnName="SecName" />
           <ScalarProperty Name="SecID" ColumnName="SecID" />
@@ -558,21 +615,19 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="tb_LeaveType">
-      <EntityTypeMapping TypeName="SAT.HR.tb_LeaveType">
-        <MappingFragment StoreEntitySet="tb_LeaveType">
+    <EntitySetMapping Name="tb_CapabilityDetail">
+      <EntityTypeMapping TypeName="SAT.HR.tb_CapabilityDetail">
+        <MappingFragment StoreEntitySet="tb_CapabilityDetail">
           <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
           <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
           <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-          <ScalarProperty Name="LevStatus" ColumnName="LevStatus" />
-          <ScalarProperty Name="SexID" ColumnName="SexID" />
-          <ScalarProperty Name="LevName" ColumnName="LevName" />
-          <ScalarProperty Name="LevMax" ColumnName="LevMax" />
-          <ScalarProperty Name="LevEndDate" ColumnName="LevEndDate" />
-          <ScalarProperty Name="LevStartDate" ColumnName="LevStartDate" />
-          <ScalarProperty Name="LevYear" ColumnName="LevYear" />
-          <ScalarProperty Name="LevID" ColumnName="LevID" />
+          <ScalarProperty Name="Score2" ColumnName="Score2" />
+          <ScalarProperty Name="Score1" ColumnName="Score1" />
+          <ScalarProperty Name="CapDDesc" ColumnName="CapDDesc" />
+          <ScalarProperty Name="CapID" ColumnName="CapID" />
+          <ScalarProperty Name="CapDName" ColumnName="CapDName" />
+          <ScalarProperty Name="CapDID" ColumnName="CapDID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

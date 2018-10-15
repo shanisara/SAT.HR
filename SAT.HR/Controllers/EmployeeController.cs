@@ -20,54 +20,74 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult Employee()
+        [HttpPost]
+        public JsonResult Index(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        {
+            var search = Request["search[value]"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
+            var dataTableData = new EmployeeRepository().GetPage(search, draw, start, length, dir, column);
+            return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Add()
         {
             return View();
         }
 
-        public ActionResult _Profile()
+        public ActionResult Detail()
         {
-            return PartialView("_Profile");
+            return View();
         }
 
-        public ActionResult _Family()
+        public ActionResult Employee()
+        {
+            return PartialView("_Employee");
+        }
+
+        public ActionResult Family()
         {
             return PartialView("_Family");
         }
 
-        public ActionResult _Education()
+        public ActionResult Education()
         {
             return PartialView("_Education");
         }
 
-        public ActionResult _Position()
+        public ActionResult Position()
         {
             return PartialView("_Position");
         }
 
-        public ActionResult _Trainning()
+        public ActionResult Trainning()
         {
             return PartialView("_Trainning");
         }
 
-        public ActionResult _insignia()
+        public ActionResult Insignia()
         {
-            return PartialView("_insignia");
+            return PartialView("_Insignia");
         }
 
-        public ActionResult _Remuneration()
+        public ActionResult Outstanding()
         {
-            return PartialView("_Remuneration");
+            return PartialView("_Outstanding");
         }
 
-        public ActionResult _Certificate()
+        public ActionResult Certificate()
         {
             return PartialView("_Certificate");
         }
 
-        public ActionResult _History()
+        public ActionResult History()
         {
             return PartialView("_History");
+        }
+
+        public ActionResult Remuneration()
+        {
+            return PartialView("_Remuneration");
         }
 
         //[HttpPost]

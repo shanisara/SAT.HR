@@ -44,6 +44,8 @@ namespace SAT.HR.Controllers
 
             try
             {
+                
+
                 var emp = new EmployeeRepository().Login(username, password);
                 if (emp != null)
                 {
@@ -70,13 +72,15 @@ namespace SAT.HR.Controllers
                     else
                     {
                         result.MessageCode = "001";
-                        result.MessageText = "Your account has not activate";
+                        result.MessageText = "ถูกปิดการใช้งาน กรุณาติดต่อผู้ดูแลระบบ!";
                     }
+
+                    //ไม่มีกลุ่มผู้ใช้งาน กรุณาติดต่อผู้ดูแลระบบ!
                 }
                 else
                 {
                     result.MessageCode = "002";
-                    result.MessageText = "Username or Password incorrect";
+                    result.MessageText = "รหัสผู้ใช้หรือรหัสผ่านไม่ถูกต้อง.";
                 }
             }
             catch (Exception e)

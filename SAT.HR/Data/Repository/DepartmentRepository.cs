@@ -67,12 +67,13 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var list = db.tb_Department.Select(s => new DepartmentViewModel()
+                var list = db.vw_Department.Select(s => new DepartmentViewModel()
                 {
                     DepID = s.DepID,
                     DepName = s.DepName,
                     DepStatus = (bool)s.DepStatus,
-                    DivID = s.DivID
+                    DivID = s.DivID,
+                    DivName = s.DivName
                 }).OrderBy(x => x.DepName).ToList();
                 return list;
             }

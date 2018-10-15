@@ -26,7 +26,7 @@ namespace SAT.HR.Helpers
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
-            if (UtilityService.User == null && !filterContext.IsChildAction)   //UtilityService.User
+            if (UtilityService.User == null && !filterContext.IsChildAction) 
             {
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Home", action = "Index" }));
             }

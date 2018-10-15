@@ -13,19 +13,50 @@
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
+  <EntityType Name="tb_BenefitType">
+    <Key>
+      <PropertyRef Name="BenTID" />
+    </Key>
+    <Property Name="BenTID" Type="int" Nullable="false" />
+    <Property Name="BenTName" Type="nvarchar" MaxLength="200" />
+  </EntityType>
   <EntityType Name="tb_Capability">
     <Key>
       <PropertyRef Name="CapID" />
     </Key>
-    <Property Name="CapID" Type="int" Nullable="false" />
+    <Property Name="CapID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="CapYear" Type="int" />
     <Property Name="CapTID" Type="int" />
+    <Property Name="CapGID" Type="int" />
+    <Property Name="CapGTID" Type="int" />
     <Property Name="MenuID" Type="int" />
-    <Property Name="CapGroupID" Type="int" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_CapabilityDetail">
+    <Key>
+      <PropertyRef Name="CapDID" />
+    </Key>
+    <Property Name="CapDID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CapDName" Type="nvarchar" MaxLength="500" />
+    <Property Name="CapID" Type="int" />
+    <Property Name="CapDDesc" Type="nvarchar" MaxLength="1000" />
+    <Property Name="Score1" Type="int" />
+    <Property Name="Score2" Type="int" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_CapabilityGroup">
+    <Key>
+      <PropertyRef Name="CapGID" />
+    </Key>
+    <Property Name="CapGID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CapGName" Type="nvarchar" MaxLength="200" />
+    <Property Name="TableName" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="tb_CapabilityType">
     <Key>
@@ -33,10 +64,6 @@
     </Key>
     <Property Name="CapTID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="CapTName" Type="nvarchar" MaxLength="200" />
-    <Property Name="CreateDate" Type="datetime" />
-    <Property Name="CreateBy" Type="int" />
-    <Property Name="ModifyDate" Type="datetime" />
-    <Property Name="ModifyBy" Type="int" />
   </EntityType>
   <EntityType Name="tb_Certificate">
     <Key>
@@ -225,6 +252,13 @@
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
+  <EntityType Name="tb_PositionType">
+    <Key>
+      <PropertyRef Name="PoTID" />
+    </Key>
+    <Property Name="PoTID" Type="int" Nullable="false" />
+    <Property Name="PoTName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
   <EntityType Name="tb_Religion">
     <Key>
       <PropertyRef Name="RelD" />
@@ -373,6 +407,22 @@
     <Property Name="UserTName" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Capability' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Capability">
+    <Key>
+      <PropertyRef Name="CapID" />
+    </Key>
+    <Property Name="CapYear" Type="int" />
+    <Property Name="CapID" Type="int" Nullable="false" />
+    <Property Name="CapTID" Type="int" />
+    <Property Name="CapTName" Type="nvarchar" MaxLength="200" />
+    <Property Name="CapGID" Type="int" />
+    <Property Name="CapGName" Type="nvarchar" MaxLength="200" />
+    <Property Name="TableName" Type="nvarchar" MaxLength="50" />
+    <Property Name="CapGTID" Type="int" />
+    <Property Name="CapGTName" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Department' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Department">
     <Key>
@@ -487,6 +537,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     <Property Name="SecID" Type="int" Nullable="false" />
     <Property Name="SecName" Type="nvarchar" MaxLength="200" />
     <Property Name="PoID" Type="int" Nullable="false" />
+    <Property Name="PoCode" Type="nvarchar" MaxLength="200" />
     <Property Name="PoName" Type="nvarchar" MaxLength="200" />
     <Property Name="SexID" Type="int" />
     <Property Name="SexName" Type="nchar" MaxLength="10" />
@@ -650,6 +701,15 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
   <Function Name="fm_fn_ConvertMinutesToHour" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
     <Parameter Name="TotalMinutes" Type="int" Mode="In" />
   </Function>
+  <Function Name="sp_Employee_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PageSize" Type="int" Mode="In" />
+    <Parameter Name="InitialPage" Type="int" Mode="In" />
+    <Parameter Name="SortBy" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortrDir" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserStatus" Type="int" Mode="In" />
+    <Parameter Name="UserType" Type="int" Mode="In" />
+    <Parameter Name="Keyword" Type="nvarchar" Mode="In" />
+  </Function>
   <Function Name="sp_Menu_GetByRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="RoleID" Type="int" Mode="In" />
     <Parameter Name="MenuType" Type="nvarchar" Mode="In" />
@@ -663,7 +723,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
   </Function>
   <EntityContainer Name="SATHRStoreContainer">
     <EntitySet Name="tb_ActionType" EntityType="Self.tb_ActionType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_BenefitType" EntityType="Self.tb_BenefitType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Capability" EntityType="Self.tb_Capability" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_CapabilityDetail" EntityType="Self.tb_CapabilityDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_CapabilityGroup" EntityType="Self.tb_CapabilityGroup" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_CapabilityType" EntityType="Self.tb_CapabilityType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Certificate" EntityType="Self.tb_Certificate" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Degree" EntityType="Self.tb_Degree" Schema="dbo" store:Type="Tables" />
@@ -680,6 +743,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
     <EntitySet Name="tb_Menu" EntityType="Self.tb_Menu" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Nationality" EntityType="Self.tb_Nationality" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Position" EntityType="Self.tb_Position" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_PositionType" EntityType="Self.tb_PositionType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Religion" EntityType="Self.tb_Religion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Role" EntityType="Self.tb_Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_RoleMenu" EntityType="Self.tb_RoleMenu" Schema="dbo" store:Type="Tables" />
@@ -691,6 +755,19 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
     <EntitySet Name="tb_Title" EntityType="Self.tb_Title" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_User" EntityType="Self.tb_User" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_UserType" EntityType="Self.tb_UserType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="vw_Capability" EntityType="Self.vw_Capability" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Capability].[CapYear] AS [CapYear], 
+    [vw_Capability].[CapID] AS [CapID], 
+    [vw_Capability].[CapTID] AS [CapTID], 
+    [vw_Capability].[CapTName] AS [CapTName], 
+    [vw_Capability].[CapGID] AS [CapGID], 
+    [vw_Capability].[CapGName] AS [CapGName], 
+    [vw_Capability].[TableName] AS [TableName], 
+    [vw_Capability].[CapGTID] AS [CapGTID], 
+    [vw_Capability].[CapGTName] AS [CapGTName]
+    FROM [dbo].[vw_Capability] AS [vw_Capability]</DefiningQuery>
+    </EntitySet>
     <EntitySet Name="vw_Department" EntityType="Self.vw_Department" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [vw_Department].[DepID] AS [DepID], 
@@ -781,6 +858,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_UserNotInUserRole' does not hav
     [vw_User].[SecID] AS [SecID], 
     [vw_User].[SecName] AS [SecName], 
     [vw_User].[PoID] AS [PoID], 
+    [vw_User].[PoCode] AS [PoCode], 
     [vw_User].[PoName] AS [PoName], 
     [vw_User].[SexID] AS [SexID], 
     [vw_User].[SexName] AS [SexName], 
