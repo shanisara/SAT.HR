@@ -36,9 +36,32 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult Detail()
+        public ActionResult Detail(int id)
         {
-            return View();
+            EmployeeViewModel model = new EmployeeViewModel();
+            model = new EmployeeRepository().GetByID(id);
+
+            ViewBag.Title = DropDownList.GetTitle(model.SexID, model.TitleID, true);
+            ViewBag.UserStatus = DropDownList.GetUserStatus(model.UserStatusID);
+            ViewBag.Sex = DropDownList.GetSex(model.SexID);
+            ViewBag.Religion = DropDownList.GetReligion(model.ReligionID, true);
+            ViewBag.Ethnicity = DropDownList.GetNationality(model.EthnicityID, true);    //-- > เชื้อชาติ
+            ViewBag.Nationality = DropDownList.GetNationality(model.NationalitID, true); //--> สัญชาติ 
+            ViewBag.BloodType = DropDownList.GetBloodType(model.BloodTypeID);
+            ViewBag.MaritalStatus = DropDownList.GetMaritalStatus(model.MaritalStatusID);
+            ViewBag.Position = DropDownList.GetPosition(model.PoID, true);
+            ViewBag.Division = DropDownList.GetDivision(model.DivID, true);
+            ViewBag.Department = DropDownList.GetDepartment(model.DivID, model.DepID, true);
+            ViewBag.Section = DropDownList.GetSection(model.DivID, model.DepID, model.SecID, true);
+            ViewBag.Level = DropDownList.GetSalaryLevel(model.SararyLevel);
+            ViewBag.Step = DropDownList.GetSalaryStep(model.SararyStep);
+            ViewBag.GovernmentHelper = DropDownList.GovernmentHelper(model.GovernmentHelperID); //-- > ช่วยราชการ
+            ViewBag.Agent = DropDownList.GetAgent(model.AgentID); //-- > รักษาการแทน
+            ViewBag.Province = DropDownList.GetProvince(model.ProvinceID);
+            ViewBag.District = DropDownList.GetDistrict(model.DistrictID);
+            ViewBag.SubDistrict = DropDownList.GetSubDistrict(model.SubDistrictID);
+
+            return View(model);
         }
 
         //public JsonResult SaveEmployee(SectionViewModel model)
@@ -61,32 +84,9 @@ namespace SAT.HR.Controllers
 
         #region Partial
 
-        public ActionResult Employee(int id)
+        public ActionResult Employee()
         {
-            EmployeeViewModel model = new EmployeeViewModel();
-            model = new EmployeeRepository().GetByID(id);
-
-            //ViewBag.Title = DropDownList.GetTitle(model.TitleID);
-            //ViewBag.UserStatus = DropDownList.UserStatus(model.UserStatusID);
-            ViewBag.Sex = DropDownList.GetSex(model.SexID);
-            //ViewBag.Religion = DropDownList.GetReligion(model.Religion, true);
-            //ViewBag.Ethnicity = DropDownList.GetNationality(model.Ethnicity, true)      //-- > เชื้อชาติ
-            //ViewBag.Nationality = DropDownList.GetNationality(model.Nationalit, true)   //--> สัญชาติ 
-            //ViewBag.BloodType = DropDownList
-            //ViewBag.MaritalStatus = DropDownList
-            ViewBag.Position = DropDownList.GetPosition(model.PoID, true);
-            ViewBag.Division = DropDownList.GetDivision(model.DivID, true);
-            ViewBag.Department = DropDownList.GetDepartment(model.DivID, model.DepID, true);
-            ViewBag.Section = DropDownList.GetSection(model.DivID, model.DepID, model.SecID, true);
-            //ViewBag.Level = DropDownList.GetLevel(model.Level);
-            //ViewBag.Step = DropDownList.GetStep(model.Step);
-            //ViewBag. = DropDownList --> ช่วยราชการ
-            //ViewBag. = DropDownList --> รักษาการแทน
-            //ViewBag.Province = DropDownList.GetProvince(model.ProvinceID);
-            //ViewBag.District = DropDownList.GetDistrict(model.DistrictID);
-            //ViewBag.SubDistrict = DropDownList.GetSubDistrict(model.SubDistrictID);
-
-            return PartialView("_Employee", model);
+            return PartialView("_Employee");
         }
 
         public ActionResult Family()
@@ -119,10 +119,10 @@ namespace SAT.HR.Controllers
             return PartialView("_Insignia");
         }
 
-        public ActionResult Outstanding()
+        public ActionResult Excellent()
         {
 
-            return PartialView("_Outstanding");
+            return PartialView("_Excellent");
         }
 
         public ActionResult Certificate()

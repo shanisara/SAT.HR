@@ -33,8 +33,12 @@ namespace SAT.HR.Models
         public List<SalaryViewModel> data { get; set; }
     }
 
-    public class LevelViewModel
+    public class SalaryLevelViewModel
     {
         public int Level { get; set; }
+    }
+    public class SalaryStepViewModel
+    {
+        public int Step { get; set; }
     }
 }

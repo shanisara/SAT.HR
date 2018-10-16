@@ -1,4 +1,5 @@
-﻿
+﻿@model SAT.HR.Models.EmployeeViewModel
+
 <style>
     .datepicker {
         z-index: 99999 !important;
@@ -74,7 +75,12 @@
                                 <div class="picture">
                                     <div class="fileinput text-center fileinput-new" data-provides="fileinput">
                                         <div class="fileinput-new thumbnail">
-                                            <img alt="..." src="@Url.Content("~/Content/assets/img/image_placeholder.jpg")">
+                                            @if (string.IsNullOrEmpty(Model.Avatar)) {
+                                                <img alt="..." src="@Url.Content("~/Content/assets/img/image_placeholder.jpg")" />
+                                            }
+                                            else{
+                                                <img alt="..." src="@Url.Content("~/Upload/Avatar/"+ @Model.Avatar)" />
+                                            }
                                         </div>
                                         <div class="fileinput-preview fileinput-exists thumbnail"></div>
                                         <div>

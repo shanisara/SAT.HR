@@ -113,18 +113,21 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.vw_User.Where(x => x.SecID == id).FirstOrDefault();
+                var data = db.vw_User.Where(x => x.UserID == id).FirstOrDefault();
                 EmployeeViewModel model = new Models.EmployeeViewModel();
+                model.UserID = data.UserID;
+                model.UserName = data.UserName;
+                model.FullName = data.FirstName + " " + data.LastName;
+                model.Avatar = data.Avatar;
                 model.SecID = data.SecID;
                 model.SecName = data.SecName;
                 model.DivID = data.DivID;
+                model.DivName = data.DivName;
                 model.DepID = data.DepID;
-
-
+                model.DepName = data.DepName;
                 return model;
             }
         }
-
 
         public EmployeePageResult GetUserNotInUserRole(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
         {
@@ -217,6 +220,9 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+
+
+
         public List<FamilyTypeViewModel> GetFamilyType()
         {
             using (SATEntities db = new SATEntities())
@@ -229,5 +235,22 @@ namespace SAT.HR.Data.Repository
                 return list;
             }
         }
+
+        public List<UserStatusViewModel> GetUserStatus()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_User_Status.Select(s => new UserStatusViewModel()
+                {
+                    UserSID = s.UserSID,
+                    UserSName = s.UserSName
+                }).ToList();
+                return list;
+            }
+        }
+
+        //GetMaritalStatus
+        //GetBloodType
+
     }
 }

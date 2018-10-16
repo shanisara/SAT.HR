@@ -1,4 +1,4 @@
-﻿
+﻿@model SAT.HR.Models.EmployeeViewModel
 @{
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -26,14 +26,12 @@
 
     .nav-pills .nav-item .nav-link {
         font-size: 14px;
+        padding: 10px 6px;
     }
-
         .nav-pills .nav-item .nav-link.active {
             font-size: 14px;
         }
-
-
-
+    
 </style>
 <div class="content">
     <div class="row">
@@ -44,67 +42,77 @@
                         <i class="material-icons">perm_identity</i>
                     </div>
                     <h4 class="card-title">
-                        <span>สวัสดิการพนักงาน: </span><span class="text-primary">ชนิสรา เมืองทรัพย์ (1770500003531)</span>
+                        <span>สวัสดิการพนักงาน: </span><span class="text-primary">@Model.FullName (1770500003531)</span>
                         <button type="submit" class="btn btn-round pull-right">ย้อนกลับ</button>
                     </h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body" id="tabs">
                     <ul class="nav nav-pills nav-pills-warning" role="tablist">
-                        <li class="nav-item">
+                        <li class="nav-item" id="employee">
                             <a class="nav-link text-link active" data-toggle="tab" href="#tab-employee" role="tablist"> ประวัติส่วนตัว </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="family">
                             <a class="nav-link text-link" data-toggle="tab" href="#tab-family" role="tablist"> ครอบครัว </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="education">
                             <a class="nav-link text-link" data-toggle="tab" href="#tab-education" role="tablist"> การศึกษา </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="position">
                             <a class="nav-link text-link" data-toggle="tab" href="#tab-position" role="tablist"> การดำรงตำแหน่ง </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="trainning">
                             <a class="nav-link text-link" data-toggle="tab" href="#tab-trainning" role="tablist"> อบรม/ดูงาน </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="insignia">
                             <a class="nav-link text-link" data-toggle="tab" href="#tab-insignia" role="tablist"> เครื่องราชฯ/วิริยะ </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-link" data-toggle="tab" href="#tab-outstanding" role="tablist"> พนักงานดีเด่น </a>
+                        <li class="nav-item" id="excellent">
+                            <a class="nav-link text-link" data-toggle="tab" href="#tab-excellent" role="tablist"> พนักงานดีเด่น </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="certificate">
                             <a class="nav-link text-link" data-toggle="tab" href="#tab-certificate" role="tablist"> ใบประกอบวิชาชีพ </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-link" data-toggle="tab" href="#tab-history" role="tablist"> ประวัติแก้ไขชื่อ-สกุล </a>
+                        <li class="nav-item" id="history">
+                            <a class="nav-link text-link" data-toggle="tab" href="#tab-history" role="tablist"> ประวัติแก้ไขชื่อ </a>
                         </li>
                     </ul>
                     <div class="tab-content tab-space">
                         <div class="tab-pane active" id="tab-employee">
-                            @Html.Partial("_employee")
+                            <div id="div-employee">
+                                @Html.Partial("_Employee", Model)
+                            </div>
                         </div>
                         <div class="tab-pane" id="tab-family">
-                            @Html.Partial("_family")
+                            <div id="div-family">family</div>
+                            @*@Html.Partial("_Family")*@
                         </div>
                         <div class="tab-pane" id="tab-education">
-                            @Html.Partial("_education")
+                            <div id="div-ducation"></div>
+                            @*@Html.Partial("_Education")*@
                         </div>
                         <div class="tab-pane" id="tab-position">
-                            @Html.Partial("_position")
+                            <div id="div-position"></div>
+                            @*@Html.Partial("_Position")*@
                         </div>
                         <div class="tab-pane" id="tab-trainning">
-                            @Html.Partial("_trainning")
+                            <div id="div-trainning"></div>
+                            @*@Html.Partial("_Trainning")*@
                         </div>
                         <div class="tab-pane" id="tab-insignia">
-                            @Html.Partial("_insignia")
+                            <div id="div-insignia"></div>
+                            @*@Html.Partial("_Insignia")*@
                         </div>
-                        <div class="tab-pane" id="tab-outstanding">
-                            @Html.Partial("_outstanding")
+                        <div class="tab-pane" id="tab-ำxcellent">
+                            <div id="div-excellent"></div>
+                            @*@Html.Partial("_Excellent")*@
                         </div>
                         <div class="tab-pane" id="tab-certificate">
-                            @Html.Partial("_certificate")
+                            <div id="div-certificate"></div>
+                            @*@Html.Partial("_Certificate")*@
                         </div>
                         <div class="tab-pane" id="tab-history">
-                            @Html.Partial("_history")
+                            <div id="div-history"></div>
+                            @*@Html.Partial("_History")*@
                         </div>
                     </div>
                 </div>
@@ -112,6 +120,8 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
 <script>
     $(document).ready(function () {
 
@@ -130,9 +140,41 @@
             }
         });
 
-        alert('');
+
+        $("#tabs li").click(function () {
+            var id = this.id;
+            if (id == "employee") {
+
+            }
+            else if (id == "family") {
+
+            }
+            else if (id == "education") {
+
+            }
+            else if (id == "position") {
+
+            }
+            else if (id == "trainning") {
+
+            }
+            else if (id == "insignia") {
+
+            }
+            else if (id == "excellent") {
+
+            }
+            else if (id == "certificate") {
+
+            }
+            else if (id == "history") {
+
+            }
+        });
+
         //$('#lblDate1').addClass("bmd-label-fixed");
         //bmd-label-fixed
 
     });
 </script>
+}

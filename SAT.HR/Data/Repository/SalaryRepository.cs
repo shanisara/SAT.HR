@@ -76,11 +76,11 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public List<LevelViewModel> GetSalaryLevel()
+        public List<SalaryLevelViewModel> GetSalaryLevel()
         {
             using (SATEntities db = new SATEntities())
             {
-                var list = db.tb_Level.Select(s => new LevelViewModel()
+                var list = db.tb_Level.Select(s => new SalaryLevelViewModel()
                 {
                     Level = s.Level
                 })
@@ -184,6 +184,9 @@ namespace SAT.HR.Data.Repository
                 return result;
             }
         }
+
+        //GetSalaryLevel
+        //GetSalaryStep
 
     }
 }

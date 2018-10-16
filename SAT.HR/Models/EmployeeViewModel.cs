@@ -31,12 +31,24 @@ namespace SAT.HR.Models
         public string FullName { get; set; }
         public string Avatar { get; set; }
 
+        public int? TitleID { get; set; }
+        public int? UserStatusID { get; set; }
+        public int? ReligionID { get; set; }
+        public int? EthnicityID { get; set; }
+        public int? NationalitID { get; set; }
+        public int? BloodTypeID { get; set; }
+        public int? MaritalStatusID { get; set; }
+        public int? SararyLevel { get; set; }
+        public int? SararyStep { get; set; }
+        public int? ProvinceID { get; set; }
+        public int? DistrictID { get; set; }
+        public int? SubDistrictID { get; set; }
+        public int? AgentID { get; set; }
+        public int? GovernmentHelperID { get; set; }
+
         public Nullable<System.DateTime> CreateDate { get; set; }
-
         public Nullable<int> CreateBy { get; set; }
-
         public Nullable<System.DateTime> ModifyDate { get; set; }
-
         public Nullable<int> ModifyBy { get; set; }
 
     }
@@ -54,5 +66,12 @@ namespace SAT.HR.Models
         public int FamTID { get; set; }
         public string FamTName { get; set; }
     }
+
+    public class UserStatusViewModel
+    {
+        public int UserSID { get; set; }
+        public string UserSName { get; set; }
+    }
     
+
 }
