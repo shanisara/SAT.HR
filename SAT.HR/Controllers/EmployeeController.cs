@@ -41,7 +41,7 @@ namespace SAT.HR.Controllers
             EmployeeViewModel model = new EmployeeViewModel();
             model = new EmployeeRepository().GetByID(id);
 
-            ViewBag.Title = DropDownList.GetTitle(model.SexID, model.TitleID, true);
+            ViewBag.TitleTh = DropDownList.GetTitle(model.SexID, model.TitleID, true);
             ViewBag.Sex = DropDownList.GetSex(model.SexID);
             ViewBag.BloodType = DropDownList.GetBloodType(model.BloodID);
             ViewBag.MaritalStatus = DropDownList.GetMaritalStatus(model.MaritalStatusID);
