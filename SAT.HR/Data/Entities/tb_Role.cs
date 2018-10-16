@@ -18,7 +18,6 @@ namespace SAT.HR.Data.Entities
         public tb_Role()
         {
             this.tb_Menu_Role = new HashSet<tb_Menu_Role>();
-            this.tb_User_Role = new HashSet<tb_User_Role>();
         }
     
         public int RoleID { get; set; }
@@ -32,7 +31,5 @@ namespace SAT.HR.Data.Entities
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Menu_Role> tb_Menu_Role { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_User_Role> tb_User_Role { get; set; }
     }
 }

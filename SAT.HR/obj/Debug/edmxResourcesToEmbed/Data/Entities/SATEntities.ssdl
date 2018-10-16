@@ -20,6 +20,13 @@
     <Property Name="BenTID" Type="int" Nullable="false" />
     <Property Name="BenTName" Type="nvarchar" MaxLength="200" />
   </EntityType>
+  <EntityType Name="tb_Blood_Type">
+    <Key>
+      <PropertyRef Name="BloodID" />
+    </Key>
+    <Property Name="BloodID" Type="int" Nullable="false" />
+    <Property Name="BloodName" Type="nvarchar" MaxLength="10" />
+  </EntityType>
   <EntityType Name="tb_Capability">
     <Key>
       <PropertyRef Name="CapID" />
@@ -76,6 +83,13 @@
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
+  <EntityType Name="tb_Country">
+    <Key>
+      <PropertyRef Name="CountryID" />
+    </Key>
+    <Property Name="CountryID" Type="int" Nullable="false" />
+    <Property Name="CountryName" Type="nvarchar" MaxLength="200" />
+  </EntityType>
   <EntityType Name="tb_Degree">
     <Key>
       <PropertyRef Name="DegID" />
@@ -111,6 +125,14 @@
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_District">
+    <Key>
+      <PropertyRef Name="DistrictID" />
+    </Key>
+    <Property Name="DistrictID" Type="int" Nullable="false" />
+    <Property Name="DistrictName" Type="nvarchar" MaxLength="100" />
+    <Property Name="ProvinceID" Type="int" />
   </EntityType>
   <EntityType Name="tb_Division">
     <Key>
@@ -153,6 +175,13 @@
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Empower">
+    <Key>
+      <PropertyRef Name="EmpowerID" />
+    </Key>
+    <Property Name="EmpowerID" Type="int" Nullable="false" />
+    <Property Name="EmpowerName" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="tb_Family_Type">
     <Key>
@@ -209,12 +238,6 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.tb_Fund_Rate' does not have a prim
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
-  <EntityType Name="tb_Level">
-    <Key>
-      <PropertyRef Name="Level" />
-    </Key>
-    <Property Name="Level" Type="int" Nullable="false" />
-  </EntityType>
   <EntityType Name="tb_Major">
     <Key>
       <PropertyRef Name="MajID" />
@@ -226,6 +249,13 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.tb_Fund_Rate' does not have a prim
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Marital_Status">
+    <Key>
+      <PropertyRef Name="MaritalID" />
+    </Key>
+    <Property Name="MaritalID" Type="int" Nullable="false" />
+    <Property Name="MaritalName" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="tb_Menu">
     <Key>
@@ -287,6 +317,13 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.tb_Fund_Rate' does not have a prim
     </Key>
     <Property Name="PoTID" Type="int" Nullable="false" />
     <Property Name="PoTName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_Province">
+    <Key>
+      <PropertyRef Name="ProvinceID" />
+    </Key>
+    <Property Name="ProvinceID" Type="int" Nullable="false" />
+    <Property Name="ProvinceName" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="tb_Religion">
     <Key>
@@ -351,6 +388,15 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.tb_Fund_Rate' does not have a prim
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
+  <EntityType Name="tb_SubDistrict">
+    <Key>
+      <PropertyRef Name="SubDistrictID" />
+    </Key>
+    <Property Name="SubDistrictID" Type="int" Nullable="false" />
+    <Property Name="SubDistrictName" Type="nvarchar" MaxLength="100" />
+    <Property Name="DistrictID" Type="int" />
+    <Property Name="ProvinceID" Type="int" />
+  </EntityType>
   <EntityType Name="tb_SysConfig">
     <Key>
       <PropertyRef Name="KeyName" />
@@ -382,23 +428,66 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.tb_Fund_Rate' does not have a prim
     <Key>
       <PropertyRef Name="UserID" />
     </Key>
-    <Property Name="UserID" Type="int" Nullable="false" />
-    <Property Name="UserName" Type="nchar" MaxLength="10" />
-    <Property Name="Password" Type="nchar" MaxLength="10" />
-    <Property Name="FirstName" Type="nvarchar" MaxLength="200" />
-    <Property Name="LastName" Type="nvarchar" MaxLength="200" />
-    <Property Name="DivID" Type="int" Nullable="false" />
-    <Property Name="DepID" Type="int" Nullable="false" />
-    <Property Name="SecID" Type="int" Nullable="false" />
-    <Property Name="PoID" Type="int" Nullable="false" />
-    <Property Name="UserTID" Type="int" />
+    <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" />
+    <Property Name="TitleID" Type="int" />
+    <Property Name="FirstNameTh" Type="nvarchar" MaxLength="200" />
+    <Property Name="LastNameTh" Type="nvarchar" MaxLength="200" />
+    <Property Name="FirstNameEn" Type="nvarchar" MaxLength="200" />
+    <Property Name="LastNameEn" Type="nvarchar" MaxLength="200" />
+    <Property Name="StatusID" Type="int" />
+    <Property Name="IDCard" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="TIN" Type="numeric" Precision="18" Scale="0" />
     <Property Name="SexID" Type="int" />
+    <Property Name="BloodID" Type="int" />
+    <Property Name="ReligionID" Type="int" />
+    <Property Name="EthnicityID" Type="int" />
+    <Property Name="NationalityID" Type="int" />
+    <Property Name="MaritalStatusID" Type="int" />
+    <Property Name="Birthday" Type="date" />
+    <Property Name="RetireDate" Type="date" />
+    <Property Name="StartWorkDate" Type="date" />
+    <Property Name="ProbationDate" Type="date" />
+    <Property Name="Remuneration" Type="nvarchar" MaxLength="100" />
+    <Property Name="WorkingTypeID" Type="int" />
+    <Property Name="FingerScan" Type="nvarchar" MaxLength="20" />
+    <Property Name="CardScan" Type="nvarchar" MaxLength="20" />
+    <Property Name="SalaryLevel" Type="int" />
+    <Property Name="SalaryStep" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="DivID" Type="int" />
+    <Property Name="DepID" Type="int" />
+    <Property Name="SecID" Type="int" />
+    <Property Name="PoID" Type="int" />
+    <Property Name="EmpowerID" Type="int" />
+    <Property Name="EmpowerDivID" Type="int" />
+    <Property Name="EmpowerDepID" Type="int" />
+    <Property Name="EmpowerSecID" Type="int" />
+    <Property Name="PoTID" Type="int" />
+    <Property Name="AgentDivID" Type="int" />
+    <Property Name="AgentDepID" Type="int" />
+    <Property Name="AgentSecID" Type="int" />
+    <Property Name="AgentPoID" Type="int" />
+    <Property Name="HomeAddr" Type="nvarchar" MaxLength="100" />
+    <Property Name="HomeSubDistrictID" Type="int" />
+    <Property Name="HomeDistrictID" Type="int" />
+    <Property Name="HomeProvinceID" Type="int" />
+    <Property Name="HomeZipCode" Type="int" />
+    <Property Name="CurrAddr" Type="nvarchar" MaxLength="100" />
+    <Property Name="CurrSubDistrictID" Type="int" />
+    <Property Name="CurrDistrictID" Type="int" />
+    <Property Name="CurrProvinceID" Type="int" />
+    <Property Name="CurrZipCode" Type="int" />
+    <Property Name="Telephone" Type="nvarchar" MaxLength="200" />
+    <Property Name="Email" Type="nvarchar" MaxLength="200" />
+    <Property Name="ContactName" Type="nvarchar" MaxLength="200" />
+    <Property Name="ContactPhone" Type="nvarchar" MaxLength="200" />
+    <Property Name="Avatar" Type="nvarchar" MaxLength="200" />
+    <Property Name="IsActive" Type="bit" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
-    <Property Name="Avatar" Type="nvarchar" MaxLength="200" />
-    <Property Name="IsActive" Type="bit" />
   </EntityType>
   <EntityType Name="tb_User_Role">
     <Key>
@@ -414,17 +503,24 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.tb_Fund_Rate' does not have a prim
   </EntityType>
   <EntityType Name="tb_User_Status">
     <Key>
-      <PropertyRef Name="UserSID" />
+      <PropertyRef Name="StatusID" />
     </Key>
-    <Property Name="UserSID" Type="int" Nullable="false" />
-    <Property Name="UserSName" Type="nvarchar" MaxLength="50" />
+    <Property Name="StatusID" Type="int" Nullable="false" />
+    <Property Name="StatusName" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="tb_User_Type">
     <Key>
-      <PropertyRef Name="UserTID" />
+      <PropertyRef Name="TypeID" />
     </Key>
-    <Property Name="UserTID" Type="int" Nullable="false" />
-    <Property Name="UserTName" Type="nvarchar" MaxLength="50" />
+    <Property Name="TypeID" Type="int" Nullable="false" />
+    <Property Name="TypeName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_Working_Type">
+    <Key>
+      <PropertyRef Name="WorkingTypeID" />
+    </Key>
+    <Property Name="WorkingTypeID" Type="int" Nullable="false" />
+    <Property Name="WorkingTypeName" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Capability' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -476,6 +572,16 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Menu_Role' does not have a prim
     <Property Name="R_Delete" Type="bit" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Level' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Level">
+          <Property Name="Level" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Step' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Step">
+          <Property Name="Step" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Section">
     <Key>
@@ -509,29 +615,24 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
   <EntityType Name="vw_User">
     <Key>
       <PropertyRef Name="UserID" />
-      <PropertyRef Name="DivID" />
-      <PropertyRef Name="DepID" />
-      <PropertyRef Name="SecID" />
-      <PropertyRef Name="PoID" />
     </Key>
     <Property Name="UserID" Type="int" Nullable="false" />
-    <Property Name="UserName" Type="nchar" MaxLength="10" />
-    <Property Name="Password" Type="nchar" MaxLength="10" />
-    <Property Name="FirstName" Type="nvarchar" MaxLength="200" />
-    <Property Name="LastName" Type="nvarchar" MaxLength="200" />
-    <Property Name="UserTID" Type="int" />
-    <Property Name="UserTName" Type="nvarchar" MaxLength="50" />
-    <Property Name="DivID" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" />
+    <Property Name="IDCard" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="FirstNameTh" Type="nvarchar" MaxLength="200" />
+    <Property Name="LastNameTh" Type="nvarchar" MaxLength="200" />
+    <Property Name="DivID" Type="int" />
     <Property Name="DivName" Type="nvarchar" MaxLength="200" />
-    <Property Name="DepID" Type="int" Nullable="false" />
+    <Property Name="DepID" Type="int" />
     <Property Name="DepName" Type="nvarchar" MaxLength="200" />
-    <Property Name="SecID" Type="int" Nullable="false" />
+    <Property Name="SecID" Type="int" />
     <Property Name="SecName" Type="nvarchar" MaxLength="200" />
-    <Property Name="PoID" Type="int" Nullable="false" />
+    <Property Name="PoID" Type="int" />
     <Property Name="PoCode" Type="nvarchar" MaxLength="200" />
     <Property Name="PoName" Type="nvarchar" MaxLength="200" />
-    <Property Name="SexID" Type="int" />
-    <Property Name="SexName" Type="nchar" MaxLength="10" />
+    <Property Name="StatusID" Type="int" />
+    <Property Name="StatusName" Type="nvarchar" MaxLength="50" />
     <Property Name="IsActive" Type="bit" />
     <Property Name="Avatar" Type="nvarchar" MaxLength="200" />
   </EntityType>
@@ -630,6 +731,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tb_District_tb_Province">
+    <End Role="tb_Province" Type="Self.tb_Province" Multiplicity="0..1" />
+    <End Role="tb_District" Type="Self.tb_District" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Province">
+        <PropertyRef Name="ProvinceID" />
+      </Principal>
+      <Dependent Role="tb_District">
+        <PropertyRef Name="ProvinceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tb_RoleMenu_tb_Menu">
     <End Role="tb_Menu" Type="Self.tb_Menu" Multiplicity="1" />
     <End Role="tb_Menu_Role" Type="Self.tb_Menu_Role" Multiplicity="*" />
@@ -654,30 +767,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_RoleUser_tb_Role">
-    <End Role="tb_Role" Type="Self.tb_Role" Multiplicity="1" />
-    <End Role="tb_User_Role" Type="Self.tb_User_Role" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Role">
-        <PropertyRef Name="RoleID" />
-      </Principal>
-      <Dependent Role="tb_User_Role">
-        <PropertyRef Name="RoleID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_RoleUser_tb_User">
-    <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
-    <End Role="tb_User_Role" Type="Self.tb_User_Role" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_User">
-        <PropertyRef Name="UserID" />
-      </Principal>
-      <Dependent Role="tb_User_Role">
-        <PropertyRef Name="UserID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_tb_Section_tb_Department">
     <End Role="tb_Department" Type="Self.tb_Department" Multiplicity="0..1" />
     <End Role="tb_Section" Type="Self.tb_Section" Multiplicity="*" />
@@ -687,6 +776,30 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
       </Principal>
       <Dependent Role="tb_Section">
         <PropertyRef Name="DepID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_SubDistrict_tb_District">
+    <End Role="tb_District" Type="Self.tb_District" Multiplicity="0..1" />
+    <End Role="tb_SubDistrict" Type="Self.tb_SubDistrict" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_District">
+        <PropertyRef Name="DistrictID" />
+      </Principal>
+      <Dependent Role="tb_SubDistrict">
+        <PropertyRef Name="DistrictID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_SubDistrict_tb_Province">
+    <End Role="tb_Province" Type="Self.tb_Province" Multiplicity="0..1" />
+    <End Role="tb_SubDistrict" Type="Self.tb_SubDistrict" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Province">
+        <PropertyRef Name="ProvinceID" />
+      </Principal>
+      <Dependent Role="tb_SubDistrict">
+        <PropertyRef Name="ProvinceID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -702,7 +815,127 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_User_tb_Sex">
+  <Association Name="FK_tb_Users_tb_Blood_Type">
+    <End Role="tb_Blood_Type" Type="Self.tb_Blood_Type" Multiplicity="0..1" />
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Blood_Type">
+        <PropertyRef Name="BloodID" />
+      </Principal>
+      <Dependent Role="tb_User">
+        <PropertyRef Name="BloodID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Users_tb_Department">
+    <End Role="tb_Department" Type="Self.tb_Department" Multiplicity="0..1" />
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Department">
+        <PropertyRef Name="DepID" />
+      </Principal>
+      <Dependent Role="tb_User">
+        <PropertyRef Name="DepID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Users_tb_Empower">
+    <End Role="tb_Empower" Type="Self.tb_Empower" Multiplicity="0..1" />
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Empower">
+        <PropertyRef Name="EmpowerID" />
+      </Principal>
+      <Dependent Role="tb_User">
+        <PropertyRef Name="EmpowerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Users_tb_Marital_Status">
+    <End Role="tb_Marital_Status" Type="Self.tb_Marital_Status" Multiplicity="0..1" />
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Marital_Status">
+        <PropertyRef Name="MaritalID" />
+      </Principal>
+      <Dependent Role="tb_User">
+        <PropertyRef Name="MaritalStatusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Users_tb_Nationality">
+    <End Role="tb_Nationality" Type="Self.tb_Nationality" Multiplicity="0..1" />
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Nationality">
+        <PropertyRef Name="NatID" />
+      </Principal>
+      <Dependent Role="tb_User">
+        <PropertyRef Name="EthnicityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Users_tb_Nationality1">
+    <End Role="tb_Nationality" Type="Self.tb_Nationality" Multiplicity="0..1" />
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Nationality">
+        <PropertyRef Name="NatID" />
+      </Principal>
+      <Dependent Role="tb_User">
+        <PropertyRef Name="NationalityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Users_tb_Position">
+    <End Role="tb_Position" Type="Self.tb_Position" Multiplicity="0..1" />
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Position">
+        <PropertyRef Name="PoID" />
+      </Principal>
+      <Dependent Role="tb_User">
+        <PropertyRef Name="PoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Users_tb_PositionType">
+    <End Role="tb_Position_Type" Type="Self.tb_Position_Type" Multiplicity="0..1" />
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Position_Type">
+        <PropertyRef Name="PoTID" />
+      </Principal>
+      <Dependent Role="tb_User">
+        <PropertyRef Name="PoTID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Users_tb_Religion">
+    <End Role="tb_Religion" Type="Self.tb_Religion" Multiplicity="0..1" />
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Religion">
+        <PropertyRef Name="RelD" />
+      </Principal>
+      <Dependent Role="tb_User">
+        <PropertyRef Name="ReligionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Users_tb_Section">
+    <End Role="tb_Section" Type="Self.tb_Section" Multiplicity="0..1" />
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Section">
+        <PropertyRef Name="SecID" />
+      </Principal>
+      <Dependent Role="tb_User">
+        <PropertyRef Name="SecID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Users_tb_Sex">
     <End Role="tb_Sex" Type="Self.tb_Sex" Multiplicity="0..1" />
     <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
     <ReferentialConstraint>
@@ -711,6 +944,42 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
       </Principal>
       <Dependent Role="tb_User">
         <PropertyRef Name="SexID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Users_tb_Title">
+    <End Role="tb_Title" Type="Self.tb_Title" Multiplicity="0..1" />
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Title">
+        <PropertyRef Name="TiID" />
+      </Principal>
+      <Dependent Role="tb_User">
+        <PropertyRef Name="TitleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Users_tb_User_Status">
+    <End Role="tb_User_Status" Type="Self.tb_User_Status" Multiplicity="0..1" />
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User_Status">
+        <PropertyRef Name="StatusID" />
+      </Principal>
+      <Dependent Role="tb_User">
+        <PropertyRef Name="StatusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Users_tb_Working_Type">
+    <End Role="tb_Working_Type" Type="Self.tb_Working_Type" Multiplicity="0..1" />
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Working_Type">
+        <PropertyRef Name="WorkingTypeID" />
+      </Principal>
+      <Dependent Role="tb_User">
+        <PropertyRef Name="WorkingTypeID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -744,39 +1013,46 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
   <EntityContainer Name="SATHRStoreContainer">
     <EntitySet Name="tb_Action_Type" EntityType="Self.tb_Action_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Benefit_Type" EntityType="Self.tb_Benefit_Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Blood_Type" EntityType="Self.tb_Blood_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Capability" EntityType="Self.tb_Capability" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Capability_Detail" EntityType="Self.tb_Capability_Detail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Capability_Group" EntityType="Self.tb_Capability_Group" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Capability_Type" EntityType="Self.tb_Capability_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Certificate" EntityType="Self.tb_Certificate" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Country" EntityType="Self.tb_Country" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Degree" EntityType="Self.tb_Degree" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Department" EntityType="Self.tb_Department" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Discipline" EntityType="Self.tb_Discipline" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_District" EntityType="Self.tb_District" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Division" EntityType="Self.tb_Division" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_DocNumber" EntityType="Self.tb_DocNumber" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Education" EntityType="Self.tb_Education" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Empower" EntityType="Self.tb_Empower" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Family_Type" EntityType="Self.tb_Family_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Holiday" EntityType="Self.tb_Holiday" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Insignia" EntityType="Self.tb_Insignia" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Leave_Type" EntityType="Self.tb_Leave_Type" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="tb_Level" EntityType="Self.tb_Level" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Major" EntityType="Self.tb_Major" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Marital_Status" EntityType="Self.tb_Marital_Status" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Menu" EntityType="Self.tb_Menu" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Menu_Role" EntityType="Self.tb_Menu_Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Nationality" EntityType="Self.tb_Nationality" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Position" EntityType="Self.tb_Position" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Position_Type" EntityType="Self.tb_Position_Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Province" EntityType="Self.tb_Province" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Religion" EntityType="Self.tb_Religion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Role" EntityType="Self.tb_Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Salary" EntityType="Self.tb_Salary" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Section" EntityType="Self.tb_Section" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Sex" EntityType="Self.tb_Sex" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_SubDistrict" EntityType="Self.tb_SubDistrict" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_SysConfig" EntityType="Self.tb_SysConfig" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Title" EntityType="Self.tb_Title" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_User" EntityType="Self.tb_User" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_User_Role" EntityType="Self.tb_User_Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_User_Status" EntityType="Self.tb_User_Status" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_User_Type" EntityType="Self.tb_User_Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Working_Type" EntityType="Self.tb_Working_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="vw_Capability" EntityType="Self.vw_Capability" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [vw_Capability].[CapYear] AS [CapYear], 
@@ -843,10 +1119,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
     [vw_User].[UserID] AS [UserID], 
     [vw_User].[UserName] AS [UserName], 
     [vw_User].[Password] AS [Password], 
-    [vw_User].[FirstName] AS [FirstName], 
-    [vw_User].[LastName] AS [LastName], 
-    [vw_User].[UserTID] AS [UserTID], 
-    [vw_User].[UserTName] AS [UserTName], 
+    [vw_User].[IDCard] AS [IDCard], 
+    [vw_User].[FirstNameTh] AS [FirstNameTh], 
+    [vw_User].[LastNameTh] AS [LastNameTh], 
     [vw_User].[DivID] AS [DivID], 
     [vw_User].[DivName] AS [DivName], 
     [vw_User].[DepID] AS [DepID], 
@@ -856,8 +1131,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
     [vw_User].[PoID] AS [PoID], 
     [vw_User].[PoCode] AS [PoCode], 
     [vw_User].[PoName] AS [PoName], 
-    [vw_User].[SexID] AS [SexID], 
-    [vw_User].[SexName] AS [SexName], 
+    [vw_User].[StatusID] AS [StatusID], 
+    [vw_User].[StatusName] AS [StatusName], 
     [vw_User].[IsActive] AS [IsActive], 
     [vw_User].[Avatar] AS [Avatar]
     FROM [dbo].[vw_User] AS [vw_User]</DefiningQuery>
@@ -923,6 +1198,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
       <End Role="tb_Division" EntitySet="tb_Division" />
       <End Role="tb_Department" EntitySet="tb_Department" />
     </AssociationSet>
+    <AssociationSet Name="FK_tb_District_tb_Province" Association="Self.FK_tb_District_tb_Province">
+      <End Role="tb_Province" EntitySet="tb_Province" />
+      <End Role="tb_District" EntitySet="tb_District" />
+    </AssociationSet>
     <AssociationSet Name="FK_tb_RoleMenu_tb_Menu" Association="Self.FK_tb_RoleMenu_tb_Menu">
       <End Role="tb_Menu" EntitySet="tb_Menu" />
       <End Role="tb_Menu_Role" EntitySet="tb_Menu_Role" />
@@ -931,24 +1210,76 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
       <End Role="tb_Role" EntitySet="tb_Role" />
       <End Role="tb_Menu_Role" EntitySet="tb_Menu_Role" />
     </AssociationSet>
-    <AssociationSet Name="FK_tb_RoleUser_tb_Role" Association="Self.FK_tb_RoleUser_tb_Role">
-      <End Role="tb_Role" EntitySet="tb_Role" />
-      <End Role="tb_User_Role" EntitySet="tb_User_Role" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_RoleUser_tb_User" Association="Self.FK_tb_RoleUser_tb_User">
-      <End Role="tb_User" EntitySet="tb_User" />
-      <End Role="tb_User_Role" EntitySet="tb_User_Role" />
-    </AssociationSet>
     <AssociationSet Name="FK_tb_Section_tb_Department" Association="Self.FK_tb_Section_tb_Department">
       <End Role="tb_Department" EntitySet="tb_Department" />
       <End Role="tb_Section" EntitySet="tb_Section" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_SubDistrict_tb_District" Association="Self.FK_tb_SubDistrict_tb_District">
+      <End Role="tb_District" EntitySet="tb_District" />
+      <End Role="tb_SubDistrict" EntitySet="tb_SubDistrict" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_SubDistrict_tb_Province" Association="Self.FK_tb_SubDistrict_tb_Province">
+      <End Role="tb_Province" EntitySet="tb_Province" />
+      <End Role="tb_SubDistrict" EntitySet="tb_SubDistrict" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_Title_tb_Sex" Association="Self.FK_tb_Title_tb_Sex">
       <End Role="tb_Sex" EntitySet="tb_Sex" />
       <End Role="tb_Title" EntitySet="tb_Title" />
     </AssociationSet>
-    <AssociationSet Name="FK_tb_User_tb_Sex" Association="Self.FK_tb_User_tb_Sex">
+    <AssociationSet Name="FK_tb_Users_tb_Blood_Type" Association="Self.FK_tb_Users_tb_Blood_Type">
+      <End Role="tb_Blood_Type" EntitySet="tb_Blood_Type" />
+      <End Role="tb_User" EntitySet="tb_User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Users_tb_Department" Association="Self.FK_tb_Users_tb_Department">
+      <End Role="tb_Department" EntitySet="tb_Department" />
+      <End Role="tb_User" EntitySet="tb_User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Users_tb_Empower" Association="Self.FK_tb_Users_tb_Empower">
+      <End Role="tb_Empower" EntitySet="tb_Empower" />
+      <End Role="tb_User" EntitySet="tb_User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Users_tb_Marital_Status" Association="Self.FK_tb_Users_tb_Marital_Status">
+      <End Role="tb_Marital_Status" EntitySet="tb_Marital_Status" />
+      <End Role="tb_User" EntitySet="tb_User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Users_tb_Nationality" Association="Self.FK_tb_Users_tb_Nationality">
+      <End Role="tb_Nationality" EntitySet="tb_Nationality" />
+      <End Role="tb_User" EntitySet="tb_User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Users_tb_Nationality1" Association="Self.FK_tb_Users_tb_Nationality1">
+      <End Role="tb_Nationality" EntitySet="tb_Nationality" />
+      <End Role="tb_User" EntitySet="tb_User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Users_tb_Position" Association="Self.FK_tb_Users_tb_Position">
+      <End Role="tb_Position" EntitySet="tb_Position" />
+      <End Role="tb_User" EntitySet="tb_User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Users_tb_PositionType" Association="Self.FK_tb_Users_tb_PositionType">
+      <End Role="tb_Position_Type" EntitySet="tb_Position_Type" />
+      <End Role="tb_User" EntitySet="tb_User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Users_tb_Religion" Association="Self.FK_tb_Users_tb_Religion">
+      <End Role="tb_Religion" EntitySet="tb_Religion" />
+      <End Role="tb_User" EntitySet="tb_User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Users_tb_Section" Association="Self.FK_tb_Users_tb_Section">
+      <End Role="tb_Section" EntitySet="tb_Section" />
+      <End Role="tb_User" EntitySet="tb_User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Users_tb_Sex" Association="Self.FK_tb_Users_tb_Sex">
       <End Role="tb_Sex" EntitySet="tb_Sex" />
+      <End Role="tb_User" EntitySet="tb_User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Users_tb_Title" Association="Self.FK_tb_Users_tb_Title">
+      <End Role="tb_Title" EntitySet="tb_Title" />
+      <End Role="tb_User" EntitySet="tb_User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Users_tb_User_Status" Association="Self.FK_tb_Users_tb_User_Status">
+      <End Role="tb_User_Status" EntitySet="tb_User_Status" />
+      <End Role="tb_User" EntitySet="tb_User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Users_tb_Working_Type" Association="Self.FK_tb_Users_tb_Working_Type">
+      <End Role="tb_Working_Type" EntitySet="tb_Working_Type" />
       <End Role="tb_User" EntitySet="tb_User" />
     </AssociationSet>
   </EntityContainer>

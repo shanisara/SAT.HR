@@ -455,9 +455,9 @@ namespace SAT.HR.Data.Repository
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
-                select.Value = item.FamTID.ToString();
-                select.Text = item.FamTName;
-                select.Selected = defaultValue.HasValue ? (item.FamTID == defaultValue ? true : false) : false;
+                select.Value = item.FamilyTypeID.ToString();
+                select.Text = item.FamilyTypeName;
+                select.Selected = defaultValue.HasValue ? (item.FamilyTypeID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
@@ -472,44 +472,61 @@ namespace SAT.HR.Data.Repository
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
-                select.Value = item.UserSID.ToString();
-                select.Text = item.UserSName;
-                select.Selected = defaultValue.HasValue ? (item.UserSID == defaultValue ? true : false) : false;
+                select.Value = item.UserStatusID.ToString();
+                select.Text = item.UserStatusName;
+                select.Selected = defaultValue.HasValue ? (item.UserStatusID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetWorkingType(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new EmployeeRepository().GetWorkingType();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.WorkingTypeID.ToString();
+                select.Text = item.WorkingTypeName;
+                select.Selected = defaultValue.HasValue ? (item.WorkingTypeID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
         }
 
 
-        
         public static List<SelectListItem> GetBloodType(int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new EmployeeRepository().GetUserStatus();
+            var data = new EmployeeRepository().GetBloodType();
 
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
-                select.Value = item.UserSID.ToString();
-                select.Text = item.UserSName;
-                select.Selected = defaultValue.HasValue ? (item.UserSID == defaultValue ? true : false) : false;
+                select.Value = item.BloodTypeID.ToString();
+                select.Text = item.BloodTypeName;
+                select.Selected = defaultValue.HasValue ? (item.BloodTypeID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
         }
+
         public static List<SelectListItem> GetMaritalStatus(int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new EmployeeRepository().GetUserStatus();
+            var data = new EmployeeRepository().GetMaritalStatus();
 
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
-                select.Value = item.UserSID.ToString();
-                select.Text = item.UserSName;
-                select.Selected = defaultValue.HasValue ? (item.UserSID == defaultValue ? true : false) : false;
+                select.Value = item.MaritalStatusID.ToString();
+                select.Text = item.MaritalStatusName;
+                select.Selected = defaultValue.HasValue ? (item.MaritalStatusID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
@@ -531,20 +548,21 @@ namespace SAT.HR.Data.Repository
             }
             return list;
         }
-        public static List<SelectListItem> GetSalaryStep(int? defaultValue)
+
+        public static List<SelectListItem> GetSalaryStep(decimal? defaultValue, int? level)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            //var data = new SalaryRepository().GetSalaryStep();
+            var data = new SalaryRepository().GetSalaryStep(level);
 
-            //foreach (var item in data)
-            //{
-            //    SelectListItem select = new SelectListItem();
-            //    select.Value = item.SalaryStep.ToString();
-            //    select.Text = item.SalaryStep;
-            //    select.Selected = defaultValue.HasValue ? (item.SalaryStep == defaultValue ? true : false) : false;
-            //    list.Add(select);
-            //}
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.Step.ToString();
+                select.Text = item.Step.ToString();
+                select.Selected = defaultValue.HasValue ? (item.Step == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
             return list;
         }
 
@@ -552,78 +570,91 @@ namespace SAT.HR.Data.Repository
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new EmployeeRepository().GetUserStatus();
+            var data = new AddressRepository().GetProvince();
 
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
-                select.Value = item.UserSID.ToString();
-                select.Text = item.UserSName;
-                select.Selected = defaultValue.HasValue ? (item.UserSID == defaultValue ? true : false) : false;
+                select.Value = item.ProvinceID.ToString();
+                select.Text = item.ProvinceName;
+                select.Selected = defaultValue.HasValue ? (item.ProvinceID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
         }
-        public static List<SelectListItem> GetDistrict(int? defaultValue)
+
+        public static List<SelectListItem> GetDistrict(int? defaultValue, int? provinceID)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new EmployeeRepository().GetUserStatus();
+            var data = new AddressRepository().GetDistrict();
+
+            if (provinceID.HasValue)
+                data = data.Where(m => m.ProvinceID == provinceID).ToList();
 
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
-                select.Value = item.UserSID.ToString();
-                select.Text = item.UserSName;
-                select.Selected = defaultValue.HasValue ? (item.UserSID == defaultValue ? true : false) : false;
+                select.Value = item.DistrictID.ToString();
+                select.Text = item.DistrictName;
+                select.Selected = defaultValue.HasValue ? (item.DistrictID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
         }
-        public static List<SelectListItem> GetSubDistrict(int? defaultValue)
+
+        public static List<SelectListItem> GetSubDistrict(int? defaultValue, int? provinceID, int? districtid)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new EmployeeRepository().GetUserStatus();
+            var data = new AddressRepository().GetSubDistrict();
+
+            if (provinceID.HasValue)
+                data = data.Where(m => m.ProvinceID == provinceID).ToList();
+
+            if (districtid.HasValue)
+                data = data.Where(m => m.DistrictID == districtid).ToList();
 
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
-                select.Value = item.UserSID.ToString();
-                select.Text = item.UserSName;
-                select.Selected = defaultValue.HasValue ? (item.UserSID == defaultValue ? true : false) : false;
+                select.Value = item.SubDistrictID.ToString();
+                select.Text = item.SubDistrictName;
+                select.Selected = defaultValue.HasValue ? (item.SubDistrictID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
         }
-        public static List<SelectListItem> GovernmentHelper(int? defaultValue)
+
+        public static List<SelectListItem> GetPositionType(int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new EmployeeRepository().GetUserStatus();
+            var data = new EmployeeRepository().GetPositionType();
 
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
-                select.Value = item.UserSID.ToString();
-                select.Text = item.UserSName;
-                select.Selected = defaultValue.HasValue ? (item.UserSID == defaultValue ? true : false) : false;
+                select.Value = item.PoTID.ToString();
+                select.Text = item.PoTName;
+                select.Selected = defaultValue.HasValue ? (item.PoTID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
         }
-        public static List<SelectListItem> GetAgent(int? defaultValue)
+
+        public static List<SelectListItem> GetEmpower(int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new EmployeeRepository().GetUserStatus();
+            var data = new EmployeeRepository().GetEmpower();
 
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
-                select.Value = item.UserSID.ToString();
-                select.Text = item.UserSName;
-                select.Selected = defaultValue.HasValue ? (item.UserSID == defaultValue ? true : false) : false;
+                select.Value = item.EmpowerID.ToString();
+                select.Text = item.EmpowerName;
+                select.Selected = defaultValue.HasValue ? (item.EmpowerID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;

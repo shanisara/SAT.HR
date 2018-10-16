@@ -14,6 +14,12 @@ namespace SAT.HR.Data.Entities
     
     public partial class tb_Religion
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tb_Religion()
+        {
+            this.tb_User = new HashSet<tb_User>();
+        }
+    
         public int RelD { get; set; }
         public string RelName { get; set; }
         public Nullable<bool> RelStatus { get; set; }
@@ -21,5 +27,8 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_User> tb_User { get; set; }
     }
 }

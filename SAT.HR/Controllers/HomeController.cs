@@ -61,9 +61,7 @@ namespace SAT.HR.Controllers
                         obj.SecName = emp.SecName;
                         obj.PoID = emp.PoID;
                         obj.PoName = emp.PoName;
-                        obj.UserTypeID = emp.UserTID;
-                        obj.UserTypeName = emp.UserTName;
-                        obj.FullName = emp.FirstName + " " + emp.LastName;
+                        obj.FullName = emp.FullName;
                         obj.Avatar = !string.IsNullOrEmpty(emp.Avatar) ? emp.Avatar : "avatar.png";
                         UtilityService.User = obj;
                     }

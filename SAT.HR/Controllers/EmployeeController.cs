@@ -42,24 +42,44 @@ namespace SAT.HR.Controllers
             model = new EmployeeRepository().GetByID(id);
 
             ViewBag.Title = DropDownList.GetTitle(model.SexID, model.TitleID, true);
-            ViewBag.UserStatus = DropDownList.GetUserStatus(model.UserStatusID);
             ViewBag.Sex = DropDownList.GetSex(model.SexID);
-            ViewBag.Religion = DropDownList.GetReligion(model.ReligionID, true);
-            ViewBag.Ethnicity = DropDownList.GetNationality(model.EthnicityID, true);    //-- > เชื้อชาติ
-            ViewBag.Nationality = DropDownList.GetNationality(model.NationalitID, true); //--> สัญชาติ 
-            ViewBag.BloodType = DropDownList.GetBloodType(model.BloodTypeID);
+            ViewBag.BloodType = DropDownList.GetBloodType(model.BloodID);
             ViewBag.MaritalStatus = DropDownList.GetMaritalStatus(model.MaritalStatusID);
+
+            ViewBag.Religion = DropDownList.GetReligion(model.ReligionID, true);
+            ViewBag.Ethnicity = DropDownList.GetNationality(model.EthnicityID, true);       //-- > เชื้อชาติ
+            ViewBag.Nationality = DropDownList.GetNationality(model.NationalityID, true);   //--> สัญชาติ 
+
+            ViewBag.SalaryLevel = DropDownList.GetSalaryLevel(model.SalaryLevel);
+            ViewBag.SalaryStep = DropDownList.GetSalaryStep(model.SalaryStep, model.SalaryLevel);
+
             ViewBag.Position = DropDownList.GetPosition(model.PoID, true);
             ViewBag.Division = DropDownList.GetDivision(model.DivID, true);
             ViewBag.Department = DropDownList.GetDepartment(model.DivID, model.DepID, true);
             ViewBag.Section = DropDownList.GetSection(model.DivID, model.DepID, model.SecID, true);
-            ViewBag.Level = DropDownList.GetSalaryLevel(model.SararyLevel);
-            ViewBag.Step = DropDownList.GetSalaryStep(model.SararyStep);
-            ViewBag.GovernmentHelper = DropDownList.GovernmentHelper(model.GovernmentHelperID); //-- > ช่วยราชการ
-            ViewBag.Agent = DropDownList.GetAgent(model.AgentID); //-- > รักษาการแทน
-            ViewBag.Province = DropDownList.GetProvince(model.ProvinceID);
-            ViewBag.District = DropDownList.GetDistrict(model.DistrictID);
-            ViewBag.SubDistrict = DropDownList.GetSubDistrict(model.SubDistrictID);
+
+            ViewBag.Empower = DropDownList.GetEmpower(model.EmpowerID);     //-- > ช่วยราชการ
+            ViewBag.EmpowerPosition = DropDownList.GetEmpower(model.EmpowerID);
+            ViewBag.EmpowerDivision = DropDownList.GetEmpower(model.EmpowerID);
+            ViewBag.EmpowerDepartment = DropDownList.GetEmpower(model.EmpowerID);
+            ViewBag.EmpowerSection = DropDownList.GetEmpower(model.EmpowerID);
+
+            ViewBag.PositionType = DropDownList.GetPositionType(model.PoTID);           //-- > รักษาการแทน
+            ViewBag.AgentPosition = DropDownList.GetPositionType(model.PoTID);
+            ViewBag.AgentDivision = DropDownList.GetPositionType(model.PoTID);
+            ViewBag.AgentDepartment = DropDownList.GetPositionType(model.PoTID);
+            ViewBag.AgentSection = DropDownList.GetPositionType(model.PoTID);
+
+            ViewBag.HomeProvince = DropDownList.GetProvince(model.HomeProvinceID);
+            ViewBag.HomeDistrict = DropDownList.GetDistrict(model.HomeDistrictID, model.HomeProvinceID);
+            ViewBag.HomeSubDistrict = DropDownList.GetSubDistrict(model.HomeSubDistrictID, model.HomeProvinceID, model.HomeDistrictID);
+
+            ViewBag.CurrProvince = DropDownList.GetProvince(model.CurrProvinceID);
+            ViewBag.CurrDistrict = DropDownList.GetDistrict(model.CurrDistrictID, model.CurrProvinceID);
+            ViewBag.CurrSubDistrict = DropDownList.GetSubDistrict(model.CurrSubDistrictID, model.CurrProvinceID, model.CurrDistrictID);
+
+            ViewBag.UserStatus = DropDownList.GetUserStatus(model.StatusID);
+            ViewBag.WorkingType = DropDownList.GetWorkingType(model.StatusID);
 
             return View(model);
         }

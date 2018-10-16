@@ -14,6 +14,12 @@ namespace SAT.HR.Data.Entities
     
     public partial class tb_Section
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tb_Section()
+        {
+            this.tb_User = new HashSet<tb_User>();
+        }
+    
         public int SecID { get; set; }
         public string SecName { get; set; }
         public Nullable<bool> SecStatus { get; set; }
@@ -25,5 +31,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> ModifyBy { get; set; }
     
         public virtual tb_Department tb_Department { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_User> tb_User { get; set; }
     }
 }

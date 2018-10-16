@@ -17,21 +17,20 @@ namespace SAT.HR.Data.Entities
         public int UserID { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public Nullable<int> UserTID { get; set; }
-        public string UserTName { get; set; }
-        public int DivID { get; set; }
+        public Nullable<decimal> IDCard { get; set; }
+        public string FirstNameTh { get; set; }
+        public string LastNameTh { get; set; }
+        public Nullable<int> DivID { get; set; }
         public string DivName { get; set; }
-        public int DepID { get; set; }
+        public Nullable<int> DepID { get; set; }
         public string DepName { get; set; }
-        public int SecID { get; set; }
+        public Nullable<int> SecID { get; set; }
         public string SecName { get; set; }
-        public int PoID { get; set; }
+        public Nullable<int> PoID { get; set; }
         public string PoCode { get; set; }
         public string PoName { get; set; }
-        public Nullable<int> SexID { get; set; }
-        public string SexName { get; set; }
+        public Nullable<int> StatusID { get; set; }
+        public string StatusName { get; set; }
         public Nullable<bool> IsActive { get; set; }
         public string Avatar { get; set; }
     }

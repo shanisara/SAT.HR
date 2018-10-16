@@ -42,10 +42,7 @@ namespace SAT.HR.Data.Repository
                     UserID = s.UserID,
                     UserName = s.UserName,
                     Password = s.Password,
-                    FirstName = s.FirstName,
-                    LastName = s.LastName,
-                    FullName = s.FirstName + " " + s.LastName,
-                    UserTName = s.UserTName,
+                    FullName = s.FirstNameTh + " " + s.LastNameTh,
                     DivID = s.DivID,
                     DivName = s.DivName,
                     DepID = s.DepID,
@@ -53,10 +50,8 @@ namespace SAT.HR.Data.Repository
                     SecID = s.SecID,
                     SecName = s.SecName,
                     PoID = s.PoID,
-                    //PoCode = s.PoCode,
-                    PoName = s.PoName,
-                    SexID = s.SexID,
-                    SexName = s.SexName,
+                    PoCode = s.PoCode,
+                    PoName = s.PoName
                 }).Skip(start * length).Take(length).ToList();
 
 
@@ -79,10 +74,8 @@ namespace SAT.HR.Data.Repository
                     UserID = s.UserID,
                     UserName = s.UserName,
                     Password = s.Password,
-                    FirstName = s.FirstName,
-                    LastName = s.LastName,
-                    UserTID = s.UserTID,
-                    UserTName = s.UserTName,
+                    FirstNameTh = s.FirstNameTh,
+                    LastNameTh = s.LastNameTh,
                     DivID = s.DivID,
                     DivName = s.DivName,
                     DepID = s.DepID,
@@ -91,8 +84,6 @@ namespace SAT.HR.Data.Repository
                     SecName = s.SecName,
                     PoID = s.PoID,
                     PoName = s.PoName,
-                    SexID = s.SexID,
-                    SexName = s.SexName,
                 })
                 .OrderBy(x => x.UserName).ToList();
                 return list;
@@ -117,7 +108,8 @@ namespace SAT.HR.Data.Repository
                 EmployeeViewModel model = new Models.EmployeeViewModel();
                 model.UserID = data.UserID;
                 model.UserName = data.UserName;
-                model.FullName = data.FirstName + " " + data.LastName;
+                model.IDCard = data.IDCard;
+                model.FullName = data.FirstNameTh + " " + data.LastNameTh;
                 model.Avatar = data.Avatar;
                 model.SecID = data.SecID;
                 model.SecName = data.SecName;
@@ -125,6 +117,7 @@ namespace SAT.HR.Data.Repository
                 model.DivName = data.DivName;
                 model.DepID = data.DepID;
                 model.DepName = data.DepName;
+                model.Avatar = data.Avatar;
                 return model;
             }
         }
@@ -161,10 +154,9 @@ namespace SAT.HR.Data.Repository
                     UserID = s.UserID,
                     UserName = s.UserName,
                     Password = s.Password,
-                    FirstName = s.FirstName,
-                    LastName = s.LastName,
+                    FirstNameTh = s.FirstName,
+                    LastNameTh = s.LastName,
                     FullName = s.FirstName + " " + s.LastName,
-                    UserTName = s.UserTName,
                     DivID = s.DivID,
                     DivName = s.DivName,
                     DepID = s.DepID,
@@ -173,8 +165,6 @@ namespace SAT.HR.Data.Repository
                     SecName = s.SecName,
                     PoID = s.PoID,
                     PoName = s.PoName,
-                    SexID = s.SexID,
-                    SexName = s.SexName,
                 }).Skip(start * length).Take(length).ToList();
 
 
@@ -197,8 +187,8 @@ namespace SAT.HR.Data.Repository
                     UserID = s.UserID,
                     UserName = s.UserName,
                     Password = s.Password,
-                    FirstName = s.FirstName,
-                    LastName = s.LastName,
+                    FirstNameTh = s.FirstNameTh,
+                    LastNameTh = s.LastNameTh,
                     DivID = s.DivID,
                     DivName = s.DivName,
                     DepID = s.DepID,
@@ -207,12 +197,8 @@ namespace SAT.HR.Data.Repository
                     SecName = s.SecName,
                     PoID = s.PoID,
                     PoName = s.PoName,
-                    UserTID = s.UserTID,
-                    UserTName = s.UserTName,
-                    SexID = s.SexID,
-                    SexName = s.SexName,
                     IsActive = s.IsActive,
-                    FullName = s.FirstName + " " + s.LastName,
+                    FullName = s.FirstNameTh + " " + s.LastNameTh,
                     Avatar = s.Avatar,
                 }).FirstOrDefault();
 
@@ -223,15 +209,18 @@ namespace SAT.HR.Data.Repository
 
 
 
-        public List<FamilyTypeViewModel> GetFamilyType()
+
+
+
+        public List<WorkingTypeViewModel> GetWorkingType()
         {
             using (SATEntities db = new SATEntities())
             {
-                var list = db.tb_Family_Type.Select(s => new FamilyTypeViewModel()
+                var list = db.tb_Working_Type.Select(s => new WorkingTypeViewModel()
                 {
-                    FamTID = s.FamTID,
-                    FamTName = s.FamTName
-                }).OrderBy(x => x.FamTName).ToList();
+                    WorkingTypeID = s.WorkingTypeID,
+                    WorkingTypeName = s.WorkingTypeName
+                }).ToList();
                 return list;
             }
         }
@@ -242,15 +231,79 @@ namespace SAT.HR.Data.Repository
             {
                 var list = db.tb_User_Status.Select(s => new UserStatusViewModel()
                 {
-                    UserSID = s.UserSID,
-                    UserSName = s.UserSName
+                    UserStatusID = s.StatusID,
+                    UserStatusName = s.StatusName
                 }).ToList();
                 return list;
             }
         }
 
-        //GetMaritalStatus
-        //GetBloodType
+        public List<FamilyTypeViewModel> GetFamilyType()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Family_Type.Select(s => new FamilyTypeViewModel()
+                {
+                    FamilyTypeID = s.FamTID,
+                    FamilyTypeName = s.FamTName
+                }).OrderBy(x => x.FamilyTypeName).ToList();
+                return list;
+            }
+        }
+
+        public List<MaritalStatusViewModel> GetMaritalStatus()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Marital_Status.Select(s => new MaritalStatusViewModel()
+                {
+                    MaritalStatusID = s.MaritalID,
+                    MaritalStatusName = s.MaritalName
+                }).ToList();
+                return list;
+            }
+        }
+
+        public List<PositionTypeViewModel> GetPositionType()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Position_Type.Select(s => new PositionTypeViewModel()
+                {
+                    PoTID = s.PoTID,
+                    PoTName = s.PoTName
+                }).ToList();
+                return list;
+            }
+        }
+
+        public List<EmpowerViewModel> GetEmpower()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Empower.Select(s => new EmpowerViewModel()
+                {
+                    EmpowerID = s.EmpowerID,
+                    EmpowerName = s.EmpowerName
+                }).ToList();
+                return list;
+            }
+        }
+
+        public List<BloodTypeViewModel> GetBloodType()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Blood_Type.Select(s => new BloodTypeViewModel()
+                {
+                    BloodTypeID = s.BloodID,
+                    BloodTypeName = s.BloodName
+                }).ToList();
+                return list;
+            }
+        }
+
+
 
     }
 }

@@ -34,4 +34,11 @@ namespace SAT.HR.Models
         public int recordsFiltered { get; set; }
         public List<PositionViewModel> data { get; set; }
     }
+
+    public class PositionTypeViewModel
+    {
+        public int PoTID { get; set; }
+
+        public string PoTName { get; set; }
+    }
 }

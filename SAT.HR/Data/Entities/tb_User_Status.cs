@@ -14,7 +14,16 @@ namespace SAT.HR.Data.Entities
     
     public partial class tb_User_Status
     {
-        public int UserSID { get; set; }
-        public string UserSName { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tb_User_Status()
+        {
+            this.tb_User = new HashSet<tb_User>();
+        }
+    
+        public int StatusID { get; set; }
+        public string StatusName { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_User> tb_User { get; set; }
     }
 }

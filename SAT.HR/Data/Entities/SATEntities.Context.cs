@@ -29,39 +29,46 @@ namespace SAT.HR.Data.Entities
     
         public virtual DbSet<tb_Action_Type> tb_Action_Type { get; set; }
         public virtual DbSet<tb_Benefit_Type> tb_Benefit_Type { get; set; }
+        public virtual DbSet<tb_Blood_Type> tb_Blood_Type { get; set; }
         public virtual DbSet<tb_Capability> tb_Capability { get; set; }
         public virtual DbSet<tb_Capability_Detail> tb_Capability_Detail { get; set; }
         public virtual DbSet<tb_Capability_Group> tb_Capability_Group { get; set; }
         public virtual DbSet<tb_Capability_Type> tb_Capability_Type { get; set; }
         public virtual DbSet<tb_Certificate> tb_Certificate { get; set; }
+        public virtual DbSet<tb_Country> tb_Country { get; set; }
         public virtual DbSet<tb_Degree> tb_Degree { get; set; }
         public virtual DbSet<tb_Department> tb_Department { get; set; }
         public virtual DbSet<tb_Discipline> tb_Discipline { get; set; }
+        public virtual DbSet<tb_District> tb_District { get; set; }
         public virtual DbSet<tb_Division> tb_Division { get; set; }
         public virtual DbSet<tb_DocNumber> tb_DocNumber { get; set; }
         public virtual DbSet<tb_Education> tb_Education { get; set; }
+        public virtual DbSet<tb_Empower> tb_Empower { get; set; }
         public virtual DbSet<tb_Family_Type> tb_Family_Type { get; set; }
         public virtual DbSet<tb_Holiday> tb_Holiday { get; set; }
         public virtual DbSet<tb_Insignia> tb_Insignia { get; set; }
         public virtual DbSet<tb_Leave_Type> tb_Leave_Type { get; set; }
-        public virtual DbSet<tb_Level> tb_Level { get; set; }
         public virtual DbSet<tb_Major> tb_Major { get; set; }
+        public virtual DbSet<tb_Marital_Status> tb_Marital_Status { get; set; }
         public virtual DbSet<tb_Menu> tb_Menu { get; set; }
         public virtual DbSet<tb_Menu_Role> tb_Menu_Role { get; set; }
         public virtual DbSet<tb_Nationality> tb_Nationality { get; set; }
         public virtual DbSet<tb_Position> tb_Position { get; set; }
         public virtual DbSet<tb_Position_Type> tb_Position_Type { get; set; }
+        public virtual DbSet<tb_Province> tb_Province { get; set; }
         public virtual DbSet<tb_Religion> tb_Religion { get; set; }
         public virtual DbSet<tb_Role> tb_Role { get; set; }
         public virtual DbSet<tb_Salary> tb_Salary { get; set; }
         public virtual DbSet<tb_Section> tb_Section { get; set; }
         public virtual DbSet<tb_Sex> tb_Sex { get; set; }
+        public virtual DbSet<tb_SubDistrict> tb_SubDistrict { get; set; }
         public virtual DbSet<tb_SysConfig> tb_SysConfig { get; set; }
         public virtual DbSet<tb_Title> tb_Title { get; set; }
         public virtual DbSet<tb_User> tb_User { get; set; }
         public virtual DbSet<tb_User_Role> tb_User_Role { get; set; }
         public virtual DbSet<tb_User_Status> tb_User_Status { get; set; }
         public virtual DbSet<tb_User_Type> tb_User_Type { get; set; }
+        public virtual DbSet<tb_Working_Type> tb_Working_Type { get; set; }
         public virtual DbSet<vw_Capability> vw_Capability { get; set; }
         public virtual DbSet<vw_Department> vw_Department { get; set; }
         public virtual DbSet<vw_Menu_Role> vw_Menu_Role { get; set; }

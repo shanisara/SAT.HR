@@ -14,7 +14,7 @@ namespace SAT.HR.Data.Entities
     
     public partial class tb_User_Type
     {
-        public int UserTID { get; set; }
-        public string UserTName { get; set; }
+        public int TypeID { get; set; }
+        public string TypeName { get; set; }
     }
 }
