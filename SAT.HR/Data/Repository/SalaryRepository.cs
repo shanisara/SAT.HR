@@ -172,8 +172,6 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-
-
         public List<SalaryLevelViewModel> GetSalaryLevel()
         {
             using (SATEntities db = new SATEntities())
@@ -199,6 +197,15 @@ namespace SAT.HR.Data.Repository
                 .Distinct().OrderBy(x => x.Step).ToList();
 
                 return list;
+            }
+        }
+
+        public decimal GetSalary(int level, decimal step)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.tb_Salary.Where(m => m.SaLevel == level && m.SaStep == step).FirstOrDefault();
+                return Convert.ToDecimal(data.SaRate);
             }
         }
     }

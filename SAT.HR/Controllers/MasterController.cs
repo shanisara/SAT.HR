@@ -157,6 +157,13 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult SectionByDep(int divid, int depid)
+        {
+            var result = DropDownList.GetSection(divid, depid, null, true);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
         #endregion
 
         #region 4. สายงาน - Discipline
@@ -1019,6 +1026,54 @@ namespace SAT.HR.Controllers
 
         #endregion
 
+        #region Province / District / SubDistrict
 
+        public JsonResult Province(int? defaultValue)
+        {
+            var result = DropDownList.GetProvince(defaultValue);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult District(int? defaultValue, int? proid)
+        {
+            var result = DropDownList.GetDistrict(defaultValue, proid);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SubDistrict(int? defaultValue, int? proid, int? disid)
+        {
+            var result = DropDownList.GetSubDistrict(defaultValue, proid, disid);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DistrictByPro(int proid)
+        {
+            var result = DropDownList.GetDistrict(proid, null);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SubDistrictByDis(int proid, int disid)
+        {
+            var result = DropDownList.GetSubDistrict(proid, disid, null);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        #region  Salary 
+
+        public JsonResult SalaryStepBylevel(int level)
+        {
+            var result = DropDownList.GetSalaryStep(null, level);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SalaryByStep(int level, decimal step)
+        {
+            var result = new SalaryRepository().GetSalary(level, step);
+            return Json( new { Salary = result }, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
     }
 }

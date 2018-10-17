@@ -572,16 +572,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Menu_Role' does not have a prim
     <Property Name="R_Delete" Type="bit" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Level' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vw_Salary_Level">
-          <Property Name="Level" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>-->
-  <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Step' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vw_Salary_Step">
-          <Property Name="Step" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>-->
-  <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Section">
     <Key>
@@ -619,22 +609,69 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="UserName" Type="nvarchar" MaxLength="50" />
     <Property Name="Password" Type="nvarchar" MaxLength="50" />
-    <Property Name="IDCard" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="TitleID" Type="int" />
     <Property Name="FirstNameTh" Type="nvarchar" MaxLength="200" />
     <Property Name="LastNameTh" Type="nvarchar" MaxLength="200" />
+    <Property Name="FirstNameEn" Type="nvarchar" MaxLength="200" />
+    <Property Name="LastNameEn" Type="nvarchar" MaxLength="200" />
+    <Property Name="StatusID" Type="int" />
+    <Property Name="IDCard" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="TIN" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="SexID" Type="int" />
+    <Property Name="BloodID" Type="int" />
+    <Property Name="ReligionID" Type="int" />
+    <Property Name="EthnicityID" Type="int" />
+    <Property Name="NationalityID" Type="int" />
+    <Property Name="MaritalStatusID" Type="int" />
+    <Property Name="Birthday" Type="date" />
+    <Property Name="RetireDate" Type="date" />
+    <Property Name="StartWorkDate" Type="date" />
+    <Property Name="ProbationDate" Type="date" />
+    <Property Name="Remuneration" Type="nvarchar" MaxLength="100" />
+    <Property Name="WorkingTypeID" Type="int" />
+    <Property Name="FingerScan" Type="nvarchar" MaxLength="20" />
+    <Property Name="CardScan" Type="nvarchar" MaxLength="20" />
+    <Property Name="SalaryLevel" Type="int" />
+    <Property Name="SalaryStep" Type="decimal" Precision="18" Scale="0" />
     <Property Name="DivID" Type="int" />
-    <Property Name="DivName" Type="nvarchar" MaxLength="200" />
     <Property Name="DepID" Type="int" />
-    <Property Name="DepName" Type="nvarchar" MaxLength="200" />
     <Property Name="SecID" Type="int" />
-    <Property Name="SecName" Type="nvarchar" MaxLength="200" />
     <Property Name="PoID" Type="int" />
+    <Property Name="EmpowerID" Type="int" />
+    <Property Name="EmpowerDivID" Type="int" />
+    <Property Name="EmpowerDepID" Type="int" />
+    <Property Name="EmpowerSecID" Type="int" />
+    <Property Name="PoTID" Type="int" />
+    <Property Name="AgentDivID" Type="int" />
+    <Property Name="AgentDepID" Type="int" />
+    <Property Name="AgentSecID" Type="int" />
+    <Property Name="AgentPoID" Type="int" />
+    <Property Name="HomeAddr" Type="nvarchar" MaxLength="100" />
+    <Property Name="HomeSubDistrictID" Type="int" />
+    <Property Name="HomeDistrictID" Type="int" />
+    <Property Name="HomeProvinceID" Type="int" />
+    <Property Name="HomeZipCode" Type="int" />
+    <Property Name="CurrAddr" Type="nvarchar" MaxLength="100" />
+    <Property Name="CurrSubDistrictID" Type="int" />
+    <Property Name="CurrDistrictID" Type="int" />
+    <Property Name="CurrProvinceID" Type="int" />
+    <Property Name="CurrZipCode" Type="int" />
+    <Property Name="Telephone" Type="nvarchar" MaxLength="200" />
+    <Property Name="Email" Type="nvarchar" MaxLength="200" />
+    <Property Name="ContactName" Type="nvarchar" MaxLength="200" />
+    <Property Name="ContactPhone" Type="nvarchar" MaxLength="200" />
+    <Property Name="Avatar" Type="nvarchar" MaxLength="200" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+    <Property Name="DivName" Type="nvarchar" MaxLength="200" />
+    <Property Name="DepName" Type="nvarchar" MaxLength="200" />
+    <Property Name="SecName" Type="nvarchar" MaxLength="200" />
     <Property Name="PoCode" Type="nvarchar" MaxLength="200" />
     <Property Name="PoName" Type="nvarchar" MaxLength="200" />
-    <Property Name="StatusID" Type="int" />
     <Property Name="StatusName" Type="nvarchar" MaxLength="50" />
-    <Property Name="IsActive" Type="bit" />
-    <Property Name="Avatar" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_NotRole' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1119,22 +1156,69 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
     [vw_User].[UserID] AS [UserID], 
     [vw_User].[UserName] AS [UserName], 
     [vw_User].[Password] AS [Password], 
-    [vw_User].[IDCard] AS [IDCard], 
+    [vw_User].[TitleID] AS [TitleID], 
     [vw_User].[FirstNameTh] AS [FirstNameTh], 
     [vw_User].[LastNameTh] AS [LastNameTh], 
+    [vw_User].[FirstNameEn] AS [FirstNameEn], 
+    [vw_User].[LastNameEn] AS [LastNameEn], 
+    [vw_User].[StatusID] AS [StatusID], 
+    [vw_User].[IDCard] AS [IDCard], 
+    [vw_User].[TIN] AS [TIN], 
+    [vw_User].[SexID] AS [SexID], 
+    [vw_User].[BloodID] AS [BloodID], 
+    [vw_User].[ReligionID] AS [ReligionID], 
+    [vw_User].[EthnicityID] AS [EthnicityID], 
+    [vw_User].[NationalityID] AS [NationalityID], 
+    [vw_User].[MaritalStatusID] AS [MaritalStatusID], 
+    [vw_User].[Birthday] AS [Birthday], 
+    [vw_User].[RetireDate] AS [RetireDate], 
+    [vw_User].[StartWorkDate] AS [StartWorkDate], 
+    [vw_User].[ProbationDate] AS [ProbationDate], 
+    [vw_User].[Remuneration] AS [Remuneration], 
+    [vw_User].[WorkingTypeID] AS [WorkingTypeID], 
+    [vw_User].[FingerScan] AS [FingerScan], 
+    [vw_User].[CardScan] AS [CardScan], 
+    [vw_User].[SalaryLevel] AS [SalaryLevel], 
+    [vw_User].[SalaryStep] AS [SalaryStep], 
     [vw_User].[DivID] AS [DivID], 
-    [vw_User].[DivName] AS [DivName], 
     [vw_User].[DepID] AS [DepID], 
-    [vw_User].[DepName] AS [DepName], 
     [vw_User].[SecID] AS [SecID], 
-    [vw_User].[SecName] AS [SecName], 
     [vw_User].[PoID] AS [PoID], 
+    [vw_User].[EmpowerID] AS [EmpowerID], 
+    [vw_User].[EmpowerDivID] AS [EmpowerDivID], 
+    [vw_User].[EmpowerDepID] AS [EmpowerDepID], 
+    [vw_User].[EmpowerSecID] AS [EmpowerSecID], 
+    [vw_User].[PoTID] AS [PoTID], 
+    [vw_User].[AgentDivID] AS [AgentDivID], 
+    [vw_User].[AgentDepID] AS [AgentDepID], 
+    [vw_User].[AgentSecID] AS [AgentSecID], 
+    [vw_User].[AgentPoID] AS [AgentPoID], 
+    [vw_User].[HomeAddr] AS [HomeAddr], 
+    [vw_User].[HomeSubDistrictID] AS [HomeSubDistrictID], 
+    [vw_User].[HomeDistrictID] AS [HomeDistrictID], 
+    [vw_User].[HomeProvinceID] AS [HomeProvinceID], 
+    [vw_User].[HomeZipCode] AS [HomeZipCode], 
+    [vw_User].[CurrAddr] AS [CurrAddr], 
+    [vw_User].[CurrSubDistrictID] AS [CurrSubDistrictID], 
+    [vw_User].[CurrDistrictID] AS [CurrDistrictID], 
+    [vw_User].[CurrProvinceID] AS [CurrProvinceID], 
+    [vw_User].[CurrZipCode] AS [CurrZipCode], 
+    [vw_User].[Telephone] AS [Telephone], 
+    [vw_User].[Email] AS [Email], 
+    [vw_User].[ContactName] AS [ContactName], 
+    [vw_User].[ContactPhone] AS [ContactPhone], 
+    [vw_User].[Avatar] AS [Avatar], 
+    [vw_User].[IsActive] AS [IsActive], 
+    [vw_User].[CreateDate] AS [CreateDate], 
+    [vw_User].[CreateBy] AS [CreateBy], 
+    [vw_User].[ModifyDate] AS [ModifyDate], 
+    [vw_User].[ModifyBy] AS [ModifyBy], 
+    [vw_User].[DivName] AS [DivName], 
+    [vw_User].[DepName] AS [DepName], 
+    [vw_User].[SecName] AS [SecName], 
     [vw_User].[PoCode] AS [PoCode], 
     [vw_User].[PoName] AS [PoName], 
-    [vw_User].[StatusID] AS [StatusID], 
-    [vw_User].[StatusName] AS [StatusName], 
-    [vw_User].[IsActive] AS [IsActive], 
-    [vw_User].[Avatar] AS [Avatar]
+    [vw_User].[StatusName] AS [StatusName]
     FROM [dbo].[vw_User] AS [vw_User]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vw_User_NotRole" EntityType="Self.vw_User_NotRole" store:Type="Views" store:Schema="dbo">

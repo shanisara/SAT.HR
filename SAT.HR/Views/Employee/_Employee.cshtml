@@ -75,10 +75,8 @@
                                 <div class="picture">
                                     <div class="fileinput text-center fileinput-new" data-provides="fileinput">
                                         <div class="fileinput-new thumbnail">
-                                            @if (string.IsNullOrEmpty(Model.Avatar))
-                                            { <img alt="..." src="@Url.Content("~/Content/assets/img/image_placeholder.jpg")" /> }
-                                            else
-                                            { <img alt="..." src="@Url.Content("~/Upload/Avatar/"+ @Model.Avatar)" />}
+                                            @{string Avatar = (string.IsNullOrEmpty(Model.Avatar)) ? "~/Content/assets/img/image_placeholder.jpg" : "~/Upload/Avatar/" + @Model.Avatar; }
+                                            <img alt="..." src="@Url.Content(@Avatar)" />
                                         </div>
                                         <div class="fileinput-preview fileinput-exists thumbnail"></div>
                                         <div>
@@ -106,14 +104,14 @@
                                 <div class="col-md-3">
                                     <div class="form-group bmd-form-group">
                                         @Html.Label("ชื่อ (ไทย)", null, new { @class = "bmd-label-floating" })
-                                        <input class="form-control" type="text" placeholder="">
+                                        @Html.TextBoxFor(m => m.FirstNameTh, new { @class = "form-control", required = "true" })
                                         @Html.ValidationMessageFor(m => m.FirstNameTh)
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group bmd-form-group">
                                         @Html.Label("นามสกุล (ไทย)", null, new { @class = "bmd-label-floating" })
-                                        <input class="form-control" type="text">
+                                        @Html.TextBoxFor(m => m.LastNameTh, new { @class = "form-control", required = "true" })
                                         @Html.ValidationMessageFor(m => m.LastNameTh)
                                     </div>
                                 </div>
@@ -128,25 +126,25 @@
                                 <div class="col-md-3">
                                     <div class="form-group bmd-form-group">
                                         @Html.Label("เลขประจำตัวประชาชน", null, new { @class = "bmd-label-floating" })
-                                        <input class="form-control" type="text">
+                                        @Html.TextBoxFor(m => m.IDCard, new { @class = "form-control", required = "true" })
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group bmd-form-group">
                                         @Html.Label("รหัสประจำตัวผู้เสียภาษี", null, new { @class = "bmd-label-floating" })
-                                        <input class="form-control" type="text">
+                                        @Html.TextBoxFor(m => m.TIN, new { @class = "form-control" })
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group bmd-form-group">
                                         @Html.Label("ชื่อ (อังกฤษ)", null, new { @class = "bmd-label-floating" })
-                                        <input class="form-control" type="text">
+                                        @Html.TextBoxFor(m => m.FirstNameEn, new { @class = "form-control" })
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group bmd-form-group">
                                         @Html.Label("นามสกุล (อังกฤษ)", null, new { @class = "bmd-label-floating" })
-                                        <input class="form-control" type="text">
+                                        @Html.TextBoxFor(m => m.LastNameEn, new { @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
@@ -192,7 +190,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group bmd-form-group">
                                         @Html.Label("ตอบแทนเกษียณ (เท่า)", null, new { @class = "bmd-label-floating" })
-                                        <input class="form-control" type="text">
+                                        @Html.TextBoxFor(m => m.Remuneration, new { @class = "form-control" })
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -206,25 +204,25 @@
                                 <div class="col-md-3">
                                     <div class="form-group bmd-form-group">
                                         @Html.Label("วันเกิด", null, new { @class = "bmd-label-floating" })
-                                        <input class="form-control" type="text">
+                                        @Html.TextBoxFor(m => m.Birthday, new { @class = "form-control datepicker" })
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group bmd-form-group">
                                         @Html.Label("อายุ (ปี)", null, new { @class = "bmd-label-floating" })
-                                        <input class="form-control" type="text">
+                                        @Html.TextBoxFor(m => m.Age, new { @class = "form-control" })
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group bmd-form-group">
                                         @Html.Label("รหัสสแกนนิ้ว", null, new { @class = "bmd-label-floating" })
-                                        <input class="form-control" type="text">
+                                        @Html.TextBoxFor(m => m.FingerScan, new { @class = "form-control" })
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group bmd-form-group">
                                         @Html.Label("รหัสสแกนบัตร", null, new { @class = "bmd-label-floating" })
-                                        <input class="form-control" type="text">
+                                        @Html.TextBoxFor(m => m.CardScan, new { @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
@@ -232,25 +230,25 @@
                                 <div class="col-md-3">
                                     <div class="form-group bmd-form-group">
                                         @Html.Label("วันที่บรรจุ", null, new { @class = "bmd-label-floating" })
-                                        <input class="form-control" type="text">
+                                        @Html.TextBoxFor(m => m.StartWorkDate, new { @class = "form-control datepicker" })
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group bmd-form-group">
                                         @Html.Label("วันที่พ้นทดลองงาน", null, new { @class = "bmd-label-floating" })
-                                        <input class="form-control" type="text">
+                                        @Html.TextBoxFor(m => m.ProbationDate, new { @class = "form-control datepicker" })
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group bmd-form-group">
                                         @Html.Label("อายุงาน (ปี)", null, new { @class = "bmd-label-floating" })
-                                        <input class="form-control" type="text">
+                                        @Html.TextBoxFor(m => m.Experience, new { @class = "form-control" })
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group bmd-form-group">
                                         @Html.Label("วันครบเกษียณ", null, new { @class = "bmd-label-floating" })
-                                        <input class="form-control" type="text">
+                                        @Html.TextBoxFor(m => m.RetireDate, new { @class = "form-control datepicker" })
                                     </div>
                                 </div>
                             </div>
@@ -291,7 +289,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group bmd-form-group">
                                         @Html.Label("เงินเดือน", null, new { @class = "bmd-label-floating" })
-                                        <input class="form-control" type="text">
+                                        @Html.TextBoxFor(m => m.Salary, new { @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
@@ -426,7 +424,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         @Html.Label("ที่อยู่", null, new { @class = "label-select" })
-                                        <input class="form-control" type="text">
+                                        @Html.TextBoxFor(m => m.HomeAddr, new { @class = "form-control" })
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -450,7 +448,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group bmd-form-group">
                                         @Html.Label("รหัสไปรษณีย์", null, new { @class = "bmd-label-floating" })
-                                        <input class="form-control" type="text">
+                                        @Html.TextBoxFor(m => m.HomeZipCode, new { @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
@@ -466,7 +464,7 @@
                             <h4 class="card-title"><span>ที่อยู่ตามทะเบียนบ้าน</span>
                                 <div class="form-check mr-auto pull-right">
                                     <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" value="" required="" aria-required="true"> คัดลอกที่อยุ่ตามทะเบียนบ้าน
+                                        <input class="form-check-input" type="checkbox" aria-required="true" id="CopyAddress"> คัดลอกที่อยุ่ตามทะเบียนบ้าน
                                         <span class="form-check-sign">
                                             <span class="check"></span>
                                         </span>
@@ -479,7 +477,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         @Html.Label("ที่อยู่", null, new { @class = "label-select" })
-                                        <input class="form-control" type="text">
+                                        @Html.TextBoxFor(m => m.CurrAddr, new { @class = "form-control" })
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -503,7 +501,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group bmd-form-group">
                                         @Html.Label("รหัสไปรษณีย์", null, new { @class = "bmd-label-floating" })
-                                        <input class="form-control" type="text">
+                                        @Html.TextBoxFor(m => m.CurrZipCode, new { @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
@@ -520,13 +518,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group bmd-form-group">
                                         @Html.Label("เบอร์โทรศัพท์", null, new { @class = "bmd-label-floating" })
-                                        <input class="form-control" type="text">
+                                        @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control" })
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group bmd-form-group">
                                         @Html.Label("อีเมล์", null, new { @class = "bmd-label-floating" })
-                                        <input class="form-control" type="text">
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
@@ -536,13 +534,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group bmd-form-group">
                                         @Html.Label("ผู้ติดต่อกรณีฉุกเฉิน", null, new { @class = "bmd-label-floating" })
-                                        <input class="form-control" type="text">
+                                        @Html.TextBoxFor(m => m.ContactName, new { @class = "form-control" })
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group bmd-form-group">
                                         @Html.Label("เบอร์โทรฉุกเฉิน", null, new { @class = "bmd-label-floating" })
-                                        <input class="form-control" type="text">
+                                        @Html.TextBoxFor(m => m.ContactPhone, new { @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
@@ -553,11 +551,12 @@
 
             <div class="row">
                 <div class="ml-auto mr-auto">
-                    <button type="submit" class="btn">ย้อนกลับ</button>
-                    <button type="submit" class="btn btn-danger">ลบ</button>
-                    <button class="btn btn-primary" type="submit">บันทึก</button>
+                    <button type="submit" class="btn" id="btnBack">ย้อนกลับ</button>
+                    <button type="submit" class="btn btn-danger" id="btnDelete">ลบ</button>
+                    <button class="btn btn-primary" type="submit" id="btnSave">บันทึก</button>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

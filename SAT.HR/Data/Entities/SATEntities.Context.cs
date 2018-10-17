@@ -74,9 +74,9 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Menu_Role> vw_Menu_Role { get; set; }
         public virtual DbSet<vw_Section> vw_Section { get; set; }
         public virtual DbSet<vw_Title> vw_Title { get; set; }
-        public virtual DbSet<vw_User> vw_User { get; set; }
         public virtual DbSet<vw_User_NotRole> vw_User_NotRole { get; set; }
         public virtual DbSet<vw_User_Role> vw_User_Role { get; set; }
+        public virtual DbSet<vw_User> vw_User { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {

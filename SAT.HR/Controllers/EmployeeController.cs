@@ -59,16 +59,16 @@ namespace SAT.HR.Controllers
             ViewBag.Section = DropDownList.GetSection(model.DivID, model.DepID, model.SecID, true);
 
             ViewBag.Empower = DropDownList.GetEmpower(model.EmpowerID);     //-- > ช่วยราชการ
-            ViewBag.EmpowerPosition = DropDownList.GetEmpower(model.EmpowerID);
-            ViewBag.EmpowerDivision = DropDownList.GetEmpower(model.EmpowerID);
-            ViewBag.EmpowerDepartment = DropDownList.GetEmpower(model.EmpowerID);
-            ViewBag.EmpowerSection = DropDownList.GetEmpower(model.EmpowerID);
+            ViewBag.EmpowerPosition = DropDownList.GetPosition(model.EmpowerID, true);
+            ViewBag.EmpowerDivision = DropDownList.GetDivision(model.EmpowerDivID, true);
+            ViewBag.EmpowerDepartment = DropDownList.GetDepartment(model.EmpowerDivID, model.EmpowerDepID, true);
+            ViewBag.EmpowerSection = DropDownList.GetSection(model.EmpowerDivID, model.EmpowerDepID, model.EmpowerSecID, true);
 
             ViewBag.PositionType = DropDownList.GetPositionType(model.PoTID);//-- > รักษาการแทน
-            ViewBag.AgentPosition = DropDownList.GetPositionType(model.PoTID);
-            ViewBag.AgentDivision = DropDownList.GetPositionType(model.PoTID);
-            ViewBag.AgentDepartment = DropDownList.GetPositionType(model.PoTID);
-            ViewBag.AgentSection = DropDownList.GetPositionType(model.PoTID);
+            ViewBag.AgentPosition = DropDownList.GetPosition(model.AgentPoID, true);
+            ViewBag.AgentDivision = DropDownList.GetDivision(model.AgentDivID, true);
+            ViewBag.AgentDepartment = DropDownList.GetDepartment(model.AgentDivID, model.AgentDepID, true);
+            ViewBag.AgentSection = DropDownList.GetSection(model.AgentDivID, model.AgentDepID, model.AgentSecID, true);
 
             ViewBag.HomeProvince = DropDownList.GetProvince(model.HomeProvinceID);
             ViewBag.HomeDistrict = DropDownList.GetDistrict(model.HomeDistrictID, model.HomeProvinceID);

@@ -26,7 +26,7 @@
 
     .nav-pills .nav-item .nav-link {
         font-size: 14px;
-        /*padding: 10px 6px;*/
+        padding: 10px 6px;
     }
         .nav-pills .nav-item .nav-link.active {
             font-size: 14px;
@@ -83,36 +83,36 @@
                             </div>
                         </div>
                         <div class="tab-pane" id="tab-family">
-                            <div id="div-family">family</div>
-                            @*@Html.Partial("_Family")*@
+                            <div id="div-family"></div>
+                            @Html.Partial("_Family")
                         </div>
                         <div class="tab-pane" id="tab-education">
-                            <div id="div-education">education</div>
-                            @*@Html.Partial("_Education")*@
+                            <div id="div-education"></div>
+                            @Html.Partial("_Education")
                         </div>
                         <div class="tab-pane" id="tab-position">
-                            <div id="div-position">position</div>
-                            @*@Html.Partial("_Position")*@
+                            <div id="div-position"></div>
+                            @Html.Partial("_Position")
                         </div>
                         <div class="tab-pane" id="tab-trainning">
-                            <div id="div-trainning">trainning</div>
-                            @*@Html.Partial("_Trainning")*@
+                            <div id="div-trainning"></div>
+                            @Html.Partial("_Trainning")
                         </div>
                         <div class="tab-pane" id="tab-insignia">
-                            <div id="div-insignia">insignia</div>
-                            @*@Html.Partial("_Insignia")*@
+                            <div id="div-insignia"></div>
+                            @Html.Partial("_Insignia")
                         </div>
                         <div class="tab-pane" id="tab-ำxcellent">
-                            <div id="div-excellent">excellent</div>
-                            @*@Html.Partial("_Excellent")*@
+                            <div id="div-excellent"></div>
+                            @Html.Partial("_Excellent")
                         </div>
                         <div class="tab-pane" id="tab-certificate">
-                            <div id="div-certificate">certificate</div>
-                            @*@Html.Partial("_Certificate")*@
+                            <div id="div-certificate"></div>
+                            @Html.Partial("_Certificate")
                         </div>
                         <div class="tab-pane" id="tab-history">
-                            <div id="div-history">history</div>
-                            @*@Html.Partial("_History")*@
+                            <div id="div-history"></div>
+                            @Html.Partial("_History")
                         </div>
                     </div>
                 </div>
@@ -172,9 +172,174 @@
             }
         });
 
-        //$('#lblDate1').addClass("bmd-label-fixed");
-        //bmd-label-fixed
+        var DropDownList = {
+            getDepartment: function (el, divid) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("DepartmentByDiv", "Master")',
+                    data: { divid: divid },
+                    dataType: 'json',
+                    success: function (res) {
+                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                        $.each(res, function (key, entry) {
+                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                        })
+                    }
+                });
+            },
+            getSection: function (el, divid, depid) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SectionByDep", "Master")',
+                    data: { divid: divid, depid: depid },
+                    dataType: 'json',
+                    success: function (res) {
+                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                        $.each(res, function (key, entry) {
+                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                        })
+                    }
+                });
+            },
+            getProvince: function (el, proid) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Province", "Master")',
+                    data: { defaultValue: proid },
+                    dataType: 'json',
+                    success: function (res) {
+                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                        $.each(res, function (key, entry) {
+                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                        })
+                    }
+                });
+            },
+            getDistrict: function (el, disid, proid) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("DistrictByPro", "Master")',
+                    data: { defaultValue: disid, proid: proid },
+                    dataType: 'json',
+                    success: function (res) {
+                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                        $.each(res, function (key, entry) {
+                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                        })
+                    }
+                });
+            },
+            getSubDistrict: function (el, subid, proid, disid) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SubDistrict", "Master")',
+                    data: { defaultValue: subid, proid: proid, disid: disid },
+                    dataType: 'json',
+                    success: function (res) {
+                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                        $.each(res, function (key, entry) {
+                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                        })
+                    }
+                });
+            },
+            getSalaryLevel: function (el, level) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SalaryStepBylevel", "Master")',
+                    data: { level: level },
+                    dataType: 'json',
+                    success: function (res) {
+                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                        $.each(res, function (key, entry) {
+                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                        })
+                    }
+                });
+            }
+        }
+
+        $("#DivID").change(function () {
+            DropDownList.getDepartment($("#DepID"), $('#DivID').val());
+        });
+
+        $("#DepID").change(function () {
+            DropDownList.getSection($("#SecID"), $('#DivID').val(), $('#DepID').val());
+        });
+
+        $("#EmpowerDivID").change(function () {
+            DropDownList.getDepartment($("#EmpowerDepID"), $('#EmpowerDivID').val());
+        });
+
+        $("#EmpowerDepID").change(function () {
+            DropDownList.getSection($("#EmpowerSecID"), $('#EmpowerDivID').val(), $('#EmpowerDepID').val());
+        });
+
+        $("#AgentDivID").change(function () {
+            DropDownList.getDepartment($("#AgentDepID"), $('#AgentDivID').val());
+        });
+
+        $("#AgentDepID").change(function () {
+            DropDownList.getSection($("#AgentSecID"), $('#AgentDivID').val(), $('#AgentDepID').val());
+        });
+
+        $("#HomeProvinceID").change(function () {
+            DropDownList.getDistrict($("#HomeDistrictID"), $('#HomeProvinceID').val());
+        });
+
+        $("#HomeDistrictID").change(function () {
+            DropDownList.getSubDistrict($("#HomeSubDistrictID"), $('#HomeProvinceID').val(), $('#HomeDistrictID').val());
+        });
+
+        $("#CurrProvinceID").change(function () {
+            DropDownList.getDepartment($("#CurrDistrictID"), $('#CurrProvinceID').val());
+        });
+
+        $("#CurrDistrictID").change(function () {
+            DropDownList.getSubDistrict($("#CurrSubDistrictID"), $('#CurrProvinceID').val(), $('#CurrDistrictID').val());
+        });
+
+        $("#SalaryLevel").change(function () {
+            DropDownList.getSalaryLevel($("#SalaryStep"), $('#SalaryLevel').val());
+        });
+
+        $("#SalaryStep").change(function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SalaryByStep", "Master")',
+                data: { level: $("#SalaryLevel").val(), step: $("#SalaryStep").val() },
+                dataType: 'json',
+                success: function (res) {
+                    $("#Salary").val(res.Salary);
+                }
+            });
+        });
+
+        $("#CopyAddress").click(function () {
+            if ($(this).is(':checked')) {
+                $("#CurrAddr").val($("#HomeAddr").val());
+                $("#CurrZipCode").val($("#HomeZipCode").val());
+
+                var homeProvinceID = $("#HomeProvinceID").val();
+                var homeDistrictID = $("#HomeDistrictID").val();
+                var homeSubDistrictID = $("#HomeSubDistrictID").val();
+
+                if (homeProvinceID != '') 
+                    DropDownList.getProvince($("#CurrProvinceID"), homeProvinceID);
+
+                if (homeDistrictID != '') 
+                    DropDownList.getDistrict($("#CurrDistrictID"), homeDistrictID, homeProvinceID);
+
+                if (homeSubDistrictID != '') 
+                    DropDownList.getSubDistrict($("#CurrSubDistrictID"), homeSubDistrictID, homeProvinceID, homeDistrictID);
+            }
+        });
+
 
     });
 </script>
+<script>
+    
+
+ </script>
 }

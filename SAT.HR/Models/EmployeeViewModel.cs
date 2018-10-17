@@ -74,6 +74,9 @@ namespace SAT.HR.Models
         public string SecName { get; set; }
         public string PoCode { get; set; }
         public string PoName { get; set; }
+        public decimal Salary { get; set; }
+        public string Age { get; set; }
+        public string Experience { get; set; }
     }
 
     public class EmployeePageResult
