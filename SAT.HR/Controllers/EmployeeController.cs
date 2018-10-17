@@ -41,7 +41,7 @@ namespace SAT.HR.Controllers
             EmployeeViewModel model = new EmployeeViewModel();
             model = new EmployeeRepository().GetByID(id);
 
-            ViewBag.TitleTh = DropDownList.GetTitle(model.SexID, model.TitleID, true);
+            ViewBag.UserTitle = DropDownList.GetTitle(model.SexID, model.TitleID, true);
             ViewBag.Sex = DropDownList.GetSex(model.SexID);
             ViewBag.BloodType = DropDownList.GetBloodType(model.BloodID);
             ViewBag.MaritalStatus = DropDownList.GetMaritalStatus(model.MaritalStatusID);
@@ -64,7 +64,7 @@ namespace SAT.HR.Controllers
             ViewBag.EmpowerDepartment = DropDownList.GetEmpower(model.EmpowerID);
             ViewBag.EmpowerSection = DropDownList.GetEmpower(model.EmpowerID);
 
-            ViewBag.PositionType = DropDownList.GetPositionType(model.PoTID);           //-- > รักษาการแทน
+            ViewBag.PositionType = DropDownList.GetPositionType(model.PoTID);//-- > รักษาการแทน
             ViewBag.AgentPosition = DropDownList.GetPositionType(model.PoTID);
             ViewBag.AgentDivision = DropDownList.GetPositionType(model.PoTID);
             ViewBag.AgentDepartment = DropDownList.GetPositionType(model.PoTID);
