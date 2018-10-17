@@ -14,7 +14,16 @@ namespace SAT.HR.Data.Entities
     
     public partial class tb_Benefit_Type
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tb_Benefit_Type()
+        {
+            this.tb_Benefit_Other_Welfare = new HashSet<tb_Benefit_Other_Welfare>();
+        }
+    
         public int BenTID { get; set; }
         public string BenTName { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Benefit_Other_Welfare> tb_Benefit_Other_Welfare { get; set; }
     }
 }

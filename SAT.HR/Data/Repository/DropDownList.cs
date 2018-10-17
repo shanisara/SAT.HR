@@ -446,18 +446,18 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
-        public static List<SelectListItem> GetFamilyType(int? defaultValue)
+        public static List<SelectListItem> GetRecieveType(int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new EmployeeRepository().GetFamilyType();
+            var data = new EmployeeRepository().GetRecieveType();
 
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
-                select.Value = item.FamilyTypeID.ToString();
-                select.Text = item.FamilyTypeName;
-                select.Selected = defaultValue.HasValue ? (item.FamilyTypeID == defaultValue ? true : false) : false;
+                select.Value = item.RecID.ToString();
+                select.Text = item.RecName;
+                select.Selected = defaultValue.HasValue ? (item.RecID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;

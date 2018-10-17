@@ -14,6 +14,12 @@ namespace SAT.HR.Data.Entities
     
     public partial class tb_Major
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tb_Major()
+        {
+            this.tb_User_Education = new HashSet<tb_User_Education>();
+        }
+    
         public int MajID { get; set; }
         public string MajName { get; set; }
         public Nullable<bool> MajStatus { get; set; }
@@ -21,5 +27,8 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_User_Education> tb_User_Education { get; set; }
     }
 }

@@ -87,10 +87,10 @@ namespace SAT.HR.Models
         public List<EmployeeViewModel> data { get; set; }
     }
 
-    public class FamilyTypeViewModel
+    public class RecieveTypeViewModel
     {
-        public int FamilyTypeID { get; set; }
-        public string FamilyTypeName { get; set; }
+        public int RecID { get; set; }
+        public string RecName { get; set; }
     }
 
     public class UserStatusViewModel
@@ -129,5 +129,77 @@ namespace SAT.HR.Models
         public string MaritalStatusName { get; set; }
     }
 
+    public class UserFamilyViewModel
+    {
+        public int RowNumber { get; set; }
+        public int UserID { get; set; }
+        public int UfID { get; set; }
+        public string UfName { get; set; }
+        public Nullable<decimal> UfCardID { get; set; }
+        public Nullable<System.DateTime> UfDOB { get; set; }
+        public Nullable<bool> UfLifeStatus { get; set; }
+        public Nullable<int> TdID { get; set; }
+        public Nullable<int> PoID { get; set; }
+        public Nullable<bool> UfStudyStatus { get; set; }
+        public int RecID { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<int> CreateBy { get; set; }
+        public Nullable<System.DateTime> ModifyDate { get; set; }
+        public Nullable<int> ModifyBy { get; set; }
+        public string UfAge { get; set; }
+        public int? MaritalID { get; set; }
+        public Nullable<DateTime> WeddingDate { get; set; }
+        public Nullable<DateTime> DivorceDate { get; set; }
+        public string Career { get; set; }
+
+
+        public string UfLifeStatusName { get; set; }
+        public string TdName { get; set; }
+        public string PoName { get; set; }
+        public string MaritalName { get; set; }
+        public string UfStudyStatusName { get; set; }
+
+
+
+        public List<UserFamilyViewModel> ListFather { get; set; }
+        public List<UserFamilyViewModel> ListMother { get; set; }
+        public List<UserFamilyViewModel> ListSpouse { get; set; }
+        public List<UserFamilyViewModel> ListChild { get; set; }
+    }
+
+    public class UserEducationViewModel
+    {
+
+    }
+
+    public class UserPositionViewModel
+    {
+
+    }
+
+    public class UserTrainningViewModel
+    {
+
+    }
+
+    public class UserInsigniaViewModel
+    {
+
+    }
+
+    public class UserExcellentViewModel
+    {
+
+    }
+
+    public class UserCertificateViewModel
+    {
+
+    }
+
+    public class UserHistoryViewModel
+    {
+
+    }
 
 }

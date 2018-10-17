@@ -84,88 +84,79 @@ namespace SAT.HR.Controllers
             return View(model);
         }
 
-        //public JsonResult SaveEmployee(SectionViewModel model)
-        //{
-        //    ResponseData result = new Models.ResponseData();
-        //    if (model.UserID != 0)
-        //        result = new EmployeeRepository().UpdateEmployee(model);
-        //    else
-        //        result = new EmployeeRepository().AddEmployee(model);
-
-        //    return Json(result, JsonRequestBehavior.AllowGet);
-        //}
-
         public JsonResult UpdateEmployee(EmployeeViewModel data)
         {
+
             return Json(null, JsonRequestBehavior.AllowGet);
         }
 
-        //public JsonResult DeleteEmployee(int id)
-        //{
-        //    var result = new EmployeeRepository().DeleteEmployee(id);
-        //    return Json(result, JsonRequestBehavior.AllowGet);
-        //}
+        public JsonResult DeleteEmployee(int id)
+        {
+            var result = new EmployeeRepository().DeleteEmployee(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
 
         #region Partial
 
-        public ActionResult Employee()
+        public ActionResult Employee(int id)
         {
-            return PartialView("_Employee");
+            var model = new EmployeeRepository().GetByID(id);
+            return PartialView("_Employee", model);
         }
 
-        public ActionResult Family()
+        public ActionResult Family(int id)
         {
-
-            return PartialView("_Family");
+            var model = new EmployeeRepository().GetUserFamily(id);
+            return PartialView("_Family", model);
         }
 
-        public ActionResult Education()
+        public ActionResult Education(int id)
         {
-
-            return PartialView("_Education");
+            var model = new EmployeeRepository().GetUserEducation(id);
+            return PartialView("_Education", model);
         }
 
-        public ActionResult Position()
+        public ActionResult Position(int id)
         {
-
-            return PartialView("_Position");
+            var model = new EmployeeRepository().GetUserPosition(id);
+            return PartialView("_Position", model);
         }
 
-        public ActionResult Trainning()
+        public ActionResult Trainning(int id)
         {
-
-            return PartialView("_Trainning");
+            var model = new EmployeeRepository().GetUserTrainning(id);
+            return PartialView("_Trainning", model);
         }
 
-        public ActionResult Insignia()
+        public ActionResult Insignia(int id)
         {
-
-            return PartialView("_Insignia");
+            var model = new EmployeeRepository().GetUserInsignia(id);
+            return PartialView("_Insignia", model);
         }
 
-        public ActionResult Excellent()
+        public ActionResult Excellent(int id)
         {
-
-            return PartialView("_Excellent");
+            var model = new EmployeeRepository().GetUserExcellent(id);
+            return PartialView("_Excellent", model);
         }
 
-        public ActionResult Certificate()
+        public ActionResult Certificate(int id)
         {
-
-            return PartialView("_Certificate");
+            var model = new EmployeeRepository().GetUserCertificate(id);
+            return PartialView("_Certificate", model);
         }
 
-        public ActionResult History()
+        public ActionResult History(int id)
         {
-
-            return PartialView("_History");
+            var model = new EmployeeRepository().GetUserHistory(id);
+            return PartialView("_History", model);
         }
 
-        public ActionResult Remuneration()
+        public ActionResult Remuneration(int id)
         {
-
-            return PartialView("_Remuneration");
+            var model = new EmployeeRepository().GetUserRemuneration(id);
+            return PartialView("_Remuneration", model);
         }
 
         #endregion

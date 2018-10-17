@@ -9,504 +9,505 @@
     UpdateTargetId = "results",
 }, new { @id = "formEmployee" }))
 {
-<div class="content">
+    <div class="content">
 
-    @Html.HiddenFor(m => m.UserID)
+        @Html.HiddenFor(m => m.UserID)
 
-    <div class="row">
-        <div class="col-md-12">
-            <div style="height:10px;"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <div style="height:10px;"></div>
 
-            <div class="card card-employee">
-                <div class="card-body m-b-20">
-                    <div class="row justify-content-center">
-                        <div class="col-sm-3">
-                            <div class="picture-container">
-                                <div class="picture">
-                                    @{
-                                        string fileinput = (string.IsNullOrEmpty(Model.Avatar)) ? "fileinput-new" : "fileinput-exists";
-                                        string avatar = (string.IsNullOrEmpty(Model.Avatar)) ? "~/Content/assets/img/image_placeholder.jpg" : "~/Upload/Avatar/" + @Model.Avatar;
-                                    }
-                                    <div class="fileinput text-center fileinput-new" data-provides="fileinput">
-                                        <div class="fileinput-new thumbnail"><img alt="..." src="@Url.Content(@avatar)" /></div>
-                                        <div class="fileinput-preview fileinput-exists thumbnail"></div>
-                                        <div>
-                                            <span class="btn btn-round btn-file">
-                                                <span class="fileinput-new">Select image</span>
-                                                <span class="fileinput-exists">เปลี่ยน</span>
-                                                <input type="hidden" value=""><input type="file">
-                                            </span>
-                                            <a class="btn btn-danger btn-round fileinput-exists" href="#" data-dismiss="fileinput"><i class="fa fa-times"></i> ลบ</a>
+                <div class="card card-employee">
+                    <div class="card-body m-b-20">
+                        <div class="row justify-content-center">
+                            <div class="col-sm-3">
+                                <div class="picture-container">
+                                    <div class="picture">
+                                        @{
+                                            string fileinput = (string.IsNullOrEmpty(Model.Avatar)) ? "fileinput-new" : "fileinput-exists";
+                                            string avatar = (string.IsNullOrEmpty(Model.Avatar)) ? "~/Content/assets/img/image_placeholder.jpg" : "~/Upload/Avatar/" + @Model.Avatar;
+                                        }
+                                        <div class="fileinput text-center fileinput-new" data-provides="fileinput">
+                                            <div class="fileinput-new thumbnail"><img alt="..." src="@Url.Content(@avatar)" /></div>
+                                            <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                            <div>
+                                                <span class="btn btn-round btn-file">
+                                                    <span class="fileinput-new">Select image</span>
+                                                    <span class="fileinput-exists">เปลี่ยน</span>
+                                                    <input type="hidden" value=""><input type="file">
+                                                </span>
+                                                <a class="btn btn-danger btn-round fileinput-exists" href="#" data-dismiss="fileinput"><i class="fa fa-times"></i> ลบ</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.Label("คำนำหน้า (ไทย)", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.TitleID, new SelectList((IEnumerable<SelectListItem>)ViewBag.UserTitle, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("ชื่อ (ไทย)", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.FirstNameTh, new { @class = "form-control", required = "true" })
+                                            @Html.ValidationMessageFor(m => m.FirstNameTh)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("นามสกุล (ไทย)", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.LastNameTh, new { @class = "form-control", required = "true" })
+                                            @Html.ValidationMessageFor(m => m.LastNameTh)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.Label("สถานะพนักงาน", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.StatusID, new SelectList((IEnumerable<SelectListItem>)ViewBag.UserStatus, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("เลขประจำตัวประชาชน", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.IDCard, new { @class = "form-control", required = "true" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("ชื่อ (อังกฤษ)", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.FirstNameEn, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("นามสกุล (อังกฤษ)", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.LastNameEn, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.Label("ประเภทการเข้าปฏิบัติงาน", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.WorkingTypeID, new SelectList((IEnumerable<SelectListItem>)ViewBag.WorkingType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("รหัสประจำตัวผู้เสียภาษี", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.TIN, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.Label("เพศ", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.SexID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Sex, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.Label("กรุ๊บเลือด", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.BloodID, new SelectList((IEnumerable<SelectListItem>)ViewBag.BloodType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.Label("สถานะการสมรส", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.MaritalStatusID, new SelectList((IEnumerable<SelectListItem>)ViewBag.MaritalStatus, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row m-b-30">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.Label("เชื้อชาติ", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.EthnicityID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Ethnicity, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.Label("สัญชาติ", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.NationalityID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Nationality, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.Label("ศาสนา", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.ReligionID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Religion, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("ตอบแทนเกษียณ (เท่า)", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.Remuneration, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("วันเกิด", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.Birthday, new { @class = "form-control datepicker" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("อายุ (ปี)", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.Age, new { @class = "form-control", @disabled = true })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("รหัสสแกนนิ้ว", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.FingerScan, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("รหัสสแกนบัตร", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.CardScan, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("วันที่บรรจุ", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.StartWorkDate, new { @class = "form-control datepicker" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("วันที่พ้นทดลองงาน", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.ProbationDate, new { @class = "form-control datepicker", @disabled = true })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("วันครบเกษียณ", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.RetireDate, new { @class = "form-control datepicker", @disabled = true })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("อายุงาน (ปี)", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.Experience, new { @class = "form-control", @disabled = true })
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-9">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        @Html.Label("คำนำหน้า (ไทย)", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.TitleID, new SelectList((IEnumerable<SelectListItem>)ViewBag.UserTitle, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
-                                    </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card ">
+                            <div class="card-header card-header-info card-header-icon">
+                                <div class="card-icon">
+                                    <i class="material-icons">assignment_ind</i>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-group bmd-form-group">
-                                        @Html.Label("ชื่อ (ไทย)", null, new { @class = "bmd-label-floating" })
-                                        @Html.TextBoxFor(m => m.FirstNameTh, new { @class = "form-control", required = "true" })
-                                        @Html.ValidationMessageFor(m => m.FirstNameTh)
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group bmd-form-group">
-                                        @Html.Label("นามสกุล (ไทย)", null, new { @class = "bmd-label-floating" })
-                                        @Html.TextBoxFor(m => m.LastNameTh, new { @class = "form-control", required = "true" })
-                                        @Html.ValidationMessageFor(m => m.LastNameTh)
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                       @Html.Label("สถานะพนักงาน", null, new { @class = "label-select" })
-                                       @Html.DropDownListFor(n => n.StatusID, new SelectList((IEnumerable<SelectListItem>)ViewBag.UserStatus, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
-                                    </div>
-                                </div>
+                                <h4 class="card-title"><span>ตำแหน่ง / สังกัด / เงินเดือน</span></h4>
                             </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group bmd-form-group">
-                                        @Html.Label("เลขประจำตัวประชาชน", null, new { @class = "bmd-label-floating" })
-                                        @Html.TextBoxFor(m => m.IDCard, new { @class = "form-control", required = "true" })
+                            <div class="card-body m-b-20">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.Label("ตำแหน่ง", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.PoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            @Html.Label("ระดับ", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.SalaryLevel, new SelectList((IEnumerable<SelectListItem>)ViewBag.SalaryLevel, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            @Html.Label("ขั้นเงินเดือน", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.SalaryStep, new SelectList((IEnumerable<SelectListItem>)ViewBag.SalaryStep, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("เงินเดือน", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.Salary, new { @class = "form-control" })
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-group bmd-form-group">
-                                        @Html.Label("รหัสประจำตัวผู้เสียภาษี", null, new { @class = "bmd-label-floating" })
-                                        @Html.TextBoxFor(m => m.TIN, new { @class = "form-control" })
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            @Html.Label("ฝ่าย", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group bmd-form-group">
-                                        @Html.Label("ชื่อ (อังกฤษ)", null, new { @class = "bmd-label-floating" })
-                                        @Html.TextBoxFor(m => m.FirstNameEn, new { @class = "form-control" })
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            @Html.Label("กอง", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.DepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Department, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group bmd-form-group">
-                                        @Html.Label("นามสกุล (อังกฤษ)", null, new { @class = "bmd-label-floating" })
-                                        @Html.TextBoxFor(m => m.LastNameEn, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        @Html.Label("เพศ", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.SexID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Sex, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        @Html.Label("ศาสนา", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.ReligionID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Religion, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        @Html.Label("เชื้อชาติ", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.EthnicityID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Ethnicity, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        @Html.Label("สัญชาติ", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.NationalityID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Nationality, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row m-b-30">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        @Html.Label("กรุ๊บเลือด", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.BloodID, new SelectList((IEnumerable<SelectListItem>)ViewBag.BloodType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        @Html.Label("สถานะการสมรส", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.MaritalStatusID, new SelectList((IEnumerable<SelectListItem>)ViewBag.MaritalStatus, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group bmd-form-group">
-                                        @Html.Label("ตอบแทนเกษียณ (เท่า)", null, new { @class = "bmd-label-floating" })
-                                        @Html.TextBoxFor(m => m.Remuneration, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        @Html.Label("ประเภทการเข้าปฏิบัติงาน", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.WorkingTypeID, new SelectList((IEnumerable<SelectListItem>)ViewBag.WorkingType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group bmd-form-group">
-                                        @Html.Label("วันเกิด", null, new { @class = "bmd-label-floating" })
-                                        @Html.TextBoxFor(m => m.Birthday, new { @class = "form-control datepicker" })
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group bmd-form-group">
-                                        @Html.Label("อายุ (ปี)", null, new { @class = "bmd-label-floating" })
-                                        @Html.TextBoxFor(m => m.Age, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group bmd-form-group">
-                                        @Html.Label("รหัสสแกนนิ้ว", null, new { @class = "bmd-label-floating" })
-                                        @Html.TextBoxFor(m => m.FingerScan, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group bmd-form-group">
-                                        @Html.Label("รหัสสแกนบัตร", null, new { @class = "bmd-label-floating" })
-                                        @Html.TextBoxFor(m => m.CardScan, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group bmd-form-group">
-                                        @Html.Label("วันที่บรรจุ", null, new { @class = "bmd-label-floating" })
-                                        @Html.TextBoxFor(m => m.StartWorkDate, new { @class = "form-control datepicker" })
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group bmd-form-group">
-                                        @Html.Label("วันที่พ้นทดลองงาน", null, new { @class = "bmd-label-floating" })
-                                        @Html.TextBoxFor(m => m.ProbationDate, new { @class = "form-control datepicker" })
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group bmd-form-group">
-                                        @Html.Label("อายุงาน (ปี)", null, new { @class = "bmd-label-floating" })
-                                        @Html.TextBoxFor(m => m.Experience, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group bmd-form-group">
-                                        @Html.Label("วันครบเกษียณ", null, new { @class = "bmd-label-floating" })
-                                        @Html.TextBoxFor(m => m.RetireDate, new { @class = "form-control datepicker" })
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            @Html.Label("งาน", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.SecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Section, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card ">
-                        <div class="card-header card-header-info card-header-icon">
-                            <div class="card-icon">
-                                <i class="material-icons">assignment_ind</i>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card ">
+                            <div class="card-header card-header-info card-header-icon">
+                                <div class="card-icon">
+                                    <i class="material-icons">event_seat</i>
+                                </div>
+                                <h4 class="card-title"><span>ตำแหน่ง / สังกัด (ช่วยราชการ)</span></h4>
                             </div>
-                            <h4 class="card-title"><span>ตำแหน่ง / สังกัด / เงินเดือน</span></h4>
-                        </div>
-                        <div class="card-body m-b-20">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.Label("ตำแหน่ง", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.PoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                            <div class="card-body  m-b-20">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            @Html.Label("ช่วยราชการ", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.EmpowerID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Empower, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        @Html.Label("ระดับ", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.SalaryLevel, new SelectList((IEnumerable<SelectListItem>)ViewBag.SalaryLevel, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            @Html.Label("ฝ่าย", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.EmpowerDivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.EmpowerDivision, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        @Html.Label("ขั้นเงินเดือน", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.SalaryStep, new SelectList((IEnumerable<SelectListItem>)ViewBag.SalaryStep, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            @Html.Label("กอง", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.EmpowerDepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.EmpowerDepartment, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group bmd-form-group">
-                                        @Html.Label("เงินเดือน", null, new { @class = "bmd-label-floating" })
-                                        @Html.TextBoxFor(m => m.Salary, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        @Html.Label("ฝ่าย", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        @Html.Label("กอง", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.DepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Department, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        @Html.Label("งาน", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.SecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Section, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            @Html.Label("งาน", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.EmpowerSecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.EmpowerSection, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card ">
-                        <div class="card-header card-header-info card-header-icon">
-                            <div class="card-icon">
-                                <i class="material-icons">event_seat</i>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card ">
+                            <div class="card-header card-header-info card-header-icon">
+                                <div class="card-icon">
+                                    <i class="material-icons">event_seat</i>
+                                </div>
+                                <h4 class="card-title"><span>ตำแหน่ง / สังกัด (รักษาการ)</span></h4>
                             </div>
-                            <h4 class="card-title"><span>ตำแหน่ง / สังกัด (ช่วยราชการ)</span></h4>
-                        </div>
-                        <div class="card-body  m-b-20">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        @Html.Label("ช่วยราชการ", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.EmpowerID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Empower, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                            <div class="card-body m-b-20">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            @Html.Label("รักษาการแทน", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.PoTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.PositionType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            @Html.Label("ตำแหน่ง", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.AgentPoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.AgentPosition, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        @Html.Label("ฝ่าย", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.EmpowerDivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.EmpowerDivision, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            @Html.Label("ฝ่าย", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.AgentDivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.AgentDivision, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        @Html.Label("กอง", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.EmpowerDepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.EmpowerDepartment, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            @Html.Label("กอง", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.AgentDepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.AgentDepartment, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        @Html.Label("งาน", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.EmpowerSecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.EmpowerSection, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            @Html.Label("งาน", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.AgentSecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.AgentSection, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card ">
-                        <div class="card-header card-header-info card-header-icon">
-                            <div class="card-icon">
-                                <i class="material-icons">event_seat</i>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card ">
+                            <div class="card-header card-header-info card-header-icon">
+                                <div class="card-icon">
+                                    <i class="material-icons">account_balance</i>
+                                </div>
+                                <h4 class="card-title"><span>ที่อยู่ปัจจุบัน</span></h4>
                             </div>
-                            <h4 class="card-title"><span>ตำแหน่ง / สังกัด (รักษาการ)</span></h4>
+                            <div class="card-body m-b-20">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.Label("ที่อยู่", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.HomeAddr, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.Label("จังหวัด", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.HomeProvinceID, new SelectList((IEnumerable<SelectListItem>)ViewBag.HomeProvince, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.Label("อำเภอ", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.HomeDistrictID, new SelectList((IEnumerable<SelectListItem>)ViewBag.HomeDistrict, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.Label("ตำบล", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.HomeSubDistrictID, new SelectList((IEnumerable<SelectListItem>)ViewBag.HomeSubDistrict, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("รหัสไปรษณีย์", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.HomeZipCode, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body m-b-20">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        @Html.Label("รักษาการแทน", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.PoTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.PositionType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
-                                    </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card ">
+                            <div class="card-header card-header-info card-header-icon">
+                                <div class="card-icon">
+                                    <i class="material-icons">account_balance</i>
                                 </div>
-                                <div class="col-md-8">
-                                    <div class="form-group">
-                                        @Html.Label("ตำแหน่ง", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.AgentPoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.AgentPosition, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                <h4 class="card-title">
+                                    <span>ที่อยู่ตามทะเบียนบ้าน</span>
+                                    <div class="form-check mr-auto pull-right">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" aria-required="true" id="CopyAddress"> คัดลอกที่อยุ่ตามทะเบียนบ้าน
+                                            <span class="form-check-sign">
+                                                <span class="check"></span>
+                                            </span>
+                                        </label>
                                     </div>
-                                </div>
+                                </h4>
                             </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        @Html.Label("ฝ่าย", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.AgentDivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.AgentDivision, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                            <div class="card-body  m-b-20">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.Label("ที่อยู่", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.CurrAddr, new { @class = "form-control" })
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        @Html.Label("กอง", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.AgentDepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.AgentDepartment, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.Label("จังหวัด", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.CurrProvinceID, new SelectList((IEnumerable<SelectListItem>)ViewBag.CurrProvince, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        @Html.Label("งาน", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.AgentSecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.AgentSection, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.Label("อำเภอ", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.CurrDistrictID, new SelectList((IEnumerable<SelectListItem>)ViewBag.CurrDistrict, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.Label("ตำบล", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.CurrSubDistrictID, new SelectList((IEnumerable<SelectListItem>)ViewBag.CurrSubDistrict, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("รหัสไปรษณีย์", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.CurrZipCode, new { @class = "form-control" })
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card ">
-                        <div class="card-header card-header-info card-header-icon">
-                            <div class="card-icon">
-                                <i class="material-icons">account_balance</i>
+                <div class="card-contact">
+                    <div class="card-body">
+                        <div class="row  m-b-20">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("เบอร์โทรศัพท์", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("อีเมล์", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <h4 class="card-title"><span>ที่อยู่ปัจจุบัน</span></h4>
-                        </div>
-                        <div class="card-body m-b-20">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        @Html.Label("ที่อยู่", null, new { @class = "label-select" })
-                                        @Html.TextBoxFor(m => m.HomeAddr, new { @class = "form-control" })
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("ผู้ติดต่อกรณีฉุกเฉิน", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.ContactName, new { @class = "form-control" })
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.Label("จังหวัด", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.HomeProvinceID, new SelectList((IEnumerable<SelectListItem>)ViewBag.HomeProvince, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.Label("อำเภอ", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.HomeDistrictID, new SelectList((IEnumerable<SelectListItem>)ViewBag.HomeDistrict, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.Label("ตำบล", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.HomeSubDistrictID, new SelectList((IEnumerable<SelectListItem>)ViewBag.HomeSubDistrict, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group bmd-form-group">
-                                        @Html.Label("รหัสไปรษณีย์", null, new { @class = "bmd-label-floating" })
-                                        @Html.TextBoxFor(m => m.HomeZipCode, new { @class = "form-control" })
+                                    <div class="col-md-6">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("เบอร์โทรฉุกเฉิน", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.ContactPhone, new { @class = "form-control" })
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card ">
-                        <div class="card-header card-header-info card-header-icon">
-                            <div class="card-icon">
-                                <i class="material-icons">account_balance</i>
-                            </div>
-                            <h4 class="card-title"><span>ที่อยู่ตามทะเบียนบ้าน</span>
-                                <div class="form-check mr-auto pull-right">
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" aria-required="true" id="CopyAddress"> คัดลอกที่อยุ่ตามทะเบียนบ้าน
-                                        <span class="form-check-sign">
-                                            <span class="check"></span>
-                                        </span>
-                                    </label>
-                                </div>
-                            </h4>
-                        </div>
-                        <div class="card-body  m-b-20">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        @Html.Label("ที่อยู่", null, new { @class = "label-select" })
-                                        @Html.TextBoxFor(m => m.CurrAddr, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.Label("จังหวัด", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.CurrProvinceID, new SelectList((IEnumerable<SelectListItem>)ViewBag.CurrProvince, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.Label("อำเภอ", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.CurrDistrictID, new SelectList((IEnumerable<SelectListItem>)ViewBag.CurrDistrict, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.Label("ตำบล", null, new { @class = "label-select" })
-                                        @Html.DropDownListFor(n => n.CurrSubDistrictID, new SelectList((IEnumerable<SelectListItem>)ViewBag.CurrSubDistrict, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group bmd-form-group">
-                                        @Html.Label("รหัสไปรษณีย์", null, new { @class = "bmd-label-floating" })
-                                        @Html.TextBoxFor(m => m.CurrZipCode, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
+                <div class="row">
+                    <div class="ml-auto mr-auto">
+                        <button type="button" class="btn btn-back">ย้อนกลับ</button>
+                        <button type="button" class="btn btn-danger del-employee">ลบ</button>
+                        <button type="button" class="btn btn-primary save-employee">บันทึก</button>
                     </div>
                 </div>
-            </div>
 
-            <div class="card-contact">
-                <div class="card-body">
-                    <div class="row  m-b-20">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group bmd-form-group">
-                                        @Html.Label("เบอร์โทรศัพท์", null, new { @class = "bmd-label-floating" })
-                                        @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group bmd-form-group">
-                                        @Html.Label("อีเมล์", null, new { @class = "bmd-label-floating" })
-                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group bmd-form-group">
-                                        @Html.Label("ผู้ติดต่อกรณีฉุกเฉิน", null, new { @class = "bmd-label-floating" })
-                                        @Html.TextBoxFor(m => m.ContactName, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group bmd-form-group">
-                                        @Html.Label("เบอร์โทรฉุกเฉิน", null, new { @class = "bmd-label-floating" })
-                                        @Html.TextBoxFor(m => m.ContactPhone, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
-
-            <div class="row">
-                <div class="ml-auto mr-auto">
-                    <button type="button" class="btn btn-back">ย้อนกลับ</button>
-                    <button type="button" class="btn btn-danger del-employee">ลบ</button>
-                    <button type="button" class="btn btn-primary save-employee">บันทึก</button>
-                </div>
-            </div>
-
         </div>
     </div>
-</div>
 }

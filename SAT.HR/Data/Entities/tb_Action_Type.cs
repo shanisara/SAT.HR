@@ -14,6 +14,12 @@ namespace SAT.HR.Data.Entities
     
     public partial class tb_Action_Type
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tb_Action_Type()
+        {
+            this.tb_User_Position = new HashSet<tb_User_Position>();
+        }
+    
         public int ActID { get; set; }
         public string ActName { get; set; }
         public string ActType { get; set; }
@@ -22,5 +28,8 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_User_Position> tb_User_Position { get; set; }
     }
 }

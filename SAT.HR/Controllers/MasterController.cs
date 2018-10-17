@@ -445,6 +445,12 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult SexByTitle(int titleid)
+        {
+            var result = new TitleRepository().GetSexByTitle(titleid);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         #region 10. ระดับการศึกษา - Education

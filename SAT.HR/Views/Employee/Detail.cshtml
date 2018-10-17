@@ -34,7 +34,7 @@
 
     .nav-pills .nav-item .nav-link {
         font-size: 14px;
-        padding: 10px 6px;
+        padding: 10px 5px;
     }
 
     .nav-pills .nav-item .nav-link.active {
@@ -74,17 +74,6 @@
     }
 
     .label-select {
-        top: -1rem;
-        font-size: .6875rem;
-    }
-
-    /*.bmd-form-group:not(.has-success):not(.has-danger) [class^=bmd-label].bmd-label-floating {
-        color: #AAA;
-        top: -1rem;
-        font-size: .6875rem;
-    }*/
-
-    .label-select {
         color: #AAA;
         top: -1rem;
         font-size: .6875rem;
@@ -93,11 +82,54 @@
         transition: .3s ease all;
     }
 
+    /*.bmd-form-group:not(.has-success):not(.has-danger) [class^=bmd-label].bmd-label-floating {
+        color: #AAA;
+        top: -1rem;
+        font-size: .6875rem;
+    }*/
+
+
     select.form-control:focus {
-        padding: .375rem 1.75rem .375rem .75rem;
+        /*padding: .375rem 1.75rem .375rem .75rem;*/
         font-size: 13px;
     }
 </style>
+<style>
+    .table thead tr th {
+        font-size: 15px;
+    }
+
+    .card [class*=card-header-] .card-text {
+        border-radius: 3px;
+        background-color: #999;
+        padding: 5px;
+        margin-top: -20px;
+        margin-right: 8px;
+        float: left;
+        font-size: 5px;
+    }
+
+    .w-title {
+        width: 60px;
+        margin-left: 10px;
+    }
+
+    .bmd-label-Selected {
+        color: #AAA;
+        top: -1rem;
+        font-size: .6875rem;
+    }
+
+    .bmd-form-group .bmd-label-fixed {
+        top: -1rem;
+        font-size: .6875rem;
+    }
+
+    .m-t-10 {
+        margin-top: 10px;
+    }
+</style>
+
 
 <div class="content">
     <div class="row">
@@ -108,6 +140,7 @@
                         <i class="material-icons">perm_identity</i>
                     </div>
                     <h4 class="card-title">
+                        @Html.HiddenFor(m => m.UserID)
                         <span>สวัสดิการพนักงาน: </span><span class="text-primary">@Model.FullName (@Model.IDCard)</span>
                         <button type="button" class="btn btn-round pull-right btn-back">ย้อนกลับ</button>
                     </h4>
@@ -150,35 +183,27 @@
                         </div>
                         <div class="tab-pane" id="tab-family">
                             <div id="div-family"></div>
-                            @Html.Partial("_Family")
                         </div>
                         <div class="tab-pane" id="tab-education">
                             <div id="div-education"></div>
-                            @Html.Partial("_Education")
                         </div>
                         <div class="tab-pane" id="tab-position">
                             <div id="div-position"></div>
-                            @Html.Partial("_Position")
                         </div>
                         <div class="tab-pane" id="tab-trainning">
                             <div id="div-trainning"></div>
-                            @Html.Partial("_Trainning")
                         </div>
                         <div class="tab-pane" id="tab-insignia">
                             <div id="div-insignia"></div>
-                            @Html.Partial("_Insignia")
                         </div>
                         <div class="tab-pane" id="tab-ำxcellent">
                             <div id="div-excellent"></div>
-                            @Html.Partial("_Excellent")
                         </div>
                         <div class="tab-pane" id="tab-certificate">
                             <div id="div-certificate"></div>
-                            @Html.Partial("_Certificate")
                         </div>
                         <div class="tab-pane" id="tab-history">
                             <div id="div-history"></div>
-                            @Html.Partial("_History")
                         </div>
                     </div>
                 </div>
@@ -208,34 +233,62 @@
 
 
         $("#tabs li").click(function () {
-            var id = this.id;
-            if (id == "employee") {
-
+            var id = $("#UserID").val();
+            @*if (this.id == "employee") {
+                var url = '@Url.Action("Employee", "Employee")/'+id;
+                $.post(url, function (data) {
+                    $("#div-employee").html(data);
+                });
+            }*@
+            if (this.id == "family") {
+                var url = '@Url.Action("Family", "Employee")/'+id;
+                $.post(url, function (data) {
+                    $("#div-family").html(data);
+                });
             }
-            else if (id == "family") {
-
+            else if (this.id == "education") {
+                var url = '@Url.Action("Education", "Employee")/'+id;
+                $.post(url, function (data) {
+                    $("#div-education").html(data);
+                });
             }
-            else if (id == "education") {
-
+            else if (this.id == "position") {
+                var url = '@Url.Action("Position", "Employee")/'+id;
+                $.post(url, function (data) {
+                    $("#div-position").html(data);
+                });
             }
-            else if (id == "position") {
-
+            else if (this.id == "trainning") {
+                var url = '@Url.Action("Trainning", "Employee")/'+id;
+                $.post(url, function (data) {
+                    $("#div-trainning").html(data);
+                });
             }
-            else if (id == "trainning") {
-
+            else if (this.id == "insignia") {
+                var url = '@Url.Action("Insignia", "Employee")/'+id;
+                $.post(url, function (data) {
+                    $("#div-insignia").html(data);
+                });
             }
-            else if (id == "insignia") {
-
+            else if (this.id == "excellent") {
+                var url = '@Url.Action("Excellent", "Employee")/'+id;
+                $.post(url, function (data) {
+                    $("#div-excellent").html(data);
+                });
             }
-            else if (id == "excellent") {
-
+            else if (this.id == "certificate") {
+                var url = '@Url.Action("Certificate", "Employee")/'+id;
+                $.post(url, function (data) {
+                    $("#div-certificate").html(data);
+                });
             }
-            else if (id == "certificate") {
-
+            else if (this.id == "history") {
+                var url = '@Url.Action("History", "Employee")/'+id;
+                $.post(url, function (data) {
+                    $("#div-history").html(data);
+                });
             }
-            else if (id == "history") {
 
-            }
         });
 
         var DropDownList = {
@@ -322,9 +375,26 @@
                         })
                     }
                 });
+            },
+            getSex: function (el, titleid) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SexByTitle", "Master")',
+                    data: { titleid: titleid },
+                    dataType: 'json',
+                    success: function (res) {
+                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                        $.each(res, function (key, entry) {
+                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                        })
+                    }
+                });
             }
         }
 
+        $("#TitleID").change(function () {
+            DropDownList.getSex($("#SexID"), $('#TitleID').val());
+        });
 
         $("#DivID").change(function () {
             DropDownList.getDepartment($("#DepID"), $('#DivID').val());
@@ -383,16 +453,12 @@
                 var homeDistrictID = $("#HomeDistrictID").val();
                 var homeSubDistrictID = $("#HomeSubDistrictID").val();
                 var homeZipCode = $("#HomeZipCode").val();
-
                 if (homeProvinceID != '')
                     DropDownList.getProvince($("#CurrProvinceID"), homeProvinceID);
-
                 if (homeDistrictID != '')
                     DropDownList.getDistrict($("#CurrDistrictID"), homeDistrictID, homeProvinceID);
-
                 if (homeSubDistrictID != '')
                     DropDownList.getSubDistrict($("#CurrSubDistrictID"), homeSubDistrictID, homeProvinceID, homeDistrictID);
-
                 $("#CurrAddr").val(homeAddr);
                 $("#CurrZipCode").val(homeZipCode);
             }
@@ -404,6 +470,7 @@
         });
 
         $(".save-employee").click(function () {
+            $("#formEmployee").submit();
             @*$.ajax({
                 type: 'POST',
                 url: '@Url.Action("UpdateEmployee", "Employee")',
@@ -417,17 +484,18 @@
                     }
                 }
             });*@
-
-            $("#formEmployee").submit();
-
         });
 
-
-        var UpdateEmployeeSuccess = function (res) {
-            alert('UpdateEmployeeSuccess');
-        }
+        //var UpdateEmployeeSuccess = function (res) {
+        //    alert('UpdateEmployeeSuccess');
+        //}
 
     });
+
+    function UpdateEmployeeSuccess() {
+        alert('UpdateEmployeeSuccess');
+    }
+
 </script>
 <script>
     

@@ -5,6 +5,7 @@ using System.Web;
 using SAT.HR.Data.Entities;
 using SAT.HR.Models;
 using SAT.HR.Helpers;
+using System.Web.Mvc;
 
 namespace SAT.HR.Data.Repository
 {
@@ -166,6 +167,28 @@ namespace SAT.HR.Data.Repository
                     result.MessageText = ex.Message;
                 }
                 return result;
+            }
+        }
+        
+        public List<SelectListItem> GetSexByTitle(int titleid)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            using (SATEntities db = new SATEntities())
+            {
+                var obj = db.tb_Title.SingleOrDefault(c => c.TiID == titleid);
+                int sexid = (int)obj.SexID;
+
+                var data = db.tb_Sex.ToList();
+                foreach (var item in data)
+                {
+                    SelectListItem select = new SelectListItem();
+                    select.Value = item.SexID.ToString();
+                    select.Text = item.SexName;
+                    select.Selected = item.SexID == sexid ? true : false;
+                    list.Add(select);
+                }
+                return list;
             }
         }
     }

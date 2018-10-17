@@ -1,42 +1,7 @@
-﻿
-<style>
-    .table thead tr th {
-        font-size: 15px;
-    }
-
-    .card [class*=card-header-] .card-text {
-        border-radius: 3px;
-        background-color: #999;
-        padding: 5px;
-        margin-top: -20px;
-        margin-right: 8px;
-        float: left;
-        font-size: 5px;
-    }
-
-    .w-title {
-        width: 60px;
-        margin-left: 10px;
-    }
-
-    .bmd-label-Selected {
-        color: #AAA;
-        top: -1rem;
-        font-size: .6875rem;
-    }
-
-    .bmd-form-group .bmd-label-fixed {
-        top: -1rem;
-        font-size: .6875rem;
-    }
-
-    .m-t-10 {
-        margin-top:10px;
-    }
-
-</style>
+﻿@model SAT.HR.Models.UserFamilyViewModel
 
 <div class="content">
+
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -44,7 +9,10 @@
                     <div class="card-text">
                         <h5 class="card-title w-title">บิดา</h5>
                     </div>
-                    <button class="btn btn-primary btn-sm pull-right" data-toggle="modal" id="btnAdd" style="width:100px;"> เพิ่มบิดา </button>
+                    @if (Model.ListFather.Count == 0)
+                    {
+                        <button class="btn btn-primary btn-sm pull-right" data-toggle="modal" id="btnAdd" style="width:100px;"> เพิ่มบิดา </button>
+                    }
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -62,9 +30,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td></td>
-                                </tr>
+                                @foreach (var item in Model.ListFather)
+                                {
+                                    <tr>
+                                        <td>@item.UfName</td>
+                                        <td>@item.UfCardID</td>
+                                        <td>@item.UfDOB</td>
+                                        <td>@item.UfAge</td>
+                                        <td>@item.UfLifeStatusName</td>
+                                        <td>@item.TdName</td>
+                                        <td>@item.PoName</td>
+                                        <td><button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' +  @item.UfID + '"><i class="material-icons">edit</i></button></td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -80,7 +58,10 @@
                     <div class="card-text">
                         <h5 class="card-title w-title">มารดา</h5>
                     </div>
-                    <button class="btn btn-primary btn-sm pull-right" data-toggle="modal" id="btnAdd" style="width:100px;"> เพิ่มมารดา </button>
+                    @if (Model.ListMother.Count == 0)
+                    {
+                        <button class="btn btn-primary btn-sm pull-right" data-toggle="modal" id="btnAdd" style="width:100px;"> เพิ่มมารดา </button>
+                    }
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -98,14 +79,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td></td>
-                                </tr>
+                                @foreach (var item in Model.ListMother)
+                                {
+                                    <tr>
+                                        <td>@item.UfName</td>
+                                        <td>@item.UfCardID</td>
+                                        <td>@item.UfDOB</td>
+                                        <td>@item.UfAge</td>
+                                        <td>@item.UfLifeStatusName</td>
+                                        <td>@item.TdName</td>
+                                        <td>@item.PoName</td>
+                                        <td><button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' +  @item.UfID + '"><i class="material-icons">edit</i></button></td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -137,9 +128,23 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td></td>
-                                </tr>
+                                @{ int i = 1;}
+                                @foreach (var item in Model.ListSpouse)
+                                {
+                                    <tr>
+                                        <td>@i</td>
+                                        <td>@item.UfName</td>
+                                        <td>@item.UfCardID</td>
+                                        <td>@item.UfDOB</td>
+                                        <td>@item.WeddingDate</td>
+                                        <td>@item.UfLifeStatusName</td>
+                                        <td>@item.Career</td>
+                                        <td>@item.MaritalName</td>
+                                        <td>@item.DivorceDate</td>
+                                        <td><button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' +  @item.UfID + '"><i class="material-icons">edit</i></button></td>
+                                    </tr>
+                                    i++;
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -173,9 +178,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td></td>
-                                </tr>
+                                @{ int index = 1;}
+                                @foreach (var item in Model.ListChild)
+                                {
+                                    <tr>
+                                        <td>@index</td>
+                                        <td>@item.UfName</td>
+                                        <td>@item.UfCardID</td>
+                                        <td>@item.UfDOB</td>
+                                        <td>@item.UfAge</td>
+                                        <td>@item.UfLifeStatusName</td>
+                                        <td>@item.UfStudyStatusName</td>
+                                        <td><button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' +  @item.UfID + '"><i class="material-icons">edit</i></button></td>
+                                    </tr>
+                                    index++;
+                                }
                             </tbody>
                         </table>
                     </div>

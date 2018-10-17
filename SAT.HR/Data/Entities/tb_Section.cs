@@ -17,21 +17,21 @@ namespace SAT.HR.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tb_Section()
         {
-            this.tb_User = new HashSet<tb_User>();
+            this.tb_User_Position = new HashSet<tb_User_Position>();
         }
     
         public int SecID { get; set; }
+        public int DepID { get; set; }
+        public int DivID { get; set; }
         public string SecName { get; set; }
         public Nullable<bool> SecStatus { get; set; }
-        public Nullable<int> DivID { get; set; }
-        public Nullable<int> DepID { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
     
-        public virtual tb_Department tb_Department { get; set; }
+        public virtual tb_Division tb_Division { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_User> tb_User { get; set; }
+        public virtual ICollection<tb_User_Position> tb_User_Position { get; set; }
     }
 }

@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="SAT.HR.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tb_Accumulative_Fund">
+    <Key>
+      <PropertyRef Name="CuID" />
+    </Key>
+    <Property Name="CuID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CuAmoutPer" Type="nvarchar" MaxLength="50" />
+  </EntityType>
   <EntityType Name="tb_Action_Type">
     <Key>
       <PropertyRef Name="ActID" />
@@ -8,6 +15,225 @@
     <Property Name="ActName" Type="nvarchar" MaxLength="200" />
     <Property Name="ActType" Type="nvarchar" MaxLength="200" />
     <Property Name="ActPos" Type="nchar" MaxLength="10" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Bank_Loan">
+    <Key>
+      <PropertyRef Name="BID" />
+    </Key>
+    <Property Name="BID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BName" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="tb_Benefit_Child_Education">
+    <Key>
+      <PropertyRef Name="BceID" />
+    </Key>
+    <Property Name="BceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="BceName" Type="nvarchar" MaxLength="200" />
+    <Property Name="BceIDCard" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="BcdBirthDate" Type="date" />
+    <Property Name="BcdExpireDate" Type="date" />
+    <Property Name="BcdAmout" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Benefit_Child_Fund">
+    <Key>
+      <PropertyRef Name="BcfID" />
+    </Key>
+    <Property Name="BcfID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="BcfName" Type="nvarchar" MaxLength="200" />
+    <Property Name="BcfIDCard" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="BcfBirthDate" Type="date" />
+    <Property Name="BcfExpireDate" Type="date" />
+    <Property Name="BcfAmout" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Benefit_Cremation">
+    <Key>
+      <PropertyRef Name="BcID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="BcID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="BcYear" Type="nvarchar" MaxLength="50" />
+    <Property Name="MID" Type="int" />
+    <Property Name="BcMemberNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="BcBeneficiary1" Type="nvarchar" MaxLength="200" />
+    <Property Name="BcBeneficiary2" Type="nvarchar" MaxLength="200" />
+    <Property Name="BcBeneficiary3" Type="nvarchar" MaxLength="200" />
+    <Property Name="BcBeneficiary4" Type="nvarchar" MaxLength="200" />
+    <Property Name="BcBeneficiary5" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Benefit_Death_Replacement">
+    <Key>
+      <PropertyRef Name="BdID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="BdID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="RecID" Type="int" />
+    <Property Name="BdFullName" Type="nvarchar" MaxLength="200" />
+    <Property Name="BdTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="BdPer" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BdAmout" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BdDate" Type="date" />
+    <Property Name="BdRemark" Type="nvarchar(max)" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Benefit_Death_Subsidy">
+    <Key>
+      <PropertyRef Name="BdID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="BdID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="RecID" Type="int" />
+    <Property Name="BdFullName" Type="nvarchar" MaxLength="200" />
+    <Property Name="BdTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="BdPer" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BdAmout" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BdDate" Type="date" />
+    <Property Name="BdRemark" Type="nvarchar(max)" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Benefit_Home_Rental">
+    <Key>
+      <PropertyRef Name="BhrID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="BhrID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="BhrYear" Type="nvarchar" MaxLength="50" />
+    <Property Name="RID" Type="int" />
+    <Property Name="PID" Type="int" />
+    <Property Name="BhrLevel" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="BhrStep" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="BhrStartDate" Type="date" />
+    <Property Name="BhrEndDate" Type="date" />
+    <Property Name="BhrAmout" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BhrRemark" Type="nvarchar(max)" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Benefit_Loan">
+    <Key>
+      <PropertyRef Name="BlID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="BlID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="BID" Type="int" />
+    <Property Name="LtID" Type="int" />
+    <Property Name="BlAccountNo" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="BlStartDate" Type="date" />
+    <Property Name="BlEndDate" Type="date" />
+    <Property Name="BlCloseDate" Type="date" />
+    <Property Name="BlPeriod" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="BlPeriodPay" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BISummaryAmout" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BlRemark" Type="nvarchar(max)" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Benefit_Medical">
+    <Key>
+      <PropertyRef Name="BmID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="BmID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="BmYear" Type="nvarchar" MaxLength="50" />
+    <Property Name="ClID" Type="int" />
+    <Property Name="RecID" Type="int" />
+    <Property Name="BmCardID" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="BmDate" Type="date" />
+    <Property Name="BmAmoutService" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BmAmoutCare" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BmRemark" Type="nvarchar(max)" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Benefit_Other_Welfare">
+    <Key>
+      <PropertyRef Name="BoID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="BoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="BenTID" Type="int" />
+    <Property Name="BoRecID" Type="int" />
+    <Property Name="BoRecFullName" Type="nvarchar" MaxLength="200" />
+    <Property Name="BoOptRecID" Type="int" />
+    <Property Name="BoOptFullName" Type="nvarchar" MaxLength="200" />
+    <Property Name="BoTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="BoPer" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BoAmout" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BoDate" Type="date" />
+    <Property Name="BoRemark" Type="nvarchar(max)" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Benefit_Provident_Fund">
+    <Key>
+      <PropertyRef Name="BpID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="BpID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="BpYear" Type="nvarchar" MaxLength="50" />
+    <Property Name="BpDateChangeFund" Type="date" />
+    <Property Name="BpAccumFundCuID" Type="int" />
+    <Property Name="BpAssoFundCuID" Type="int" />
+    <Property Name="BpBeneficiary1" Type="nvarchar" MaxLength="200" />
+    <Property Name="BpBeneficiary2" Type="nvarchar" MaxLength="200" />
+    <Property Name="BpBeneficiary3" Type="nvarchar" MaxLength="200" />
+    <Property Name="BpBeneficiary4" Type="nvarchar" MaxLength="200" />
+    <Property Name="BpBeneficiary5" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Benefit_Remuneration">
+    <Key>
+      <PropertyRef Name="BrID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="BrID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="BrYear" Type="nvarchar" MaxLength="50" />
+    <Property Name="RecID" Type="int" Nullable="false" />
+    <Property Name="BrAmout" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="BrRemark" Type="nvarchar(max)" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -83,11 +309,18 @@
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
+  <EntityType Name="tb_Claim_Type">
+    <Key>
+      <PropertyRef Name="ClID" />
+    </Key>
+    <Property Name="ClID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ClName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
   <EntityType Name="tb_Country">
     <Key>
       <PropertyRef Name="CountryID" />
     </Key>
-    <Property Name="CountryID" Type="int" Nullable="false" />
+    <Property Name="CountryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="CountryName" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <EntityType Name="tb_Degree">
@@ -130,7 +363,7 @@
     <Key>
       <PropertyRef Name="DistrictID" />
     </Key>
-    <Property Name="DistrictID" Type="int" Nullable="false" />
+    <Property Name="DistrictID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="DistrictName" Type="nvarchar" MaxLength="100" />
     <Property Name="ProvinceID" Type="int" />
   </EntityType>
@@ -183,19 +416,20 @@
     <Property Name="EmpowerID" Type="int" Nullable="false" />
     <Property Name="EmpowerName" Type="nvarchar" MaxLength="100" />
   </EntityType>
+  <EntityType Name="tb_Excellent_Type">
+    <Key>
+      <PropertyRef Name="ExID" />
+    </Key>
+    <Property Name="ExID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ExName" Type="nvarchar" MaxLength="200" />
+  </EntityType>
   <EntityType Name="tb_Family_Type">
     <Key>
       <PropertyRef Name="FamTID" />
     </Key>
     <Property Name="FamTID" Type="int" Nullable="false" />
-    <Property Name="FamTName" Type="nvarchar" MaxLength="100" />
+    <Property Name="FamTName" Type="nvarchar" MaxLength="200" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV.dbo.tb_Fund_Rate' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="tb_Fund_Rate">
-          <Property Name="FunRID" Type="int" />
-          <Property Name="FunRName" Type="nvarchar" MaxLength="50" />
-        </EntityType>-->
   <EntityType Name="tb_Holiday">
     <Key>
       <PropertyRef Name="HolID" />
@@ -238,6 +472,13 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.tb_Fund_Rate' does not have a prim
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
+  <EntityType Name="tb_Loan_Type">
+    <Key>
+      <PropertyRef Name="LtID" />
+    </Key>
+    <Property Name="LtID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LtName" Type="nvarchar" MaxLength="200" />
+  </EntityType>
   <EntityType Name="tb_Major">
     <Key>
       <PropertyRef Name="MajID" />
@@ -256,6 +497,13 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.tb_Fund_Rate' does not have a prim
     </Key>
     <Property Name="MaritalID" Type="int" Nullable="false" />
     <Property Name="MaritalName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_Member_Type">
+    <Key>
+      <PropertyRef Name="MID" />
+    </Key>
+    <Property Name="MID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MName" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <EntityType Name="tb_Menu">
     <Key>
@@ -298,6 +546,13 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.tb_Fund_Rate' does not have a prim
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
+  <EntityType Name="tb_Part_Type">
+    <Key>
+      <PropertyRef Name="PID" />
+    </Key>
+    <Property Name="PID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PName" Type="nvarchar" MaxLength="200" />
+  </EntityType>
   <EntityType Name="tb_Position">
     <Key>
       <PropertyRef Name="PoID" />
@@ -306,6 +561,17 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.tb_Fund_Rate' does not have a prim
     <Property Name="PoCode" Type="nvarchar" MaxLength="200" />
     <Property Name="PoName" Type="nvarchar" MaxLength="200" />
     <Property Name="PoStatus" Type="bit" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Position_Agent">
+    <Key>
+      <PropertyRef Name="PoAID" />
+    </Key>
+    <Property Name="PoAID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PoAName" Type="nchar" MaxLength="10" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -322,8 +588,15 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.tb_Fund_Rate' does not have a prim
     <Key>
       <PropertyRef Name="ProvinceID" />
     </Key>
-    <Property Name="ProvinceID" Type="int" Nullable="false" />
+    <Property Name="ProvinceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ProvinceName" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="tb_Recieve_Type">
+    <Key>
+      <PropertyRef Name="RecID" />
+    </Key>
+    <Property Name="RecID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RecName" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="tb_Religion">
     <Key>
@@ -336,6 +609,13 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.tb_Fund_Rate' does not have a prim
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Rent_Type">
+    <Key>
+      <PropertyRef Name="RID" />
+    </Key>
+    <Property Name="RID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RName" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <EntityType Name="tb_Role">
     <Key>
@@ -368,10 +648,10 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.tb_Fund_Rate' does not have a prim
       <PropertyRef Name="SecID" />
     </Key>
     <Property Name="SecID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DepID" Type="int" Nullable="false" />
+    <Property Name="DivID" Type="int" Nullable="false" />
     <Property Name="SecName" Type="nvarchar" MaxLength="200" />
     <Property Name="SecStatus" Type="bit" />
-    <Property Name="DivID" Type="int" />
-    <Property Name="DepID" Type="int" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -392,7 +672,7 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.tb_Fund_Rate' does not have a prim
     <Key>
       <PropertyRef Name="SubDistrictID" />
     </Key>
-    <Property Name="SubDistrictID" Type="int" Nullable="false" />
+    <Property Name="SubDistrictID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="SubDistrictName" Type="nvarchar" MaxLength="100" />
     <Property Name="DistrictID" Type="int" />
     <Property Name="ProvinceID" Type="int" />
@@ -410,6 +690,13 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.tb_Fund_Rate' does not have a prim
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
+  <EntityType Name="tb_Tax_Deduction">
+    <Key>
+      <PropertyRef Name="TdID" />
+    </Key>
+    <Property Name="TdID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TdName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
   <EntityType Name="tb_Title">
     <Key>
       <PropertyRef Name="TiID" />
@@ -423,6 +710,13 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.tb_Fund_Rate' does not have a prim
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Training_Type">
+    <Key>
+      <PropertyRef Name="TtID" />
+    </Key>
+    <Property Name="TtID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TtName" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <EntityType Name="tb_User">
     <Key>
@@ -489,6 +783,143 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.tb_Fund_Rate' does not have a prim
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
+  <EntityType Name="tb_User_Certificate">
+    <Key>
+      <PropertyRef Name="UcID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UcID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="CerId" Type="int" />
+    <Property Name="UcRecDate" Type="date" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_User_Education">
+    <Key>
+      <PropertyRef Name="UeID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="EduID" Type="int" />
+    <Property Name="DegID" Type="int" />
+    <Property Name="MajID" Type="int" />
+    <Property Name="UeInstituteName" Type="nvarchar" MaxLength="200" />
+    <Property Name="CountryID" Type="int" />
+    <Property Name="UeGraduationDate" Type="date" />
+    <Property Name="UeGPA" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="UeEduType" Type="bit" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_User_Excellent">
+    <Key>
+      <PropertyRef Name="UeID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UeID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="ExID" Type="int" />
+    <Property Name="UeProjectName" Type="nvarchar" MaxLength="200" />
+    <Property Name="UeRecYear" Type="date" />
+    <Property Name="UeRecDate" Type="date" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_User_Family">
+    <Key>
+      <PropertyRef Name="UfID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UfID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="UfName" Type="nvarchar" MaxLength="200" />
+    <Property Name="UfCardID" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="UfDOB" Type="datetime" />
+    <Property Name="UfLifeStatus" Type="bit" />
+    <Property Name="TdID" Type="int" />
+    <Property Name="PoID" Type="int" />
+    <Property Name="UfStudyStatus" Type="bit" />
+    <Property Name="RecID" Type="int" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_User_History">
+    <Key>
+      <PropertyRef Name="UhID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UhID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="UhEditDate" Type="date" />
+    <Property Name="TiID" Type="int" />
+    <Property Name="UhFirstNameTH" Type="nvarchar" MaxLength="200" />
+    <Property Name="UhLastNameTH" Type="nvarchar" MaxLength="200" />
+    <Property Name="UhFirstNameEN" Type="nvarchar" MaxLength="200" />
+    <Property Name="UhLastNameEN" Type="nvarchar" MaxLength="200" />
+    <Property Name="Remark" Type="nvarchar(max)" />
+    <Property Name="UhStatus" Type="bit" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_User_Insignia">
+    <Key>
+      <PropertyRef Name="UiID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UiID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="InsID" Type="int" />
+    <Property Name="UiYear" Type="nvarchar" MaxLength="50" />
+    <Property Name="UiBook" Type="nvarchar" MaxLength="50" />
+    <Property Name="UiPart" Type="nvarchar" MaxLength="50" />
+    <Property Name="UiPage" Type="nvarchar" MaxLength="50" />
+    <Property Name="UiRecDate" Type="date" />
+    <Property Name="UiRetDate" Type="date" />
+    <Property Name="UiCmd" Type="nvarchar" MaxLength="200" />
+    <Property Name="UiPartFile" Type="nvarchar(max)" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_User_Position">
+    <Key>
+      <PropertyRef Name="UpID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UpID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="ActID" Type="int" />
+    <Property Name="UpCmd" Type="nvarchar" MaxLength="200" />
+    <Property Name="PoTID" Type="int" />
+    <Property Name="DivID" Type="int" />
+    <Property Name="DepID" Type="int" />
+    <Property Name="SecID" Type="int" />
+    <Property Name="PoID" Type="int" />
+    <Property Name="PoAID" Type="int" />
+    <Property Name="UpLevel" Type="nvarchar" MaxLength="50" />
+    <Property Name="UpSalary" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="UpCmdDate" Type="date" />
+    <Property Name="UpForceDate" Type="date" />
+    <Property Name="UpRemark" Type="nvarchar(max)" />
+    <Property Name="UpPathFile" Type="nvarchar(max)" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
   <EntityType Name="tb_User_Role">
     <Key>
       <PropertyRef Name="RoleID" />
@@ -507,6 +938,23 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.tb_Fund_Rate' does not have a prim
     </Key>
     <Property Name="StatusID" Type="int" Nullable="false" />
     <Property Name="StatusName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_User_Training">
+    <Key>
+      <PropertyRef Name="UtID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UtID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="TtID" Type="int" />
+    <Property Name="CountryID" Type="int" />
+    <Property Name="UtCourse" Type="nvarchar" MaxLength="200" />
+    <Property Name="UtStartDate" Type="date" />
+    <Property Name="UtEndDate" Type="date" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
   </EntityType>
   <EntityType Name="tb_User_Type">
     <Key>
@@ -732,6 +1180,306 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
     <Property Name="IsActive" Type="bit" />
     <Property Name="Avatar" Type="nvarchar" MaxLength="200" />
   </EntityType>
+  <Association Name="FK_tb_Benefit_Child_Education_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="0..1" />
+    <End Role="tb_Benefit_Child_Education" Type="Self.tb_Benefit_Child_Education" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Child_Education">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Child_Fund_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="0..1" />
+    <End Role="tb_Benefit_Child_Fund" Type="Self.tb_Benefit_Child_Fund" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Child_Fund">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Cremation_tb_Member_Type">
+    <End Role="tb_Member_Type" Type="Self.tb_Member_Type" Multiplicity="0..1" />
+    <End Role="tb_Benefit_Cremation" Type="Self.tb_Benefit_Cremation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Member_Type">
+        <PropertyRef Name="MID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Cremation">
+        <PropertyRef Name="MID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Cremation_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
+    <End Role="tb_Benefit_Cremation" Type="Self.tb_Benefit_Cremation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Cremation">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Death_Replacement_tb_Recieve_Type">
+    <End Role="tb_Recieve_Type" Type="Self.tb_Recieve_Type" Multiplicity="0..1" />
+    <End Role="tb_Benefit_Death_Replacement" Type="Self.tb_Benefit_Death_Replacement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Recieve_Type">
+        <PropertyRef Name="RecID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Death_Replacement">
+        <PropertyRef Name="RecID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Death_Replacement_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
+    <End Role="tb_Benefit_Death_Replacement" Type="Self.tb_Benefit_Death_Replacement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Death_Replacement">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Death_Subsidy_tb_Recieve_Type">
+    <End Role="tb_Recieve_Type" Type="Self.tb_Recieve_Type" Multiplicity="0..1" />
+    <End Role="tb_Benefit_Death_Subsidy" Type="Self.tb_Benefit_Death_Subsidy" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Recieve_Type">
+        <PropertyRef Name="RecID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Death_Subsidy">
+        <PropertyRef Name="RecID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Death_Subsidy_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
+    <End Role="tb_Benefit_Death_Subsidy" Type="Self.tb_Benefit_Death_Subsidy" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Death_Subsidy">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Home_Rental_tb_Part_Type">
+    <End Role="tb_Part_Type" Type="Self.tb_Part_Type" Multiplicity="0..1" />
+    <End Role="tb_Benefit_Home_Rental" Type="Self.tb_Benefit_Home_Rental" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Part_Type">
+        <PropertyRef Name="PID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Home_Rental">
+        <PropertyRef Name="PID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Home_Rental_tb_Rent_Type">
+    <End Role="tb_Rent_Type" Type="Self.tb_Rent_Type" Multiplicity="0..1" />
+    <End Role="tb_Benefit_Home_Rental" Type="Self.tb_Benefit_Home_Rental" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Rent_Type">
+        <PropertyRef Name="RID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Home_Rental">
+        <PropertyRef Name="RID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Home_Rental_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
+    <End Role="tb_Benefit_Home_Rental" Type="Self.tb_Benefit_Home_Rental" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Home_Rental">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Loan_tb_Bank_Loan">
+    <End Role="tb_Bank_Loan" Type="Self.tb_Bank_Loan" Multiplicity="0..1" />
+    <End Role="tb_Benefit_Loan" Type="Self.tb_Benefit_Loan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Bank_Loan">
+        <PropertyRef Name="BID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Loan">
+        <PropertyRef Name="BID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Loan_tb_Loan_Type">
+    <End Role="tb_Loan_Type" Type="Self.tb_Loan_Type" Multiplicity="0..1" />
+    <End Role="tb_Benefit_Loan" Type="Self.tb_Benefit_Loan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Loan_Type">
+        <PropertyRef Name="LtID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Loan">
+        <PropertyRef Name="LtID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Loan_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
+    <End Role="tb_Benefit_Loan" Type="Self.tb_Benefit_Loan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Loan">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Medical_tb_Claim_Type">
+    <End Role="tb_Claim_Type" Type="Self.tb_Claim_Type" Multiplicity="0..1" />
+    <End Role="tb_Benefit_Medical" Type="Self.tb_Benefit_Medical" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Claim_Type">
+        <PropertyRef Name="ClID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Medical">
+        <PropertyRef Name="ClID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Medical_tb_Recieve_Type">
+    <End Role="tb_Recieve_Type" Type="Self.tb_Recieve_Type" Multiplicity="0..1" />
+    <End Role="tb_Benefit_Medical" Type="Self.tb_Benefit_Medical" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Recieve_Type">
+        <PropertyRef Name="RecID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Medical">
+        <PropertyRef Name="RecID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Medical_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
+    <End Role="tb_Benefit_Medical" Type="Self.tb_Benefit_Medical" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Medical">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Other_Welfare_tb_Benefit_Type">
+    <End Role="tb_Benefit_Type" Type="Self.tb_Benefit_Type" Multiplicity="0..1" />
+    <End Role="tb_Benefit_Other_Welfare" Type="Self.tb_Benefit_Other_Welfare" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Benefit_Type">
+        <PropertyRef Name="BenTID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Other_Welfare">
+        <PropertyRef Name="BenTID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Other_Welfare_tb_Recieve_Type">
+    <End Role="tb_Recieve_Type" Type="Self.tb_Recieve_Type" Multiplicity="0..1" />
+    <End Role="tb_Benefit_Other_Welfare" Type="Self.tb_Benefit_Other_Welfare" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Recieve_Type">
+        <PropertyRef Name="RecID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Other_Welfare">
+        <PropertyRef Name="BoRecID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Other_Welfare_tb_Recieve_Type1">
+    <End Role="tb_Recieve_Type" Type="Self.tb_Recieve_Type" Multiplicity="0..1" />
+    <End Role="tb_Benefit_Other_Welfare" Type="Self.tb_Benefit_Other_Welfare" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Recieve_Type">
+        <PropertyRef Name="RecID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Other_Welfare">
+        <PropertyRef Name="BoOptRecID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Other_Welfare_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
+    <End Role="tb_Benefit_Other_Welfare" Type="Self.tb_Benefit_Other_Welfare" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Other_Welfare">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund">
+    <End Role="tb_Accumulative_Fund" Type="Self.tb_Accumulative_Fund" Multiplicity="0..1" />
+    <End Role="tb_Benefit_Provident_Fund" Type="Self.tb_Benefit_Provident_Fund" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Accumulative_Fund">
+        <PropertyRef Name="CuID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Provident_Fund">
+        <PropertyRef Name="BpAccumFundCuID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund1">
+    <End Role="tb_Accumulative_Fund" Type="Self.tb_Accumulative_Fund" Multiplicity="0..1" />
+    <End Role="tb_Benefit_Provident_Fund" Type="Self.tb_Benefit_Provident_Fund" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Accumulative_Fund">
+        <PropertyRef Name="CuID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Provident_Fund">
+        <PropertyRef Name="BpAssoFundCuID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Provident_Fund_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
+    <End Role="tb_Benefit_Provident_Fund" Type="Self.tb_Benefit_Provident_Fund" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Provident_Fund">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Remuneration_tb_Recieve_Type">
+    <End Role="tb_Recieve_Type" Type="Self.tb_Recieve_Type" Multiplicity="1" />
+    <End Role="tb_Benefit_Remuneration" Type="Self.tb_Benefit_Remuneration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Recieve_Type">
+        <PropertyRef Name="RecID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Remuneration">
+        <PropertyRef Name="RecID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tb_Capability_tb_Capability">
     <End Role="tb_Capability_Type" Type="Self.tb_Capability_Type" Multiplicity="0..1" />
     <End Role="tb_Capability" Type="Self.tb_Capability" Multiplicity="*" />
@@ -804,27 +1552,15 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_Section_tb_Department">
-    <End Role="tb_Department" Type="Self.tb_Department" Multiplicity="0..1" />
+  <Association Name="FK_tb_Section_tb_Division">
+    <End Role="tb_Division" Type="Self.tb_Division" Multiplicity="1" />
     <End Role="tb_Section" Type="Self.tb_Section" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="tb_Department">
-        <PropertyRef Name="DepID" />
+      <Principal Role="tb_Division">
+        <PropertyRef Name="DivID" />
       </Principal>
       <Dependent Role="tb_Section">
-        <PropertyRef Name="DepID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_SubDistrict_tb_District">
-    <End Role="tb_District" Type="Self.tb_District" Multiplicity="0..1" />
-    <End Role="tb_SubDistrict" Type="Self.tb_SubDistrict" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_District">
-        <PropertyRef Name="DistrictID" />
-      </Principal>
-      <Dependent Role="tb_SubDistrict">
-        <PropertyRef Name="DistrictID" />
+        <PropertyRef Name="DivID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -852,6 +1588,342 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tb_User_Certificate_tb_Certificate">
+    <End Role="tb_Certificate" Type="Self.tb_Certificate" Multiplicity="0..1" />
+    <End Role="tb_User_Certificate" Type="Self.tb_User_Certificate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Certificate">
+        <PropertyRef Name="CerId" />
+      </Principal>
+      <Dependent Role="tb_User_Certificate">
+        <PropertyRef Name="CerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Certificate_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
+    <End Role="tb_User_Certificate" Type="Self.tb_User_Certificate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_User_Certificate">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Education_tb_Country">
+    <End Role="tb_Country" Type="Self.tb_Country" Multiplicity="0..1" />
+    <End Role="tb_User_Education" Type="Self.tb_User_Education" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Country">
+        <PropertyRef Name="CountryID" />
+      </Principal>
+      <Dependent Role="tb_User_Education">
+        <PropertyRef Name="CountryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Education_tb_Degree">
+    <End Role="tb_Degree" Type="Self.tb_Degree" Multiplicity="0..1" />
+    <End Role="tb_User_Education" Type="Self.tb_User_Education" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Degree">
+        <PropertyRef Name="DegID" />
+      </Principal>
+      <Dependent Role="tb_User_Education">
+        <PropertyRef Name="DegID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Education_tb_Education">
+    <End Role="tb_Education" Type="Self.tb_Education" Multiplicity="0..1" />
+    <End Role="tb_User_Education" Type="Self.tb_User_Education" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Education">
+        <PropertyRef Name="EduID" />
+      </Principal>
+      <Dependent Role="tb_User_Education">
+        <PropertyRef Name="EduID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Education_tb_Major">
+    <End Role="tb_Major" Type="Self.tb_Major" Multiplicity="0..1" />
+    <End Role="tb_User_Education" Type="Self.tb_User_Education" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Major">
+        <PropertyRef Name="MajID" />
+      </Principal>
+      <Dependent Role="tb_User_Education">
+        <PropertyRef Name="MajID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Education_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
+    <End Role="tb_User_Education" Type="Self.tb_User_Education" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_User_Education">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Excellent_tb_Excellent_Type">
+    <End Role="tb_Excellent_Type" Type="Self.tb_Excellent_Type" Multiplicity="0..1" />
+    <End Role="tb_User_Excellent" Type="Self.tb_User_Excellent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Excellent_Type">
+        <PropertyRef Name="ExID" />
+      </Principal>
+      <Dependent Role="tb_User_Excellent">
+        <PropertyRef Name="ExID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Excellent_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
+    <End Role="tb_User_Excellent" Type="Self.tb_User_Excellent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_User_Excellent">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Family_tb_Position">
+    <End Role="tb_Position" Type="Self.tb_Position" Multiplicity="0..1" />
+    <End Role="tb_User_Family" Type="Self.tb_User_Family" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Position">
+        <PropertyRef Name="PoID" />
+      </Principal>
+      <Dependent Role="tb_User_Family">
+        <PropertyRef Name="PoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Family_tb_Recieve_Type">
+    <End Role="tb_Recieve_Type" Type="Self.tb_Recieve_Type" Multiplicity="1" />
+    <End Role="tb_User_Family" Type="Self.tb_User_Family" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Recieve_Type">
+        <PropertyRef Name="RecID" />
+      </Principal>
+      <Dependent Role="tb_User_Family">
+        <PropertyRef Name="RecID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Family_tb_Tax_Deduction">
+    <End Role="tb_Tax_Deduction" Type="Self.tb_Tax_Deduction" Multiplicity="0..1" />
+    <End Role="tb_User_Family" Type="Self.tb_User_Family" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Tax_Deduction">
+        <PropertyRef Name="TdID" />
+      </Principal>
+      <Dependent Role="tb_User_Family">
+        <PropertyRef Name="TdID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Family_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
+    <End Role="tb_User_Family" Type="Self.tb_User_Family" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_User_Family">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_History_tb_Title">
+    <End Role="tb_Title" Type="Self.tb_Title" Multiplicity="0..1" />
+    <End Role="tb_User_History" Type="Self.tb_User_History" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Title">
+        <PropertyRef Name="TiID" />
+      </Principal>
+      <Dependent Role="tb_User_History">
+        <PropertyRef Name="TiID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_History_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
+    <End Role="tb_User_History" Type="Self.tb_User_History" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_User_History">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Insignia_tb_Insignia">
+    <End Role="tb_Insignia" Type="Self.tb_Insignia" Multiplicity="0..1" />
+    <End Role="tb_User_Insignia" Type="Self.tb_User_Insignia" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Insignia">
+        <PropertyRef Name="InsID" />
+      </Principal>
+      <Dependent Role="tb_User_Insignia">
+        <PropertyRef Name="InsID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Insignia_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
+    <End Role="tb_User_Insignia" Type="Self.tb_User_Insignia" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_User_Insignia">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Position_tb_Action_Type">
+    <End Role="tb_Action_Type" Type="Self.tb_Action_Type" Multiplicity="0..1" />
+    <End Role="tb_User_Position" Type="Self.tb_User_Position" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Action_Type">
+        <PropertyRef Name="ActID" />
+      </Principal>
+      <Dependent Role="tb_User_Position">
+        <PropertyRef Name="ActID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Position_tb_Department">
+    <End Role="tb_Department" Type="Self.tb_Department" Multiplicity="0..1" />
+    <End Role="tb_User_Position" Type="Self.tb_User_Position" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Department">
+        <PropertyRef Name="DepID" />
+      </Principal>
+      <Dependent Role="tb_User_Position">
+        <PropertyRef Name="DepID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Position_tb_Division">
+    <End Role="tb_Division" Type="Self.tb_Division" Multiplicity="0..1" />
+    <End Role="tb_User_Position" Type="Self.tb_User_Position" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Division">
+        <PropertyRef Name="DivID" />
+      </Principal>
+      <Dependent Role="tb_User_Position">
+        <PropertyRef Name="DivID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Position_tb_Position">
+    <End Role="tb_Position" Type="Self.tb_Position" Multiplicity="0..1" />
+    <End Role="tb_User_Position" Type="Self.tb_User_Position" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Position">
+        <PropertyRef Name="PoID" />
+      </Principal>
+      <Dependent Role="tb_User_Position">
+        <PropertyRef Name="PoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Position_tb_Position_Agent">
+    <End Role="tb_Position_Agent" Type="Self.tb_Position_Agent" Multiplicity="0..1" />
+    <End Role="tb_User_Position" Type="Self.tb_User_Position" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Position_Agent">
+        <PropertyRef Name="PoAID" />
+      </Principal>
+      <Dependent Role="tb_User_Position">
+        <PropertyRef Name="PoAID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Position_tb_Position_Type">
+    <End Role="tb_Position_Type" Type="Self.tb_Position_Type" Multiplicity="0..1" />
+    <End Role="tb_User_Position" Type="Self.tb_User_Position" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Position_Type">
+        <PropertyRef Name="PoTID" />
+      </Principal>
+      <Dependent Role="tb_User_Position">
+        <PropertyRef Name="PoTID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Position_tb_Section">
+    <End Role="tb_Section" Type="Self.tb_Section" Multiplicity="0..1" />
+    <End Role="tb_User_Position" Type="Self.tb_User_Position" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Section">
+        <PropertyRef Name="SecID" />
+      </Principal>
+      <Dependent Role="tb_User_Position">
+        <PropertyRef Name="SecID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Position_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
+    <End Role="tb_User_Position" Type="Self.tb_User_Position" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_User_Position">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Training_tb_Country">
+    <End Role="tb_Country" Type="Self.tb_Country" Multiplicity="0..1" />
+    <End Role="tb_User_Training" Type="Self.tb_User_Training" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Country">
+        <PropertyRef Name="CountryID" />
+      </Principal>
+      <Dependent Role="tb_User_Training">
+        <PropertyRef Name="CountryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Training_tb_Training_Type">
+    <End Role="tb_Training_Type" Type="Self.tb_Training_Type" Multiplicity="0..1" />
+    <End Role="tb_User_Training" Type="Self.tb_User_Training" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Training_Type">
+        <PropertyRef Name="TtID" />
+      </Principal>
+      <Dependent Role="tb_User_Training">
+        <PropertyRef Name="TtID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Training_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
+    <End Role="tb_User_Training" Type="Self.tb_User_Training" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_User_Training">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tb_Users_tb_Blood_Type">
     <End Role="tb_Blood_Type" Type="Self.tb_Blood_Type" Multiplicity="0..1" />
     <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
@@ -861,18 +1933,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
       </Principal>
       <Dependent Role="tb_User">
         <PropertyRef Name="BloodID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_Users_tb_Department">
-    <End Role="tb_Department" Type="Self.tb_Department" Multiplicity="0..1" />
-    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Department">
-        <PropertyRef Name="DepID" />
-      </Principal>
-      <Dependent Role="tb_User">
-        <PropertyRef Name="DepID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -960,18 +2020,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_Users_tb_Section">
-    <End Role="tb_Section" Type="Self.tb_Section" Multiplicity="0..1" />
-    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Section">
-        <PropertyRef Name="SecID" />
-      </Principal>
-      <Dependent Role="tb_User">
-        <PropertyRef Name="SecID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_tb_Users_tb_Sex">
     <End Role="tb_Sex" Type="Self.tb_Sex" Multiplicity="0..1" />
     <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
@@ -1048,7 +2096,20 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
     <Parameter Name="ParentID" Type="int" Mode="In" />
   </Function>
   <EntityContainer Name="SATHRStoreContainer">
+    <EntitySet Name="tb_Accumulative_Fund" EntityType="Self.tb_Accumulative_Fund" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Action_Type" EntityType="Self.tb_Action_Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Bank_Loan" EntityType="Self.tb_Bank_Loan" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Benefit_Child_Education" EntityType="Self.tb_Benefit_Child_Education" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Benefit_Child_Fund" EntityType="Self.tb_Benefit_Child_Fund" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Benefit_Cremation" EntityType="Self.tb_Benefit_Cremation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Benefit_Death_Replacement" EntityType="Self.tb_Benefit_Death_Replacement" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Benefit_Death_Subsidy" EntityType="Self.tb_Benefit_Death_Subsidy" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Benefit_Home_Rental" EntityType="Self.tb_Benefit_Home_Rental" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Benefit_Loan" EntityType="Self.tb_Benefit_Loan" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Benefit_Medical" EntityType="Self.tb_Benefit_Medical" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Benefit_Other_Welfare" EntityType="Self.tb_Benefit_Other_Welfare" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Benefit_Provident_Fund" EntityType="Self.tb_Benefit_Provident_Fund" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Benefit_Remuneration" EntityType="Self.tb_Benefit_Remuneration" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Benefit_Type" EntityType="Self.tb_Benefit_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Blood_Type" EntityType="Self.tb_Blood_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Capability" EntityType="Self.tb_Capability" Schema="dbo" store:Type="Tables" />
@@ -1056,6 +2117,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
     <EntitySet Name="tb_Capability_Group" EntityType="Self.tb_Capability_Group" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Capability_Type" EntityType="Self.tb_Capability_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Certificate" EntityType="Self.tb_Certificate" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Claim_Type" EntityType="Self.tb_Claim_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Country" EntityType="Self.tb_Country" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Degree" EntityType="Self.tb_Degree" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Department" EntityType="Self.tb_Department" Schema="dbo" store:Type="Tables" />
@@ -1065,29 +2127,46 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
     <EntitySet Name="tb_DocNumber" EntityType="Self.tb_DocNumber" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Education" EntityType="Self.tb_Education" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Empower" EntityType="Self.tb_Empower" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Excellent_Type" EntityType="Self.tb_Excellent_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Family_Type" EntityType="Self.tb_Family_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Holiday" EntityType="Self.tb_Holiday" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Insignia" EntityType="Self.tb_Insignia" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Leave_Type" EntityType="Self.tb_Leave_Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Loan_Type" EntityType="Self.tb_Loan_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Major" EntityType="Self.tb_Major" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Marital_Status" EntityType="Self.tb_Marital_Status" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Member_Type" EntityType="Self.tb_Member_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Menu" EntityType="Self.tb_Menu" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Menu_Role" EntityType="Self.tb_Menu_Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Nationality" EntityType="Self.tb_Nationality" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Part_Type" EntityType="Self.tb_Part_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Position" EntityType="Self.tb_Position" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Position_Agent" EntityType="Self.tb_Position_Agent" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Position_Type" EntityType="Self.tb_Position_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Province" EntityType="Self.tb_Province" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Recieve_Type" EntityType="Self.tb_Recieve_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Religion" EntityType="Self.tb_Religion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Rent_Type" EntityType="Self.tb_Rent_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Role" EntityType="Self.tb_Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Salary" EntityType="Self.tb_Salary" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Section" EntityType="Self.tb_Section" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Sex" EntityType="Self.tb_Sex" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_SubDistrict" EntityType="Self.tb_SubDistrict" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_SysConfig" EntityType="Self.tb_SysConfig" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Tax_Deduction" EntityType="Self.tb_Tax_Deduction" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Title" EntityType="Self.tb_Title" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Training_Type" EntityType="Self.tb_Training_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_User" EntityType="Self.tb_User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_User_Certificate" EntityType="Self.tb_User_Certificate" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_User_Education" EntityType="Self.tb_User_Education" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_User_Excellent" EntityType="Self.tb_User_Excellent" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_User_Family" EntityType="Self.tb_User_Family" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_User_History" EntityType="Self.tb_User_History" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_User_Insignia" EntityType="Self.tb_User_Insignia" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_User_Position" EntityType="Self.tb_User_Position" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_User_Role" EntityType="Self.tb_User_Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_User_Status" EntityType="Self.tb_User_Status" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_User_Training" EntityType="Self.tb_User_Training" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_User_Type" EntityType="Self.tb_User_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Working_Type" EntityType="Self.tb_Working_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="vw_Capability" EntityType="Self.vw_Capability" store:Type="Views" store:Schema="dbo">
@@ -1270,6 +2349,106 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
     [vw_User_Role].[Avatar] AS [Avatar]
     FROM [dbo].[vw_User_Role] AS [vw_User_Role]</DefiningQuery>
     </EntitySet>
+    <AssociationSet Name="FK_tb_Benefit_Child_Education_tb_User" Association="Self.FK_tb_Benefit_Child_Education_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_Benefit_Child_Education" EntitySet="tb_Benefit_Child_Education" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Child_Fund_tb_User" Association="Self.FK_tb_Benefit_Child_Fund_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_Benefit_Child_Fund" EntitySet="tb_Benefit_Child_Fund" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Cremation_tb_Member_Type" Association="Self.FK_tb_Benefit_Cremation_tb_Member_Type">
+      <End Role="tb_Member_Type" EntitySet="tb_Member_Type" />
+      <End Role="tb_Benefit_Cremation" EntitySet="tb_Benefit_Cremation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Cremation_tb_User" Association="Self.FK_tb_Benefit_Cremation_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_Benefit_Cremation" EntitySet="tb_Benefit_Cremation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Death_Replacement_tb_Recieve_Type" Association="Self.FK_tb_Benefit_Death_Replacement_tb_Recieve_Type">
+      <End Role="tb_Recieve_Type" EntitySet="tb_Recieve_Type" />
+      <End Role="tb_Benefit_Death_Replacement" EntitySet="tb_Benefit_Death_Replacement" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Death_Replacement_tb_User" Association="Self.FK_tb_Benefit_Death_Replacement_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_Benefit_Death_Replacement" EntitySet="tb_Benefit_Death_Replacement" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Death_Subsidy_tb_Recieve_Type" Association="Self.FK_tb_Benefit_Death_Subsidy_tb_Recieve_Type">
+      <End Role="tb_Recieve_Type" EntitySet="tb_Recieve_Type" />
+      <End Role="tb_Benefit_Death_Subsidy" EntitySet="tb_Benefit_Death_Subsidy" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Death_Subsidy_tb_User" Association="Self.FK_tb_Benefit_Death_Subsidy_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_Benefit_Death_Subsidy" EntitySet="tb_Benefit_Death_Subsidy" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Home_Rental_tb_Part_Type" Association="Self.FK_tb_Benefit_Home_Rental_tb_Part_Type">
+      <End Role="tb_Part_Type" EntitySet="tb_Part_Type" />
+      <End Role="tb_Benefit_Home_Rental" EntitySet="tb_Benefit_Home_Rental" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Home_Rental_tb_Rent_Type" Association="Self.FK_tb_Benefit_Home_Rental_tb_Rent_Type">
+      <End Role="tb_Rent_Type" EntitySet="tb_Rent_Type" />
+      <End Role="tb_Benefit_Home_Rental" EntitySet="tb_Benefit_Home_Rental" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Home_Rental_tb_User" Association="Self.FK_tb_Benefit_Home_Rental_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_Benefit_Home_Rental" EntitySet="tb_Benefit_Home_Rental" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Loan_tb_Bank_Loan" Association="Self.FK_tb_Benefit_Loan_tb_Bank_Loan">
+      <End Role="tb_Bank_Loan" EntitySet="tb_Bank_Loan" />
+      <End Role="tb_Benefit_Loan" EntitySet="tb_Benefit_Loan" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Loan_tb_Loan_Type" Association="Self.FK_tb_Benefit_Loan_tb_Loan_Type">
+      <End Role="tb_Loan_Type" EntitySet="tb_Loan_Type" />
+      <End Role="tb_Benefit_Loan" EntitySet="tb_Benefit_Loan" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Loan_tb_User" Association="Self.FK_tb_Benefit_Loan_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_Benefit_Loan" EntitySet="tb_Benefit_Loan" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Medical_tb_Claim_Type" Association="Self.FK_tb_Benefit_Medical_tb_Claim_Type">
+      <End Role="tb_Claim_Type" EntitySet="tb_Claim_Type" />
+      <End Role="tb_Benefit_Medical" EntitySet="tb_Benefit_Medical" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Medical_tb_Recieve_Type" Association="Self.FK_tb_Benefit_Medical_tb_Recieve_Type">
+      <End Role="tb_Recieve_Type" EntitySet="tb_Recieve_Type" />
+      <End Role="tb_Benefit_Medical" EntitySet="tb_Benefit_Medical" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Medical_tb_User" Association="Self.FK_tb_Benefit_Medical_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_Benefit_Medical" EntitySet="tb_Benefit_Medical" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Other_Welfare_tb_Benefit_Type" Association="Self.FK_tb_Benefit_Other_Welfare_tb_Benefit_Type">
+      <End Role="tb_Benefit_Type" EntitySet="tb_Benefit_Type" />
+      <End Role="tb_Benefit_Other_Welfare" EntitySet="tb_Benefit_Other_Welfare" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Other_Welfare_tb_Recieve_Type" Association="Self.FK_tb_Benefit_Other_Welfare_tb_Recieve_Type">
+      <End Role="tb_Recieve_Type" EntitySet="tb_Recieve_Type" />
+      <End Role="tb_Benefit_Other_Welfare" EntitySet="tb_Benefit_Other_Welfare" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Other_Welfare_tb_Recieve_Type1" Association="Self.FK_tb_Benefit_Other_Welfare_tb_Recieve_Type1">
+      <End Role="tb_Recieve_Type" EntitySet="tb_Recieve_Type" />
+      <End Role="tb_Benefit_Other_Welfare" EntitySet="tb_Benefit_Other_Welfare" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Other_Welfare_tb_User" Association="Self.FK_tb_Benefit_Other_Welfare_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_Benefit_Other_Welfare" EntitySet="tb_Benefit_Other_Welfare" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund" Association="Self.FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund">
+      <End Role="tb_Accumulative_Fund" EntitySet="tb_Accumulative_Fund" />
+      <End Role="tb_Benefit_Provident_Fund" EntitySet="tb_Benefit_Provident_Fund" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund1" Association="Self.FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund1">
+      <End Role="tb_Accumulative_Fund" EntitySet="tb_Accumulative_Fund" />
+      <End Role="tb_Benefit_Provident_Fund" EntitySet="tb_Benefit_Provident_Fund" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Provident_Fund_tb_User" Association="Self.FK_tb_Benefit_Provident_Fund_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_Benefit_Provident_Fund" EntitySet="tb_Benefit_Provident_Fund" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Remuneration_tb_Recieve_Type" Association="Self.FK_tb_Benefit_Remuneration_tb_Recieve_Type">
+      <End Role="tb_Recieve_Type" EntitySet="tb_Recieve_Type" />
+      <End Role="tb_Benefit_Remuneration" EntitySet="tb_Benefit_Remuneration" />
+    </AssociationSet>
     <AssociationSet Name="FK_tb_Capability_tb_Capability" Association="Self.FK_tb_Capability_tb_Capability">
       <End Role="tb_Capability_Type" EntitySet="tb_Capability_Type" />
       <End Role="tb_Capability" EntitySet="tb_Capability" />
@@ -1294,13 +2473,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
       <End Role="tb_Role" EntitySet="tb_Role" />
       <End Role="tb_Menu_Role" EntitySet="tb_Menu_Role" />
     </AssociationSet>
-    <AssociationSet Name="FK_tb_Section_tb_Department" Association="Self.FK_tb_Section_tb_Department">
-      <End Role="tb_Department" EntitySet="tb_Department" />
+    <AssociationSet Name="FK_tb_Section_tb_Division" Association="Self.FK_tb_Section_tb_Division">
+      <End Role="tb_Division" EntitySet="tb_Division" />
       <End Role="tb_Section" EntitySet="tb_Section" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_SubDistrict_tb_District" Association="Self.FK_tb_SubDistrict_tb_District">
-      <End Role="tb_District" EntitySet="tb_District" />
-      <End Role="tb_SubDistrict" EntitySet="tb_SubDistrict" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_SubDistrict_tb_Province" Association="Self.FK_tb_SubDistrict_tb_Province">
       <End Role="tb_Province" EntitySet="tb_Province" />
@@ -1310,12 +2485,120 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
       <End Role="tb_Sex" EntitySet="tb_Sex" />
       <End Role="tb_Title" EntitySet="tb_Title" />
     </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Certificate_tb_Certificate" Association="Self.FK_tb_User_Certificate_tb_Certificate">
+      <End Role="tb_Certificate" EntitySet="tb_Certificate" />
+      <End Role="tb_User_Certificate" EntitySet="tb_User_Certificate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Certificate_tb_User" Association="Self.FK_tb_User_Certificate_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_User_Certificate" EntitySet="tb_User_Certificate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Education_tb_Country" Association="Self.FK_tb_User_Education_tb_Country">
+      <End Role="tb_Country" EntitySet="tb_Country" />
+      <End Role="tb_User_Education" EntitySet="tb_User_Education" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Education_tb_Degree" Association="Self.FK_tb_User_Education_tb_Degree">
+      <End Role="tb_Degree" EntitySet="tb_Degree" />
+      <End Role="tb_User_Education" EntitySet="tb_User_Education" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Education_tb_Education" Association="Self.FK_tb_User_Education_tb_Education">
+      <End Role="tb_Education" EntitySet="tb_Education" />
+      <End Role="tb_User_Education" EntitySet="tb_User_Education" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Education_tb_Major" Association="Self.FK_tb_User_Education_tb_Major">
+      <End Role="tb_Major" EntitySet="tb_Major" />
+      <End Role="tb_User_Education" EntitySet="tb_User_Education" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Education_tb_User" Association="Self.FK_tb_User_Education_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_User_Education" EntitySet="tb_User_Education" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Excellent_tb_Excellent_Type" Association="Self.FK_tb_User_Excellent_tb_Excellent_Type">
+      <End Role="tb_Excellent_Type" EntitySet="tb_Excellent_Type" />
+      <End Role="tb_User_Excellent" EntitySet="tb_User_Excellent" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Excellent_tb_User" Association="Self.FK_tb_User_Excellent_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_User_Excellent" EntitySet="tb_User_Excellent" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Family_tb_Position" Association="Self.FK_tb_User_Family_tb_Position">
+      <End Role="tb_Position" EntitySet="tb_Position" />
+      <End Role="tb_User_Family" EntitySet="tb_User_Family" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Family_tb_Recieve_Type" Association="Self.FK_tb_User_Family_tb_Recieve_Type">
+      <End Role="tb_Recieve_Type" EntitySet="tb_Recieve_Type" />
+      <End Role="tb_User_Family" EntitySet="tb_User_Family" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Family_tb_Tax_Deduction" Association="Self.FK_tb_User_Family_tb_Tax_Deduction">
+      <End Role="tb_Tax_Deduction" EntitySet="tb_Tax_Deduction" />
+      <End Role="tb_User_Family" EntitySet="tb_User_Family" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Family_tb_User" Association="Self.FK_tb_User_Family_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_User_Family" EntitySet="tb_User_Family" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_History_tb_Title" Association="Self.FK_tb_User_History_tb_Title">
+      <End Role="tb_Title" EntitySet="tb_Title" />
+      <End Role="tb_User_History" EntitySet="tb_User_History" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_History_tb_User" Association="Self.FK_tb_User_History_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_User_History" EntitySet="tb_User_History" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Insignia_tb_Insignia" Association="Self.FK_tb_User_Insignia_tb_Insignia">
+      <End Role="tb_Insignia" EntitySet="tb_Insignia" />
+      <End Role="tb_User_Insignia" EntitySet="tb_User_Insignia" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Insignia_tb_User" Association="Self.FK_tb_User_Insignia_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_User_Insignia" EntitySet="tb_User_Insignia" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Position_tb_Action_Type" Association="Self.FK_tb_User_Position_tb_Action_Type">
+      <End Role="tb_Action_Type" EntitySet="tb_Action_Type" />
+      <End Role="tb_User_Position" EntitySet="tb_User_Position" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Position_tb_Department" Association="Self.FK_tb_User_Position_tb_Department">
+      <End Role="tb_Department" EntitySet="tb_Department" />
+      <End Role="tb_User_Position" EntitySet="tb_User_Position" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Position_tb_Division" Association="Self.FK_tb_User_Position_tb_Division">
+      <End Role="tb_Division" EntitySet="tb_Division" />
+      <End Role="tb_User_Position" EntitySet="tb_User_Position" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Position_tb_Position" Association="Self.FK_tb_User_Position_tb_Position">
+      <End Role="tb_Position" EntitySet="tb_Position" />
+      <End Role="tb_User_Position" EntitySet="tb_User_Position" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Position_tb_Position_Agent" Association="Self.FK_tb_User_Position_tb_Position_Agent">
+      <End Role="tb_Position_Agent" EntitySet="tb_Position_Agent" />
+      <End Role="tb_User_Position" EntitySet="tb_User_Position" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Position_tb_Position_Type" Association="Self.FK_tb_User_Position_tb_Position_Type">
+      <End Role="tb_Position_Type" EntitySet="tb_Position_Type" />
+      <End Role="tb_User_Position" EntitySet="tb_User_Position" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Position_tb_Section" Association="Self.FK_tb_User_Position_tb_Section">
+      <End Role="tb_Section" EntitySet="tb_Section" />
+      <End Role="tb_User_Position" EntitySet="tb_User_Position" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Position_tb_User" Association="Self.FK_tb_User_Position_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_User_Position" EntitySet="tb_User_Position" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Training_tb_Country" Association="Self.FK_tb_User_Training_tb_Country">
+      <End Role="tb_Country" EntitySet="tb_Country" />
+      <End Role="tb_User_Training" EntitySet="tb_User_Training" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Training_tb_Training_Type" Association="Self.FK_tb_User_Training_tb_Training_Type">
+      <End Role="tb_Training_Type" EntitySet="tb_Training_Type" />
+      <End Role="tb_User_Training" EntitySet="tb_User_Training" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Training_tb_User" Association="Self.FK_tb_User_Training_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_User_Training" EntitySet="tb_User_Training" />
+    </AssociationSet>
     <AssociationSet Name="FK_tb_Users_tb_Blood_Type" Association="Self.FK_tb_Users_tb_Blood_Type">
       <End Role="tb_Blood_Type" EntitySet="tb_Blood_Type" />
-      <End Role="tb_User" EntitySet="tb_User" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Users_tb_Department" Association="Self.FK_tb_Users_tb_Department">
-      <End Role="tb_Department" EntitySet="tb_Department" />
       <End Role="tb_User" EntitySet="tb_User" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_Users_tb_Empower" Association="Self.FK_tb_Users_tb_Empower">
@@ -1344,10 +2627,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
     </AssociationSet>
     <AssociationSet Name="FK_tb_Users_tb_Religion" Association="Self.FK_tb_Users_tb_Religion">
       <End Role="tb_Religion" EntitySet="tb_Religion" />
-      <End Role="tb_User" EntitySet="tb_User" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Users_tb_Section" Association="Self.FK_tb_Users_tb_Section">
-      <End Role="tb_Section" EntitySet="tb_Section" />
       <End Role="tb_User" EntitySet="tb_User" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_Users_tb_Sex" Association="Self.FK_tb_Users_tb_Sex">

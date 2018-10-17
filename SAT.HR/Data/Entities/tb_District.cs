@@ -14,18 +14,10 @@ namespace SAT.HR.Data.Entities
     
     public partial class tb_District
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tb_District()
-        {
-            this.tb_SubDistrict = new HashSet<tb_SubDistrict>();
-        }
-    
         public int DistrictID { get; set; }
         public string DistrictName { get; set; }
         public Nullable<int> ProvinceID { get; set; }
     
         public virtual tb_Province tb_Province { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_SubDistrict> tb_SubDistrict { get; set; }
     }
 }

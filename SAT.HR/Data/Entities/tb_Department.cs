@@ -17,8 +17,7 @@ namespace SAT.HR.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tb_Department()
         {
-            this.tb_Section = new HashSet<tb_Section>();
-            this.tb_User = new HashSet<tb_User>();
+            this.tb_User_Position = new HashSet<tb_User_Position>();
         }
     
         public int DepID { get; set; }
@@ -32,8 +31,6 @@ namespace SAT.HR.Data.Entities
     
         public virtual tb_Division tb_Division { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Section> tb_Section { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_User> tb_User { get; set; }
+        public virtual ICollection<tb_User_Position> tb_User_Position { get; set; }
     }
 }
