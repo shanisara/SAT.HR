@@ -1046,17 +1046,17 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult DistrictByPro(int proid)
-        {
-            var result = DropDownList.GetDistrict(proid, null);
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
+        //public JsonResult DistrictByPro(int proid)
+        //{
+        //    var result = DropDownList.GetDistrict(proid, null);
+        //    return Json(result, JsonRequestBehavior.AllowGet);
+        //}
 
-        public JsonResult SubDistrictByDis(int proid, int disid)
-        {
-            var result = DropDownList.GetSubDistrict(proid, disid, null);
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
+        //public JsonResult SubDistrictByDis(int proid, int disid)
+        //{
+        //    var result = DropDownList.GetSubDistrict(proid, disid, null);
+        //    return Json(result, JsonRequestBehavior.AllowGet);
+        //}
 
         #endregion
 

@@ -5,8 +5,16 @@
 }
 
 <style>
+     .datepicker {
+        z-index: 99999 !important;
+    }
+
     .m-b-20 {
         margin-bottom: 20px;
+    }
+
+    .m-t-30 {
+        margin-top:30px;
     }
 
     .fileinput .thumbnail {
@@ -28,11 +36,69 @@
         font-size: 14px;
         padding: 10px 6px;
     }
-        .nav-pills .nav-item .nav-link.active {
-            font-size: 14px;
-        }
+
+    .nav-pills .nav-item .nav-link.active {
+        font-size: 14px;
+    }
     
+    form .form-group select.form-control {
+        position: static;
+        top: -5px;
+    }
 </style>
+<style>
+
+    .fileinput .thumbnail {
+        max-width: 250px;
+        max-height: 250px;
+    }
+
+    .card-contact {
+        border: 0;
+        margin-bottom: 30px;
+        margin-top: 0px;
+        border-radius: 6px;
+        color: #333;
+        background: #fff;
+        width: 100%;
+    }
+
+    .card-employee {
+        border: 0;
+        margin-bottom: 30px;
+        margin-top: 0px;
+        border-radius: 6px;
+        color: #333;
+        background: #fff;
+        width: 100%;
+    }
+
+    .label-select {
+        top: -1rem;
+        font-size: .6875rem;
+    }
+
+    /*.bmd-form-group:not(.has-success):not(.has-danger) [class^=bmd-label].bmd-label-floating {
+        color: #AAA;
+        top: -1rem;
+        font-size: .6875rem;
+    }*/
+
+    .label-select {
+        color: #AAA;
+        top: -1rem;
+        font-size: .6875rem;
+        position: absolute;
+        pointer-events: none;
+        transition: .3s ease all;
+    }
+
+    select.form-control:focus {
+        padding: .375rem 1.75rem .375rem .75rem;
+        font-size: 13px;
+    }
+</style>
+
 <div class="content">
     <div class="row">
         <div class="col-md-12">
@@ -42,8 +108,8 @@
                         <i class="material-icons">perm_identity</i>
                     </div>
                     <h4 class="card-title">
-                        <span>สวัสดิการพนักงาน: </span><span class="text-primary">@Model.FullName (1770500003531)</span>
-                        <button type="submit" class="btn btn-round pull-right">ย้อนกลับ</button>
+                        <span>สวัสดิการพนักงาน: </span><span class="text-primary">@Model.FullName (@Model.IDCard)</span>
+                        <button type="button" class="btn btn-round pull-right btn-back">ย้อนกลับ</button>
                     </h4>
                 </div>
                 <div class="card-body" id="tabs">
@@ -218,7 +284,7 @@
             getDistrict: function (el, disid, proid) {
                 $.ajax({
                     type: 'POST',
-                    url: '@Url.Action("DistrictByPro", "Master")',
+                    url: '@Url.Action("District", "Master")',
                     data: { defaultValue: disid, proid: proid },
                     dataType: 'json',
                     success: function (res) {
@@ -259,6 +325,7 @@
             }
         }
 
+
         $("#DivID").change(function () {
             DropDownList.getDepartment($("#DepID"), $('#DivID').val());
         });
@@ -284,19 +351,19 @@
         });
 
         $("#HomeProvinceID").change(function () {
-            DropDownList.getDistrict($("#HomeDistrictID"), $('#HomeProvinceID').val());
+            DropDownList.getDistrict($("#HomeDistrictID"), null, $('#HomeProvinceID').val());
         });
 
         $("#HomeDistrictID").change(function () {
-            DropDownList.getSubDistrict($("#HomeSubDistrictID"), $('#HomeProvinceID').val(), $('#HomeDistrictID').val());
+            DropDownList.getSubDistrict($("#HomeSubDistrictID"), null, $('#HomeProvinceID').val(), $('#HomeDistrictID').val());
         });
 
         $("#CurrProvinceID").change(function () {
-            DropDownList.getDepartment($("#CurrDistrictID"), $('#CurrProvinceID').val());
+            DropDownList.getDistrict($("#CurrDistrictID"), null, $('#CurrProvinceID').val());
         });
 
         $("#CurrDistrictID").change(function () {
-            DropDownList.getSubDistrict($("#CurrSubDistrictID"), $('#CurrProvinceID').val(), $('#CurrDistrictID').val());
+            DropDownList.getSubDistrict($("#CurrSubDistrictID"), null, $('#CurrProvinceID').val(), $('#CurrDistrictID').val());
         });
 
         $("#SalaryLevel").change(function () {
@@ -304,37 +371,60 @@
         });
 
         $("#SalaryStep").change(function () {
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("SalaryByStep", "Master")',
-                data: { level: $("#SalaryLevel").val(), step: $("#SalaryStep").val() },
-                dataType: 'json',
-                success: function (res) {
-                    $("#Salary").val(res.Salary);
-                }
+            $.post('@Url.Action("SalaryByStep", "Master")', { level: $("#SalaryLevel").val(), step: $("#SalaryStep").val() }, function (res) {
+                $("#Salary").val(res.Salary);
             });
         });
 
         $("#CopyAddress").click(function () {
             if ($(this).is(':checked')) {
-                $("#CurrAddr").val($("#HomeAddr").val());
-                $("#CurrZipCode").val($("#HomeZipCode").val());
-
+                var homeAddr = $("#HomeAddr").val();
                 var homeProvinceID = $("#HomeProvinceID").val();
                 var homeDistrictID = $("#HomeDistrictID").val();
                 var homeSubDistrictID = $("#HomeSubDistrictID").val();
+                var homeZipCode = $("#HomeZipCode").val();
 
-                if (homeProvinceID != '') 
+                if (homeProvinceID != '')
                     DropDownList.getProvince($("#CurrProvinceID"), homeProvinceID);
 
-                if (homeDistrictID != '') 
+                if (homeDistrictID != '')
                     DropDownList.getDistrict($("#CurrDistrictID"), homeDistrictID, homeProvinceID);
 
-                if (homeSubDistrictID != '') 
+                if (homeSubDistrictID != '')
                     DropDownList.getSubDistrict($("#CurrSubDistrictID"), homeSubDistrictID, homeProvinceID, homeDistrictID);
+
+                $("#CurrAddr").val(homeAddr);
+                $("#CurrZipCode").val(homeZipCode);
             }
         });
 
+        $(".btn-back").click(function () {
+            var url = '@Url.Action("Index", "Employee")';
+            window.location.href = url;
+        });
+
+        $(".save-employee").click(function () {
+            @*$.ajax({
+                type: 'POST',
+                url: '@Url.Action("UpdateEmployee", "Employee")',
+                data: $("#formEmployee").serialize(),
+                success: function (res) {
+                    if (res.MessageCode == null) {
+                        //showSwal.saveMessage();
+                    }
+                    else {
+                        alert(res.MessageText);
+                    }
+                }
+            });*@
+            $("#formEmployee").submit();
+
+        });
+
+
+        var UpdateEmployeeSuccess = function (res) {
+            alert('UpdateEmployeeSuccess');
+        }
 
     });
 </script>

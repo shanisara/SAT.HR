@@ -95,6 +95,11 @@ namespace SAT.HR.Controllers
         //    return Json(result, JsonRequestBehavior.AllowGet);
         //}
 
+        public JsonResult UpdateEmployee(EmployeeViewModel data)
+        {
+            return Json(null, JsonRequestBehavior.AllowGet);
+        }
+
         //public JsonResult DeleteEmployee(int id)
         //{
         //    var result = new EmployeeRepository().DeleteEmployee(id);

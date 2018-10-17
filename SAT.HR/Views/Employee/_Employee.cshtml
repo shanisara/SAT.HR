@@ -1,68 +1,18 @@
 ﻿@model SAT.HR.Models.EmployeeViewModel
 
-<style>
-    .datepicker {
-        z-index: 99999 !important;
-    }
 
-    .m-b-20 {
-        margin-bottom: 20px;
-    }
-
-    .fileinput .thumbnail {
-        max-width: 250px;
-        max-height: 250px;
-    }
-
-    .card-contact {
-        border: 0;
-        margin-bottom: 30px;
-        margin-top: 0px;
-        border-radius: 6px;
-        color: #333;
-        background: #fff;
-        width: 100%;
-    }
-    .card-employee {
-        border: 0;
-        margin-bottom: 30px;
-         margin-top: 0px; 
-        border-radius: 6px;
-        color: #333;
-        background: #fff;
-        width: 100%;
-    }
-
-    .label-select {
-        top: -1rem;
-        font-size: .6875rem;
-    }
-
-    /*.bmd-form-group:not(.has-success):not(.has-danger) [class^=bmd-label].bmd-label-floating {
-        color: #AAA;
-        top: -1rem;
-        font-size: .6875rem;
-    }*/
-
-    .label-select {
-        color: #AAA;
-        top: -1rem;
-        font-size: .6875rem;
-        position: absolute;
-        pointer-events: none;
-        transition: .3s ease all;
-    }
-
-    select.form-control:focus {
-        padding: .375rem 1.75rem .375rem .75rem;
-        font-size:13px;
-    }
-
-    
-    
-</style>
-
+@using (Ajax.BeginForm("UpdateEmployee", "Employee", new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "UpdateEmployeeSuccess",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "results",
+}, new { @class = "formEmployee" }))
+{
 <div class="content">
+
+    @Html.HiddenFor(m => m.UserID)
+
     <div class="row">
         <div class="col-md-12">
             <div style="height:10px;"></div>
@@ -73,11 +23,12 @@
                         <div class="col-sm-3">
                             <div class="picture-container">
                                 <div class="picture">
+                                    @{
+                                        string fileinput = (string.IsNullOrEmpty(Model.Avatar)) ? "fileinput-new" : "fileinput-exists";
+                                        string avatar = (string.IsNullOrEmpty(Model.Avatar)) ? "~/Content/assets/img/image_placeholder.jpg" : "~/Upload/Avatar/" + @Model.Avatar;
+                                    }
                                     <div class="fileinput text-center fileinput-new" data-provides="fileinput">
-                                        <div class="fileinput-new thumbnail">
-                                            @{string Avatar = (string.IsNullOrEmpty(Model.Avatar)) ? "~/Content/assets/img/image_placeholder.jpg" : "~/Upload/Avatar/" + @Model.Avatar; }
-                                            <img alt="..." src="@Url.Content(@Avatar)" />
-                                        </div>
+                                        <div class="fileinput-new thumbnail"><img alt="..." src="@Url.Content(@avatar)" /></div>
                                         <div class="fileinput-preview fileinput-exists thumbnail"></div>
                                         <div>
                                             <span class="btn btn-round btn-file">
@@ -85,9 +36,7 @@
                                                 <span class="fileinput-exists">เปลี่ยน</span>
                                                 <input type="hidden" value=""><input type="file">
                                             </span>
-                                            <a class="btn btn-danger btn-round fileinput-exists" href="#pablo" data-dismiss="fileinput">
-                                                <i class="fa fa-times"></i> ลบ
-                                            </a>
+                                            <a class="btn btn-danger btn-round fileinput-exists" href="#" data-dismiss="fileinput"><i class="fa fa-times"></i> ลบ</a>
                                         </div>
                                     </div>
                                 </div>
@@ -174,7 +123,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row m-b-30">
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         @Html.Label("กรุ๊บเลือด", null, new { @class = "label-select" })
@@ -266,9 +215,9 @@
                             </div>
                             <h4 class="card-title"><span>ตำแหน่ง / สังกัด / เงินเดือน</span></h4>
                         </div>
-                        <div class="card-body  m-b-20">
+                        <div class="card-body m-b-20">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         @Html.Label("ตำแหน่ง", null, new { @class = "label-select" })
                                         @Html.DropDownListFor(n => n.PoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
@@ -286,7 +235,7 @@
                                         @Html.DropDownListFor(n => n.SalaryStep, new SelectList((IEnumerable<SelectListItem>)ViewBag.SalaryStep, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-2">
                                     <div class="form-group bmd-form-group">
                                         @Html.Label("เงินเดือน", null, new { @class = "bmd-label-floating" })
                                         @Html.TextBoxFor(m => m.Salary, new { @class = "form-control" })
@@ -370,7 +319,7 @@
                             </div>
                             <h4 class="card-title"><span>ตำแหน่ง / สังกัด (รักษาการ)</span></h4>
                         </div>
-                        <div class="card-body  m-b-20">
+                        <div class="card-body m-b-20">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -378,7 +327,7 @@
                                         @Html.DropDownListFor(n => n.PoTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.PositionType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-8">
                                     <div class="form-group">
                                         @Html.Label("ตำแหน่ง", null, new { @class = "label-select" })
                                         @Html.DropDownListFor(n => n.AgentPoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.AgentPosition, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
@@ -419,7 +368,7 @@
                             </div>
                             <h4 class="card-title"><span>ที่อยู่ปัจจุบัน</span></h4>
                         </div>
-                        <div class="card-body  m-b-20">
+                        <div class="card-body m-b-20">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -551,12 +500,13 @@
 
             <div class="row">
                 <div class="ml-auto mr-auto">
-                    <button type="submit" class="btn" id="btnBack">ย้อนกลับ</button>
-                    <button type="submit" class="btn btn-danger" id="btnDelete">ลบ</button>
-                    <button class="btn btn-primary" type="submit" id="btnSave">บันทึก</button>
+                    <button type="button" class="btn btn-back">ย้อนกลับ</button>
+                    <button type="button" class="btn btn-danger del-employee">ลบ</button>
+                    <button type="button" class="btn btn-primary save-employee">บันทึก</button>
                 </div>
             </div>
 
         </div>
     </div>
 </div>
+}
