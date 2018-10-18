@@ -53,6 +53,7 @@
     <EntitySet Name="tb_Education" EntityType="SAT.HR.tb_Education" />
     <EntitySet Name="tb_Empower" EntityType="SAT.HR.tb_Empower" />
     <EntitySet Name="tb_Excellent_Type" EntityType="SAT.HR.tb_Excellent_Type" />
+    <EntitySet Name="tb_Family_Type" EntityType="SAT.HR.tb_Family_Type" />
     <EntitySet Name="tb_Holiday" EntityType="SAT.HR.tb_Holiday" />
     <EntitySet Name="tb_Insignia" EntityType="SAT.HR.tb_Insignia" />
     <EntitySet Name="tb_Leave_Type" EntityType="SAT.HR.tb_Leave_Type" />
@@ -397,7 +398,6 @@
       <End Role="tb_Working_Type" EntitySet="tb_Working_Type" />
       <End Role="tb_User" EntitySet="tb_User" />
     </AssociationSet>
-    <EntitySet Name="tb_Family_Type" EntityType="SAT.HR.tb_Family_Type" />
   </EntityContainer>
   <ComplexType Name="sp_Menu_GetByUser_Result">
     <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -899,6 +899,13 @@
     <Property Name="ExID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="ExName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="tb_User_Excellent" Relationship="SAT.HR.FK_tb_User_Excellent_tb_Excellent_Type" FromRole="tb_Excellent_Type" ToRole="tb_User_Excellent" />
+  </EntityType>
+  <EntityType Name="tb_Family_Type">
+    <Key>
+      <PropertyRef Name="FamTID" />
+    </Key>
+    <Property Name="FamTID" Type="Int32" Nullable="false" />
+    <Property Name="FamTName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="tb_Holiday">
     <Key>
@@ -2622,11 +2629,4 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="tb_Family_Type">
-    <Key>
-      <PropertyRef Name="FamTID" />
-    </Key>
-    <Property Name="FamTID" Type="Int32" Nullable="false" />
-    <Property Name="FamTName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-  </EntityType>
 </Schema>

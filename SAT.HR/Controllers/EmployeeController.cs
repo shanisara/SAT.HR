@@ -90,11 +90,11 @@ namespace SAT.HR.Controllers
             return Json(null, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult DeleteEmployee(int id)
-        {
-            var result = new EmployeeRepository().DeleteEmployee(id);
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
+        //public JsonResult DeleteEmployee(int id)
+        //{
+        //    var result = new EmployeeRepository().DeleteEmployee(id);
+        //    return Json(result, JsonRequestBehavior.AllowGet);
+        //}
 
 
         #region Partial
@@ -153,11 +153,6 @@ namespace SAT.HR.Controllers
             return PartialView("_History", model);
         }
 
-        public ActionResult Remuneration(int id)
-        {
-            var model = new EmployeeRepository().GetUserRemuneration(id);
-            return PartialView("_Remuneration", model);
-        }
 
         #endregion
 

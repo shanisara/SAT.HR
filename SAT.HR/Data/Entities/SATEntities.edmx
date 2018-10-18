@@ -1025,6 +1025,16 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Menu_Role' does not have a prim
           <Property Name="R_Delete" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Level' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Level">
+          <Property Name="Level" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Step' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Step">
+          <Property Name="Step" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Section">
           <Key>
@@ -2708,6 +2718,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
           <EntitySet Name="tb_Education" EntityType="SAT.HR.tb_Education" />
           <EntitySet Name="tb_Empower" EntityType="SAT.HR.tb_Empower" />
           <EntitySet Name="tb_Excellent_Type" EntityType="SAT.HR.tb_Excellent_Type" />
+          <EntitySet Name="tb_Family_Type" EntityType="SAT.HR.tb_Family_Type" />
           <EntitySet Name="tb_Holiday" EntityType="SAT.HR.tb_Holiday" />
           <EntitySet Name="tb_Insignia" EntityType="SAT.HR.tb_Insignia" />
           <EntitySet Name="tb_Leave_Type" EntityType="SAT.HR.tb_Leave_Type" />
@@ -3052,7 +3063,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
             <End Role="tb_Working_Type" EntitySet="tb_Working_Type" />
             <End Role="tb_User" EntitySet="tb_User" />
           </AssociationSet>
-          <EntitySet Name="tb_Family_Type" EntityType="SAT.HR.tb_Family_Type" />
           </EntityContainer>
         <ComplexType Name="sp_Menu_GetByUser_Result">
           <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -3554,6 +3564,13 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
           <Property Name="ExID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ExName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tb_User_Excellent" Relationship="SAT.HR.FK_tb_User_Excellent_tb_Excellent_Type" FromRole="tb_Excellent_Type" ToRole="tb_User_Excellent" />
+        </EntityType>
+        <EntityType Name="tb_Family_Type">
+          <Key>
+            <PropertyRef Name="FamTID" />
+          </Key>
+          <Property Name="FamTID" Type="Int32" Nullable="false" />
+          <Property Name="FamTName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="tb_Holiday">
           <Key>
@@ -5277,13 +5294,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="tb_Family_Type">
-          <Key>
-            <PropertyRef Name="FamTID" />
-          </Key>
-          <Property Name="FamTID" Type="Int32" Nullable="false" />
-          <Property Name="FamTName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5776,6 +5786,14 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
               <MappingFragment StoreEntitySet="tb_Excellent_Type">
                 <ScalarProperty Name="ExName" ColumnName="ExName" />
                 <ScalarProperty Name="ExID" ColumnName="ExID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Family_Type">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Family_Type">
+              <MappingFragment StoreEntitySet="tb_Family_Type">
+                <ScalarProperty Name="FamTName" ColumnName="FamTName" />
+                <ScalarProperty Name="FamTID" ColumnName="FamTID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6542,14 +6560,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
                 <ScalarProperty Name="RoleDesc" ColumnName="RoleDesc" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tb_Family_Type">
-            <EntityTypeMapping TypeName="SAT.HR.tb_Family_Type">
-              <MappingFragment StoreEntitySet="tb_Family_Type">
-                <ScalarProperty Name="FamTName" ColumnName="FamTName" />
-                <ScalarProperty Name="FamTID" ColumnName="FamTID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -50,9 +50,9 @@ namespace SAT.HR.Data.Repository
                     SecID = s.SecID,
                     SecName = s.SecName,
                     SecStatus = s.SecStatus,
-                    DivID = s.DivID,
+                    DivID = (int)s.DivID,
                     DivName = s.DivName,
-                    DepID = s.DepID,
+                    DepID = (int)s.DepID,
                     DepName = s.DepName,
                     Status = s.SecStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive
                 }).Skip(start * length).Take(length).ToList();
@@ -76,9 +76,9 @@ namespace SAT.HR.Data.Repository
                     SecID = m.SecID,
                     SecName = m.SecName,
                     SecStatus = m.SecStatus,
-                    DivID = m.DivID,
+                    DivID = (int)m.DivID,
                     DivName = m.DivName,
-                    DepID = m.DepID,
+                    DepID = (int)m.DepID,
                     DepName = m.DepName,
                 }).OrderBy(x => x.SecName).ToList();
                 return list;
@@ -112,8 +112,8 @@ namespace SAT.HR.Data.Repository
                     model.SecID = data.SecID;
                     model.SecName = data.SecName;
                     model.SecStatus = (data.Status == "1") ? true : false;
-                    model.DivID = data.DivID;
-                    model.DepID = data.DepID;
+                    model.DivID = (int)data.DivID;
+                    model.DepID = (int)data.DepID;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;

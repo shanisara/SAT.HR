@@ -14,10 +14,10 @@ namespace SAT.HR.Data.Entities
     
     public partial class vw_Section
     {
-        public int DivID { get; set; }
+        public Nullable<int> DivID { get; set; }
         public string DivName { get; set; }
         public Nullable<bool> DivStatus { get; set; }
-        public int DepID { get; set; }
+        public Nullable<int> DepID { get; set; }
         public string DepName { get; set; }
         public Nullable<bool> DepStatus { get; set; }
         public int SecID { get; set; }
