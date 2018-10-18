@@ -49,7 +49,7 @@ namespace SAT.HR.Data.Repository
                     DivID = s.DivID,
                     DivName = s.DivName,
                     DepStatus = (bool)s.DepStatus,
-                    Status = s.DepStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive
+                    Status = s.DepStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive
                 }).Skip(start * length).Take(length).ToList();
 
 
@@ -88,7 +88,7 @@ namespace SAT.HR.Data.Repository
                 model.DepID = data.DepID;
                 model.DepName = data.DepName;
                 model.DepStatus = (bool)data.DepStatus;
-                model.Status = data.DepStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive;
+                model.Status = data.DepStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive;
                 model.DivID = data.DivID;
                 return model;
             }

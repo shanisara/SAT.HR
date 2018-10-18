@@ -50,7 +50,7 @@ namespace SAT.HR.Data.Repository
                     TiStatus = s.TiStatus,
                     SexID = s.SexID,
                     SexName = s.SexName,
-                    Status = s.TiStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive
+                    Status = s.TiStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive
                 }).Skip(start * length).Take(length).ToList();
 
                 TitleResult result = new TitleResult();
@@ -90,7 +90,7 @@ namespace SAT.HR.Data.Repository
                 model.TiShortName = data.TiShortName;
                 model.TiStatus = data.TiStatus;
                 model.SexID = data.SexID;
-                model.Status = data.TiStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive;
+                model.Status = data.TiStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive;
                 return model;
             }
         }

@@ -9,8 +9,7 @@ using System.Web.Mvc;
 
 namespace SAT.HR.Controllers
 {
-    [AuthorizeUser]
-    public class EmployeeController : Controller
+    public class EmployeeController : BaseController
     {
         #region 1. ทะเบียนประวัติ
 
@@ -24,10 +23,30 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult Detail(int userid, int id)
+        [HttpPost]
+        public JsonResult Index(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
-            EmployeeViewModel model = new EmployeeViewModel();
-            model = new EmployeeRepository().GetByID(id);
+            var search = Request["search[value]"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
+            var dataTableData = new EmployeeRepository().GetPage(search, draw, start, length, dir, column);
+            return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+
+        #endregion
+
+        #region 1.1 Tab: User-Employee
+
+        public ActionResult Employee(int id)
+        {
+            var model = new EmployeeRepository().GetByID(id);
+            return PartialView("_Employee", model);
+        }
+
+        public ActionResult Detail(int id)
+        {
+            EmployeeViewModel model = new EmployeeRepository().GetByID(id);
 
             ViewBag.UserTitle = DropDownList.GetTitle(model.SexID, model.TitleID, true);
             ViewBag.Sex = DropDownList.GetSex(model.SexID);
@@ -73,25 +92,6 @@ namespace SAT.HR.Controllers
         }
 
         [HttpPost]
-        public JsonResult Index(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
-        {
-            var search = Request["search[value]"];
-            var dir = order[0]["dir"].ToLower();
-            var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new EmployeeRepository().GetPage(search, draw, start, length, dir, column);
-            return Json(dataTableData, JsonRequestBehavior.AllowGet);
-        }
-
-        #endregion
-
-        #region Tab: User-Employee
-
-        public ActionResult Employee(int id)
-        {
-            var model = new EmployeeRepository().GetByID(id);
-            return PartialView("_Employee", model);
-        }
-
         public JsonResult SaveEmployee(EmployeeViewModel data)
         {
             ResponseData result = new Models.ResponseData();
@@ -110,18 +110,29 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region Tab: User-Family
+        #region 1.2 Tab: User-Family
 
-        public ActionResult FamilyDetail(int id)
+        public ActionResult FamilyByUser(int id)
         {
-            var model = new EmployeeRepository().GetUserFamily(id);
+            var model = new EmployeeRepository().GetFamilyByUser(id);
+            return PartialView("_Family", model);
+        }
+
+        public ActionResult FamilyDetail(int userid, int recid)
+        {
+            var model = new EmployeeRepository().GetFamilyByID(userid, recid);
+
+            ViewBag.MaritalStatus = DropDownList.GetMaritalStatus(model != null ? model.MaritalStatusID : null);
+            ViewBag.Occupation = DropDownList.GetOccupation(model != null ? model.OcID : null);
+            ViewBag.Position = DropDownList.GetPosition(model != null ? model.PoID : null, true);
+
             return PartialView("_FamilyDetail", model);
         }
 
         public JsonResult SaveFamily(UserFamilyViewModel data)
         {
             ResponseData result = new Models.ResponseData();
-            if (data.UserID != 0)
+            if (data.UfID != 0)
                 result = new EmployeeRepository().UpdateFamilyeByEntity(data);
             else
                 result = new EmployeeRepository().AddFamilyByEntity(data);
@@ -136,11 +147,17 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region Tab: User-Education
+        #region 1.3 Tab: User-Education
+
+        public ActionResult EducationByUser(int id)
+        {
+            var model = new EmployeeRepository().GetEducationByUser(id);
+            return PartialView("_Education", model);
+        }
 
         public ActionResult EducationDetail(int id)
         {
-            var model = new EmployeeRepository().GetUserEducation(id);
+            var model = new EmployeeRepository().GetEducationByID(id);
             return PartialView("_EducationDetail", model);
         }
 
@@ -162,11 +179,17 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region Tab: User-Position
+        #region 1.4 Tab: User-Position
+
+        public ActionResult PositionByUser(int id)
+        {
+            var model = new EmployeeRepository().GetPositionByUser(id);
+            return PartialView("_Position", model);
+        }
 
         public ActionResult PositionDetail(int id)
         {
-            var model = new EmployeeRepository().GetUserPosition(id);
+            var model = new EmployeeRepository().GetPositionByID(id);
             return PartialView("_PositionDetail", model);
         }
 
@@ -189,11 +212,17 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region Tab: User-Trainning
+        #region 1.5 Tab: User-Trainning
+
+        public ActionResult TrainningByUser(int id)
+        {
+            var model = new EmployeeRepository().GetTrainningByUser(id);
+            return PartialView("_Trainning", model);
+        }
 
         public ActionResult TrainningDetail(int id)
         {
-            var model = new EmployeeRepository().GetUserTrainning(id);
+            var model = new EmployeeRepository().GetTrainningByID(id);
             return PartialView("_TrainningDetail", model);
         }
 
@@ -216,11 +245,17 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region Tab: User-Insignia
+        #region 1.6 Tab: User-Insignia
+
+        public ActionResult InsigniaByUser(int id)
+        {
+            var model = new EmployeeRepository().GetInsigniaByUser(id);
+            return PartialView("_Insignia", model);
+        }
 
         public ActionResult InsigniaDetail(int id)
         {
-            var model = new EmployeeRepository().GetUserInsignia(id);
+            var model = new EmployeeRepository().GetInsigniaByID(id);
             return PartialView("_InsigniaDetail", model);
         }
 
@@ -243,11 +278,17 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region Tab: User-Excellent
+        #region 1.7 Tab: User-Excellent
+
+        public ActionResult ExcellentByUser(int id)
+        {
+            var model = new EmployeeRepository().GetExcellentByUser(id);
+            return PartialView("_Excellent", model);
+        }
 
         public ActionResult ExcellentDetail(int id)
         {
-            var model = new EmployeeRepository().GetUserExcellent(id);
+            var model = new EmployeeRepository().GetExcellentByID(id);
             return PartialView("_ExcellentDetail", model);
         }
 
@@ -270,11 +311,17 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region Tab: User-Certificate
+        #region 1.8 Tab: User-Certificate
+
+        public ActionResult CertificateByUser(int id)
+        {
+            var model = new EmployeeRepository().GetCertificateByUser(id);
+            return PartialView("_Certificate", model);
+        }
 
         public ActionResult CertificateDetail(int id)
         {
-            var model = new EmployeeRepository().GetUserCertificate(id);
+            var model = new EmployeeRepository().GetCertificateByUser(id);
             return PartialView("_CertificateDetail", model);
         }
 
@@ -296,11 +343,17 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region Tab: User-History
+        #region 1.9 Tab: User-History
+
+        public ActionResult HistoryByUser(int id)
+        {
+            var model = new EmployeeRepository().GetHistoryByUser(id);
+            return PartialView("_History", model);
+        }
 
         public ActionResult HistoryDetail(int id)
         {
-            var model = new EmployeeRepository().GetUserHistory(id);
+            var model = new EmployeeRepository().GetHistoryByID(id);
             return PartialView("_HistoryDetail", model);
         }
 
@@ -347,7 +400,7 @@ namespace SAT.HR.Controllers
         {
             return View();
         }
-        
+
         public ActionResult _EmployeeTransferDetail()
         {
             return PartialView("_EmployeeTransferDetail");

@@ -44,7 +44,7 @@ namespace SAT.HR.Data.Repository
                     MajID = s.MajID,
                     MajName = s.MajName,
                     MajStatus = s.MajStatus,
-                    Status = s.MajStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive
+                    Status = s.MajStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive
                 }).Skip(start * length).Take(length).ToList();
 
                 MajorResult result = new MajorResult();
@@ -80,7 +80,7 @@ namespace SAT.HR.Data.Repository
                 model.MajID = data.MajID;
                 model.MajName = data.MajName;
                 model.MajStatus = data.MajStatus;
-                model.Status = data.MajStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive;
+                model.Status = data.MajStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive;
                 return model;
             }
         }

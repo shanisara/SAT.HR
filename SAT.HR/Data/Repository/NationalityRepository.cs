@@ -44,7 +44,7 @@ namespace SAT.HR.Data.Repository
                     NatID = s.NatID,
                     NatName = s.NatName,
                     NatStatus = s.NatStatus,
-                    Status = s.NatStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive
+                    Status = s.NatStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive
                 }).Skip(start * length).Take(length).ToList();
 
                 NationalityResult result = new NationalityResult();
@@ -80,7 +80,7 @@ namespace SAT.HR.Data.Repository
                 model.NatID = data.NatID;
                 model.NatName = data.NatName;
                 model.NatStatus = data.NatStatus;
-                model.Status = data.NatStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive;
+                model.Status = data.NatStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive;
                 return model;
             }
         }

@@ -13,8 +13,7 @@ using System.Web.Security;
 
 namespace SAT.HR.Controllers
 {
-    [AuthorizeUser]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public ActionResult Index()
         {
@@ -61,20 +60,21 @@ namespace SAT.HR.Controllers
                     }
                     else
                     {
-                        UserProfile obj = new Models.UserProfile();
-                        obj.UserID = emp.UserID;
-                        obj.UserName = emp.UserName;
-                        obj.DivID = emp.DivID;
-                        obj.DivName = emp.DivName;
-                        obj.DepID = emp.DepID;
-                        obj.DepName = emp.DepName;
-                        obj.SecID = emp.SecID;
-                        obj.SecName = emp.SecName;
-                        obj.PoID = emp.PoID;
-                        obj.PoName = emp.PoName;
-                        obj.FullName = emp.FullName;
-                        obj.Avatar = !string.IsNullOrEmpty(emp.Avatar) ? emp.Avatar : "avatar.png";
-                        UtilityService.User = obj;
+                        FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
+                                                                      1,                        // version
+                                                                      emp.UserID.ToString(),    // userud
+                                                                      DateTime.Now,             // created
+                                                                      DateTime.Now.AddDays(/*FormsAuthentication.Timeout*/1.0),   // expires
+                                                                      true,                     // rememberMe?
+                                                                      emp.RoleID.ToString()     // can be used to store roles
+                                                                      );
+                        string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
+                        string[] role = authTicket.UserData.Split(new Char[] { '|' });
+                        HttpCookie authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+                        Response.Cookies.Add(authCookie);
+                        System.Web.HttpContext.Current.User = new System.Security.Principal.GenericPrincipal(new FormsIdentity(authTicket), role);
+                        UtilityService.User = emp;
+                        //UtilityService.MenuInfo = new PermissionModels().DoloadMenu(DebtCollection.Common.AppUtils.UserInfo.UserRoleId/*, DebtCollection.Common.AppUtils.UserInfo.Userid*/);
                     }
                 }
                 else
@@ -92,6 +92,26 @@ namespace SAT.HR.Controllers
             return Json(new { MessageCode = result.MessageCode, MessageText = result.MessageText }, JsonRequestBehavior.AllowGet);
         }
 
-
+        public ActionResult Error()
+        {
+            var raisedException = (Exception)Session["ErrorException"];
+            ViewBag.Message = string.Empty;
+            ViewBag.StackTrace = string.Empty;
+            if (raisedException != null)
+            {
+                ViewBag.Message = raisedException.Message;
+                int i = raisedException.StackTrace.LastIndexOf("lambda_method");
+                if (i != -1)
+                {
+                    ViewBag.StackTrace = raisedException.StackTrace.Substring(0, i - 3).Replace("\r\n", "<br/>");
+                    ViewBag.StackTrace += "<br/>" + raisedException.TargetSite.ToString();
+                }
+                else
+                {
+                    ViewBag.StackTrace = raisedException.StackTrace;
+                }
+            }
+            return View();
+        }
     }
 }

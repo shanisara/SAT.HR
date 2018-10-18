@@ -41,7 +41,7 @@ namespace SAT.HR.Data.Repository
                     InsID = s.InsID,
                     InsFullName = s.InsFullName,
                     InsShortName = s.InsShortName,
-                    Status = s.InsStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive
+                    Status = s.InsStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive
                 }).Skip(start * length).Take(length).ToList();
 
 
@@ -80,7 +80,7 @@ namespace SAT.HR.Data.Repository
                 model.InsFullName = data.InsFullName;
                 model.InsShortName = data.InsShortName;
                 model.InsStatus = data.InsStatus;
-                model.Status = data.InsStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive;
+                model.Status = data.InsStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive;
                 return model;
             }
         }

@@ -7,8 +7,7 @@ using System.Web.Mvc;
 
 namespace SAT.HR.Controllers
 {
-    [AuthorizeUser]
-    public class HumanResourceController : Controller
+    public class HumanResourceController : BaseController
     {
         // ระบบพัฒนาบุคลากร
         #region  บันทึกข้อมูลสมรรถนะ

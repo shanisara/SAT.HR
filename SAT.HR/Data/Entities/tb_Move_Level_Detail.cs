@@ -12,26 +12,17 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_Move_Level_Head
+    public partial class tb_Move_Level_Detail
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tb_Move_Level_Head()
-        {
-            this.tb_Move_Level_Detail = new HashSet<tb_Move_Level_Detail>();
-        }
-    
         public int MlID { get; set; }
-        public string MlBookCmd { get; set; }
-        public Nullable<System.DateTime> MlDateCmd { get; set; }
-        public string MlSignatory { get; set; }
-        public string MIPathFile { get; set; }
-        public Nullable<bool> MlStatus { get; set; }
+        public int EmpID { get; set; }
+        public Nullable<decimal> MlLevel { get; set; }
+        public Nullable<decimal> MlStep { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Move_Level_Detail> tb_Move_Level_Detail { get; set; }
+        public virtual tb_Move_Level_Head tb_Move_Level_Head { get; set; }
     }
 }

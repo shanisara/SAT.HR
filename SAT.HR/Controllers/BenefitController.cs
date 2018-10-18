@@ -8,8 +8,7 @@ using System.Web.Mvc;
 
 namespace SAT.HR.Controllers
 {
-    [AuthorizeUser]
-    public class BenefitController : Controller
+    public class BenefitController : BaseController
     {
         // ระบบสวัสดิการ
         public ActionResult Index()

@@ -11,20 +11,18 @@ namespace SAT.HR.Data.Repository
 {
     public class EmployeeRepository
     {
-        public EmployeeViewModel Login(string username, string password)
+        public UserProfile Login(string username, string password)
         {
-            var data = new EmployeeViewModel();
+            var data = new UserProfile();
             try
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    data = db.vw_User.Where(m => m.UserName == username && m.Password == password).Select(s => new EmployeeViewModel()
+                    data = db.vw_User.Where(m => m.UserName == username && m.Password == password).Select(s => new UserProfile()
                     {
                         UserID = s.UserID,
                         UserName = s.UserName,
-                        Password = s.Password,
-                        FirstNameTh = s.FirstNameTh,
-                        LastNameTh = s.LastNameTh,
+                        FullName = s.FirstNameTh + " " + s.LastNameTh,
                         DivID = s.DivID,
                         DivName = s.DivName,
                         DepID = s.DepID,
@@ -33,9 +31,10 @@ namespace SAT.HR.Data.Repository
                         SecName = s.SecName,
                         PoID = s.PoID,
                         PoName = s.PoName,
-                        IsActive = s.IsActive,
-                        FullName = s.FirstNameTh + " " + s.LastNameTh,
                         Avatar = s.Avatar,
+                        IsActive = s.IsActive,
+                        RoleID = 1,
+                        RoleName = "Admin"
                     }).FirstOrDefault();
                 }
             }
@@ -45,6 +44,28 @@ namespace SAT.HR.Data.Repository
                 throw;
             }
             return data;
+        }
+
+        public UserProfile LoginByID(int userid)
+        {
+            var data = GetByID(userid);
+            UserProfile model = new Models.UserProfile();
+            model.UserID = data.UserID;
+            model.UserName = data.UserName;
+            model.FullName = data.FullName;
+            model.DivID = data.DivID;
+            model.DivName = data.DivName;
+            model.DepID = data.DepID;
+            model.DepName = data.DepName;
+            model.SecID = data.SecID;
+            model.SecName = data.SecName;
+            model.PoID = data.PoID;
+            model.PoName = data.PoName;
+            model.Avatar = !string.IsNullOrEmpty(data.Avatar) ? data.Avatar : "avatar.png";
+            model.IsActive = data.IsActive;
+            model.RoleID = 1;
+            model.RoleName = "Admin";
+            return model;
         }
 
         public EmployeePageResult GetUserNotInUserRole(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
@@ -175,41 +196,41 @@ namespace SAT.HR.Data.Repository
             return result;
         }
 
-        public List<EmployeeViewModel> GetAll()
-        {
-            var list = new List<EmployeeViewModel>();
+        //public List<EmployeeViewModel> GetAll()
+        //{
+        //    var list = new List<EmployeeViewModel>();
 
-            try
-            {
-                using (SATEntities db = new SATEntities())
-                {
-                    list = db.vw_User.Select(s => new EmployeeViewModel()
-                    {
-                        UserID = s.UserID,
-                        UserName = s.UserName,
-                        Password = s.Password,
-                        FirstNameTh = s.FirstNameTh,
-                        LastNameTh = s.LastNameTh,
-                        DivID = s.DivID,
-                        DivName = s.DivName,
-                        DepID = s.DepID,
-                        DepName = s.DepName,
-                        SecID = s.SecID,
-                        SecName = s.SecName,
-                        PoID = s.PoID,
-                        PoName = s.PoName,
-                    })
-                    .OrderBy(x => x.UserName).ToList();
-                }
-            }
-            catch (Exception)
-            {
+        //    try
+        //    {
+        //        using (SATEntities db = new SATEntities())
+        //        {
+        //            list = db.vw_User.Select(s => new EmployeeViewModel()
+        //            {
+        //                UserID = s.UserID,
+        //                UserName = s.UserName,
+        //                Password = s.Password,
+        //                FirstNameTh = s.FirstNameTh,
+        //                LastNameTh = s.LastNameTh,
+        //                DivID = s.DivID,
+        //                DivName = s.DivName,
+        //                DepID = s.DepID,
+        //                DepName = s.DepName,
+        //                SecID = s.SecID,
+        //                SecName = s.SecName,
+        //                PoID = s.PoID,
+        //                PoName = s.PoName,
+        //            })
+        //            .OrderBy(x => x.UserName).ToList();
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
 
-                throw;
-            }
+        //        throw;
+        //    }
 
-            return list;
-        }
+        //    return list;
+        //}
 
         public EmployeeViewModel GetByID(int id)
         {
@@ -482,14 +503,14 @@ namespace SAT.HR.Data.Repository
 
         #region Tab: User-Family
 
-        public UserFamilyViewModel GetUserFamily(int userid)
+        public UserFamilyViewModel GetFamilyByUser(int id)
         {
             UserFamilyViewModel data = new UserFamilyViewModel();
             try
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    var listFather = db.vw_User_Family.Where(w => w.UserID == userid && w.RecID == 2).Select(s => new UserFamilyViewModel
+                    var listFather = db.vw_User_Family.Where(w => w.UserID == id && w.RecID == 2).Select(s => new UserFamilyViewModel
                     {
                         #region Father
 
@@ -510,7 +531,7 @@ namespace SAT.HR.Data.Repository
                         #endregion
                     }).ToList();
 
-                    var listMother = db.vw_User_Family.Where(w => w.UserID == userid && w.RecID == 3).Select(s => new UserFamilyViewModel
+                    var listMother = db.vw_User_Family.Where(w => w.UserID == id && w.RecID == 3).Select(s => new UserFamilyViewModel
                     {
                         #region Mother
 
@@ -531,7 +552,7 @@ namespace SAT.HR.Data.Repository
                         #endregion
                     }).ToList();
 
-                    var listSpouse = db.vw_User_Family.Where(w => w.UserID == userid && w.RecID == 4).Select(s => new UserFamilyViewModel
+                    var listSpouse = db.vw_User_Family.Where(w => w.UserID == id && w.RecID == 4).Select(s => new UserFamilyViewModel
                     {
                         #region Spouse
 
@@ -553,7 +574,7 @@ namespace SAT.HR.Data.Repository
                         #endregion
                     }).ToList();
 
-                    var listChild = db.vw_User_Family.Where(w => w.UserID == userid && w.RecID == 5).Select(s => new UserFamilyViewModel
+                    var listChild = db.vw_User_Family.Where(w => w.UserID == id && w.RecID == 5).Select(s => new UserFamilyViewModel
                     {
                         #region Child
 
@@ -570,6 +591,7 @@ namespace SAT.HR.Data.Repository
                         #endregion
                     }).ToList();
 
+                    data.UserID = id;
                     data.ListFather = listFather;
                     data.ListMother = listMother;
                     data.ListSpouse = listSpouse;
@@ -580,6 +602,45 @@ namespace SAT.HR.Data.Repository
             {
 
             }
+            return data;
+        }
+
+        public UserFamilyViewModel GetFamilyByID(int userid, int recid)
+        {
+            UserFamilyViewModel data = new UserFamilyViewModel();
+            data.UserID = userid;
+            data.RecID = recid;
+
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var model = db.tb_User_Family.Where(x => x.UfID == userid).Select(s => new UserFamilyViewModel
+                    {
+                        UfID = s.UfID,
+                        UserID = s.UserID,
+                        UfName = s.UfName,
+                        UfCardID = s.UfCardID,
+                        UfDOB = s.UfDOB,
+                        UfLifeStatus = s.UfLifeStatus,
+                        TdID = s.TdID,
+                        PoID = s.PoID,
+                        UfWeddingDate = s.UfWeddingDate,
+                        DivorceDate = s.DivorceDate,
+                        MaritalStatusID = s.MaritalStatusID,
+                        UfStudyStatus = s.UfStudyStatus,
+                        RecID = s.RecID,
+                    }).FirstOrDefault();
+
+                    if (model != null)
+                        data = model;
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+            
             return data;
         }
 
@@ -599,9 +660,9 @@ namespace SAT.HR.Data.Repository
                     model.UfLifeStatus = data.UfLifeStatus;
                     model.TdID = data.TdID;
                     model.PoID = data.PoID;
-                    //model.WeddingDate = data.WeddingDate;
-                    //model.DivorceDate = data.DivorceDate;
-                    //model.MaritalID = data.MaritalID;
+                    model.UfWeddingDate = data.UfWeddingDate;
+                    model.DivorceDate = data.DivorceDate;
+                    model.MaritalStatusID = data.MaritalStatusID;
                     model.UfStudyStatus = data.UfStudyStatus;
                     model.RecID = data.RecID;
                     model.CreateBy = UtilityService.User.UserID;
@@ -677,14 +738,14 @@ namespace SAT.HR.Data.Repository
 
         #region Tab: User-Education
 
-        public List<UserEducationViewModel> GetUserEducation(int userid)
+        public List<UserEducationViewModel> GetEducationByUser(int userid)
         {
             var model = new List<UserEducationViewModel>();
             try
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    model = db.tb_User_Education.Where(x => x.UserID == userid).Select(s => new UserEducationViewModel
+                    model = db.vw_User_Education.Where(x => x.UserID == userid).Select(s => new UserEducationViewModel
                     {
 
                     }).ToList();
@@ -696,6 +757,35 @@ namespace SAT.HR.Data.Repository
                 throw;
             }
             return model;
+        }
+
+        public UserEducationViewModel GetEducationByID(int id)
+        {
+            UserEducationViewModel data = new UserEducationViewModel();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var model = db.tb_User_Education.Where(x => x.UeID == id).Select(s => new UserEducationViewModel
+                    {
+                        UeID = s.UeID,
+                        UserID = s.UserID,
+                        EduID = s.EduID,
+                        DegID = s.DegID,
+                        MajID = s.MajID,
+                        UeInstituteName = s.UeInstituteName,
+                        CountryID = s.CountryID,
+                        UeGraduationDate = s.UeGraduationDate,
+                        UeGPA = s.UeGPA,
+                        UeEduType = s.UeEduType
+                    }).FirstOrDefault();
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+            return data;
         }
 
         public ResponseData AddEducationByEntity(UserEducationViewModel data)
@@ -786,14 +876,14 @@ namespace SAT.HR.Data.Repository
 
         #region Tab: User-Position
 
-        public List<UserPositionViewModel> GetUserPosition(int userid)
+        public List<UserPositionViewModel> GetPositionByUser(int userid)
         {
             var model = new List<UserPositionViewModel>();
             try
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    model = db.tb_User_Position.Where(x => x.UserID == userid).Select(s => new UserPositionViewModel
+                    model = db.vw_User_Position.Where(x => x.UserID == userid).Select(s => new UserPositionViewModel
                     {
 
                     }).ToList();
@@ -805,6 +895,41 @@ namespace SAT.HR.Data.Repository
                 throw;
             }
             return model;
+        }
+
+        public UserPositionViewModel GetPositionByID(int id)
+        {
+            UserPositionViewModel data = new UserPositionViewModel();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var model = db.tb_User_Position.Where(x => x.UpID == id).Select(s => new UserPositionViewModel
+                    {
+                        UpID = s.UpID,
+                        UserID = s.UserID,
+                        ActID = s.ActID,
+                        UpCmd = s.UpCmd,
+                        PoTID = s.PoTID,
+                        DivID = s.DivID,
+                        DepID = s.DepID,
+                        SecID = s.SecID,
+                        PoID = s.PoID,
+                        PoAID = s.PoAID,
+                        UpLevel = s.UpLevel,
+                        UpSalary = s.UpSalary,
+                        UpCmdDate = s.UpCmdDate,
+                        UpForceDate = s.UpForceDate,
+                        UpRemark = s.UpRemark,
+                        UpPathFile = s.UpPathFile,
+                    }).FirstOrDefault();
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+            return data;
         }
 
         public ResponseData AddPositionByEntity(UserPositionViewModel data)
@@ -907,14 +1032,14 @@ namespace SAT.HR.Data.Repository
 
         #region Tab: User-Trainning
 
-        public List<UserTrainningViewModel> GetUserTrainning(int userid)
+        public List<UserTrainningViewModel> GetTrainningByUser(int userid)
         {
             var model = new List<UserTrainningViewModel>();
             try
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    model = db.tb_User_Training.Where(x => x.UserID == userid).Select(s => new UserTrainningViewModel
+                    model = db.vw_User_Training.Where(x => x.UserID == userid).Select(s => new UserTrainningViewModel
                     {
 
                     }).ToList();
@@ -926,6 +1051,32 @@ namespace SAT.HR.Data.Repository
                 throw;
             }
             return model;
+        }
+
+        public UserTrainningViewModel GetTrainningByID(int id)
+        {
+            UserTrainningViewModel data = new UserTrainningViewModel();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var model = db.tb_User_Training.Where(x => x.UtID == id).Select(s => new UserTrainningViewModel
+                    {
+                        UtID = s.UtID,
+                        UserID = s.UserID,
+                        TtID = s.TtID,
+                        CountryID = s.CountryID,
+                        UtCourse = s.UtCourse,
+                        UtStartDate = s.UtStartDate,
+                        UtEndDate = s.UtEndDate,
+                    }).FirstOrDefault();
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+            return data;
         }
 
         public ResponseData AddTrainingByEntity(UserTrainningViewModel data)
@@ -1010,14 +1161,14 @@ namespace SAT.HR.Data.Repository
 
         #region Tab: User-Insignia
 
-        public List<UserInsigniaViewModel> GetUserInsignia(int userid)
+        public List<UserInsigniaViewModel> GetInsigniaByUser(int userid)
         {
             var model = new List<UserInsigniaViewModel>();
             try
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    model = db.tb_User_Insignia.Where(x => x.UserID == userid).Select(s => new UserInsigniaViewModel
+                    model = db.vw_User_Insignia.Where(x => x.UserID == userid).Select(s => new UserInsigniaViewModel
                     {
 
                     }).ToList();
@@ -1029,6 +1180,36 @@ namespace SAT.HR.Data.Repository
                 throw;
             }
             return model;
+        }
+
+        public UserInsigniaViewModel GetInsigniaByID(int id)
+        {
+            UserInsigniaViewModel data = new UserInsigniaViewModel();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var model = db.tb_User_Insignia.Where(x => x.UiID == id).Select(s => new UserInsigniaViewModel
+                    {
+                        UiID = s.UiID,
+                        UserID = s.UserID,
+                        InsID = s.InsID,
+                        UiYear = s.UiYear,
+                        UiBook = s.UiBook,
+                        UiPart = s.UiPart,
+                        UiPage = s.UiPage,
+                        UiRecDate = s.UiRecDate,
+                        UiRetDate = s.UiRetDate,
+                        UiCmd = s.UiCmd,
+                        UiPartFile = s.UiPartFile,
+                    }).FirstOrDefault();
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+            return data;
         }
 
         public ResponseData AddInsigniaByEntity(UserInsigniaViewModel data)
@@ -1121,14 +1302,14 @@ namespace SAT.HR.Data.Repository
 
         #region Tab: User-Excellent
 
-        public List<UserExcellentViewModel> GetUserExcellent(int userid)
+        public List<UserExcellentViewModel> GetExcellentByUser(int userid)
         {
             var model = new List<UserExcellentViewModel>();
             try
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    model = db.tb_User_Excellent.Where(x => x.UserID == userid).Select(s => new UserExcellentViewModel
+                    model = db.vw_User_Excellent.Where(x => x.UserID == userid).Select(s => new UserExcellentViewModel
                     {
 
                     }).ToList();
@@ -1140,6 +1321,31 @@ namespace SAT.HR.Data.Repository
                 throw;
             }
             return model;
+        }
+
+        public UserExcellentViewModel GetExcellentByID(int id)
+        {
+            UserExcellentViewModel data = new UserExcellentViewModel();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var model = db.tb_User_Excellent.Where(x => x.UeID == id).Select(s => new UserExcellentViewModel
+                    {
+                        UeID = s.UeID,
+                        UserID = s.UserID,
+                        ExID = s.ExID,
+                        UeProjectName = s.UeProjectName,
+                        UeRecYear = s.UeRecYear,
+                        UeRecDate = s.UeRecDate,
+                    }).FirstOrDefault();
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+            return data;
         }
 
         public ResponseData AddExcellentByEntity(UserExcellentViewModel data)
@@ -1222,14 +1428,14 @@ namespace SAT.HR.Data.Repository
 
         #region Tab: User-Certificate
 
-        public List<UserCertificateViewModel> GetUserCertificate(int userid)
+        public List<UserCertificateViewModel> GetCertificateByUser(int userid)
         {
             var model = new List<UserCertificateViewModel>();
             try
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    model = db.tb_User_Certificate.Where(x => x.UserID == userid).Select(s => new UserCertificateViewModel
+                    model = db.vw_User_Certificate.Where(x => x.UserID == userid).Select(s => new UserCertificateViewModel
                     {
 
                     }).ToList();
@@ -1241,6 +1447,29 @@ namespace SAT.HR.Data.Repository
                 throw;
             }
             return model;
+        }
+
+        public UserCertificateViewModel GetCertificateByID(int id)
+        {
+            UserCertificateViewModel data = new UserCertificateViewModel();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var model = db.tb_User_Certificate.Where(x => x.UcID == id).Select(s => new UserCertificateViewModel
+                    {
+                        UcID = s.UcID,
+                        UserID = s.UserID,
+                        CerId = s.CerId,
+                        UcRecDate = s.UcRecDate,
+                    }).FirstOrDefault();
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+            return data;
         }
 
         public ResponseData AddCertificateByEntity(UserCertificateViewModel data)
@@ -1299,7 +1528,7 @@ namespace SAT.HR.Data.Repository
             {
                 try
                 {
-                    var model = db.tb_User_Certificate.SingleOrDefault(x => x.UserID == userid && x.CerId ==id);
+                    var model = db.tb_User_Certificate.SingleOrDefault(x => x.UserID == userid && x.CerId == id);
                     if (model != null)
                     {
                         db.tb_User_Certificate.Remove(model);
@@ -1319,14 +1548,14 @@ namespace SAT.HR.Data.Repository
 
         #region Tab: User-History
 
-        public List<UserHistoryViewModel> GetUserHistory(int userid)
+        public List<UserHistoryViewModel> GetHistoryByUser(int userid)
         {
             var model = new List<UserHistoryViewModel>();
             try
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    model = db.tb_User_History.Where(x => x.UserID == userid).Select(s => new UserHistoryViewModel
+                    model = db.vw_User_History.Where(x => x.UserID == userid).Select(s => new UserHistoryViewModel
                     {
 
                     }).ToList();
@@ -1338,6 +1567,35 @@ namespace SAT.HR.Data.Repository
                 throw;
             }
             return model;
+        }
+
+        public UserHistoryViewModel GetHistoryByID(int id)
+        {
+            UserHistoryViewModel data = new UserHistoryViewModel();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var model = db.tb_User_History.Where(x => x.UhID == id).Select(s => new UserHistoryViewModel
+                    {
+                        UhID = s.UhID,
+                        UserID = s.UserID,
+                        UhEditDate = s.UhEditDate,
+                        TiID = s.TiID,
+                        UhFirstNameTH = s.UhFirstNameTH,
+                        UhLastNameTH = s.UhLastNameTH,
+                        UhFirstNameEN = s.UhFirstNameEN,
+                        UhLastNameEN = s.UhLastNameEN,
+                        Remark = s.Remark,
+                        UhStatus = s.UhStatus,
+                    }).FirstOrDefault();
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+            return data;
         }
 
         public ResponseData AddHistoryByEntity(UserHistoryViewModel data)
@@ -1518,6 +1776,20 @@ namespace SAT.HR.Data.Repository
                 return list;
             }
         }
+
+        public List<OccupationViewModel> GetOccupation()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Occupation.Select(s => new OccupationViewModel()
+                {
+                    OcID = s.OcID,
+                    OcName = s.OcName
+                }).ToList();
+                return list;
+            }
+        }
+        
 
         #endregion
 

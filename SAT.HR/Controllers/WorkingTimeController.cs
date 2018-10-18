@@ -7,8 +7,7 @@ using System.Web.Mvc;
 
 namespace SAT.HR.Controllers
 {
-    [AuthorizeUser]
-    public class WorkingTimeController : Controller
+    public class WorkingTimeController : BaseController
     {
         // การเข้าปฏิบัติงาน
 

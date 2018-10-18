@@ -114,8 +114,8 @@ namespace SAT.HR.Models
         public string MaritalName { get; set; }
         public string UfAge { get; set; }
         public string UfStudyStatusName { get; set; }
-        
 
+        public List<UserFamilyViewModel> ListFamily { get; set; }
         public List<UserFamilyViewModel> ListFather { get; set; }
         public List<UserFamilyViewModel> ListMother { get; set; }
         public List<UserFamilyViewModel> ListSpouse { get; set; }
@@ -282,4 +282,11 @@ namespace SAT.HR.Models
         public int MaritalStatusID { get; set; }
         public string MaritalStatusName { get; set; }
     }
+
+    public class OccupationViewModel
+    {
+        public int OcID { get; set; }
+        public string OcName { get; set; }
+    }
+    
 }

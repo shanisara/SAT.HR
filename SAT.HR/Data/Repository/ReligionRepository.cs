@@ -44,7 +44,7 @@ namespace SAT.HR.Data.Repository
                     RelD = s.RelD,
                     RelName = s.RelName,
                     RelStatus = s.RelStatus,
-                    Status = s.RelStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive
+                    Status = s.RelStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive
                 }).Skip(start * length).Take(length).ToList();
 
                 ReligionResult result = new ReligionResult();
@@ -80,7 +80,7 @@ namespace SAT.HR.Data.Repository
                 model.RelD = data.RelD;
                 model.RelName = data.RelName;
                 model.RelStatus = data.RelStatus;
-                model.Status = data.RelStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive;
+                model.Status = data.RelStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive;
                 return model;
             }
         }

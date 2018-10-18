@@ -19,7 +19,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> DepID { get; set; }
         public Nullable<int> SecID { get; set; }
         public Nullable<int> PoID { get; set; }
-        public Nullable<decimal> MpLevel { get; set; }
+        public Nullable<int> DisID { get; set; }
         public string MpMan { get; set; }
         public string MpIncumbent { get; set; }
         public Nullable<int> EduID { get; set; }
@@ -29,6 +29,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> ModifyBy { get; set; }
     
         public virtual tb_Department tb_Department { get; set; }
+        public virtual tb_Discipline tb_Discipline { get; set; }
         public virtual tb_Division tb_Division { get; set; }
         public virtual tb_Education tb_Education { get; set; }
         public virtual tb_Position tb_Position { get; set; }

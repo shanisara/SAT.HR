@@ -48,7 +48,7 @@ namespace SAT.HR.Data.Repository
                     EduCode = s.EduCode,
                     EduName = s.EduName,
                     EduStatus = s.EduStatus,
-                    Status = s.EduStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive
+                    Status = s.EduStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive
                 }).Skip(start * length).Take(length).ToList();
 
                 EducationResult result = new EducationResult();
@@ -86,7 +86,7 @@ namespace SAT.HR.Data.Repository
                 model.EduCode = data.EduCode;
                 model.EduName = data.EduName;
                 model.EduStatus = data.EduStatus;
-                model.Status = data.EduStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive;
+                model.Status = data.EduStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive;
                 return model;
             }
         }

@@ -29,6 +29,7 @@ namespace SAT.HR.Data.Entities
     
         public virtual DbSet<tb_Accumulative_Fund> tb_Accumulative_Fund { get; set; }
         public virtual DbSet<tb_Action_Type> tb_Action_Type { get; set; }
+        public virtual DbSet<tb_Agent_Type> tb_Agent_Type { get; set; }
         public virtual DbSet<tb_Bank_Loan> tb_Bank_Loan { get; set; }
         public virtual DbSet<tb_Benefit_Child_Education> tb_Benefit_Child_Education { get; set; }
         public virtual DbSet<tb_Benefit_Child_Fund> tb_Benefit_Child_Fund { get; set; }
@@ -57,6 +58,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Division> tb_Division { get; set; }
         public virtual DbSet<tb_DocNumber> tb_DocNumber { get; set; }
         public virtual DbSet<tb_Education> tb_Education { get; set; }
+        public virtual DbSet<tb_Employee_Type> tb_Employee_Type { get; set; }
         public virtual DbSet<tb_Empower> tb_Empower { get; set; }
         public virtual DbSet<tb_Excellent_Type> tb_Excellent_Type { get; set; }
         public virtual DbSet<tb_Holiday> tb_Holiday { get; set; }
@@ -69,7 +71,10 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Member_Type> tb_Member_Type { get; set; }
         public virtual DbSet<tb_Menu> tb_Menu { get; set; }
         public virtual DbSet<tb_Menu_Role> tb_Menu_Role { get; set; }
+        public virtual DbSet<tb_Move_Level_Detail> tb_Move_Level_Detail { get; set; }
         public virtual DbSet<tb_Move_Level_Head> tb_Move_Level_Head { get; set; }
+        public virtual DbSet<tb_Move_Man_Power_Head> tb_Move_Man_Power_Head { get; set; }
+        public virtual DbSet<tb_Move_Type> tb_Move_Type { get; set; }
         public virtual DbSet<tb_Nationality> tb_Nationality { get; set; }
         public virtual DbSet<tb_Occupation> tb_Occupation { get; set; }
         public virtual DbSet<tb_Part_Type> tb_Part_Type { get; set; }

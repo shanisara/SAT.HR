@@ -33,7 +33,7 @@ namespace SAT.HR.Data.Repository
                     {
                         case "DivName":
                             data = (sortDir == "asc") ? data.OrderBy(x => x.DivName).ToList() : data.OrderByDescending(x => x.DivName).ToList();
-                         break;
+                            break;
                         case "Status":
                             data = (sortDir == "asc") ? data.OrderBy(x => x.DivStatus).ToList() : data.OrderByDescending(x => x.DivStatus).ToList();
                             break;
@@ -48,7 +48,7 @@ namespace SAT.HR.Data.Repository
                         DivID = s.DivID,
                         DivName = s.DivName,
                         DivStatus = s.DivStatus,
-                        Status = s.DivStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive
+                        Status = s.DivStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive
                     }).Skip(start * length).Take(length).ToList();
 
                     result.draw = draw ?? 0;
@@ -73,7 +73,7 @@ namespace SAT.HR.Data.Repository
                 model.DivID = data.DivID;
                 model.DivName = data.DivName;
                 model.DivStatus = data.DivStatus;
-                model.Status = data.DivStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive;
+                model.Status = data.DivStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive;
                 return model;
             }
         }

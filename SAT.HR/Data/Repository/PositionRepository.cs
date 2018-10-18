@@ -48,7 +48,7 @@ namespace SAT.HR.Data.Repository
                     PoCode = s.PoCode,
                     PoName = s.PoName,
                     PoStatus = s.PoStatus,
-                    Status = s.PoStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive
+                    Status = s.PoStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive
                 }).Skip(start * length).Take(length).ToList();
 
                 PositionResult result = new PositionResult();
@@ -86,7 +86,7 @@ namespace SAT.HR.Data.Repository
                 model.PoCode = data.PoCode;
                 model.PoName = data.PoName;
                 model.PoStatus = data.PoStatus;
-                model.Status = data.PoStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive;
+                model.Status = data.PoStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive;
                 return model;
             }
         }

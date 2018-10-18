@@ -8,8 +8,7 @@ using System.Web.Mvc;
 
 namespace SAT.HR.Controllers
 {
-    [AuthorizeUser]
-    public class ReportController : Controller
+    public class ReportController : BaseController
     {
         #region // รายงาน:ส่วนงานทรัพยากรบุคคล
 

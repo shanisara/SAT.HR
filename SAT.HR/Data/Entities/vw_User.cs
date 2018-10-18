@@ -100,5 +100,6 @@ namespace SAT.HR.Data.Entities
         public string ContactPhone { get; set; }
         public string Avatar { get; set; }
         public Nullable<bool> IsActive { get; set; }
+        public Nullable<int> Age { get; set; }
     }
 }

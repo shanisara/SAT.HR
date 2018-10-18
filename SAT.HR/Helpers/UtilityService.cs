@@ -23,9 +23,9 @@ namespace SAT.HR.Helpers
             return (T)CurrentSession[name];
         }
 
-        private static List<T> GetSessionList<T>(string name)
+        private static L GetSessionValueList<L>(string name)
         {
-            return (List<T>)CurrentSession[name];
+            return (L)CurrentSession[name];
         }
 
         private static string GetSessionValueString(string name)
@@ -33,7 +33,7 @@ namespace SAT.HR.Helpers
             return GetSessionValue<string>(name);
         }
 
-        private static void SetSessionValue(string name, object value)
+        public static void SetSessionValue(string name, object value)
         {
             CurrentSession[name] = value;
         }
@@ -47,13 +47,58 @@ namespace SAT.HR.Helpers
         {
             get
             {
-                return GetSessionValue<UserProfile>("USER");
+                var obj = GetSessionValue<UserProfile>("USER");
+               
+                if (obj == null)
+                {
+                    try
+                    {
+                        if (HttpContext.Current.Request.IsAuthenticated)
+                        {
+                            var userid = HttpContext.Current.User.Identity.Name.Split(',');
+                            obj = new EmployeeRepository().LoginByID(int.Parse(userid[0]));
+                            UtilityService.User = obj;
+                        }
+                    }
+                    catch
+                    {
+                        return null;
+
+                    }
+                }
+                return obj;
             }
             set
             {
                 SetSessionValue("USER", value);
             }
         }
+
+        //public static List<PermissMenu> MenuInfo
+        //{
+        //    get
+        //    {
+        //        var obj = GetSessionValue<List<PermissMenu>>(EnumType.eUserLogin.SESSION_MENU);
+        //        if (obj == null)
+        //        {
+        //            try
+        //            {
+        //                obj = new PermissionModels().DoloadMenu(DebtCollection.Common.AppUtils.UserInfo.UserRoleId);
+        //                DebtCollection.Common.AppUtils.MenuInfo = obj;
+        //            }
+        //            catch
+        //            {
+        //                return null;
+        //            }
+        //        }
+        //        return obj;
+        //    }
+        //    set
+        //    {
+        //        SetSessionValue(EnumType.eUserLogin.SESSION_MENU, value);
+        //    }
+        //}
+
     }
 
     public class SysConfig
@@ -107,10 +152,5 @@ namespace SAT.HR.Helpers
         }
     }
 
-    public class EnumType
-    {
-        public static string StatusNameActive = "ใช้งาน";
-        public static string StatusNameNotActive = "ไม่ใช้งาน";
 
-    }
 }

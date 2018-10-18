@@ -7,8 +7,7 @@ using System.Web.Mvc;
 
 namespace SAT.HR.Controllers
 {
-    [AuthorizeUser]
-    public class PayrollController : Controller
+    public class PayrollController : BaseController
     {
         // ระบบเงินเดือนและโบนัส
 

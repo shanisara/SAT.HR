@@ -12,22 +12,20 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_Discipline
+    public partial class tb_Move_Man_Power_Head
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tb_Discipline()
-        {
-            this.tb_Man_Power = new HashSet<tb_Man_Power>();
-        }
-    
-        public int DisID { get; set; }
-        public string DisName { get; set; }
+        public int MopID { get; set; }
+        public Nullable<int> EmpTID { get; set; }
+        public Nullable<int> MtID { get; set; }
+        public string MopYear { get; set; }
+        public string MopBookCmd { get; set; }
+        public Nullable<System.DateTime> MopDateCmd { get; set; }
+        public string MopSignatory { get; set; }
+        public string MopPathFile { get; set; }
+        public Nullable<bool> MopStatus { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Man_Power> tb_Man_Power { get; set; }
     }
 }

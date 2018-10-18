@@ -9,8 +9,7 @@ using SAT.HR.Helpers;
 
 namespace SAT.HR.Controllers
 {
-    [AuthorizeUser]
-    public class MasterController : Controller
+    public class MasterController : BaseController
     {
         #region 1. ฝ่าย - Division
 

@@ -54,7 +54,7 @@ namespace SAT.HR.Data.Repository
                     LevEndDateText = s.LevEndDate.Value.ToString("dd/MM/yyyy"),
                     LevMax = s.LevMax,
                     LevStatus = s.LevStatus,
-                    Status = s.LevStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive,
+                    Status = s.LevStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive,
                     SexID = s.SexID
                 }).Skip(start * length).Take(length).ToList();
 

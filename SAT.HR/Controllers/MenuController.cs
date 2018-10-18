@@ -9,22 +9,14 @@ using System.Web.Mvc;
 
 namespace SAT.HR.Controllers
 {
-    [AuthorizeUser]
-    public class MenuController : Controller
+    public class MenuController : BaseController
     {
         [ChildActionOnly]
         public ActionResult Index()
         {
-            if (UtilityService.User != null)
-            {
-                int userid = UtilityService.User.UserID;
-                var data = new MenuRepository().MenuByUser(userid);
-                return PartialView(data);
-            }
-            else
-            {
-                return RedirectToAction("Logout", "Home");
-            }
+            int userid = UtilityService.User.UserID;
+            var data = new MenuRepository().MenuByUser(userid);
+            return PartialView(data);
         }
     }
 }

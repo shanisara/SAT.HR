@@ -44,7 +44,7 @@ namespace SAT.HR.Data.Repository
                     DegID = s.DegID,
                     DegName = s.DegName,
                     DegStatus = s.DegStatus,
-                    Status = s.DegStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive
+                    Status = s.DegStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive
                 }).Skip(start * length).Take(length).ToList();
 
                 DegreeResult result = new DegreeResult();
@@ -80,7 +80,7 @@ namespace SAT.HR.Data.Repository
                 model.DegID = data.DegID;
                 model.DegName = data.DegName;
                 model.DegStatus = data.DegStatus;
-                model.Status = data.DegStatus == true ? EnumType.StatusNameActive : EnumType.StatusNameNotActive;
+                model.Status = data.DegStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive;
                 return model;
             }
         }
