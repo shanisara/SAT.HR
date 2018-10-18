@@ -12,23 +12,11 @@ namespace SAT.HR.Controllers
     [AuthorizeUser]
     public class EmployeeController : Controller
     {
-        // ระบบพนักงาน/ลูกจ้าง 
-
         #region 1. ทะเบียนประวัติ
 
         public ActionResult Index()
         {
             return View();
-        }
-
-        [HttpPost]
-        public JsonResult Index(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
-        {
-            var search = Request["search[value]"];
-            var dir = order[0]["dir"].ToLower();
-            var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new EmployeeRepository().GetPage(search, draw, start, length, dir, column);
-            return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Add()
@@ -84,20 +72,19 @@ namespace SAT.HR.Controllers
             return View(model);
         }
 
-        public JsonResult UpdateEmployee(EmployeeViewModel data)
+        [HttpPost]
+        public JsonResult Index(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
-
-            return Json(null, JsonRequestBehavior.AllowGet);
+            var search = Request["search[value]"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
+            var dataTableData = new EmployeeRepository().GetPage(search, draw, start, length, dir, column);
+            return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
 
-        //public JsonResult DeleteEmployee(int id)
-        //{
-        //    var result = new EmployeeRepository().DeleteEmployee(id);
-        //    return Json(result, JsonRequestBehavior.AllowGet);
-        //}
+        #endregion
 
-
-        #region Partial
+        #region Tab: User-Employee
 
         public ActionResult Employee(int id)
         {
@@ -105,11 +92,51 @@ namespace SAT.HR.Controllers
             return PartialView("_Employee", model);
         }
 
+        public JsonResult SaveEmployee(EmployeeViewModel data)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (data.UserID != 0)
+                result = new EmployeeRepository().UpdateUserByEntity(data);
+            else
+                result = new EmployeeRepository().AddUserByEntity(data);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteEmployee(int id)
+        {
+            var result = new EmployeeRepository().DeleteUserByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        #region Tab: User-Family
+
         public ActionResult Family(int id)
         {
             var model = new EmployeeRepository().GetUserFamily(id);
             return PartialView("_Family", model);
         }
+
+        public JsonResult SaveFamily(UserFamilyViewModel data)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (data.UserID != 0)
+                result = new EmployeeRepository().UpdateFamilyeByEntity(data);
+            else
+                result = new EmployeeRepository().AddFamilyByEntity(data);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteFamily(int userid, int id)
+        {
+            var result = new EmployeeRepository().DeleteFamilyByID(userid, id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        #region Tab: User-Education
 
         public ActionResult Education(int id)
         {
@@ -117,11 +144,52 @@ namespace SAT.HR.Controllers
             return PartialView("_Education", model);
         }
 
+        public JsonResult Save(UserEducationViewModel data)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (data.UserID != 0)
+                result = new EmployeeRepository().UpdateEducationByEntity(data);
+            else
+                result = new EmployeeRepository().AddEducationByEntity(data);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteEducationy(int userid, int id)
+        {
+            var result = new EmployeeRepository().DeleteEducationByID(userid, id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        #region Tab: User-Position
+
         public ActionResult Position(int id)
         {
             var model = new EmployeeRepository().GetUserPosition(id);
             return PartialView("_Position", model);
         }
+
+        public JsonResult SavePosition(UserPositionViewModel data)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (data.UserID != 0)
+                result = new EmployeeRepository().UpdatePositionByEntity(data);
+            else
+                result = new EmployeeRepository().AddPositionByEntity(data);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeletePosition(int userid, int id)
+        {
+            var result = new EmployeeRepository().DeletePositionByID(userid, id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
+        #endregion
+
+        #region Tab: User-Trainning
 
         public ActionResult Trainning(int id)
         {
@@ -129,11 +197,53 @@ namespace SAT.HR.Controllers
             return PartialView("_Trainning", model);
         }
 
+        public JsonResult SaveTraining(UserTrainningViewModel data)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (data.UserID != 0)
+                result = new EmployeeRepository().UpdateTrainingByEntity(data);
+            else
+                result = new EmployeeRepository().AddTrainingByEntity(data);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteTrainning(int userid, int id)
+        {
+            var result = new EmployeeRepository().DeleteTrainingByID(userid, id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
+        #endregion
+
+        #region Tab: User-Insignia
+
         public ActionResult Insignia(int id)
         {
             var model = new EmployeeRepository().GetUserInsignia(id);
             return PartialView("_Insignia", model);
         }
+
+        public JsonResult SaveInsignia(UserInsigniaViewModel data)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (data.UserID != 0)
+                result = new EmployeeRepository().UpdateInsigniaByEntity(data);
+            else
+                result = new EmployeeRepository().AddInsigniaByEntity(data);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteInsignia(int userid, int id)
+        {
+            var result = new EmployeeRepository().DeleteInsigniaByID(userid, id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
+        #endregion
+
+        #region Tab: User-Excellent
 
         public ActionResult Excellent(int id)
         {
@@ -141,11 +251,52 @@ namespace SAT.HR.Controllers
             return PartialView("_Excellent", model);
         }
 
+        public JsonResult SaveExcellent(UserExcellentViewModel data)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (data.UserID != 0)
+                result = new EmployeeRepository().UpdateExcellentByEntity(data);
+            else
+                result = new EmployeeRepository().AddExcellentByEntity(data);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteExcellent(int userid, int id)
+        {
+            var result = new EmployeeRepository().DeleteExcellentByID(userid, id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
+        #endregion
+
+        #region Tab: User-Certificate
+
         public ActionResult Certificate(int id)
         {
             var model = new EmployeeRepository().GetUserCertificate(id);
             return PartialView("_Certificate", model);
         }
+
+        public JsonResult SaveCertificate(UserCertificateViewModel data)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (data.UserID != 0)
+                result = new EmployeeRepository().UpdateCertificateByEntity(data);
+            else
+                result = new EmployeeRepository().AddCertificateByEntity(data);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteCertificate(int userid, int id)
+        {
+            var result = new EmployeeRepository().DeleteCertificateByID(userid, id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        #region Tab: User-History
 
         public ActionResult History(int id)
         {
@@ -153,8 +304,21 @@ namespace SAT.HR.Controllers
             return PartialView("_History", model);
         }
 
+        public JsonResult SaveHistory(UserHistoryViewModel data)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (data.UserID != 0)
+                result = new EmployeeRepository().UpdateHistoryByEntity(data);
+            else
+                result = new EmployeeRepository().AddHistoryByEntity(data);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
-        #endregion
+        public JsonResult DeleteHistory(int userid, int id)
+        {
+            var result = new EmployeeRepository().DeleteHistoryByID(userid, id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion 
 

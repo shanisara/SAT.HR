@@ -1,4 +1,5 @@
 ﻿using SAT.HR.Data.Entities;
+using SAT.HR.Helpers;
 using SAT.HR.Models;
 using System;
 using System.Collections.Generic;
@@ -108,6 +109,9 @@ namespace SAT.HR.Data.Repository
             }
             return result;
         }
+
+
+        #region Tab: User-Employee
 
         public EmployeePageResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
         {
@@ -299,8 +303,184 @@ namespace SAT.HR.Data.Repository
             return model;
         }
 
+        public ResponseData AddUserByEntity(EmployeeViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_User model = new tb_User();
+                    model.UserID = data.UserID;
+                    model.UserName = data.UserName;
+                    model.TitleID = data.TitleID;
+                    model.FirstNameTh = data.FirstNameTh;
+                    model.LastNameTh = data.LastNameTh;
+                    model.FirstNameEn = data.FirstNameEn;
+                    model.LastNameEn = data.LastNameEn;
+                    model.StatusID = data.StatusID;
+                    model.IDCard = data.IDCard;
+                    model.TIN = data.TIN;
+                    model.SexID = data.SexID;
+                    model.BloodID = data.BloodID;
+                    model.ReligionID = data.ReligionID;
+                    model.EthnicityID = data.EthnicityID;
+                    model.NationalityID = data.NationalityID;
+                    model.MaritalStatusID = data.MaritalStatusID;
+                    model.Birthday = data.Birthday;
+                    model.RetireDate = data.RetireDate;
+                    model.StartWorkDate = data.StartWorkDate;
+                    model.ProbationDate = data.ProbationDate;
+                    model.Remuneration = data.Remuneration;
+                    model.WorkingTypeID = data.WorkingTypeID;
+                    model.FingerScan = data.FingerScan;
+                    model.CardScan = data.CardScan;
+                    model.SalaryLevel = data.SalaryLevel;
+                    model.SalaryStep = data.SalaryStep;
+                    model.DivID = data.DivID;
+                    model.DepID = data.DepID;
+                    model.SecID = data.SecID;
+                    model.PoID = data.PoID;
+                    model.EmpowerID = data.EmpowerID;
+                    model.EmpowerDivID = data.EmpowerDivID;
+                    model.EmpowerDepID = data.EmpowerDepID;
+                    model.EmpowerSecID = data.EmpowerSecID;
+                    model.PoTID = data.PoTID;
+                    model.AgentDivID = data.AgentDivID;
+                    model.AgentDepID = data.AgentDepID;
+                    model.AgentSecID = data.AgentSecID;
+                    model.AgentPoID = data.AgentPoID;
+                    model.HomeAddr = data.HomeAddr;
+                    model.HomeSubDistrictID = data.HomeSubDistrictID;
+                    model.HomeDistrictID = data.HomeDistrictID;
+                    model.HomeProvinceID = data.HomeProvinceID;
+                    model.HomeZipCode = data.HomeZipCode;
+                    model.CurrAddr = data.CurrAddr;
+                    model.CurrSubDistrictID = data.CurrSubDistrictID;
+                    model.CurrDistrictID = data.CurrDistrictID;
+                    model.CurrProvinceID = data.CurrProvinceID;
+                    model.CurrZipCode = data.CurrZipCode;
+                    model.Telephone = data.Telephone;
+                    model.Email = data.Email;
+                    model.ContactName = data.ContactName;
+                    model.ContactPhone = data.ContactPhone;
+                    model.Avatar = data.Avatar;
+                    model.IsActive = data.IsActive;
+                    model.CreateBy = UtilityService.User.UserID;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_User.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
 
-        #region
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdateUserByEntity(EmployeeViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var model = db.tb_User.Single(x => x.UserID == newdata.UserID);
+                    model.UserName = newdata.UserName;
+                    model.TitleID = newdata.TitleID;
+                    model.FirstNameTh = newdata.FirstNameTh;
+                    model.LastNameTh = newdata.LastNameTh;
+                    model.FirstNameEn = newdata.FirstNameEn;
+                    model.LastNameEn = newdata.LastNameEn;
+                    model.StatusID = newdata.StatusID;
+                    model.IDCard = newdata.IDCard;
+                    model.TIN = newdata.TIN;
+                    model.SexID = newdata.SexID;
+                    model.BloodID = newdata.BloodID;
+                    model.ReligionID = newdata.ReligionID;
+                    model.EthnicityID = newdata.EthnicityID;
+                    model.NationalityID = newdata.NationalityID;
+                    model.MaritalStatusID = newdata.MaritalStatusID;
+                    model.Birthday = newdata.Birthday;
+                    model.RetireDate = newdata.RetireDate;
+                    model.StartWorkDate = newdata.StartWorkDate;
+                    model.ProbationDate = newdata.ProbationDate;
+                    model.Remuneration = newdata.Remuneration;
+                    model.WorkingTypeID = newdata.WorkingTypeID;
+                    model.FingerScan = newdata.FingerScan;
+                    model.CardScan = newdata.CardScan;
+                    model.SalaryLevel = newdata.SalaryLevel;
+                    model.SalaryStep = newdata.SalaryStep;
+                    model.DivID = newdata.DivID;
+                    model.DepID = newdata.DepID;
+                    model.SecID = newdata.SecID;
+                    model.PoID = newdata.PoID;
+                    model.EmpowerID = newdata.EmpowerID;
+                    model.EmpowerDivID = newdata.EmpowerDivID;
+                    model.EmpowerDepID = newdata.EmpowerDepID;
+                    model.EmpowerSecID = newdata.EmpowerSecID;
+                    model.PoTID = newdata.PoTID;
+                    model.AgentDivID = newdata.AgentDivID;
+                    model.AgentDepID = newdata.AgentDepID;
+                    model.AgentSecID = newdata.AgentSecID;
+                    model.AgentPoID = newdata.AgentPoID;
+                    model.HomeAddr = newdata.HomeAddr;
+                    model.HomeSubDistrictID = newdata.HomeSubDistrictID;
+                    model.HomeDistrictID = newdata.HomeDistrictID;
+                    model.HomeProvinceID = newdata.HomeProvinceID;
+                    model.HomeZipCode = newdata.HomeZipCode;
+                    model.CurrAddr = newdata.CurrAddr;
+                    model.CurrSubDistrictID = newdata.CurrSubDistrictID;
+                    model.CurrDistrictID = newdata.CurrDistrictID;
+                    model.CurrProvinceID = newdata.CurrProvinceID;
+                    model.CurrZipCode = newdata.CurrZipCode;
+                    model.Telephone = newdata.Telephone;
+                    model.Email = newdata.Email;
+                    model.ContactName = newdata.ContactName;
+                    model.ContactPhone = newdata.ContactPhone;
+                    model.Avatar = newdata.Avatar;
+                    model.IsActive = newdata.IsActive;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData DeleteUserByID(int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var obj = db.tb_User.SingleOrDefault(c => c.UserID == id);
+                    if (obj != null)
+                    {
+                        db.tb_User.Remove(obj);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
+
+        #endregion
+
+        #region Tab: User-Family
 
         public UserFamilyViewModel GetUserFamily(int userid)
         {
@@ -309,7 +489,8 @@ namespace SAT.HR.Data.Repository
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    var listFather = db.tb_User_Family.Where(w => w.RecID == 2).Select(s => new UserFamilyViewModel {
+                    var listFather = db.tb_User_Family.Where(w => w.UserID == userid && w.RecID == 2).Select(s => new UserFamilyViewModel
+                    {
                         #region Father
 
                         UfID = s.UfID,
@@ -329,7 +510,8 @@ namespace SAT.HR.Data.Repository
                         #endregion
                     }).ToList();
 
-                    var listMother = db.tb_User_Family.Where(w => w.RecID == 3).Select(s => new UserFamilyViewModel {
+                    var listMother = db.tb_User_Family.Where(w => w.UserID == userid && w.RecID == 3).Select(s => new UserFamilyViewModel
+                    {
                         #region Mother
 
                         UfID = s.UfID,
@@ -349,7 +531,8 @@ namespace SAT.HR.Data.Repository
                         #endregion
                     }).ToList();
 
-                    var listSpouse = db.tb_User_Family.Where(w => w.RecID == 4).Select(s => new UserFamilyViewModel {
+                    var listSpouse = db.tb_User_Family.Where(w => w.UserID == userid && w.RecID == 4).Select(s => new UserFamilyViewModel
+                    {
                         #region Spouse
 
                         UfID = s.UfID,
@@ -370,7 +553,8 @@ namespace SAT.HR.Data.Repository
                         #endregion
                     }).ToList();
 
-                    var listChild = db.tb_User_Family.Where(w => w.RecID == 5).Select(s => new UserFamilyViewModel {
+                    var listChild = db.tb_User_Family.Where(w => w.UserID == userid && w.RecID == 5).Select(s => new UserFamilyViewModel
+                    {
                         #region Child
 
                         UfID = s.UfID,
@@ -399,128 +583,848 @@ namespace SAT.HR.Data.Repository
             return data;
         }
 
-        public UserEducationViewModel GetUserEducation(int userid)
+        public ResponseData AddFamilyByEntity(UserFamilyViewModel data)
         {
-            UserEducationViewModel data = new UserEducationViewModel();
-            try
+            using (SATEntities db = new SATEntities())
             {
-                using (SATEntities db = new SATEntities())
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_User_Family model = new tb_User_Family();
+                    model.UfID = data.UfID;
+                    model.UserID = data.UserID;
+                    model.UfName = data.UfName;
+                    model.UfCardID = data.UfCardID;
+                    model.UfDOB = data.UfDOB;
+                    model.UfLifeStatus = data.UfLifeStatus;
+                    model.TdID = data.TdID;
+                    model.PoID = data.PoID;
+                    //model.WeddingDate = data.WeddingDate;
+                    //model.DivorceDate = data.DivorceDate;
+                    //model.MaritalID = data.MaritalID;
+                    model.UfStudyStatus = data.UfStudyStatus;
+                    model.RecID = data.RecID;
+                    model.CreateBy = UtilityService.User.UserID;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_User_Family.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception)
                 {
 
                 }
+                return result;
             }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            return null;
         }
 
-        public UserPositionViewModel GetUserPosition(int userid)
+        public ResponseData UpdateFamilyeByEntity(UserFamilyViewModel newdata)
         {
-            try
+            using (SATEntities db = new SATEntities())
             {
-                using (SATEntities db = new SATEntities())
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var model = db.tb_User_Family.Single(x => x.UserID == newdata.UserID && x.UfID == newdata.UfID);
+                    model.UfName = newdata.UfName;
+                    model.UfCardID = newdata.UfCardID;
+                    model.UfDOB = newdata.UfDOB;
+                    model.UfLifeStatus = newdata.UfLifeStatus;
+                    model.TdID = newdata.TdID;
+                    model.PoID = newdata.PoID;
+                    //model.WeddingDate = newdata.WeddingDate;
+                    //model.DivorceDate = newdata.DivorceDate;
+                    //model.MaritalID = newdata.MaritalID;
+                    model.UfStudyStatus = newdata.UfStudyStatus;
+                    model.RecID = newdata.RecID;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception)
                 {
 
                 }
+                return result;
             }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            return null;
         }
 
-        public UserTrainningViewModel GetUserTrainning(int userid)
+        public ResponseData DeleteFamilyByID(int userid, int id)
         {
-            try
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
             {
-                using (SATEntities db = new SATEntities())
+                try
                 {
-
+                    var obj = db.tb_User_Family.SingleOrDefault(x => x.UserID == userid && x.UfID == id);
+                    if (obj != null)
+                    {
+                        db.tb_User_Family.Remove(obj);
+                        db.SaveChanges();
+                    }
                 }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            return null;
-        }
-
-        public UserInsigniaViewModel GetUserInsignia(int userid)
-        {
-            try
-            {
-                using (SATEntities db = new SATEntities())
+                catch (Exception ex)
                 {
-
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
                 }
+                return result;
             }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            return null;
-        }
-
-        public UserExcellentViewModel GetUserExcellent(int userid)
-        {
-            try
-            {
-                using (SATEntities db = new SATEntities())
-                {
-
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            return null;
-        }
-
-        public UserCertificateViewModel GetUserCertificate(int userid)
-        {
-            try
-            {
-                using (SATEntities db = new SATEntities())
-                {
-
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            return null;
-        }
-
-        public UserHistoryViewModel GetUserHistory(int userid)
-        {
-            try
-            {
-                using (SATEntities db = new SATEntities())
-                {
-
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            return null;
         }
 
         #endregion
 
+        #region Tab: User-Education
+
+        public List<UserEducationViewModel> GetUserEducation(int userid)
+        {
+            var model = new List<UserEducationViewModel>();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    model = db.tb_User_Education.Where(x => x.UserID == userid).Select(s => new UserEducationViewModel
+                    {
+
+                    }).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return model;
+        }
+
+        public ResponseData AddEducationByEntity(UserEducationViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_User_Education model = new tb_User_Education();
+                    model.UeID = data.UeID;
+                    model.UserID = data.UserID;
+                    model.EduID = data.EduID;
+                    model.DegID = data.DegID;
+                    model.MajID = data.MajID;
+                    model.UeInstituteName = data.UeInstituteName;
+                    model.CountryID = data.CountryID;
+                    model.UeGraduationDate = data.UeGraduationDate;
+                    model.UeGPA = data.UeGPA;
+                    model.UeEduType = data.UeEduType;
+                    model.CreateBy = UtilityService.User.UserID;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_User_Education.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdateEducationByEntity(UserEducationViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var model = db.tb_User_Education.Single(x => x.UserID == newdata.UserID && x.UeID == newdata.UeID);
+                    model.EduID = newdata.EduID;
+                    model.DegID = newdata.DegID;
+                    model.MajID = newdata.MajID;
+                    model.UeInstituteName = newdata.UeInstituteName;
+                    model.CountryID = newdata.CountryID;
+                    model.UeGraduationDate = newdata.UeGraduationDate;
+                    model.UeGPA = newdata.UeGPA;
+                    model.UeEduType = newdata.UeEduType;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData DeleteEducationByID(int userid, int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var model = db.tb_User_Education.SingleOrDefault(x => x.UserID == userid && x.UeID == id);
+                    if (model != null)
+                    {
+                        db.tb_User_Education.Remove(model);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
+
+        #endregion
+
+        #region Tab: User-Position
+
+        public List<UserPositionViewModel> GetUserPosition(int userid)
+        {
+            var model = new List<UserPositionViewModel>();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    model = db.tb_User_Position.Where(x => x.UserID == userid).Select(s => new UserPositionViewModel
+                    {
+
+                    }).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return model;
+        }
+
+        public ResponseData AddPositionByEntity(UserPositionViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_User_Position model = new tb_User_Position();
+                    model.UpID = data.UpID;
+                    model.UserID = data.UserID;
+                    model.ActID = data.ActID;
+                    model.UpCmd = data.UpCmd;
+                    model.PoTID = data.PoTID;
+                    model.DivID = data.DivID;
+                    model.DepID = data.DepID;
+                    model.SecID = data.SecID;
+                    model.PoID = data.PoID;
+                    model.PoAID = data.PoAID;
+                    model.UpLevel = data.UpLevel;
+                    model.UpSalary = data.UpSalary;
+                    model.UpCmdDate = data.UpCmdDate;
+                    model.UpForceDate = data.UpForceDate;
+                    model.UpRemark = data.UpRemark;
+                    model.UpPathFile = data.UpPathFile;
+                    model.CreateBy = UtilityService.User.UserID;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_User_Position.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdatePositionByEntity(UserPositionViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var model = db.tb_User_Position.Single(x => x.UserID == newdata.UserID && x.UpID == newdata.UpID);
+                    model.ActID = newdata.ActID;
+                    model.UpCmd = newdata.UpCmd;
+                    model.PoTID = newdata.PoTID;
+                    model.DivID = newdata.DivID;
+                    model.DepID = newdata.DepID;
+                    model.SecID = newdata.SecID;
+                    model.PoID = newdata.PoID;
+                    model.PoAID = newdata.PoAID;
+                    model.UpLevel = newdata.UpLevel;
+                    model.UpSalary = newdata.UpSalary;
+                    model.UpCmdDate = newdata.UpCmdDate;
+                    model.UpForceDate = newdata.UpForceDate;
+                    model.UpRemark = newdata.UpRemark;
+                    model.UpPathFile = newdata.UpPathFile;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData DeletePositionByID(int userid, int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var model = db.tb_User_Position.SingleOrDefault(x => x.UserID == userid && x.UpID == id);
+                    if (model != null)
+                    {
+                        db.tb_User_Position.Remove(model);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
+
+        #endregion
+
+        #region Tab: User-Trainning
+
+        public List<UserTrainningViewModel> GetUserTrainning(int userid)
+        {
+            var model = new List<UserTrainningViewModel>();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    model = db.tb_User_Training.Where(x => x.UserID == userid).Select(s => new UserTrainningViewModel
+                    {
+
+                    }).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return model;
+        }
+
+        public ResponseData AddTrainingByEntity(UserTrainningViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_User_Training model = new tb_User_Training();
+                    model.UtID = data.UtID;
+                    model.UserID = data.UserID;
+                    model.TtID = data.TtID;
+                    model.CountryID = data.CountryID;
+                    model.UtCourse = data.UtCourse;
+                    model.UtStartDate = data.UtStartDate;
+                    model.UtEndDate = data.UtEndDate;
+                    model.CreateBy = UtilityService.User.UserID;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_User_Training.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdateTrainingByEntity(UserTrainningViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var model = db.tb_User_Training.Single(x => x.UserID == newdata.UserID && x.TtID == newdata.TtID);
+                    model.TtID = newdata.TtID;
+                    model.CountryID = newdata.CountryID;
+                    model.UtCourse = newdata.UtCourse;
+                    model.UtStartDate = newdata.UtStartDate;
+                    model.UtEndDate = newdata.UtEndDate;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData DeleteTrainingByID(int userid, int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var model = db.tb_User_Training.SingleOrDefault(x => x.UserID == userid && x.TtID == id);
+                    if (model != null)
+                    {
+                        db.tb_User_Training.Remove(model);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
+
+        #endregion
+
+        #region Tab: User-Insignia
+
+        public List<UserInsigniaViewModel> GetUserInsignia(int userid)
+        {
+            var model = new List<UserInsigniaViewModel>();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    model = db.tb_User_Insignia.Where(x => x.UserID == userid).Select(s => new UserInsigniaViewModel
+                    {
+
+                    }).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return model;
+        }
+
+        public ResponseData AddInsigniaByEntity(UserInsigniaViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_User_Insignia model = new tb_User_Insignia();
+                    model.UiID = data.UiID;
+                    model.UserID = data.UserID;
+                    model.InsID = data.InsID;
+                    model.UiYear = data.UiYear;
+                    model.UiBook = data.UiBook;
+                    model.UiPart = data.UiPart;
+                    model.UiPage = data.UiPage;
+                    model.UiRecDate = data.UiRecDate;
+                    model.UiRetDate = data.UiRetDate;
+                    model.UiCmd = data.UiCmd;
+                    model.UiPartFile = data.UiPartFile;
+                    model.CreateBy = UtilityService.User.UserID;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_User_Insignia.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdateInsigniaByEntity(UserInsigniaViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var model = db.tb_User_Insignia.Single(x => x.UserID == newdata.UserID && x.InsID == newdata.InsID);
+                    model.InsID = newdata.InsID;
+                    model.UiYear = newdata.UiYear;
+                    model.UiBook = newdata.UiBook;
+                    model.UiPart = newdata.UiPart;
+                    model.UiPage = newdata.UiPage;
+                    model.UiRecDate = newdata.UiRecDate;
+                    model.UiRetDate = newdata.UiRetDate;
+                    model.UiCmd = newdata.UiCmd;
+                    model.UiPartFile = newdata.UiPartFile;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData DeleteInsigniaByID(int userid, int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var model = db.tb_User_Insignia.SingleOrDefault(x => x.UserID == userid && x.InsID == id);
+                    if (model != null)
+                    {
+                        db.tb_User_Insignia.Remove(model);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
+
+        #endregion
+
+        #region Tab: User-Excellent
+
+        public List<UserExcellentViewModel> GetUserExcellent(int userid)
+        {
+            var model = new List<UserExcellentViewModel>();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    model = db.tb_User_Excellent.Where(x => x.UserID == userid).Select(s => new UserExcellentViewModel
+                    {
+
+                    }).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return model;
+        }
+
+        public ResponseData AddExcellentByEntity(UserExcellentViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_User_Excellent model = new tb_User_Excellent();
+                    model.UeID = data.UeID;
+                    model.UserID = data.UserID;
+                    model.ExID = data.ExID;
+                    model.UeProjectName = data.UeProjectName;
+                    model.UeRecYear = data.UeRecYear;
+                    model.UeRecDate = data.UeRecDate;
+                    model.CreateBy = UtilityService.User.UserID;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_User_Excellent.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdateExcellentByEntity(UserExcellentViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var model = db.tb_User_Excellent.Single(x => x.UserID == newdata.UserID && x.ExID == newdata.ExID);
+                    model.ExID = newdata.ExID;
+                    model.UeProjectName = newdata.UeProjectName;
+                    model.UeRecYear = newdata.UeRecYear;
+                    model.UeRecDate = newdata.UeRecDate;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData DeleteExcellentByID(int userid, int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var model = db.tb_User_Excellent.SingleOrDefault(x => x.UserID == userid && x.ExID == id);
+                    if (model != null)
+                    {
+                        db.tb_User_Excellent.Remove(model);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
+
+        #endregion
+
+        #region Tab: User-Certificate
+
+        public List<UserCertificateViewModel> GetUserCertificate(int userid)
+        {
+            var model = new List<UserCertificateViewModel>();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    model = db.tb_User_Certificate.Where(x => x.UserID == userid).Select(s => new UserCertificateViewModel
+                    {
+
+                    }).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return model;
+        }
+
+        public ResponseData AddCertificateByEntity(UserCertificateViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_User_Certificate model = new tb_User_Certificate();
+                    model.UcID = data.UcID;
+                    model.UserID = data.UserID;
+                    model.CerId = data.CerId;
+                    model.UcRecDate = data.UcRecDate;
+                    model.CreateBy = UtilityService.User.UserID;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_User_Certificate.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdateCertificateByEntity(UserCertificateViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var model = db.tb_User_Certificate.Single(x => x.UserID == newdata.UserID && x.CerId == newdata.CerId);
+                    model.CerId = newdata.CerId;
+                    model.UcRecDate = newdata.UcRecDate;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData DeleteCertificateByID(int userid, int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var model = db.tb_User_Certificate.SingleOrDefault(x => x.UserID == userid && x.CerId ==id);
+                    if (model != null)
+                    {
+                        db.tb_User_Certificate.Remove(model);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
+
+        #endregion
+
+        #region Tab: User-History
+
+        public List<UserHistoryViewModel> GetUserHistory(int userid)
+        {
+            var model = new List<UserHistoryViewModel>();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    model = db.tb_User_History.Where(x => x.UserID == userid).Select(s => new UserHistoryViewModel
+                    {
+
+                    }).ToList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return model;
+        }
+
+        public ResponseData AddHistoryByEntity(UserHistoryViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_User_History model = new tb_User_History();
+                    model.UhID = data.UhID;
+                    model.UserID = data.UserID;
+                    model.UhEditDate = data.UhEditDate;
+                    model.TiID = data.TiID;
+                    model.UhFirstNameTH = data.UhFirstNameTH;
+                    model.UhLastNameTH = data.UhLastNameTH;
+                    model.UhFirstNameEN = data.UhFirstNameEN;
+                    model.UhLastNameEN = data.UhLastNameEN;
+                    model.Remark = data.Remark;
+                    model.UhStatus = data.UhStatus;
+                    model.CreateBy = UtilityService.User.UserID;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_User_History.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdateHistoryByEntity(UserHistoryViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var model = db.tb_User_History.Single(x => x.UserID == newdata.UserID && x.UhID == newdata.UhID);
+                    model.UhEditDate = newdata.UhEditDate;
+                    model.TiID = newdata.TiID;
+                    model.UhFirstNameTH = newdata.UhFirstNameTH;
+                    model.UhLastNameTH = newdata.UhLastNameTH;
+                    model.UhFirstNameEN = newdata.UhFirstNameEN;
+                    model.UhLastNameEN = newdata.UhLastNameEN;
+                    model.Remark = newdata.Remark;
+                    model.UhStatus = newdata.UhStatus;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData DeleteHistoryByID(int userid, int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var model = db.tb_User_History.SingleOrDefault(x => x.UserID == userid && x.UhID == id);
+                    if (model != null)
+                    {
+                        db.tb_User_History.Remove(model);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
+
+        #endregion
 
         #region DropDownList
 

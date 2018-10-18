@@ -87,6 +87,162 @@ namespace SAT.HR.Models
         public List<EmployeeViewModel> data { get; set; }
     }
 
+    public class UserFamilyViewModel
+    {
+        public int UserID { get; set; }
+        public int UfID { get; set; }
+        public string UfName { get; set; }
+        public Nullable<decimal> UfCardID { get; set; }
+        public Nullable<System.DateTime> UfDOB { get; set; }
+        public Nullable<bool> UfLifeStatus { get; set; }
+        public Nullable<int> TdID { get; set; }
+        public Nullable<int> PoID { get; set; }
+        public Nullable<bool> UfStudyStatus { get; set; }
+        public int RecID { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<int> CreateBy { get; set; }
+        public Nullable<System.DateTime> ModifyDate { get; set; }
+        public Nullable<int> ModifyBy { get; set; }
+        public string UfAge { get; set; }
+        public int? MaritalID { get; set; }
+        public Nullable<DateTime> WeddingDate { get; set; }
+        public Nullable<DateTime> DivorceDate { get; set; }
+        public string Career { get; set; }
+
+
+        public string UfLifeStatusName { get; set; }
+        public string TdName { get; set; }
+        public string PoName { get; set; }
+        public string MaritalName { get; set; }
+        public string UfStudyStatusName { get; set; }
+
+
+
+        public List<UserFamilyViewModel> ListFather { get; set; }
+        public List<UserFamilyViewModel> ListMother { get; set; }
+        public List<UserFamilyViewModel> ListSpouse { get; set; }
+        public List<UserFamilyViewModel> ListChild { get; set; }
+    }
+
+    public class UserEducationViewModel
+    {
+        public int UeID { get; set; }
+        public int UserID { get; set; }
+        public Nullable<int> EduID { get; set; }
+        public Nullable<int> DegID { get; set; }
+        public Nullable<int> MajID { get; set; }
+        public string UeInstituteName { get; set; }
+        public Nullable<int> CountryID { get; set; }
+        public Nullable<System.DateTime> UeGraduationDate { get; set; }
+        public Nullable<decimal> UeGPA { get; set; }
+        public Nullable<bool> UeEduType { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<int> CreateBy { get; set; }
+        public Nullable<System.DateTime> ModifyDate { get; set; }
+        public Nullable<int> ModifyBy { get; set; }
+    }
+
+    public class UserPositionViewModel
+    {
+        public int UpID { get; set; }
+        public int UserID { get; set; }
+        public Nullable<int> ActID { get; set; }
+        public string UpCmd { get; set; }
+        public Nullable<int> PoTID { get; set; }
+        public Nullable<int> DivID { get; set; }
+        public Nullable<int> DepID { get; set; }
+        public Nullable<int> SecID { get; set; }
+        public Nullable<int> PoID { get; set; }
+        public Nullable<int> PoAID { get; set; }
+        public string UpLevel { get; set; }
+        public Nullable<decimal> UpSalary { get; set; }
+        public Nullable<System.DateTime> UpCmdDate { get; set; }
+        public Nullable<System.DateTime> UpForceDate { get; set; }
+        public string UpRemark { get; set; }
+        public string UpPathFile { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<int> CreateBy { get; set; }
+        public Nullable<System.DateTime> ModifyDate { get; set; }
+        public Nullable<int> ModifyBy { get; set; }
+    }
+
+    public class UserTrainningViewModel
+    {
+        public int UtID { get; set; }
+        public int UserID { get; set; }
+        public Nullable<int> TtID { get; set; }
+        public Nullable<int> CountryID { get; set; }
+        public string UtCourse { get; set; }
+        public Nullable<System.DateTime> UtStartDate { get; set; }
+        public Nullable<System.DateTime> UtEndDate { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<int> CreateBy { get; set; }
+        public Nullable<System.DateTime> ModifyDate { get; set; }
+        public Nullable<int> ModifyBy { get; set; }
+    }
+
+    public class UserInsigniaViewModel
+    {
+        public int UiID { get; set; }
+        public int UserID { get; set; }
+        public Nullable<int> InsID { get; set; }
+        public string UiYear { get; set; }
+        public string UiBook { get; set; }
+        public string UiPart { get; set; }
+        public string UiPage { get; set; }
+        public Nullable<System.DateTime> UiRecDate { get; set; }
+        public Nullable<System.DateTime> UiRetDate { get; set; }
+        public string UiCmd { get; set; }
+        public string UiPartFile { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<int> CreateBy { get; set; }
+        public Nullable<System.DateTime> ModifyDate { get; set; }
+        public Nullable<int> ModifyBy { get; set; }
+    }
+
+    public class UserExcellentViewModel
+    {
+        public int UeID { get; set; }
+        public int UserID { get; set; }
+        public Nullable<int> ExID { get; set; }
+        public string UeProjectName { get; set; }
+        public Nullable<System.DateTime> UeRecYear { get; set; }
+        public Nullable<System.DateTime> UeRecDate { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<int> CreateBy { get; set; }
+        public Nullable<System.DateTime> ModifyDate { get; set; }
+        public Nullable<int> ModifyBy { get; set; }
+    }
+
+    public class UserCertificateViewModel
+    {
+        public int UcID { get; set; }
+        public int UserID { get; set; }
+        public Nullable<int> CerId { get; set; }
+        public Nullable<System.DateTime> UcRecDate { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<int> CreateBy { get; set; }
+        public Nullable<System.DateTime> ModifyDate { get; set; }
+        public Nullable<int> ModifyBy { get; set; }
+        public string CerName { get; set; }
+    }
+
+    public class UserHistoryViewModel
+    {
+        public int UhID { get; set; }
+        public int UserID { get; set; }
+        public Nullable<System.DateTime> UhEditDate { get; set; }
+        public Nullable<int> TiID { get; set; }
+        public string UhFirstNameTH { get; set; }
+        public string UhLastNameTH { get; set; }
+        public string UhFirstNameEN { get; set; }
+        public string UhLastNameEN { get; set; }
+        public string Remark { get; set; }
+        public Nullable<bool> UhStatus { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<int> CreateBy { get; set; }
+    }
+
     public class RecieveTypeViewModel
     {
         public int RecID { get; set; }
@@ -128,78 +284,4 @@ namespace SAT.HR.Models
         public int MaritalStatusID { get; set; }
         public string MaritalStatusName { get; set; }
     }
-
-    public class UserFamilyViewModel
-    {
-        public int RowNumber { get; set; }
-        public int UserID { get; set; }
-        public int UfID { get; set; }
-        public string UfName { get; set; }
-        public Nullable<decimal> UfCardID { get; set; }
-        public Nullable<System.DateTime> UfDOB { get; set; }
-        public Nullable<bool> UfLifeStatus { get; set; }
-        public Nullable<int> TdID { get; set; }
-        public Nullable<int> PoID { get; set; }
-        public Nullable<bool> UfStudyStatus { get; set; }
-        public int RecID { get; set; }
-        public Nullable<System.DateTime> CreateDate { get; set; }
-        public Nullable<int> CreateBy { get; set; }
-        public Nullable<System.DateTime> ModifyDate { get; set; }
-        public Nullable<int> ModifyBy { get; set; }
-        public string UfAge { get; set; }
-        public int? MaritalID { get; set; }
-        public Nullable<DateTime> WeddingDate { get; set; }
-        public Nullable<DateTime> DivorceDate { get; set; }
-        public string Career { get; set; }
-
-
-        public string UfLifeStatusName { get; set; }
-        public string TdName { get; set; }
-        public string PoName { get; set; }
-        public string MaritalName { get; set; }
-        public string UfStudyStatusName { get; set; }
-
-
-
-        public List<UserFamilyViewModel> ListFather { get; set; }
-        public List<UserFamilyViewModel> ListMother { get; set; }
-        public List<UserFamilyViewModel> ListSpouse { get; set; }
-        public List<UserFamilyViewModel> ListChild { get; set; }
-    }
-
-    public class UserEducationViewModel
-    {
-
-    }
-
-    public class UserPositionViewModel
-    {
-
-    }
-
-    public class UserTrainningViewModel
-    {
-
-    }
-
-    public class UserInsigniaViewModel
-    {
-
-    }
-
-    public class UserExcellentViewModel
-    {
-
-    }
-
-    public class UserCertificateViewModel
-    {
-
-    }
-
-    public class UserHistoryViewModel
-    {
-
-    }
-
 }
