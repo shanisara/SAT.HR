@@ -605,7 +605,7 @@ namespace SAT.HR.Data.Repository
             return data;
         }
 
-        public UserFamilyViewModel GetFamilyByID(int userid, int recid)
+        public UserFamilyViewModel GetFamilyByID(int userid, int recid, int ufid)
         {
             UserFamilyViewModel data = new UserFamilyViewModel();
             data.UserID = userid;
@@ -615,7 +615,7 @@ namespace SAT.HR.Data.Repository
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    var model = db.tb_User_Family.Where(x => x.UfID == userid).Select(s => new UserFamilyViewModel
+                    var model = db.tb_User_Family.Where(x => x.UfID == ufid).Select(s => new UserFamilyViewModel
                     {
                         UfID = s.UfID,
                         UserID = s.UserID,
@@ -694,9 +694,9 @@ namespace SAT.HR.Data.Repository
                     model.UfLifeStatus = newdata.UfLifeStatus;
                     model.TdID = newdata.TdID;
                     model.PoID = newdata.PoID;
-                    //model.WeddingDate = newdata.WeddingDate;
-                    //model.DivorceDate = newdata.DivorceDate;
-                    //model.MaritalID = newdata.MaritalID;
+                    model.UfWeddingDate = newdata.UfWeddingDate;
+                    model.DivorceDate = newdata.DivorceDate;
+                    model.MaritalStatusID = newdata.MaritalStatusID;
                     model.UfStudyStatus = newdata.UfStudyStatus;
                     model.RecID = newdata.RecID;
                     model.ModifyBy = UtilityService.User.UserID;

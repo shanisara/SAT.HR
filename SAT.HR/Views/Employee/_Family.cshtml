@@ -2,6 +2,7 @@
 
 
 <div class="content">
+    @Html.HiddenFor(m => m.UserID)
 
     <div class="row">
         <div class="col-md-12">
@@ -41,7 +42,10 @@
                                         <td>@item.UfLifeStatusName</td>
                                         <td>@item.TdName</td>
                                         <td>@item.PoName</td>
-                                        <td><button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit-family" data-id="' +  @item.UfID + '"><i class="material-icons">edit</i></button></td>
+                                        <td class="td-actions text-center">
+                                            <button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit-family" data-id="@item.UfID" data-rec-id="@item.RecID"><i class="material-icons">edit</i></button>
+
+                                        </td>
                                     </tr>
                                 }
                             </tbody>
@@ -90,7 +94,9 @@
                                         <td>@item.UfLifeStatusName</td>
                                         <td>@item.TdName</td>
                                         <td>@item.PoName</td>
-                                        <td><button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit-family" data-id="' +  @item.UfID + '"><i class="material-icons">edit</i></button></td>
+                                        <td class="td-actions text-center">
+                                            <button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit-family" data-id="@item.UfID" data-rec-id="@item.RecID"><i class="material-icons">edit</i></button>
+                                        </td>
                                     </tr>
                                 }
                             </tbody>
@@ -109,7 +115,10 @@
                     <div class="card-text">
                         <h5 class="card-title w-title">คู่สมรส</h5>
                     </div>
-                    <button class="btn btn-primary btn-sm pull-right add-spouse" data-toggle="modal" style="width:100px;"> เพิ่มคู่สมรส </button>
+                    @if (Model.ListSpouse.Count == 0)
+                    {
+                        <button class="btn btn-primary btn-sm pull-right add-spouse" data-toggle="modal" style="width:100px;"> เพิ่มคู่สมรส </button>
+                    }
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -142,7 +151,9 @@
                                         <td>@item.OcName</td>
                                         <td>@item.MaritalName</td>
                                         <td>@item.DivorceDate</td>
-                                        <td><button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit-family" data-id="' +  @item.UfID + '"><i class="material-icons">edit</i></button></td>
+                                        <td class="td-actions text-center">
+                                            <button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit-family" data-id="@item.UfID" data-rec-id="@item.RecID"><i class="material-icons">edit</i></button>
+                                        </td>
                                     </tr>
                                     i++;
                                 }
@@ -190,7 +201,10 @@
                                         <td>@item.UfAge</td>
                                         <td>@item.UfLifeStatusName</td>
                                         <td>@item.UfStudyStatusName</td>
-                                        <td><button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit-family" data-id="' +  @item.UfID + '"><i class="material-icons">edit</i></button></td>
+                                        <td class="td-actions text-center">
+                                            <button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit-family" data-id="@item.UfID" data-rec-id="@item.RecID"><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;
+                                            <button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-danger delete-family" data-id="@item.UfID" data-rec-id="@item.RecID"><i class="material-icons">close</i></button>
+                                        </td>
                                     </tr>
                                     index++;
                                 }
@@ -231,7 +245,6 @@
 
 <script>
 
-    
     $('.modal-family').on('hidden.bs.modal', function () {
         $('.wedding').hide();
         $('.marital').hide();
@@ -242,80 +255,113 @@
         $('.isworked').hide();
     })
 
-    $(".add-father").click(function () {
-        var userid = $("#UserID").val();
-        var recid = 2;
-        var url = '@Url.Action("FamilyDetail", "Employee")';
-        $.post(url, { userid: userid, recid: recid }, function (data) {
-            $(".detail-family").html(data);
+    function displayDetail(recid) {
+        if (recid == 2) {
             $('.lifestatus').show();
             $('.taxdeduc').show();
             $('.isworked').show();
-            $('.modal-family').modal('show');
-        });
-    });
-
-    $(".add-mother").click(function () {
-        var id = $("#UserID").val();
-        var recid = 3;
-        var url = '@Url.Action("FamilyDetail", "Employee")';
-        $.post(url, { userid: userid, recid: recid }, function (data) {
-            $(".detail-family").html(data);
+        }
+        else if (recid == 3) {
             $('.lifestatus').show();
             $('.taxdeduc').show();
             $('.isworked').show();
-            $('.modal-family').modal('show');
-        });
-    });
-
-    $(".add-spouse").click(function () {
-        var id = $("#UserID").val();
-        var recid = 4;
-        var url = '@Url.Action("FamilyDetail", "Employee")';
-        $.post(url, { userid: userid, recid: recid }, function (data) {
-            $(".detail-family").html(data);
+        }
+        else if (recid == 4) {
             $('.wedding').show();
             $('.marital').show();
             $('.lifestatus').show();
             $('.taxdeduc').show();
             $('.occupation').show();
+        }
+        else if (recid == 5) {
+            $('.lifestatus').show();
+            $('.education').show();
+        }
+    }
+
+    $(".add-father").click(function () {
+        var userid = $("#UserID").val();
+        var recid = 2;
+        var url = '@Url.Action("FamilyDetail", "Employee")';
+        $.post(url, { userid: userid, recid: recid, ufid: 0 }, function (data) {
+            $(".detail-family").html(data);
+            displayDetail(recid);
+            $('.modal-family').modal('show');
+        });
+    });
+
+    $(".add-mother").click(function () {
+        var userid = $("#UserID").val();
+        var recid = 3;
+        var url = '@Url.Action("FamilyDetail", "Employee")';
+        $.post(url, { userid: userid, recid: recid, ufid: 0 }, function (data) {
+            $(".detail-family").html(data);
+            displayDetail(recid);
+            $('.modal-family').modal('show');
+        });
+    });
+
+    $(".add-spouse").click(function () {
+        var userid = $("#UserID").val();
+        var recid = 4;
+        var url = '@Url.Action("FamilyDetail", "Employee")';
+        $.post(url, { userid: userid, recid: recid, ufid: 0 }, function (data) {
+            $(".detail-family").html(data);
+            displayDetail(recid);
             $('.modal-family').modal('show');
         });
     });
 
     $(".add-child").click(function () {
-        var id = $("#UserID").val();
+        var userid = $("#UserID").val();
         var recid = 5;
-        var url = '@Url.Action("FamilyDetail", "Employee")/'+id;
-        $.post(url, { userid: userid, recid: recid }, function (data) {
+        var url = '@Url.Action("FamilyDetail", "Employee")';
+        $.post(url, { userid: userid, recid: recid, ufid: 0 }, function (data) {
             $(".detail-family").html(data);
-            $('.lifestatus').show();
-            $('.education').show();
+            displayDetail(recid);
             $('.modal-family').modal('show');
         });
     });
 
 
     $(".edit-family").click(function () {
-        debugger;
-        var faid = $(this).data("id");
-        var url = '@Url.Action("FamilyDetail", "Master")/'+id;
-        $.post(url, function (data) {
-            $("#detail-family").html(data);
-            $('#modal-family').modal('show');
+        var userid = $("#UserID").val();
+        var ufid = $(this).data("id");
+        var recid = $(this).data("rec-id");
+        var url = '@Url.Action("FamilyDetail", "Employee")';
+        $.post(url, { userid: userid, recid: recid, ufid: ufid }, function (data) {
+            $(".detail-family").html(data);
+            displayDetail(recid);
+            $('.modal-family').modal('show');
         });
     });
 
 
     $(".save-family").click(function () {
+        var id = $("#UserID").val();
         $.ajax({
             type: 'POST',
             url: '@Url.Action("SaveFamily", "Employee")',
             data: $(".form-family").serialize(),
             success: function (res) {
                 if (res.MessageCode == null) {
-                    showSwal.saveMessage();
-                    //Load Data
+                    swal({
+                        title: "",
+                        text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                        type: "success",
+                        buttonsStyling: false,
+                        confirmButtonClass: "btn btn-success",
+                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                    }).catch(swal.noop)
+
+                    debugger;
+                    @*var url = '@Url.Action("FamilyByUser", "Employee")/'+id;
+                    $.post(url, function (data) {
+                        $("#div-family").html(data);
+                    });*@
+
+                    //window.location.reload();
+
                     $('#modalDetail').modal('hide');
                 }
                 else {

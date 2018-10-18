@@ -118,9 +118,9 @@ namespace SAT.HR.Controllers
             return PartialView("_Family", model);
         }
 
-        public ActionResult FamilyDetail(int userid, int recid)
+        public ActionResult FamilyDetail(int userid, int recid, int ufid)
         {
-            var model = new EmployeeRepository().GetFamilyByID(userid, recid);
+            var model = new EmployeeRepository().GetFamilyByID(userid, recid, ufid);
 
             ViewBag.MaritalStatus = DropDownList.GetMaritalStatus(model != null ? model.MaritalStatusID : null);
             ViewBag.Occupation = DropDownList.GetOccupation(model != null ? model.OcID : null);
