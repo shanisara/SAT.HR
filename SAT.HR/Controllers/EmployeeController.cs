@@ -24,7 +24,7 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult Detail(int id)
+        public ActionResult Detail(int userid, int id)
         {
             EmployeeViewModel model = new EmployeeViewModel();
             model = new EmployeeRepository().GetByID(id);
@@ -112,10 +112,10 @@ namespace SAT.HR.Controllers
 
         #region Tab: User-Family
 
-        public ActionResult Family(int id)
+        public ActionResult FamilyDetail(int id)
         {
             var model = new EmployeeRepository().GetUserFamily(id);
-            return PartialView("_Family", model);
+            return PartialView("_FamilyDetail", model);
         }
 
         public JsonResult SaveFamily(UserFamilyViewModel data)
@@ -138,10 +138,10 @@ namespace SAT.HR.Controllers
 
         #region Tab: User-Education
 
-        public ActionResult Education(int id)
+        public ActionResult EducationDetail(int id)
         {
             var model = new EmployeeRepository().GetUserEducation(id);
-            return PartialView("_Education", model);
+            return PartialView("_EducationDetail", model);
         }
 
         public JsonResult Save(UserEducationViewModel data)
@@ -164,10 +164,10 @@ namespace SAT.HR.Controllers
 
         #region Tab: User-Position
 
-        public ActionResult Position(int id)
+        public ActionResult PositionDetail(int id)
         {
             var model = new EmployeeRepository().GetUserPosition(id);
-            return PartialView("_Position", model);
+            return PartialView("_PositionDetail", model);
         }
 
         public JsonResult SavePosition(UserPositionViewModel data)
@@ -191,10 +191,10 @@ namespace SAT.HR.Controllers
 
         #region Tab: User-Trainning
 
-        public ActionResult Trainning(int id)
+        public ActionResult TrainningDetail(int id)
         {
             var model = new EmployeeRepository().GetUserTrainning(id);
-            return PartialView("_Trainning", model);
+            return PartialView("_TrainningDetail", model);
         }
 
         public JsonResult SaveTraining(UserTrainningViewModel data)
@@ -218,10 +218,10 @@ namespace SAT.HR.Controllers
 
         #region Tab: User-Insignia
 
-        public ActionResult Insignia(int id)
+        public ActionResult InsigniaDetail(int id)
         {
             var model = new EmployeeRepository().GetUserInsignia(id);
-            return PartialView("_Insignia", model);
+            return PartialView("_InsigniaDetail", model);
         }
 
         public JsonResult SaveInsignia(UserInsigniaViewModel data)
@@ -245,10 +245,10 @@ namespace SAT.HR.Controllers
 
         #region Tab: User-Excellent
 
-        public ActionResult Excellent(int id)
+        public ActionResult ExcellentDetail(int id)
         {
             var model = new EmployeeRepository().GetUserExcellent(id);
-            return PartialView("_Excellent", model);
+            return PartialView("_ExcellentDetail", model);
         }
 
         public JsonResult SaveExcellent(UserExcellentViewModel data)
@@ -272,10 +272,10 @@ namespace SAT.HR.Controllers
 
         #region Tab: User-Certificate
 
-        public ActionResult Certificate(int id)
+        public ActionResult CertificateDetail(int id)
         {
             var model = new EmployeeRepository().GetUserCertificate(id);
-            return PartialView("_Certificate", model);
+            return PartialView("_CertificateDetail", model);
         }
 
         public JsonResult SaveCertificate(UserCertificateViewModel data)
@@ -298,10 +298,10 @@ namespace SAT.HR.Controllers
 
         #region Tab: User-History
 
-        public ActionResult History(int id)
+        public ActionResult HistoryDetail(int id)
         {
             var model = new EmployeeRepository().GetUserHistory(id);
-            return PartialView("_History", model);
+            return PartialView("_HistoryDetail", model);
         }
 
         public JsonResult SaveHistory(UserHistoryViewModel data)

@@ -13,11 +13,11 @@ namespace SAT.HR.Models
 
         public string SecName { get; set; }
 
-        public int DivID { get; set; }
+        public int? DivID { get; set; }
 
         public string DivName { get; set; }
 
-        public int DepID { get; set; }
+        public int? DepID { get; set; }
 
         public string DepName { get; set; }
 

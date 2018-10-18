@@ -89,34 +89,32 @@ namespace SAT.HR.Models
 
     public class UserFamilyViewModel
     {
-        public int UserID { get; set; }
         public int UfID { get; set; }
+        public int UserID { get; set; }
+        public string FullNameTH { get; set; }
+        public string FullNameEn { get; set; }
+        public Nullable<decimal> IDCard { get; set; }
         public string UfName { get; set; }
         public Nullable<decimal> UfCardID { get; set; }
         public Nullable<System.DateTime> UfDOB { get; set; }
         public Nullable<bool> UfLifeStatus { get; set; }
-        public Nullable<int> TdID { get; set; }
-        public Nullable<int> PoID { get; set; }
-        public Nullable<bool> UfStudyStatus { get; set; }
-        public int RecID { get; set; }
-        public Nullable<System.DateTime> CreateDate { get; set; }
-        public Nullable<int> CreateBy { get; set; }
-        public Nullable<System.DateTime> ModifyDate { get; set; }
-        public Nullable<int> ModifyBy { get; set; }
-        public string UfAge { get; set; }
-        public int? MaritalID { get; set; }
-        public Nullable<DateTime> WeddingDate { get; set; }
-        public Nullable<DateTime> DivorceDate { get; set; }
-        public string Career { get; set; }
-
-
         public string UfLifeStatusName { get; set; }
+        public Nullable<int> TdID { get; set; }
         public string TdName { get; set; }
+        public Nullable<int> PoID { get; set; }
         public string PoName { get; set; }
+        public Nullable<int> OcID { get; set; }
+        public string OcName { get; set; }
+        public Nullable<System.DateTime> UfWeddingDate { get; set; }
+        public Nullable<System.DateTime> DivorceDate { get; set; }
+        public Nullable<bool> UfStudyStatus { get; set; }
+        public Nullable<int> RecID { get; set; }
+        public string RecName { get; set; }
+        public Nullable<int> MaritalStatusID { get; set; }
         public string MaritalName { get; set; }
+        public string UfAge { get; set; }
         public string UfStudyStatusName { get; set; }
-
-
+        
 
         public List<UserFamilyViewModel> ListFather { get; set; }
         public List<UserFamilyViewModel> ListMother { get; set; }

@@ -277,10 +277,10 @@ namespace SAT.HR.Data.Repository
                     model.ContactPhone = data.ContactPhone;
                     model.Avatar = data.Avatar;
                     model.IsActive = data.IsActive;
-                    model.CreateDate = data.CreateDate;
-                    model.CreateBy = data.CreateBy;
-                    model.ModifyDate = data.ModifyDate;
-                    model.ModifyBy = data.ModifyBy;
+                    //model.CreateDate = data.CreateDate;
+                    //model.CreateBy = data.CreateBy;
+                    //model.ModifyDate = data.ModifyDate;
+                    //model.ModifyBy = data.ModifyBy;
                     model.DivName = data.DivName;
                     model.DepName = data.DepName;
                     model.SecName = data.SecName;
@@ -389,7 +389,7 @@ namespace SAT.HR.Data.Repository
                 try
                 {
                     var model = db.tb_User.Single(x => x.UserID == newdata.UserID);
-                    model.UserName = newdata.UserName;
+                    //model.UserName = newdata.UserName;
                     model.TitleID = newdata.TitleID;
                     model.FirstNameTh = newdata.FirstNameTh;
                     model.LastNameTh = newdata.LastNameTh;
@@ -441,8 +441,8 @@ namespace SAT.HR.Data.Repository
                     model.Email = newdata.Email;
                     model.ContactName = newdata.ContactName;
                     model.ContactPhone = newdata.ContactPhone;
-                    model.Avatar = newdata.Avatar;
-                    model.IsActive = newdata.IsActive;
+                    //model.Avatar = newdata.Avatar;
+                    //model.IsActive = newdata.IsActive;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
@@ -489,7 +489,7 @@ namespace SAT.HR.Data.Repository
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    var listFather = db.tb_User_Family.Where(w => w.UserID == userid && w.RecID == 2).Select(s => new UserFamilyViewModel
+                    var listFather = db.vw_User_Family.Where(w => w.UserID == userid && w.RecID == 2).Select(s => new UserFamilyViewModel
                     {
                         #region Father
 
@@ -510,7 +510,7 @@ namespace SAT.HR.Data.Repository
                         #endregion
                     }).ToList();
 
-                    var listMother = db.tb_User_Family.Where(w => w.UserID == userid && w.RecID == 3).Select(s => new UserFamilyViewModel
+                    var listMother = db.vw_User_Family.Where(w => w.UserID == userid && w.RecID == 3).Select(s => new UserFamilyViewModel
                     {
                         #region Mother
 
@@ -531,7 +531,7 @@ namespace SAT.HR.Data.Repository
                         #endregion
                     }).ToList();
 
-                    var listSpouse = db.tb_User_Family.Where(w => w.UserID == userid && w.RecID == 4).Select(s => new UserFamilyViewModel
+                    var listSpouse = db.vw_User_Family.Where(w => w.UserID == userid && w.RecID == 4).Select(s => new UserFamilyViewModel
                     {
                         #region Spouse
 
@@ -540,20 +540,20 @@ namespace SAT.HR.Data.Repository
                         UfCardID = s.UfCardID,
                         UfDOB = s.UfDOB,
                         UfAge = null,
-                        WeddingDate = null,
-                        DivorceDate = null,
+                        UfWeddingDate = s.UfWeddingDate,
+                        DivorceDate = s.DivorceDate,
                         UfLifeStatus = s.UfLifeStatus,
-                        UfLifeStatusName = null,
-                        MaritalID = null,
+                        UfLifeStatusName = s.UfLifeStatusName,
+                        MaritalStatusID = s.MaritalStatusID,
                         MaritalName = null,
-                        Career = null,
+                        OcID = null,
                         RecID = s.RecID,
                         UserID = s.UserID,
 
                         #endregion
                     }).ToList();
 
-                    var listChild = db.tb_User_Family.Where(w => w.UserID == userid && w.RecID == 5).Select(s => new UserFamilyViewModel
+                    var listChild = db.vw_User_Family.Where(w => w.UserID == userid && w.RecID == 5).Select(s => new UserFamilyViewModel
                     {
                         #region Child
 

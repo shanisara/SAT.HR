@@ -28,7 +28,6 @@ namespace SAT.HR.Controllers
 
         public ActionResult LockScreen()
         {
-
             return PartialView();
         }
 
@@ -48,7 +47,19 @@ namespace SAT.HR.Controllers
                 if (emp != null)
                 {
                     bool activate = emp.IsActive.HasValue ? (bool)emp.IsActive : false;
-                    if (activate)
+                    bool inrole = true;
+
+                    if (!activate)
+                    {
+                        result.MessageCode = "001";
+                        result.MessageText = "รหัสผู้ใช้ " + username + " ถูกปิดการใช้งาน กรุณาติดต่อผู้ดูแลระบบ!";
+                    }
+                    else if (!inrole)
+                    {
+                        result.MessageCode = "002";
+                        result.MessageText = "รหัสผู้ใช้ " + username + " ไม่มีกลุ่มผู้ใช้งาน กรุณาติดต่อผู้ดูแลระบบ!";
+                    }
+                    else
                     {
                         UserProfile obj = new Models.UserProfile();
                         obj.UserID = emp.UserID;
@@ -65,19 +76,10 @@ namespace SAT.HR.Controllers
                         obj.Avatar = !string.IsNullOrEmpty(emp.Avatar) ? emp.Avatar : "avatar.png";
                         UtilityService.User = obj;
                     }
-                    else
-                    {
-                        result.MessageCode = "001";
-                        result.MessageText = "ถูกปิดการใช้งาน กรุณาติดต่อผู้ดูแลระบบ!";
-                    }
-
-                    //bool inrole = 
-
-                    //ไม่มีกลุ่มผู้ใช้งาน กรุณาติดต่อผู้ดูแลระบบ!
                 }
                 else
                 {
-                    result.MessageCode = "002";
+                    result.MessageCode = "003";
                     result.MessageText = "รหัสผู้ใช้หรือรหัสผ่านไม่ถูกต้อง.";
                 }
             }
