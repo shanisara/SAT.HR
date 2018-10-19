@@ -51,5 +51,18 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<CountryViewModel> GetCountry()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Country.Select(s => new CountryViewModel()
+                {
+                    CountryID = s.CountryID,
+                    CountryName = s.CountryName,
+                }).ToList();
+                return list;
+            }
+        }
+
     }
 }

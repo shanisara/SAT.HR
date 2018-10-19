@@ -124,52 +124,73 @@ namespace SAT.HR.Models
 
     public class UserEducationViewModel
     {
+        public int RowNumber { get; set; }
         public int UeID { get; set; }
         public int UserID { get; set; }
+        public string FullNameTH { get; set; }
+        public string FullNameEn { get; set; }
         public Nullable<int> EduID { get; set; }
+        public string EduName { get; set; }
         public Nullable<int> DegID { get; set; }
+        public string DegName { get; set; }
         public Nullable<int> MajID { get; set; }
+        public string MajName { get; set; }
         public string UeInstituteName { get; set; }
         public Nullable<int> CountryID { get; set; }
+        public string CountryName { get; set; }
         public Nullable<System.DateTime> UeGraduationDate { get; set; }
         public Nullable<decimal> UeGPA { get; set; }
         public Nullable<bool> UeEduType { get; set; }
-        public Nullable<System.DateTime> CreateDate { get; set; }
-        public Nullable<int> CreateBy { get; set; }
-        public Nullable<System.DateTime> ModifyDate { get; set; }
-        public Nullable<int> ModifyBy { get; set; }
+        public string UeGraduationDateText { get; set; }
+        public List<UserEducationViewModel> ListEducation { get; set; }
     }
 
     public class UserPositionViewModel
     {
+        public int RowNumber { get; set; }
         public int UpID { get; set; }
         public int UserID { get; set; }
+        public string FullNameTH { get; set; }
+        public string FullNameEn { get; set; }
         public Nullable<int> ActID { get; set; }
+        public string ActName { get; set; }
         public string UpCmd { get; set; }
         public Nullable<int> PoTID { get; set; }
+        public string PoTName { get; set; }
         public Nullable<int> DivID { get; set; }
+        public string DivName { get; set; }
         public Nullable<int> DepID { get; set; }
+        public string DepName { get; set; }
         public Nullable<int> SecID { get; set; }
+        public string SecName { get; set; }
         public Nullable<int> PoID { get; set; }
+        public string PoName { get; set; }
         public Nullable<int> PoAID { get; set; }
+        public string PoAName { get; set; }
         public string UpLevel { get; set; }
         public Nullable<decimal> UpSalary { get; set; }
         public Nullable<System.DateTime> UpCmdDate { get; set; }
         public Nullable<System.DateTime> UpForceDate { get; set; }
         public string UpRemark { get; set; }
         public string UpPathFile { get; set; }
-        public Nullable<System.DateTime> CreateDate { get; set; }
-        public Nullable<int> CreateBy { get; set; }
-        public Nullable<System.DateTime> ModifyDate { get; set; }
-        public Nullable<int> ModifyBy { get; set; }
+        public string UpCmdDateText { get; set; }
+        public string UpForceDateText { get; set; }
+        
+
+        public List<UserPositionViewModel> ListPosition { get; set; }
     }
 
     public class UserTrainningViewModel
     {
+        public int RowNumber { get; set; }
         public int UtID { get; set; }
         public int UserID { get; set; }
+        public string FullNameTH { get; set; }
+        public string FullNameEn { get; set; }
         public Nullable<int> TtID { get; set; }
+        public string TtName { get; set; }
         public Nullable<int> CountryID { get; set; }
+        public string CountryName { get; set; }
         public string UtCourse { get; set; }
         public Nullable<System.DateTime> UtStartDate { get; set; }
         public Nullable<System.DateTime> UtEndDate { get; set; }
@@ -177,13 +198,23 @@ namespace SAT.HR.Models
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
+        public string UtStartDateText { get; set; }
+        public string UtEndDateText { get; set; }
+
+        public List<UserTrainningViewModel> ListTrainning { get; set; }
+
     }
 
     public class UserInsigniaViewModel
     {
+        public int RowNumber { get; set; }
         public int UiID { get; set; }
         public int UserID { get; set; }
+        public string FullNameTH { get; set; }
+        public string FullNameEn { get; set; }
         public Nullable<int> InsID { get; set; }
+        public string InsFullName { get; set; }
+        public string InsShortName { get; set; }
         public string UiYear { get; set; }
         public string UiBook { get; set; }
         public string UiPart { get; set; }
@@ -192,45 +223,59 @@ namespace SAT.HR.Models
         public Nullable<System.DateTime> UiRetDate { get; set; }
         public string UiCmd { get; set; }
         public string UiPartFile { get; set; }
-        public Nullable<System.DateTime> CreateDate { get; set; }
-        public Nullable<int> CreateBy { get; set; }
-        public Nullable<System.DateTime> ModifyDate { get; set; }
-        public Nullable<int> ModifyBy { get; set; }
+        public string UiRecDateText { get; set; }
+        public string UiRetDateText { get; set; }
+
+        public List<UserInsigniaViewModel> ListInsignia { get; set; }
     }
 
     public class UserExcellentViewModel
     {
+        public int RowNumber { get; set; }
         public int UeID { get; set; }
         public int UserID { get; set; }
+        public string FullNameTH { get; set; }
+        public string FullNameEn { get; set; }
         public Nullable<int> ExID { get; set; }
+        public string ExName { get; set; }
         public string UeProjectName { get; set; }
         public Nullable<System.DateTime> UeRecYear { get; set; }
         public Nullable<System.DateTime> UeRecDate { get; set; }
-        public Nullable<System.DateTime> CreateDate { get; set; }
-        public Nullable<int> CreateBy { get; set; }
-        public Nullable<System.DateTime> ModifyDate { get; set; }
-        public Nullable<int> ModifyBy { get; set; }
+        public string UeRecDateText { get; set; }
+
+        public List<UserExcellentViewModel> ListExcellent { get; set; }
     }
 
     public class UserCertificateViewModel
     {
+        public int RowNumber { get; set; }
         public int UcID { get; set; }
         public int UserID { get; set; }
+        public string FullNameTH { get; set; }
+        public string FullNameEn { get; set; }
         public Nullable<int> CerId { get; set; }
+        public string CerName { get; set; }
         public Nullable<System.DateTime> UcRecDate { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
-        public string CerName { get; set; }
+        public string UcRecDateText { get; set; }
+        
+        public List<UserCertificateViewModel> ListCertificate { get; set; }
     }
 
     public class UserHistoryViewModel
     {
+        public int RowNumber { get; set; }
         public int UhID { get; set; }
         public int UserID { get; set; }
+        public string FullNameTH { get; set; }
+        public string FullNameEn { get; set; }
         public Nullable<System.DateTime> UhEditDate { get; set; }
         public Nullable<int> TiID { get; set; }
+        public string TiFullName { get; set; }
+        public string TiShortName { get; set; }
         public string UhFirstNameTH { get; set; }
         public string UhLastNameTH { get; set; }
         public string UhFirstNameEN { get; set; }
@@ -239,6 +284,11 @@ namespace SAT.HR.Models
         public Nullable<bool> UhStatus { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
+        public Nullable<System.DateTime> ModifyDate { get; set; }
+        public Nullable<int> ModifyBy { get; set; }
+        public string UhEditDateText { get; set; }
+        
+        public List<UserHistoryViewModel> ListHistory { get; set; }
     }
 
     public class RecieveTypeViewModel
@@ -288,5 +338,5 @@ namespace SAT.HR.Models
         public int OcID { get; set; }
         public string OcName { get; set; }
     }
-    
+
 }

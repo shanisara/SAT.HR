@@ -1,1 +1,50 @@
-﻿
+﻿@model SAT.HR.Models.UserTrainningViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-trainning" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        <div class="row occupation">
+            @Html.Label("ประเภท: ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9 m-t-10">
+                @Html.DropDownListFor(n => n.TtID, new SelectList((IEnumerable<SelectListItem>)ViewBag.TrainingType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+            </div>
+        </div>
+        <div class="row occupation">
+            @Html.Label("ประเทศ: ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9 m-t-10">
+                @Html.DropDownListFor(n => n.CountryID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Country, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("หลักสูตร: ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.UtCourse, new { @class = "form-control", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("วันที่เริ่ม: ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.UtStartDate, new { @class = "form-control datepicker" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("วันที่สิ้นสุด: ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.UtEndDate, new { @class = "form-control datepicker" })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+

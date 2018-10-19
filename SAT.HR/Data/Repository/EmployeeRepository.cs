@@ -68,7 +68,7 @@ namespace SAT.HR.Data.Repository
             return model;
         }
 
-        public EmployeePageResult GetUserNotInUserRole(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
+        public EmployeePageResult GetUserNotInRole(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
         {
             EmployeePageResult result = new EmployeePageResult();
 
@@ -132,7 +132,7 @@ namespace SAT.HR.Data.Repository
         }
 
 
-        #region Tab: User-Employee
+        #region 1.1 Tab: User-Employee
 
         public EmployeePageResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
         {
@@ -501,7 +501,7 @@ namespace SAT.HR.Data.Repository
 
         #endregion
 
-        #region Tab: User-Family
+        #region 1.2 Tab: User-Family
 
         public UserFamilyViewModel GetFamilyByUser(int id)
         {
@@ -711,14 +711,14 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public ResponseData DeleteFamilyByID(int userid, int id)
+        public ResponseData DeleteFamilyByID(int id)
         {
             ResponseData result = new Models.ResponseData();
             using (SATEntities db = new SATEntities())
             {
                 try
                 {
-                    var obj = db.tb_User_Family.SingleOrDefault(x => x.UserID == userid && x.UfID == id);
+                    var obj = db.tb_User_Family.SingleOrDefault(x => x.UfID == id);
                     if (obj != null)
                     {
                         db.tb_User_Family.Remove(obj);
@@ -736,27 +736,46 @@ namespace SAT.HR.Data.Repository
 
         #endregion
 
-        #region Tab: User-Education
+        #region 1.3 Tab: User-Education
 
-        public List<UserEducationViewModel> GetEducationByUser(int userid)
+        public UserEducationViewModel GetEducationByUser(int userid)
         {
-            var model = new List<UserEducationViewModel>();
+            var data = new UserEducationViewModel();
+            var list = new List<UserEducationViewModel>();
+
             try
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    model = db.vw_User_Education.Where(x => x.UserID == userid).Select(s => new UserEducationViewModel
+                    int index = 1;
+                    var education = db.vw_User_Education.Where(x => x.UserID == userid).ToList();
+                    foreach (var s in education)
                     {
-
-                    }).ToList();
+                        UserEducationViewModel model = new Models.UserEducationViewModel();
+                        model.RowNumber = index++;
+                        model.UeID = s.UeID;
+                        model.UserID = s.UserID;
+                        model.EduName = s.EduName;
+                        model.DegName = s.DegName;
+                        model.MajName = s.MajName;
+                        model.CountryName = s.CountryName;
+                        model.UeInstituteName = s.UeInstituteName;
+                        model.UeGraduationDateText = (s.UeGraduationDate.HasValue) ? s.UeGraduationDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        model.UeGPA = s.UeGPA;
+                        model.UeEduType = s.UeEduType;
+                        list.Add(model);
+                    }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
                 throw;
             }
-            return model;
+
+            data.UserID = userid;
+            data.ListEducation = list;
+
+            return data;
         }
 
         public UserEducationViewModel GetEducationByID(int id)
@@ -849,14 +868,14 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public ResponseData DeleteEducationByID(int userid, int id)
+        public ResponseData DeleteEducationByID(int id)
         {
             ResponseData result = new Models.ResponseData();
             using (SATEntities db = new SATEntities())
             {
                 try
                 {
-                    var model = db.tb_User_Education.SingleOrDefault(x => x.UserID == userid && x.UeID == id);
+                    var model = db.tb_User_Education.SingleOrDefault(x => x.UeID == id);
                     if (model != null)
                     {
                         db.tb_User_Education.Remove(model);
@@ -874,19 +893,35 @@ namespace SAT.HR.Data.Repository
 
         #endregion
 
-        #region Tab: User-Position
+        #region 1.4 Tab: User-Position
 
-        public List<UserPositionViewModel> GetPositionByUser(int userid)
+        public UserPositionViewModel GetPositionByUser(int userid)
         {
-            var model = new List<UserPositionViewModel>();
+            var data = new UserPositionViewModel();
+            var list = new List<UserPositionViewModel>();
             try
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    model = db.vw_User_Position.Where(x => x.UserID == userid).Select(s => new UserPositionViewModel
+                    int index = 1;
+                    var position = db.vw_User_Position.Where(x => x.UserID == userid).ToList();
+                    foreach (var item in position)
                     {
-
-                    }).ToList();
+                        UserPositionViewModel model = new UserPositionViewModel();
+                        model.RowNumber = index++;
+                        model.UpID = item.UpID;
+                        model.UserID = item.UserID;
+                        model.ActName = item.ActName;
+                        model.UpCmd = item.UpCmd;
+                        model.PoName = item.PoName;
+                        model.UpLevel = item.UpLevel;
+                        model.UpSalary = item.UpSalary;
+                        model.UpCmdDateText = (item.UpCmdDate.HasValue) ? item.UpCmdDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        model.UpCmdDateText = (item.UpForceDate.HasValue) ? item.UpForceDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        model.UpRemark = item.UpRemark;
+                        model.UpPathFile = item.UpPathFile;
+                        list.Add(model);
+                    }
                 }
             }
             catch (Exception)
@@ -894,7 +929,9 @@ namespace SAT.HR.Data.Repository
 
                 throw;
             }
-            return model;
+            data.UserID = userid;
+            data.ListPosition = list;
+            return data;
         }
 
         public UserPositionViewModel GetPositionByID(int id)
@@ -1005,14 +1042,14 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public ResponseData DeletePositionByID(int userid, int id)
+        public ResponseData DeletePositionByID(int id)
         {
             ResponseData result = new Models.ResponseData();
             using (SATEntities db = new SATEntities())
             {
                 try
                 {
-                    var model = db.tb_User_Position.SingleOrDefault(x => x.UserID == userid && x.UpID == id);
+                    var model = db.tb_User_Position.SingleOrDefault(x => x.UpID == id);
                     if (model != null)
                     {
                         db.tb_User_Position.Remove(model);
@@ -1030,19 +1067,33 @@ namespace SAT.HR.Data.Repository
 
         #endregion
 
-        #region Tab: User-Trainning
+        #region 1.5 Tab: User-Trainning
 
-        public List<UserTrainningViewModel> GetTrainningByUser(int userid)
+        public UserTrainningViewModel GetTrainningByUser(int userid)
         {
-            var model = new List<UserTrainningViewModel>();
+            var data = new UserTrainningViewModel();
+            var list = new List<UserTrainningViewModel>();
             try
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    model = db.vw_User_Training.Where(x => x.UserID == userid).Select(s => new UserTrainningViewModel
+                    int index = 1;
+                    var training = db.vw_User_Training.Where(x => x.UserID == userid).ToList();
+                    foreach (var item in training)
                     {
-
-                    }).ToList();
+                        UserTrainningViewModel model = new UserTrainningViewModel();
+                        model.RowNumber = index++;
+                        model.UtID = item.UtID;
+                        model.UserID = item.UserID;
+                        model.TtID = item.TtID;
+                        model.TtName = item.TtName;
+                        model.CountryID = item.CountryID;
+                        model.CountryName = item.CountryName;
+                        model.UtCourse = item.UtCourse;
+                        model.UtStartDateText = (item.UtStartDate.HasValue) ? item.UtStartDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        model.UtEndDateText = (item.UtEndDate.HasValue) ? item.UtEndDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        list.Add(model);
+                    }
                 }
             }
             catch (Exception)
@@ -1050,7 +1101,9 @@ namespace SAT.HR.Data.Repository
 
                 throw;
             }
-            return model;
+            data.UserID = userid;
+            data.ListTrainning = list;
+            return data;
         }
 
         public UserTrainningViewModel GetTrainningByID(int id)
@@ -1134,14 +1187,14 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public ResponseData DeleteTrainingByID(int userid, int id)
+        public ResponseData DeleteTrainingByID(int id)
         {
             ResponseData result = new Models.ResponseData();
             using (SATEntities db = new SATEntities())
             {
                 try
                 {
-                    var model = db.tb_User_Training.SingleOrDefault(x => x.UserID == userid && x.TtID == id);
+                    var model = db.tb_User_Training.SingleOrDefault(x => x.TtID == id);
                     if (model != null)
                     {
                         db.tb_User_Training.Remove(model);
@@ -1159,19 +1212,34 @@ namespace SAT.HR.Data.Repository
 
         #endregion
 
-        #region Tab: User-Insignia
+        #region 1.6 Tab: User-Insignia
 
-        public List<UserInsigniaViewModel> GetInsigniaByUser(int userid)
+        public UserInsigniaViewModel GetInsigniaByUser(int userid)
         {
-            var model = new List<UserInsigniaViewModel>();
+            var data = new UserInsigniaViewModel();
+            var list = new List<UserInsigniaViewModel>();
             try
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    model = db.vw_User_Insignia.Where(x => x.UserID == userid).Select(s => new UserInsigniaViewModel
-                    {
+                    int index = 1;
+                    var insignia = db.vw_User_Insignia.Where(x => x.UserID == userid).ToList();
 
-                    }).ToList();
+                    foreach (var item in insignia)
+                    {
+                        UserInsigniaViewModel model = new UserInsigniaViewModel();
+                        model.RowNumber = index++;
+                        model.UiID = item.UiID;
+                        model.UserID = item.UserID;
+                        model.InsFullName = item.InsFullName;
+                        model.UiYear = item.UiYear;
+                        model.UiBook = item.UiBook;
+                        model.UiPart = item.UiPart;
+                        model.UiCmd = item.UiCmd;
+                        model.UiRecDateText = (item.UiRecDate.HasValue) ? item.UiRecDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        model.UiRetDateText = (item.UiRetDate.HasValue) ? item.UiRetDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        list.Add(model);
+                    }
                 }
             }
             catch (Exception)
@@ -1179,7 +1247,9 @@ namespace SAT.HR.Data.Repository
 
                 throw;
             }
-            return model;
+            data.UserID = userid;
+            data.ListInsignia = list;
+            return data;
         }
 
         public UserInsigniaViewModel GetInsigniaByID(int id)
@@ -1275,14 +1345,14 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public ResponseData DeleteInsigniaByID(int userid, int id)
+        public ResponseData DeleteInsigniaByID(int id)
         {
             ResponseData result = new Models.ResponseData();
             using (SATEntities db = new SATEntities())
             {
                 try
                 {
-                    var model = db.tb_User_Insignia.SingleOrDefault(x => x.UserID == userid && x.InsID == id);
+                    var model = db.tb_User_Insignia.SingleOrDefault(x => x.InsID == id);
                     if (model != null)
                     {
                         db.tb_User_Insignia.Remove(model);
@@ -1300,19 +1370,31 @@ namespace SAT.HR.Data.Repository
 
         #endregion
 
-        #region Tab: User-Excellent
+        #region 1.7 Tab: User-Excellent
 
-        public List<UserExcellentViewModel> GetExcellentByUser(int userid)
+        public UserExcellentViewModel GetExcellentByUser(int userid)
         {
-            var model = new List<UserExcellentViewModel>();
+            var data = new UserExcellentViewModel();
+            var list = new List<UserExcellentViewModel>();
             try
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    model = db.vw_User_Excellent.Where(x => x.UserID == userid).Select(s => new UserExcellentViewModel
-                    {
+                    int index = 1;
+                    var excellent = db.vw_User_Excellent.Where(x => x.UserID == userid).ToList();
 
-                    }).ToList();
+                    foreach (var item in excellent)
+                    {
+                        UserExcellentViewModel model = new UserExcellentViewModel();
+                        model.RowNumber = index++;
+                        model.UeID = item.UeID;
+                        model.UserID = item.UserID;
+                        model.UeRecYear = item.UeRecYear;
+                        model.ExName = item.ExName;
+                        model.UeProjectName = item.UeProjectName;
+                        model.UeRecDateText = (item.UeRecDate.HasValue) ? item.UeRecDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        list.Add(model);
+                    }
                 }
             }
             catch (Exception)
@@ -1320,7 +1402,9 @@ namespace SAT.HR.Data.Repository
 
                 throw;
             }
-            return model;
+            data.UserID = userid;
+            data.ListExcellent = list;
+            return data;
         }
 
         public UserExcellentViewModel GetExcellentByID(int id)
@@ -1401,14 +1485,14 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public ResponseData DeleteExcellentByID(int userid, int id)
+        public ResponseData DeleteExcellentByID(int id)
         {
             ResponseData result = new Models.ResponseData();
             using (SATEntities db = new SATEntities())
             {
                 try
                 {
-                    var model = db.tb_User_Excellent.SingleOrDefault(x => x.UserID == userid && x.ExID == id);
+                    var model = db.tb_User_Excellent.SingleOrDefault(x => x.ExID == id);
                     if (model != null)
                     {
                         db.tb_User_Excellent.Remove(model);
@@ -1426,19 +1510,29 @@ namespace SAT.HR.Data.Repository
 
         #endregion
 
-        #region Tab: User-Certificate
+        #region 1.8 Tab: User-Certificate
 
-        public List<UserCertificateViewModel> GetCertificateByUser(int userid)
+        public UserCertificateViewModel GetCertificateByUser(int userid)
         {
-            var model = new List<UserCertificateViewModel>();
+            var data = new UserCertificateViewModel();
+            var list = new List<UserCertificateViewModel>();
             try
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    model = db.vw_User_Certificate.Where(x => x.UserID == userid).Select(s => new UserCertificateViewModel
-                    {
+                    int index = 1;
+                    var certificate = db.vw_User_Certificate.Where(x => x.UserID == userid).ToList();
 
-                    }).ToList();
+                    foreach (var item in certificate)
+                    {
+                        UserCertificateViewModel model = new UserCertificateViewModel();
+                        model.RowNumber = index++;
+                        model.UcID = item.UcID;
+                        model.UserID = item.UserID;
+                        model.CerName = item.CerName; 
+                        model.UcRecDateText = (item.UcRecDate.HasValue) ? item.UcRecDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        list.Add(model);
+                    }
                 }
             }
             catch (Exception)
@@ -1446,7 +1540,9 @@ namespace SAT.HR.Data.Repository
 
                 throw;
             }
-            return model;
+            data.UserID = userid;
+            data.ListCertificate = list;
+            return data;
         }
 
         public UserCertificateViewModel GetCertificateByID(int id)
@@ -1521,14 +1617,14 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public ResponseData DeleteCertificateByID(int userid, int id)
+        public ResponseData DeleteCertificateByID(int id)
         {
             ResponseData result = new Models.ResponseData();
             using (SATEntities db = new SATEntities())
             {
                 try
                 {
-                    var model = db.tb_User_Certificate.SingleOrDefault(x => x.UserID == userid && x.CerId == id);
+                    var model = db.tb_User_Certificate.SingleOrDefault(x => x.CerId == id);
                     if (model != null)
                     {
                         db.tb_User_Certificate.Remove(model);
@@ -1546,19 +1642,34 @@ namespace SAT.HR.Data.Repository
 
         #endregion
 
-        #region Tab: User-History
+        #region 1.9 Tab: User-History
 
-        public List<UserHistoryViewModel> GetHistoryByUser(int userid)
+        public UserHistoryViewModel GetHistoryByUser(int userid)
         {
-            var model = new List<UserHistoryViewModel>();
+            var data = new UserHistoryViewModel();
+            var list = new List<UserHistoryViewModel>();
             try
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    model = db.vw_User_History.Where(x => x.UserID == userid).Select(s => new UserHistoryViewModel
-                    {
+                    int index = 1;
+                    var history = db.vw_User_History.Where(x => x.UserID == userid).ToList();
 
-                    }).ToList();
+                    foreach (var item in history)
+                    {
+                        UserHistoryViewModel model = new UserHistoryViewModel();
+                        model.RowNumber = index++;
+                        model.UhID = item.UhID;
+                        model.UserID = item.UserID;
+                        model.UhEditDateText = (item.UhEditDate.HasValue) ? item.UhEditDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        model.UhFirstNameTH = item.UhFirstNameTH;
+                        model.UhLastNameTH = item.UhLastNameTH;
+                        model.UhFirstNameEN = item.UhFirstNameEN;
+                        model.UhLastNameEN = item.UhLastNameEN;
+                        model.Remark = item.Remark;
+                        model.UhStatus = item.UhStatus;
+                        list.Add(model);
+                    }
                 }
             }
             catch (Exception)
@@ -1566,7 +1677,9 @@ namespace SAT.HR.Data.Repository
 
                 throw;
             }
-            return model;
+            data.UserID = userid;
+            data.ListHistory = list;
+            return data;
         }
 
         public UserHistoryViewModel GetHistoryByID(int id)
@@ -1659,14 +1772,14 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public ResponseData DeleteHistoryByID(int userid, int id)
+        public ResponseData DeleteHistoryByID(int id)
         {
             ResponseData result = new Models.ResponseData();
             using (SATEntities db = new SATEntities())
             {
                 try
                 {
-                    var model = db.tb_User_History.SingleOrDefault(x => x.UserID == userid && x.UhID == id);
+                    var model = db.tb_User_History.SingleOrDefault(x => x.UhID == id);
                     if (model != null)
                     {
                         db.tb_User_History.Remove(model);

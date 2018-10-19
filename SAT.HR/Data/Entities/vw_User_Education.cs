@@ -26,6 +26,7 @@ namespace SAT.HR.Data.Entities
         public string MajName { get; set; }
         public string UeInstituteName { get; set; }
         public Nullable<int> CountryID { get; set; }
+        public string CountryName { get; set; }
         public Nullable<System.DateTime> UeGraduationDate { get; set; }
         public Nullable<decimal> UeGPA { get; set; }
         public Nullable<bool> UeEduType { get; set; }

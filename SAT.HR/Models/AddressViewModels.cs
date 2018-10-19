@@ -28,5 +28,13 @@ namespace SAT.HR.Models
         public int? ProvinceID { get; set; }
         public string ProvinceName { get; set; }
     }
-    
+
+    public class CountryViewModel
+    {
+        public int CountryID { get; set; }
+        public string CountryName { get; set; }
+    }
+
+        
+
 }

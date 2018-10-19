@@ -497,7 +497,6 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
-
         public static List<SelectListItem> GetBloodType(int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
@@ -626,6 +625,23 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
+        public static List<SelectListItem> GetCountry(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new AddressRepository().GetCountry();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.CountryID.ToString();
+                select.Text = item.CountryName;
+                select.Selected = defaultValue.HasValue ? (item.CountryID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
         public static List<SelectListItem> GetPositionType(int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
@@ -677,7 +693,27 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
+        public static List<SelectListItem> GetTrainingType(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new TrainingRepository().GetTrainingType();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.TrainingTypeID.ToString();
+                select.Text = item.TrainingTypeName;
+                select.Selected = defaultValue.HasValue ? (item.TrainingTypeID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
         
+
+        
+
     }
 
 }

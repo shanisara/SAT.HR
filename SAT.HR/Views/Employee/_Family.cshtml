@@ -1,6 +1,5 @@
 ﻿@model SAT.HR.Models.UserFamilyViewModel
 
-
 <div class="content">
     @Html.HiddenFor(m => m.UserID)
 
@@ -234,7 +233,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-sm btn-default close-family" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
                 <button type="button" class="btn btn-sm btn-primary save-family">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
             </div>
         </div>
@@ -244,6 +243,7 @@
 
 
 <script>
+
 
     $('.modal-family').on('hidden.bs.modal', function () {
         $('.wedding').hide();
@@ -338,7 +338,6 @@
 
 
     $(".save-family").click(function () {
-        var id = $("#UserID").val();
         $.ajax({
             type: 'POST',
             url: '@Url.Action("SaveFamily", "Employee")',
@@ -362,10 +361,17 @@
 
                     //window.location.reload();
 
-                    $('#modalDetail').modal('hide');
+                    $('.modal-family').modal('hide');
                 }
                 else {
-                    showSwal.failureMessage(res.MessageText);
+                    swal({
+                        title: '',
+                        text: msg,
+                        type: 'error',
+                        confirmButtonClass: "btn btn-info",
+                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                        buttonsStyling: false
+                    }).catch(swal.noop)
                 }
             }
         });

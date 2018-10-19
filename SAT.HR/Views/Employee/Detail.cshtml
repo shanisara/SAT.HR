@@ -189,7 +189,7 @@
                         <div class="tab-pane" id="tab-insignia">
                             <div id="div-insignia"></div>
                         </div>
-                        <div class="tab-pane" id="tab-ำxcellent">
+                        <div class="tab-pane" id="tab-excellent">
                             <div id="div-excellent"></div>
                         </div>
                         <div class="tab-pane" id="tab-certificate">
@@ -223,55 +223,6 @@
                 close: 'fa fa-remove'
             }
         });
-
-        var showSwal = {
-            saveMessage: function () {
-                swal({
-                    title: "",
-                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
-                    type: "success",
-                    buttonsStyling: false,
-                    confirmButtonClass: "btn btn-success",
-                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                }).catch(swal.noop)
-            },
-
-            deleteMessage: function () {
-                swal({
-                    title: '',
-                    text: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.DeleteSucceed)',
-                    type: 'success',
-                    confirmButtonClass: "btn btn-success",
-                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                    buttonsStyling: false
-                }).catch(swal.noop)
-            },
-            confirmDeleteMessage: function (id) {
-                swal({
-                    title: '',
-                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonClass: 'btn btn-success',
-                    cancelButtonClass: 'btn btn-danger',
-                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
-                    buttonsStyling: false
-                }).then(function () {
-
-                }).catch(swal.noop)
-            },
-            failureMessage: function (msg) {
-                swal({
-                    title: '',
-                    text: msg,
-                    type: 'error',
-                    confirmButtonClass: "btn btn-info",
-                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                    buttonsStyling: false
-                }).catch(swal.noop)
-            }
-        }
 
         var DropDownList = {
             getDepartment: function (el, divid) {
@@ -376,12 +327,6 @@
 
         $("#tabs li").click(function () {
             var id = $("#UserID").val();
-            @*if (this.id == "employee") {
-                var url = '@Url.Action("Employee", "Employee")/'+id;
-                $.post(url, function (data) {
-                    $("#div-employee").html(data);
-                });
-            }*@
             if (this.id == "family") {
                 var url = '@Url.Action("FamilyByUser", "Employee")/'+id;
                 $.post(url, function (data) {
@@ -389,49 +334,48 @@
                 });
             }
             else if (this.id == "education") {
-                var url = '@Url.Action("EducationByUser", "Employee")/'+id;
+                var url = '@Url.Action("EducationByUser", "Employee")';
                 $.post(url, function (data) {
                     $("#div-education").html(data);
                 });
             }
             else if (this.id == "position") {
-                var url = '@Url.Action("PositionByUser", "Employee")/'+id;
+                var url = '@Url.Action("PositionByUser", "Employee")';
                 $.post(url, function (data) {
                     $("#div-position").html(data);
                 });
             }
             else if (this.id == "trainning") {
-                var url = '@Url.Action("TrainningByUser", "Employee")/'+id;
+                var url = '@Url.Action("TrainningByUser", "Employee")';
                 $.post(url, function (data) {
                     $("#div-trainning").html(data);
                 });
             }
             else if (this.id == "insignia") {
-                var url = '@Url.Action("InsigniaByUser", "Employee")/'+id;
+                var url = '@Url.Action("InsigniaByUser", "Employee")';
                 $.post(url, function (data) {
                     $("#div-insignia").html(data);
                 });
             }
             else if (this.id == "excellent") {
-                var url = '@Url.Action("ExcellentByUser", "Employee")/'+id;
+                var url = '@Url.Action("ExcellentByUser", "Employee")';
                 $.post(url, function (data) {
                     $("#div-excellent").html(data);
                 });
             }
             else if (this.id == "certificate") {
-                var url = '@Url.Action("CertificateByUser", "Employee")/'+id;
+                var url = '@Url.Action("CertificateByUser", "Employee")';
                 $.post(url, function (data) {
                     $("#div-certificate").html(data);
                 });
             }
             else if (this.id == "history") {
-                var url = '@Url.Action("HistoryByUser", "Employee")/'+id;
+                var url = '@Url.Action("HistoryByUser", "Employee")';
                 $.post(url, function (data) {
                     $("#div-history").html(data);
                 });
             }
         });
-
 
         $("#TitleID").change(function () {
             DropDownList.getSex($("#SexID"), $('#TitleID').val());
@@ -510,7 +454,6 @@
             window.location.href = url;
         });
 
-
         $(".save-employee").click(function () {
             $.ajax({
                 type: 'POST',
@@ -518,10 +461,24 @@
                 data: $("#formEmployee").serialize(),
                 success: function (res) {
                     if (res.MessageCode == null) {
-                        showSwal.saveMessage();
+                        swal({
+                            title: "",
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                            type: "success",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-success",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                        }).catch(swal.noop);
                     }
                     else {
-                        showSwal.failureMessage(res.MessageText);
+                        swal({
+                            title: '',
+                            text: res.MessageText,
+                            type: 'error',
+                            confirmButtonClass: "btn btn-info",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                            buttonsStyling: false
+                        }).catch(swal.noop);
                     }
                 }
             });

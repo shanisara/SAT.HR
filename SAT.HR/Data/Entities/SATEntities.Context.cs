@@ -73,7 +73,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Menu_Role> tb_Menu_Role { get; set; }
         public virtual DbSet<tb_Move_Level_Detail> tb_Move_Level_Detail { get; set; }
         public virtual DbSet<tb_Move_Level_Head> tb_Move_Level_Head { get; set; }
-        public virtual DbSet<tb_Move_Man_Power_Head> tb_Move_Man_Power_Head { get; set; }
         public virtual DbSet<tb_Move_Type> tb_Move_Type { get; set; }
         public virtual DbSet<tb_Nationality> tb_Nationality { get; set; }
         public virtual DbSet<tb_Occupation> tb_Occupation { get; set; }

@@ -1,26 +1,147 @@
-﻿@model SAT.HR.Models.UserEducationViewModel
-
-
-<button class="btn btn-primary btn-sm pull-right" data-toggle="modal" id="btnAdd"> เพิ่มรายการ </button>
+﻿
+<button class="btn btn-primary btn-sm pull-right add-education" data-toggle="modal"> เพิ่มรายการ </button>
 <div class="table-responsive">
-    <table class="table">
-        <thead class=" text-primary">
+    <table width="100%" class="table table-education" data-url="@Url.Content("~/Employee/Education")">
+        <thead class="text-primary">
             <tr>
-                <th>#</th>
-                <th>ระดับการศึกษา</th>
-                <th>วุฒิการศึกษา</th>
-                <th>สาขาวิชา</th>
-                <th>สถาบัน</th>
-                <th>ประเทศ</th>
-                <th>วันที่จบการศึกษา</th>
-                <th>เกรดเฉลี่ย</th>
-                <th>ปฏิบัติการ</th>
+                <th style="width:5%">#</th>
+                <th style="width:15%">ระดับการศึกษา</th>
+                <th style="width:15%">วุฒิการศึกษา</th>
+                <th style="width:13%">สาขาวิชา</th>
+                <th style="width:13%">สถาบัน</th>
+                <th style="width:7%">ประเทศ</th>
+                <th style="width:15%">วันที่จบการศึกษา</th>
+                <th style="width:8%">เกรดเฉลี่ย</th>
+                <th style="width:9%">ปฏิบัติการ</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td></td>
-            </tr>
-        </tbody>
+        <tbody></tbody>
     </table>
 </div>
+
+<!-- Classic Modal -->
+<div class="modal fade modal-large modal-education" tabindex="-1" role="dialog" aria-labelledby="modalEducationLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span>การศึกษา</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div class="detail-education"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-default close-education" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-sm btn-primary save-education">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  End Modal -->
+
+<script>
+
+    var dataTable = {
+        table: null,
+        initializeDataTable: function () {
+            var id = $("#UserID").val();
+
+            $table = $('.table-education');
+            dataTable.table = $table.DataTable({
+                "proccessing": true,
+                "serverSide": true,
+                paging: false,
+                bFilter: false,
+                ordering: false,
+                searching: true,
+                dom: 't',
+                ajax: {
+                    url: '@Url.Action("Education", "Employee")/'+id,
+                    type: "POST",
+                },
+                "columns": [
+                    { "data": "RowNumber", "orderable": false, "searchable": false },
+                    { "data": "EduName", "orderable": true },
+                    { "data": "DegName", "orderable": true },
+                    { "data": "MajName", "orderable": true },
+                    { "data": "UeInstituteName", "orderable": true },
+                    { "data": "CountryName", "orderable": true },
+                    { "data": "UeGraduationDate", "orderable": true },
+                    { "data": "UeGPA", "orderable": true }
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            var inner = '<div class="td-actions text-right">' +
+                                            '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.UeID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;' +
+                                            '<button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.UeID + '"><i class="material-icons">close</i></button>' +
+                                        '</div>';
+                            return inner;
+                        }, "targets": 8
+                    },
+                ]
+            });
+        },
+        getData: function () {
+            if (dataTable.table == null)
+                dataTable.initializeDataTable();
+            else
+                dataTable.table.ajax.reload();
+        }
+    }
+
+    //dataTable.getData();
+
+
+    $(".add-education").click(function () {
+        var url = '@Url.Action("EducationDetail", "Employee")';
+        $.post(url, { id: 0 }, function (data) {
+            $(".detail-education").html(data);
+            $('.modal-education').modal('show');
+        });
+    });
+
+    $(".edit-education").click(function () {
+        var id = $(this).data("id");
+        var url = '@Url.Action("EducationDetail", "Employee")';
+        $.post(url, { userid: userid, id: id }, function (data) {
+            $(".detail-education").html(data);
+            $('.modal-education').modal('show');
+        });
+    });
+
+    $(".save-education").click(function () {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SaveEducation", "Employee")',
+            data: $(".form-education").serialize(),
+            success: function (res) {
+                if (res.MessageCode == null) {
+                    swal({
+                        title: "",
+                        text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                        type: "success",
+                        buttonsStyling: false,
+                        confirmButtonClass: "btn btn-success",
+                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                    }).catch(swal.noop)
+
+                    $('.modal-education').modal('hide');
+                }
+                else {
+                    swal({
+                        title: '',
+                        text: msg,
+                        type: 'error',
+                        confirmButtonClass: "btn btn-info",
+                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                        buttonsStyling: false
+                    }).catch(swal.noop)
+                }
+            }
+        });
+    });
+
+</script>

@@ -139,9 +139,9 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult DeleteFamily(int userid, int id)
+        public JsonResult DeleteFamily(int id)
         {
-            var result = new EmployeeRepository().DeleteFamilyByID(userid, id);
+            var result = new EmployeeRepository().DeleteFamilyByID(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -149,15 +149,18 @@ namespace SAT.HR.Controllers
 
         #region 1.3 Tab: User-Education
 
-        public ActionResult EducationByUser(int id)
+        public ActionResult EducationByUser()
         {
-            var model = new EmployeeRepository().GetEducationByUser(id);
-            return PartialView("_Education", model);
+            return PartialView("_Education");
         }
 
         public ActionResult EducationDetail(int id)
         {
             var model = new EmployeeRepository().GetEducationByID(id);
+            ViewBag.Education = DropDownList.GetEducation(model.EduID, true);
+            ViewBag.Degree = DropDownList.GetDegree(model.DegID, true);
+            ViewBag.Major = DropDownList.GetMajor(model.MajID, true);
+            ViewBag.Country = DropDownList.GetCountry(model.CountryID);
             return PartialView("_EducationDetail", model);
         }
 
@@ -171,20 +174,28 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult DeleteEducationy(int userid, int id)
+        public JsonResult DeleteEducationy(int id)
         {
-            var result = new EmployeeRepository().DeleteEducationByID(userid, id);
+            var result = new EmployeeRepository().DeleteEducationByID(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+
+        [HttpPost]
+        public JsonResult Education(int id)
+        {
+            var list = new EmployeeRepository().GetEducationByUser(id);
+            return Json(new { data = list.ListEducation }, JsonRequestBehavior.AllowGet);
+        }
+
 
         #endregion
 
         #region 1.4 Tab: User-Position
 
-        public ActionResult PositionByUser(int id)
+        public ActionResult PositionByUser()
         {
-            var model = new EmployeeRepository().GetPositionByUser(id);
-            return PartialView("_Position", model);
+            return PartialView("_Position");
         }
 
         public ActionResult PositionDetail(int id)
@@ -203,26 +214,33 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult DeletePosition(int userid, int id)
+        public JsonResult DeletePosition(int id)
         {
-            var result = new EmployeeRepository().DeletePositionByID(userid, id);
+            var result = new EmployeeRepository().DeletePositionByID(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public JsonResult Position(int id)
+        {
+            var list = new EmployeeRepository().GetPositionByUser(id);
+            return Json(new { data = list.ListPosition }, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
 
         #region 1.5 Tab: User-Trainning
 
-        public ActionResult TrainningByUser(int id)
+        public ActionResult TrainningByUser()
         {
-            var model = new EmployeeRepository().GetTrainningByUser(id);
-            return PartialView("_Trainning", model);
+            return PartialView("_Trainning");
         }
 
         public ActionResult TrainningDetail(int id)
         {
             var model = new EmployeeRepository().GetTrainningByID(id);
+            ViewBag.TrainingType = DropDownList.GetTrainingType(model.TtID);
+            ViewBag.Country = DropDownList.GetCountry(model.CountryID);
             return PartialView("_TrainningDetail", model);
         }
 
@@ -236,21 +254,27 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult DeleteTrainning(int userid, int id)
+        public JsonResult DeleteTrainning(int id)
         {
-            var result = new EmployeeRepository().DeleteTrainingByID(userid, id);
+            var result = new EmployeeRepository().DeleteTrainingByID(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+
+        [HttpPost]
+        public JsonResult Trainning(int id)
+        {
+            var list = new EmployeeRepository().GetTrainningByUser(id);
+            return Json(new { data = list.ListTrainning }, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
 
         #region 1.6 Tab: User-Insignia
 
-        public ActionResult InsigniaByUser(int id)
+        public ActionResult InsigniaByUser()
         {
-            var model = new EmployeeRepository().GetInsigniaByUser(id);
-            return PartialView("_Insignia", model);
+            return PartialView("_Insignia");
         }
 
         public ActionResult InsigniaDetail(int id)
@@ -269,26 +293,32 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult DeleteInsignia(int userid, int id)
+        public JsonResult DeleteInsignia(int id)
         {
-            var result = new EmployeeRepository().DeleteInsigniaByID(userid, id);
+            var result = new EmployeeRepository().DeleteInsigniaByID(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public JsonResult Insignia(int id)
+        {
+            var list = new EmployeeRepository().GetInsigniaByUser(id);
+            return Json(new { data = list.ListInsignia }, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
 
         #region 1.7 Tab: User-Excellent
 
-        public ActionResult ExcellentByUser(int id)
+        public ActionResult ExcellentByUser()
         {
-            var model = new EmployeeRepository().GetExcellentByUser(id);
-            return PartialView("_Excellent", model);
+            return PartialView("_Excellent");
         }
 
         public ActionResult ExcellentDetail(int id)
         {
             var model = new EmployeeRepository().GetExcellentByID(id);
+
             return PartialView("_ExcellentDetail", model);
         }
 
@@ -302,21 +332,27 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult DeleteExcellent(int userid, int id)
+        public JsonResult DeleteExcellent(int id)
         {
-            var result = new EmployeeRepository().DeleteExcellentByID(userid, id);
+            var result = new EmployeeRepository().DeleteExcellentByID(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+
+        [HttpPost]
+        public JsonResult Excellent(int id)
+        {
+            var list = new EmployeeRepository().GetExcellentByUser(id);
+            return Json(new { data = list.ListExcellent }, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
 
         #region 1.8 Tab: User-Certificate
 
-        public ActionResult CertificateByUser(int id)
+        public ActionResult CertificateByUser()
         {
-            var model = new EmployeeRepository().GetCertificateByUser(id);
-            return PartialView("_Certificate", model);
+            return PartialView("_Certificate");
         }
 
         public ActionResult CertificateDetail(int id)
@@ -335,20 +371,26 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult DeleteCertificate(int userid, int id)
+        public JsonResult DeleteCertificate(int id)
         {
-            var result = new EmployeeRepository().DeleteCertificateByID(userid, id);
+            var result = new EmployeeRepository().DeleteCertificateByID(id);
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult Certificate(int id)
+        {
+            var list = new EmployeeRepository().GetCertificateByUser(id);
+            return Json(new { data = list.ListCertificate }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
 
         #region 1.9 Tab: User-History
 
-        public ActionResult HistoryByUser(int id)
+        public ActionResult HistoryByUser()
         {
-            var model = new EmployeeRepository().GetHistoryByUser(id);
-            return PartialView("_History", model);
+            return PartialView("_History");
         }
 
         public ActionResult HistoryDetail(int id)
@@ -367,10 +409,17 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult DeleteHistory(int userid, int id)
+        public JsonResult DeleteHistory(int id)
         {
-            var result = new EmployeeRepository().DeleteHistoryByID(userid, id);
+            var result = new EmployeeRepository().DeleteHistoryByID(id);
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult History(int id)
+        {
+            var list = new EmployeeRepository().GetHistoryByUser(id);
+            return Json(new { data = list.ListHistory }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion 

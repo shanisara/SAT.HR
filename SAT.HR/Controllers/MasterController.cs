@@ -983,7 +983,7 @@ namespace SAT.HR.Controllers
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new EmployeeRepository().GetUserNotInUserRole(search, draw, start, length, dir, column);
+            var dataTableData = new EmployeeRepository().GetUserNotInRole(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
 

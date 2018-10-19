@@ -1,28 +1,150 @@
 ﻿@model SAT.HR.Models.UserPositionViewModel
 
+@Html.HiddenFor(m => m.UserID)
 
-<button class="btn btn-primary btn-sm pull-right" data-toggle="modal" id="btnAdd"> เพิ่มรายการ </button>
+<button class="btn btn-primary btn-sm pull-right add-position" data-toggle="modal"> เพิ่มรายการ </button>
 <div class="table-responsive">
     <table class="table">
-        <thead class=" text-primary">
+        <thead class="text-primary">
             <tr>
-                <th>#</th>
-                <th>การเคลื่อนไหว</th>
-                <th>คำสั่ง</th>
-                <th>วันที่ลงคำสั่ง</th>
-                <th>วันที่บังคับใช้</th>
-                <th>ชื่อตำแหน่ง</th>
-                <th>ระดับ</th>
-                <th>เงินเดือน</th>
-                <th>หมายเหตุ</th>
-                <th>ปฏิบัติการ</th>
+                <th style="width:5%">#</th>
+                <th style="width:10%">การเคลื่อนไหว</th>
+                <th style="width:10%">คำสั่ง</th>
+                <th style="width:10%">วันที่ลงคำสั่ง</th>
+                <th style="width:10%">วันที่บังคับใช้</th>
+                <th style="width:20%">ชื่อตำแหน่ง</th>
+                <th style="width:5%">ระดับ</th>
+                <th style="width:10%">เงินเดือน</th>
+                <th style="width:10%">หมายเหตุ</th>
+                <th style="width:10%">ปฏิบัติการ</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td></td>
-            </tr>
-        </tbody>
+        <tbody></tbody>
     </table>
 </div>
 
+<!-- Classic Modal -->
+<div class="modal fade modal-large modal-position" tabindex="-1" role="dialog" aria-labelledby="modalPositionLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span>การดำรงตำแหน่ง</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div class="detail-position"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-default close-position" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-sm btn-primary save-position">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  End Modal -->
+
+<script>
+    var dataTable = {
+        table: null,
+        initializeDataTable: function () {
+            var id = $("#UserID").val();
+
+            $table = $('.table-position');
+            dataTable.table = $table.DataTable({
+                "proccessing": true,
+                "serverSide": true,
+                paging: false,
+                bFilter: false,
+                ordering: false,
+                searching: true,
+                dom: 't',
+                ajax: {
+                    url: '@Url.Action("Position", "Employee")/' + id,
+                    type: "POST",
+                },
+                "columns": [
+                    { "data": "RowNumber", "orderable": false, "searchable": false },
+                    { "data": "ActName", "orderable": false, "searchable": false },
+                    { "data": "UpCmd", "orderable": true },
+                    { "data": "UpCmdDateText", "orderable": true },
+                    { "data": "UpForceDateText", "orderable": true },
+                    { "data": "PoName", "orderable": true },
+                    { "data": "UpLevel", "orderable": true },
+                    { "data": "UpSalary", "orderable": true },
+                    { "data": "UpRemark", "orderable": true }
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            var inner = '<div class="td-actions text-right">' +
+                                            '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.UpID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;' +
+                                            '<button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.UpID + '"><i class="material-icons">close</i></button>' +
+                                        '</div>';
+                            return inner;
+                        }, "targets": 9
+                    },
+                ]
+            });
+        },
+        getData: function () {
+            if (dataTable.table == null)
+                dataTable.initializeDataTable();
+            else
+                dataTable.table.ajax.reload();
+        }
+    }
+
+    dataTable.getData();
+
+    $(".add-position").click(function () {
+        var url = '@Url.Action("PositionDetail", "Employee")';
+        $.post(url, { id: 0 }, function (data) {
+            $(".detail-position").html(data);
+            $('.modal-position').modal('show');
+        });
+    });
+
+    $(".edit-position").click(function () {
+        var id = $(this).data("id");
+        var url = '@Url.Action("PositionDetail", "Employee")';
+        $.post(url, { id: id }, function (data) {
+            $(".detail-position").html(data);
+            $('.modal-position').modal('show');
+        });
+    });
+
+    $(".save-position").click(function () {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SavePosition", "Employee")',
+            data: $(".form-position").serialize(),
+            success: function (res) {
+                if (res.MessageCode == null) {
+                    swal({
+                        title: "",
+                        text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                        type: "success",
+                        buttonsStyling: false,
+                        confirmButtonClass: "btn btn-success",
+                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                    }).catch(swal.noop)
+
+                    $('.modal-position').modal('hide');
+                }
+                else {
+                    swal({
+                        title: '',
+                        text: msg,
+                        type: 'error',
+                        confirmButtonClass: "btn btn-info",
+                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                        buttonsStyling: false
+                    }).catch(swal.noop)
+                }
+            }
+        });
+    });
+
+</script>
