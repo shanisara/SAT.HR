@@ -73,7 +73,7 @@ namespace SAT.HR.Data.Repository
                     PoCode = s.PoCode,
                     PoName = s.PoName,
                     PoStatus = s.PoStatus
-                }).OrderBy(x => x.PoName).ToList();
+                }).OrderBy(x => x.PoCode).ToList();
                 return list;
             }
         }

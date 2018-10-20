@@ -12,20 +12,17 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_Move_Level_Detail
+    public partial class vw_Move_Level_Detail
     {
         public int MlID { get; set; }
         public Nullable<int> EmpID { get; set; }
+        public string FullName { get; set; }
         public Nullable<decimal> MlLevelOld { get; set; }
         public Nullable<decimal> MlStepOld { get; set; }
+        public Nullable<decimal> MlSalaryOld { get; set; }
         public Nullable<decimal> MlLevelNew { get; set; }
         public Nullable<decimal> MlStepNew { get; set; }
+        public Nullable<decimal> MlSalaryNew { get; set; }
         public string MlRemark { get; set; }
-        public Nullable<System.DateTime> CreateDate { get; set; }
-        public Nullable<int> CreateBy { get; set; }
-        public Nullable<System.DateTime> ModifyDate { get; set; }
-        public Nullable<int> ModifyBy { get; set; }
-    
-        public virtual tb_Move_Level_Head tb_Move_Level_Head { get; set; }
     }
 }

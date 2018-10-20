@@ -12,22 +12,21 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_Move_Man_Power_Detail
+    public partial class vw_Move_Man_Power_Detail
     {
         public int MopID { get; set; }
         public int UserID { get; set; }
+        public string UserName { get; set; }
+        public string UserPoCode { get; set; }
+        public string UserPoName { get; set; }
         public Nullable<int> MovPoID { get; set; }
-        public Nullable<int> AgentID { get; set; }
-        public Nullable<int> PoTID { get; set; }
+        public string MovPoCode { get; set; }
+        public string MovPoName { get; set; }
+        public Nullable<int> AgentPoTID { get; set; }
+        public string AgentPoTName { get; set; }
+        public Nullable<int> AgentPoID { get; set; }
+        public string AgentPoCode { get; set; }
+        public string AgentPoName { get; set; }
         public string MovRemark { get; set; }
-        public Nullable<System.DateTime> CreateDate { get; set; }
-        public Nullable<int> CreateBy { get; set; }
-        public Nullable<System.DateTime> ModifyDate { get; set; }
-        public Nullable<int> ModifyBy { get; set; }
-    
-        public virtual tb_Agent_Type tb_Agent_Type { get; set; }
-        public virtual tb_Move_Man_Power_Head tb_Move_Man_Power_Head { get; set; }
-        public virtual tb_Position tb_Position { get; set; }
-        public virtual tb_Position_Type tb_Position_Type { get; set; }
     }
 }

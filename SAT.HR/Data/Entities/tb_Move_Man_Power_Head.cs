@@ -21,11 +21,12 @@ namespace SAT.HR.Data.Entities
         }
     
         public int MopID { get; set; }
-        public Nullable<int> EmpTID { get; set; }
+        public Nullable<int> UserTID { get; set; }
         public Nullable<int> MtID { get; set; }
         public string MopYear { get; set; }
         public string MopBookCmd { get; set; }
         public Nullable<System.DateTime> MopDateCmd { get; set; }
+        public Nullable<System.DateTime> MopDateEff { get; set; }
         public string MopSignatory { get; set; }
         public string MopPathFile { get; set; }
         public Nullable<bool> MopStatus { get; set; }

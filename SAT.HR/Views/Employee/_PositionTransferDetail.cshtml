@@ -1,0 +1,141 @@
+﻿@model SAT.HR.Models.PositionTransferDetailViewModel
+
+<div class="form-horizontal">
+    <div class="row">
+        @Html.Label("พนักงาน: ", null, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-8">
+            @Html.DropDownListFor(n => n.UserID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Employee, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+        </div>
+        @Html.Label("ระดับ: ", null, new { @class = "col-sm-1 col-form-label" })
+        <div class="col-sm-1">
+            <span class="label-text user-level"></span>
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("ฝ่าย/กอง/งาน: ", null, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-10">
+            <span class="label-text user-belong"></span>
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("ตำแหน่งปัจจุบัน: ", null, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-10">
+            <span class="label-text user-po"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 ml-auto mr-auto text-center">
+            <h5 class="card-title"><span>ตำแหน่งที่ย้ายไป</span></h5>
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("ย้ายไปตำแหน่ง: ", null, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-10">
+            @Html.DropDownListFor(n => n.MovPoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("ฝ่าย/กอง/งาน: ", null, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-10">
+            <span class="label-text move-belong"></span>
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("ผู้ดำรงตำแหน่ง: ", null, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-10">
+            <span class="label-text move-name"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 ml-auto mr-auto text-center">
+            <h5 class="card-title"><span>รักษาการแทน / ปฏิบัติหน้าที่แทน / ช่วยปฏิบัติงาน</span></h5>
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("ประเภท: ", null, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-10">
+            @Html.DropDownListFor(n => n.AgentPoTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.PositionType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("ตำแหน่ง: ", null, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-10">
+            @Html.DropDownListFor(n => n.AgentPoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("ฝ่าย/กอง/งาน: ", null, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-10">
+            <span class="label-text agent-belong"></span>
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("ผู้ดำรงตำแหน่ง: ", null, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-10">
+            <span class="label-text agent-name"></span>
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("หมายเหตุ: ", null, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-10">
+            <div class="form-group bmd-form-group">
+                <textarea class="form-control" rows="2"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $("#UserID").change(function () {
+        var userid = $('#UserID').val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetDetailByUser", "Master")',
+            data: { userid: userid },
+            dataType: 'json',
+            success: function (res) {
+                debugger;
+                var belong = res.BelongTo;
+                var poname = res.Position;
+                var level = res.Level;
+                $('.user-belong').text(belong);
+                $('.user-po').text(poname);
+                $('.user-level').text(level);
+            }
+        });
+    });
+
+    $("#MovPoID").change(function () {
+        var poid = $('#MovPoID').val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetDetailByPosition", "Master")',
+            data: { poid: poid },
+            dataType: 'json',
+            success: function (res) {
+                var belong = res.BelongTo;
+                var username = res.FullName;
+                $('.move-belong').text(belong);
+                $('.move-name').text(username);
+            }
+        });
+    });
+
+    $("#AgentPoID").change(function () {
+        var poid = $('#AgentPoID').val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetDetailByPosition", "Master")',
+            data: { poid: poid },
+            dataType: 'json',
+            success: function (res) {
+                var belong = res.BelongTo;
+                var username = res.FullName;
+                $('.agent-belong').text(belong);
+                $('.agent-name').text(username);
+            }
+        });
+    });
+
+
+</script>

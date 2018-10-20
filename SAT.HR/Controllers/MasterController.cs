@@ -194,7 +194,7 @@ namespace SAT.HR.Controllers
 
         public JsonResult SaveDiscipline(DisciplineViewModel model)
         {
-            ResponseData result = new Models.ResponseData();
+            ResponseData result = new ResponseData();
             if (model.DisID != 0)
                 result = new DisciplineRepository().UpdateByEntity(model);
             else
@@ -1080,5 +1080,22 @@ namespace SAT.HR.Controllers
         }
 
         #endregion
+
+        #region  Detail
+
+        public JsonResult GetDetailByUser(int userid)
+        {
+            var result = new MasterRepository().GetDetailByUser(userid);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetDetailByPosition(int poid)
+        {
+            var result = new MasterRepository().GetDetailByPosition(poid);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
     }
 }

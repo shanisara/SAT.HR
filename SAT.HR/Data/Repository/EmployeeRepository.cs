@@ -287,6 +287,19 @@ namespace SAT.HR.Data.Repository
             return model;
         }
 
+        public List<UserProfile> GetEmployee(int? userType)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.vw_Employee.Where(x => x.StatusID == 1 && x.UserTypeID == userType && x.IsActive == true).Select(s => new UserProfile()
+                {
+                    UserID = s.UserID,
+                    UserName = s.FullNameTh
+                }).ToList();
+                return list;
+            }
+        }
+
         public ResponseData AddUserByEntity(EmployeeViewModel data)
         {
             using (SATEntities db = new SATEntities())

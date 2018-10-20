@@ -104,7 +104,7 @@ namespace SAT.HR.Data.Repository
             {
                 SelectListItem select = new SelectListItem();
                 select.Value = item.PoID.ToString();
-                select.Text = item.PoName;
+                select.Text = " (" + item.PoCode +") "+ item.PoName;
                 select.Selected = defaultValue.HasValue ? (item.PoID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
@@ -742,8 +742,41 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
-        
+        public static List<SelectListItem> GetMoveType(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
 
+            var data = new MasterRepository().GetMoveType();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.MoveTypeID.ToString();
+                select.Text = item.MoveTypeName;
+                select.Selected = defaultValue.HasValue ? (item.MoveTypeID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetEmployee(int? defaultValue, int? userType)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new EmployeeRepository().GetEmployee(userType);
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.UserID.ToString();
+                select.Text = item.UserName;
+                select.Selected = defaultValue.HasValue ? (item.UserID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        
 
     }
 

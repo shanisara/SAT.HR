@@ -128,8 +128,45 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<MoveTypeViewModel> GetMoveType()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Move_Type.Select(s => new MoveTypeViewModel()
+                {
+                    MoveTypeID = s.MtID,
+                    MoveTypeName = s.MtName
+                }).ToList();
+                return list;
+            }
+        }
 
         #endregion
+
+        public ManPowerViewModel GetDetailByUser(int userid)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ManPowerViewModel model = new ManPowerViewModel();
+                model.BelongTo = "สำนักผู้ว่าการ / กองประสานความร่วมมือระหว่างประเทศ / งานวิเทศสัมพันธ์";
+                model.Position = "(612) ผู้อำนวยการสำนักงาน";
+                model.Level = "9";
+                model.Step = "7.8";
+                model.Salary = "99999";
+                return model;
+            }
+        }
+
+        public ManPowerViewModel GetDetailByPosition(int poid)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ManPowerViewModel model = new ManPowerViewModel();
+                model.BelongTo = "สำนักผู้ว่าการ / กองประสานความร่วมมือระหว่างประเทศ / งานประสานองค์กรกีฬาระหว่างประเทศ";
+                model.FullName = "นายรณสร เขียวแก้ว";
+                return model;
+            }
+        }
 
     }
 }

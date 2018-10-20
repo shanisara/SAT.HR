@@ -460,14 +460,36 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult EmployeeTransferDetail()
+        [HttpPost]
+        public JsonResult EmployeeTransfer(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
-            return View();
+            var search = Request["search[value]"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
+            var dataTableData = new EmployeeTransferRepository().GetPage(search, draw, start, length, dir, column);
+            return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult _EmployeeTransferDetail()
+        public ActionResult EmployeeTransferDetail(int? id)
         {
-            return PartialView("_EmployeeTransferDetail");
+            var model = new EmployeeTransferRepository().GetByID(id);
+            return View(model);
+        }
+
+        [HttpPost]
+        public JsonResult EmployeeTransferDetailPage(int? id)
+        {
+            var list = new EmployeeTransferRepository().GetDetail(id);
+            return Json(new { data = list }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult EmployeeTransferDetailByID(int? id)
+        {
+            var model = new PositionTransferRepository().GetDetailByID(id);
+            ViewBag.Employee = DropDownList.GetEmployee(null, 1);
+            ViewBag.SalaryLevel = DropDownList.GetSalaryLevel(null);
+            ViewBag.SalaryStep = DropDownList.GetSalaryStep(null, 1);
+            return PartialView("_EmployeeTransferDetail", model);
         }
 
 
@@ -477,26 +499,45 @@ namespace SAT.HR.Controllers
 
         public ActionResult PositionTransfer()
         {
-            ViewBag.UserType = DropDownList.GetUserStatus(1);
+            ViewBag.UserType = DropDownList.GetUserType(1);
             return View();
         }
 
         [HttpPost]
-        public JsonResult PositionTransfer(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns, int? userType)
+        public JsonResult PositionTransfer(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns, int? usertype)
         {
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new PositionTransferRepository().GetPage(search, draw, start, length, dir, column, userType);
+            var dataTableData = new PositionTransferRepository().GetPage(search, draw, start, length, dir, column, usertype);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
 
-
-        public ActionResult PositionTransferDetail(int? id)
+        public ActionResult PositionTransferDetail(int? id, int? type)
         {
-            var model = new PositionTransferRepository().GetByID(id);
+            var model = new PositionTransferRepository().GetByID(id, type);
+            ViewBag.UserTypeID = type;
+            ViewBag.UserType = DropDownList.GetUserType(model != null ? model.UserTID : null);
+            ViewBag.MoveType = DropDownList.GetMoveType(model != null ? model.MtID : null);
             return View(model);
         }
+
+        [HttpPost]
+        public JsonResult PositionTransferDetail(int? id)
+        {
+            var list = new PositionTransferRepository().GetDetail(id);
+            return Json(new { data = list }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult PositionTransferDetailByID(int? id, int? type)
+        {
+            var model = new PositionTransferRepository().GetDetailByID(id);
+            ViewBag.Employee = DropDownList.GetEmployee(null, type);
+            ViewBag.PositionType = DropDownList.GetPositionType(null);
+            ViewBag.Position = DropDownList.GetPosition(null, true);
+            return PartialView("_PositionTransferDetail", model);
+        }
+
 
         #endregion
 

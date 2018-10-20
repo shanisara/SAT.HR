@@ -12,11 +12,12 @@
                     <div class="card-icon">
                         <i class="material-icons">group</i>
                     </div>
-                    <h4 class="card-title"><span> โยกย้ายอัตรากำลังพล : <small>พนักงาน </small></span>
-                        @*<div class="pull-right">
-                            @Html.Label("ประเภทบุคลากร: ", null, new { @class = "col-sm-3 col-form-label" })
+                    <h4 class="card-title">
+                        <span> โยกย้ายอัตรากำลังพล : <small>พนักงาน </small></span>
+                        <div class="pull-right" style="display:">
+                            @*@Html.Label("ประเภทบุคลากร: ", null, new { @class = "col-sm-3 col-form-label" })*@
                             @Html.DropDownList("usertype", new SelectList((IEnumerable<SelectListItem>)ViewBag.UserType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control" })
-                        </div>*@
+                        </div>
                     </h4>
                 </div>
                 <div class="card-body">
@@ -38,7 +39,7 @@
                                     <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            @*<tbody>
                                 <tr role="row" class="odd">
                                     <td style="width: 1px; white-space: nowrap" class="sorting_1">1.</td>
                                     <td>2560</td>
@@ -47,13 +48,12 @@
                                     <td>48/2561</td>
                                     <td style="text-align: center">45</td>
                                     <td style="width: 1px; white-space: nowrap">5/4/2561</td>
-                                    <td  class="td-actions">ยืนยันแล้ว</td>
+                                    <td class="td-actions">ยืนยันแล้ว</td>
                                     <td class="text-right">
-                                        <a href="#" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">dvr</i><div class="ripple-container"></div></a>
-                                        <a href="#" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
+                                        <button title="แก้ไข" type="button" class="btn btn-round btn-warning btn-just-icon edit-position-Transfer" data-id="1"><i class="material-icons">search</i></button>
                                     </td>
                                 </tr>
-                            </tbody>
+                            </tbody>*@
                         </table>
                     </div>
                 </div>
@@ -62,210 +62,85 @@
     </div>
 </div>
 
-<!-- Classic Modal -->
-<div class="modal fade modal-large" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title"><span>ข้อมูลโยกย้ายระดับ</span></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    <i class="material-icons">clear</i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="content">
-                    <div id="detail"></div>
-                    <div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group bmd-form-group">
-                                    @Html.Label("ประเภทพนักงาน", null, new { @class = "bmd-label-floating" })
-                                    <input class="form-control" type="text">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group bmd-form-group">
-                                    @Html.Label("ประเภทการโยกย้าย", null, new { @class = "bmd-label-floating" })
-                                    <input class="form-control" type="text">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group bmd-form-group">
-                                    @Html.Label("ปีบัญชี", null, new { @class = "bmd-label-floating" })
-                                    <input class="form-control" type="text">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group bmd-form-group">
-                                    @Html.Label("เลขที่หนังสือคำสั่ง", null, new { @class = "bmd-label-floating" })
-                                    <input class="form-control" type="text">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group bmd-form-group">
-                                    @Html.Label("วันที่ลงคำสั่ง", null, new { @class = "bmd-label-floating" })
-                                    <input class="form-control" type="text">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group bmd-form-group">
-                                    @Html.Label("วันที่มีผล", null, new { @class = "bmd-label-floating" })
-                                    <input class="form-control" type="text">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group bmd-form-group">
-                                    @Html.Label("ผู้ลงนาม", null, new { @class = "bmd-label-floating" })
-                                    <input class="form-control" type="text">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group bmd-form-group">
-                                    @Html.Label("ไฟล์หนังสือคำสั่ง", null, new { @class = "bmd-label-floating" })
-                                    <input class="form-control" type="text">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <table id="datatables">
-                                <thead>
-                                    <tr>
-                                        <th style="width:5%" class="disabled-sorting">ลำดับ</th>
-                                        <th style="width:17%">ชื่อ-นามสกุล</th>
-                                        <th style="width:20%">ตำแหน่งเก่า</th>
-                                        <th style="width:20%">ตำแหน่งใหม่</th>
-                                        <th style="width:17%">รักษาการแทน</th>
-                                        <th style="width:11%">หมายเหตุ</th>
-                                        <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn btn-sm btn-primary" id="btnSave">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!--  End Modal -->
-
-<!-- Classic Modal -->
-<div class="modal fade modal-large" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title"><span>ข้อมูลโยกย้ายระดับ</span></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    <i class="material-icons">clear</i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="content">
-                    ชื่อพนักงาน
-                    ฝ่าย/กอง/งาน
-                    ตำแหน่งปัจจุบัน
-                    ระดับ
-
-                    ตำแหน่งที่ย้ายไป
-                    ตำแหน่ง
-                    ฝ่าย/กอง/งาน
-                    ผู้ดำรงตำแหน่ง
-
-                    รักษาการแทน / ปฏิบัติหน้าที่แทน / ช่วยปฏิบัติหน้าที่
-                    ประเภท
-                    ตำแหน่ง
-                    ฝ่าย/กอง/งาน
-                    ผู้ดำรงตำแหน่ง
-
-                    หมายเหตุ
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
-                    <button type="button" class="btn btn-sm btn-primary" id="btnSave">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 @section Scripts {
     <script>
-    $(document).ready(function () {
+        $(document).ready(function () {
 
-        var dataTable = {
-            table: null,
-            initializeDataTable: function () {
+            var dataTable = {
+                table: null,
+                initializeDataTable: function () {
 
-                $table = $('.position-transfer');
+                    $table = $('#datatables');
 
-                dataTable.table = $table.DataTable({
-                    "proccessing": true,
-                    "serverSide": true,
-                    responsive: true,
-                    language: {
-                        search: "_INPUT_",
-                        searchPlaceholder: "ค้นหา",
-                    },
-                    ajax: {
-                        url: $table.data("url"),
-                        type: "POST",
-                    },
-                    "columns": [
-                        { "data": "RowNumber", "orderable": false, "searchable": false },
-                        { "data": "MopYear", "orderable": true },
-                        { "data": "EmpTName", "orderable": true },
-                        { "data": "MtName", "orderable": true },
-                        { "data": "MopBookCmd", "orderable": true },
-                        { "data": "MopTotal", "orderable": true },
-                        { "data": "MopDateCmdText", "orderable": true
-                        { "data": "MopStatusName", "orderable": true },
-                    ],
-                    "columnDefs": [
-                        {
-                            "render": function (data, type, row) {
-                                var inner = '<div class="td-actions text-right">' +
-                                                '<button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.MopID + '"><i class="material-icons">close</i></button>' +
-                                            '</div>';
-                                return inner;
-                            }, "targets": 8
+                    dataTable.table = $table.DataTable({
+                        "proccessing": true,
+                        "serverSide": true,
+                        responsive: true,
+                        language: {
+                            search: "_INPUT_",
+                            searchPlaceholder: "ค้นหา",
+                            zeroRecords: "ไม่พบข้อมูล",
                         },
-                    ],
-                    "order": [[2, "asc"]],
-                    "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
-                    "pagingType": "full_numbers",
-                });
+                        ajax: {
+                            url: $table.data("url"),
+                            data: { usertype: $('#usertype').val() },
+                            type: "POST",
+                        },
+                        "columns": [
+                            { "data": "RowNumber", "orderable": false, "searchable": false },
+                            { "data": "MopYear", "orderable": true },
+                            { "data": "EmpTName", "orderable": true },
+                            { "data": "MtName", "orderable": true },
+                            { "data": "MopBookCmd", "orderable": true },
+                            { "data": "MopTotal", "orderable": true },
+                            { "data": "MopDateCmdText", "orderable": true },
+                            { "data": "MopStatusName", "orderable": true }
+                        ],
+                        "columnDefs": [
+                            {
+                                "render": function (data, type, row) {
+                                    var inner = '<div class="td-actions text-right">' +
+                                                    '<button title="แก้ไข" type="button" class="btn btn-round btn-warning btn-just-icon edit-position-Transfer" data-id="' + row.MopID+'"><i class="material-icons">search</i></button>' +
+                                                '</div>';
+                                    return inner;
+                                }, "targets": 8
+                            },
+                        ],
+                        "order": [[2, "asc"]],
+                        "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                        "pagingType": "full_numbers",
+                    });
 
-                dataTable.table.on('click', '.edit', function () {
-                    var id = $(this).data("id");
-                    var url = '@Url.Action("PositionTransferDetail", "Employee")/' + id;
-                    window.location.href = url;
-                });
-            },
-            getData: function () {
-                if (dataTable.table == null)
-                    dataTable.initializeDataTable();
-                else
-                    dataTable.table.ajax.reload();
+                    dataTable.table.on('click', '.edit-position-Transfer', function () {
+                        var id = $(this).data("id");
+                        var type = $('#usertype').val();
+                        var url = '@Url.Action("PositionTransferDetail", "Employee")/' + id + '?type=' + type;
+                        window.location.href = url;
+                    });
+                },
+                getData: function () {
+                    if (dataTable.table == null)
+                        dataTable.initializeDataTable();
+                    else
+                        dataTable.table.ajax.reload();
+                }
             }
-        }
 
-        //dataTable.getData();
+            dataTable.getData();
 
-        // Add record
-        $(".add-position-Transfer").click(function () {
-            var url = '@Url.Action("PositionTransferDetail", "Employee")';
-            window.location.href = url;
+            $(".add-position-Transfer").click(function () {
+                var type = 1; //$('#usertype').val();
+                var url = '@Url.Action("PositionTransferDetail", "Employee")'+'?type=' + type;
+                window.location.href = url;
+            });
+
+            @*$(".edit-position-Transfer").click(function () {
+                var id = 2;
+                var type = 1;
+                var url = '@Url.Action("PositionTransferDetail", "Employee")/' + id + '?type=' + type;
+                window.location.href = url;
+            });*@
+
         });
-
-    });
     </script>
 }
