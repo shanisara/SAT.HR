@@ -16,7 +16,7 @@ namespace SAT.HR.Data.Entities
     {
         public int DistrictID { get; set; }
         public string DistrictName { get; set; }
-        public Nullable<int> ProvinceID { get; set; }
+        public int ProvinceID { get; set; }
     
         public virtual tb_Province tb_Province { get; set; }
     }

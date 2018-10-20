@@ -5,6 +5,8 @@ using System.Web;
 using SAT.HR.Data.Entities;
 using SAT.HR.Models;
 using SAT.HR.Helpers;
+using System.Web.UI.WebControls;
+using System.Data;
 
 namespace SAT.HR.Data.Repository
 {
@@ -163,5 +165,19 @@ namespace SAT.HR.Data.Repository
                 return result;
             }
         }
+
+        public List<PositionTypeViewModel> GetPositionType()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Position_Type.Select(s => new PositionTypeViewModel()
+                {
+                    PoTID = s.PoTID,
+                    PoTName = s.PoTName
+                }).ToList();
+                return list;
+            }
+        }
+
     }
 }

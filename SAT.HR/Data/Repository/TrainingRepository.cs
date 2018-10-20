@@ -22,7 +22,5 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-
-
     }
 }

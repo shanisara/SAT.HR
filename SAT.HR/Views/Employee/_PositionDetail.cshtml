@@ -4,7 +4,105 @@
 {
     @Html.AntiForgeryToken()
 
-    <div>
+    <div class="form-horizontal">
 
+        @Html.HiddenFor(m => m.UserID)
+        @Html.HiddenFor(m => m.UpID)
+
+        <div class="row occupation">
+            @Html.Label("การเคลื่อนไหว: ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9 m-t-10">
+                @Html.DropDownListFor(n => n.ActID, new SelectList((IEnumerable<SelectListItem>)ViewBag.ActionType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+            </div>
+        </div>
+        <div class="row occupation">
+            @Html.Label("ประเภทตำแหน่ง: ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9 m-t-10">
+                @Html.DropDownListFor(n => n.PoTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.PositionType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("คำสั่ง: ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.UpCmd, new { @class = "form-control", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row occupation">
+            @Html.Label("ตำแหน่ง: ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9 m-t-10">
+                @Html.DropDownListFor(n => n.PoTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+            </div>
+        </div>
+        <div class="row occupation">
+            @Html.Label("ฝ่าย: ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9 m-t-10">
+                @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+            </div>
+        </div>
+        <div class="row occupation">
+            @Html.Label("กอง: ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9 m-t-10">
+                @Html.DropDownListFor(n => n.DepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Department, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+            </div>
+        </div>
+        <div class="row occupation">
+            @Html.Label("งาน: ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9 m-t-10">
+                @Html.DropDownListFor(n => n.SecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Section, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+            </div>
+        </div>
+        <div class="row occupation">
+            @Html.Label("ตำแหน่ง (รักษาการ): ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9 m-t-10">
+                @Html.DropDownListFor(n => n.PoAID, new SelectList((IEnumerable<SelectListItem>)ViewBag.PositionAgent, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("ระดับ: ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-3">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.UpLevel, new { @class = "form-control", required = "true" })
+                </div>
+            </div>
+            @Html.Label("เงินเดือน: ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-3">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.UpSalary, new { @class = "form-control", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("วันที่ลงคำส่ง: ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-3">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.UpCmdDate, new { @class = "form-control datepicker" })
+                </div>
+            </div>
+            @Html.Label("วันที่มีผลบังคับใช้: ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-3">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.UpForceDate, new { @class = "form-control datepicker" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("หมายเหตุ: ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.UpRemark, new { @class = "form-control", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("ไฟล์แนบ: ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.UpPathFile, new { @class = "form-control", required = "true" })
+                </div>
+            </div>
+        </div>
     </div>
+
 }

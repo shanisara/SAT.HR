@@ -18,6 +18,7 @@ namespace SAT.HR.Data.Repository
                 return data.KeyValue;
             }
         }
+
         public SysConfigViewModel GetByKeyName(string keyname)
         {
             using (SATEntities db = new SATEntities())

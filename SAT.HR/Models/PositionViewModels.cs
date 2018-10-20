@@ -35,6 +35,46 @@ namespace SAT.HR.Models
         public List<PositionViewModel> data { get; set; }
     }
 
+    public class PositionTransferViewModel
+    {
+        public int RowNumber { get; set; }
+
+        public int MopID { get; set; }
+
+        public int MopYear { get; set; }
+
+        public string EmpTName { get; set; }
+
+        public string MtName { get; set; }
+
+        public string MopBookCmd { get; set; }
+
+        public int MopTotal { get; set; }
+
+        public string MopDateCmdText { get; set; }
+
+        public string MopStatusName { get; set; }
+
+        public int recordsTotal { get; set; }
+
+        public int recordsFiltered { get; set; }
+
+        public List<PositionTransferDetailViewModel> ListDetail { get; set; }
+    }
+
+    public class PositionTransferResult
+    {
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+        public List<PositionTransferViewModel> data { get; set; }
+    }
+
+    public class PositionTransferDetailViewModel
+    {
+
+    }
+
     public class PositionTypeViewModel
     {
         public int PoTID { get; set; }

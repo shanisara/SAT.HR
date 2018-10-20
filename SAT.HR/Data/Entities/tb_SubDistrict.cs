@@ -18,6 +18,7 @@ namespace SAT.HR.Data.Entities
         public string SubDistrictName { get; set; }
         public Nullable<int> DistrictID { get; set; }
         public Nullable<int> ProvinceID { get; set; }
+        public Nullable<int> ZipCode { get; set; }
     
         public virtual tb_Province tb_Province { get; set; }
     }

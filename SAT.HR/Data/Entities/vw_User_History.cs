@@ -28,6 +28,7 @@ namespace SAT.HR.Data.Entities
         public string UhLastNameEN { get; set; }
         public string Remark { get; set; }
         public Nullable<bool> UhStatus { get; set; }
+        public Nullable<int> SexID { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }

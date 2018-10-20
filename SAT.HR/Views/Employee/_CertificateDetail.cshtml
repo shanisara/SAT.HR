@@ -4,7 +4,24 @@
 {
     @Html.AntiForgeryToken()
 
-    <div>
+    <div class="form-horizontal">
 
+        @Html.HiddenFor(m => m.UserID)
+        @Html.HiddenFor(m => m.UcID)
+
+        <div class="row occupation">
+            @Html.Label("ใบประกอบวิชาชีพ: ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9 m-t-10">
+                @Html.DropDownListFor(n => n.CerId, new SelectList((IEnumerable<SelectListItem>)ViewBag.Certificate, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("วันทีได้รับ: ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.UcRecDate, new { @class = "form-control datepicker" })
+                </div>
+            </div>
+        </div>
     </div>
 }

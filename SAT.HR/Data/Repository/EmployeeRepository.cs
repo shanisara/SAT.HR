@@ -18,11 +18,13 @@ namespace SAT.HR.Data.Repository
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    data = db.vw_User.Where(m => m.UserName == username && m.Password == password).Select(s => new UserProfile()
+                    data = db.vw_Employee.Where(m => m.UserName == username && m.Password == password).Select(s => new UserProfile()
                     {
                         UserID = s.UserID,
                         UserName = s.UserName,
-                        FullName = s.FirstNameTh + " " + s.LastNameTh,
+                        FullNameTh = s.FullNameTh,
+                        Avatar = s.Avatar,
+                        Email = s.Email,
                         DivID = s.DivID,
                         DivName = s.DivName,
                         DepID = s.DepID,
@@ -31,10 +33,10 @@ namespace SAT.HR.Data.Repository
                         SecName = s.SecName,
                         PoID = s.PoID,
                         PoName = s.PoName,
-                        Avatar = s.Avatar,
+                        RoleID = s.RoleID,
                         IsActive = s.IsActive,
-                        RoleID = 1,
-                        RoleName = "Admin"
+                        StatusID = s.StatusID,
+                        UserTypeID = s.UserTypeID
                     }).FirstOrDefault();
                 }
             }
@@ -48,23 +50,37 @@ namespace SAT.HR.Data.Repository
 
         public UserProfile LoginByID(int userid)
         {
-            var data = GetByID(userid);
             UserProfile model = new Models.UserProfile();
-            model.UserID = data.UserID;
-            model.UserName = data.UserName;
-            model.FullName = data.FullName;
-            model.DivID = data.DivID;
-            model.DivName = data.DivName;
-            model.DepID = data.DepID;
-            model.DepName = data.DepName;
-            model.SecID = data.SecID;
-            model.SecName = data.SecName;
-            model.PoID = data.PoID;
-            model.PoName = data.PoName;
-            model.Avatar = !string.IsNullOrEmpty(data.Avatar) ? data.Avatar : "avatar.png";
-            model.IsActive = data.IsActive;
-            model.RoleID = 1;
-            model.RoleName = "Admin";
+
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var data = db.vw_Employee.Where(m => m.UserID == userid).FirstOrDefault();
+
+                    model.UserID = data.UserID;
+                    model.UserName = data.UserName;
+                    model.FullNameTh = data.FullNameTh;
+                    model.Avatar = !string.IsNullOrEmpty(data.Avatar) ? data.Avatar : "avatar.png";
+                    model.Email = data.Email;
+                    model.DivID = data.DivID;
+                    model.DivName = data.DivName;
+                    model.DepID = data.DepID;
+                    model.DepName = data.DepName;
+                    model.SecID = data.SecID;
+                    model.SecName = data.SecName;
+                    model.PoID = data.PoID;
+                    model.PoName = data.PoName;
+                    model.RoleID = data.RoleID;
+                    model.IsActive = data.IsActive;
+                    model.StatusID = data.StatusID;
+                    model.UserTypeID = data.UserTypeID;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
             return model;
         }
 
@@ -103,10 +119,7 @@ namespace SAT.HR.Data.Repository
                         RowNumber = ++i,
                         UserID = s.UserID,
                         UserName = s.UserName,
-                        Password = s.Password,
-                        FirstNameTh = s.FirstName,
-                        LastNameTh = s.LastName,
-                        FullName = s.FirstName + " " + s.LastName,
+                        FullNameTh = s.FullNameTh,
                         DivID = s.DivID,
                         DivName = s.DivName,
                         DepID = s.DepID,
@@ -114,6 +127,7 @@ namespace SAT.HR.Data.Repository
                         SecID = s.SecID,
                         SecName = s.SecName,
                         PoID = s.PoID,
+                        PoCode = s.PoCode,
                         PoName = s.PoName,
                     }).Skip(start * length).Take(length).ToList();
 
@@ -131,60 +145,45 @@ namespace SAT.HR.Data.Repository
             return result;
         }
 
-
         #region 1.1 Tab: User-Employee
 
-        public EmployeePageResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
+        public EmployeePageResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy, int? userType, int? userStatus)
         {
             EmployeePageResult result = new EmployeePageResult();
+            List<EmployeeViewModel> list = new List<EmployeeViewModel>();
 
             try
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    var data = db.vw_User.ToList();
+                    var data = db.sp_Employee_List(pageSize.ToString(), draw.ToString(), sortBy, sortDir, userType, userStatus, filter).ToList();
 
-                    int recordsTotal = data.Count();
-
-                    if (!string.IsNullOrEmpty(filter))
+                    int i = 1;
+                    foreach (var item in data)
                     {
-                        data = data.Where(x => x.UserName.Contains(filter)).ToList();
+                        EmployeeViewModel model = new EmployeeViewModel();
+                        model.RowNumber = ++i;
+                        model.UserID = item.UserID;
+                        model.IDCard = item.IDCard;
+                        model.UserName = item.UserName;
+                        model.FullNameTh = item.FullNameTh;
+                        model.DivID = item.DivID;
+                        model.DivName = item.DivName;
+                        model.DepID = item.DepID;
+                        model.DepName = item.DepName;
+                        model.SecID = item.SecID;
+                        model.SecName = item.SecName;
+                        model.PoID = item.PoID;
+                        model.PoCode = item.PoCode;
+                        model.PoName = item.PoName;
+                        model.recordsTotal = (int)item.recordsTotal;
+                        model.recordsFiltered = (int)item.recordsFiltered;
+                        list.Add(model);
                     }
-
-                    int recordsFiltered = data.Count();
-
-                    switch (sortBy)
-                    {
-                        case "UserName":
-                            data = (sortDir == "asc") ? data.OrderBy(x => x.UserName).ToList() : data.OrderByDescending(x => x.UserName).ToList();
-                            break;
-
-                    }
-
-                    int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
-                    int length = pageSize ?? 10;
-
-                    var list = data.Select((s, i) => new EmployeeViewModel()
-                    {
-                        RowNumber = ++i,
-                        UserID = s.UserID,
-                        UserName = s.UserName,
-                        Password = s.Password,
-                        FullName = s.FirstNameTh + " " + s.LastNameTh,
-                        DivID = s.DivID,
-                        DivName = s.DivName,
-                        DepID = s.DepID,
-                        DepName = s.DepName,
-                        SecID = s.SecID,
-                        SecName = s.SecName,
-                        PoID = s.PoID,
-                        PoCode = s.PoCode,
-                        PoName = s.PoName
-                    }).Skip(start * length).Take(length).ToList();
 
                     result.draw = draw ?? 0;
-                    result.recordsTotal = recordsTotal;
-                    result.recordsFiltered = recordsFiltered;
+                    result.recordsTotal = list != null ? list[0].recordsTotal : 0;
+                    result.recordsFiltered = list != null ? list[0].recordsFiltered : 0;
                     result.data = list;
                 }
             }
@@ -195,42 +194,6 @@ namespace SAT.HR.Data.Repository
 
             return result;
         }
-
-        //public List<EmployeeViewModel> GetAll()
-        //{
-        //    var list = new List<EmployeeViewModel>();
-
-        //    try
-        //    {
-        //        using (SATEntities db = new SATEntities())
-        //        {
-        //            list = db.vw_User.Select(s => new EmployeeViewModel()
-        //            {
-        //                UserID = s.UserID,
-        //                UserName = s.UserName,
-        //                Password = s.Password,
-        //                FirstNameTh = s.FirstNameTh,
-        //                LastNameTh = s.LastNameTh,
-        //                DivID = s.DivID,
-        //                DivName = s.DivName,
-        //                DepID = s.DepID,
-        //                DepName = s.DepName,
-        //                SecID = s.SecID,
-        //                SecName = s.SecName,
-        //                PoID = s.PoID,
-        //                PoName = s.PoName,
-        //            })
-        //            .OrderBy(x => x.UserName).ToList();
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-
-        //        throw;
-        //    }
-
-        //    return list;
-        //}
 
         public EmployeeViewModel GetByID(int id)
         {
@@ -310,7 +273,7 @@ namespace SAT.HR.Data.Repository
                     //model.Salary = data.Salary;
                     //model.Age = data.Age;
                     //model.Experience = data.Experience;
-                    model.FullName = data.FirstNameTh + " " + data.LastNameTh;
+                    model.FullNameTh = data.FirstNameTh + " " + data.LastNameTh;
                     model.SecName = data.SecName;
                     model.DivName = data.DivName;
                     model.DepName = data.DepName;
@@ -358,10 +321,10 @@ namespace SAT.HR.Data.Repository
                     model.CardScan = data.CardScan;
                     model.SalaryLevel = data.SalaryLevel;
                     model.SalaryStep = data.SalaryStep;
-                    model.DivID = data.DivID;
-                    model.DepID = data.DepID;
-                    model.SecID = data.SecID;
-                    model.PoID = data.PoID;
+                    //model.DivID = data.DivID;
+                    //model.DepID = data.DepID;
+                    //model.SecID = data.SecID;
+                    //model.PoID = data.PoID;
                     model.EmpowerID = data.EmpowerID;
                     model.EmpowerDivID = data.EmpowerDivID;
                     model.EmpowerDepID = data.EmpowerDepID;
@@ -435,10 +398,10 @@ namespace SAT.HR.Data.Repository
                     model.CardScan = newdata.CardScan;
                     model.SalaryLevel = newdata.SalaryLevel;
                     model.SalaryStep = newdata.SalaryStep;
-                    model.DivID = newdata.DivID;
-                    model.DepID = newdata.DepID;
-                    model.SecID = newdata.SecID;
-                    model.PoID = newdata.PoID;
+                    //model.DivID = newdata.DivID;
+                    //model.DepID = newdata.DepID;
+                    //model.SecID = newdata.SecID;
+                    //model.PoID = newdata.PoID;
                     model.EmpowerID = newdata.EmpowerID;
                     model.EmpowerDivID = newdata.EmpowerDivID;
                     model.EmpowerDepID = newdata.EmpowerDepID;
@@ -762,7 +725,8 @@ namespace SAT.HR.Data.Repository
                         model.UeInstituteName = s.UeInstituteName;
                         model.UeGraduationDateText = (s.UeGraduationDate.HasValue) ? s.UeGraduationDate.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.UeGPA = s.UeGPA;
-                        model.UeEduType = s.UeEduType;
+                        model.UeEduOfficial = s.UeEduOfficial;
+                        model.UeEduOfficialLevel = s.UeEduOfficialLevel;
                         list.Add(model);
                     }
                 }
@@ -796,7 +760,8 @@ namespace SAT.HR.Data.Repository
                         CountryID = s.CountryID,
                         UeGraduationDate = s.UeGraduationDate,
                         UeGPA = s.UeGPA,
-                        UeEduType = s.UeEduType
+                        UeEduOfficial = s.UeEduOfficial,
+                        UeEduOfficialLevel=s.UeEduOfficialLevel
                     }).FirstOrDefault();
                 }
             }
@@ -824,7 +789,8 @@ namespace SAT.HR.Data.Repository
                     model.CountryID = data.CountryID;
                     model.UeGraduationDate = data.UeGraduationDate;
                     model.UeGPA = data.UeGPA;
-                    model.UeEduType = data.UeEduType;
+                    model.UeEduOfficial = data.UeEduOfficial;
+                    model.UeEduOfficialLevel = data.UeEduOfficialLevel;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -855,7 +821,8 @@ namespace SAT.HR.Data.Repository
                     model.CountryID = newdata.CountryID;
                     model.UeGraduationDate = newdata.UeGraduationDate;
                     model.UeGPA = newdata.UeGPA;
-                    model.UeEduType = newdata.UeEduType;
+                    model.UeEduOfficial = newdata.UeEduOfficial;
+                    model.UeEduOfficialLevel = newdata.UeEduOfficialLevel;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
@@ -1689,7 +1656,7 @@ namespace SAT.HR.Data.Repository
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    var model = db.tb_User_History.Where(x => x.UhID == id).Select(s => new UserHistoryViewModel
+                    var model = db.vw_User_History.Where(x => x.UhID == id).Select(s => new UserHistoryViewModel
                     {
                         UhID = s.UhID,
                         UserID = s.UserID,
@@ -1701,6 +1668,7 @@ namespace SAT.HR.Data.Repository
                         UhLastNameEN = s.UhLastNameEN,
                         Remark = s.Remark,
                         UhStatus = s.UhStatus,
+                        SexID = s.SexID
                     }).FirstOrDefault();
                 }
             }
@@ -1794,115 +1762,6 @@ namespace SAT.HR.Data.Repository
                 return result;
             }
         }
-
-        #endregion
-
-        #region DropDownList
-
-        public List<WorkingTypeViewModel> GetWorkingType()
-        {
-            using (SATEntities db = new SATEntities())
-            {
-                var list = db.tb_Working_Type.Select(s => new WorkingTypeViewModel()
-                {
-                    WorkingTypeID = s.WorkingTypeID,
-                    WorkingTypeName = s.WorkingTypeName
-                }).ToList();
-                return list;
-            }
-        }
-
-        public List<UserStatusViewModel> GetUserStatus()
-        {
-            using (SATEntities db = new SATEntities())
-            {
-                var list = db.tb_User_Status.Select(s => new UserStatusViewModel()
-                {
-                    UserStatusID = s.StatusID,
-                    UserStatusName = s.StatusName
-                }).ToList();
-                return list;
-            }
-        }
-
-        public List<RecieveTypeViewModel> GetRecieveType()
-        {
-            using (SATEntities db = new SATEntities())
-            {
-                var list = db.tb_Recieve_Type.Select(s => new RecieveTypeViewModel()
-                {
-                    RecID = s.RecID,
-                    RecName = s.RecName
-                }).OrderBy(x => x.RecName).ToList();
-                return list;
-            }
-        }
-
-        public List<MaritalStatusViewModel> GetMaritalStatus()
-        {
-            using (SATEntities db = new SATEntities())
-            {
-                var list = db.tb_Marital_Status.Select(s => new MaritalStatusViewModel()
-                {
-                    MaritalStatusID = s.MaritalID,
-                    MaritalStatusName = s.MaritalName
-                }).ToList();
-                return list;
-            }
-        }
-
-        public List<PositionTypeViewModel> GetPositionType()
-        {
-            using (SATEntities db = new SATEntities())
-            {
-                var list = db.tb_Position_Type.Select(s => new PositionTypeViewModel()
-                {
-                    PoTID = s.PoTID,
-                    PoTName = s.PoTName
-                }).ToList();
-                return list;
-            }
-        }
-
-        public List<EmpowerViewModel> GetEmpower()
-        {
-            using (SATEntities db = new SATEntities())
-            {
-                var list = db.tb_Empower.Select(s => new EmpowerViewModel()
-                {
-                    EmpowerID = s.EmpowerID,
-                    EmpowerName = s.EmpowerName
-                }).ToList();
-                return list;
-            }
-        }
-
-        public List<BloodTypeViewModel> GetBloodType()
-        {
-            using (SATEntities db = new SATEntities())
-            {
-                var list = db.tb_Blood_Type.Select(s => new BloodTypeViewModel()
-                {
-                    BloodTypeID = s.BloodID,
-                    BloodTypeName = s.BloodName
-                }).ToList();
-                return list;
-            }
-        }
-
-        public List<OccupationViewModel> GetOccupation()
-        {
-            using (SATEntities db = new SATEntities())
-            {
-                var list = db.tb_Occupation.Select(s => new OccupationViewModel()
-                {
-                    OcID = s.OcID,
-                    OcName = s.OcName
-                }).ToList();
-                return list;
-            }
-        }
-        
 
         #endregion
 

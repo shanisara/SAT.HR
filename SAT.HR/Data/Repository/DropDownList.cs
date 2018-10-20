@@ -298,23 +298,21 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
-        public static List<SelectListItem> GetActionType(string poid, string type)
+        public static List<SelectListItem> GetActionType(int? defaultValue, int? poid)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
             var data = new ActionTypeRepository().GetAll();
 
-            if (!string.IsNullOrEmpty(poid))
-                data = data.Where(m => m.ActPos == poid).ToList();
-
-            if (!string.IsNullOrEmpty(type))
-                data = data.Where(m => m.ActType == type).ToList();
+            if (poid.HasValue)
+                data = data.Where(m => m.ActID == poid).ToList();
 
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
                 select.Value = item.ActID.ToString();
                 select.Text = item.ActName;
+                select.Selected = defaultValue.HasValue ? (item.ActID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;
@@ -450,7 +448,7 @@ namespace SAT.HR.Data.Repository
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new EmployeeRepository().GetRecieveType();
+            var data = new MasterRepository().GetRecieveType();
 
             foreach (var item in data)
             {
@@ -467,7 +465,7 @@ namespace SAT.HR.Data.Repository
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new EmployeeRepository().GetUserStatus();
+            var data = new MasterRepository().GetUserStatus();
 
             foreach (var item in data)
             {
@@ -480,11 +478,28 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
+        public static List<SelectListItem> GetUserType(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new MasterRepository().GetUserType();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.UserTypeID.ToString();
+                select.Text = item.UserTypeName;
+                select.Selected = defaultValue.HasValue ? (item.UserTypeID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
         public static List<SelectListItem> GetWorkingType(int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new EmployeeRepository().GetWorkingType();
+            var data = new MasterRepository().GetWorkingType();
 
             foreach (var item in data)
             {
@@ -501,7 +516,7 @@ namespace SAT.HR.Data.Repository
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new EmployeeRepository().GetBloodType();
+            var data = new MasterRepository().GetBloodType();
 
             foreach (var item in data)
             {
@@ -518,7 +533,7 @@ namespace SAT.HR.Data.Repository
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new EmployeeRepository().GetMaritalStatus();
+            var data = new MasterRepository().GetMaritalStatus();
 
             foreach (var item in data)
             {
@@ -646,7 +661,7 @@ namespace SAT.HR.Data.Repository
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new EmployeeRepository().GetPositionType();
+            var data = new PositionRepository().GetPositionType();
 
             foreach (var item in data)
             {
@@ -663,7 +678,7 @@ namespace SAT.HR.Data.Repository
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new EmployeeRepository().GetEmpower();
+            var data = new MasterRepository().GetEmpower();
 
             foreach (var item in data)
             {
@@ -680,7 +695,7 @@ namespace SAT.HR.Data.Repository
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new EmployeeRepository().GetOccupation();
+            var data = new MasterRepository().GetOccupation();
 
             foreach (var item in data)
             {
@@ -710,9 +725,25 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
-        
+        public static List<SelectListItem> GetExcellentType(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new MasterRepository().GetExcellentType();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.ExID.ToString();
+                select.Text = item.ExName;
+                select.Selected = defaultValue.HasValue ? (item.ExID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
 
         
+
 
     }
 

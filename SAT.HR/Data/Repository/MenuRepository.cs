@@ -17,7 +17,7 @@ namespace SAT.HR.Data.Repository
                 UserRoleMenuViewModel model = new UserRoleMenuViewModel();
 
                 model.UserID = userid;
-                model.FullName = UtilityService.User.FullName;
+                model.FullName = UtilityService.User.FullNameTh;
                 model.Avatar = !string.IsNullOrEmpty(UtilityService.User.Avatar) ? UtilityService.User.Avatar : "avatar.png";
 
                 var menu = db.sp_Menu_GetByUser(model.UserID).Select(s => new MenuViewModel()

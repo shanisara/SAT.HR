@@ -71,7 +71,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Member_Type> tb_Member_Type { get; set; }
         public virtual DbSet<tb_Menu> tb_Menu { get; set; }
         public virtual DbSet<tb_Menu_Role> tb_Menu_Role { get; set; }
-        public virtual DbSet<tb_Move_Level_Detail> tb_Move_Level_Detail { get; set; }
         public virtual DbSet<tb_Move_Level_Head> tb_Move_Level_Head { get; set; }
         public virtual DbSet<tb_Move_Type> tb_Move_Type { get; set; }
         public virtual DbSet<tb_Nationality> tb_Nationality { get; set; }
@@ -88,7 +87,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Salary> tb_Salary { get; set; }
         public virtual DbSet<tb_Section> tb_Section { get; set; }
         public virtual DbSet<tb_Sex> tb_Sex { get; set; }
-        public virtual DbSet<tb_SubDistrict> tb_SubDistrict { get; set; }
         public virtual DbSet<tb_SysConfig> tb_SysConfig { get; set; }
         public virtual DbSet<tb_Tax_Deduction> tb_Tax_Deduction { get; set; }
         public virtual DbSet<tb_Title> tb_Title { get; set; }
@@ -106,8 +104,11 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_User_Training> tb_User_Training { get; set; }
         public virtual DbSet<tb_User_Type> tb_User_Type { get; set; }
         public virtual DbSet<tb_Working_Type> tb_Working_Type { get; set; }
+        public virtual DbSet<tb_Move_Level_Detail> tb_Move_Level_Detail { get; set; }
+        public virtual DbSet<tb_SubDistrict> tb_SubDistrict { get; set; }
         public virtual DbSet<vw_Capability> vw_Capability { get; set; }
         public virtual DbSet<vw_Department> vw_Department { get; set; }
+        public virtual DbSet<vw_Employee> vw_Employee { get; set; }
         public virtual DbSet<vw_Menu_Role> vw_Menu_Role { get; set; }
         public virtual DbSet<vw_Section> vw_Section { get; set; }
         public virtual DbSet<vw_Title> vw_Title { get; set; }
@@ -122,6 +123,8 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Position> vw_User_Position { get; set; }
         public virtual DbSet<vw_User_Role> vw_User_Role { get; set; }
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
+        public virtual DbSet<tb_Move_Man_Power_Detail> tb_Move_Man_Power_Detail { get; set; }
+        public virtual DbSet<tb_Move_Man_Power_Head> tb_Move_Man_Power_Head { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {
@@ -158,15 +161,15 @@ namespace SAT.HR.Data.Entities
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Menu_GetByRole_Result>("sp_Menu_GetByRole", roleIDParameter, menuTypeParameter);
         }
     
-        public virtual int sp_Employee_List(Nullable<int> pageSize, Nullable<int> initialPage, string sortBy, string sortrDir, Nullable<int> userStatus, Nullable<int> userType, string keyword)
+        public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, Nullable<int> userStatus, Nullable<int> userType, string keyword)
         {
-            var pageSizeParameter = pageSize.HasValue ?
+            var pageSizeParameter = pageSize != null ?
                 new ObjectParameter("PageSize", pageSize) :
-                new ObjectParameter("PageSize", typeof(int));
+                new ObjectParameter("PageSize", typeof(string));
     
-            var initialPageParameter = initialPage.HasValue ?
+            var initialPageParameter = initialPage != null ?
                 new ObjectParameter("InitialPage", initialPage) :
-                new ObjectParameter("InitialPage", typeof(int));
+                new ObjectParameter("InitialPage", typeof(string));
     
             var sortByParameter = sortBy != null ?
                 new ObjectParameter("SortBy", sortBy) :
@@ -188,7 +191,7 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("Keyword", keyword) :
                 new ObjectParameter("Keyword", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Employee_List", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, userStatusParameter, userTypeParameter, keywordParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Employee_List_Result>("sp_Employee_List", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, userStatusParameter, userTypeParameter, keywordParameter);
         }
     }
 }

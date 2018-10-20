@@ -24,12 +24,12 @@ namespace SAT.HR.Controllers
         }
 
         [HttpPost]
-        public JsonResult Index(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        public JsonResult Index(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns, int? userType, int? userStatus)
         {
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new EmployeeRepository().GetPage(search, draw, start, length, dir, column);
+            var dataTableData = new EmployeeRepository().GetPage(search, draw, start, length, dir, column, userType, userStatus);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
 
@@ -201,6 +201,13 @@ namespace SAT.HR.Controllers
         public ActionResult PositionDetail(int id)
         {
             var model = new EmployeeRepository().GetPositionByID(id);
+            ViewBag.ActionType = DropDownList.GetActionType(model.ActID, null);
+            ViewBag.PositionType = DropDownList.GetPositionType(model.PoTID);
+            ViewBag.Position = DropDownList.GetPosition(model.PoTID, true);
+            ViewBag.Division = DropDownList.GetDivision(model.DivID, true);
+            ViewBag.Department = DropDownList.GetDepartment(model.DivID, model.DepID, true);
+            ViewBag.Section = DropDownList.GetSection(model.DivID, model.DepID, model.SecID, true);
+            ViewBag.PositionAgent = DropDownList.GetPosition(model.PoAID, true);
             return PartialView("_PositionDetail", model);
         }
 
@@ -280,6 +287,7 @@ namespace SAT.HR.Controllers
         public ActionResult InsigniaDetail(int id)
         {
             var model = new EmployeeRepository().GetInsigniaByID(id);
+            ViewBag.Insignia = DropDownList.GetInsignia(model.InsID, true);
             return PartialView("_InsigniaDetail", model);
         }
 
@@ -318,7 +326,7 @@ namespace SAT.HR.Controllers
         public ActionResult ExcellentDetail(int id)
         {
             var model = new EmployeeRepository().GetExcellentByID(id);
-
+            ViewBag.ExcellentType = DropDownList.GetExcellentType(model.ExTID);
             return PartialView("_ExcellentDetail", model);
         }
 
@@ -358,6 +366,7 @@ namespace SAT.HR.Controllers
         public ActionResult CertificateDetail(int id)
         {
             var model = new EmployeeRepository().GetCertificateByUser(id);
+            ViewBag.Certificate = DropDownList.GetCertificate(model.CerId);
             return PartialView("_CertificateDetail", model);
         }
 
@@ -396,6 +405,7 @@ namespace SAT.HR.Controllers
         public ActionResult HistoryDetail(int id)
         {
             var model = new EmployeeRepository().GetHistoryByID(id);
+            ViewBag.Title = DropDownList.GetTitle(model.SexID, model.TiID, true);
             return PartialView("_HistoryDetail", model);
         }
 
@@ -436,6 +446,11 @@ namespace SAT.HR.Controllers
             return PartialView("_PositionRate");
         }
 
+
+
+
+
+
         #endregion
 
         #region 3. โยกย้ายระดับ
@@ -462,12 +477,25 @@ namespace SAT.HR.Controllers
 
         public ActionResult PositionTransfer()
         {
+            ViewBag.UserType = DropDownList.GetUserStatus(1);
             return View();
         }
 
-        public ActionResult _PositionTransferDetail()
+        [HttpPost]
+        public JsonResult PositionTransfer(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns, int? userType)
         {
-            return PartialView("_PositionTransferDetail");
+            var search = Request["search[value]"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
+            var dataTableData = new PositionTransferRepository().GetPage(search, draw, start, length, dir, column, userType);
+            return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult PositionTransferDetail(int? id)
+        {
+            var model = new PositionTransferRepository().GetByID(id);
+            return View(model);
         }
 
         #endregion

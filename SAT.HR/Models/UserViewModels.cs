@@ -50,6 +50,18 @@ namespace SAT.HR.Models
 
         public string Password { get; set; }
 
+        public string FullNameTh { get; set; }
+
+        public string FullNameEn { get; set; }
+
+        public string Avatar { get; set; }
+
+        public bool? IsActive { get; set; }
+
+        public int? StatusID { get; set; }
+
+        public int? UserTypeID { get; set; }
+
         public int? DivID { get; set; }
 
         public string DivName { get; set; }
@@ -66,15 +78,9 @@ namespace SAT.HR.Models
 
         public string PoName { get; set; }
 
-        public string Avatar { get; set; }
-
-        public string FullName { get; set; }
-
-        public bool? IsActive { get; set; }
+        public string Email { get; set; }
 
         public int? RoleID { get; set; }
-
-        public string RoleName { get; set; }
 
     }
 }

@@ -10,9 +10,8 @@
 namespace SAT.HR.Data.Entities
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class vw_User_NotRole
+    public partial class sp_Employee_List_Result
     {
         public int UserID { get; set; }
         public string UserName { get; set; }
@@ -40,7 +39,9 @@ namespace SAT.HR.Data.Entities
         public string StatusName { get; set; }
         public Nullable<bool> IsActive { get; set; }
         public int UserTypID { get; set; }
-        public string UserTypeName { get; set; }
+        public string UserTypName { get; set; }
         public Nullable<int> RoleID { get; set; }
+        public Nullable<int> recordsTotal { get; set; }
+        public Nullable<int> recordsFiltered { get; set; }
     }
 }

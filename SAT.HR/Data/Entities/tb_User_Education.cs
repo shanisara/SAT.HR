@@ -23,7 +23,8 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> CountryID { get; set; }
         public Nullable<System.DateTime> UeGraduationDate { get; set; }
         public Nullable<decimal> UeGPA { get; set; }
-        public Nullable<bool> UeEduType { get; set; }
+        public Nullable<bool> UeEduOfficial { get; set; }
+        public Nullable<bool> UeEduOfficialLevel { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }

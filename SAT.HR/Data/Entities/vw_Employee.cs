@@ -12,10 +12,11 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class vw_User_NotRole
+    public partial class vw_Employee
     {
         public int UserID { get; set; }
         public string UserName { get; set; }
+        public string Password { get; set; }
         public Nullable<decimal> IDCard { get; set; }
         public string FullNameTh { get; set; }
         public string FullNameEn { get; set; }
@@ -39,7 +40,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> StatusID { get; set; }
         public string StatusName { get; set; }
         public Nullable<bool> IsActive { get; set; }
-        public int UserTypID { get; set; }
+        public int UserTypeID { get; set; }
         public string UserTypeName { get; set; }
         public Nullable<int> RoleID { get; set; }
     }

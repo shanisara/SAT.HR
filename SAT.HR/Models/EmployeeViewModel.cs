@@ -8,7 +8,7 @@ namespace SAT.HR.Models
     public class EmployeeViewModel
     {
         public int RowNumber { get; set; }
-        public string FullName { get; set; }
+        public string FullNameTh { get; set; }
         public int UserID { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
@@ -77,6 +77,8 @@ namespace SAT.HR.Models
         public decimal Salary { get; set; }
         public string Age { get; set; }
         public string Experience { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
     }
 
     public class EmployeePageResult
@@ -140,8 +142,11 @@ namespace SAT.HR.Models
         public string CountryName { get; set; }
         public Nullable<System.DateTime> UeGraduationDate { get; set; }
         public Nullable<decimal> UeGPA { get; set; }
-        public Nullable<bool> UeEduType { get; set; }
         public string UeGraduationDateText { get; set; }
+        public bool? UeEduOfficial { get; set; }
+        public bool? UeEduOfficialLevel { get; set; }
+        
+            
         public List<UserEducationViewModel> ListEducation { get; set; }
     }
 
@@ -237,6 +242,7 @@ namespace SAT.HR.Models
         public string FullNameTH { get; set; }
         public string FullNameEn { get; set; }
         public Nullable<int> ExID { get; set; }
+        public Nullable<int> ExTID { get; set; }
         public string ExName { get; set; }
         public string UeProjectName { get; set; }
         public Nullable<System.DateTime> UeRecYear { get; set; }
@@ -287,20 +293,22 @@ namespace SAT.HR.Models
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
         public string UhEditDateText { get; set; }
-        
-        public List<UserHistoryViewModel> ListHistory { get; set; }
-    }
+        public int? SexID { get; set; }
 
-    public class RecieveTypeViewModel
-    {
-        public int RecID { get; set; }
-        public string RecName { get; set; }
+
+        public List<UserHistoryViewModel> ListHistory { get; set; }
     }
 
     public class UserStatusViewModel
     {
         public int UserStatusID { get; set; }
         public string UserStatusName { get; set; }
+    }
+
+    public class UserTypeViewModel
+    {
+        public int UserTypeID { get; set; }
+        public string UserTypeName { get; set; }
     }
 
     public class WorkingTypeViewModel
@@ -321,16 +329,28 @@ namespace SAT.HR.Models
         public string EmpowerName { get; set; }
     }
 
+    public class MaritalStatusViewModel
+    {
+        public int MaritalStatusID { get; set; }
+        public string MaritalStatusName { get; set; }
+    }
+
     public class BloodTypeViewModel
     {
         public int BloodTypeID { get; set; }
         public string BloodTypeName { get; set; }
     }
 
-    public class MaritalStatusViewModel
+    public class ExcellentViewModel
     {
-        public int MaritalStatusID { get; set; }
-        public string MaritalStatusName { get; set; }
+        public int ExID { get; set; }
+        public string ExName { get; set; }
+    }
+
+    public class RecieveTypeViewModel
+    {
+        public int RecID { get; set; }
+        public string RecName { get; set; }
     }
 
     public class OccupationViewModel
@@ -338,5 +358,6 @@ namespace SAT.HR.Models
         public int OcID { get; set; }
         public string OcName { get; set; }
     }
+
 
 }
