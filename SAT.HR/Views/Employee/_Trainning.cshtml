@@ -1,19 +1,16 @@
-﻿@model SAT.HR.Models.UserTrainningViewModel
-
-@Html.HiddenFor(m => m.UserID)
-
+﻿
 <button class="btn btn-primary btn-sm pull-right add-trainning" data-toggle="modal"> เพิ่มรายการ </button>
-<div class="table-responsive">
-    <table class="table">
+<div class="material-datatables">
+    <table class="table table-trainning" data-url="@Url.Content("~/Employee/Trainning")">
         <thead class="text-primary">
             <tr>
                 <th style="width:5%">#</th>
-                <th>หลักสูตร</th>
-                <th>วันที่เริ่ม</th>
-                <th>วันที่สิ้นสุด</th>
-                <th>ประเทศ</th>
-                <th>ประเภท</th>
-                <th>ปฏิบัติการ</th>
+                <th style="width:35%">หลักสูตร</th>
+                <th style="width:10%">วันที่เริ่ม</th>
+                <th style="width:10%">วันที่สิ้นสุด</th>
+                <th style="width:15%">ประเทศ</th>
+                <th style="width:15%">ประเภท</th>
+                <th style="width:10%">ปฏิบัติการ</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -47,8 +44,8 @@
         table: null,
         initializeDataTable: function () {
             var id = $("#UserID").val();
-            $table = $('.table-trainning');
 
+            $table = $('.table-trainning');
             dataTable.table = $table.DataTable({
                 "proccessing": true,
                 "serverSide": true,
@@ -59,12 +56,11 @@
                 language: { zeroRecords: "ไม่พบข้อมูล" },
                 dom: 't',
                 ajax: {
-                    url: '@Url.Action("Trainning", "Employee")/' + id,
-                    type: "POST",
+                    url: '@Url.Action("Trainning", "Employee")/'+id,
+                    type: "POST"
                 },
                 "columns": [
                     { "data": "RowNumber", "orderable": false, "searchable": false },
-                    { "data": "UtID", "orderable": false, "searchable": false },
                     { "data": "UtCourse", "orderable": true },
                     { "data": "UtStartDateText", "orderable": true },
                     { "data": "UtEndDateText", "orderable": true },
@@ -79,7 +75,7 @@
                                             '<button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.UtID + '"><i class="material-icons">close</i></button>' +
                                         '</div>';
                             return inner;
-                        }, "targets": 7
+                        }, "targets": 6
                     },
                 ]
             });

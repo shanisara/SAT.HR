@@ -38,19 +38,19 @@
         <div class="row occupation">
             @Html.Label("ฝ่าย: ", null, new { @class = "col-sm-3 col-form-label" })
             <div class="col-sm-9 m-t-10">
-                @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+                @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition po-div" })
             </div>
         </div>
         <div class="row occupation">
             @Html.Label("กอง: ", null, new { @class = "col-sm-3 col-form-label" })
             <div class="col-sm-9 m-t-10">
-                @Html.DropDownListFor(n => n.DepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Department, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+                @Html.DropDownListFor(n => n.DepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Department, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition po-dep" })
             </div>
         </div>
         <div class="row occupation">
             @Html.Label("งาน: ", null, new { @class = "col-sm-3 col-form-label" })
             <div class="col-sm-9 m-t-10">
-                @Html.DropDownListFor(n => n.SecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Section, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+                @Html.DropDownListFor(n => n.SecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Section, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition po-sec" })
             </div>
         </div>
         <div class="row occupation">
@@ -122,4 +122,52 @@
             close: 'fa fa-remove'
         }
     });
+
+    var DropDownList = {
+        getDepartment: function (el, divid) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("DepartmentByDiv", "Master")',
+                data: { divid: divid },
+                dataType: 'json',
+                success: function (res) {
+                    el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                    $.each(res, function (key, entry) {
+                        el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                    })
+                }
+            });
+        },
+        getSection: function (el, divid, depid) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SectionByDep", "Master")',
+                data: { divid: divid, depid: depid },
+                dataType: 'json',
+                success: function (res) {
+                    el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                    $.each(res, function (key, entry) {
+                        el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                    })
+                }
+            });
+        }
+    } 
+
+
+    $(".po-div").change(function () {
+        DropDownList.getDepartment($(".po-dep"), $('.po-div').val());
+    });
+
+    $(".po-dep").change(function () {
+        DropDownList.getSection($(".po-sec"), $('.po-div').val(), $('.po-dep').val());
+    });
+
+
+    
+
+
+    
+
+
 </script>

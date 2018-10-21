@@ -136,7 +136,8 @@ namespace SAT.HR.Data.Repository
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    var deivision = db.tb_Division.Where(m => m.DivStatus == true).ToList();
+                    var deivision = db.vw_Man_Power_Division.ToList();
+
                     foreach (var item in deivision)
                     {
                         var countChild = db.tb_Department.Where(m => m.DivID == item.DivID && m.DepStatus == true).Count();

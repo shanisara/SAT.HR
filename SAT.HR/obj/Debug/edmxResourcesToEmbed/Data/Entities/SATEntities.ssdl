@@ -1151,6 +1151,15 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Employee' does not have a prima
     <Property Name="RoleID" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Man_Power_Division' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Man_Power_Division">
+    <Key>
+      <PropertyRef Name="DivID" />
+    </Key>
+    <Property Name="DivID" Type="int" Nullable="false" />
+    <Property Name="DivName" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Menu_Role' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Menu_Role">
     <Key>
@@ -2857,6 +2866,12 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Employee].[UserTypeName] AS [UserTypeName], 
     [vw_Employee].[RoleID] AS [RoleID]
     FROM [dbo].[vw_Employee] AS [vw_Employee]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Man_Power_Division" EntityType="Self.vw_Man_Power_Division" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Man_Power_Division].[DivID] AS [DivID], 
+    [vw_Man_Power_Division].[DivName] AS [DivName]
+    FROM [dbo].[vw_Man_Power_Division] AS [vw_Man_Power_Division]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vw_Menu_Role" EntityType="Self.vw_Menu_Role" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
