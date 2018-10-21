@@ -1,16 +1,22 @@
 ﻿@model SAT.HR.Models.PositionRateViewModel
 
+<style>
+    select.form-control:focus {
+        /*padding: .375rem 1.75rem .375rem .75rem;*/
+        font-size: 13px;
+    }
+</style>
 <div class="m-t-10"></div>
 <div class="row">
     @Html.Label("ฝ่าย: ", null, new { @class = "col-sm-3 col-form-label" })
     <div class="col-sm-9">
-        @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+        @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition po-div" })
     </div>
 </div>
 <div class="row">
     @Html.Label("กอง: ", null, new { @class = "col-sm-3 col-form-label" })
     <div class="col-sm-9">
-        @Html.DropDownListFor(n => n.DepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Department, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+        @Html.DropDownListFor(n => n.DepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Department, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition po-dep" })
     </div>
 </div>
 <div class="row">
@@ -44,5 +50,56 @@
     </div>
 </div>
 <div class="card-footer pull-right">
+    <button type="button" class="btn btn-cancel">ยกเลิก</button>
     <button type="button" class="btn btn-primary btn-save">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
 </div>
+
+<script>
+
+    var DropDownList = {
+        getDepartment: function (el, divid) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("DepartmentByDiv", "Master")',
+                data: { divid: divid },
+                dataType: 'json',
+                success: function (res) {
+                    el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                    $.each(res, function (key, entry) {
+                        el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                    })
+                }
+            });
+        },
+        getSection: function (el, divid, depid) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SectionByDep", "Master")',
+                data: { divid: divid, depid: depid },
+                dataType: 'json',
+                success: function (res) {
+                    el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                    $.each(res, function (key, entry) {
+                        el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                    })
+                }
+            });
+        }
+    }
+
+    $(".po-div").change(function () {
+        DropDownList.getDepartment($(".po-dep"), $('.po-div').val());
+    });
+
+    $(".po-dep").change(function () {
+        DropDownList.getSection($(".po-sec"), $('.po-div').val(), $('.po-dep').val());
+    });
+
+    $(".btn-cancel").click(function () {
+        $("#detail").html('');
+    });
+
+    $(".btn-save").click(function () {
+
+    });
+</script>

@@ -59,7 +59,9 @@ namespace SAT.HR.Data.Repository
                 {
                     CountryID = s.CountryID,
                     CountryName = s.CountryName,
-                }).ToList();
+                })
+                .OrderBy(o => o.CountryName)
+                .ToList();
                 return list;
             }
         }

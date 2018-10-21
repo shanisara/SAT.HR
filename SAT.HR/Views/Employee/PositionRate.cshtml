@@ -78,76 +78,10 @@
 </div>
 
 @section Scripts {
-
-
     <script src="@Url.Content("~/Content/assets/js/jstree/jstree.js")"></script>
     <script>
 
     $(document).ready(function () {
-
-        var DropDownList = {
-            getDepartment: function (el, divid) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("DepartmentByDiv", "Master")',
-                    data: { divid: divid },
-                    dataType: 'json',
-                    success: function (res) {
-                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
-                        $.each(res, function (key, entry) {
-                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
-                        })
-                    }
-                });
-            },
-            getSection: function (el, divid, depid) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("SectionByDep", "Master")',
-                    data: { divid: divid, depid: depid },
-                    dataType: 'json',
-                    success: function (res) {
-                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
-                        $.each(res, function (key, entry) {
-                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
-                        })
-                    }
-                });
-            }
-            @*getPosition: function (el, divid, depid, secid) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("PositionBySec", "Master")',
-                    data: { divid: divid, depid: depid, secid: secid },
-                    dataType: 'json',
-                    success: function (res) {
-                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
-                        $.each(res, function (key, entry) {
-                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
-                        })
-                    }
-                });
-            },*@
-        }
-
-        $("#DivID").change(function () {
-            DropDownList.getDepartment($("#DepID"), $('#DivID').val());
-        });
-
-        $("#DepID").change(function () {
-            DropDownList.getSection($("#SecID"), $('#DivID').val(), $('#DepID').val());
-        });
-
-        //$("#SecID").change(function () {
-        //    DropDownList.getPosition($("#PoID"), $('#DivID').val(), $('#DepID').val(), $('#SecID').val());
-        //});
-
-        $(".add-position").click(function () {
-            var url = '@Url.Action("PositionRateDetail", "Employee")';
-            $.post(url, function (data) {
-                $("#detail").html(data);
-            });
-        });
 
         $('#organization').jstree({
             'core': {
@@ -178,16 +112,63 @@
             //$('#event_result').html("selected: " + data.node.id + " - " + data.node.text);
         });
 
+
         $(".btn-search").click(function (e) {
             e.preventDefault();
             $("#organization").jstree(true).search($(".search-tree").val());
         });
 
-        $(".btn-save").click(function (e) {
+        var DropDownList = {
+            getDepartment: function (el, divid) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("DepartmentByDiv", "Master")',
+                    data: { divid: divid },
+                    dataType: 'json',
+                    success: function (res) {
+                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                        $.each(res, function (key, entry) {
+                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                        })
+                    }
+                });
+            },
+            getSection: function (el, divid, depid) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SectionByDep", "Master")',
+                    data: { divid: divid, depid: depid },
+                    dataType: 'json',
+                    success: function (res) {
+                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                        $.each(res, function (key, entry) {
+                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                        })
+                    }
+                });
+            }
+        }
 
+        $("#DivID").change(function () {
+            DropDownList.getDepartment($("#DepID"), $('#DivID').val());
         });
-        
 
+        $("#DepID").change(function () {
+            DropDownList.getSection($("#SecID"), $('#DivID').val(), $('#DepID').val());
+        });
+
+        //$("#SecID").change(function () {
+        //    DropDownList.getPosition($("#PoID"), $('#DivID').val(), $('#DepID').val(), $('#SecID').val());
+        //});
+
+        $(".add-position").click(function () {
+            var url = '@Url.Action("PositionRateDetail", "Employee")';
+            $.post(url, function (data) {
+                $("#detail").html(data);
+            });
+        });
+
+       
 
     });
 
