@@ -47,6 +47,12 @@
             @{
                 string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
                 string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+                if (controllerName == "Employee")
+                {
+                    if (actionName == "Detail" || actionName == "Add") { actionName = "Index"; }
+                    else if(actionName == "EmployeeTransferDetail") { actionName = "EmployeeTransfer"; }
+                    else if (actionName == "PositionTransferDetail") { actionName = "PositionTransfer"; }
+                }
             }
 
             @foreach (var item in Model.ListMenu.Where(m => m.ParentID == 0))

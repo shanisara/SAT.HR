@@ -12,16 +12,16 @@
                     <div class="card-icon">
                         <i class="material-icons">group</i>
                     </div>
-                    <h4 class="card-title"><span>ทะเบียนประวัติ > </span><small>รายชื่อพนักงาน </small></h4>
+                    <h4 class="card-title">
+                        <span>ทะเบียนประวัติ > </span><small>รายชื่อพนักงาน </small>
+                        <div class="pull-right">
+                            @*@Html.Label("ประเภทบุคลากร: ", null, new { @class = "col-sm-3 col-form-label" })*@
+                            @Html.DropDownList("usertype", new SelectList((IEnumerable<SelectListItem>)ViewBag.UserType, "Value", "Text"), new { @class = "form-control" })
+                        </div>
+                    </h4>
                 </div>
                 <div class="card-body">
                     <div class="toolbar pull-right">
-                        @*<select class="custom-select col-sm-2">
-                            <option></option>
-                        </select>
-                        <select class="custom-select col-sm-2">
-                            <option></option>
-                        </select>*@
                         <button class="btn btn-primary btn-sm add-user" data-toggle="modal"><i class="material-icons">add</i> เพิ่มพนักงาน/ลูกจ้าง</button>
                     </div>
                     <div class="material-datatables">
@@ -61,10 +61,10 @@
                         language: {
                             search: "_INPUT_",
                             searchPlaceholder: "ค้นหา",
+                            zeroRecords: "ไม่พบข้อมูล",
                             //paginate: { "first": "หน้าแรก", "last": "หน้าสุดท้าย", "next": "ถัดไป", "previous": "ก่อนหน้า" },
                             //info: "จำนวน _START_ ถึง _END_ จากทั้งหมด _TOTAL_ รายการ",
                             //infoFiltered: "จำนวน 0 ถึง 0 จากทั้งหมด 0 รายการ",
-                            //zeroRecords: "ไม่พบข้อมูล",
                             //sLengthMenu: "แสดง _MENU_ รายการต่อหน้า",
                         },
                         ajax: {
@@ -123,7 +123,7 @@
             dataTable.getData();
 
             // Add record
-            $("#btnAdd").click(function () {
+            $(".add-user").click(function () {
                 var url = '@Url.Action("Add", "Employee")';
                 window.location.href = url;
             });

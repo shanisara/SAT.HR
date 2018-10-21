@@ -1,4 +1,5 @@
 ﻿using SAT.HR.Data.Entities;
+using SAT.HR.Helpers;
 using SAT.HR.Models;
 using System;
 using System.Collections.Generic;
@@ -183,6 +184,54 @@ namespace SAT.HR.Data.Repository
             }
 
             return list;
+        }
+
+
+
+
+        public ResponseData AddByEntity(PositionTransferViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_Move_Man_Power_Head model = new tb_Move_Man_Power_Head();
+                    
+                    model.CreateBy = UtilityService.User.UserID;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_Move_Man_Power_Head.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdateByEntity(PositionTransferViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var model = db.tb_Move_Man_Power_Head.Single(x => x.MopID == newdata.MopID);
+                    
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
         }
 
     }

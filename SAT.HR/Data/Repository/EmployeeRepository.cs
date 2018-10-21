@@ -156,7 +156,8 @@ namespace SAT.HR.Data.Repository
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    var data = db.sp_Employee_List(pageSize.ToString(), draw.ToString(), sortBy, sortDir, userType, userStatus, filter).ToList();
+                    string perPage = initialPage.HasValue ? Convert.ToInt32(initialPage) == 0 ? "1" : initialPage.ToString() : "1";
+                    var data = db.sp_Employee_List(pageSize.ToString(), perPage, sortBy, sortDir, userType, userStatus, filter).ToList();
 
                     int i = 1;
                     foreach (var item in data)

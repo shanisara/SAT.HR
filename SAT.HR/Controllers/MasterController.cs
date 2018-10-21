@@ -255,6 +255,14 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        //public JsonResult PositionBySec(int divid, int depid, int secid)
+        //{
+        //    var result = DropDownList.GetPosition(divid, depid, secid, null, true);
+        //    return Json(result, JsonRequestBehavior.AllowGet);
+        //}
+
+        
+
         #endregion
 
         #region 6. เงินเดือน - Salary

@@ -1,9 +1,41 @@
-﻿
+﻿@model SAT.HR.Models.PositionRateViewModel
+
 @{
     ViewBag.Title = "PositionRate";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .m-b-30 {
+        margin-bottom: 30px;
+    }
+    .m-t-10 {
+        margin-top: 10px;
+    }
+    .title-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+
+    .tree {
+        font-size: 13px;
+        border-right: 1px solid silver;
+        overflow: auto;
+        padding: 10px;
+    }
+
+    .tree2 {
+        font-size: 13px;
+        border-right: 1px solid silver;
+        overflow: auto;
+        padding: 10px;
+        box-shadow: 0 0 5px #ccc;
+        border-radius: 5px;
+    }
+</style>
+
+<link href="@Url.Content("~/Content/assets/js/jstree/themes/default/style.css")" rel="stylesheet" />
 <div class="content">
     <div class="row">
         <div class="col-md-12">
@@ -12,143 +44,152 @@
                     <div class="card-icon">
                         <i class="material-icons">group</i>
                     </div>
-                    <h4 class="card-title"><span> อัตรากำลังพล  :  </span></h4>
+                    <h4 class="card-title">
+                        <span> อัตรากำลังพล  > </span><small>พนักงาน</small>
+                        <div class="pull-right">
+                            @*@Html.Label("ประเภทบุคลากร: ", null, new { @class = "col-form-label" })*@
+                            @Html.DropDownList("usertype", new SelectList((IEnumerable<SelectListItem>)ViewBag.UserType, "Value", "Text"), new { @class = "form-control" })
+                        </div>
+                    </h4>
                 </div>
                 <div class="card-body">
-                    <div class="toolbar pull-right">
-                        <select class="selectpicker" data-size="10" data-style="select-with-transition" title="ประเภทอัตรากำลังพล" tabindex="-98">
-                            <option value="1" selected="selected"> พนักงาน </option>
-                            <option value="2"> ลูกจ้าง </option>
-                        </select>
-                        <button class="btn btn-primary btn-sm pull-right" data-toggle="modal" id="btnAdd"><i class="material-icons">add</i> เพิ่มอัตรากำลังพล</button>
-                    </div>
-                    <div class="material-datatables">
-                        <table id="datatables" data-url="@Url.Content("~/Employee/Index")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th style="width:5%" class="disabled-sorting">ลำดับ</th>
-                                    <th style="width:10%">รหัส</th>
-                                    <th style="width:75%">ตำแหน่ง</th>
-                                    <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>100</td>
-                                    <td>
-                                        <div title="สังกัด" style="font-size: 11px; color: #0000ff; border-bottom: #c0c0c0 1px dotted; margin-bottom: 5px; cursor: pointer">
-                                            <i class="fa fa-home"></i>
-                                            การกีฬาแห่งประเทศไทย / การกีฬาแห่งประเทศไทย / การกีฬาแห่งประเทศไทย
-                                        </div>
-                                        <span>ผู้ว่าการ</span>
-                                        <div class="" style="font-size: 11px; border-top: #c0c0c0 1px dotted; padding-top: 2px;">
-                                            <a target="javascript:void(0)" href="/Employee/Detail/">(001) นายสกล วรรณพงษ์ </a>
-                                        </div>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Classic Modal -->
-<div class="modal fade modal-large" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title"><span>ข้อมูลโยกย้ายระดับ</span></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    <i class="material-icons">clear</i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="content">
-                    <div id="detail"></div>
-                    <div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group bmd-form-group">
-                                    @Html.Label("อัตรากำลัง", null, new { @class = "bmd-label-floating" })
-                                    <input class="form-control" type="text">
-                                </div>
+                    <div class="row">
+                        <div class="col-sm-7 tree">
+                            @*<div>
+                                <input type="search" class="search-tree" />
+                                <button type="button" class="btn-search">Search</button>
+                            </div>*@
+                            <div id="organization"></div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="title-header">
+                                <h5><span>ข้อมูลอัตรากำลังพล</span></h5>
+                                @*@Html.Label("ประเภทอัตรากำลังพล: ", null, new { @class = "col-form-label" })*@
+                                <button class="btn btn-primary btn-sm pull-right add-position" data-toggle="modal" id="btnAdd"><i class="material-icons">add</i> เพิ่มอัตรากำลังพล</button>
                             </div>
-                            <div class="col-md-12">
-                                <div class="form-group bmd-form-group">
-                                    @Html.Label("ผู้ดำรงตำแหน่ง", null, new { @class = "bmd-label-floating" })
-                                    <input class="form-control" type="text">
-                                </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                <div class="form-group bmd-form-group">
-                                    @Html.Label("ฝ่าย", null, new { @class = "bmd-label-floating" })
-                                    <input class="form-control" type="text">
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group bmd-form-group">
-                                    @Html.Label("กอง", null, new { @class = "bmd-label-floating" })
-                                    <input class="form-control" type="text">
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group bmd-form-group">
-                                    @Html.Label("งาน", null, new { @class = "bmd-label-floating" })
-                                    <input class="form-control" type="text">
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group bmd-form-group">
-                                    @Html.Label("ตำแหน่ง", null, new { @class = "bmd-label-floating" })
-                                    <input class="form-control" type="text">
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group bmd-form-group">
-                                    @Html.Label("ระดับสายงาน", null, new { @class = "bmd-label-floating" })
-                                    <input class="form-control" type="text">
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group bmd-form-group">
-                                    @Html.Label("ระดับการศึกษา", null, new { @class = "bmd-label-floating" })
-                                    <input class="form-control" type="text">
-                                </div>
-                            </div>
+                            @*<span id="event_result"></span>*@
+                            <div id="detail"></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn btn-sm btn-primary" id="btnSave">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
-            </div>
         </div>
     </div>
 </div>
-<!--  End Modal -->
-
 
 @section Scripts {
+
+
+    <script src="@Url.Content("~/Content/assets/js/jstree/jstree.js")"></script>
     <script>
-        $(document).ready(function () {
 
-            // Add record
-            $("#btnAdd").click(function () {
-                $('#modalDetail').modal('show');
+    $(document).ready(function () {
 
-                @*var url = '@Url.Action("EmployeeTransferDetail", "Employee")';
-                $.post(url, function (data) {
-                    $("#detail").html(data);
-                    $('#modalDetail').modal('show');
-                });*@
+        var DropDownList = {
+            getDepartment: function (el, divid) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("DepartmentByDiv", "Master")',
+                    data: { divid: divid },
+                    dataType: 'json',
+                    success: function (res) {
+                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                        $.each(res, function (key, entry) {
+                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                        })
+                    }
+                });
+            },
+            getSection: function (el, divid, depid) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SectionByDep", "Master")',
+                    data: { divid: divid, depid: depid },
+                    dataType: 'json',
+                    success: function (res) {
+                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                        $.each(res, function (key, entry) {
+                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                        })
+                    }
+                });
+            }
+            @*getPosition: function (el, divid, depid, secid) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("PositionBySec", "Master")',
+                    data: { divid: divid, depid: depid, secid: secid },
+                    dataType: 'json',
+                    success: function (res) {
+                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                        $.each(res, function (key, entry) {
+                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                        })
+                    }
+                });
+            },*@
+        }
+
+        $("#DivID").change(function () {
+            DropDownList.getDepartment($("#DepID"), $('#DivID').val());
+        });
+
+        $("#DepID").change(function () {
+            DropDownList.getSection($("#SecID"), $('#DivID').val(), $('#DepID').val());
+        });
+
+        //$("#SecID").change(function () {
+        //    DropDownList.getPosition($("#PoID"), $('#DivID').val(), $('#DepID').val(), $('#SecID').val());
+        //});
+
+        $(".add-position").click(function () {
+            var url = '@Url.Action("PositionRateDetail", "Employee")';
+            $.post(url, function (data) {
+                $("#detail").html(data);
             });
+        });
+
+        $('#organization').jstree({
+            'core': {
+                'data': {
+                    'url': function (node) {
+                        return node.id === '#' ? '/Employee/GetRoot' : '/Employee/GetChildren/' + node.id + '?type=' + node.original.node_type;
+                    },
+                    'data': function (node) {
+                        debugger;
+                        return { 'id': node.id };
+                    }
+                }
+            },
+            'plugins': ['search', 'wholerow'],
+            'types': {
+                'default': {
+                    'icon': '//jstree.com/tree.png'
+                },
+                'user': {
+                    'icon': 'glyphicon glyphicon-flash'
+                }
+            },
 
         });
+
+        $('#organization').on('changed.jstree', function (e, data) {
+            $("#detail").html('');
+            //$('#event_result').html("selected: " + data.node.id + " - " + data.node.text);
+        });
+
+        $(".btn-search").click(function (e) {
+            e.preventDefault();
+            $("#organization").jstree(true).search($(".search-tree").val());
+        });
+
+        $(".btn-save").click(function (e) {
+
+        });
+        
+
+
+    });
+
     </script>
 }

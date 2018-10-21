@@ -15,11 +15,52 @@ namespace SAT.HR.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.UserType = DropDownList.GetUserType(1);
             return View();
         }
 
         public ActionResult Add()
         {
+            ViewBag.UserTitle = DropDownList.GetTitle(null, null, true);
+            ViewBag.Sex = DropDownList.GetSex(null);
+            ViewBag.BloodType = DropDownList.GetBloodType(null);
+            ViewBag.MaritalStatus = DropDownList.GetMaritalStatus(null);
+
+            ViewBag.Religion = DropDownList.GetReligion(null, true);
+            ViewBag.Ethnicity = DropDownList.GetNationality(null, true);       //-- > เชื้อชาติ
+            ViewBag.Nationality = DropDownList.GetNationality(null, true);   //--> สัญชาติ 
+
+            //ViewBag.SalaryLevel = DropDownList.GetSalaryLevel(null);
+            //ViewBag.SalaryStep = DropDownList.GetSalaryStep(null, null);
+
+            //ViewBag.Position = DropDownList.GetPosition(null, true);
+            //ViewBag.Division = DropDownList.GetDivision(null, true);
+            //ViewBag.Department = DropDownList.GetDepartment(null, null, true);
+            //ViewBag.Section = DropDownList.GetSection(null, null, null, true);
+
+            //ViewBag.Empower = DropDownList.GetEmpower(null);     //-- > ช่วยราชการ
+            //ViewBag.EmpowerPosition = DropDownList.GetPosition(null, true);
+            //ViewBag.EmpowerDivision = DropDownList.GetDivision(null, true);
+            //ViewBag.EmpowerDepartment = DropDownList.GetDepartment(null, null, true);
+            //ViewBag.EmpowerSection = DropDownList.GetSection(null, null, null, true);
+
+            //ViewBag.PositionType = DropDownList.GetPositionType(null);//-- > รักษาการแทน
+            //ViewBag.AgentPosition = DropDownList.GetPosition(null, true);
+            //ViewBag.AgentDivision = DropDownList.GetDivision(null, true);
+            //ViewBag.AgentDepartment = DropDownList.GetDepartment(null, null, true);
+            //ViewBag.AgentSection = DropDownList.GetSection(null, null, null, true);
+
+            ViewBag.HomeProvince = DropDownList.GetProvince(null);
+            ViewBag.HomeDistrict = DropDownList.GetDistrict(null, null);
+            ViewBag.HomeSubDistrict = DropDownList.GetSubDistrict(null, null, null);
+
+            ViewBag.CurrProvince = DropDownList.GetProvince(null);
+            ViewBag.CurrDistrict = DropDownList.GetDistrict(null, null);
+            ViewBag.CurrSubDistrict = DropDownList.GetSubDistrict(null, null, null);
+
+            ViewBag.UserStatus = DropDownList.GetUserStatus(null);
+            ViewBag.WorkingType = DropDownList.GetWorkingType(null);
+
             return View();
         }
 
@@ -438,18 +479,70 @@ namespace SAT.HR.Controllers
 
         public ActionResult PositionRate()
         {
+            ViewBag.UserType = DropDownList.GetUserType(1);
+            ViewBag.Division = DropDownList.GetDivision(null, true);
+            ViewBag.Department = DropDownList.GetDepartment(null, null, true);
+            ViewBag.Section = DropDownList.GetSection(null, null, null, true);
+            ViewBag.Position = DropDownList.GetPosition(null, true);
+            ViewBag.Education = DropDownList.GetEducation(null, true);
             return View();
         }
 
-        public ActionResult _PositionRate()
+        public ActionResult PositionRateDetail(int? id)
         {
-            return PartialView("_PositionRate");
+            var model = new PositionRateRepository().GetByID(id);
+
+            ViewBag.Division = DropDownList.GetDivision(model != null ? model.DivID : null, true);
+            ViewBag.Department = DropDownList.GetDepartment(model != null ? model.DivID : null, model != null ? model.DepID: null, true);
+            ViewBag.Section = DropDownList.GetSection(model != null ? model.DivID : null, model != null ? model.DepID: null, model != null ? model.SecID: null, true);
+            ViewBag.Position = DropDownList.GetPosition(model != null ? model.PoID : null, true);
+            ViewBag.Education = DropDownList.GetEducation(model != null ? model.EduID : null, true);
+
+            return PartialView("_PositionRate", model);
         }
 
+        public JsonResult GetRoot()
+        {
+            var data = new PositionRateRepository().GetTree();
+            var items = new[]
+            {
+                new
+                {
+                    id = "0",
+                    text = "การกีฬาแห่งประเทศไทย",
+                    state = new { opened = true },
+                    children = data
+                }
+            }
+            .ToList();
+            return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
 
+        public JsonResult GetChildren(string id, string type)
+        {
+            List<TreeViewModel> items = new PositionRateRepository().GetTree(id, type);
+            return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
+            //var g1 = Guid.NewGuid().ToString();
+            //var g2 = Guid.NewGuid().ToString();
 
+            //var items = new[]
+            //{
+            //    new { id = "child-" + g1, text = "Child " + g1, children = true },
+            //    new { id = "child-" + g2, text = "Child " + g2, children = true }
+            //}
+            //.ToList();
+        }
 
+        public JsonResult SavePositionRate(PositionRateViewModel data)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (data.UserID != 0)
+                result = new PositionRateRepository().UpdateByEntity(data);
+            else
+                result = new PositionRateRepository().AddByEntity(data);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
 
@@ -485,11 +578,21 @@ namespace SAT.HR.Controllers
 
         public ActionResult EmployeeTransferDetailByID(int? id)
         {
-            var model = new PositionTransferRepository().GetDetailByID(id);
+            var model = new EmployeeTransferRepository().GetDetailByID(id);
             ViewBag.Employee = DropDownList.GetEmployee(null, 1);
             ViewBag.SalaryLevel = DropDownList.GetSalaryLevel(null);
             ViewBag.SalaryStep = DropDownList.GetSalaryStep(null, 1);
             return PartialView("_EmployeeTransferDetail", model);
+        }
+
+        public JsonResult SaveEmployeeTransfer(EmployeeTransferViewModel data)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (data.MlID != 0)
+                result = new EmployeeTransferRepository().UpdateByEntity(data);
+            else
+                result = new EmployeeTransferRepository().AddByEntity(data);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -538,6 +641,15 @@ namespace SAT.HR.Controllers
             return PartialView("_PositionTransferDetail", model);
         }
 
+        public JsonResult SaveEmployeeTransfer(PositionTransferViewModel data)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (data.MtID != 0)
+                result = new PositionTransferRepository().UpdateByEntity(data);
+            else
+                result = new PositionTransferRepository().AddByEntity(data);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
 

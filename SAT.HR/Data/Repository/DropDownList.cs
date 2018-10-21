@@ -111,6 +111,34 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
+        //public static List<SelectListItem> GetPosition(int? divid, int? depid, int? secid, int? defaultValue, bool isActive)
+        //{
+        //    List<SelectListItem> list = new List<SelectListItem>();
+
+        //    var data = new PositionRepository().GetAll();
+        //    if (isActive == true)
+        //        data = data.Where(m => m.PoStatus == true).ToList();
+
+        //    if (divid.HasValue)
+        //        data = data.Where(m => m.DivID == divid).ToList();
+
+        //    if (depid.HasValue)
+        //        data = data.Where(m => m.DepID == depid).ToList();
+
+        //    if (secid.HasValue)
+        //        data = data.Where(m => m.SecID == secid).ToList();
+
+        //    foreach (var item in data)
+        //    {
+        //        SelectListItem select = new SelectListItem();
+        //        select.Value = item.PoID.ToString();
+        //        select.Text = " (" + item.PoCode + ") " + item.PoName;
+        //        select.Selected = defaultValue.HasValue ? (item.PoID == defaultValue ? true : false) : false;
+        //        list.Add(select);
+        //    }
+        //    return list;
+        //}
+
         public static List<SelectListItem> GetLevel(int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();

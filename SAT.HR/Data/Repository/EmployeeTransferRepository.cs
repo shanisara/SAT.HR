@@ -1,4 +1,5 @@
 ﻿using SAT.HR.Data.Entities;
+using SAT.HR.Helpers;
 using SAT.HR.Models;
 using System;
 using System.Collections.Generic;
@@ -163,5 +164,53 @@ namespace SAT.HR.Data.Repository
 
             return list;
         }
+
+
+
+        public ResponseData AddByEntity(EmployeeTransferViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_Move_Level_Head model = new tb_Move_Level_Head();
+
+                    model.CreateBy = UtilityService.User.UserID;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_Move_Level_Head.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdateByEntity(EmployeeTransferViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var model = db.tb_Move_Level_Head.Single(x => x.MlID == newdata.MlID);
+
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                }
+                return result;
+            }
+        }
+
     }
 }

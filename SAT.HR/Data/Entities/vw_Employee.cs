@@ -18,6 +18,8 @@ namespace SAT.HR.Data.Entities
         public string UserName { get; set; }
         public string Password { get; set; }
         public Nullable<decimal> IDCard { get; set; }
+        public string TiShortName { get; set; }
+        public string TiFullName { get; set; }
         public string FullNameTh { get; set; }
         public string FullNameEn { get; set; }
         public Nullable<int> DivID { get; set; }

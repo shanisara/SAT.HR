@@ -115,4 +115,18 @@ namespace SAT.HR.Models
         
     }
 
+    public class PositionRateViewModel
+    {
+        public int MpID { get; set; }
+        public Nullable<int> DivID { get; set; }
+        public Nullable<int> DepID { get; set; }
+        public Nullable<int> SecID { get; set; }
+        public Nullable<int> PoID { get; set; }
+        public Nullable<int> MpCode { get; set; }
+        public string MpMan { get; set; }
+        public Nullable<int> UserID { get; set; }
+        public Nullable<int> EduID { get; set; }
+        public string FullNameTh { get; set; }
+    }
+
 }
