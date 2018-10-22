@@ -1156,13 +1156,32 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Employee' does not have a prima
           <Property Name="RoleID" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Man_Power_Division' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="vw_Man_Power_Division">
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Man_Power' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_Man_Power">
           <Key>
-            <PropertyRef Name="DivID" />
+            <PropertyRef Name="MpID" />
           </Key>
-          <Property Name="DivID" Type="int" Nullable="false" />
+          <Property Name="MpID" Type="int" Nullable="false" />
+          <Property Name="DivID" Type="int" />
+          <Property Name="UserID" Type="int" />
           <Property Name="DivName" Type="nvarchar" MaxLength="200" />
+          <Property Name="DepID" Type="int" />
+          <Property Name="DepName" Type="nvarchar" MaxLength="200" />
+          <Property Name="SecID" Type="int" />
+          <Property Name="SecName" Type="nvarchar" MaxLength="200" />
+          <Property Name="PoID" Type="int" />
+          <Property Name="PoCode" Type="nvarchar" MaxLength="200" />
+          <Property Name="PoName" Type="nvarchar" MaxLength="200" />
+          <Property Name="EduID" Type="int" />
+          <Property Name="EduName" Type="nvarchar" MaxLength="200" />
+          <Property Name="MpCode" Type="int" />
+          <Property Name="MpMan" Type="nvarchar" MaxLength="200" />
+          <Property Name="IDCard" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="TiShortName" Type="nvarchar" MaxLength="100" />
+          <Property Name="FullNameTh" Type="nvarchar" MaxLength="401" />
+          <Property Name="FullNameEn" Type="nvarchar" MaxLength="401" />
+          <Property Name="SalaryLevel" Type="int" />
+          <Property Name="SalaryStep" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Menu_Role' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2872,11 +2891,30 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Employee].[RoleID] AS [RoleID]
     FROM [dbo].[vw_Employee] AS [vw_Employee]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="vw_Man_Power_Division" EntityType="Self.vw_Man_Power_Division" store:Type="Views" store:Schema="dbo">
+          <EntitySet Name="vw_Man_Power" EntityType="Self.vw_Man_Power" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [vw_Man_Power_Division].[DivID] AS [DivID], 
-    [vw_Man_Power_Division].[DivName] AS [DivName]
-    FROM [dbo].[vw_Man_Power_Division] AS [vw_Man_Power_Division]</DefiningQuery>
+    [vw_Man_Power].[MpID] AS [MpID], 
+    [vw_Man_Power].[DivID] AS [DivID], 
+    [vw_Man_Power].[UserID] AS [UserID], 
+    [vw_Man_Power].[DivName] AS [DivName], 
+    [vw_Man_Power].[DepID] AS [DepID], 
+    [vw_Man_Power].[DepName] AS [DepName], 
+    [vw_Man_Power].[SecID] AS [SecID], 
+    [vw_Man_Power].[SecName] AS [SecName], 
+    [vw_Man_Power].[PoID] AS [PoID], 
+    [vw_Man_Power].[PoCode] AS [PoCode], 
+    [vw_Man_Power].[PoName] AS [PoName], 
+    [vw_Man_Power].[EduID] AS [EduID], 
+    [vw_Man_Power].[EduName] AS [EduName], 
+    [vw_Man_Power].[MpCode] AS [MpCode], 
+    [vw_Man_Power].[MpMan] AS [MpMan], 
+    [vw_Man_Power].[IDCard] AS [IDCard], 
+    [vw_Man_Power].[TiShortName] AS [TiShortName], 
+    [vw_Man_Power].[FullNameTh] AS [FullNameTh], 
+    [vw_Man_Power].[FullNameEn] AS [FullNameEn], 
+    [vw_Man_Power].[SalaryLevel] AS [SalaryLevel], 
+    [vw_Man_Power].[SalaryStep] AS [SalaryStep]
+    FROM [dbo].[vw_Man_Power] AS [vw_Man_Power]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_Menu_Role" EntityType="Self.vw_Menu_Role" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -4108,7 +4146,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <End Role="tb_User" EntitySet="tb_User" />
           </AssociationSet>
           <EntitySet Name="vw_Employee" EntityType="SAT.HR.vw_Employee" />
-          <EntitySet Name="vw_Man_Power_Division" EntityType="SAT.HR.vw_Man_Power_Division" />
+          <EntitySet Name="vw_Man_Power" EntityType="SAT.HR.vw_Man_Power" />
           </EntityContainer>
         <ComplexType Name="sp_Menu_GetByUser_Result">
           <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -6969,12 +7007,31 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="UserTypeName" Type="String" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
           <Property Name="RoleID" Type="Int32" />
         </EntityType>
-        <EntityType Name="vw_Man_Power_Division">
+        <EntityType Name="vw_Man_Power">
           <Key>
-            <PropertyRef Name="DivID" />
+            <PropertyRef Name="MpID" />
           </Key>
-          <Property Name="DivID" Type="Int32" Nullable="false" />
+          <Property Name="MpID" Type="Int32" Nullable="false" />
+          <Property Name="DivID" Type="Int32" />
+          <Property Name="UserID" Type="Int32" />
           <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DepID" Type="Int32" />
+          <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SecID" Type="Int32" />
+          <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PoID" Type="Int32" />
+          <Property Name="PoCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="EduID" Type="Int32" />
+          <Property Name="EduName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MpCode" Type="Int32" />
+          <Property Name="MpMan" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IDCard" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TiShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+          <Property Name="FullNameEn" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+          <Property Name="SalaryLevel" Type="Int32" />
+          <Property Name="SalaryStep" Type="Decimal" Precision="18" Scale="0" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -8701,11 +8758,30 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="vw_Man_Power_Division">
-            <EntityTypeMapping TypeName="SAT.HR.vw_Man_Power_Division">
-              <MappingFragment StoreEntitySet="vw_Man_Power_Division">
+          <EntitySetMapping Name="vw_Man_Power">
+            <EntityTypeMapping TypeName="SAT.HR.vw_Man_Power">
+              <MappingFragment StoreEntitySet="vw_Man_Power">
+                <ScalarProperty Name="SalaryStep" ColumnName="SalaryStep" />
+                <ScalarProperty Name="SalaryLevel" ColumnName="SalaryLevel" />
+                <ScalarProperty Name="FullNameEn" ColumnName="FullNameEn" />
+                <ScalarProperty Name="FullNameTh" ColumnName="FullNameTh" />
+                <ScalarProperty Name="TiShortName" ColumnName="TiShortName" />
+                <ScalarProperty Name="IDCard" ColumnName="IDCard" />
+                <ScalarProperty Name="MpMan" ColumnName="MpMan" />
+                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
+                <ScalarProperty Name="EduName" ColumnName="EduName" />
+                <ScalarProperty Name="EduID" ColumnName="EduID" />
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="PoCode" ColumnName="PoCode" />
+                <ScalarProperty Name="PoID" ColumnName="PoID" />
+                <ScalarProperty Name="SecName" ColumnName="SecName" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="DepName" ColumnName="DepName" />
+                <ScalarProperty Name="DepID" ColumnName="DepID" />
                 <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="DivID" ColumnName="DivID" />
+                <ScalarProperty Name="MpID" ColumnName="MpID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

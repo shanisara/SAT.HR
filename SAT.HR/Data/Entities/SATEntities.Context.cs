@@ -127,7 +127,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Role> vw_User_Role { get; set; }
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
         public virtual DbSet<vw_Employee> vw_Employee { get; set; }
-        public virtual DbSet<vw_Man_Power_Division> vw_Man_Power_Division { get; set; }
+        public virtual DbSet<vw_Man_Power> vw_Man_Power { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {

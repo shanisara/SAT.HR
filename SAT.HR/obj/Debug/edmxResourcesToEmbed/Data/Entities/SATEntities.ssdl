@@ -1151,13 +1151,32 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Employee' does not have a prima
     <Property Name="RoleID" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Man_Power_Division' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-  <EntityType Name="vw_Man_Power_Division">
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Man_Power' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Man_Power">
     <Key>
-      <PropertyRef Name="DivID" />
+      <PropertyRef Name="MpID" />
     </Key>
-    <Property Name="DivID" Type="int" Nullable="false" />
+    <Property Name="MpID" Type="int" Nullable="false" />
+    <Property Name="DivID" Type="int" />
+    <Property Name="UserID" Type="int" />
     <Property Name="DivName" Type="nvarchar" MaxLength="200" />
+    <Property Name="DepID" Type="int" />
+    <Property Name="DepName" Type="nvarchar" MaxLength="200" />
+    <Property Name="SecID" Type="int" />
+    <Property Name="SecName" Type="nvarchar" MaxLength="200" />
+    <Property Name="PoID" Type="int" />
+    <Property Name="PoCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="PoName" Type="nvarchar" MaxLength="200" />
+    <Property Name="EduID" Type="int" />
+    <Property Name="EduName" Type="nvarchar" MaxLength="200" />
+    <Property Name="MpCode" Type="int" />
+    <Property Name="MpMan" Type="nvarchar" MaxLength="200" />
+    <Property Name="IDCard" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="TiShortName" Type="nvarchar" MaxLength="100" />
+    <Property Name="FullNameTh" Type="nvarchar" MaxLength="401" />
+    <Property Name="FullNameEn" Type="nvarchar" MaxLength="401" />
+    <Property Name="SalaryLevel" Type="int" />
+    <Property Name="SalaryStep" Type="decimal" Precision="18" Scale="0" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Menu_Role' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2867,11 +2886,30 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Employee].[RoleID] AS [RoleID]
     FROM [dbo].[vw_Employee] AS [vw_Employee]</DefiningQuery>
     </EntitySet>
-    <EntitySet Name="vw_Man_Power_Division" EntityType="Self.vw_Man_Power_Division" store:Type="Views" store:Schema="dbo">
+    <EntitySet Name="vw_Man_Power" EntityType="Self.vw_Man_Power" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
-    [vw_Man_Power_Division].[DivID] AS [DivID], 
-    [vw_Man_Power_Division].[DivName] AS [DivName]
-    FROM [dbo].[vw_Man_Power_Division] AS [vw_Man_Power_Division]</DefiningQuery>
+    [vw_Man_Power].[MpID] AS [MpID], 
+    [vw_Man_Power].[DivID] AS [DivID], 
+    [vw_Man_Power].[UserID] AS [UserID], 
+    [vw_Man_Power].[DivName] AS [DivName], 
+    [vw_Man_Power].[DepID] AS [DepID], 
+    [vw_Man_Power].[DepName] AS [DepName], 
+    [vw_Man_Power].[SecID] AS [SecID], 
+    [vw_Man_Power].[SecName] AS [SecName], 
+    [vw_Man_Power].[PoID] AS [PoID], 
+    [vw_Man_Power].[PoCode] AS [PoCode], 
+    [vw_Man_Power].[PoName] AS [PoName], 
+    [vw_Man_Power].[EduID] AS [EduID], 
+    [vw_Man_Power].[EduName] AS [EduName], 
+    [vw_Man_Power].[MpCode] AS [MpCode], 
+    [vw_Man_Power].[MpMan] AS [MpMan], 
+    [vw_Man_Power].[IDCard] AS [IDCard], 
+    [vw_Man_Power].[TiShortName] AS [TiShortName], 
+    [vw_Man_Power].[FullNameTh] AS [FullNameTh], 
+    [vw_Man_Power].[FullNameEn] AS [FullNameEn], 
+    [vw_Man_Power].[SalaryLevel] AS [SalaryLevel], 
+    [vw_Man_Power].[SalaryStep] AS [SalaryStep]
+    FROM [dbo].[vw_Man_Power] AS [vw_Man_Power]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vw_Menu_Role" EntityType="Self.vw_Menu_Role" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
