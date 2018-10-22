@@ -21,6 +21,7 @@ namespace SAT.HR.Models
 
     public class ResponseData
     {
+        public int ID { get; set; }
         public string MessageCode { get; set; }
         public string MessageText { get; set; }
     }

@@ -459,16 +459,16 @@
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("SaveEmployee", "Employee")',
-                data: $("#formEmployee").serialize(),
+                data: $(".form-employee").serialize(),
                 success: function (res) {
                     if (res.MessageCode == null) {
                         swal({
                             title: "",
                             text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
                             type: "success",
-                            buttonsStyling: false,
-                            confirmButtonClass: "btn btn-success",
+                            confirmButtonClass: "btn btn-primary",
                             confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                            buttonsStyling: false
                         }).catch(swal.noop);
                     }
                     else {
@@ -476,7 +476,7 @@
                             title: '',
                             text: res.MessageText,
                             type: 'error',
-                            confirmButtonClass: "btn btn-info",
+                            confirmButtonClass: "btn btn-primary",
                             confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
                             buttonsStyling: false
                         }).catch(swal.noop);

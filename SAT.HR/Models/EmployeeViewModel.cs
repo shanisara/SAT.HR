@@ -12,6 +12,8 @@ namespace SAT.HR.Models
         public int UserID { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+        public Nullable<int> UserType { get; set; }
+        public Nullable<int> UserStatus { get; set; }
         public Nullable<int> TitleID { get; set; }
         public string FirstNameTh { get; set; }
         public string LastNameTh { get; set; }
@@ -91,6 +93,7 @@ namespace SAT.HR.Models
 
     public class UserFamilyViewModel
     {
+        public int RowNumber { get; set; }
         public int UfID { get; set; }
         public int UserID { get; set; }
         public string FullNameTH { get; set; }
@@ -101,7 +104,7 @@ namespace SAT.HR.Models
         public Nullable<System.DateTime> UfDOB { get; set; }
         public Nullable<bool> UfLifeStatus { get; set; }
         public string UfLifeStatusName { get; set; }
-        public Nullable<int> TdID { get; set; }
+        public Nullable<bool> TdStatus { get; set; }
         public string TdName { get; set; }
         public Nullable<int> PoID { get; set; }
         public string PoName { get; set; }
@@ -116,6 +119,11 @@ namespace SAT.HR.Models
         public string MaritalName { get; set; }
         public string UfAge { get; set; }
         public string UfStudyStatusName { get; set; }
+        public string UfWeddingDateText { get; set; }
+        public string DivorceDateText { get; set; }
+        public string UfDOBText { get; set; }
+        public int CountFather { get; set; }
+        public int CountMother { get; set; }
 
         public List<UserFamilyViewModel> ListFamily { get; set; }
         public List<UserFamilyViewModel> ListFather { get; set; }
@@ -294,7 +302,8 @@ namespace SAT.HR.Models
         public Nullable<int> ModifyBy { get; set; }
         public string UhEditDateText { get; set; }
         public int? SexID { get; set; }
-
+        public bool? IsChange { get; set; }
+        
 
         public List<UserHistoryViewModel> ListHistory { get; set; }
     }

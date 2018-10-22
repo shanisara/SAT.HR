@@ -16,11 +16,13 @@ namespace SAT.HR.Controllers
         public ActionResult Index()
         {
             ViewBag.UserType = DropDownList.GetUserType(1);
+            ViewBag.UserStatus = DropDownList.GetUserStatus(1);
             return View();
         }
 
-        public ActionResult Add()
+        public ActionResult Add(string type)
         {
+            ViewBag.UserTypeID = type;
             ViewBag.UserTitle = DropDownList.GetTitle(null, null, true);
             ViewBag.Sex = DropDownList.GetSex(null);
             ViewBag.BloodType = DropDownList.GetBloodType(null);
@@ -65,7 +67,7 @@ namespace SAT.HR.Controllers
         }
 
         [HttpPost]
-        public JsonResult Index(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns, int? userType, int? userStatus)
+        public JsonResult Index(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns, string userType, string userStatus)
         {
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
@@ -79,9 +81,10 @@ namespace SAT.HR.Controllers
 
         #region 1.1 Tab: User-Employee
 
-        public ActionResult Employee(int id)
+        public ActionResult Employee(int id,int? type)
         {
             var model = new EmployeeRepository().GetByID(id);
+            ViewBag.UserTypeID = type;
             return PartialView("_Employee", model);
         }
 
@@ -155,8 +158,10 @@ namespace SAT.HR.Controllers
 
         public ActionResult FamilyByUser(int id)
         {
-            var model = new EmployeeRepository().GetFamilyByUser(id);
-            return PartialView("_Family", model);
+            var model = new EmployeeRepository().GetFamily(id);
+            ViewBag.CountFather = model.CountFather;
+            ViewBag.CountMother = model.CountMother;
+            return PartialView("_Family");
         }
 
         public ActionResult FamilyDetail(int userid, int recid, int ufid)
@@ -186,6 +191,14 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public JsonResult Family(int id, int recid)
+        {
+            var list = new EmployeeRepository().GetFamilyByUser(id, recid);
+            return Json(new { data = list.ListFamily }, JsonRequestBehavior.AllowGet);
+        }
+
+
         #endregion
 
         #region 1.3 Tab: User-Education
@@ -195,9 +208,9 @@ namespace SAT.HR.Controllers
             return PartialView("_Education");
         }
 
-        public ActionResult EducationDetail(int id)
+        public ActionResult EducationDetail(int userid, int id)
         {
-            var model = new EmployeeRepository().GetEducationByID(id);
+            var model = new EmployeeRepository().GetEducationByID(userid, id);
             ViewBag.Education = DropDownList.GetEducation(model.EduID, true);
             ViewBag.Degree = DropDownList.GetDegree(model.DegID, true);
             ViewBag.Major = DropDownList.GetMajor(model.MajID, true);
@@ -205,22 +218,21 @@ namespace SAT.HR.Controllers
             return PartialView("_EducationDetail", model);
         }
 
-        public JsonResult Save(UserEducationViewModel data)
+        public JsonResult SaveEducation(UserEducationViewModel data)
         {
             ResponseData result = new Models.ResponseData();
-            if (data.UserID != 0)
+            if (data.UeID != 0)
                 result = new EmployeeRepository().UpdateEducationByEntity(data);
             else
                 result = new EmployeeRepository().AddEducationByEntity(data);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult DeleteEducationy(int id)
+        public JsonResult DeleteEducation(int id)
         {
             var result = new EmployeeRepository().DeleteEducationByID(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
 
         [HttpPost]
         public JsonResult Education(int id)
@@ -239,9 +251,9 @@ namespace SAT.HR.Controllers
             return PartialView("_Position");
         }
 
-        public ActionResult PositionDetail(int id)
+        public ActionResult PositionDetail(int userid, int id)
         {
-            var model = new EmployeeRepository().GetPositionByID(id);
+            var model = new EmployeeRepository().GetPositionByID(userid, id);
             ViewBag.ActionType = DropDownList.GetActionType(model.ActID, null);
             ViewBag.PositionType = DropDownList.GetPositionType(model.PoTID);
             ViewBag.Position = DropDownList.GetPosition(model.PoTID, true);
@@ -255,7 +267,7 @@ namespace SAT.HR.Controllers
         public JsonResult SavePosition(UserPositionViewModel data)
         {
             ResponseData result = new Models.ResponseData();
-            if (data.UserID != 0)
+            if (data.UpID != 0)
                 result = new EmployeeRepository().UpdatePositionByEntity(data);
             else
                 result = new EmployeeRepository().AddPositionByEntity(data);
@@ -284,9 +296,9 @@ namespace SAT.HR.Controllers
             return PartialView("_Trainning");
         }
 
-        public ActionResult TrainningDetail(int id)
+        public ActionResult TrainningDetail(int userid, int id)
         {
-            var model = new EmployeeRepository().GetTrainningByID(id);
+            var model = new EmployeeRepository().GetTrainningByID(userid, id);
             ViewBag.TrainingType = DropDownList.GetTrainingType(model.TtID);
             ViewBag.Country = DropDownList.GetCountry(model.CountryID);
             return PartialView("_TrainningDetail", model);
@@ -295,7 +307,7 @@ namespace SAT.HR.Controllers
         public JsonResult SaveTraining(UserTrainningViewModel data)
         {
             ResponseData result = new Models.ResponseData();
-            if (data.UserID != 0)
+            if (data.UtID != 0)
                 result = new EmployeeRepository().UpdateTrainingByEntity(data);
             else
                 result = new EmployeeRepository().AddTrainingByEntity(data);
@@ -325,9 +337,9 @@ namespace SAT.HR.Controllers
             return PartialView("_Insignia");
         }
 
-        public ActionResult InsigniaDetail(int id)
+        public ActionResult InsigniaDetail(int userid, int id)
         {
-            var model = new EmployeeRepository().GetInsigniaByID(id);
+            var model = new EmployeeRepository().GetInsigniaByID(userid, id);
             ViewBag.Insignia = DropDownList.GetInsignia(model.InsID, true);
             return PartialView("_InsigniaDetail", model);
         }
@@ -335,7 +347,7 @@ namespace SAT.HR.Controllers
         public JsonResult SaveInsignia(UserInsigniaViewModel data)
         {
             ResponseData result = new Models.ResponseData();
-            if (data.UserID != 0)
+            if (data.UiID != 0)
                 result = new EmployeeRepository().UpdateInsigniaByEntity(data);
             else
                 result = new EmployeeRepository().AddInsigniaByEntity(data);
@@ -364,9 +376,9 @@ namespace SAT.HR.Controllers
             return PartialView("_Excellent");
         }
 
-        public ActionResult ExcellentDetail(int id)
+        public ActionResult ExcellentDetail(int userid, int id)
         {
-            var model = new EmployeeRepository().GetExcellentByID(id);
+            var model = new EmployeeRepository().GetExcellentByID(userid, id);
             ViewBag.ExcellentType = DropDownList.GetExcellentType(model.ExTID);
             return PartialView("_ExcellentDetail", model);
         }
@@ -374,7 +386,7 @@ namespace SAT.HR.Controllers
         public JsonResult SaveExcellent(UserExcellentViewModel data)
         {
             ResponseData result = new Models.ResponseData();
-            if (data.UserID != 0)
+            if (data.UeID != 0)
                 result = new EmployeeRepository().UpdateExcellentByEntity(data);
             else
                 result = new EmployeeRepository().AddExcellentByEntity(data);
@@ -404,9 +416,9 @@ namespace SAT.HR.Controllers
             return PartialView("_Certificate");
         }
 
-        public ActionResult CertificateDetail(int id)
+        public ActionResult CertificateDetail(int userid, int id)
         {
-            var model = new EmployeeRepository().GetCertificateByUser(id);
+            var model = new EmployeeRepository().GetCertificateByID(userid, id);
             ViewBag.Certificate = DropDownList.GetCertificate(model.CerId);
             return PartialView("_CertificateDetail", model);
         }
@@ -414,7 +426,7 @@ namespace SAT.HR.Controllers
         public JsonResult SaveCertificate(UserCertificateViewModel data)
         {
             ResponseData result = new Models.ResponseData();
-            if (data.UserID != 0)
+            if (data.UcID != 0)
                 result = new EmployeeRepository().UpdateCertificateByEntity(data);
             else
                 result = new EmployeeRepository().AddCertificateByEntity(data);
@@ -443,9 +455,9 @@ namespace SAT.HR.Controllers
             return PartialView("_History");
         }
 
-        public ActionResult HistoryDetail(int id)
+        public ActionResult HistoryDetail(int userid, int id)
         {
-            var model = new EmployeeRepository().GetHistoryByID(id);
+            var model = new EmployeeRepository().GetHistoryByID(userid, id);
             ViewBag.Title = DropDownList.GetTitle(model.SexID, model.TiID, true);
             return PartialView("_HistoryDetail", model);
         }
@@ -453,7 +465,7 @@ namespace SAT.HR.Controllers
         public JsonResult SaveHistory(UserHistoryViewModel data)
         {
             ResponseData result = new Models.ResponseData();
-            if (data.UserID != 0)
+            if (data.UhID != 0)
                 result = new EmployeeRepository().UpdateHistoryByEntity(data);
             else
                 result = new EmployeeRepository().AddHistoryByEntity(data);
@@ -491,11 +503,10 @@ namespace SAT.HR.Controllers
         public ActionResult PositionRateDetail(int? id)
         {
             var model = new PositionRateRepository().GetByID(id);
-
-            ViewBag.Division = DropDownList.GetDivision(model != null ? model.DivID : null, true);
-            ViewBag.Department = DropDownList.GetDepartment(model != null ? model.DivID : null, model != null ? model.DepID: null, true);
-            ViewBag.Section = DropDownList.GetSection(model != null ? model.DivID : null, model != null ? model.DepID: null, model != null ? model.SecID: null, true);
-            ViewBag.Position = DropDownList.GetPosition(model != null ? model.PoID : null, true);
+            ViewBag.Division = DropDownList.GetDivision(model != null ? model.DivID : null, false);
+            ViewBag.Department = DropDownList.GetDepartment(model != null ? model.DivID : null, model != null ? model.DepID: null, false);
+            ViewBag.Section = DropDownList.GetSection(model != null ? model.DivID : null, model != null ? model.DepID: null, model != null ? model.SecID: null, false);
+            ViewBag.Position = DropDownList.GetPosition(model != null ? model.PoID : null, false);
             ViewBag.Education = DropDownList.GetEducation(model != null ? model.EduID : null, true);
 
             return PartialView("_PositionRate", model);
@@ -518,9 +529,9 @@ namespace SAT.HR.Controllers
             return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
-        public JsonResult GetChildren(string id, string type)
+        public JsonResult GetChildren(string type, int? divid, int? depid, int? secid, int? poid)
         {
-            List<TreeViewModel> items = new PositionRateRepository().GetTree(id, type);
+            List<TreeViewModel> items = new PositionRateRepository().GetTree(type, divid, depid, secid, poid);
             return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
             //var g1 = Guid.NewGuid().ToString();
@@ -537,7 +548,7 @@ namespace SAT.HR.Controllers
         public JsonResult SavePositionRate(PositionRateViewModel data)
         {
             ResponseData result = new Models.ResponseData();
-            if (data.UserID != 0)
+            if (data.MpID != 0)
                 result = new PositionRateRepository().UpdateByEntity(data);
             else
                 result = new PositionRateRepository().AddByEntity(data);

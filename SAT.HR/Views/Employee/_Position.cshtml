@@ -1,7 +1,5 @@
 ﻿@model SAT.HR.Models.UserPositionViewModel
 
-@Html.HiddenFor(m => m.UserID)
-
 <button class="btn btn-primary btn-sm pull-right add-position" data-toggle="modal"> เพิ่มรายการ </button>
 <div class="material-datatables">
     <table class="table table-position">
@@ -88,6 +86,61 @@
                     },
                 ]
             });
+
+            dataTable.table.on('click', '.edit', function () {
+                debugger;
+                var userid = $("#UserID").val();
+                var id = $(this).data("id");
+                var url = '@Url.Action("PositionDetail", "Employee")';
+                $.post(url, { userid: userid, id: id }, function (data) {
+                    $(".detail-position").html(data);
+                    $('.modal-position').modal('show');
+                });
+            });
+
+            dataTable.table.on('click', '.delete', function () {
+                var id = $(this).data("id");
+                swal({
+                    title: '',
+                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                    buttonsStyling: false
+                }).then(function () {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("DeletePosition", "Employee")/' + id,
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                swal({
+                                    title: "",
+                                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.DeleteSucceed)",
+                                    type: "success",
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                    buttonsStyling: false
+                                }).then(function () {
+                                    dataTable.getData();
+                                });
+                            }
+                            else {
+                                swal({
+                                    title: '',
+                                    text: res.MessageText,
+                                    type: 'error',
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                    buttonsStyling: false
+                                }).catch(swal.noop);
+                            }
+                        }
+                    });
+                }).catch(swal.noop)
+            });
         },
         getData: function () {
             if (dataTable.table == null)
@@ -101,21 +154,14 @@
 
 
     $(".add-position").click(function () {
+        var userid = $("#UserID").val();
         var url = '@Url.Action("PositionDetail", "Employee")';
-        $.post(url, { id: 0 }, function (data) {
+        $.post(url, { userid: userid, id: 0 }, function (data) {
             $(".detail-position").html(data);
             $('.modal-position').modal('show');
         });
     });
 
-    $(".edit-position").click(function () {
-        var id = $(this).data("id");
-        var url = '@Url.Action("PositionDetail", "Employee")';
-        $.post(url, { id: id }, function (data) {
-            $(".detail-position").html(data);
-            $('.modal-position').modal('show');
-        });
-    });
 
     $(".save-position").click(function () {
         $.ajax({
@@ -129,18 +175,19 @@
                         text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
                         type: "success",
                         buttonsStyling: false,
-                        confirmButtonClass: "btn btn-success",
+                        confirmButtonClass: "btn btn-primary",
                         confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                    }).catch(swal.noop)
-
-                    $('.modal-position').modal('hide');
+                    }).then(function () {
+                        $('.modal-position').modal('hide');
+                        dataTable.getData();
+                    });
                 }
                 else {
                     swal({
                         title: '',
-                        text: msg,
+                        text: res.MessageText,
                         type: 'error',
-                        confirmButtonClass: "btn btn-info",
+                        confirmButtonClass: "btn btn-primary",
                         confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
                         buttonsStyling: false
                     }).catch(swal.noop)

@@ -89,17 +89,8 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Section> tb_Section { get; set; }
         public virtual DbSet<tb_Sex> tb_Sex { get; set; }
         public virtual DbSet<tb_SysConfig> tb_SysConfig { get; set; }
-        public virtual DbSet<tb_Tax_Deduction> tb_Tax_Deduction { get; set; }
         public virtual DbSet<tb_Title> tb_Title { get; set; }
         public virtual DbSet<tb_Training_Type> tb_Training_Type { get; set; }
-        public virtual DbSet<tb_User> tb_User { get; set; }
-        public virtual DbSet<tb_User_Certificate> tb_User_Certificate { get; set; }
-        public virtual DbSet<tb_User_Education> tb_User_Education { get; set; }
-        public virtual DbSet<tb_User_Excellent> tb_User_Excellent { get; set; }
-        public virtual DbSet<tb_User_Family> tb_User_Family { get; set; }
-        public virtual DbSet<tb_User_History> tb_User_History { get; set; }
-        public virtual DbSet<tb_User_Insignia> tb_User_Insignia { get; set; }
-        public virtual DbSet<tb_User_Position> tb_User_Position { get; set; }
         public virtual DbSet<tb_User_Role> tb_User_Role { get; set; }
         public virtual DbSet<tb_User_Status> tb_User_Status { get; set; }
         public virtual DbSet<tb_User_Training> tb_User_Training { get; set; }
@@ -115,11 +106,9 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Move_Man_Power_Head> vw_Move_Man_Power_Head { get; set; }
         public virtual DbSet<vw_Section> vw_Section { get; set; }
         public virtual DbSet<vw_Title> vw_Title { get; set; }
-        public virtual DbSet<vw_User> vw_User { get; set; }
         public virtual DbSet<vw_User_Certificate> vw_User_Certificate { get; set; }
         public virtual DbSet<vw_User_Education> vw_User_Education { get; set; }
         public virtual DbSet<vw_User_Excellent> vw_User_Excellent { get; set; }
-        public virtual DbSet<vw_User_Family> vw_User_Family { get; set; }
         public virtual DbSet<vw_User_History> vw_User_History { get; set; }
         public virtual DbSet<vw_User_Insignia> vw_User_Insignia { get; set; }
         public virtual DbSet<vw_User_NotRole> vw_User_NotRole { get; set; }
@@ -128,6 +117,16 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
         public virtual DbSet<vw_Employee> vw_Employee { get; set; }
         public virtual DbSet<vw_Man_Power> vw_Man_Power { get; set; }
+        public virtual DbSet<tb_User> tb_User { get; set; }
+        public virtual DbSet<vw_User> vw_User { get; set; }
+        public virtual DbSet<tb_User_Family> tb_User_Family { get; set; }
+        public virtual DbSet<vw_User_Family> vw_User_Family { get; set; }
+        public virtual DbSet<tb_User_History> tb_User_History { get; set; }
+        public virtual DbSet<tb_User_Certificate> tb_User_Certificate { get; set; }
+        public virtual DbSet<tb_User_Education> tb_User_Education { get; set; }
+        public virtual DbSet<tb_User_Excellent> tb_User_Excellent { get; set; }
+        public virtual DbSet<tb_User_Insignia> tb_User_Insignia { get; set; }
+        public virtual DbSet<tb_User_Position> tb_User_Position { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {
@@ -164,7 +163,7 @@ namespace SAT.HR.Data.Entities
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Menu_GetByRole_Result>("sp_Menu_GetByRole", roleIDParameter, menuTypeParameter);
         }
     
-        public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, Nullable<int> userStatus, Nullable<int> userType, string keyword)
+        public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userStatus, string userType, string keyword)
         {
             var pageSizeParameter = pageSize != null ?
                 new ObjectParameter("PageSize", pageSize) :
@@ -182,13 +181,13 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("SortrDir", sortrDir) :
                 new ObjectParameter("SortrDir", typeof(string));
     
-            var userStatusParameter = userStatus.HasValue ?
+            var userStatusParameter = userStatus != null ?
                 new ObjectParameter("UserStatus", userStatus) :
-                new ObjectParameter("UserStatus", typeof(int));
+                new ObjectParameter("UserStatus", typeof(string));
     
-            var userTypeParameter = userType.HasValue ?
+            var userTypeParameter = userType != null ?
                 new ObjectParameter("UserType", userType) :
-                new ObjectParameter("UserType", typeof(int));
+                new ObjectParameter("UserType", typeof(string));
     
             var keywordParameter = keyword != null ?
                 new ObjectParameter("Keyword", keyword) :

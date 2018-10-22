@@ -1,20 +1,14 @@
 ﻿@model SAT.HR.Models.EmployeeViewModel
 
-<script src="~/Content/assets/js/plugins/select2.min.js"></script>
-@using (Ajax.BeginForm("SaveEmployee", "Employee", new AjaxOptions
-{
-    HttpMethod = "POST",
-    //OnSuccess = "UpdateEmployeeSuccess",
-    OnSuccess = "alert(\"Data successfuly saved!\");"
-}, new { @id = "form-employee" }))
-{
-@*@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form-employee" }))
-    {*@
+@*<script src="~/Content/assets/js/plugins/select2.min.js"></script>*@
 
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-employee" }))
+{
     @Html.AntiForgeryToken()
 
+    @Html.HiddenFor(m => m.UserID)
+
     <div class="content">
-        @Html.HiddenFor(m => m.UserID)
         <div class="row">
             <div class="col-md-12">
                 <div style="height:10px;"></div>
@@ -24,8 +18,6 @@
                         @Html.DropDownList("testtest", new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), 
                        new { @class = "form-control custom-select select-with-transition selectpicker", data_show_subtext = "true", data_live_search = "true", title = "Please select" })
                     </div>*@
-
-
 
                     <div class="card-body m-b-20">
                         <div class="row justify-content-center">
@@ -393,19 +385,19 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             @Html.Label("จังหวัด", null, new { @class = "label-select" })
-                                            @Html.DropDownListFor(n => n.HomeProvinceID, new SelectList((IEnumerable<SelectListItem>)ViewBag.HomeProvince, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                            @Html.DropDownListFor(n => n.HomeProvinceID, new SelectList((IEnumerable<SelectListItem>)ViewBag.HomeProvince, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             @Html.Label("อำเภอ", null, new { @class = "label-select" })
-                                            @Html.DropDownListFor(n => n.HomeDistrictID, new SelectList((IEnumerable<SelectListItem>)ViewBag.HomeDistrict, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                            @Html.DropDownListFor(n => n.HomeDistrictID, new SelectList((IEnumerable<SelectListItem>)ViewBag.HomeDistrict, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             @Html.Label("ตำบล", null, new { @class = "label-select" })
-                                            @Html.DropDownListFor(n => n.HomeSubDistrictID, new SelectList((IEnumerable<SelectListItem>)ViewBag.HomeSubDistrict, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                            @Html.DropDownListFor(n => n.HomeSubDistrictID, new SelectList((IEnumerable<SelectListItem>)ViewBag.HomeSubDistrict, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -447,19 +439,19 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             @Html.Label("จังหวัด", null, new { @class = "label-select" })
-                                            @Html.DropDownListFor(n => n.CurrProvinceID, new SelectList((IEnumerable<SelectListItem>)ViewBag.CurrProvince, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                            @Html.DropDownListFor(n => n.CurrProvinceID, new SelectList((IEnumerable<SelectListItem>)ViewBag.CurrProvince, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             @Html.Label("อำเภอ", null, new { @class = "label-select" })
-                                            @Html.DropDownListFor(n => n.CurrDistrictID, new SelectList((IEnumerable<SelectListItem>)ViewBag.CurrDistrict, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                            @Html.DropDownListFor(n => n.CurrDistrictID, new SelectList((IEnumerable<SelectListItem>)ViewBag.CurrDistrict, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             @Html.Label("ตำบล", null, new { @class = "label-select" })
-                                            @Html.DropDownListFor(n => n.CurrSubDistrictID, new SelectList((IEnumerable<SelectListItem>)ViewBag.CurrSubDistrict, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                            @Html.DropDownListFor(n => n.CurrSubDistrictID, new SelectList((IEnumerable<SelectListItem>)ViewBag.CurrSubDistrict, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
                                         </div>
                                     </div>
                                     <div class="col-md-6">

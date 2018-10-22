@@ -8,13 +8,14 @@
 
         @Html.HiddenFor(m => m.UserID)
         @Html.HiddenFor(m => m.UhID)
+        @Html.HiddenFor(m => m.IsChange)
 
         <div class="row">
             @Html.Label("ปรับปรุงข้อมูลนี้เป็นปัจจุบัน: ", null, new { @class = "col-sm-4 col-form-label" })
             <div class="col-sm-8">
                 <div class="form-check mr-auto">
                     <label class="form-check-label">
-                        <input class="form-check-input ufIsworked" type="checkbox" aria-required="true">
+                        <input class="form-check-input uhIsChange" type="checkbox" aria-required="true">
                         <span class="form-check-sign"><span class="check"></span></span>
                     </label>
                 </div>
@@ -38,7 +39,7 @@
             @Html.Label("ชื่อ(ไทย): ", null, new { @class = "col-sm-4 col-form-label" })
             <div class="col-sm-8">
                 <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.FullNameTH, new { @class = "form-control", required = "true" })
+                    @Html.TextBoxFor(m => m.UhFirstNameTH, new { @class = "form-control", required = "true" })
                 </div>
             </div>
         </div>
@@ -78,6 +79,12 @@
 }
 
 <script>
+    if ('@Model' != null) {
+        if ('@Model.IsChange' == 'True') {
+            $(".uhIsChange").prop("checked", true);
+        }
+    }
+
     $('.datepicker').datetimepicker({
         format: 'DD/MM/YYYY',
         icons: {
@@ -92,4 +99,15 @@
             close: 'fa fa-remove'
         }
     });
+
+    $(".uhIsChange").click(function () {
+        var checked = $(this).is(':checked');
+        if (checked) {
+            $('#IsChange').val(true);
+        }
+        else {
+            $('#IsChange').val(false);
+        }
+    });
+
 </script>

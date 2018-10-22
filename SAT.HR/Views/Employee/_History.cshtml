@@ -1,7 +1,5 @@
 ﻿@model SAT.HR.Models.UserHistoryViewModel
 
-@Html.HiddenFor(m => m.UserID)
-
 <button class="btn btn-primary btn-sm pull-right add-history" data-toggle="modal"> เพิ่มรายการ </button>
 <div class="material-datatables">
     <table class="table table-history">
@@ -76,13 +74,68 @@
                     {
                         "render": function (data, type, row) {
                             var inner = '<div class="td-actions text-right">' +
-                                            '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.EduID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;' +
-                                            '<button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.EduID + '"><i class="material-icons">close</i></button>' +
+                                '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.UhID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;' +
+                                '<button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.UhID + '"><i class="material-icons">close</i></button>' +
                                         '</div>';
                             return inner;
                         }, "targets": 7
                     },
                 ]
+            });
+
+            dataTable.table.on('click', '.edit', function () {
+                debugger;
+                var userid = $("#UserID").val();
+                var id = $(this).data("id");
+                var url = '@Url.Action("HistoryDetail", "Employee")';
+                $.post(url, { userid: userid, id: id }, function (data) {
+                    $(".detail-history").html(data);
+                    $('.modal-history').modal('show');
+                });
+            });
+
+            dataTable.table.on('click', '.delete', function () {
+                var id = $(this).data("id");
+                swal({
+                    title: '',
+                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                    buttonsStyling: false
+                }).then(function () {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("DeleteHistory", "Employee")/' + id,
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                swal({
+                                    title: "",
+                                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.DeleteSucceed)",
+                                    type: "success",
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                    buttonsStyling: false
+                                }).then(function () {
+                                    dataTable.getData();
+                                });
+                            }
+                            else {
+                                swal({
+                                    title: '',
+                                    text: res.MessageText,
+                                    type: 'error',
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                    buttonsStyling: false
+                                }).catch(swal.noop);
+                            }
+                        }
+                    });
+                }).catch(swal.noop)
             });
         },
         getData: function () {
@@ -96,17 +149,9 @@
     dataTable.getData();
 
     $(".add-history").click(function () {
+        var userid = $("#UserID").val();
         var url = '@Url.Action("HistoryDetail", "Employee")';
-        $.post(url, { id: 0 }, function (data) {
-            $(".detail-history").html(data);
-            $('.modal-history').modal('show');
-        });
-    });
-
-    $(".edit-history").click(function () {
-        var id = $(this).data("id");
-        var url = '@Url.Action("HistoryDetail", "Employee")';
-        $.post(url, { id: id }, function (data) {
+        $.post(url, { userid: userid, id: 0 }, function (data) {
             $(".detail-history").html(data);
             $('.modal-history').modal('show');
         });
@@ -124,18 +169,19 @@
                         text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
                         type: "success",
                         buttonsStyling: false,
-                        confirmButtonClass: "btn btn-success",
+                        confirmButtonClass: "btn btn-primary",
                         confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                    }).catch(swal.noop)
-
-                    $('.modal-history').modal('hide');
+                    }).then(function () {
+                        $('.modal-history').modal('hide');
+                        dataTable.getData();
+                    });
                 }
                 else {
                     swal({
                         title: '',
-                        text: msg,
+                        text: res.MessageText,
                         type: 'error',
-                        confirmButtonClass: "btn btn-info",
+                        confirmButtonClass: "btn btn-primary",
                         confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
                         buttonsStyling: false
                     }).catch(swal.noop)

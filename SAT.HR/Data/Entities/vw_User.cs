@@ -101,6 +101,8 @@ namespace SAT.HR.Data.Entities
         public string Avatar { get; set; }
         public Nullable<bool> IsActive { get; set; }
         public string Age { get; set; }
+        public Nullable<int> UserTID { get; set; }
+        public string UserTName { get; set; }
         public Nullable<int> RoleID { get; set; }
     }
 }
