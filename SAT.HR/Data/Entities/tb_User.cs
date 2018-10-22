@@ -33,8 +33,8 @@ namespace SAT.HR.Data.Entities
             this.tb_User_History = new HashSet<tb_User_History>();
             this.tb_User_Certificate = new HashSet<tb_User_Certificate>();
             this.tb_User_Education = new HashSet<tb_User_Education>();
-            this.tb_User_Excellent = new HashSet<tb_User_Excellent>();
             this.tb_User_Insignia = new HashSet<tb_User_Insignia>();
+            this.tb_User_Excellent = new HashSet<tb_User_Excellent>();
             this.tb_User_Position = new HashSet<tb_User_Position>();
         }
     
@@ -145,9 +145,9 @@ namespace SAT.HR.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User_Education> tb_User_Education { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_User_Excellent> tb_User_Excellent { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User_Insignia> tb_User_Insignia { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_User_Excellent> tb_User_Excellent { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User_Position> tb_User_Position { get; set; }
     }

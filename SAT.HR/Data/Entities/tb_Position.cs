@@ -22,6 +22,7 @@ namespace SAT.HR.Data.Entities
             this.tb_User = new HashSet<tb_User>();
             this.tb_User_Family = new HashSet<tb_User_Family>();
             this.tb_User_Position = new HashSet<tb_User_Position>();
+            this.tb_User_Position1 = new HashSet<tb_User_Position>();
         }
     
         public int PoID { get; set; }
@@ -43,5 +44,7 @@ namespace SAT.HR.Data.Entities
         public virtual ICollection<tb_User_Family> tb_User_Family { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User_Position> tb_User_Position { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_User_Position> tb_User_Position1 { get; set; }
     }
 }

@@ -788,7 +788,7 @@ namespace SAT.HR.Data.Repository
                     model.MajID = data.MajID;
                     model.UeInstituteName = data.UeInstituteName;
                     model.CountryID = data.CountryID;
-                    if (Convert.ToDateTime(data.UeGraduationDate) > DateTime.MinValue)
+                    if (Convert.ToDateTime(data.UeGraduationDateText) > DateTime.MinValue)
                         model.UeGraduationDate = Convert.ToDateTime(data.UeGraduationDateText);
                     model.UeGPA = data.UeGPA;
                     model.UeEduOfficial = data.UeEduOfficial;
@@ -889,7 +889,7 @@ namespace SAT.HR.Data.Repository
                         model.UpLevel = item.UpLevel;
                         model.UpSalary = item.UpSalary;
                         model.UpCmdDateText = (item.UpCmdDate.HasValue) ? item.UpCmdDate.Value.ToString("dd/MM/yyyy") : string.Empty;
-                        model.UpCmdDateText = (item.UpForceDate.HasValue) ? item.UpForceDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        model.UpForceDateText = (item.UpForceDate.HasValue) ? item.UpForceDate.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.UpRemark = item.UpRemark;
                         model.UpPathFile = item.UpPathFile;
                         list.Add(model);
@@ -1230,6 +1230,7 @@ namespace SAT.HR.Data.Repository
                         model.UiYear = item.UiYear;
                         model.UiBook = item.UiBook;
                         model.UiPart = item.UiPart;
+                        model.UiPage = item.UiPage;
                         model.UiCmd = item.UiCmd;
                         model.UiRecDateText = (item.UiRecDate.HasValue) ? item.UiRecDate.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.UiRetDateText = (item.UiRetDate.HasValue) ? item.UiRetDate.Value.ToString("dd/MM/yyyy") : string.Empty;
@@ -1326,7 +1327,7 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    var model = db.tb_User_Insignia.Single(x => x.UserID == newdata.UserID && x.InsID == newdata.InsID);
+                    var model = db.tb_User_Insignia.Single(x => x.UserID == newdata.UserID && x.UiID == newdata.UiID);
                     model.InsID = newdata.InsID;
                     model.UiYear = newdata.UiYear;
                     model.UiBook = newdata.UiBook;
@@ -1395,6 +1396,7 @@ namespace SAT.HR.Data.Repository
                         model.UeID = item.UeID;
                         model.UserID = item.UserID;
                         model.UeRecYear = item.UeRecYear;
+                        model.ExTName = item.ExTName;
                         model.ExName = item.ExName;
                         model.UeProjectName = item.UeProjectName;
                         model.UeRecDateText = (item.UeRecDate.HasValue) ? item.UeRecDate.Value.ToString("dd/MM/yyyy") : string.Empty;
@@ -1426,6 +1428,7 @@ namespace SAT.HR.Data.Repository
                     model.UeID = obj.UeID;
                     model.UserID = obj.UserID;
                     model.ExID = obj.ExID;
+                    model.ExTID = obj.ExTID;
                     model.UeProjectName = obj.UeProjectName;
                     model.UeRecYear = obj.UeRecYear;
                     model.UeRecDate = obj.UeRecDate;
@@ -1450,9 +1453,9 @@ namespace SAT.HR.Data.Repository
                 try
                 {
                     tb_User_Excellent model = new tb_User_Excellent();
-                    model.UeID = data.UeID;
                     model.UserID = data.UserID;
                     model.ExID = data.ExID;
+                    model.ExTID = data.ExTID;
                     model.UeProjectName = data.UeProjectName;
                     model.UeRecYear = data.UeRecYear;
                     if (Convert.ToDateTime(data.UeRecDateText) > DateTime.MinValue)
@@ -1480,8 +1483,9 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    var model = db.tb_User_Excellent.Single(x => x.UserID == newdata.UserID && x.ExID == newdata.ExID);
+                    var model = db.tb_User_Excellent.Single(x => x.UserID == newdata.UserID && x.UeID == newdata.UeID);
                     model.ExID = newdata.ExID;
+                    model.ExTID = newdata.ExTID;
                     model.UeProjectName = newdata.UeProjectName;
                     model.UeRecYear = newdata.UeRecYear;
                     if (Convert.ToDateTime(newdata.UeRecDateText) > DateTime.MinValue)
@@ -1623,7 +1627,7 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    var model = db.tb_User_Certificate.Single(x => x.UserID == newdata.UserID && x.CerId == newdata.CerId);
+                    var model = db.tb_User_Certificate.Single(x => x.UserID == newdata.UserID && x.UcID == newdata.UcID);
                     model.CerId = newdata.CerId;
                     if (Convert.ToDateTime(newdata.UcRecDateText) > DateTime.MinValue)
                         model.UcRecDate = Convert.ToDateTime(newdata.UcRecDateText);

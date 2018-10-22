@@ -31,8 +31,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-default close-excellent" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn btn-sm btn-primary save-excellent">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+                <button type="button" class="btn btn-default close-excellent" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary save-excellent">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
             </div>
         </div>
     </div>
@@ -62,7 +62,7 @@
                 "columns": [
                     { "data": "RowNumber", "orderable": false, "searchable": false },
                     { "data": "UeRecYear", "orderable": true },
-                    { "data": "ExName", "orderable": true },
+                    { "data": "ExTName", "orderable": true },
                     { "data": "UeProjectName", "orderable": true },
                     { "data": "UeRecDateText", "orderable": true },
                 ],
@@ -80,11 +80,10 @@
             });
 
             dataTable.table.on('click', '.edit', function () {
-                debugger;
                 var userid = $("#UserID").val();
                 var id = $(this).data("id");
                 var url = '@Url.Action("ExcellentDetail", "Employee")';
-                $.post(url, { userid: userid, id: ueid }, function (data) {
+                $.post(url, { userid: userid, id: id }, function (data) {
                     $(".detail-excellent").html(data);
                     $('.modal-excellent').modal('show');
                 });

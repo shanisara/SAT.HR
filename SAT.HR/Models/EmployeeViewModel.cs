@@ -252,8 +252,10 @@ namespace SAT.HR.Models
         public Nullable<int> ExID { get; set; }
         public Nullable<int> ExTID { get; set; }
         public string ExName { get; set; }
+        public string ExTName { get; set; }
+        
         public string UeProjectName { get; set; }
-        public Nullable<System.DateTime> UeRecYear { get; set; }
+        public Nullable<int> UeRecYear { get; set; }
         public Nullable<System.DateTime> UeRecDate { get; set; }
         public string UeRecDateText { get; set; }
 
@@ -352,8 +354,8 @@ namespace SAT.HR.Models
 
     public class ExcellentViewModel
     {
-        public int ExID { get; set; }
-        public string ExName { get; set; }
+        public int ExTID { get; set; }
+        public string ExTName { get; set; }
     }
 
     public class RecieveTypeViewModel

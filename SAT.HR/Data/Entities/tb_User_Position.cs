@@ -39,7 +39,7 @@ namespace SAT.HR.Data.Entities
         public virtual tb_Department tb_Department { get; set; }
         public virtual tb_Division tb_Division { get; set; }
         public virtual tb_Position tb_Position { get; set; }
-        public virtual tb_Position_Agent tb_Position_Agent { get; set; }
+        public virtual tb_Position tb_Position1 { get; set; }
         public virtual tb_Position_Type tb_Position_Type { get; set; }
         public virtual tb_Section tb_Section { get; set; }
         public virtual tb_User tb_User { get; set; }

@@ -762,9 +762,9 @@ namespace SAT.HR.Data.Repository
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
-                select.Value = item.ExID.ToString();
-                select.Text = item.ExName;
-                select.Selected = defaultValue.HasValue ? (item.ExID == defaultValue ? true : false) : false;
+                select.Value = item.ExTID.ToString();
+                select.Text = item.ExTName;
+                select.Selected = defaultValue.HasValue ? (item.ExTID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;

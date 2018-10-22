@@ -35,6 +35,6 @@ namespace SAT.HR.Data.Entities
         public string FullNameEn { get; set; }
         public Nullable<int> SalaryLevel { get; set; }
         public Nullable<decimal> SalaryStep { get; set; }
-        public Nullable<int> UserTypeID { get; set; }
+        public Nullable<int> UserTID { get; set; }
     }
 }

@@ -121,8 +121,8 @@ namespace SAT.HR.Data.Repository
             {
                 var list = db.tb_Excellent_Type.Select(s => new ExcellentViewModel()
                 {
-                    ExID = s.ExID,
-                    ExName = s.ExName
+                    ExTID = s.ExTID,
+                    ExTName = s.ExTName
                 }).ToList();
                 return list;
             }

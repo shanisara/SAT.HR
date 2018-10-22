@@ -256,7 +256,7 @@ namespace SAT.HR.Controllers
             var model = new EmployeeRepository().GetPositionByID(userid, id);
             ViewBag.ActionType = DropDownList.GetActionType(model.ActID, null);
             ViewBag.PositionType = DropDownList.GetPositionType(model.PoTID);
-            ViewBag.Position = DropDownList.GetPosition(model.PoTID, true);
+            ViewBag.Position = DropDownList.GetPosition(model.PoID, true);
             ViewBag.Division = DropDownList.GetDivision(model.DivID, true);
             ViewBag.Department = DropDownList.GetDepartment(model.DivID, model.DepID, true);
             ViewBag.Section = DropDownList.GetSection(model.DivID, model.DepID, model.SecID, true);

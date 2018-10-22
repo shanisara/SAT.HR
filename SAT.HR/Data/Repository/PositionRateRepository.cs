@@ -154,7 +154,7 @@ namespace SAT.HR.Data.Repository
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }
