@@ -1340,9 +1340,9 @@ namespace SAT.HR.Data.Repository
                     model.UiPart = obj.UiPart;
                     model.UiPage = obj.UiPage;
                     model.UiRecDate = obj.UiRecDate;
-                    model.UiRecDateText = Convert.ToDateTime(obj.UiRecDate).ToString("dd/MM/yyyy");
+                    model.UiRecDateText = obj.UiRecDate.HasValue ? Convert.ToDateTime(obj.UiRecDate).ToString("dd/MM/yyyy") : string.Empty ;
                     model.UiRetDate = obj.UiRetDate;
-                    model.UiRetDateText = Convert.ToDateTime(obj.UiRetDate).ToString("dd/MM/yyyy");
+                    model.UiRetDateText = obj.UiRetDate.HasValue ? Convert.ToDateTime(obj.UiRetDate).ToString("dd/MM/yyyy") : string.Empty;
                     model.UiCmd = obj.UiCmd;
                     model.UiPartFile = obj.UiPartFile;
 
