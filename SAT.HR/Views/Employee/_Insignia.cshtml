@@ -168,10 +168,26 @@
 
 
     $(".save-insignia").click(function () {
+        //var formData = new FormData();
+        //var totalFiles = $("#fileUpload")[0].files.length;
+        //if (totalFiles > 0) {
+        //    var files = $("#fileUpload")[0].files[0];
+        //    var typeFile = files.name.split('.').pop().toLowerCase();
+        //    formData.append("#fileUpload", fileUpload);
+        //}
+
+        var form = $('.form-insignia')[0];
+        var data = new FormData(form);
+        data.append(".fileUpload", fileUpload);
+
         $.ajax({
-            type: 'POST',
+            type: "POST",
             url: '@Url.Action("SaveInsignia", "Employee")',
-            data: $(".form-insignia").serialize(),
+            data: data, /*$(".form-insignia").serialize(),*/
+            enctype: 'multipart/form-data',
+            processData: false,
+            contentType: false,
+            cache: false,
             success: function (res) {
                 if (res.MessageCode == null) {
                     swal({

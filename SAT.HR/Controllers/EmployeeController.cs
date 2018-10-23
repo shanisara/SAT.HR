@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.IO;
 
 namespace SAT.HR.Controllers
 {
@@ -136,13 +137,13 @@ namespace SAT.HR.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveEmployee(EmployeeViewModel data)
+        public JsonResult SaveEmployee(EmployeeViewModel data, HttpPostedFileBase fileUpload)
         {
             ResponseData result = new Models.ResponseData();
             if (data.UserID != 0)
-                result = new EmployeeRepository().UpdateUserByEntity(data);
+                result = new EmployeeRepository().UpdateUserByEntity(data, fileUpload);
             else
-                result = new EmployeeRepository().AddUserByEntity(data);
+                result = new EmployeeRepository().AddUserByEntity(data, fileUpload);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -218,7 +219,7 @@ namespace SAT.HR.Controllers
             return PartialView("_EducationDetail", model);
         }
 
-        public JsonResult SaveEducation(UserEducationViewModel data)
+        public JsonResult SaveEducation(UserEducationViewModel data, HttpPostedFileBase fileUpload)
         {
             ResponseData result = new Models.ResponseData();
             if (data.UeID != 0)
@@ -264,13 +265,13 @@ namespace SAT.HR.Controllers
             return PartialView("_PositionDetail", model);
         }
 
-        public JsonResult SavePosition(UserPositionViewModel data)
+        public JsonResult SavePosition(UserPositionViewModel data, HttpPostedFileBase fileUpload)
         {
             ResponseData result = new Models.ResponseData();
             if (data.UpID != 0)
-                result = new EmployeeRepository().UpdatePositionByEntity(data);
+                result = new EmployeeRepository().UpdatePositionByEntity(data, fileUpload);
             else
-                result = new EmployeeRepository().AddPositionByEntity(data);
+                result = new EmployeeRepository().AddPositionByEntity(data, fileUpload);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -344,13 +345,30 @@ namespace SAT.HR.Controllers
             return PartialView("_InsigniaDetail", model);
         }
 
-        public JsonResult SaveInsignia(UserInsigniaViewModel data)
+        [HttpPost]
+        public JsonResult SaveInsignia(UserInsigniaViewModel data, HttpPostedFileBase fileUpload)
         {
             ResponseData result = new Models.ResponseData();
+
+            if (fileUpload != null && fileUpload.ContentLength > 0)
+            {
+                //if (fileUpload.ContentLength > 10240)
+                //{
+
+                //}
+
+                //var supportedTypes = new[] { "jpg", "jpeg", "png" };
+                //var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
+                //if (!supportedTypes.Contains(fileExt))
+                //{
+
+                //}
+            }
+
             if (data.UiID != 0)
-                result = new EmployeeRepository().UpdateInsigniaByEntity(data);
+                result = new EmployeeRepository().UpdateInsigniaByEntity(data, fileUpload);
             else
-                result = new EmployeeRepository().AddInsigniaByEntity(data);
+                result = new EmployeeRepository().AddInsigniaByEntity(data, fileUpload);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -365,6 +383,18 @@ namespace SAT.HR.Controllers
         {
             var list = new EmployeeRepository().GetInsigniaByUser(id);
             return Json(new { data = list.ListInsignia }, JsonRequestBehavior.AllowGet);
+        }
+
+        public FileResult DownloadInsignia(int userid, int id)
+        {
+            //var result = new EmployeeRepository().GetInsigniaByID(userid, id);
+            //string fileName = result.UiPartFile;
+
+            //var file = 
+            //string contentType = file.contentType;
+            //return new FilePathResult(fileName, contentType);
+
+            return null;
         }
 
         #endregion

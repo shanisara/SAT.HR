@@ -238,7 +238,7 @@ namespace SAT.HR.Models
         public string UiPartFile { get; set; }
         public string UiRecDateText { get; set; }
         public string UiRetDateText { get; set; }
-
+        //public HttpPostedFileBase fileUpload { get; set; }
         public List<UserInsigniaViewModel> ListInsignia { get; set; }
     }
 

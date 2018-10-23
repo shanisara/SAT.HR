@@ -4,6 +4,7 @@ using SAT.HR.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Metadata.Edm;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -301,13 +302,31 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public ResponseData AddUserByEntity(EmployeeViewModel data)
+        public ResponseData AddUserByEntity(EmployeeViewModel data, HttpPostedFileBase fileUpload)
         {
             using (SATEntities db = new SATEntities())
             {
                 ResponseData result = new Models.ResponseData();
                 try
                 {
+                    if (fileUpload != null && fileUpload.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(fileUpload.FileName);
+                        var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
+
+                        string directory = SysConfig.PathUploadUserAvatar;
+                        bool isExists = System.IO.Directory.Exists(directory);
+                        if (!isExists)
+                            System.IO.Directory.CreateDirectory(directory);
+
+                        string newFileName = data.UserID.ToString() + DateTime.Now.ToString("_yyyyMMdd_hhmmss") + "." + fileExt;
+                        string fileLocation = Path.Combine(directory, newFileName);
+
+                        fileUpload.SaveAs(fileLocation);
+
+                        data.Avatar = newFileName;
+                    }
+
                     tb_User model = new tb_User();
                     model.UserTID = data.UserType;
                     //model.UserName = data.UserName;
@@ -383,13 +402,31 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public ResponseData UpdateUserByEntity(EmployeeViewModel newdata)
+        public ResponseData UpdateUserByEntity(EmployeeViewModel newdata, HttpPostedFileBase fileUpload)
         {
             using (SATEntities db = new SATEntities())
             {
                 ResponseData result = new Models.ResponseData();
                 try
                 {
+                    if (fileUpload != null && fileUpload.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(fileUpload.FileName);
+                        var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
+
+                        string directory = SysConfig.PathUploadUserAvatar;
+                        bool isExists = System.IO.Directory.Exists(directory);
+                        if (!isExists)
+                            System.IO.Directory.CreateDirectory(directory);
+
+                        string newFileName = newdata.UserID.ToString() + DateTime.Now.ToString("_yyyyMMdd_hhmmss") + "." + fileExt;
+                        string fileLocation = Path.Combine(directory, newFileName);
+
+                        fileUpload.SaveAs(fileLocation);
+
+                        newdata.Avatar = newFileName;
+                    }
+
                     var model = db.tb_User.Single(x => x.UserID == newdata.UserID);
                     //model.UserName = newdata.UserName;
                     model.TitleID = newdata.TitleID;
@@ -947,13 +984,31 @@ namespace SAT.HR.Data.Repository
             return data;
         }
 
-        public ResponseData AddPositionByEntity(UserPositionViewModel data)
+        public ResponseData AddPositionByEntity(UserPositionViewModel data, HttpPostedFileBase fileUpload)
         {
             using (SATEntities db = new SATEntities())
             {
                 ResponseData result = new Models.ResponseData();
                 try
                 {
+                    if (fileUpload != null && fileUpload.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(fileUpload.FileName);
+                        var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
+
+                        string directory = SysConfig.PathUploadUserPosition;
+                        bool isExists = System.IO.Directory.Exists(directory);
+                        if (!isExists)
+                            System.IO.Directory.CreateDirectory(directory);
+
+                        string newFileName = data.UserID.ToString() + DateTime.Now.ToString("_yyyyMMdd_hhmmss") + "." + fileExt;
+                        string fileLocation = Path.Combine(directory, newFileName);
+
+                        fileUpload.SaveAs(fileLocation);
+
+                        data.UpPathFile = newFileName;
+                    }
+
                     tb_User_Position model = new tb_User_Position();
                     model.UserID = data.UserID;
                     model.ActID = data.ActID;
@@ -988,13 +1043,31 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public ResponseData UpdatePositionByEntity(UserPositionViewModel newdata)
+        public ResponseData UpdatePositionByEntity(UserPositionViewModel newdata, HttpPostedFileBase fileUpload)
         {
             using (SATEntities db = new SATEntities())
             {
                 ResponseData result = new Models.ResponseData();
                 try
                 {
+                    if (fileUpload != null && fileUpload.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(fileUpload.FileName);
+                        var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
+
+                        string directory = SysConfig.PathUploadUserPosition;
+                        bool isExists = System.IO.Directory.Exists(directory);
+                        if (!isExists)
+                            System.IO.Directory.CreateDirectory(directory);
+
+                        string newFileName = newdata.UserID.ToString() + DateTime.Now.ToString("_yyyyMMdd_hhmmss") + "." + fileExt;
+                        string fileLocation = Path.Combine(directory, newFileName);
+
+                        fileUpload.SaveAs(fileLocation);
+
+                        newdata.UpPathFile = newFileName;
+                    }
+
                     var model = db.tb_User_Position.Single(x => x.UserID == newdata.UserID && x.UpID == newdata.UpID);
                     model.ActID = newdata.ActID;
                     model.UpCmd = newdata.UpCmd;
@@ -1284,13 +1357,31 @@ namespace SAT.HR.Data.Repository
             return data;
         }
 
-        public ResponseData AddInsigniaByEntity(UserInsigniaViewModel data)
+        public ResponseData AddInsigniaByEntity(UserInsigniaViewModel data, HttpPostedFileBase fileUpload)
         {
             using (SATEntities db = new SATEntities())
             {
                 ResponseData result = new Models.ResponseData();
                 try
                 {
+                    if (fileUpload != null && fileUpload.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(fileUpload.FileName);
+                        var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
+
+                        string directory = SysConfig.PathUploadUserInsignia;
+                        bool isExists = System.IO.Directory.Exists(directory);
+                        if (!isExists)
+                            System.IO.Directory.CreateDirectory(directory);
+
+                        string newFileName = data.UserID.ToString() + DateTime.Now.ToString("_yyyyMMdd_hhmmss") + "." + fileExt;
+                        string fileLocation = Path.Combine(directory, newFileName);
+
+                        fileUpload.SaveAs(fileLocation);
+
+                        data.UiPartFile = newFileName;
+                    }
+
                     tb_User_Insignia model = new tb_User_Insignia();
                     model.UiID = data.UiID;
                     model.UserID = data.UserID;
@@ -1320,13 +1411,31 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public ResponseData UpdateInsigniaByEntity(UserInsigniaViewModel newdata)
+        public ResponseData UpdateInsigniaByEntity(UserInsigniaViewModel newdata, HttpPostedFileBase fileUpload)
         {
             using (SATEntities db = new SATEntities())
             {
                 ResponseData result = new Models.ResponseData();
                 try
                 {
+                    if (fileUpload != null && fileUpload.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(fileUpload.FileName);
+                        var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
+
+                        string directory = SysConfig.PathUploadUserInsignia;
+                        bool isExists = System.IO.Directory.Exists(directory);
+                        if (!isExists)
+                            System.IO.Directory.CreateDirectory(directory);
+
+                        string newFileName = newdata.UserID.ToString() + DateTime.Now.ToString("_yyyyMMdd_hhmmss") + "." + fileExt;
+                        string fileLocation = Path.Combine(directory, newFileName);
+
+                        fileUpload.SaveAs(fileLocation);
+
+                        newdata.UiPartFile = newFileName;
+                    }
+
                     var model = db.tb_User_Insignia.Single(x => x.UserID == newdata.UserID && x.UiID == newdata.UiID);
                     model.InsID = newdata.InsID;
                     model.UiYear = newdata.UiYear;

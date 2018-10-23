@@ -143,11 +143,27 @@ namespace SAT.HR.Helpers
             }
         }
 
-        public static string PathUploadAvatar
+        public static string PathUploadUserAvatar
         {
             get
             {
-                return SysConfigRepository.GetKeyValue("PathUploadAvatar");
+                return SysConfigRepository.GetKeyValue("PathUploadUserAvatar");
+            }
+        }
+
+        public static string PathUploadUserInsignia
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathUploadUserInsignia");
+            }
+        }
+
+        public static string PathUploadUserPosition
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathUploadUserPosition");
             }
         }
     }

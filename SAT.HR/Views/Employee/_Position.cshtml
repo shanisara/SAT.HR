@@ -176,10 +176,18 @@
 
 
     $(".save-position").click(function () {
+        var form = $('.form-position')[0];
+        var data = new FormData(form);
+        data.append(".fileUpload", fileUpload);
+
         $.ajax({
             type: 'POST',
             url: '@Url.Action("SavePosition", "Employee")',
-            data: $(".form-position").serialize(),
+            data: data, /*$(".form-position").serialize(),*/
+            enctype: 'multipart/form-data',
+            processData: false,
+            contentType: false,
+            cache: false,
             success: function (res) {
                 if (res.MessageCode == null) {
                     swal({

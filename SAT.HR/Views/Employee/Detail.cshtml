@@ -474,10 +474,14 @@
         });
 
         $(".save-employee").click(function () {
+            var form = $('.form-employee')[0];
+            var data = new FormData(form);
+            data.append(".fileUpload", file);
+
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("SaveEmployee", "Employee")',
-                data: $(".form-employee").serialize(),
+                data: data, /*$(".form-employee").serialize(),*/
                 success: function (res) {
                     if (res.MessageCode == null) {
                         swal({

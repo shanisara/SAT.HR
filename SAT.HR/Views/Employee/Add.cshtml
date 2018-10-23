@@ -91,7 +91,6 @@
     }
 </style>
 
-
 <div class="content">
     <div class="row">
         <div class="col-md-12">
@@ -124,7 +123,7 @@
                                                 <span class="btn btn-round btn-file">
                                                     <span class="fileinput-new">Select image</span>
                                                     <span class="fileinput-exists">เปลี่ยน</span>
-                                                    <input type="hidden" value=""><input type="file">
+                                                    <input type="hidden" value=""><input id="fileUpload" name="fileUpload" type="file">
                                                 </span>
                                                 <a class="btn btn-danger btn-round fileinput-exists" href="#pablo" data-dismiss="fileinput">
                                                     <i class="fa fa-times"></i> ลบ
@@ -582,10 +581,14 @@
         });
 
         $(".btn-save").click(function () {
+            var form = $('.form-employee')[0];
+            var data = new FormData(form);
+            data.append(".fileUpload", fileUpload);
+
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("SaveEmployee", "Employee")',
-                data: $(".form-employee").serialize(),
+                data: data, /*$(".form-employee").serialize(),*/
                 success: function (res) {
                     if (res.MessageCode == null) {
                         swal({

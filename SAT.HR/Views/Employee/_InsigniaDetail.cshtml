@@ -2,84 +2,133 @@
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-insignia" }))
 {
-    @Html.AntiForgeryToken()
+@Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
+<div class="form-horizontal">
 
-        @Html.HiddenFor(m => m.UserID)
-        @Html.HiddenFor(m => m.UiID)
+    @Html.HiddenFor(m => m.UserID)
+    @Html.HiddenFor(m => m.UiID)
+    @Html.HiddenFor(m => m.UiPartFile)
 
-        <div class="row occupation">
-            @Html.Label("เครื่องราชฯ/วิริยะ: ", null, new { @class = "col-sm-3 col-form-label" })
-            <div class="col-sm-9 m-t-10">
-                @Html.DropDownListFor(n => n.InsID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Insignia, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
-            </div>
+    <div class="row occupation">
+        @Html.Label("เครื่องราชฯ/วิริยะ: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-9 m-t-10">
+            @Html.DropDownListFor(n => n.InsID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Insignia, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
         </div>
-        <div class="row">
-            @Html.Label("ปีที่ได้รับ: ", null, new { @class = "col-sm-3 col-form-label" })
-            <div class="col-sm-9">
-                <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UiYear, new { @class = "form-control", required = "true" })
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            @Html.Label("เล่ม: ", null, new { @class = "col-sm-3 col-form-label" })
-            <div class="col-sm-3">
-                <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UiBook, new { @class = "form-control", required = "true" })
-                </div>
-            </div>
-            @Html.Label("ตอน: ", null, new { @class = "col-sm-1 col-form-label" })
-            <div class="col-sm-2">
-                <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UiPart, new { @class = "form-control", required = "true" })
-                </div>
-            </div>
-            @Html.Label("หน้า: ", null, new { @class = "col-sm-1 col-form-label" })
-            <div class="col-sm-2">
-                <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UiPage, new { @class = "form-control", required = "true" })
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            @Html.Label("วันที่รับ: ", null, new { @class = "col-sm-3 col-form-label" })
-            <div class="col-sm-9">
-                <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UiRecDateText, new { @class = "form-control datepicker" })
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            @Html.Label("วันที่ส่งคืน: ", null, new { @class = "col-sm-3 col-form-label" })
-            <div class="col-sm-9">
-                <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UiRetDateText, new { @class = "form-control datepicker" })
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            @Html.Label("คำสั่ง: ", null, new { @class = "col-sm-3 col-form-label" })
-            <div class="col-sm-9">
-                <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UiCmd, new { @class = "form-control", required = "true" })
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            @Html.Label("ไฟล์แนบ: ", null, new { @class = "col-sm-3 col-form-label" })
-            <div class="col-sm-9">
-                <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UiPartFile, new { @class = "form-control", required = "true" })
-                </div>
+    </div>
+    <div class="row">
+        @Html.Label("ปีที่ได้รับ: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-9">
+            <div class="form-group bmd-form-group">
+                @Html.TextBoxFor(m => m.UiYear, new { @class = "form-control", required = "true" })
             </div>
         </div>
     </div>
+    <div class="row">
+        @Html.Label("เล่ม: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-3">
+            <div class="form-group bmd-form-group">
+                @Html.TextBoxFor(m => m.UiBook, new { @class = "form-control", required = "true" })
+            </div>
+        </div>
+        @Html.Label("ตอน: ", null, new { @class = "col-sm-1 col-form-label" })
+        <div class="col-sm-2">
+            <div class="form-group bmd-form-group">
+                @Html.TextBoxFor(m => m.UiPart, new { @class = "form-control", required = "true" })
+            </div>
+        </div>
+        @Html.Label("หน้า: ", null, new { @class = "col-sm-1 col-form-label" })
+        <div class="col-sm-2">
+            <div class="form-group bmd-form-group">
+                @Html.TextBoxFor(m => m.UiPage, new { @class = "form-control", required = "true" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("วันที่รับ: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-9">
+            <div class="form-group bmd-form-group">
+                @Html.TextBoxFor(m => m.UiRecDateText, new { @class = "form-control datepicker" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("วันที่ส่งคืน: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-9">
+            <div class="form-group bmd-form-group">
+                @Html.TextBoxFor(m => m.UiRetDateText, new { @class = "form-control datepicker" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("คำสั่ง: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-9">
+            <div class="form-group bmd-form-group">
+                @Html.TextBoxFor(m => m.UiCmd, new { @class = "form-control", required = "true" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("ไฟล์แนบ: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-9" style="margin-top:5px;">
+            <div id="div-file">
+                <input id="fileUpload" name="fileUpload" type="file" class="form-control" value="@Model.UiPartFile">
+            </div>
+            @*<a class="btn-file" href="@Url.Action("DownloadInsignia","Employee", new { userid = Model.UserID, id = Model.UiID, })" target="_blank">
+                <i class="material-icons">attach_file</i>ไฟล์แนบ
+            </a>*@
+            @*<a class="btn btn-sm btn-danger btn-round btn-cancel-file" href="#" data-dismiss="fileinput">ยกเลิก</a>
+            <a class="btn btn-sm btn-danger btn-round btn-delete-file" href="#" data-dismiss="fileinput"><i class="fa fa-times"></i> ลบ</a>*@
+        </div>
+
+        @*<div class="fileinput text-center fileinput-new" data-provides="fileinput">
+            <div class="fileinput-new thumbnail"><img alt="..." src="" /></div>
+            <div class="fileinput-preview fileinput-exists thumbnail"></div>
+            <div>
+                <span class="btn btn-round btn-file">
+                    <span class="fileinput-new">เลือกไฟล์</span>
+                    <span class="fileinput-exists">เปลี่ยน</span>
+                    <input type="hidden">
+                    <input type="file">
+                </span>
+                <a class="btn btn-danger btn-round fileinput-exists" href="#" data-dismiss="fileinput"><i class="fa fa-times"></i> ลบ</a>
+            </div>
+        </div>*@
+    </div>
+</div>
 }
 
 
 <script>
+
+
+    @*if ('@Model' != null) {
+        if ('@Model.UiPartFile' != '') {
+            $(".btn-cancel-file").hide();
+            $("#div-file").hide();
+        }
+        else {
+            $(".btn-file").hide();
+            $(".btn-cancel-file").hide();
+            $(".btn-delete-file").hide();
+        }
+    }
+
+    $(".btn-delete-file").click(function () {
+        $("#div-file").show();
+        $(".btn-cancel-file").show();
+        $(".btn-delete-file").hide();
+        $(".btn-file").hide();
+    });
+
+    $(".btn-cancel-file").click(function () {
+        $("#fileUpload").val(null);
+        $("#div-file").hide();
+        $(".btn-cancel-file").hide();
+        $(".btn-delete-file").show();
+        $(".btn-file").show();
+    });*@
+
     $('.datepicker').datetimepicker({
         format: 'DD/MM/YYYY',
         icons: {
@@ -94,4 +143,7 @@
             close: 'fa fa-remove'
         }
     });
+
+
+
 </script>
