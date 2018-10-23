@@ -17,11 +17,16 @@ namespace SAT.HR.Data.Entities
         public int UhID { get; set; }
         public int UserID { get; set; }
         public Nullable<System.DateTime> UhEditDate { get; set; }
-        public Nullable<int> TiID { get; set; }
-        public string UhFirstNameTH { get; set; }
-        public string UhLastNameTH { get; set; }
-        public string UhFirstNameEN { get; set; }
-        public string UhLastNameEN { get; set; }
+        public Nullable<int> OldTiID { get; set; }
+        public string OldFirstNameTh { get; set; }
+        public string OldLastNameTh { get; set; }
+        public string OldFirstNameEn { get; set; }
+        public string OldLastNameEn { get; set; }
+        public Nullable<int> NewTiID { get; set; }
+        public string NewFirstNameTh { get; set; }
+        public string NewLastNameTh { get; set; }
+        public string NewFirstNameEn { get; set; }
+        public string NewLastNameEn { get; set; }
         public string Remark { get; set; }
         public Nullable<bool> UhStatus { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
@@ -29,7 +34,6 @@ namespace SAT.HR.Data.Entities
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
     
-        public virtual tb_Title tb_Title { get; set; }
         public virtual tb_User tb_User { get; set; }
     }
 }

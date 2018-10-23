@@ -10,19 +10,18 @@
                         <th style="width:5%">#</th>
                         <th style="width:15%">ระดับการศึกษา</th>
                         <th style="width:15%">วุฒิการศึกษา</th>
-                        <th style="width:13%">สาขาวิชา</th>
-                        <th style="width:13%">สถาบัน</th>
-                        <th style="width:7%">ประเทศ</th>
-                        <th style="width:15%">วันที่จบการศึกษา</th>
+                        <th style="width:15%">สาขาวิชา</th>
+                        <th style="width:19%">สถาบัน</th>
+                        <th style="width:10%">ประเทศ</th>
+                        <th style="width:10%">วันที่จบ</th>
                         <th style="width:8%">เกรดเฉลี่ย</th>
-                        <th style="width:9%">ปฏิบัติการ</th>
+                        <th style="width:9%" class="text-right">ปฏิบัติการ</th>
                     </tr>
                 </thead>
             </table>
         </div>
     </div>
 </div>
-
 
 <!-- Classic Modal -->
 <div class="modal fade modal-large modal-education" tabindex="-1" role="dialog" aria-labelledby="modalEducationLabel" aria-hidden="true">
@@ -52,6 +51,7 @@
         table: null,
         initializeDataTable: function () {
             var id = $("#UserID").val();
+
             $table = $('.table-education');
             dataTable.table = $table.DataTable({
                 "proccessing": true,
@@ -79,8 +79,13 @@
                 "columnDefs": [
                     {
                         "render": function (data, type, row) {
-                            var inner = '<div class="td-actions text-right">' +
-                                            '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.UeID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;' +
+                            return '<div class="text-right">' + data + '</div>';
+                        }, "targets": [7]
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            var inner = '<div class="td-actions pull-right">' +
+                                            '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.UeID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;' +
                                             '<button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.UeID + '"><i class="material-icons">close</i></button>' +
                                         '</div>';
                             return inner;

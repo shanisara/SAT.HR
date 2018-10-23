@@ -18,7 +18,6 @@ namespace SAT.HR.Data.Entities
         public tb_Title()
         {
             this.tb_User = new HashSet<tb_User>();
-            this.tb_User_History = new HashSet<tb_User_History>();
         }
     
         public int TiID { get; set; }
@@ -34,7 +33,5 @@ namespace SAT.HR.Data.Entities
         public virtual tb_Sex tb_Sex { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User> tb_User { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_User_History> tb_User_History { get; set; }
     }
 }

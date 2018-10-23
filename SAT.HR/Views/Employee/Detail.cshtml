@@ -135,6 +135,8 @@
                     </div>
                     <h4 class="card-title">
                         @Html.HiddenFor(m => m.UserID)
+                        @Html.HiddenFor(m => m.UserType, new { Value = @ViewBag.UserTypeID })
+
                         <span>ทะเบียนประวัติ: </span><span class="text-primary">@Model.FullNameTh (@Model.IDCard)</span>
                         <button type="button" class="btn btn-round pull-right btn-back">ย้อนกลับ</button>
                     </h4>
@@ -142,7 +144,7 @@
                 <div class="card-body" id="tabs">
                     <ul class="nav nav-pills nav-pills-warning" role="tablist">
                         <li class="nav-item" id="employee">
-                            <a class="nav-link text-link active" data-toggle="tab" href="#tab-employee" role="tablist"> ประวัติส่วนตัว </a>
+                            <a class="nav-link text-link active" data-id="employee" data-toggle="tab" href="#tab-employee" role="tablist"> ประวัติส่วนตัว </a>
                         </li>
                         <li class="nav-item" id="family">
                             <a class="nav-link text-link" data-toggle="tab" href="#tab-family" role="tablist"> ครอบครัว </a>
@@ -171,9 +173,7 @@
                     </ul>
                     <div class="tab-content tab-space">
                         <div class="tab-pane active" id="tab-employee">
-                            <div id="div-employee">
-                                @Html.Partial("_Employee", Model)
-                            </div>
+                            <div id="div-employee"> @*@Html.Partial("_Employee", Model)*@ </div>
                         </div>
                         <div class="tab-pane" id="tab-family">
                             <div id="div-family"></div>
@@ -326,52 +326,70 @@
             }
         }
 
+        
+        var ref_this = $("#tabs li").find(".active");
+        if (ref_this.data("id") == "employee") {
+            var userid = $("#UserID").val();
+            var type = $("#UserType").val();
+            var url = '@Url.Action("Employee", "Employee")/' + userid;
+            $.post(url, function (data) {
+                $("#div-employee").html(data);
+            });
+        }
+
         $("#tabs li").click(function () {
-            var id = $("#UserID").val();
+            var userid = $("#UserID").val();
+            var type = $("#UserType").val();
+            if (this.id == "employee") {
+                var url = '@Url.Action("Employee", "Employee")/' + userid;
+                $.post(url, function (data) {
+                    $("#div-employee").html(data);
+                });
+            }
             if (this.id == "family") {
-                var url = '@Url.Action("FamilyByUser", "Employee")/'+id;
+                var url = '@Url.Action("FamilyByUser", "Employee")/' + userid;
                 $.post(url, function (data) {
                     $("#div-family").html(data);
                 });
             }
             else if (this.id == "education") {
-                var url = '@Url.Action("EducationByUser", "Employee")';
+                var url = '@Url.Action("EducationByUser", "Employee")/' + userid;
                 $.post(url, function (data) {
                     $("#div-education").html(data);
                 });
             }
             else if (this.id == "position") {
-                var url = '@Url.Action("PositionByUser", "Employee")';
+                var url = '@Url.Action("PositionByUser", "Employee")/' + userid;
                 $.post(url, function (data) {
                     $("#div-position").html(data);
                 });
             }
             else if (this.id == "trainning") {
-                var url = '@Url.Action("TrainningByUser", "Employee")';
+                var url = '@Url.Action("TrainningByUser", "Employee")/' + userid;
                 $.post(url, function (data) {
                     $("#div-trainning").html(data);
                 });
             }
             else if (this.id == "insignia") {
-                var url = '@Url.Action("InsigniaByUser", "Employee")';
+                var url = '@Url.Action("InsigniaByUser", "Employee")/' + userid;
                 $.post(url, function (data) {
                     $("#div-insignia").html(data);
                 });
             }
             else if (this.id == "excellent") {
-                var url = '@Url.Action("ExcellentByUser", "Employee")';
+                var url = '@Url.Action("ExcellentByUser", "Employee")/' + userid;
                 $.post(url, function (data) {
                     $("#div-excellent").html(data);
                 });
             }
             else if (this.id == "certificate") {
-                var url = '@Url.Action("CertificateByUser", "Employee")';
+                var url = '@Url.Action("CertificateByUser", "Employee")/' + userid;
                 $.post(url, function (data) {
                     $("#div-certificate").html(data);
                 });
             }
             else if (this.id == "history") {
-                var url = '@Url.Action("HistoryByUser", "Employee")';
+                var url = '@Url.Action("HistoryByUser", "Employee")/' + userid;
                 $.post(url, function (data) {
                     $("#div-history").html(data);
                 });
@@ -484,13 +502,7 @@
                 }
             });
         });
-
-
-
-
     });
-
-
 </script>
 
 }

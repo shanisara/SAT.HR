@@ -29,13 +29,13 @@ namespace SAT.HR.Data.Entities
             this.tb_Benefit_Provident_Fund = new HashSet<tb_Benefit_Provident_Fund>();
             this.tb_Man_Power = new HashSet<tb_Man_Power>();
             this.tb_User_Training = new HashSet<tb_User_Training>();
-            this.tb_User_Family = new HashSet<tb_User_Family>();
-            this.tb_User_History = new HashSet<tb_User_History>();
             this.tb_User_Certificate = new HashSet<tb_User_Certificate>();
             this.tb_User_Education = new HashSet<tb_User_Education>();
             this.tb_User_Insignia = new HashSet<tb_User_Insignia>();
             this.tb_User_Excellent = new HashSet<tb_User_Excellent>();
             this.tb_User_Position = new HashSet<tb_User_Position>();
+            this.tb_User_History = new HashSet<tb_User_History>();
+            this.tb_User_Family = new HashSet<tb_User_Family>();
         }
     
         public int UserID { get; set; }
@@ -137,10 +137,6 @@ namespace SAT.HR.Data.Entities
         public virtual tb_User_Status tb_User_Status { get; set; }
         public virtual tb_Working_Type tb_Working_Type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_User_Family> tb_User_Family { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_User_History> tb_User_History { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User_Certificate> tb_User_Certificate { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User_Education> tb_User_Education { get; set; }
@@ -150,5 +146,9 @@ namespace SAT.HR.Data.Entities
         public virtual ICollection<tb_User_Excellent> tb_User_Excellent { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User_Position> tb_User_Position { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_User_History> tb_User_History { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_User_Family> tb_User_Family { get; set; }
     }
 }

@@ -81,16 +81,9 @@ namespace SAT.HR.Controllers
 
         #region 1.1 Tab: User-Employee
 
-        public ActionResult Employee(int id,int? type)
+        public ActionResult Employee(int id)
         {
             var model = new EmployeeRepository().GetByID(id);
-            ViewBag.UserTypeID = type;
-            return PartialView("_Employee", model);
-        }
-
-        public ActionResult Detail(int id)
-        {
-            EmployeeViewModel model = new EmployeeRepository().GetByID(id);
 
             ViewBag.UserTitle = DropDownList.GetTitle(model.SexID, model.TitleID, true);
             ViewBag.Sex = DropDownList.GetSex(model.SexID);
@@ -132,6 +125,13 @@ namespace SAT.HR.Controllers
             ViewBag.UserStatus = DropDownList.GetUserStatus(model.StatusID);
             ViewBag.WorkingType = DropDownList.GetWorkingType(model.StatusID);
 
+            return PartialView("_Employee", model);
+        }
+
+        public ActionResult Detail(int id, int? type)
+        {
+            var model = new EmployeeRepository().GetByID(id);
+            ViewBag.UserTypeID = type;
             return View(model);
         }
 
@@ -458,7 +458,7 @@ namespace SAT.HR.Controllers
         public ActionResult HistoryDetail(int userid, int id)
         {
             var model = new EmployeeRepository().GetHistoryByID(userid, id);
-            ViewBag.Title = DropDownList.GetTitle(model.SexID, model.TiID, true);
+            ViewBag.Title = DropDownList.GetTitle(model.SexID, model.NewTiID, true);
             return PartialView("_HistoryDetail", model);
         }
 

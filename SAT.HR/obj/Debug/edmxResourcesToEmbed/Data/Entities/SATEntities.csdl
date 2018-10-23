@@ -101,7 +101,6 @@
     <EntitySet Name="vw_Title" EntityType="SAT.HR.vw_Title" />
     <EntitySet Name="vw_User_Certificate" EntityType="SAT.HR.vw_User_Certificate" />
     <EntitySet Name="vw_User_Education" EntityType="SAT.HR.vw_User_Education" />
-    <EntitySet Name="vw_User_History" EntityType="SAT.HR.vw_User_History" />
     <EntitySet Name="vw_User_Insignia" EntityType="SAT.HR.vw_User_Insignia" />
     <EntitySet Name="vw_User_NotRole" EntityType="SAT.HR.vw_User_NotRole" />
     <EntitySet Name="vw_User_Role" EntityType="SAT.HR.vw_User_Role" />
@@ -353,37 +352,7 @@
       <End Role="tb_User" EntitySet="tb_User" />
     </AssociationSet>
     <EntitySet Name="vw_User" EntityType="SAT.HR.vw_User" />
-    <EntitySet Name="tb_User_Family" EntityType="SAT.HR.tb_User_Family" />
     <EntitySet Name="vw_User_Family" EntityType="SAT.HR.vw_User_Family" />
-    <AssociationSet Name="FK_tb_User_Family_tb_Marital_Status" Association="SAT.HR.FK_tb_User_Family_tb_Marital_Status">
-      <End Role="tb_Marital_Status" EntitySet="tb_Marital_Status" />
-      <End Role="tb_User_Family" EntitySet="tb_User_Family" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_User_Family_tb_Occupation" Association="SAT.HR.FK_tb_User_Family_tb_Occupation">
-      <End Role="tb_Occupation" EntitySet="tb_Occupation" />
-      <End Role="tb_User_Family" EntitySet="tb_User_Family" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_User_Family_tb_Position" Association="SAT.HR.FK_tb_User_Family_tb_Position">
-      <End Role="tb_Position" EntitySet="tb_Position" />
-      <End Role="tb_User_Family" EntitySet="tb_User_Family" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_User_Family_tb_Recieve_Type" Association="SAT.HR.FK_tb_User_Family_tb_Recieve_Type">
-      <End Role="tb_Recieve_Type" EntitySet="tb_Recieve_Type" />
-      <End Role="tb_User_Family" EntitySet="tb_User_Family" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_User_Family_tb_User" Association="SAT.HR.FK_tb_User_Family_tb_User">
-      <End Role="tb_User" EntitySet="tb_User" />
-      <End Role="tb_User_Family" EntitySet="tb_User_Family" />
-    </AssociationSet>
-    <EntitySet Name="tb_User_History" EntityType="SAT.HR.tb_User_History" />
-    <AssociationSet Name="FK_tb_User_History_tb_Title" Association="SAT.HR.FK_tb_User_History_tb_Title">
-      <End Role="tb_Title" EntitySet="tb_Title" />
-      <End Role="tb_User_History" EntitySet="tb_User_History" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_User_History_tb_User" Association="SAT.HR.FK_tb_User_History_tb_User">
-      <End Role="tb_User" EntitySet="tb_User" />
-      <End Role="tb_User_History" EntitySet="tb_User_History" />
-    </AssociationSet>
     <EntitySet Name="tb_User_Certificate" EntityType="SAT.HR.tb_User_Certificate" />
     <EntitySet Name="tb_User_Education" EntityType="SAT.HR.tb_User_Education" />
     <EntitySet Name="tb_User_Insignia" EntityType="SAT.HR.tb_User_Insignia" />
@@ -469,6 +438,33 @@
       <End Role="tb_User_Position" EntitySet="tb_User_Position" />
     </AssociationSet>
     <EntitySet Name="vw_Man_Power" EntityType="SAT.HR.vw_Man_Power" />
+    <EntitySet Name="tb_User_History" EntityType="SAT.HR.tb_User_History" />
+    <EntitySet Name="vw_User_History" EntityType="SAT.HR.vw_User_History" />
+    <AssociationSet Name="FK_tb_User_History_tb_User" Association="SAT.HR.FK_tb_User_History_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_User_History" EntitySet="tb_User_History" />
+    </AssociationSet>
+    <EntitySet Name="tb_User_Family" EntityType="SAT.HR.tb_User_Family" />
+    <AssociationSet Name="FK_tb_User_Family_tb_Marital_Status" Association="SAT.HR.FK_tb_User_Family_tb_Marital_Status">
+      <End Role="tb_Marital_Status" EntitySet="tb_Marital_Status" />
+      <End Role="tb_User_Family" EntitySet="tb_User_Family" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Family_tb_Occupation" Association="SAT.HR.FK_tb_User_Family_tb_Occupation">
+      <End Role="tb_Occupation" EntitySet="tb_Occupation" />
+      <End Role="tb_User_Family" EntitySet="tb_User_Family" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Family_tb_Position" Association="SAT.HR.FK_tb_User_Family_tb_Position">
+      <End Role="tb_Position" EntitySet="tb_Position" />
+      <End Role="tb_User_Family" EntitySet="tb_User_Family" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Family_tb_Recieve_Type" Association="SAT.HR.FK_tb_User_Family_tb_Recieve_Type">
+      <End Role="tb_Recieve_Type" EntitySet="tb_Recieve_Type" />
+      <End Role="tb_User_Family" EntitySet="tb_User_Family" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Family_tb_User" Association="SAT.HR.FK_tb_User_Family_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_User_Family" EntitySet="tb_User_Family" />
+    </AssociationSet>
   </EntityContainer>
   <ComplexType Name="sp_Menu_GetByUser_Result">
     <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -1254,9 +1250,9 @@
     <NavigationProperty Name="tb_Man_Power" Relationship="SAT.HR.FK_tb_Man_Power_tb_Position" FromRole="tb_Position" ToRole="tb_Man_Power" />
     <NavigationProperty Name="tb_Move_Man_Power_Detail" Relationship="SAT.HR.FK_tb_Move_Man_Power_Detail_tb_Position" FromRole="tb_Position" ToRole="tb_Move_Man_Power_Detail" />
     <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Users_tb_Position" FromRole="tb_Position" ToRole="tb_User" />
-    <NavigationProperty Name="tb_User_Family" Relationship="SAT.HR.FK_tb_User_Family_tb_Position" FromRole="tb_Position" ToRole="tb_User_Family" />
     <NavigationProperty Name="tb_User_Position" Relationship="SAT.HR.FK_tb_User_Position_tb_Position" FromRole="tb_Position" ToRole="tb_User_Position" />
     <NavigationProperty Name="tb_User_Position1" Relationship="SAT.HR.FK_tb_User_Position_tb_Position_Agent" FromRole="tb_Position" ToRole="tb_User_Position" />
+    <NavigationProperty Name="tb_User_Family" Relationship="SAT.HR.FK_tb_User_Family_tb_Position" FromRole="tb_Position" ToRole="tb_User_Family" />
   </EntityType>
   <EntityType Name="tb_Position_Agent">
     <Key>
@@ -1408,7 +1404,6 @@
     <Property Name="ModifyBy" Type="Int32" />
     <NavigationProperty Name="tb_Sex" Relationship="SAT.HR.FK_tb_Title_tb_Sex" FromRole="tb_Title" ToRole="tb_Sex" />
     <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Users_tb_Title" FromRole="tb_Title" ToRole="tb_User" />
-    <NavigationProperty Name="tb_User_History" Relationship="SAT.HR.FK_tb_User_History_tb_Title" FromRole="tb_Title" ToRole="tb_User_History" />
   </EntityType>
   <EntityType Name="tb_Training_Type">
     <Key>
@@ -1665,31 +1660,6 @@
     <Property Name="UeGPA" Type="Decimal" Precision="18" Scale="2" />
     <Property Name="UeEduOfficial" Type="Boolean" />
     <Property Name="UeEduOfficialLevel" Type="Boolean" />
-  </EntityType>
-  <EntityType Name="vw_User_History">
-    <Key>
-      <PropertyRef Name="UhID" />
-      <PropertyRef Name="UserID" />
-    </Key>
-    <Property Name="UhID" Type="Int32" Nullable="false" />
-    <Property Name="UserID" Type="Int32" Nullable="false" />
-    <Property Name="FullNameTH" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
-    <Property Name="FullNameEn" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
-    <Property Name="UhEditDate" Type="DateTime" Precision="0" />
-    <Property Name="TiID" Type="Int32" />
-    <Property Name="TiFullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="TiShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="UhFirstNameTH" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="UhLastNameTH" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="UhFirstNameEN" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="UhLastNameEN" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="UhStatus" Type="Boolean" />
-    <Property Name="SexID" Type="Int32" />
-    <Property Name="CreateDate" Type="DateTime" Precision="3" />
-    <Property Name="CreateBy" Type="Int32" />
-    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifyBy" Type="Int32" />
   </EntityType>
   <EntityType Name="vw_User_Insignia">
     <Key>
@@ -2354,13 +2324,13 @@
     <NavigationProperty Name="tb_User_Training" Relationship="SAT.HR.FK_tb_User_Training_tb_User" FromRole="tb_User" ToRole="tb_User_Training" />
     <NavigationProperty Name="tb_User_Status" Relationship="SAT.HR.FK_tb_Users_tb_User_Status" FromRole="tb_User" ToRole="tb_User_Status" />
     <NavigationProperty Name="tb_Working_Type" Relationship="SAT.HR.FK_tb_Users_tb_Working_Type" FromRole="tb_User" ToRole="tb_Working_Type" />
-    <NavigationProperty Name="tb_User_Family" Relationship="SAT.HR.FK_tb_User_Family_tb_User" FromRole="tb_User" ToRole="tb_User_Family" />
-    <NavigationProperty Name="tb_User_History" Relationship="SAT.HR.FK_tb_User_History_tb_User" FromRole="tb_User" ToRole="tb_User_History" />
     <NavigationProperty Name="tb_User_Certificate" Relationship="SAT.HR.FK_tb_User_Certificate_tb_User" FromRole="tb_User" ToRole="tb_User_Certificate" />
     <NavigationProperty Name="tb_User_Education" Relationship="SAT.HR.FK_tb_User_Education_tb_User" FromRole="tb_User" ToRole="tb_User_Education" />
     <NavigationProperty Name="tb_User_Insignia" Relationship="SAT.HR.FK_tb_User_Insignia_tb_User" FromRole="tb_User" ToRole="tb_User_Insignia" />
     <NavigationProperty Name="tb_User_Excellent" Relationship="SAT.HR.FK_tb_User_Excellent_tb_User" FromRole="tb_User" ToRole="tb_User_Excellent" />
     <NavigationProperty Name="tb_User_Position" Relationship="SAT.HR.FK_tb_User_Position_tb_User" FromRole="tb_User" ToRole="tb_User_Position" />
+    <NavigationProperty Name="tb_User_History" Relationship="SAT.HR.FK_tb_User_History_tb_User" FromRole="tb_User" ToRole="tb_User_History" />
+    <NavigationProperty Name="tb_User_Family" Relationship="SAT.HR.FK_tb_User_Family_tb_User" FromRole="tb_User" ToRole="tb_User_Family" />
   </EntityType>
   <Association Name="FK_tb_Benefit_Child_Education_tb_User">
     <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="0..1" />
@@ -2757,35 +2727,6 @@
     <Property Name="UserTName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="RoleID" Type="Int32" />
   </EntityType>
-  <EntityType Name="tb_User_Family">
-    <Key>
-      <PropertyRef Name="UfID" />
-      <PropertyRef Name="UserID" />
-    </Key>
-    <Property Name="UfID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="UserID" Type="Int32" Nullable="false" />
-    <Property Name="UfName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="UfCardID" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="UfDOB" Type="DateTime" Precision="3" />
-    <Property Name="UfLifeStatus" Type="Boolean" />
-    <Property Name="TdStatus" Type="Boolean" />
-    <Property Name="PoID" Type="Int32" />
-    <Property Name="OcID" Type="Int32" />
-    <Property Name="UfWeddingDate" Type="DateTime" Precision="3" />
-    <Property Name="DivorceDate" Type="DateTime" Precision="3" />
-    <Property Name="UfStudyStatus" Type="Boolean" />
-    <Property Name="RecID" Type="Int32" />
-    <Property Name="MaritalStatusID" Type="Int32" />
-    <Property Name="CreateDate" Type="DateTime" Precision="3" />
-    <Property Name="CreateBy" Type="Int32" />
-    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifyBy" Type="Int32" />
-    <NavigationProperty Name="tb_Marital_Status" Relationship="SAT.HR.FK_tb_User_Family_tb_Marital_Status" FromRole="tb_User_Family" ToRole="tb_Marital_Status" />
-    <NavigationProperty Name="tb_Occupation" Relationship="SAT.HR.FK_tb_User_Family_tb_Occupation" FromRole="tb_User_Family" ToRole="tb_Occupation" />
-    <NavigationProperty Name="tb_Position" Relationship="SAT.HR.FK_tb_User_Family_tb_Position" FromRole="tb_User_Family" ToRole="tb_Position" />
-    <NavigationProperty Name="tb_Recieve_Type" Relationship="SAT.HR.FK_tb_User_Family_tb_Recieve_Type" FromRole="tb_User_Family" ToRole="tb_Recieve_Type" />
-    <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_User_Family_tb_User" FromRole="tb_User_Family" ToRole="tb_User" />
-  </EntityType>
   <EntityType Name="vw_User_Family">
     <Key>
       <PropertyRef Name="UfID" />
@@ -2820,112 +2761,6 @@
     <Property Name="MaritalName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Age" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
-  <Association Name="FK_tb_User_Family_tb_Marital_Status">
-    <End Type="SAT.HR.tb_Marital_Status" Role="tb_Marital_Status" Multiplicity="0..1" />
-    <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Marital_Status">
-        <PropertyRef Name="MaritalID" />
-      </Principal>
-      <Dependent Role="tb_User_Family">
-        <PropertyRef Name="MaritalStatusID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_User_Family_tb_Occupation">
-    <End Type="SAT.HR.tb_Occupation" Role="tb_Occupation" Multiplicity="0..1" />
-    <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Occupation">
-        <PropertyRef Name="OcID" />
-      </Principal>
-      <Dependent Role="tb_User_Family">
-        <PropertyRef Name="OcID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_User_Family_tb_Position">
-    <End Type="SAT.HR.tb_Position" Role="tb_Position" Multiplicity="0..1" />
-    <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Position">
-        <PropertyRef Name="PoID" />
-      </Principal>
-      <Dependent Role="tb_User_Family">
-        <PropertyRef Name="PoID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_User_Family_tb_Recieve_Type">
-    <End Type="SAT.HR.tb_Recieve_Type" Role="tb_Recieve_Type" Multiplicity="0..1" />
-    <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Recieve_Type">
-        <PropertyRef Name="RecID" />
-      </Principal>
-      <Dependent Role="tb_User_Family">
-        <PropertyRef Name="RecID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_User_Family_tb_User">
-    <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
-    <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_User">
-        <PropertyRef Name="UserID" />
-      </Principal>
-      <Dependent Role="tb_User_Family">
-        <PropertyRef Name="UserID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <EntityType Name="tb_User_History">
-    <Key>
-      <PropertyRef Name="UhID" />
-      <PropertyRef Name="UserID" />
-    </Key>
-    <Property Name="UhID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="UserID" Type="Int32" Nullable="false" />
-    <Property Name="UhEditDate" Type="DateTime" Precision="0" />
-    <Property Name="TiID" Type="Int32" />
-    <Property Name="UhFirstNameTH" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="UhLastNameTH" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="UhFirstNameEN" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="UhLastNameEN" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="UhStatus" Type="Boolean" />
-    <Property Name="CreateDate" Type="DateTime" Precision="3" />
-    <Property Name="CreateBy" Type="Int32" />
-    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifyBy" Type="Int32" />
-    <NavigationProperty Name="tb_Title" Relationship="SAT.HR.FK_tb_User_History_tb_Title" FromRole="tb_User_History" ToRole="tb_Title" />
-    <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_User_History_tb_User" FromRole="tb_User_History" ToRole="tb_User" />
-  </EntityType>
-  <Association Name="FK_tb_User_History_tb_Title">
-    <End Type="SAT.HR.tb_Title" Role="tb_Title" Multiplicity="0..1" />
-    <End Type="SAT.HR.tb_User_History" Role="tb_User_History" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Title">
-        <PropertyRef Name="TiID" />
-      </Principal>
-      <Dependent Role="tb_User_History">
-        <PropertyRef Name="TiID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_User_History_tb_User">
-    <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
-    <End Type="SAT.HR.tb_User_History" Role="tb_User_History" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_User">
-        <PropertyRef Name="UserID" />
-      </Principal>
-      <Dependent Role="tb_User_History">
-        <PropertyRef Name="UserID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityType Name="tb_User_Certificate">
     <Key>
       <PropertyRef Name="UcID" />
@@ -3356,4 +3191,163 @@
     <Property Name="SalaryStep" Type="Decimal" Precision="18" Scale="0" />
     <Property Name="UserTID" Type="Int32" />
   </EntityType>
+  <EntityType Name="tb_User_History">
+    <Key>
+      <PropertyRef Name="UhID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UhID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="UhEditDate" Type="DateTime" Precision="0" />
+    <Property Name="OldTiID" Type="Int32" />
+    <Property Name="OldFirstNameTh" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="OldLastNameTh" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="OldFirstNameEn" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="OldLastNameEn" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="NewTiID" Type="Int32" />
+    <Property Name="NewFirstNameTh" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="NewLastNameTh" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="NewFirstNameEn" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="NewLastNameEn" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="UhStatus" Type="Boolean" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+    <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_User_History_tb_User" FromRole="tb_User_History" ToRole="tb_User" />
+  </EntityType>
+  <EntityType Name="vw_User_History">
+    <Key>
+      <PropertyRef Name="UhID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UhID" Type="Int32" Nullable="false" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="FullNameTH" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+    <Property Name="FullNameEn" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+    <Property Name="UhEditDate" Type="DateTime" Precision="0" />
+    <Property Name="OldTiID" Type="Int32" />
+    <Property Name="OldTiFullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="OldTiShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="NewTiID" Type="Int32" />
+    <Property Name="NewTiFullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="NewTiShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="OldFirstNameTh" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="OldLastNameTh" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="OldFirstNameEn" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="OldLastNameEn" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="NewFirstNameTh" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="NewLastNameTh" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="NewFirstNameEn" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="NewLastNameEn" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="UhStatus" Type="Boolean" />
+    <Property Name="SexID" Type="Int32" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+  </EntityType>
+  <Association Name="FK_tb_User_History_tb_User">
+    <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
+    <End Type="SAT.HR.tb_User_History" Role="tb_User_History" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_User_History">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="tb_User_Family">
+    <Key>
+      <PropertyRef Name="UfID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UfID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="UfName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="UfCardID" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="UfDOB" Type="DateTime" Precision="3" />
+    <Property Name="UfLifeStatus" Type="Boolean" />
+    <Property Name="TdStatus" Type="Boolean" />
+    <Property Name="PoID" Type="Int32" />
+    <Property Name="OcID" Type="Int32" />
+    <Property Name="UfWeddingDate" Type="DateTime" Precision="3" />
+    <Property Name="DivorceDate" Type="DateTime" Precision="3" />
+    <Property Name="UfStudyStatus" Type="Boolean" />
+    <Property Name="RecID" Type="Int32" />
+    <Property Name="MaritalStatusID" Type="Int32" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+    <NavigationProperty Name="tb_Marital_Status" Relationship="SAT.HR.FK_tb_User_Family_tb_Marital_Status" FromRole="tb_User_Family" ToRole="tb_Marital_Status" />
+    <NavigationProperty Name="tb_Occupation" Relationship="SAT.HR.FK_tb_User_Family_tb_Occupation" FromRole="tb_User_Family" ToRole="tb_Occupation" />
+    <NavigationProperty Name="tb_Position" Relationship="SAT.HR.FK_tb_User_Family_tb_Position" FromRole="tb_User_Family" ToRole="tb_Position" />
+    <NavigationProperty Name="tb_Recieve_Type" Relationship="SAT.HR.FK_tb_User_Family_tb_Recieve_Type" FromRole="tb_User_Family" ToRole="tb_Recieve_Type" />
+    <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_User_Family_tb_User" FromRole="tb_User_Family" ToRole="tb_User" />
+  </EntityType>
+  <Association Name="FK_tb_User_Family_tb_Marital_Status">
+    <End Type="SAT.HR.tb_Marital_Status" Role="tb_Marital_Status" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Marital_Status">
+        <PropertyRef Name="MaritalID" />
+      </Principal>
+      <Dependent Role="tb_User_Family">
+        <PropertyRef Name="MaritalStatusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Family_tb_Occupation">
+    <End Type="SAT.HR.tb_Occupation" Role="tb_Occupation" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Occupation">
+        <PropertyRef Name="OcID" />
+      </Principal>
+      <Dependent Role="tb_User_Family">
+        <PropertyRef Name="OcID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Family_tb_Position">
+    <End Type="SAT.HR.tb_Position" Role="tb_Position" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Position">
+        <PropertyRef Name="PoID" />
+      </Principal>
+      <Dependent Role="tb_User_Family">
+        <PropertyRef Name="PoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Family_tb_Recieve_Type">
+    <End Type="SAT.HR.tb_Recieve_Type" Role="tb_Recieve_Type" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Recieve_Type">
+        <PropertyRef Name="RecID" />
+      </Principal>
+      <Dependent Role="tb_User_Family">
+        <PropertyRef Name="RecID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Family_tb_User">
+    <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
+    <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_User_Family">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

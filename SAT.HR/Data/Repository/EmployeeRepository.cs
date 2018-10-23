@@ -579,6 +579,7 @@ namespace SAT.HR.Data.Repository
                     model.MaritalStatusID = obj.MaritalStatusID;
                     model.UfStudyStatus = obj.UfStudyStatus;
                     model.RecID = obj.RecID;
+                    model.OcID = obj.OcID;
 
                     if (model != null)
                         data = model;
@@ -600,13 +601,11 @@ namespace SAT.HR.Data.Repository
                 try
                 {
                     tb_User_Family model = new tb_User_Family();
-                    model.UfID = data.UfID;
                     model.UserID = data.UserID;
                     model.UfName = data.UfName;
                     model.UfCardID = data.UfCardID;
-                    if (Convert.ToDateTime(data.UfDOB) > DateTime.MinValue)
+                    if (Convert.ToDateTime(data.UfDOBText) > DateTime.MinValue)
                         model.UfDOB = Convert.ToDateTime(data.UfDOBText);
-                    model.UfDOB = Convert.ToDateTime(data.UfDOBText);
                     model.UfLifeStatus = data.UfLifeStatus;
                     model.TdStatus = data.TdStatus;
                     model.PoID = data.PoID;
@@ -886,6 +885,7 @@ namespace SAT.HR.Data.Repository
                         model.ActName = item.ActName;
                         model.UpCmd = item.UpCmd;
                         model.PoName = item.PoName;
+                        model.PoAName = item.PoAName;
                         model.UpLevel = item.UpLevel;
                         model.UpSalary = item.UpSalary;
                         model.UpCmdDateText = (item.UpCmdDate.HasValue) ? item.UpCmdDate.Value.ToString("dd/MM/yyyy") : string.Empty;
@@ -1689,12 +1689,20 @@ namespace SAT.HR.Data.Repository
                         model.UhID = item.UhID;
                         model.UserID = item.UserID;
                         model.UhEditDateText = (item.UhEditDate.HasValue) ? item.UhEditDate.Value.ToString("dd/MM/yyyy") : string.Empty;
-                        model.UhFirstNameTH = item.UhFirstNameTH;
-                        model.UhLastNameTH = item.UhLastNameTH;
-                        model.UhFirstNameEN = item.UhFirstNameEN;
-                        model.UhLastNameEN = item.UhLastNameEN;
+                        model.OldFirstNameTh = item.OldFirstNameTh;
+                        model.OldLastNameTh = item.OldLastNameTh;
+                        model.OldFirstNameEn = item.OldFirstNameEn;
+                        model.OldLastNameEn = item.NewLastNameEn;
+                        model.NewFirstNameTh = item.NewFirstNameTh;
+                        model.NewLastNameTh = item.NewLastNameTh;
+                        model.NewFirstNameEn = item.NewFirstNameEn;
+                        model.NewLastNameEn = item.NewLastNameEn;
                         model.Remark = item.Remark;
                         model.UhStatus = item.UhStatus;
+                        model.OldFullNameTh = item.OldFirstNameTh + " " + item.OldLastNameTh;
+                        model.OldFullNameEn = item.OldFirstNameEn + " " + item.OldLastNameEn;
+                        model.NewFullNameTh = item.NewFirstNameTh + " " + item.NewLastNameTh;
+                        model.NewFullNameEn = item.NewFirstNameEn + " " + item.NewLastNameEn;
                         list.Add(model);
                     }
                 }
@@ -1725,11 +1733,16 @@ namespace SAT.HR.Data.Repository
                     model.UserID = obj.UserID;
                     model.UhEditDate = obj.UhEditDate;
                     model.UhEditDateText = Convert.ToDateTime(obj.UhEditDate).ToString("dd/MM/yyyy");
-                    model.TiID = obj.TiID;
-                    model.UhFirstNameTH = obj.UhFirstNameTH;
-                    model.UhLastNameTH = obj.UhLastNameTH;
-                    model.UhFirstNameEN = obj.UhFirstNameEN;
-                    model.UhLastNameEN = obj.UhLastNameEN;
+                    model.OldTiID = obj.OldTiID;
+                    model.OldFirstNameTh = obj.OldFirstNameTh;
+                    model.OldLastNameTh = obj.OldLastNameTh;
+                    model.OldFirstNameEn = obj.OldFirstNameEn;
+                    model.OldLastNameEn = obj.NewLastNameEn;
+                    model.NewTiID = obj.NewTiID;
+                    model.NewFirstNameTh = obj.NewFirstNameTh;
+                    model.NewLastNameTh = obj.NewLastNameTh;
+                    model.NewFirstNameEn = obj.NewFirstNameEn;
+                    model.NewLastNameEn = obj.NewLastNameEn;
                     model.Remark = obj.Remark;
                     model.UhStatus = obj.UhStatus;
 
@@ -1751,15 +1764,27 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
+                    var obj = db.tb_User.Single(x => x.UserID == data.UserID);
+                    int? OldTi = obj.TitleID;
+                    string OldFTh = obj.FirstNameTh;
+                    string OldLTh = obj.LastNameTh;
+                    string OldFEn = obj.FirstNameEn;
+                    string OldLEn = obj.LastNameEn;
+
                     tb_User_History model = new tb_User_History();
                     model.UserID = data.UserID;
+                    model.OldTiID = OldTi;
+                    model.OldFirstNameTh = OldFTh;
+                    model.OldLastNameTh = OldLTh;
+                    model.OldFirstNameEn = OldFEn;
+                    model.OldLastNameEn = OldLEn;
+                    model.NewTiID = data.NewTiID;
+                    model.NewFirstNameTh = data.NewFirstNameTh;
+                    model.NewLastNameTh = data.NewLastNameTh;
+                    model.NewFirstNameEn = data.NewFirstNameEn;
+                    model.NewLastNameEn = data.NewLastNameEn;
                     if (Convert.ToDateTime(data.UhEditDateText) > DateTime.MinValue)
                         model.UhEditDate = Convert.ToDateTime(data.UhEditDateText);
-                    model.TiID = data.TiID;
-                    model.UhFirstNameTH = data.UhFirstNameTH;
-                    model.UhLastNameTH = data.UhLastNameTH;
-                    model.UhFirstNameEN = data.UhFirstNameEN;
-                    model.UhLastNameEN = data.UhLastNameEN;
                     model.Remark = data.Remark;
                     model.UhStatus = data.UhStatus;
                     model.CreateBy = UtilityService.User.UserID;
@@ -1768,6 +1793,16 @@ namespace SAT.HR.Data.Repository
                     model.ModifyDate = DateTime.Now;
                     db.tb_User_History.Add(model);
                     db.SaveChanges();
+
+                    if(data.UhStatus == true)
+                    {
+                        obj.TitleID = model.NewTiID;
+                        obj.FirstNameTh = model.NewFirstNameTh;
+                        obj.LastNameTh = model.NewLastNameTh;
+                        obj.FirstNameEn = model.NewFirstNameEn;
+                        obj.LastNameEn = model.NewLastNameEn;
+                        db.SaveChanges();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -1788,16 +1823,27 @@ namespace SAT.HR.Data.Repository
                     var model = db.tb_User_History.Single(x => x.UserID == newdata.UserID && x.UhID == newdata.UhID);
                     if (Convert.ToDateTime(newdata.UhEditDateText) > DateTime.MinValue)
                         model.UhEditDate = Convert.ToDateTime(newdata.UhEditDateText);
-                    model.TiID = newdata.TiID;
-                    model.UhFirstNameTH = newdata.UhFirstNameTH;
-                    model.UhLastNameTH = newdata.UhLastNameTH;
-                    model.UhFirstNameEN = newdata.UhFirstNameEN;
-                    model.UhLastNameEN = newdata.UhLastNameEN;
+                    model.NewTiID = newdata.NewTiID;
+                    model.NewFirstNameTh = newdata.NewFirstNameTh;
+                    model.NewLastNameTh = newdata.NewLastNameTh;
+                    model.NewFirstNameEn = newdata.NewFirstNameEn;
+                    model.NewLastNameEn = newdata.NewLastNameEn;
                     model.Remark = newdata.Remark;
                     model.UhStatus = newdata.UhStatus;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
+
+                    if (model.UhStatus == true)
+                    {
+                        var obj = db.tb_User.Single(x => x.UserID == model.UserID);
+                        obj.TitleID = model.NewTiID;
+                        obj.FirstNameTh = model.NewFirstNameTh;
+                        obj.LastNameTh = model.NewLastNameTh;
+                        obj.FirstNameEn = model.NewFirstNameEn;
+                        obj.LastNameEn = model.NewLastNameEn;
+                        db.SaveChanges();
+                    }
                 }
                 catch (Exception ex)
                 {

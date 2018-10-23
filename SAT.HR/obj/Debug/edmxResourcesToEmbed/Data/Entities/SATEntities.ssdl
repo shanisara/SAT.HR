@@ -965,11 +965,16 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.tb_SubDistrict' does not have a pr
     <Property Name="UhID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="UhEditDate" Type="date" />
-    <Property Name="TiID" Type="int" />
-    <Property Name="UhFirstNameTH" Type="nvarchar" MaxLength="200" />
-    <Property Name="UhLastNameTH" Type="nvarchar" MaxLength="200" />
-    <Property Name="UhFirstNameEN" Type="nvarchar" MaxLength="200" />
-    <Property Name="UhLastNameEN" Type="nvarchar" MaxLength="200" />
+    <Property Name="OldTiID" Type="int" />
+    <Property Name="OldFirstNameTh" Type="nvarchar" MaxLength="200" />
+    <Property Name="OldLastNameTh" Type="nvarchar" MaxLength="200" />
+    <Property Name="OldFirstNameEn" Type="nvarchar" MaxLength="200" />
+    <Property Name="OldLastNameEn" Type="nvarchar" MaxLength="200" />
+    <Property Name="NewTiID" Type="int" />
+    <Property Name="NewFirstNameTh" Type="nvarchar" MaxLength="200" />
+    <Property Name="NewLastNameTh" Type="nvarchar" MaxLength="200" />
+    <Property Name="NewFirstNameEn" Type="nvarchar" MaxLength="200" />
+    <Property Name="NewLastNameEn" Type="nvarchar" MaxLength="200" />
     <Property Name="Remark" Type="nvarchar(max)" />
     <Property Name="UhStatus" Type="bit" />
     <Property Name="CreateDate" Type="datetime" />
@@ -1492,13 +1497,20 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_History' does not have a p
     <Property Name="FullNameTH" Type="nvarchar" MaxLength="401" />
     <Property Name="FullNameEn" Type="nvarchar" MaxLength="401" />
     <Property Name="UhEditDate" Type="date" />
-    <Property Name="TiID" Type="int" />
-    <Property Name="TiFullName" Type="nvarchar" MaxLength="100" />
-    <Property Name="TiShortName" Type="nvarchar" MaxLength="100" />
-    <Property Name="UhFirstNameTH" Type="nvarchar" MaxLength="200" />
-    <Property Name="UhLastNameTH" Type="nvarchar" MaxLength="200" />
-    <Property Name="UhFirstNameEN" Type="nvarchar" MaxLength="200" />
-    <Property Name="UhLastNameEN" Type="nvarchar" MaxLength="200" />
+    <Property Name="OldTiID" Type="int" />
+    <Property Name="OldTiFullName" Type="nvarchar" MaxLength="100" />
+    <Property Name="OldTiShortName" Type="nvarchar" MaxLength="100" />
+    <Property Name="NewTiID" Type="int" />
+    <Property Name="NewTiFullName" Type="nvarchar" MaxLength="100" />
+    <Property Name="NewTiShortName" Type="nvarchar" MaxLength="100" />
+    <Property Name="OldFirstNameTh" Type="nvarchar" MaxLength="200" />
+    <Property Name="OldLastNameTh" Type="nvarchar" MaxLength="200" />
+    <Property Name="OldFirstNameEn" Type="nvarchar" MaxLength="200" />
+    <Property Name="OldLastNameEn" Type="nvarchar" MaxLength="200" />
+    <Property Name="NewFirstNameTh" Type="nvarchar" MaxLength="200" />
+    <Property Name="NewLastNameTh" Type="nvarchar" MaxLength="200" />
+    <Property Name="NewFirstNameEn" Type="nvarchar" MaxLength="200" />
+    <Property Name="NewLastNameEn" Type="nvarchar" MaxLength="200" />
     <Property Name="Remark" Type="nvarchar(max)" />
     <Property Name="UhStatus" Type="bit" />
     <Property Name="SexID" Type="int" />
@@ -2360,18 +2372,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_User_History_tb_Title">
-    <End Role="tb_Title" Type="Self.tb_Title" Multiplicity="0..1" />
-    <End Role="tb_User_History" Type="Self.tb_User_History" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Title">
-        <PropertyRef Name="TiID" />
-      </Principal>
-      <Dependent Role="tb_User_History">
-        <PropertyRef Name="TiID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_tb_User_History_tb_User">
     <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
     <End Role="tb_User_History" Type="Self.tb_User_History" Multiplicity="*" />
@@ -3183,13 +3183,20 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_User_History].[FullNameTH] AS [FullNameTH], 
     [vw_User_History].[FullNameEn] AS [FullNameEn], 
     [vw_User_History].[UhEditDate] AS [UhEditDate], 
-    [vw_User_History].[TiID] AS [TiID], 
-    [vw_User_History].[TiFullName] AS [TiFullName], 
-    [vw_User_History].[TiShortName] AS [TiShortName], 
-    [vw_User_History].[UhFirstNameTH] AS [UhFirstNameTH], 
-    [vw_User_History].[UhLastNameTH] AS [UhLastNameTH], 
-    [vw_User_History].[UhFirstNameEN] AS [UhFirstNameEN], 
-    [vw_User_History].[UhLastNameEN] AS [UhLastNameEN], 
+    [vw_User_History].[OldTiID] AS [OldTiID], 
+    [vw_User_History].[OldTiFullName] AS [OldTiFullName], 
+    [vw_User_History].[OldTiShortName] AS [OldTiShortName], 
+    [vw_User_History].[NewTiID] AS [NewTiID], 
+    [vw_User_History].[NewTiFullName] AS [NewTiFullName], 
+    [vw_User_History].[NewTiShortName] AS [NewTiShortName], 
+    [vw_User_History].[OldFirstNameTh] AS [OldFirstNameTh], 
+    [vw_User_History].[OldLastNameTh] AS [OldLastNameTh], 
+    [vw_User_History].[OldFirstNameEn] AS [OldFirstNameEn], 
+    [vw_User_History].[OldLastNameEn] AS [OldLastNameEn], 
+    [vw_User_History].[NewFirstNameTh] AS [NewFirstNameTh], 
+    [vw_User_History].[NewLastNameTh] AS [NewLastNameTh], 
+    [vw_User_History].[NewFirstNameEn] AS [NewFirstNameEn], 
+    [vw_User_History].[NewLastNameEn] AS [NewLastNameEn], 
     [vw_User_History].[Remark] AS [Remark], 
     [vw_User_History].[UhStatus] AS [UhStatus], 
     [vw_User_History].[SexID] AS [SexID], 
@@ -3559,10 +3566,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <AssociationSet Name="FK_tb_User_Family_tb_User" Association="Self.FK_tb_User_Family_tb_User">
       <End Role="tb_User" EntitySet="tb_User" />
       <End Role="tb_User_Family" EntitySet="tb_User_Family" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_User_History_tb_Title" Association="Self.FK_tb_User_History_tb_Title">
-      <End Role="tb_Title" EntitySet="tb_Title" />
-      <End Role="tb_User_History" EntitySet="tb_User_History" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_User_History_tb_User" Association="Self.FK_tb_User_History_tb_User">
       <End Role="tb_User" EntitySet="tb_User" />

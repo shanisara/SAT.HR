@@ -1,9 +1,7 @@
 ﻿@model SAT.HR.Models.UserPositionViewModel
 
 <style>
-    .modal-dialog-position {
-        max-width: 850px;
-    }
+    .modal-dialog-position { max-width: 850px; }
 </style>
 <button class="btn btn-primary btn-sm pull-right add-position" data-toggle="modal"> เพิ่มรายการ </button>
 <div class="material-datatables">
@@ -11,15 +9,14 @@
         <thead class="text-primary">
             <tr>
                 <th style="width:5%">#</th>
-                <th style="width:10%">การเคลื่อนไหว</th>
-                <th style="width:10%">คำสั่ง</th>
+                <th style="width:16%">การเคลื่อนไหว</th>
+                <th style="width:20%">คำสั่ง</th>
                 <th style="width:10%">วันที่ลงคำสั่ง</th>
                 <th style="width:10%">วันที่บังคับใช้</th>
-                <th style="width:20%">ชื่อตำแหน่ง</th>
+                <th style="width:18%">ชื่อตำแหน่ง</th>
                 <th style="width:5%">ระดับ</th>
-                <th style="width:10%">เงินเดือน</th>
-                <th style="width:10%">หมายเหตุ</th>
-                <th style="width:10%">ปฏิบัติการ</th>
+                <th style="width:7%">เงินเดือน</th>
+                <th style="width:9%" class="text-right">ปฏิบัติการ</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -49,6 +46,7 @@
 <!--  End Modal -->
 
 <script>
+
     var dataTable = {
         table: null,
         initializeDataTable: function () {
@@ -76,18 +74,27 @@
                     { "data": "UpForceDateText", "orderable": true },
                     { "data": "PoAName", "orderable": true },
                     { "data": "UpLevel", "orderable": true },
-                    { "data": "UpSalary", "orderable": true },
-                    { "data": "UpRemark", "orderable": true }
+                    { "data": "UpSalary", "orderable": true }
                 ],
                 "columnDefs": [
                     {
                         "render": function (data, type, row) {
-                            var inner = '<div class="td-actions text-right">' +
-                                            '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.UpID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;' +
+                            return '<div class="text-center">' + data + '</div>';
+                        }, "targets": [3, 4]
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<div class="text-right">' + data + '</div>';
+                        }, "targets": [6,7]
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            var inner = '<div class="td-actions pull-right">' +
+                                            '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.UpID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;' +
                                             '<button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.UpID + '"><i class="material-icons">close</i></button>' +
                                         '</div>';
                             return inner;
-                        }, "targets": 9
+                        }, "targets": 8
                     },
                 ]
             });

@@ -8,7 +8,7 @@
 
         @Html.HiddenFor(m => m.UserID)
         @Html.HiddenFor(m => m.UhID)
-        @Html.HiddenFor(m => m.IsChange)
+        @Html.HiddenFor(m => m.UhStatus)
 
         <div class="row">
             @Html.Label("ปรับปรุงข้อมูลนี้เป็นปัจจุบัน: ", null, new { @class = "col-sm-4 col-form-label" })
@@ -32,14 +32,14 @@
         <div class="row occupation">
             @Html.Label("คำนำหน้า: ", null, new { @class = "col-sm-4 col-form-label" })
             <div class="col-sm-8 m-t-10">
-                @Html.DropDownListFor(n => n.TiID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Title, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+                @Html.DropDownListFor(n => n.NewTiID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Title, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
             </div>
         </div>
         <div class="row  m-t-10">
             @Html.Label("ชื่อ(ไทย): ", null, new { @class = "col-sm-4 col-form-label" })
             <div class="col-sm-8">
                 <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UhFirstNameTH, new { @class = "form-control", required = "true" })
+                    @Html.TextBoxFor(m => m.NewFirstNameTh, new { @class = "form-control", required = "true" })
                 </div>
             </div>
         </div>
@@ -47,7 +47,7 @@
             @Html.Label("นามสกุล(ไทย): ", null, new { @class = "col-sm-4 col-form-label" })
             <div class="col-sm-8">
                 <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UhLastNameTH, new { @class = "form-control", required = "true" })
+                    @Html.TextBoxFor(m => m.NewLastNameTh, new { @class = "form-control", required = "true" })
                 </div>
             </div>
         </div>
@@ -55,7 +55,7 @@
             @Html.Label("ชื่อ (อังกฤษ): ", null, new { @class = "col-sm-4 col-form-label" })
             <div class="col-sm-8">
                 <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UhFirstNameEN, new { @class = "form-control", required = "true" })
+                    @Html.TextBoxFor(m => m.NewFirstNameEn, new { @class = "form-control", required = "true" })
                 </div>
             </div>
         </div>
@@ -63,7 +63,7 @@
             @Html.Label("นามสกุล (อังกฤษ): ", null, new { @class = "col-sm-4 col-form-label" })
             <div class="col-sm-8">
                 <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UhLastNameEN, new { @class = "form-control", required = "true" })
+                    @Html.TextBoxFor(m => m.NewLastNameEn, new { @class = "form-control", required = "true" })
                 </div>
             </div>
         </div>
@@ -71,7 +71,7 @@
             @Html.Label("หมายเหตุ: ", null, new { @class = "col-sm-4 col-form-label" })
             <div class="col-sm-8">
                 <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UhLastNameEN, new { @class = "form-control", required = "true" })
+                    @Html.TextBoxFor(m => m.Remark, new { @class = "form-control", required = "true" })
                 </div>
             </div>
         </div>
@@ -80,7 +80,7 @@
 
 <script>
     if ('@Model' != null) {
-        if ('@Model.IsChange' == 'True') {
+        if ('@Model.UhStatus' == 'True') {
             $(".uhIsChange").prop("checked", true);
         }
     }
@@ -103,10 +103,10 @@
     $(".uhIsChange").click(function () {
         var checked = $(this).is(':checked');
         if (checked) {
-            $('#IsChange').val(true);
+            $('#UhStatus').val(true);
         }
         else {
-            $('#IsChange').val(false);
+            $('#UhStatus').val(false);
         }
     });
 
