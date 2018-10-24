@@ -424,6 +424,7 @@ namespace SAT.HR.Models
         public Nullable<decimal> MlLevelNew { get; set; }
         public Nullable<decimal> MlStepNew { get; set; }
         public Nullable<decimal> MlSalaryNew { get; set; }
+        public string MlRemark { get; set; }
         public int recordsTotal { get; set; }
         public int recordsFiltered { get; set; }
     }

@@ -46,36 +46,29 @@
 
                     @Html.HiddenFor(m => m.MlID)
                     @Html.HiddenFor(m => m.MlStatus)
-
                     <div class="form-horizontal">
                         <div class="row">
-                            @Html.Label("ปีบัญชี: ", null, new { @class = "col-sm-2 col-form-label" })
-                            <div class="col-sm-4">
+                            @Html.Label("ปีบัญชี: ", null, new { @class = "col-sm-1 col-form-label" })
+                            <div class="col-sm-1">
                                 @Html.TextBoxFor(m => m.MlYear, new { @class = "form-control" })
                             </div>
                             @Html.Label("เลขที่หนังสือคำสั่ง: ", null, new { @class = "col-sm-2 col-form-label" })
-                            <div class="col-sm-4">
+                            <div class="col-sm-2">
                                 @Html.TextBoxFor(m => m.MlBookCmd, new { @class = "form-control" })
                             </div>
-                        </div>
-                        <div class="row">
                             @Html.Label("วันที่ลงคำสั่ง: ", null, new { @class = "col-sm-2 col-form-label" })
                             <div class="col-sm-4">
-                                <div class="form-group bmd-form-group">
-                                    @Html.TextBoxFor(m => m.MlDateCmd, new { @class = "form-control datepicker" })
-                                </div>
-                            </div>
-                            @Html.Label("ผู้ลงนาม: ", null, new { @class = "col-sm-2 col-form-label" })
-                            <div class="col-sm-4">
-                                <div class="form-group bmd-form-group">
-                                    @Html.TextBoxFor(m => m.MlSignatory, new { @class = "form-control datepicker" })
-                                </div>
+                                @Html.TextBoxFor(m => m.MlDateCmd, new { @class = "form-control datepicker" })
                             </div>
                         </div>
                         <div class="row m-b-10">
+                            @Html.Label("ผู้ลงนาม: ", null, new { @class = "col-sm-1 col-form-label" })
+                            <div class="col-sm-5">
+                                @Html.TextBoxFor(m => m.MlSignatory, new { @class = "form-control" })
+                            </div>
                             @Html.Label("ไฟล์หนังสือคำสั่ง: ", null, new { @class = "col-sm-2 col-form-label" })
                             <div class="col-sm-4">
-                                @Html.TextBoxFor(m => m.MIPathFile, new { @class = "form-control" })
+                                @Html.TextBoxFor(m => m.MIPathFile, new { @class = "form-control", @type = "file" })
                             </div>
                         </div>
                     </div>
@@ -128,7 +121,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-roundbtn-default btn-close" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;
-                <button type="button" class="btn btn-primary btn-save">เพิ่มลงรายการ</button>
+                <button type="button" class="btn btn-primary btn-add">เพิ่มลงรายการ</button>
             </div>
         </div>
     </div>
@@ -204,7 +197,7 @@
             }
         }
 
-        dataTable.getData();
+        //dataTable.getData();
 
 
         $(".btn-back").click(function () {
@@ -222,14 +215,67 @@
         });
 
         $(".btn-add").click(function () {
+            debugger;
+            var empid = $("#EmpID").val();
+            var empname = $("#EmpID option:selected").text();
+            var oldlevel = $('.user-level').text();
+            var oldstep = $('.user-step').text();
+            var oldsalary = $('.user-salary').text();
+            var newlevel = $('#MlLevelNew').val();
+            var newstep = $('#MlStepNew').val();
+            var newsalary = $('.new-salary').text();
+            var remark = $("#MlRemark").val();
 
+            //dataTables_empty
+            //$("#tb-detail tbody").find('tr').each(function (i, el) {
+            //    $(this).find("td").eq(0).find('className:dataTables_empty').remove();
+
+            var data = "<tr data-empid='" + empid + "' data-oldlevel='" + oldlevel + "' data-oldstep='" + oldstep + "' data-oldsalary= '" + oldsalary + "' data-newlevel='" + newlevel + "' data-newstep='" + newstep + "' data-newsalary='" + newsalary + "' data-remark='" + remark+"'>" +
+                            "<td></td>" +
+                            "<td>" + empname + "</td>" +
+                            "<td>" + oldlevel + "</td>" +
+                            "<td>" + oldstep + "</td>" +
+                            "<td>" + oldsalary + "</td>" +
+                            "<td>" + newlevel + "</td> " +
+                            "<td>" + newstep + "</td> " +
+                            "<td>" + newsalary + "</td> " +
+                            "<td>" + remark + "</td>" +
+                            "<td><div class='td-actions text-right'><button title='ลบ' type='button' rel='tooltip' class='btn btn-round btn-danger btn-delete' data-id='" + empid+"'><i class='material-icons'>close</i></button></td></div>" +
+                        "</tr>";
+            $("#tb-detail > tbody").append(data);
+            $('.modal-transfer').modal('hide');
         });
 
         $(".btn-save").click(function () {
-            
+            debugger;
+            var listName = "ListDetail";
+            var qtd = 0;
+            $("#tb-detail tbody tr").each(function () {
+                var empid = $(this).data("empid");
+                var oldlevel = $(this).data("oldlevel");
+                var oldstep = $(this).data("oldstep");
+                var newlevel = $(this).data("newlevel");
+                var newstep = $(this).data("newstep");
+                var oldlevel = $(this).data("oldlevel");
+                var remark = $(this).data("remark");
+                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].EmpIP' value= '" + empid + "' > ");
+                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlLevelOld' value= '" + oldlevel + "' > ");
+                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlStepOld' value= '" + oldstep + "' > ");
+                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlLevelNew' value= '" + newlevel + "' > ");
+                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlStepNew' value= '" + newstep + "' > ");
+                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlRemark' value= '" + oldlevel + "' > ");
+                qtd += 1;
+            });
+
+
+
+
         });
 
-
+        $(".btn-delete").click(function () {
+            debugger;
+            $(this).parents.remove();
+        });
 
     });
 </script>

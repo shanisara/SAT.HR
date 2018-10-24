@@ -610,12 +610,12 @@ namespace SAT.HR.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public JsonResult EmployeeTransferDetailPage(int? id)
-        {
-            var list = new EmployeeTransferRepository().GetDetail(id);
-            return Json(new { data = list }, JsonRequestBehavior.AllowGet);
-        }
+        //[HttpPost]
+        //public JsonResult EmployeeTransferDetailPage(int? id)
+        //{
+        //    var list = new EmployeeTransferRepository().GetDetail(id);
+        //    return Json(new { data = list }, JsonRequestBehavior.AllowGet);
+        //}
 
         public ActionResult EmployeeTransferDetailByID(int? id)
         {

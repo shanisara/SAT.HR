@@ -147,12 +147,14 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
+                var user = new EmployeeRepository().GetByID(userid);
+
                 ManPowerViewModel model = new ManPowerViewModel();
-                model.BelongTo = "สำนักผู้ว่าการ / กองประสานความร่วมมือระหว่างประเทศ / งานวิเทศสัมพันธ์";
-                model.Position = "(612) ผู้อำนวยการสำนักงาน";
-                model.Level = "9";
-                model.Step = "7.8";
-                model.Salary = "99999";
+                model.BelongTo = user.DivName + " / " + user.DepName + " / " + user.SecName;
+                model.Position = "(" + user.PoCode + ") " + user.PoName;
+                model.Level = user.SalaryLevel.ToString();
+                model.Step = user.SalaryStep.ToString();
+                model.Salary = user.Salary.ToString();
                 return model;
             }
         }

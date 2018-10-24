@@ -4,6 +4,7 @@
     <div class="row">
         @Html.Label("พนักงาน: ", null, new { @class = "col-sm-2 col-form-label" })
         <div class="col-sm-10">
+            @Html.Hidden("EmpName")
             @Html.DropDownListFor(n => n.EmpID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Employee, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
         </div>
     </div>
@@ -22,18 +23,21 @@
     <div class="row">
         @Html.Label("ระดับ: ", null, new { @class = "col-sm-2 col-form-label" })
         <div class="col-sm-10">
+            @Html.Hidden("LevelOld")
             <span class="label-text user-level"></span>
         </div>
     </div>
     <div class="row">
         @Html.Label("ขั้น: ", null, new { @class = "col-sm-2 col-form-label" })
         <div class="col-sm-10">
+            @Html.Hidden("StepOld")
             <span class="label-text user-step"></span>
         </div>
     </div>
     <div class="row">
         @Html.Label("เงินเดือน: ", null, new { @class = "col-sm-2 col-form-label" })
         <div class="col-sm-10">
+            @Html.Hidden("SalaryOld")
             <span class="label-text user-salary"></span>
         </div>
     </div>
@@ -45,22 +49,34 @@
     <div class="row">
         @Html.Label("ระดับ: ", null, new { @class = "col-sm-2 col-form-label" })
         <div class="col-sm-10">
+            @Html.Hidden("LevelNew")
             @Html.DropDownListFor(n => n.MlLevelNew, new SelectList((IEnumerable<SelectListItem>)ViewBag.SalaryLevel, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
         </div>
     </div>
     <div class="row">
         @Html.Label("ขั้น: ", null, new { @class = "col-sm-2 col-form-label" })
         <div class="col-sm-10">
+            @Html.Hidden("StepNew")
             @Html.DropDownListFor(n => n.MlStepNew, new SelectList((IEnumerable<SelectListItem>)ViewBag.SalaryStep, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
         </div>
     </div>
     <div class="row">
         @Html.Label("เงินเดือน: ", null, new { @class = "col-sm-2 col-form-label" })
         <div class="col-sm-10">
+            @Html.Hidden("SalaryNew")
             <span class="label-text new-salary"></span>
         </div>
     </div>
+    <div class="row">
+        @Html.Label("หมายเหตุ: ", null, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-10">
+            <div class="form-group bmd-form-group">
+                @Html.TextBoxFor(m => m.MlRemark, new { @class = "form-control", required = "true" })
+            </div>
+        </div>
+    </div>
 </div>
+
 <script>
 
     $("#EmpID").change(function () {
