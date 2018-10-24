@@ -9,22 +9,27 @@
     .m-b-10 {
         margin-bottom: 10px;
     }
+
     .modal-dialog {
         max-width: 1100px;
         margin: 1.75rem auto;
     }
-    .col-form-label{
-        font-size:14px;
+
+    .col-form-label {
+        font-size: 14px;
     }
+
     .label-text {
         font-size: 14px;
         line-height: 2.679;
         color: #170cdb;
         font-weight: 100;
     }
+
     .table > thead > tr > th {
         vertical-align: text-top;
     }
+
     .table thead tr th {
         font-size: 15px;
     }
@@ -43,57 +48,61 @@
                     </h4>
                 </div>
                 <div class="card-body">
-
-                    @Html.HiddenFor(m => m.MlID)
-                    @Html.HiddenFor(m => m.MlStatus)
-                    <div class="form-horizontal">
-                        <div class="row">
-                            @Html.Label("ปีบัญชี: ", null, new { @class = "col-sm-1 col-form-label" })
-                            <div class="col-sm-1">
-                                @Html.TextBoxFor(m => m.MlYear, new { @class = "form-control" })
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "formDetail" }))
+                    {
+                        @Html.HiddenFor(m => m.MlID)
+                        @Html.HiddenFor(m => m.MlStatus)
+                        @Html.HiddenFor(m => m.MIPathFile)
+                        <div class="form-horizontal">
+                            <div class="row">
+                                @Html.Label("ปีบัญชี: ", null, new { @class = "col-sm-1 col-form-label" })
+                                <div class="col-sm-1">
+                                    @Html.TextBoxFor(m => m.MlYear, new { @class = "form-control" })
+                                </div>
+                                @Html.Label("เลขที่หนังสือคำสั่ง: ", null, new { @class = "col-sm-2 col-form-label" })
+                                <div class="col-sm-2">
+                                    @Html.TextBoxFor(m => m.MlBookCmd, new { @class = "form-control" })
+                                </div>
+                                @Html.Label("วันที่ลงคำสั่ง: ", null, new { @class = "col-sm-2 col-form-label" })
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.MlDateCmd, new { @class = "form-control datepicker" })
+                                </div>
                             </div>
-                            @Html.Label("เลขที่หนังสือคำสั่ง: ", null, new { @class = "col-sm-2 col-form-label" })
-                            <div class="col-sm-2">
-                                @Html.TextBoxFor(m => m.MlBookCmd, new { @class = "form-control" })
-                            </div>
-                            @Html.Label("วันที่ลงคำสั่ง: ", null, new { @class = "col-sm-2 col-form-label" })
-                            <div class="col-sm-4">
-                                @Html.TextBoxFor(m => m.MlDateCmd, new { @class = "form-control datepicker" })
+                            <div class="row m-b-10">
+                                @Html.Label("ผู้ลงนาม: ", null, new { @class = "col-sm-1 col-form-label" })
+                                <div class="col-sm-5">
+                                    @Html.TextBoxFor(m => m.MlSignatory, new { @class = "form-control" })
+                                </div>
+                                @Html.Label("ไฟล์หนังสือคำสั่ง: ", null, new { @class = "col-sm-2 col-form-label" })
+                                <div class="col-sm-4">
+                                    <input id="fileUpload" name="fileUpload" type="file" class="form-control file">
+                                    @*@Html.TextBoxFor(m => m.MIPathFile, new { @class = "form-control", @type = "file" })*@
+                                </div>
                             </div>
                         </div>
-                        <div class="row m-b-10">
-                            @Html.Label("ผู้ลงนาม: ", null, new { @class = "col-sm-1 col-form-label" })
-                            <div class="col-sm-5">
-                                @Html.TextBoxFor(m => m.MlSignatory, new { @class = "form-control" })
-                            </div>
-                            @Html.Label("ไฟล์หนังสือคำสั่ง: ", null, new { @class = "col-sm-2 col-form-label" })
-                            <div class="col-sm-4">
-                                @Html.TextBoxFor(m => m.MIPathFile, new { @class = "form-control", @type = "file" })
-                            </div>
+                        <div class="toolbar pull-right">
+                            <button type="button" class="btn btn-primary btn-sm btn-new" data-toggle="modal"><i class="material-icons">add</i> เพิ่มรายการ</button>
                         </div>
-                    </div>
-                    <div class="toolbar pull-right">
-                        <button class="btn btn-primary btn-sm btn-new" data-toggle="modal"><i class="material-icons">add</i> เพิ่มรายการ</button>
-                    </div>
-                    <div class="position-transfer">
-                        <table id="tb-detail" data-url="@Url.Content("~/Employee/EmployeeTransferDetailPage")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
-                            <thead class="text-primary">
-                                <tr>
-                                    <th style="width:5%" class="disabled-sorting">ลำดับ</th>
-                                    <th style="width:15%">ชื่อ-นามสกุล</th>
-                                    <th style="width:10%">ระดับเก่า</th>
-                                    <th style="width:10%">ขั้นเก่า</th>
-                                    <th style="width:10%">เงินเดือนเก่า</th>
-                                    <th style="width:10%">ระดับใหม่</th>
-                                    <th style="width:10%">ขั้นใหม่</th>
-                                    <th style="width:10%">เงินเดือนใหม่</th>
-                                    <th style="width:10%">หมายเหตุ</th>
-                                    <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
+                        <div class="position-transfer">
+                            <table id="tb-detail" data-url="@Url.Content("~/Employee/EmployeeTransferDetailPage")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                                <thead class="text-primary">
+                                    <tr>
+                                        <th style="width:5%" class="disabled-sorting">ลำดับ</th>
+                                        <th style="width:15%">ชื่อ-นามสกุล</th>
+                                        <th style="width:10%">ระดับเก่า</th>
+                                        <th style="width:10%">ขั้นเก่า</th>
+                                        <th style="width:10%">เงินเดือนเก่า</th>
+                                        <th style="width:10%">ระดับใหม่</th>
+                                        <th style="width:10%">ขั้นใหม่</th>
+                                        <th style="width:10%">เงินเดือนใหม่</th>
+                                        <th style="width:10%">หมายเหตุ</th>
+                                        <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                   }
                 </div>
                 <div class="row m-b-10">
                     <div class="ml-auto mr-auto">
@@ -106,8 +115,9 @@
     </div>
 </div>
 
+
 <!-- Classic Modal -->
-<div class="modal fade modal-large modal-transfer" tabindex="-1" role="dialog" aria-labelledby="modalTransferLabel" aria-hidden="true">
+<div class="modal fade modal-large modal-transfer" role="dialog" aria-labelledby="modalTransferLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -129,7 +139,7 @@
 <!--  End Modal -->
 
 @section Scripts {
-<script>
+    <script>
     $(document).ready(function () {
 
         $('.datepicker').datetimepicker({
@@ -147,7 +157,7 @@
             }
         });
 
-        var dataTable = {
+        @*var dataTable = {
             table: null,
             initializeDataTable: function () {
                 var id = $("#MlID").val();
@@ -195,7 +205,7 @@
                 else
                     dataTable.table.ajax.reload();
             }
-        }
+        }*@
 
         //dataTable.getData();
 
@@ -242,7 +252,7 @@
                             "<td>" + remark + "</td>" +
                             "<td><div class='td-actions text-right'><button title='ลบ' type='button' rel='tooltip' class='btn btn-round btn-danger btn-delete' data-id='" + empid+"'><i class='material-icons'>close</i></button></td></div>" +
                         "</tr>";
-            $("#tb-detail > tbody").append(data);
+            $("#tb-detail tbody").append(data);
             $('.modal-transfer').modal('hide');
         });
 
@@ -258,16 +268,40 @@
                 var newstep = $(this).data("newstep");
                 var oldlevel = $(this).data("oldlevel");
                 var remark = $(this).data("remark");
-                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].EmpIP' value= '" + empid + "' > ");
-                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlLevelOld' value= '" + oldlevel + "' > ");
-                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlStepOld' value= '" + oldstep + "' > ");
-                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlLevelNew' value= '" + newlevel + "' > ");
-                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlStepNew' value= '" + newstep + "' > ");
-                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlRemark' value= '" + oldlevel + "' > ");
+                $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].EmpID' value= '" + empid + "' > ");
+                $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlLevelOld' value= '" + oldlevel + "' > ");
+                $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlStepOld' value= '" + oldstep + "' > ");
+                $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlLevelNew' value= '" + newlevel + "' > ");
+                $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlStepNew' value= '" + newstep + "' > ");
+                $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlRemark' value= '" + oldlevel + "' > ");
+                //$("#formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].EmpIP' value= '" + empid + "' > ");
+                //$("#formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlLevelOld' value= '" + oldlevel + "' > ");
+                //$("#formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlStepOld' value= '" + oldstep + "' > ");
+                //$("#formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlLevelNew' value= '" + newlevel + "' > ");
+                //$("#formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlStepNew' value= '" + newstep + "' > ");
+                //$("#formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlRemark' value= '" + oldlevel + "' > ");
                 qtd += 1;
             });
 
 
+            var form = $('.formDetail')[0];
+            var data = new FormData(form);
+            data.append(".fileUpload", fileUpload);
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SaveEmployeeTransfer", "Employee")',
+                data: $(".formDetail").serialize(),
+                dataType: 'json',
+                success: function (res) {
+                    if (res.MessageCode == null) {
+                        //$('#modalDetail').modal('hide');
+                    }
+                    else {
+                        alert(res.MessageText);
+                    }
+                }
+            });
 
 
         });
@@ -275,8 +309,10 @@
         $(".btn-delete").click(function () {
             debugger;
             $(this).parents.remove();
+
+
         });
 
     });
-</script>
+    </script>
 }

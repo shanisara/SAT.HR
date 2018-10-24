@@ -401,6 +401,7 @@ namespace SAT.HR.Models
         public string MlStatusName { get; set; }
         public int recordsTotal { get; set; }
         public int recordsFiltered { get; set; }
+        public HttpPostedFileBase fileUpload { get; set; }
         public List<EmployeeTransferDetailViewModel> ListDetail { get; set; }
     }
 

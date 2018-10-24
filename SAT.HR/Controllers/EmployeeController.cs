@@ -626,7 +626,7 @@ namespace SAT.HR.Controllers
             return PartialView("_EmployeeTransferDetail", model);
         }
 
-        public JsonResult SaveEmployeeTransfer(EmployeeTransferViewModel data)
+        public JsonResult SaveEmployeeTransfer(EmployeeTransferViewModel data, HttpPostedFileBase fileUpload)
         {
             ResponseData result = new Models.ResponseData();
             if (data.MlID != 0)
@@ -682,7 +682,7 @@ namespace SAT.HR.Controllers
             return PartialView("_PositionTransferDetail", model);
         }
 
-        public JsonResult SaveEmployeeTransfer(PositionTransferViewModel data)
+        public JsonResult SavePositionTransfer(PositionTransferViewModel data, HttpPostedFileBase fileUpload)
         {
             ResponseData result = new Models.ResponseData();
             if (data.MtID != 0)
