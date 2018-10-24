@@ -626,7 +626,7 @@ namespace SAT.HR.Controllers
             return PartialView("_EmployeeTransferDetail", model);
         }
 
-        public JsonResult SaveEmployeeTransfer(EmployeeTransferViewModel data, HttpPostedFileBase fileUpload)
+        public JsonResult SaveEmployeeTransfer(EmployeeTransferViewModel data)
         {
             ResponseData result = new Models.ResponseData();
             if (data.MlID != 0)

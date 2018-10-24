@@ -76,7 +76,7 @@
                                 @Html.Label("ไฟล์หนังสือคำสั่ง: ", null, new { @class = "col-sm-2 col-form-label" })
                                 <div class="col-sm-4">
                                     <input id="fileUpload" name="fileUpload" type="file" class="form-control file">
-                                    @*@Html.TextBoxFor(m => m.MIPathFile, new { @class = "form-control", @type = "file" })*@
+                                    @*@Html.TextBoxFor(m => m.fileUpload, new { @class = "form-control", @type = "file" })*@
                                 </div>
                             </div>
                         </div>
@@ -274,12 +274,6 @@
                 $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlLevelNew' value= '" + newlevel + "' > ");
                 $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlStepNew' value= '" + newstep + "' > ");
                 $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlRemark' value= '" + oldlevel + "' > ");
-                //$("#formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].EmpIP' value= '" + empid + "' > ");
-                //$("#formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlLevelOld' value= '" + oldlevel + "' > ");
-                //$("#formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlStepOld' value= '" + oldstep + "' > ");
-                //$("#formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlLevelNew' value= '" + newlevel + "' > ");
-                //$("#formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlStepNew' value= '" + newstep + "' > ");
-                //$("#formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlRemark' value= '" + oldlevel + "' > ");
                 qtd += 1;
             });
 
@@ -288,11 +282,15 @@
             var data = new FormData(form);
             data.append(".fileUpload", fileUpload);
 
+
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("SaveEmployeeTransfer", "Employee")',
-                data: $(".formDetail").serialize(),
+                data: data,
                 dataType: 'json',
+                enctype: 'multipart/form-data',
+                processData: false,
+                contentType: false,
                 success: function (res) {
                     if (res.MessageCode == null) {
                         //$('#modalDetail').modal('hide');
