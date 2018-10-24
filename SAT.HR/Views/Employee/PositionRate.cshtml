@@ -114,32 +114,33 @@
                                 }
                                 else {
                                     var divid = null; var depid = null; var secid = null; var poid = null;
-                                    var type = node.original.node_type;
-                                    if (type == 'div') {
+                                    var parenttype = node.original.node_type;
+                                    var usertype = $('#usertype').val();
+                                    if (parenttype == 'div') {
                                         divid = node.id;
                                     }
-                                    else if (type == 'dep') {
+                                    else if (parenttype == 'dep') {
                                         divid = (node.parents.length == 3) ? node.parents[0] : null;
                                         depid = node.id;
                                     }
-                                    else if (type == 'sec') {
+                                    else if (parenttype == 'sec') {
                                         divid = (node.parents.length == 4) ? node.parents[1] : null;
                                         depid = (node.parents.length == 4) ? node.parents[0] : null;
                                         secid = node.id;
                                     }
-                                    else if (type == 'pos') {
+                                    else if (parenttype == 'pos') {
                                         divid = (node.parents.length == 5) ? node.parents[2] : null;
                                         depid = (node.parents.length == 5) ? node.parents[1] : null;
                                         secid = (node.parents.length == 5) ? node.parents[0] : null;
                                         poid = node.id;
                                     }
-                                    else if (type == 'user') {
+                                    else if (parenttype == 'user') {
                                         divid = (node.parents.length == 6) ? node.parents[3] : null;
                                         depid = (node.parents.length == 6) ? node.parents[2] : null;
                                         secid = (node.parents.length == 6) ? node.parents[1] : null;
                                         poid = (node.parents.length == 6) ? node.parents[0] : null;
                                     }
-                                    return '/Employee/GetChildren/' + node.id + '?type=' + type + '&divid=' + divid + '&depid=' + depid + '&secid=' + secid + '&poid=' + poid;
+                                    return '/Employee/GetChildren/' + node.id + '?parenttype=' + parenttype + '?usertype=' + usertype + '&divid=' + divid + '&depid=' + depid + '&secid=' + secid + '&poid=' + poid;
                                 }
                             },
                             'data': function (node) {

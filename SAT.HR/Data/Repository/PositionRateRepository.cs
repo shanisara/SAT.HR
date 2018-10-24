@@ -107,22 +107,22 @@ namespace SAT.HR.Data.Repository
             return items;
         }
 
-        public List<TreeViewModel> GetTree(string type, int? divid, int? depid, int? secid, int? poid)
+        public List<TreeViewModel> GetTree(string parenttype, int usertype, int? divid, int? depid, int? secid, int? poid)
         {
             var items = new List<TreeViewModel>();
 
             using (SATEntities db = new SATEntities())
             {
-                switch (type)
+                switch (parenttype)
                 {
                     case "div":
-                        items = GetDepartment(divid); break;
+                        items = GetDepartment(divid, usertype); break;
                     case "dep":
-                        items = GetTreeSection(divid, depid); break;
+                        items = GetTreeSection(divid, depid, usertype); break;
                     case "sec":
-                        items = GetTreePosition(divid, depid, secid); break;
+                        items = GetTreePosition(divid, depid, secid, usertype); break;
                     case "pos":
-                        items = GetTreeUser(divid, depid, secid, poid); break;
+                        items = GetTreeUser(divid, depid, secid, poid, usertype); break;
                 }
             }
 
@@ -162,19 +162,19 @@ namespace SAT.HR.Data.Repository
             return items;
         }
 
-        public List<TreeViewModel> GetDepartment(int? divid)
+        public List<TreeViewModel> GetDepartment(int? divid, int usertype)
         {
             var items = new List<TreeViewModel>();
 
             using (SATEntities db = new SATEntities())
             {
-                var department = db.vw_Man_Power.Where(m => m.DivID == divid
+                var department = db.vw_Man_Power.Where(m => m.UserTID == usertype && m.DivID == divid
                     && !string.IsNullOrEmpty(m.DepName))
                     .GroupBy(item => item.DepID, (key, group) => new { DepID = key, DepName = group.FirstOrDefault().DepName }).ToList();
 
                 foreach (var item in department)
                 {
-                    var countChild = db.vw_Man_Power.Where(m => m.DepID == item.DepID && m.DivID == divid && !string.IsNullOrEmpty(m.SecName))
+                    var countChild = db.vw_Man_Power.Where(m => m.UserTID == usertype && m.DepID == item.DepID && m.DivID == divid && !string.IsNullOrEmpty(m.SecName))
                         .GroupBy(g => g.SecID).Select(group => new { SecID = group.Key }).Count();
 
                     var model = new TreeViewModel();
@@ -189,18 +189,19 @@ namespace SAT.HR.Data.Repository
             return items;
         }
 
-        public List<TreeViewModel> GetTreeSection(int? divid, int? depid)
+        public List<TreeViewModel> GetTreeSection(int? divid, int? depid, int usertype)
         {
             var items = new List<TreeViewModel>();
 
             using (SATEntities db = new SATEntities())
             {
-                var section = db.vw_Man_Power.Where(m => m.DivID == divid && m.DepID == depid
+                var section = db.vw_Man_Power.Where(m => m.UserTID == usertype && m.DivID == divid && m.DepID == depid
                     && !string.IsNullOrEmpty(m.SecName)).GroupBy(item => item.SecID, (key, group) => new { SecID = key, SecName = group.FirstOrDefault().SecName }).ToList();
 
                 foreach (var item in section)
                 {
-                    var countChild = db.vw_Man_Power.Where(m => m.SecID == item.SecID && !string.IsNullOrEmpty(m.PoName)).GroupBy(g => g.PoID).Select(group => new { PoID = group.Key }).Count();
+                    var countChild = db.vw_Man_Power.Where(m => m.UserTID == usertype && m.SecID == item.SecID && !string.IsNullOrEmpty(m.PoName))
+                        .GroupBy(g => g.PoID).Select(group => new { PoID = group.Key }).Count();
 
                     var model = new TreeViewModel();
                     model.id = item.SecID.ToString();
@@ -214,18 +215,18 @@ namespace SAT.HR.Data.Repository
             return items;
         }
 
-        public List<TreeViewModel> GetTreePosition(int? divid, int? depid, int? secid)
+        public List<TreeViewModel> GetTreePosition(int? divid, int? depid, int? secid, int usertype)
         {
             var items = new List<TreeViewModel>();
 
             using (SATEntities db = new SATEntities())
             {
-                var position = db.vw_Man_Power.Where(m => m.DivID == divid && m.DepID == depid && m.SecID == secid && !string.IsNullOrEmpty(m.PoName))
+                var position = db.vw_Man_Power.Where(m => m.UserTID == usertype && m.DivID == divid && m.DepID == depid && m.SecID == secid && !string.IsNullOrEmpty(m.PoName))
                     .GroupBy(item => item.PoID, (key, group) => new { PoID = key, PoName = group.FirstOrDefault().PoName }).ToList();
 
                 foreach (var item in position)
                 {
-                    var countChild = db.vw_Man_Power.Where(m => m.DivID == divid && m.DepID == depid && m.SecID == secid && m.PoID == item.PoID
+                    var countChild = db.vw_Man_Power.Where(m => m.UserTID == usertype && m.DivID == divid && m.DepID == depid && m.SecID == secid && m.PoID == item.PoID
                             && !string.IsNullOrEmpty(m.DivName) && !string.IsNullOrEmpty(m.DepName) && !string.IsNullOrEmpty(m.SecName) && !string.IsNullOrEmpty(m.FullNameTh))
                         .GroupBy(g => g.UserID).Select(group => new { UserID = group.Key }).Count();
 
@@ -241,13 +242,13 @@ namespace SAT.HR.Data.Repository
             return items;
         }
 
-        public List<TreeViewModel> GetTreeUser(int? divid, int? depid, int? secid, int? poid)
+        public List<TreeViewModel> GetTreeUser(int? divid, int? depid, int? secid, int? poid, int usertype)
         {
             var items = new List<TreeViewModel>();
 
             using (SATEntities db = new SATEntities())
             {
-                var user = db.vw_Man_Power.Where(m => m.DivID == divid && m.DepID == depid && m.SecID == secid && m.PoID == poid
+                var user = db.vw_Man_Power.Where(m => m.UserTID == usertype && m.DivID == divid && m.DepID == depid && m.SecID == secid && m.PoID == poid
                                 && !string.IsNullOrEmpty(m.DivName) && !string.IsNullOrEmpty(m.DepName) && !string.IsNullOrEmpty(m.SecName) && !string.IsNullOrEmpty(m.FullNameTh))
                             .GroupBy(item => item.UserID, (key, group) => new {
                                 UserID = key,

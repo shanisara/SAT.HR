@@ -559,9 +559,9 @@ namespace SAT.HR.Controllers
             return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
-        public JsonResult GetChildren(string type, int? divid, int? depid, int? secid, int? poid)
+        public JsonResult GetChildren(string parenttype, int usertype, int? divid, int? depid, int? secid, int? poid)
         {
-            List<TreeViewModel> items = new PositionRateRepository().GetTree(type, divid, depid, secid, poid);
+            List<TreeViewModel> items = new PositionRateRepository().GetTree(parenttype, usertype, divid, depid, secid, poid);
             return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
             //var g1 = Guid.NewGuid().ToString();
