@@ -273,5 +273,80 @@ namespace SAT.HR.Data.Repository
 
             return items;
         }
+
+        public List<TreeViewModel> GetTreeAll(int usertype)
+        {
+            var items1 = new List<TreeViewModel>();
+            var first = new[]
+            {
+                new
+                {
+                    id = "0",
+                    text = "การกีฬาแห่งประเทศไทย",
+                    state = new  { opened= true, selected = true, disabled= true },
+                    children = new[]
+                    {
+                        new { id = "1", text = "ฝ่าย",
+                            state = new  { opened= true, selected = true, disabled= true },
+                            children = new[]
+                            {
+                                new { id = "2", text = "กอง",
+                                    state = new  { opened= true, selected = true, disabled= true },
+                                    children = new[]
+                                    {
+                                        new { id = "3", text = "งาน",
+                                            state = new  { opened= true, selected = true, disabled= true },
+                                            children = new[]
+                                            {
+                                                new { id = "4",  text = "ตำแหน่ง",
+                                                    state = new  { opened= true, selected = true, disabled= true },
+                                                    children = new[]
+                                                    {
+                                                        new { id = "51", text = "พนักงาน" },
+                                                        new { id = "52", text = "พนักงาน" },
+                                                        new { id = "53", text = "พนักงาน" },
+                                                        new { id = "54", text = "พนักงาน" }
+                                                    }
+                                                }
+                                            },
+                                        }
+                                    },
+                                }
+                            },
+                        }
+                    }
+                }
+            }
+            .ToList();
+
+
+            //var first = new[]
+            //{
+            //    new
+            //    {
+            //        id = "0",
+            //        text = "การกีฬาแห่งประเทศไทย",
+            //        state = new  { opened= true, selected= true, disabled= true },
+            //        children = new[]
+            //        {
+            //            new { id = "child-1", text = "Child 1", children = true },
+            //            new { id = "child-2", text = "Child 2", children = true }
+            //        }
+            //    }
+            //}
+            //.ToList();
+
+
+            //var g1 = Guid.NewGuid().ToString();
+            //var g2 = Guid.NewGuid().ToString();
+            //var next = new[]
+            //{
+            //    new { id = "child-" + g1, text = "Child " + g1, children = true },
+            //    new { id = "child-" + g2, text = "Child " + g2, children = true }
+            //}
+            //.ToList();
+
+            return items1;
+        }
     }
 }
