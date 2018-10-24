@@ -542,9 +542,9 @@ namespace SAT.HR.Controllers
             return PartialView("_PositionRate", model);
         }
 
-        public JsonResult GetRoot()
+        public JsonResult GetRoot(int id)
         {
-            var data = new PositionRateRepository().GetTree();
+            var data = new PositionRateRepository().GetTree(id);
             var items = new[]
             {
                 new

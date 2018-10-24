@@ -4,6 +4,7 @@
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-position" }))
 {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.UserID)
     @Html.HiddenFor(m => m.MpID)
 
     <div class="m-t-10"></div>
@@ -123,14 +124,30 @@
             dataType: 'json',
             success: function (res) {
                 if (res.MessageCode == null) {
-                    //showSwal.saveMessage();
-                    tree.getTree();
+                    swal({
+                        title: "",
+                        text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.DeleteSucceed)",
+                        type: "success",
+                        confirmButtonClass: "btn btn-primary",
+                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                        buttonsStyling: false
+                    }).then(function () {
+                        //$('#organization').jstree();
+                        //jstree.getTree();
+                    });
                 }
                 else {
-                    alert(res.MessageText);
+                    swal({
+                        title: '',
+                        text: res.MessageText,
+                        type: 'error',
+                        confirmButtonClass: "btn btn-primary",
+                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                        buttonsStyling: false
+                    }).catch(swal.noop);
                 }
             }
         });
-    }); 
+    });
 
 </script>

@@ -163,7 +163,7 @@ namespace SAT.HR.Data.Entities
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Menu_GetByRole_Result>("sp_Menu_GetByRole", roleIDParameter, menuTypeParameter);
         }
     
-        public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userStatus, string userType, string keyword)
+        public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
         {
             var pageSizeParameter = pageSize != null ?
                 new ObjectParameter("PageSize", pageSize) :
@@ -181,14 +181,14 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("SortrDir", sortrDir) :
                 new ObjectParameter("SortrDir", typeof(string));
     
-            var userStatusParameter = userStatus != null ?
-                new ObjectParameter("UserStatus", userStatus) :
-                new ObjectParameter("UserStatus", typeof(string));
-    
             var userTypeParameter = userType != null ?
                 new ObjectParameter("UserType", userType) :
                 new ObjectParameter("UserType", typeof(string));
-    
+
+            var userStatusParameter = userStatus != null ?
+                new ObjectParameter("UserStatus", userStatus) :
+                new ObjectParameter("UserStatus", typeof(string));
+
             var keywordParameter = keyword != null ?
                 new ObjectParameter("Keyword", keyword) :
                 new ObjectParameter("Keyword", typeof(string));

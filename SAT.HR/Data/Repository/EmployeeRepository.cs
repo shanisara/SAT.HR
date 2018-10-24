@@ -160,7 +160,7 @@ namespace SAT.HR.Data.Repository
                     string perPage = initialPage.HasValue ? Convert.ToInt32(initialPage) == 0 ? "1" : initialPage.ToString() : "1";
                     var data = db.sp_Employee_List(pageSize.ToString(), perPage, sortBy, sortDir, userType, userStatus, filter).ToList();
 
-                    int i = 1;
+                    int i = 0;
                     foreach (var item in data)
                     {
                         EmployeeViewModel model = new EmployeeViewModel();
@@ -184,8 +184,8 @@ namespace SAT.HR.Data.Repository
                     }
 
                     result.draw = draw ?? 0;
-                    result.recordsTotal = list != null ? list[0].recordsTotal : 0;
-                    result.recordsFiltered = list != null ? list[0].recordsFiltered : 0;
+                    result.recordsTotal = list.Count != 0 ? list[0].recordsTotal : 0;
+                    result.recordsFiltered = list.Count != 0 ? list[0].recordsFiltered : 0;
                     result.data = list;
                 }
             }

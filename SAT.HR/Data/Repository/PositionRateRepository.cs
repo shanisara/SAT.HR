@@ -101,9 +101,9 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public List<TreeViewModel> GetTree()
+        public List<TreeViewModel> GetTree(int usertype)
         {
-            var items = GetTreeDivision();
+            var items = GetTreeDivision(usertype);
             return items;
         }
 
@@ -129,7 +129,7 @@ namespace SAT.HR.Data.Repository
             return items;
         }
 
-        public List<TreeViewModel> GetTreeDivision()
+        public List<TreeViewModel> GetTreeDivision(int usertype)
         {
             var items = new List<TreeViewModel>();
             try
@@ -137,12 +137,12 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
 
-                    var deivision = db.vw_Man_Power
+                    var deivision = db.vw_Man_Power.Where(m => m.UserTID == usertype)
                         .GroupBy(item => item.DivID, (key, group) => new { DivID = key, DivName = group.FirstOrDefault().DivName }).ToList();
 
                     foreach (var item in deivision)
                     {
-                        var countChild = db.vw_Man_Power.Where(m => m.DivID == item.DivID && !string.IsNullOrEmpty(m.DepName))
+                        var countChild = db.vw_Man_Power.Where(m => m.UserTID == usertype && m.DivID == item.DivID && !string.IsNullOrEmpty(m.DepName))
                             .GroupBy(g => g.DepID).Select(group => new { DepID = group.Key }).Count();
 
                         var model = new TreeViewModel();
@@ -263,7 +263,7 @@ namespace SAT.HR.Data.Repository
 
                     var model = new TreeViewModel();
                     model.id = item.UserID.ToString();
-                    model.text = item.TiShortName + item.FullNameTh; // + " [" + item.MpCode + "]";
+                    model.text = "("+ item.MpCode.ToString().PadLeft(4, '0') +") "+ item.TiShortName + item.FullNameTh; // + " [" + item.MpCode + "]";
                     model.children = false;
                     model.node_type = "user";
                     model.node_mpid = item.MpID;

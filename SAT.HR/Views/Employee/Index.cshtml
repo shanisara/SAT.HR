@@ -16,8 +16,8 @@
                         <span>ทะเบียนประวัติ > </span><small>รายชื่อพนักงาน </small>
                         <div class="pull-right">
                             @*@Html.Label("ประเภทบุคลากร: ", null, new { @class = "col-sm-3 col-form-label" })*@
-                            @Html.DropDownList("usertype", new SelectList((IEnumerable<SelectListItem>)ViewBag.UserType, "Value", "Text"), new { @class = "form-control" })
-                            @Html.DropDownList("userstatus", new SelectList((IEnumerable<SelectListItem>)ViewBag.UserStatus, "Value", "Text"), new { @class = "form-control" })
+                            @Html.DropDownList("usertype", new SelectList((IEnumerable<SelectListItem>)ViewBag.UserType, "Value", "Text"), new { @class = "form-control usertype" })
+                            @Html.DropDownList("userstatus", new SelectList((IEnumerable<SelectListItem>)ViewBag.UserStatus, "Value", "Text"), new { @class = "form-control userstatus" })
                         </div>
                     </h4>
                 </div>
@@ -50,12 +50,8 @@
 
             var dataTable = {
                 table: null,
-                initializeDataTable: function () {
-                    var usertype = $('#usertype').val();
-                    var userstatus = $('#userstatus').val();
-
+                initializeDataTable: function (usertype, userstatus) {
                     $table = $('#datatables');
-
                     dataTable.table = $table.DataTable({
                         "proccessing": true,
                         "serverSide": true,
@@ -154,23 +150,37 @@
                         }).catch(swal.noop)
                     });
                 },
-                getData: function () {
+                getData: function (usertype, userstatus) {
                     if (dataTable.table == null)
-                        dataTable.initializeDataTable();
+                        dataTable.initializeDataTable(usertype, userstatus);
                     else
                         dataTable.table.ajax.reload();
-                }
+                },
+                renewData: function (usertype, userstatus) {
+                    $('#datatables').dataTable().fnDestroy();
+                    dataTable.initializeDataTable(usertype, userstatus);
+                },
             }
 
-            dataTable.getData();
+            dataTable.getData(1, 1);
 
-            // Add record
-            $(".add-user").click(function () {
-                var type = $('#usertype').val();
-                var url = '@Url.Action("Add", "Employee")/0'+ '?type=' + type;
-                window.location.href = url;
+            $('.usertype').change(function () {
+                var usertype = $('.usertype').val();
+                var userstatus = $('.userstatus').val();
+                dataTable.renewData(usertype, userstatus);
             });
 
+            $('.userstatus').change(function () {
+                var usertype = $('.usertype').val();
+                var userstatus = $('.userstatus').val();
+                dataTable.renewData(usertype, userstatus);
+            });
+
+            $(".add-user").click(function () {
+                var type = $('#usertype').val();
+                var url = '@Url.Action("Add", "Employee")/0' + '?type=' + type;
+                window.location.href = url;
+            });
 
         });
 
