@@ -10,6 +10,10 @@
         margin-bottom: 10px;
     }
 
+    .m-t-20 {
+        margin-top: 20px;
+    }
+
     .modal-dialog {
         max-width: 1100px;
         margin: 1.75rem auto;
@@ -34,6 +38,7 @@
         font-size: 15px;
     }
 </style>
+
 <div class="content">
     <div class="row">
         <div class="col-md-12">
@@ -114,7 +119,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- Classic Modal -->
 <div class="modal fade modal-large modal-transfer" role="dialog" aria-labelledby="modalTransferLabel" aria-hidden="true">
@@ -218,10 +222,6 @@
             });
         }
 
-
-
-
-
         $(".btn-back").click(function () {
             var url = '@Url.Action("EmployeeTransfer", "Employee")';
             window.location.href = url;
@@ -248,8 +248,12 @@
             var remark = $("#MlRemark").val();
 
             //dataTables_empty
-            //$("#tb-detail tbody").find('tr').each(function (i, el) {
-            //    $(this).find("td").eq(0).find('className:dataTables_empty').remove();
+            //$('#tb-detail tbody tr td:first-child').each(function () {
+
+            //});
+            //$("#tb-detail tbody").find('tr').each(function (i, el) { 
+            //$(this).find("td").eq(0).find('className:dataTables_empty').remove();
+
 
             var data = "<tr data-empid='" + empid + "' data-oldlevel='" + oldlevel + "' data-oldstep='" + oldstep + "' data-oldsalary= '" + oldsalary + "' data-newlevel='" + newlevel + "' data-newstep='" + newstep + "' data-newsalary='" + newsalary + "' data-remark='" + remark+"'>" +
                             "<td></td>" +
@@ -264,7 +268,7 @@
                             "<td><div class='td-actions text-right'><button title='ลบ' type='button' rel='tooltip' class='btn btn-round btn-danger btn-delete' data-id='" + empid+"'><i class='material-icons'>close</i></button></td></div>" +
                         "</tr>";
             $("#tb-detail tbody").append(data);
-            
+
             runningIndex();
 
             $('.modal-transfer').modal('hide');
@@ -317,10 +321,24 @@
 
         });
 
-        $(".btn-delete").click(function () {
+        $(".tb-detail").on('click', '.btn-delete', function () {
             debugger;
-            $(this).parents.remove();
-
+            var itemDelete = $(this);
+            swal({
+                title: "",
+                text: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)',
+                type: "question",
+                showCancelButton: true,
+                confirmButtonClass: 'btn btn-success btn-w-m btn-lg',
+                cancelButtonClass: 'btn btn-danger btn-w-m btn-lg m-l-sm',
+                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnCancel)',
+                allowOutsideClick: false,
+                buttonsStyling: false
+            }).then(function () {
+                itemDelete.parent().parent().remove();
+                runningIndex();
+            });
 
         });
 
