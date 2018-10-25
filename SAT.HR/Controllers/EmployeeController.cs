@@ -589,50 +589,50 @@ namespace SAT.HR.Controllers
 
         #region 3. โยกย้ายระดับ
 
-        public ActionResult EmployeeTransfer()
+        public ActionResult LevelTransfer()
         {
             return View();
         }
 
         [HttpPost]
-        public JsonResult EmployeeTransfer(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        public JsonResult LevelTransfer(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new EmployeeTransferRepository().GetPage(search, draw, start, length, dir, column);
+            var dataTableData = new LevelTransferRepository().GetPage(search, draw, start, length, dir, column);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult EmployeeTransferDetail(int? id)
+        public ActionResult LevelTransferDetail(int? id)
         {
-            var model = new EmployeeTransferRepository().GetByID(id);
+            var model = new LevelTransferRepository().GetByID(id);
             return View(model);
         }
 
         //[HttpPost]
-        //public JsonResult EmployeeTransferDetailPage(int? id)
+        //public JsonResult LevelTransferDetailPage(int? id)
         //{
-        //    var list = new EmployeeTransferRepository().GetDetail(id);
+        //    var list = new LevelTransferRepository().GetDetail(id);
         //    return Json(new { data = list }, JsonRequestBehavior.AllowGet);
         //}
 
-        public ActionResult EmployeeTransferDetailByID(int? id)
+        public ActionResult LevelTransferDetailByID(int? id)
         {
-            var model = new EmployeeTransferRepository().GetDetailByID(id);
+            var model = new LevelTransferRepository().GetDetailByID(id);
             ViewBag.Employee = DropDownList.GetEmployee(null, 1);
             ViewBag.SalaryLevel = DropDownList.GetSalaryLevel(null);
             ViewBag.SalaryStep = DropDownList.GetSalaryStep(null, 1);
-            return PartialView("_EmployeeTransferDetail", model);
+            return PartialView("_LevelTransferDetail", model);
         }
 
-        public JsonResult SaveEmployeeTransfer(EmployeeTransferViewModel data)
+        public JsonResult SaveLevelTransfer(LevelTransferViewModel data)
         {
             ResponseData result = new Models.ResponseData();
             if (data.MlID != 0)
-                result = new EmployeeTransferRepository().UpdateByEntity(data);
+                result = new LevelTransferRepository().UpdateByEntity(data);
             else
-                result = new EmployeeTransferRepository().AddByEntity(data);
+                result = new LevelTransferRepository().AddByEntity(data);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

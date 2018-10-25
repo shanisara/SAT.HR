@@ -8,12 +8,12 @@ using System.Web;
 
 namespace SAT.HR.Data.Repository
 {
-    public class EmployeeTransferRepository
+    public class LevelTransferRepository
     {
-        public EmployeeTransferResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
+        public LevelTransferResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
         {
-            EmployeeTransferResult result = new EmployeeTransferResult();
-            List<EmployeeTransferViewModel> list = new List<EmployeeTransferViewModel>();
+            LevelTransferResult result = new LevelTransferResult();
+            List<LevelTransferViewModel> list = new List<LevelTransferViewModel>();
 
             try
             {
@@ -46,7 +46,7 @@ namespace SAT.HR.Data.Repository
                     int i = 1;
                     foreach (var item in data)
                     {
-                        EmployeeTransferViewModel model = new EmployeeTransferViewModel();
+                        LevelTransferViewModel model = new LevelTransferViewModel();
                         model.RowNumber = ++i;
                         model.MlID = item.MlID;
                         model.MlYear = item.MlYear;
@@ -75,15 +75,15 @@ namespace SAT.HR.Data.Repository
             return result;
         }
 
-        public EmployeeTransferViewModel GetByID(int? id)
+        public LevelTransferViewModel GetByID(int? id)
         {
-            EmployeeTransferViewModel model = new EmployeeTransferViewModel();
+            LevelTransferViewModel model = new LevelTransferViewModel();
 
             try
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    model = db.tb_Move_Level_Head.Where(x => x.MlID == id).Select(s => new EmployeeTransferViewModel
+                    model = db.tb_Move_Level_Head.Where(x => x.MlID == id).Select(s => new LevelTransferViewModel
                     {
                         MlID = s.MlID,
                         MlYear = s.MlYear,
@@ -104,15 +104,15 @@ namespace SAT.HR.Data.Repository
             return model;
         }
 
-        public EmployeeTransferDetailViewModel GetDetailByID(int? id)
+        public LevelTransferDetailViewModel GetDetailByID(int? id)
         {
-            EmployeeTransferDetailViewModel model = new EmployeeTransferDetailViewModel();
+            LevelTransferDetailViewModel model = new LevelTransferDetailViewModel();
 
             try
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    model = db.tb_Move_Level_Detail.Where(x => x.MlID == id).Select(s => new EmployeeTransferDetailViewModel
+                    model = db.tb_Move_Level_Detail.Where(x => x.MlID == id).Select(s => new LevelTransferDetailViewModel
                     {
                         MlID = s.MlID,
                         UserID = s.UserID,
@@ -130,9 +130,9 @@ namespace SAT.HR.Data.Repository
             return model;
         }
 
-        public List<EmployeeTransferDetailViewModel> GetDetail(int? id)
+        public List<LevelTransferDetailViewModel> GetDetail(int? id)
         {
-            var list = new List<EmployeeTransferDetailViewModel>();
+            var list = new List<LevelTransferDetailViewModel>();
 
             try
             {
@@ -143,7 +143,7 @@ namespace SAT.HR.Data.Repository
 
                     foreach (var item in detail)
                     {
-                        EmployeeTransferDetailViewModel model = new EmployeeTransferDetailViewModel();
+                        LevelTransferDetailViewModel model = new LevelTransferDetailViewModel();
                         model.RowNumber = index++;
                         model.MlID = item.MlID;
                         model.UserID = item.UserID;
@@ -166,7 +166,7 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
-        public ResponseData AddByEntity(EmployeeTransferViewModel data)
+        public ResponseData AddByEntity(LevelTransferViewModel data)
         {
             using (SATEntities db = new SATEntities())
             {
@@ -232,7 +232,7 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public ResponseData UpdateByEntity(EmployeeTransferViewModel newdata)
+        public ResponseData UpdateByEntity(LevelTransferViewModel newdata)
         {
             using (SATEntities db = new SATEntities())
             {

@@ -1,4 +1,4 @@
-﻿@model SAT.HR.Models.EmployeeTransferViewModel
+﻿@model SAT.HR.Models.LevelTransferViewModel
 
 @{
     ViewBag.Title = "PositionTransferDetail";
@@ -91,7 +91,7 @@
                             <button type="button" class="btn btn-primary btn-sm btn-new" data-toggle="modal"><i class="material-icons">add</i> เพิ่มรายการ</button>
                         </div>
                         <div class="position-transfer">
-                            <table id="tb-detail" data-url="@Url.Content("~/Employee/EmployeeTransferDetailPage")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                            <table id="tb-detail" data-url="@Url.Content("~/Employee/LevelTransferDetailPage")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
                                 <thead class="text-primary">
                                     <tr>
                                         <th style="width:5%" class="disabled-sorting">ลำดับ</th>
@@ -179,7 +179,7 @@
                     dom: 't',
                     language: { zeroRecords: "ไม่พบข้อมูล" },
                     ajax: {
-                        url: '@Url.Action("EmployeeTransferDetailPage", "Employee")/' + id,
+                        url: '@Url.Action("LevelTransferDetailPage", "Employee")/' + id,
                         type: "POST",
                     },
                     "columns": [
@@ -224,13 +224,13 @@
         }
 
         $(".btn-back").click(function () {
-            var url = '@Url.Action("EmployeeTransfer", "Employee")';
+            var url = '@Url.Action("LevelTransfer", "Employee")';
             window.location.href = url;
         });
 
         $(".btn-new").click(function () {
             var type = $("#UserTID").val()
-            var url = '@Url.Action("EmployeeTransferDetailByID", "Employee")';
+            var url = '@Url.Action("LevelTransferDetailByID", "Employee")';
             $.post(url, { id: 0, type: type }, function (data) {
                 $(".detail-transfer").html(data);
                 $('.modal-transfer').modal('show');
@@ -293,7 +293,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '@Url.Action("SaveEmployeeTransfer", "Employee")',
+                url: '@Url.Action("SaveLevelTransfer", "Employee")',
                 data: data,
                 dataType: 'json',
                 enctype: 'multipart/form-data',
