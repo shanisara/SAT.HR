@@ -15,7 +15,7 @@ namespace SAT.HR.Data.Entities
     public partial class tb_Move_Level_Detail
     {
         public int MlID { get; set; }
-        public Nullable<int> UserID { get; set; }
+        public int UserID { get; set; }
         public Nullable<decimal> MlLevelOld { get; set; }
         public Nullable<decimal> MlStepOld { get; set; }
         public Nullable<decimal> MlLevelNew { get; set; }
@@ -25,7 +25,5 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
-    
-        public virtual tb_Move_Level_Head tb_Move_Level_Head { get; set; }
     }
 }

@@ -553,14 +553,13 @@
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'SATHRDB_DEV.dbo.tb_Move_Level_Detail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="tb_Move_Level_Detail">
     <Key>
       <PropertyRef Name="MlID" />
+      <PropertyRef Name="UserID" />
     </Key>
     <Property Name="MlID" Type="int" Nullable="false" />
-    <Property Name="UserID" Type="int" />
+    <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="MlLevelOld" Type="decimal" Precision="18" Scale="2" />
     <Property Name="MlStepOld" Type="decimal" Precision="18" Scale="2" />
     <Property Name="MlLevelNew" Type="decimal" Precision="18" Scale="2" />
@@ -1203,9 +1202,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Level_Detail' does not hav
   <EntityType Name="vw_Move_Level_Detail">
     <Key>
       <PropertyRef Name="MlID" />
+      <PropertyRef Name="UserID" />
     </Key>
     <Property Name="MlID" Type="int" Nullable="false" />
-    <Property Name="UserID" Type="int" />
+    <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="FullName" Type="nvarchar" MaxLength="401" />
     <Property Name="MlLevelOld" Type="decimal" Precision="18" Scale="2" />
     <Property Name="MlStepOld" Type="decimal" Precision="18" Scale="2" />
@@ -2087,18 +2087,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_Move_Level_Detail_tb_Move_Level_Head">
-    <End Role="tb_Move_Level_Head" Type="Self.tb_Move_Level_Head" Multiplicity="1" />
-    <End Role="tb_Move_Level_Detail" Type="Self.tb_Move_Level_Detail" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Move_Level_Head">
-        <PropertyRef Name="MlID" />
-      </Principal>
-      <Dependent Role="tb_Move_Level_Detail">
-        <PropertyRef Name="MlID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_tb_Move_Man_Power_Detail_tb_Agent_Type">
     <End Role="tb_Agent_Type" Type="Self.tb_Agent_Type" Multiplicity="0..1" />
     <End Role="tb_Move_Man_Power_Detail" Type="Self.tb_Move_Man_Power_Detail" Multiplicity="*" />
@@ -2773,6 +2761,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_Member_Type" EntityType="Self.tb_Member_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Menu" EntityType="Self.tb_Menu" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Menu_Role" EntityType="Self.tb_Menu_Role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Move_Level_Detail" EntityType="Self.tb_Move_Level_Detail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Move_Level_Head" EntityType="Self.tb_Move_Level_Head" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Move_Man_Power_Detail" EntityType="Self.tb_Move_Man_Power_Detail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Move_Man_Power_Head" EntityType="Self.tb_Move_Man_Power_Head" Schema="dbo" store:Type="Tables" />
@@ -2807,21 +2796,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_User_Training" EntityType="Self.tb_User_Training" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_User_Type" EntityType="Self.tb_User_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Working_Type" EntityType="Self.tb_Working_Type" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="tb_Move_Level_Detail" EntityType="Self.tb_Move_Level_Detail" store:Type="Tables" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [tb_Move_Level_Detail].[MlID] AS [MlID], 
-    [tb_Move_Level_Detail].[UserID] AS [UserID], 
-    [tb_Move_Level_Detail].[MlLevelOld] AS [MlLevelOld], 
-    [tb_Move_Level_Detail].[MlStepOld] AS [MlStepOld], 
-    [tb_Move_Level_Detail].[MlLevelNew] AS [MlLevelNew], 
-    [tb_Move_Level_Detail].[MlStepNew] AS [MlStepNew], 
-    [tb_Move_Level_Detail].[MlRemark] AS [MlRemark], 
-    [tb_Move_Level_Detail].[CreateDate] AS [CreateDate], 
-    [tb_Move_Level_Detail].[CreateBy] AS [CreateBy], 
-    [tb_Move_Level_Detail].[ModifyDate] AS [ModifyDate], 
-    [tb_Move_Level_Detail].[ModifyBy] AS [ModifyBy]
-    FROM [dbo].[tb_Move_Level_Detail] AS [tb_Move_Level_Detail]</DefiningQuery>
-    </EntitySet>
     <EntitySet Name="tb_SubDistrict" EntityType="Self.tb_SubDistrict" store:Type="Tables" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [tb_SubDistrict].[SubDistrictID] AS [SubDistrictID], 
@@ -3474,10 +3448,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <AssociationSet Name="FK_tb_Man_Power_tb_User" Association="Self.FK_tb_Man_Power_tb_User">
       <End Role="tb_User" EntitySet="tb_User" />
       <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Move_Level_Detail_tb_Move_Level_Head" Association="Self.FK_tb_Move_Level_Detail_tb_Move_Level_Head">
-      <End Role="tb_Move_Level_Head" EntitySet="tb_Move_Level_Head" />
-      <End Role="tb_Move_Level_Detail" EntitySet="tb_Move_Level_Detail" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_Move_Man_Power_Detail_tb_Agent_Type" Association="Self.FK_tb_Move_Man_Power_Detail_tb_Agent_Type">
       <End Role="tb_Agent_Type" EntitySet="tb_Agent_Type" />

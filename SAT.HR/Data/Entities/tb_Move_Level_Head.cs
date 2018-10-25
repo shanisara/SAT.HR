@@ -25,7 +25,5 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
-    
-        public virtual tb_Move_Level_Detail tb_Move_Level_Detail { get; set; }
     }
 }

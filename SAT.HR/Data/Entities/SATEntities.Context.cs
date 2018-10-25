@@ -123,10 +123,10 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_User_History> tb_User_History { get; set; }
         public virtual DbSet<vw_User_History> vw_User_History { get; set; }
         public virtual DbSet<tb_User_Family> tb_User_Family { get; set; }
-        public virtual DbSet<tb_Move_Level_Detail> tb_Move_Level_Detail { get; set; }
-        public virtual DbSet<vw_Move_Level_Detail> vw_Move_Level_Detail { get; set; }
         public virtual DbSet<tb_Move_Man_Power_Detail> tb_Move_Man_Power_Detail { get; set; }
         public virtual DbSet<vw_Move_Man_Power_Detail> vw_Move_Man_Power_Detail { get; set; }
+        public virtual DbSet<tb_Move_Level_Detail> tb_Move_Level_Detail { get; set; }
+        public virtual DbSet<vw_Move_Level_Detail> vw_Move_Level_Detail { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {

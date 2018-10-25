@@ -9,7 +9,7 @@ namespace SAT.HR.Models
     {
         public int RowNumber { get; set; }
         public int MlID { get; set; }
-        public Nullable<int> MlYear { get; set; }
+        public int? MlYear { get; set; }
         public string MlBookCmd { get; set; }
         public Nullable<System.DateTime> MlDateCmd { get; set; }
         public string MlSignatory { get; set; }
@@ -41,7 +41,7 @@ namespace SAT.HR.Models
     {
         public int RowNumber { get; set; }
         public int MlID { get; set; }
-        public Nullable<int> UserID { get; set; }
+        public int UserID { get; set; }
         public string FullName { get; set; }
         public Nullable<decimal> MlLevelOld { get; set; }
         public Nullable<decimal> MlStepOld { get; set; }

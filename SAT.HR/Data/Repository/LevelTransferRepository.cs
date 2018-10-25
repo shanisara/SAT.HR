@@ -83,16 +83,22 @@ namespace SAT.HR.Data.Repository
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    model = db.tb_Move_Level_Head.Where(x => x.MlID == id).Select(s => new LevelTransferViewModel
+                    if (id != null)
                     {
-                        MlID = s.MlID,
-                        MlYear = s.MlYear,
-                        MlBookCmd = s.MlBookCmd,
-                        MlDateCmd = s.MlDateCmd,
-                        MlSignatory = s.MlSignatory,
-                        MIPathFile = s.MIPathFile,
-                        MlStatus = s.MlStatus,
-                    }).FirstOrDefault();
+                        var data = db.tb_Move_Level_Head.Where(x => x.MlID == id).FirstOrDefault();
+                        LevelTransferViewModel head = new LevelTransferViewModel();
+                        model.MlID = data.MlID;
+                        model.MlYear = data.MlYear;
+                        model.MlBookCmd = data.MlBookCmd;
+                        model.MlDateCmd = data.MlDateCmd;
+                        model.MlDateCmdText = data.MlDateCmd.HasValue ? data.MlDateCmd.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        model.MlSignatory = data.MlSignatory;
+                        model.MIPathFile = data.MIPathFile;
+                        model.MlStatus = data.MlStatus;
+
+                        var detail = GetDetail(id);
+                        model.ListDetail = detail;
+                    }
                 }
             }
             catch (Exception)
@@ -259,7 +265,7 @@ namespace SAT.HR.Data.Repository
                     foreach (var item in newdata.ListDetail)
                     {
                         tb_Move_Level_Detail detail = new tb_Move_Level_Detail();
-                        detail.MlID = item.MlID;
+                        detail.MlID = head.MlID;
                         detail.UserID = item.UserID;
                         detail.MlLevelOld = item.MlLevelOld;
                         detail.MlStepOld = item.MlStepOld;
@@ -270,9 +276,10 @@ namespace SAT.HR.Data.Repository
                         detail.ModifyBy = UtilityService.User.UserID;
                         detail.ModifyDate = DateTime.Now;
                         db.tb_Move_Level_Detail.Add(detail);
+                        db.SaveChanges();
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
 
                 }

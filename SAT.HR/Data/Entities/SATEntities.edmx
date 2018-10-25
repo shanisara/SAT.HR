@@ -558,14 +558,13 @@
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'SATHRDB_DEV.dbo.tb_Move_Level_Detail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tb_Move_Level_Detail">
           <Key>
             <PropertyRef Name="MlID" />
+            <PropertyRef Name="UserID" />
           </Key>
           <Property Name="MlID" Type="int" Nullable="false" />
-          <Property Name="UserID" Type="int" />
+          <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="MlLevelOld" Type="decimal" Precision="18" Scale="2" />
           <Property Name="MlStepOld" Type="decimal" Precision="18" Scale="2" />
           <Property Name="MlLevelNew" Type="decimal" Precision="18" Scale="2" />
@@ -1208,9 +1207,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Level_Detail' does not hav
         <EntityType Name="vw_Move_Level_Detail">
           <Key>
             <PropertyRef Name="MlID" />
+            <PropertyRef Name="UserID" />
           </Key>
           <Property Name="MlID" Type="int" Nullable="false" />
-          <Property Name="UserID" Type="int" />
+          <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="FullName" Type="nvarchar" MaxLength="401" />
           <Property Name="MlLevelOld" Type="decimal" Precision="18" Scale="2" />
           <Property Name="MlStepOld" Type="decimal" Precision="18" Scale="2" />
@@ -2092,18 +2092,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tb_Move_Level_Detail_tb_Move_Level_Head">
-          <End Role="tb_Move_Level_Head" Type="Self.tb_Move_Level_Head" Multiplicity="1" />
-          <End Role="tb_Move_Level_Detail" Type="Self.tb_Move_Level_Detail" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="tb_Move_Level_Head">
-              <PropertyRef Name="MlID" />
-            </Principal>
-            <Dependent Role="tb_Move_Level_Detail">
-              <PropertyRef Name="MlID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tb_Move_Man_Power_Detail_tb_Agent_Type">
           <End Role="tb_Agent_Type" Type="Self.tb_Agent_Type" Multiplicity="0..1" />
           <End Role="tb_Move_Man_Power_Detail" Type="Self.tb_Move_Man_Power_Detail" Multiplicity="*" />
@@ -2778,6 +2766,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_Member_Type" EntityType="Self.tb_Member_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Menu" EntityType="Self.tb_Menu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Menu_Role" EntityType="Self.tb_Menu_Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Move_Level_Detail" EntityType="Self.tb_Move_Level_Detail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Move_Level_Head" EntityType="Self.tb_Move_Level_Head" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Move_Man_Power_Detail" EntityType="Self.tb_Move_Man_Power_Detail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Move_Man_Power_Head" EntityType="Self.tb_Move_Man_Power_Head" Schema="dbo" store:Type="Tables" />
@@ -2812,21 +2801,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_User_Training" EntityType="Self.tb_User_Training" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_User_Type" EntityType="Self.tb_User_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Working_Type" EntityType="Self.tb_Working_Type" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tb_Move_Level_Detail" EntityType="Self.tb_Move_Level_Detail" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [tb_Move_Level_Detail].[MlID] AS [MlID], 
-    [tb_Move_Level_Detail].[UserID] AS [UserID], 
-    [tb_Move_Level_Detail].[MlLevelOld] AS [MlLevelOld], 
-    [tb_Move_Level_Detail].[MlStepOld] AS [MlStepOld], 
-    [tb_Move_Level_Detail].[MlLevelNew] AS [MlLevelNew], 
-    [tb_Move_Level_Detail].[MlStepNew] AS [MlStepNew], 
-    [tb_Move_Level_Detail].[MlRemark] AS [MlRemark], 
-    [tb_Move_Level_Detail].[CreateDate] AS [CreateDate], 
-    [tb_Move_Level_Detail].[CreateBy] AS [CreateBy], 
-    [tb_Move_Level_Detail].[ModifyDate] AS [ModifyDate], 
-    [tb_Move_Level_Detail].[ModifyBy] AS [ModifyBy]
-    FROM [dbo].[tb_Move_Level_Detail] AS [tb_Move_Level_Detail]</DefiningQuery>
-          </EntitySet>
           <EntitySet Name="tb_SubDistrict" EntityType="Self.tb_SubDistrict" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [tb_SubDistrict].[SubDistrictID] AS [SubDistrictID], 
@@ -3480,10 +3454,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <End Role="tb_User" EntitySet="tb_User" />
             <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
           </AssociationSet>
-          <AssociationSet Name="FK_tb_Move_Level_Detail_tb_Move_Level_Head" Association="Self.FK_tb_Move_Level_Detail_tb_Move_Level_Head">
-            <End Role="tb_Move_Level_Head" EntitySet="tb_Move_Level_Head" />
-            <End Role="tb_Move_Level_Detail" EntitySet="tb_Move_Level_Detail" />
-          </AssociationSet>
           <AssociationSet Name="FK_tb_Move_Man_Power_Detail_tb_Agent_Type" Association="Self.FK_tb_Move_Man_Power_Detail_tb_Agent_Type">
             <End Role="tb_Agent_Type" EntitySet="tb_Agent_Type" />
             <End Role="tb_Move_Man_Power_Detail" EntitySet="tb_Move_Man_Power_Detail" />
@@ -4130,12 +4100,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <End Role="tb_User" EntitySet="tb_User" />
             <End Role="tb_User_Family" EntitySet="tb_User_Family" />
           </AssociationSet>
-          <EntitySet Name="tb_Move_Level_Detail" EntityType="SAT.HR.tb_Move_Level_Detail" />
-          <EntitySet Name="vw_Move_Level_Detail" EntityType="SAT.HR.vw_Move_Level_Detail" />
-          <AssociationSet Name="FK_tb_Move_Level_Detail_tb_Move_Level_Head" Association="SAT.HR.FK_tb_Move_Level_Detail_tb_Move_Level_Head">
-            <End Role="tb_Move_Level_Head" EntitySet="tb_Move_Level_Head" />
-            <End Role="tb_Move_Level_Detail" EntitySet="tb_Move_Level_Detail" />
-          </AssociationSet>
           <EntitySet Name="tb_Move_Man_Power_Detail" EntityType="SAT.HR.tb_Move_Man_Power_Detail" />
           <AssociationSet Name="FK_tb_Move_Man_Power_Detail_tb_Agent_Type" Association="SAT.HR.FK_tb_Move_Man_Power_Detail_tb_Agent_Type">
             <End Role="tb_Agent_Type" EntitySet="tb_Agent_Type" />
@@ -4154,6 +4118,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <End Role="tb_Move_Man_Power_Detail" EntitySet="tb_Move_Man_Power_Detail" />
           </AssociationSet>
           <EntitySet Name="vw_Move_Man_Power_Detail" EntityType="SAT.HR.vw_Move_Man_Power_Detail" />
+          <EntitySet Name="tb_Move_Level_Detail" EntityType="SAT.HR.tb_Move_Level_Detail" />
+          <EntitySet Name="vw_Move_Level_Detail" EntityType="SAT.HR.vw_Move_Level_Detail" />
           </EntityContainer>
         <ComplexType Name="sp_Menu_GetByUser_Result">
           <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -4845,7 +4811,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="CreateBy" Type="Int32" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="Int32" />
-          <NavigationProperty Name="tb_Move_Level_Detail" Relationship="SAT.HR.FK_tb_Move_Level_Detail_tb_Move_Level_Head" FromRole="tb_Move_Level_Head" ToRole="tb_Move_Level_Detail" />
         </EntityType>
         <EntityType Name="tb_Move_Man_Power_Head">
           <Key>
@@ -6907,50 +6872,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="tb_Move_Level_Detail">
-          <Key>
-            <PropertyRef Name="MlID" />
-          </Key>
-          <Property Name="MlID" Type="Int32" Nullable="false" />
-          <Property Name="UserID" Type="Int32" />
-          <Property Name="MlLevelOld" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MlStepOld" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MlLevelNew" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MlStepNew" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MlRemark" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="Int32" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="Int32" />
-          <NavigationProperty Name="tb_Move_Level_Head" Relationship="SAT.HR.FK_tb_Move_Level_Detail_tb_Move_Level_Head" FromRole="tb_Move_Level_Detail" ToRole="tb_Move_Level_Head" />
-        </EntityType>
-        <EntityType Name="vw_Move_Level_Detail">
-          <Key>
-            <PropertyRef Name="MlID" />
-          </Key>
-          <Property Name="MlID" Type="Int32" Nullable="false" />
-          <Property Name="UserID" Type="Int32" />
-          <Property Name="FullName" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
-          <Property Name="MlLevelOld" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MlStepOld" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MlSalaryOld" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MlLevelNew" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MlStepNew" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MlSalaryNew" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MlRemark" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <Association Name="FK_tb_Move_Level_Detail_tb_Move_Level_Head">
-          <End Type="SAT.HR.tb_Move_Level_Head" Role="tb_Move_Level_Head" Multiplicity="1" />
-          <End Type="SAT.HR.tb_Move_Level_Detail" Role="tb_Move_Level_Detail" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="tb_Move_Level_Head">
-              <PropertyRef Name="MlID" />
-            </Principal>
-            <Dependent Role="tb_Move_Level_Detail">
-              <PropertyRef Name="MlID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="tb_Move_Man_Power_Detail">
           <Key>
             <PropertyRef Name="MopID" />
@@ -7041,6 +6962,39 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="AgentPoCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="AgentPoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="MovRemark" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tb_Move_Level_Detail">
+          <Key>
+            <PropertyRef Name="MlID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="MlID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="MlLevelOld" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MlStepOld" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MlLevelNew" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MlStepNew" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MlRemark" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+        </EntityType>
+        <EntityType Name="vw_Move_Level_Detail">
+          <Key>
+            <PropertyRef Name="MlID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="MlID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+          <Property Name="MlLevelOld" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MlStepOld" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MlSalaryOld" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MlLevelNew" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MlStepNew" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MlSalaryNew" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MlRemark" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -8735,39 +8689,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tb_Move_Level_Detail">
-            <EntityTypeMapping TypeName="SAT.HR.tb_Move_Level_Detail">
-              <MappingFragment StoreEntitySet="tb_Move_Level_Detail">
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="MlRemark" ColumnName="MlRemark" />
-                <ScalarProperty Name="MlStepNew" ColumnName="MlStepNew" />
-                <ScalarProperty Name="MlLevelNew" ColumnName="MlLevelNew" />
-                <ScalarProperty Name="MlStepOld" ColumnName="MlStepOld" />
-                <ScalarProperty Name="MlLevelOld" ColumnName="MlLevelOld" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="MlID" ColumnName="MlID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="vw_Move_Level_Detail">
-            <EntityTypeMapping TypeName="SAT.HR.vw_Move_Level_Detail">
-              <MappingFragment StoreEntitySet="vw_Move_Level_Detail">
-                <ScalarProperty Name="MlRemark" ColumnName="MlRemark" />
-                <ScalarProperty Name="MlSalaryNew" ColumnName="MlSalaryNew" />
-                <ScalarProperty Name="MlStepNew" ColumnName="MlStepNew" />
-                <ScalarProperty Name="MlLevelNew" ColumnName="MlLevelNew" />
-                <ScalarProperty Name="MlSalaryOld" ColumnName="MlSalaryOld" />
-                <ScalarProperty Name="MlStepOld" ColumnName="MlStepOld" />
-                <ScalarProperty Name="MlLevelOld" ColumnName="MlLevelOld" />
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="MlID" ColumnName="MlID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tb_Move_Man_Power_Detail">
             <EntityTypeMapping TypeName="SAT.HR.tb_Move_Man_Power_Detail">
               <MappingFragment StoreEntitySet="tb_Move_Man_Power_Detail">
@@ -8803,6 +8724,39 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="MopID" ColumnName="MopID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Move_Level_Detail">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Move_Level_Detail">
+              <MappingFragment StoreEntitySet="tb_Move_Level_Detail">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="MlRemark" ColumnName="MlRemark" />
+                <ScalarProperty Name="MlStepNew" ColumnName="MlStepNew" />
+                <ScalarProperty Name="MlLevelNew" ColumnName="MlLevelNew" />
+                <ScalarProperty Name="MlStepOld" ColumnName="MlStepOld" />
+                <ScalarProperty Name="MlLevelOld" ColumnName="MlLevelOld" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="MlID" ColumnName="MlID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_Move_Level_Detail">
+            <EntityTypeMapping TypeName="SAT.HR.vw_Move_Level_Detail">
+              <MappingFragment StoreEntitySet="vw_Move_Level_Detail">
+                <ScalarProperty Name="MlRemark" ColumnName="MlRemark" />
+                <ScalarProperty Name="MlSalaryNew" ColumnName="MlSalaryNew" />
+                <ScalarProperty Name="MlStepNew" ColumnName="MlStepNew" />
+                <ScalarProperty Name="MlLevelNew" ColumnName="MlLevelNew" />
+                <ScalarProperty Name="MlSalaryOld" ColumnName="MlSalaryOld" />
+                <ScalarProperty Name="MlStepOld" ColumnName="MlStepOld" />
+                <ScalarProperty Name="MlLevelOld" ColumnName="MlLevelOld" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="MlID" ColumnName="MlID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
