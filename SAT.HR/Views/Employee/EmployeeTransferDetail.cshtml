@@ -209,6 +209,18 @@
 
         //dataTable.getData();
 
+        var runningIndex = function () {
+            debugger
+            var index = 1;
+            $('#tb-detail tbody tr td:first-child').each(function () {
+                $(this).html(index);
+                index++;
+            });
+        }
+
+
+
+
 
         $(".btn-back").click(function () {
             var url = '@Url.Action("EmployeeTransfer", "Employee")';
@@ -225,7 +237,6 @@
         });
 
         $(".btn-add").click(function () {
-            debugger;
             var empid = $("#EmpID").val();
             var empname = $("#EmpID option:selected").text();
             var oldlevel = $('.user-level').text();
@@ -253,11 +264,13 @@
                             "<td><div class='td-actions text-right'><button title='ลบ' type='button' rel='tooltip' class='btn btn-round btn-danger btn-delete' data-id='" + empid+"'><i class='material-icons'>close</i></button></td></div>" +
                         "</tr>";
             $("#tb-detail tbody").append(data);
+            
+            runningIndex();
+
             $('.modal-transfer').modal('hide');
         });
 
         $(".btn-save").click(function () {
-            debugger;
             var listName = "ListDetail";
             var qtd = 0;
             $("#tb-detail tbody tr").each(function () {
