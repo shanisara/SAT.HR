@@ -7,24 +7,29 @@
 
 <style>
     .m-b-10 {
-        margin-bottom: 10px;
+        margin-bottom: 15px;
     }
+
     .modal-dialog {
         max-width: 1000px;
         margin: 1.75rem auto;
     }
-    .col-form-label{
-        font-size:14px;
+
+    .col-form-label {
+        font-size: 14px;
     }
+
     .label-text {
         font-size: 14px;
         line-height: 2.679;
         color: #170cdb;
         font-weight: 100;
     }
+
     .table > thead > tr > th {
         vertical-align: text-top;
     }
+
     .table thead tr th {
         font-size: 15px;
     }
@@ -43,76 +48,77 @@
                     </h4>
                 </div>
                 <div class="card-body">
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "formDetail" }))
+                    {
+                        @Html.HiddenFor(m => m.MopID)
+                        @Html.HiddenFor(m => m.MopStatus)
+                        @Html.HiddenFor(m => m.UserTID, new { Value = @ViewBag.UserTypeID })
 
-                    @Html.HiddenFor(m => m.MopID)
-                    @Html.HiddenFor(m => m.MopStatus)
-                    @Html.HiddenFor(m => m.UserTID, new { Value = @ViewBag.UserTypeID })
-
-
-                    <div class="form-horizontal">
-                        <div class="row m-b-10">
-                            @Html.Label("ประเภทพนักงาน: ", null, new { @class = "col-sm-2 col-form-label" })
-                            <div class="col-sm-4">
-                                @Html.DropDownListFor(n => n.UserTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.UserType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
-                            </div>
-                            @Html.Label("ประเภทการโยกย้าย: ", null, new { @class = "col-sm-2 col-form-label" })
-                            <div class="col-sm-4">
-                                @Html.DropDownListFor(n => n.MtID, new SelectList((IEnumerable<SelectListItem>)ViewBag.MoveType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
-                            </div>
-                        </div>
-                        <div class="row">
-                            @Html.Label("ปีบัญชี: ", null, new { @class = "col-sm-2 col-form-label" })
-                            <div class="col-sm-4">
-                                @Html.TextBoxFor(m => m.MopYear, new { @class = "form-control" })
-                            </div>
-                            @Html.Label("เลขที่หนังสือคำสั่ง: ", null, new { @class = "col-sm-2 col-form-label" })
-                            <div class="col-sm-4">
-                                @Html.TextBoxFor(m => m.MopBookCmd, new { @class = "form-control" })
-                            </div>
-                        </div>
-                        <div class="row">
-                            @Html.Label("วันที่ลงคำสั่ง: ", null, new { @class = "col-sm-2 col-form-label" })
-                            <div class="col-sm-4">
-                                <div class="form-group bmd-form-group">
-                                    @Html.TextBoxFor(m => m.MopDateCmd, new { @class = "form-control datepicker" })
+                        <div class="form-horizontal">
+                            
+                            <div class="row">
+                                @Html.Label("ปีบัญชี: ", null, new { @class = "col-sm-1 col-form-label" })
+                                <div class="col-sm-1">
+                                    @Html.TextBoxFor(m => m.MopYear, new { @class = "form-control" })
+                                </div>
+                                @Html.Label("เลขที่หนังสือคำสั่ง: ", null, new { @class = "col-sm-2 col-form-label" })
+                                <div class="col-sm-2">
+                                    @Html.TextBoxFor(m => m.MopBookCmd, new { @class = "form-control" })
+                                </div>
+                                @Html.Label("ประเภทพนักงาน: ", null, new { @class = "col-sm-2 col-form-label" })
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(n => n.UserTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.UserType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
                                 </div>
                             </div>
-                            @Html.Label("วันที่มีผล: ", null, new { @class = "col-sm-2 col-form-label" })
-                            <div class="col-sm-4">
-                                <div class="form-group bmd-form-group">
+                            <div class="row m-b-15">
+                                @Html.Label("วันที่มีผล: ", null, new { @class = "col-sm-1 col-form-label" })
+                                <div class="col-sm-2">
                                     @Html.TextBoxFor(m => m.MopDateEff, new { @class = "form-control datepicker" })
                                 </div>
+                                @Html.Label("วันที่ลงคำสั่ง: ", null, new { @class = "col-sm-1 col-form-label" })
+                                <div class="col-sm-2">
+                                    @Html.TextBoxFor(m => m.MopDateCmd, new { @class = "form-control datepicker" })
+                                </div>
+                                @Html.Label("ประเภทการโยกย้าย: ", null, new { @class = "col-sm-2 col-form-label" })
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(n => n.MtID, new SelectList((IEnumerable<SelectListItem>)ViewBag.MoveType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                @Html.Label("ผู้ลงนาม: ", null, new { @class = "col-sm-1 col-form-label" })
+                                <div class="col-sm-5">
+                                    @Html.TextBoxFor(m => m.MopSignatory, new { @class = "form-control" })
+                                </div>
+                                @Html.Label("ไฟล์หนังสือคำสั่ง: ", null, new { @class = "col-sm-2 col-form-label" })
+                                <div class="col-sm-4">
+                                    <input id="fileUpload" name="fileUpload" type="file" class="form-control file">
+                                    @*@Html.TextBoxFor(m => m.MopPathFile, new { @class = "form-control"  })*@
+                                </div>
+                            </div>
+                            <div class="row m-b-10">
+                                
+                                
                             </div>
                         </div>
-                        <div class="row m-b-10">
-                            @Html.Label("ผู้ลงนาม: ", null, new { @class = "col-sm-2 col-form-label" })
-                            <div class="col-sm-4">
-                                @Html.TextBoxFor(m => m.MopSignatory, new { @class = "form-control" })
-                            </div>
-                            @Html.Label("ไฟล์หนังสือคำสั่ง: ", null, new { @class = "col-sm-2 col-form-label" })
-                            <div class="col-sm-4">
-                                @Html.TextBoxFor(m => m.MopPathFile, new { @class = "form-control" })
-                            </div>
+                        <div class="toolbar pull-right">
+                            <button type="button" class="btn btn-primary btn-sm btn-new" data-toggle="modal"><i class="material-icons">add</i> เพิ่มรายการ</button>
                         </div>
-                    </div>
-                    <div class="toolbar pull-right">
-                        <button class="btn btn-primary btn-sm btn-new" data-toggle="modal"><i class="material-icons">add</i> เพิ่มรายการ</button>
-                    </div>
-                    <div class="position-transfer">
-                        <table id="tb-detail" data-url="@Url.Content("~/Employee/PositionTransferDetail")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
-                            <thead class="text-primary">
-                                <tr>
-                                    <th style="width:5%" class="disabled-sorting">ลำดับ</th>
-                                    <th style="width:15%">ชื่อ-นามสกุล</th>
-                                    <th style="width:18%">ตำแหน่งเก่า</th>
-                                    <th style="width:18%">ตำแหน่งใหม่</th>
-                                    <th style="width:24%">รักษาการแทน</th>
-                                    <th style="width:10%">หมายเหตุ</th>
-                                    <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
+                        <div class="position-transfer">
+                            <table id="tb-detail" data-url="@Url.Content("~/Employee/PositionTransferDetail")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                                <thead class="text-primary">
+                                    <tr>
+                                        <th style="width:5%" class="disabled-sorting">ลำดับ</th>
+                                        <th style="width:15%">ชื่อ-นามสกุล</th>
+                                        <th style="width:18%">ตำแหน่งเก่า</th>
+                                        <th style="width:18%">ตำแหน่งใหม่</th>
+                                        <th style="width:24%">รักษาการแทน</th>
+                                        <th style="width:10%">หมายเหตุ</th>
+                                        <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    }
                 </div>
                 <div class="row m-b-10">
                     <div class="ml-auto mr-auto">
@@ -148,7 +154,7 @@
 <!--  End Modal -->
 
 @section Scripts {
-<script>
+    <script>
     $(document).ready(function () {
 
         $('.datepicker').datetimepicker({
@@ -235,11 +241,11 @@
         });
 
         $(".btn-save").click(function () {
-            
+
         });
 
 
 
     });
-</script>
+    </script>
 }
