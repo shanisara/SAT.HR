@@ -16,7 +16,8 @@
 
     .modal-dialog {
         max-width: 1100px;
-        margin: 1.75rem auto;
+        /*margin: 1.75rem auto;
+        margin: 20vh auto 0px auto*/
     }
 
     .col-form-label {
@@ -58,6 +59,7 @@
                         @Html.HiddenFor(m => m.MlID)
                         @Html.HiddenFor(m => m.MlStatus)
                         @Html.HiddenFor(m => m.MIPathFile)
+
                         <div class="form-horizontal">
                             <div class="row">
                                 @Html.Label("ปีบัญชี: ", null, new { @class = "col-sm-1 col-form-label" })
@@ -70,7 +72,7 @@
                                 </div>
                                 @Html.Label("วันที่ลงคำสั่ง: ", null, new { @class = "col-sm-2 col-form-label" })
                                 <div class="col-sm-4">
-                                    @Html.TextBoxFor(m => m.MlDateCmd, new { @class = "form-control datepicker" })
+                                    @Html.TextBoxFor(m => m.MlDateCmdText, new { @class = "form-control datepicker" })
                                 </div>
                             </div>
                             <div class="row m-b-10">
@@ -214,7 +216,6 @@
         //dataTable.getData();
 
         var runningIndex = function () {
-            debugger
             var index = 1;
             $('#tb-detail tbody tr td:first-child').each(function () {
                 $(this).html(index);
@@ -237,8 +238,8 @@
         });
 
         $(".btn-add").click(function () {
-            var empid = $("#EmpID").val();
-            var empname = $("#EmpID option:selected").text();
+            var userid = $("#UserID").val();
+            var username = $("#UserID option:selected").text();
             var oldlevel = $('.user-level').text();
             var oldstep = $('.user-step').text();
             var oldsalary = $('.user-salary').text();
@@ -247,26 +248,18 @@
             var newsalary = $('.new-salary').text();
             var remark = $("#MlRemark").val();
 
-            //dataTables_empty
-            //$('#tb-detail tbody tr td:first-child').each(function () {
-
-            //});
-            //$("#tb-detail tbody").find('tr').each(function (i, el) { 
-            //$(this).find("td").eq(0).find('className:dataTables_empty').remove();
-
-
-            var data = "<tr data-empid='" + empid + "' data-oldlevel='" + oldlevel + "' data-oldstep='" + oldstep + "' data-oldsalary= '" + oldsalary + "' data-newlevel='" + newlevel + "' data-newstep='" + newstep + "' data-newsalary='" + newsalary + "' data-remark='" + remark+"'>" +
-                            "<td></td>" +
-                            "<td>" + empname + "</td>" +
-                            "<td>" + oldlevel + "</td>" +
-                            "<td>" + oldstep + "</td>" +
-                            "<td>" + oldsalary + "</td>" +
-                            "<td>" + newlevel + "</td> " +
-                            "<td>" + newstep + "</td> " +
-                            "<td>" + newsalary + "</td> " +
-                            "<td>" + remark + "</td>" +
-                            "<td><div class='td-actions text-right'><button title='ลบ' type='button' rel='tooltip' class='btn btn-round btn-danger btn-delete' data-id='" + empid+"'><i class='material-icons'>close</i></button></td></div>" +
-                        "</tr>";
+            var data = "<tr data-userid='" + userid + "' data-oldlevel='" + oldlevel + "' data-oldstep='" + oldstep + "' data-oldsalary= '" + oldsalary + "' data-newlevel='" + newlevel + "' data-newstep='" + newstep + "' data-newsalary='" + newsalary + "' data-remark='" + remark+"'>" +
+                "<td></td>" +
+                "<td>" + username + "</td>" +
+                "<td>" + oldlevel + "</td>" +
+                "<td>" + oldstep + "</td>" +
+                "<td>" + oldsalary + "</td>" +
+                "<td>" + newlevel + "</td> " +
+                "<td>" + newstep + "</td> " +
+                "<td>" + newsalary + "</td> " +
+                "<td>" + remark + "</td>" +
+                "<td><div class='td-actions text-right'><button title='ลบ' type='button' rel='tooltip' class='btn btn-round btn-danger btn-delete' data-id='" + userid+"'><i class='material-icons'>close</i></button></td></div>" +
+                "</tr>";
             $("#tb-detail tbody").append(data);
 
             runningIndex();
@@ -278,27 +271,25 @@
             var listName = "ListDetail";
             var qtd = 0;
             $("#tb-detail tbody tr").each(function () {
-                var empid = $(this).data("empid");
+                var userid = $(this).data("userid");
                 var oldlevel = $(this).data("oldlevel");
                 var oldstep = $(this).data("oldstep");
                 var newlevel = $(this).data("newlevel");
                 var newstep = $(this).data("newstep");
                 var oldlevel = $(this).data("oldlevel");
                 var remark = $(this).data("remark");
-                $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].EmpID' value= '" + empid + "' > ");
+                $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].UserID' value= '" + userid + "' > ");
                 $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlLevelOld' value= '" + oldlevel + "' > ");
                 $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlStepOld' value= '" + oldstep + "' > ");
                 $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlLevelNew' value= '" + newlevel + "' > ");
                 $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlStepNew' value= '" + newstep + "' > ");
-                $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlRemark' value= '" + oldlevel + "' > ");
+                $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlRemark' value= '" + remark + "' > ");
                 qtd += 1;
             });
-
 
             var form = $('.formDetail')[0];
             var data = new FormData(form);
             data.append(".fileUpload", fileUpload);
-
 
             $.ajax({
                 type: 'POST',
@@ -310,36 +301,47 @@
                 contentType: false,
                 success: function (res) {
                     if (res.MessageCode == null) {
-                        //$('#modalDetail').modal('hide');
+                        swal({
+                            title: "",
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                            type: "success",
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                            buttonsStyling: false,
+                        }).then(function () {
+                            $('#modalDetail').modal('hide');
+                        });
                     }
                     else {
-                        alert(res.MessageText);
+                        swal({
+                            title: '',
+                            text: res.MessageText,
+                            type: 'error',
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                            buttonsStyling: false
+                        }).catch(swal.noop);
                     }
                 }
             });
-
-
         });
 
-        $(".tb-detail").on('click', '.btn-delete', function () {
-            debugger;
+        $("#tb-detail").on('click', '.btn-delete', function () {
             var itemDelete = $(this);
             swal({
-                title: "",
-                text: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)',
-                type: "question",
+                title: '',
+                text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
+                type: 'question',
                 showCancelButton: true,
-                confirmButtonClass: 'btn btn-success btn-w-m btn-lg',
-                cancelButtonClass: 'btn btn-danger btn-w-m btn-lg m-l-sm',
-                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnCancel)',
-                allowOutsideClick: false,
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
                 buttonsStyling: false
             }).then(function () {
-                itemDelete.parent().parent().remove();
+                itemDelete.parent().parent().parent().remove();
                 runningIndex();
             });
-
         });
 
     });

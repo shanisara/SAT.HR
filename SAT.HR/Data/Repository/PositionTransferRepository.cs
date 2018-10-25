@@ -128,6 +128,7 @@ namespace SAT.HR.Data.Repository
                     {
                         MopID = s.MopID,
                         UserID = s.UserID,
+                        CurPoID = s.CurPoID,
                         MovPoID = s.MovPoID,
                         AgentPoID = s.AgentID,
                         AgentPoTID = s.PoTID,
@@ -160,8 +161,8 @@ namespace SAT.HR.Data.Repository
                         model.MopID = item.MopID;
                         model.UserID = item.UserID;
                         model.UserName = item.UserName;
-                        model.UserPoCode = item.UserPoCode;
-                        model.UserPoName = item.UserPoName;
+                        model.CurPoCode = item.CurPoCode;
+                        model.CurPoName = item.CurPoName;
                         model.MovPoID = item.MovPoID;
                         model.MovPoCode = item.MovPoCode;
                         model.MovPoName = item.MovPoName;
@@ -171,8 +172,9 @@ namespace SAT.HR.Data.Repository
                         model.AgentPoCode = item.AgentPoCode;
                         model.AgentPoName = item.AgentPoName;
                         model.MovRemark = item.MovRemark;
-                        model.PoNameNew = "(" + item.MovPoCode + ") " + item.MovPoName;
-                        model.PoNameOld = "(" + item.UserPoCode + ") " + item.UserPoName;
+                        model.CurrentPo = "(" + item.CurPoCode + ") " + item.CurPoName;
+                        model.MovePo = "(" + item.MovPoCode + ") " + item.MovPoName;
+                        model.AgentPo = "(" + item.AgentPoCode + ") " + item.AgentPoName;
                         model.AgentPo = item.AgentPoTName + " (" + item.AgentPoCode + ") " + item.AgentPoName;
                         list.Add(model);
                     }
@@ -186,9 +188,6 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
-
-
-
         public ResponseData AddByEntity(PositionTransferViewModel data)
         {
             using (SATEntities db = new SATEntities())
@@ -196,14 +195,59 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    tb_Move_Man_Power_Head model = new tb_Move_Man_Power_Head();
-                    
-                    model.CreateBy = UtilityService.User.UserID;
-                    model.CreateDate = DateTime.Now;
-                    model.ModifyBy = UtilityService.User.UserID;
-                    model.ModifyDate = DateTime.Now;
-                    db.tb_Move_Man_Power_Head.Add(model);
+                    //if (fileUpload != null && fileUpload.ContentLength > 0)
+                    //{
+                    //    var fileName = Path.GetFileName(fileUpload.FileName);
+                    //    var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
+
+                    //    string directory = SysConfig.PathUploadPositionTransfer;
+                    //    bool isExists = System.IO.Directory.Exists(directory);
+                    //    if (!isExists)
+                    //        System.IO.Directory.CreateDirectory(directory);
+
+                    //    string newFileName = newdata.UserID.ToString() + DateTime.Now.ToString("_yyyyMMdd_hhmmss") + "." + fileExt;
+                    //    string fileLocation = Path.Combine(directory, newFileName);
+
+                    //    fileUpload.SaveAs(fileLocation);
+
+                    //    newdata.UpPathFile = newFileName;
+                    //}
+
+                    tb_Move_Man_Power_Head head = new tb_Move_Man_Power_Head();
+                    head.UserTID = data.UserTID;
+                    head.MtID = data.MtID;
+                    head.MopYear = data.MopYear;
+                    head.MopBookCmd = data.MopBookCmd;
+                    head.MopDateCmd = data.MopDateCmd;
+                    head.MopDateEff = data.MopDateEff;
+                    head.MopSignatory = data.MopSignatory;
+                    head.MopPathFile = data.MopPathFile;
+                    head.MopStatus = data.MopStatus;
+                    head.CreateBy = UtilityService.User.UserID;
+                    head.CreateDate = DateTime.Now;
+                    head.ModifyBy = UtilityService.User.UserID;
+                    head.ModifyDate = DateTime.Now;
+                    db.tb_Move_Man_Power_Head.Add(head);
                     db.SaveChanges();
+                    result.ID = head.MopID;
+
+                    foreach (var item in data.ListDetail)
+                    {
+                        tb_Move_Man_Power_Detail detail = new tb_Move_Man_Power_Detail();
+                        detail.MopID = head.MopID;
+                        detail.UserID = item.UserID;
+                        detail.CurPoID = item.CurPoID;
+                        detail.MovPoID = item.MovPoID;
+                        detail.PoTID = item.AgentPoTID;
+                        detail.AgentID = item.AgentPoID;
+                        detail.MovRemark = item.MovRemark;
+                        detail.CreateBy = UtilityService.User.UserID;
+                        detail.CreateDate = DateTime.Now;
+                        detail.ModifyBy = UtilityService.User.UserID;
+                        detail.ModifyDate = DateTime.Now;
+                        db.tb_Move_Man_Power_Detail.Add(detail);
+                        db.SaveChanges();
+                    }
                 }
                 catch (Exception)
                 {
@@ -220,11 +264,38 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    var model = db.tb_Move_Man_Power_Head.Single(x => x.MopID == newdata.MopID);
-                    
-                    model.ModifyBy = UtilityService.User.UserID;
-                    model.ModifyDate = DateTime.Now;
+                    var head = db.tb_Move_Man_Power_Head.Single(x => x.MopID == newdata.MopID);
+                    head.UserTID = newdata.UserTID;
+                    head.MtID = newdata.MtID;
+                    head.MopYear = newdata.MopYear;
+                    head.MopBookCmd = newdata.MopBookCmd;
+                    head.MopDateCmd = newdata.MopDateCmd;
+                    head.MopDateEff = newdata.MopDateEff;
+                    head.MopSignatory = newdata.MopSignatory;
+                    head.MopPathFile = newdata.MopPathFile;
+                    head.MopStatus = newdata.MopStatus;
+                    head.ModifyBy = UtilityService.User.UserID;
+                    head.ModifyDate = DateTime.Now;
                     db.SaveChanges();
+
+                    var listdelete = db.tb_Move_Man_Power_Detail.Where(x => x.MopID == newdata.MopID).ToList();
+                    db.tb_Move_Man_Power_Detail.RemoveRange(listdelete);
+                    db.SaveChanges();
+
+                    foreach (var item in newdata.ListDetail)
+                    {
+                        tb_Move_Man_Power_Detail detail = new tb_Move_Man_Power_Detail();
+                        detail.UserID = item.UserID;
+                        detail.CurPoID = item.CurPoID;
+                        detail.MovPoID = item.MovPoID;
+                        detail.PoTID = item.AgentPoTID;
+                        detail.AgentID = item.AgentPoID;
+                        detail.MovRemark = item.MovRemark;
+                        detail.ModifyBy = UtilityService.User.UserID;
+                        detail.ModifyDate = DateTime.Now;
+                        db.tb_Move_Man_Power_Detail.Add(detail);
+                        db.SaveChanges();
+                    }
                 }
                 catch (Exception)
                 {

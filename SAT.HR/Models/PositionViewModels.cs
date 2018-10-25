@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace SAT.HR.Models
 {
@@ -53,9 +54,10 @@ namespace SAT.HR.Models
         public string MtName { get; set; }
         public int? MopTotal { get; set; }
         public string MopDateCmdText { get; set; }
+        public string MopDateEffText { get; set; }
         public int recordsTotal { get; set; }
         public int recordsFiltered { get; set; }
-
+        public HttpPostedFileBase fileUpload { get; set; }
         public List<PositionTransferDetailViewModel> ListDetail { get; set; }
     }
 
@@ -73,7 +75,10 @@ namespace SAT.HR.Models
         public int MopID { get; set; }
         public int UserID { get; set; }
         public string UserName { get; set; }
-        public Nullable<int> MovPoID { get; set; }
+        public int CurPoID { get; set; }
+        public string CurPoCode { get; set; }
+        public string CurPoName { get; set; }
+        public int? MovPoID { get; set; }
         public string MovPoCode { get; set; }
         public string MovPoName { get; set; }
         public Nullable<int> AgentPoTID { get; set; }
@@ -82,11 +87,10 @@ namespace SAT.HR.Models
         public string AgentPoCode { get; set; }
         public string AgentPoName { get; set; }
         public string MovRemark { get; set; }
-        public string PoNameNew { get; set; }
-        public string PoNameOld { get; set; }
+
+        public string CurrentPo { get; set; }
+        public string MovePo { get; set; }
         public string AgentPo { get; set; }
-        public string UserPoCode { get; set; }
-        public string UserPoName { get; set; }
     }
 
     public class PositionTransferDetailResult
@@ -108,6 +112,7 @@ namespace SAT.HR.Models
     {
         public string FullName { get; set; }
         public string BelongTo { get; set; }
+        public int? PositionID { get; set; }
         public string Position { get; set; }
         public string Level { get; set; }
         public string Step { get; set; }

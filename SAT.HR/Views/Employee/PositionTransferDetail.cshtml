@@ -7,11 +7,19 @@
 
 <style>
     .m-b-10 {
-        margin-bottom: 15px;
+        margin-bottom: 10px;
+    }
+
+    .m-t-20 {
+        margin-top: 20px;
+    }
+
+    .m-t-10 {
+        margin-top: 20px;
     }
 
     .modal-dialog {
-        max-width: 1000px;
+        max-width: 1100px;
         margin: 1.75rem auto;
     }
 
@@ -34,6 +42,7 @@
         font-size: 15px;
     }
 </style>
+
 <div class="content">
     <div class="row">
         <div class="col-md-12">
@@ -73,11 +82,11 @@
                             <div class="row m-b-15">
                                 @Html.Label("วันที่มีผล: ", null, new { @class = "col-sm-1 col-form-label" })
                                 <div class="col-sm-2">
-                                    @Html.TextBoxFor(m => m.MopDateEff, new { @class = "form-control datepicker" })
+                                    @Html.TextBoxFor(m => m.MopDateEffText, new { @class = "form-control datepicker" })
                                 </div>
                                 @Html.Label("วันที่ลงคำสั่ง: ", null, new { @class = "col-sm-1 col-form-label" })
                                 <div class="col-sm-2">
-                                    @Html.TextBoxFor(m => m.MopDateCmd, new { @class = "form-control datepicker" })
+                                    @Html.TextBoxFor(m => m.MopDateCmdText, new { @class = "form-control datepicker" })
                                 </div>
                                 @Html.Label("ประเภทการโยกย้าย: ", null, new { @class = "col-sm-2 col-form-label" })
                                 <div class="col-sm-4">
@@ -95,10 +104,7 @@
                                     @*@Html.TextBoxFor(m => m.MopPathFile, new { @class = "form-control"  })*@
                                 </div>
                             </div>
-                            <div class="row m-b-10">
-                                
-                                
-                            </div>
+                            <div class="row m-b-10"></div>
                         </div>
                         <div class="toolbar pull-right">
                             <button type="button" class="btn btn-primary btn-sm btn-new" data-toggle="modal"><i class="material-icons">add</i> เพิ่มรายการ</button>
@@ -107,15 +113,16 @@
                             <table id="tb-detail" data-url="@Url.Content("~/Employee/PositionTransferDetail")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
                                 <thead class="text-primary">
                                     <tr>
-                                        <th style="width:5%" class="disabled-sorting">ลำดับ</th>
+                                        <th style="width:4%" class="disabled-sorting">ลำดับ</th>
                                         <th style="width:15%">ชื่อ-นามสกุล</th>
-                                        <th style="width:18%">ตำแหน่งเก่า</th>
-                                        <th style="width:18%">ตำแหน่งใหม่</th>
-                                        <th style="width:24%">รักษาการแทน</th>
-                                        <th style="width:10%">หมายเหตุ</th>
+                                        <th style="width:16%">ตำแหน่งเก่า</th>
+                                        <th style="width:16%">ตำแหน่งใหม่</th>
+                                        <th style="width:30%">รักษาการแทน</th>
+                                        <th style="width:9%">หมายเหตุ</th>
                                         <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
                                     </tr>
                                 </thead>
+                                <tbody></tbody>
                             </table>
                         </div>
                     }
@@ -132,7 +139,7 @@
 </div>
 
 <!-- Classic Modal -->
-<div class="modal fade modal-large modal-transfer" tabindex="-1" role="dialog" aria-labelledby="modalTransferLabel" aria-hidden="true">
+<div class="modal fade modal-large modal-transfer" role="dialog" aria-labelledby="modalTransferLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -146,7 +153,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-roundbtn-default btn-close" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;
-                <button type="button" class="btn btn-primary btn-save">เพิ่มลงรายการ</button>
+                <button type="button" class="btn btn-primary btn-add">เพิ่มลงรายการ</button>
             </div>
         </div>
     </div>
@@ -172,7 +179,7 @@
             }
         });
 
-        var dataTable = {
+        @*var dataTable = {
             table: null,
             initializeDataTable: function () {
                 var id = $("#MopID").val();
@@ -220,7 +227,15 @@
             }
         }
 
-        dataTable.getData();
+        dataTable.getData();*@
+
+        var runningIndex = function () {
+            var index = 1;
+            $('#tb-detail tbody tr td:first-child').each(function () {
+                $(this).html(index);
+                index++;
+            });
+        }
 
         $(".btn-back").click(function () {
             var url = '@Url.Action("PositionTransfer", "Employee")';
@@ -237,14 +252,114 @@
         });
 
         $(".btn-add").click(function () {
+            var userid = $("#UserID").val();
+            var username = $("#UserID option:selected").text();
+            var curpoid = $('#CurPoID').val();
+            var curponame = $(".user-po").text();
+            var movpoid = $('#MovPoID').text();
+            var movponame = $("#MovPoID option:selected").text();
+            var agenttypeid = $('#AgentPoTID').val();
+            var agenttype = $("#AgentPoTID option:selected").text();
+            var agentpoid = $('#AgentPoID').val();
+            var agentponame = $("#AgentPoID option:selected").text();
+            var agentbelong = $('.agent-belong').text();
+            var remark = $("#MovRemark").val();
 
+            var agentpo = '';
+            if (agentpoid != '')
+                agentpo = agenttype + ": " + agentponame + "<div style='font-size: 12px; color: #0000ff; border-bottom: #c0c0c0 0px dotted; margin-bottom: 5px;'><i class='fa fa-home'></i>" + agentbelong + "</div>";
+
+            var data = "<tr data-userid='" + userid + "' data-curpoid='" + curpoid + "' data-movpoid='" + movpoid + "' data-agentpotid= '" + agenttypeid + "' data-agentpoid='" + agentpoid + "' data-remark='" + remark + "'>" +
+                "<td></td>" +
+                "<td>" + username + "</td>" +
+                "<td>" + curponame + "</td>" +
+                "<td>" + movponame + "</td>" +
+                "<td>" + agentpo + "</td>" +
+                "<td>" + remark + "</td> " +
+                "<td><div class='td-actions text-right'><button title='ลบ' type='button' rel='tooltip' class='btn btn-round btn-danger btn-delete' data-id='" + userid + "'><i class='material-icons'>close</i></button></td></div>" +
+                "</tr>";
+            $("#tb-detail tbody").append(data);
+
+            runningIndex();
+
+            $('.modal-transfer').modal('hide');
         });
 
         $(".btn-save").click(function () {
+            var listName = "ListDetail";
+            var qtd = 0;
+            $("#tb-detail tbody tr").each(function () {
+                var userid = $(this).data("userid");
+                var curpoid = $(this).data("curpoid");
+                var movpoid = $(this).data("movpoid");
+                var agentpotid = $(this).data("agentpotid");
+                var agentpoid = $(this).data("agentpoid");
+                var remark = $(this).data("remark");
+                $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].UserID' value= '" + userid + "' > ");
+                $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].CurPoID' value= '" + curpoid + "' > ");
+                $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MovPoID' value= '" + movpoid + "' > ");
+                $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].PoTID' value= '" + agentpotid + "' > ");
+                $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].AgentID' value= '" + agentpoid + "' > ");
+                $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MovRemark' value= '" + remark + "' > ");
+                qtd += 1;
+            });
 
+            var form = $('.formDetail')[0];
+            var data = new FormData(form);
+            data.append(".fileUpload", fileUpload);
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SavePositionTransfer", "Employee")',
+                data: data,
+                dataType: 'json',
+                enctype: 'multipart/form-data',
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                    if (res.MessageCode == null) {
+                        swal({
+                            title: "",
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                            type: "success",
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                            buttonsStyling: false,
+                        }).then(function () {
+                            $('#modalDetail').modal('hide');
+                        });
+                    }
+                    else {
+                        swal({
+                            title: '',
+                            text: res.MessageText,
+                            type: 'error',
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                            buttonsStyling: false
+                        }).catch(swal.noop);
+                    }
+                }
+            });
         });
 
-
+        $("#tb-detail").on('click', '.btn-delete', function () {
+            var itemDelete = $(this);
+            swal({
+                title: '',
+                text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                buttonsStyling: false
+            }).then(function () {
+                itemDelete.parent().parent().parent().remove();
+                runningIndex();
+            });
+        });
 
     });
     </script>

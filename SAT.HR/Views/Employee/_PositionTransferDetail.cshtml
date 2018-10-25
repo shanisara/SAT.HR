@@ -1,89 +1,90 @@
 ﻿@model SAT.HR.Models.PositionTransferDetailViewModel
 
-<div class="form-horizontal">
-    <div class="row">
-        @Html.Label("พนักงาน: ", null, new { @class = "col-sm-2 col-form-label" })
-        <div class="col-sm-8">
-            @Html.DropDownListFor(n => n.UserID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Employee, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-position-transfer" }))
+{
+    <div class="form-horizontal">
+        <div class="row">
+            @Html.Label("พนักงาน: ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-6">
+                @Html.DropDownListFor(n => n.UserID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Employee, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+            </div>
+            @Html.Label("ระดับ: ", null, new { @class = "col-sm-1 col-form-label" })
+            <div class="col-sm-2">
+                <span class="label-text user-level"></span>
+            </div>
         </div>
-        @Html.Label("ระดับ: ", null, new { @class = "col-sm-1 col-form-label" })
-        <div class="col-sm-1">
-            <span class="label-text user-level"></span>
+        <div class="row">
+            @Html.Label("ตำแหน่งปัจจุบัน: ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.Hidden("CurPoID")
+                <span class="label-text user-po"></span>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        @Html.Label("ฝ่าย/กอง/งาน: ", null, new { @class = "col-sm-2 col-form-label" })
-        <div class="col-sm-10">
-            <span class="label-text user-belong"></span>
+        <div class="row">
+            @Html.Label("ฝ่าย/กอง/งาน: ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                <span class="label-text user-belong"></span>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        @Html.Label("ตำแหน่งปัจจุบัน: ", null, new { @class = "col-sm-2 col-form-label" })
-        <div class="col-sm-10">
-            <span class="label-text user-po"></span>
+        <div class="row">
+            <div class="col-md-12 ml-auto mr-auto m-t-10 m-b-10 text-left">
+                <h5 class="card-title text-primary"><span>ตำแหน่งที่ย้ายไป</span></h5>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6 ml-auto mr-auto text-center">
-            <h5 class="card-title"><span>ตำแหน่งที่ย้ายไป</span></h5>
+        <div class="row">
+            @Html.Label("ย้ายไปตำแหน่ง: ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-6">
+                @Html.DropDownListFor(n => n.MovPoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+            </div>
+            <div class="col-sm-4">
+                @Html.Label("ผู้ดำรงตำแหน่ง: ", null, new { @class = "col-form-label" })
+                <span class="label-text move-name"></span>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        @Html.Label("ย้ายไปตำแหน่ง: ", null, new { @class = "col-sm-2 col-form-label" })
-        <div class="col-sm-10">
-            @Html.DropDownListFor(n => n.MovPoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+        <div class="row">
+            @Html.Label("ฝ่าย/กอง/งาน: ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                <span class="label-text move-belong"></span>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        @Html.Label("ฝ่าย/กอง/งาน: ", null, new { @class = "col-sm-2 col-form-label" })
-        <div class="col-sm-10">
-            <span class="label-text move-belong"></span>
+        <div class="row">
+            <div class="col-md-12 ml-auto mr-auto m-t-20 m-b-10 text-left">
+                <h5 class="card-title  text-primary"><span>รักษาการแทน / ปฏิบัติหน้าที่แทน / ช่วยปฏิบัติงาน</span></h5>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        @Html.Label("ผู้ดำรงตำแหน่ง: ", null, new { @class = "col-sm-2 col-form-label" })
-        <div class="col-sm-10">
-            <span class="label-text move-name"></span>
+        <div class="row">
+            @Html.Label("ประเภท: ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-6">
+                @Html.DropDownListFor(n => n.AgentPoTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.PositionType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6 ml-auto mr-auto text-center">
-            <h5 class="card-title"><span>รักษาการแทน / ปฏิบัติหน้าที่แทน / ช่วยปฏิบัติงาน</span></h5>
+        <div class="row">
+            @Html.Label("ตำแหน่ง: ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-6">
+                @Html.DropDownListFor(n => n.AgentPoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+            </div>
+            <div class="col-sm-4">
+                @Html.Label("ผู้ดำรงตำแหน่ง: ", null, new { @class = "col-form-label" })
+                <span class="label-text agent-name"></span>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        @Html.Label("ประเภท: ", null, new { @class = "col-sm-2 col-form-label" })
-        <div class="col-sm-10">
-            @Html.DropDownListFor(n => n.AgentPoTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.PositionType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+        <div class="row">
+            @Html.Label("ฝ่าย/กอง/งาน: ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                <span class="label-text agent-belong"></span>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        @Html.Label("ตำแหน่ง: ", null, new { @class = "col-sm-2 col-form-label" })
-        <div class="col-sm-10">
-            @Html.DropDownListFor(n => n.AgentPoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+        <div class="row">
+
         </div>
-    </div>
-    <div class="row">
-        @Html.Label("ฝ่าย/กอง/งาน: ", null, new { @class = "col-sm-2 col-form-label" })
-        <div class="col-sm-10">
-            <span class="label-text agent-belong"></span>
-        </div>
-    </div>
-    <div class="row">
-        @Html.Label("ผู้ดำรงตำแหน่ง: ", null, new { @class = "col-sm-2 col-form-label" })
-        <div class="col-sm-10">
-            <span class="label-text agent-name"></span>
-        </div>
-    </div>
-    <div class="row">
-        @Html.Label("หมายเหตุ: ", null, new { @class = "col-sm-2 col-form-label" })
-        <div class="col-sm-10">
-            <div class="form-group bmd-form-group">
-                <textarea class="form-control" rows="2"></textarea>
+        <div class="row">
+            @Html.Label("หมายเหตุ: ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.MovRemark, new { @class = "form-control", required = "true" })
             </div>
         </div>
     </div>
-</div>
+}
 <script>
 
     $("#UserID").change(function () {
@@ -98,6 +99,8 @@
                 var belong = res.BelongTo;
                 var poname = res.Position;
                 var level = res.Level;
+                var curpoid = res.Level;
+                $('#CurPoID').val(curpoid);
                 $('.user-belong').text(belong);
                 $('.user-po').text(poname);
                 $('.user-level').text(level);

@@ -16,9 +16,10 @@ namespace SAT.HR.Data.Entities
     {
         public int MopID { get; set; }
         public int UserID { get; set; }
+        public int CurPoID { get; set; }
         public Nullable<int> MovPoID { get; set; }
-        public Nullable<int> AgentID { get; set; }
         public Nullable<int> PoTID { get; set; }
+        public Nullable<int> AgentID { get; set; }
         public string MovRemark { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }

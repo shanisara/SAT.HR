@@ -151,10 +151,12 @@ namespace SAT.HR.Data.Repository
 
                 ManPowerViewModel model = new ManPowerViewModel();
                 model.BelongTo = user.DivName + " / " + user.DepName + " / " + user.SecName;
+                model.PositionID = user.PoID;
                 model.Position = "(" + user.PoCode + ") " + user.PoName;
                 model.Level = user.SalaryLevel.ToString();
                 model.Step = user.SalaryStep.ToString();
                 model.Salary = user.Salary.ToString();
+
                 return model;
             }
         }
@@ -164,8 +166,12 @@ namespace SAT.HR.Data.Repository
             using (SATEntities db = new SATEntities())
             {
                 ManPowerViewModel model = new ManPowerViewModel();
-                model.BelongTo = "สำนักผู้ว่าการ / กองประสานความร่วมมือระหว่างประเทศ / งานประสานองค์กรกีฬาระหว่างประเทศ";
-                model.FullName = "นายรณสร เขียวแก้ว";
+                var data = db.vw_Man_Power.Where(m => m.PoID == poid).FirstOrDefault();
+                if (data != null)
+                {
+                    model.BelongTo = data.DivName + " / " + data.DepName + " / " + data.SecName;
+                    model.FullName = data.FullNameTh;
+                }
                 return model;
             }
         }

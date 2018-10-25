@@ -666,12 +666,12 @@ namespace SAT.HR.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public JsonResult PositionTransferDetail(int? id)
-        {
-            var list = new PositionTransferRepository().GetDetail(id);
-            return Json(new { data = list }, JsonRequestBehavior.AllowGet);
-        }
+        //[HttpPost]
+        //public JsonResult PositionTransferDetail(int? id)
+        //{
+        //    var list = new PositionTransferRepository().GetDetail(id);
+        //    return Json(new { data = list }, JsonRequestBehavior.AllowGet);
+        //}
 
         public ActionResult PositionTransferDetailByID(int? id, int? type)
         {
@@ -682,7 +682,7 @@ namespace SAT.HR.Controllers
             return PartialView("_PositionTransferDetail", model);
         }
 
-        public JsonResult SavePositionTransfer(PositionTransferViewModel data, HttpPostedFileBase fileUpload)
+        public JsonResult SavePositionTransfer(PositionTransferViewModel data)
         {
             ResponseData result = new Models.ResponseData();
             if (data.MtID != 0)

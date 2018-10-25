@@ -15,7 +15,7 @@ namespace SAT.HR.Data.Entities
     public partial class tb_Move_Level_Detail
     {
         public int MlID { get; set; }
-        public Nullable<int> EmpID { get; set; }
+        public Nullable<int> UserID { get; set; }
         public Nullable<decimal> MlLevelOld { get; set; }
         public Nullable<decimal> MlStepOld { get; set; }
         public Nullable<decimal> MlLevelNew { get; set; }

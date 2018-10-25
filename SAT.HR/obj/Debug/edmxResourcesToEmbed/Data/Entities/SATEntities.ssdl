@@ -560,7 +560,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.tb_Move_Level_Detail' does not hav
       <PropertyRef Name="MlID" />
     </Key>
     <Property Name="MlID" Type="int" Nullable="false" />
-    <Property Name="EmpID" Type="int" />
+    <Property Name="UserID" Type="int" />
     <Property Name="MlLevelOld" Type="decimal" Precision="18" Scale="2" />
     <Property Name="MlStepOld" Type="decimal" Precision="18" Scale="2" />
     <Property Name="MlLevelNew" Type="decimal" Precision="18" Scale="2" />
@@ -594,9 +594,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.tb_Move_Level_Detail' does not hav
     </Key>
     <Property Name="MopID" Type="int" Nullable="false" />
     <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="CurPoID" Type="int" Nullable="false" />
     <Property Name="MovPoID" Type="int" />
-    <Property Name="AgentID" Type="int" />
     <Property Name="PoTID" Type="int" />
+    <Property Name="AgentID" Type="int" />
     <Property Name="MovRemark" Type="nvarchar" MaxLength="400" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
@@ -1204,7 +1205,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Level_Detail' does not hav
       <PropertyRef Name="MlID" />
     </Key>
     <Property Name="MlID" Type="int" Nullable="false" />
-    <Property Name="EmpID" Type="int" />
+    <Property Name="UserID" Type="int" />
     <Property Name="FullName" Type="nvarchar" MaxLength="401" />
     <Property Name="MlLevelOld" Type="decimal" Precision="18" Scale="2" />
     <Property Name="MlStepOld" Type="decimal" Precision="18" Scale="2" />
@@ -1220,12 +1221,14 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Man_Power_Detail' does not
     <Key>
       <PropertyRef Name="MopID" />
       <PropertyRef Name="UserID" />
+      <PropertyRef Name="CurPoID" />
     </Key>
     <Property Name="MopID" Type="int" Nullable="false" />
     <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="UserName" Type="nvarchar" MaxLength="401" />
-    <Property Name="UserPoCode" Type="nvarchar" MaxLength="200" />
-    <Property Name="UserPoName" Type="nvarchar" MaxLength="200" />
+    <Property Name="CurPoID" Type="int" Nullable="false" />
+    <Property Name="CurPoCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="CurPoName" Type="nvarchar" MaxLength="200" />
     <Property Name="MovPoID" Type="int" />
     <Property Name="MovPoCode" Type="nvarchar" MaxLength="200" />
     <Property Name="MovPoName" Type="nvarchar" MaxLength="200" />
@@ -2807,7 +2810,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_Move_Level_Detail" EntityType="Self.tb_Move_Level_Detail" store:Type="Tables" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [tb_Move_Level_Detail].[MlID] AS [MlID], 
-    [tb_Move_Level_Detail].[EmpID] AS [EmpID], 
+    [tb_Move_Level_Detail].[UserID] AS [UserID], 
     [tb_Move_Level_Detail].[MlLevelOld] AS [MlLevelOld], 
     [tb_Move_Level_Detail].[MlStepOld] AS [MlStepOld], 
     [tb_Move_Level_Detail].[MlLevelNew] AS [MlLevelNew], 
@@ -2930,7 +2933,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="vw_Move_Level_Detail" EntityType="Self.vw_Move_Level_Detail" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [vw_Move_Level_Detail].[MlID] AS [MlID], 
-    [vw_Move_Level_Detail].[EmpID] AS [EmpID], 
+    [vw_Move_Level_Detail].[UserID] AS [UserID], 
     [vw_Move_Level_Detail].[FullName] AS [FullName], 
     [vw_Move_Level_Detail].[MlLevelOld] AS [MlLevelOld], 
     [vw_Move_Level_Detail].[MlStepOld] AS [MlStepOld], 
@@ -2946,8 +2949,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Move_Man_Power_Detail].[MopID] AS [MopID], 
     [vw_Move_Man_Power_Detail].[UserID] AS [UserID], 
     [vw_Move_Man_Power_Detail].[UserName] AS [UserName], 
-    [vw_Move_Man_Power_Detail].[UserPoCode] AS [UserPoCode], 
-    [vw_Move_Man_Power_Detail].[UserPoName] AS [UserPoName], 
+    [vw_Move_Man_Power_Detail].[CurPoID] AS [CurPoID], 
+    [vw_Move_Man_Power_Detail].[CurPoCode] AS [CurPoCode], 
+    [vw_Move_Man_Power_Detail].[CurPoName] AS [CurPoName], 
     [vw_Move_Man_Power_Detail].[MovPoID] AS [MovPoID], 
     [vw_Move_Man_Power_Detail].[MovPoCode] AS [MovPoCode], 
     [vw_Move_Man_Power_Detail].[MovPoName] AS [MovPoName], 
