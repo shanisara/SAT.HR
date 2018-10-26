@@ -84,7 +84,7 @@
     <div class="modal-dialog modal-large">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title"><span>ข้อมูลสมรรถนะ</span></h4>
+                <h4 class="modal-title"><span>ประเมินสมรรถนะ</span></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     <i class="material-icons">clear</i>
                 </button>
@@ -96,7 +96,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn btn-sm btn-primary" id="btnSave">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+                <button type="button" class="btn btn-sm btn-primary" id="btnSaveDetail">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
             </div>
         </div>
     </div>
@@ -253,6 +253,7 @@
 
             // Save record
             $("#btnSave").click(function () {
+                debugger;
                 var status = $("#formDetail").valid();
                 if (status) {
                     $.ajax({
@@ -276,7 +277,58 @@
 
             dataTable.getData();
 
+            $("#btnSaveDetail").click(function () {
 
+                debugger;
+
+                var postData = [];
+                var $tableList = $('#datatables');
+
+                if ($tableList.length > 0) {
+                    var $table = $('#datatables .roll-bind');
+                    //console.log($table.find('tr').length)
+                    $table.find('tr').each(function (i) {
+                        if ($(this).find('td').eq(0).text() != 'This field required.') {
+                            var capname = $(this).find('td').eq(2).text();
+                            var score1 = $(this).find('td').eq(3).text();
+                            var score2 = $(this).find('td').eq(4).text();
+                            var capdesc = $(this).find('td').eq(5).text();
+                            var capid = $(this).find("#cap_id").val();
+
+                            postData.push({ "CapDName": capname, "Score1": score1, "Score2": score2, "CapDDesc": capdesc, "CapDID": capid });
+                        }
+                    });
+                }
+                    var $tredit = $('.roll-edit tr');
+                    
+                    if ($tredit.length > 0) {
+                        var capname = $("#cap_name").text();
+                        var score1 = $("#score1").text();
+                        var score2 = $('#score2').text
+                        var capdesc = $('#cap_desc').text();
+                        var capid = $('#cap_id').val();
+
+                        postData.push({ "CapDName": capname, "Score1": score1, "Score2": score2, "CapDDesc": capdesc, "CapDID": capid });
+                    }
+                
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SaveCapabilityDetail", "Master")',
+                    data: JSON.stringify(postData),
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.MessageCode == null) {
+                            showSwal.saveMessage();
+                            dataTable.getData();
+                            $('#modalHeader').modal('hide');
+                        }
+                        else {
+                            alert(res.MessageText);
+                        }
+                    }
+                });
+            });
          
         });
     </script>

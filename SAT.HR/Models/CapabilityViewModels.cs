@@ -46,6 +46,8 @@ namespace SAT.HR.Models
         public int? Score1 { get; set; }
 
         public int? Score2 { get; set; }
+
+        public List<CapabilityDetailViewModel> _ListCapabilityDetail { get; set; }
     }
     
 

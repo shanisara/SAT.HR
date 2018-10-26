@@ -1,6 +1,5 @@
 ﻿@model List<SAT.HR.Models.CapabilityDetailViewModel>
 
-
 <style>
     .table thead tr th {
         font-size: 14px;
@@ -12,10 +11,11 @@
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formDetail" }))
 {
+   
     <div class="col-md-12">
         <div class="row">
             <div class="material-datatables">
-                <button class="btn btn-primary btn-sm pull-right" id="btnAddDetail"><i class="material-icons">add</i> เพิ่มรายการ</button>
+                <button type="button" class="btn btn-primary btn-sm pull-right" id="btnAddDetail"><i class="material-icons">add</i> เพิ่มรายการ</button>
                 <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
                     <thead>
                         <tr>
@@ -27,24 +27,25 @@
                             <th style="width:10%">ปฏิบัติการ</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="roll-bind">
                         @for (int i = 0; i < Model.Count; i++)
                         {
-                            <tr>
-                                <td>@(i + 1)</td>
-                                <td>@Model[i].CapDName</td>
-                                <td>@Model[i].Score1</td>
-                                <td>@Model[i].Score2</td>                                
-                                <td>@Html.TextAreaFor(model => model[i].CapDDesc, 5, 40, htmlAttributes: new { style = "width: 100%; max-width: 100%;" })</td>
-                                <td class="td-actions text-center">
+                            <tr>                                
+                                <td class="text-center countnumber">@(i + 1)</td>
+                                <td id="cap_name">@Model[i].CapDName</td>
+                                <td id="score1">@Model[i].Score1</td>
+                                <td id="score2">@Model[i].Score2</td>                                
+                                <td id="cap_desc">@Html.TextAreaFor(model => model[i].CapDDesc, 5, 40, htmlAttributes: new { style = "width: 100%; max-width: 100%;" })</td>
+                                <td class="td-actions text-center delete-detail">
                                     <button type="button" rel="tooltip" class="btn btn-round btn-danger delete" id="btnDelDetail"><i class="material-icons">close</i></button>
                                 </td>
+                                <td class="hidden">@Html.HiddenFor(model => model[i].CapDID, new { @class = "hidden", id = "cap_id" })</td>
                             </tr>
                         }
-                    </tbody>
-                    <tbody class="roll-add">
+                    </tbody>      
+                    <tbody  class="roll-add">
 
-                    </tbody>
+                    </tbody>              
                 </table>
             </div>
         </div>
@@ -55,19 +56,17 @@
 
         $("#btnAddDetail").click(function () {
             debugger;
+            var id = $(".countnumber").length + 1;
             var htmlAddroll = '<tr>'
-                                            + '<td class="text-center">' + 7 + '</td>';
-                                                //+ '<td class="text-center">' + courseName + '</td>'
-                                                //+ '<td class="text-center section"><input type="checkbox" id="Section" name="Section" ' + section + ' /></td>'
-                                                //+ '<td class="text-center group"><input type="checkbox" id="Group" name="Group" ' + group + ' /></td>'
-                                                //+ '<td class="text-center leader"><input type="checkbox" id="Leader" name="Leader" ' + leader + ' /></td>'
-                                                //+ '<td class="text-center staff"><input type="checkbox" id="Staff" name="Staff" ' + staff + ' /></td>'
-                                                //+ '<td class="text-center"><a class="btn btn-white text-danger deleteTbroll m-t-xs" href="javascript:void(0);" title="delete"><i class="fa fa-minus"></i></a><input value="0" class="roll-id" id="ListrollID" name="ListrollID" type="hidden"></td>'
-                                                //+ '<td class="hidden" id="idOffJT">' + id + '</td>';
+                                            + '<td text-center countnumber">' + id + '</td>'
+                                            + '<td id="cap_name"><input class="form-control"></td>'
+                                            + '<td id="score1"></td>'
+                                            + '<td id="score2"></td>'
+                                            + '<td id="cap_desc"><textarea cols="40" name="CapDDesc" rows="5" style="width: 100%; max-width: 100%;"></textarea></td>'
+                                            + '<td class="td-actions text-center delete-detail"><button type="button" rel="tooltip" class="btn btn-round btn-danger delete" id="btnDelDetail"><i class="material-icons">close</i></button></td>';
                 +'</tr>'
                 $('.roll-add').append(htmlAddroll);
-            });
-
+            });        
     });
     </script>
 }
