@@ -392,7 +392,7 @@
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
         </EntityType>
-        <EntityType Name="tb_DocNumber">
+        <EntityType Name="tb_Document_Number">
           <Key>
             <PropertyRef Name="ObjectID" />
           </Key>
@@ -408,6 +408,13 @@
           <Property Name="ResetYear" Type="bit" />
           <Property Name="LastMonth" Type="int" />
           <Property Name="LastYear" Type="int" />
+        </EntityType>
+        <EntityType Name="tb_Document_Type">
+          <Key>
+            <PropertyRef Name="DocType" />
+          </Key>
+          <Property Name="DocType" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ContentType" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="tb_Education">
           <Key>
@@ -821,6 +828,13 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.tb_SubDistrict' does not have a pr
           <Property Name="TtID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TtName" Type="nvarchar" MaxLength="200" />
         </EntityType>
+        <EntityType Name="tb_Transfer_Type">
+          <Key>
+            <PropertyRef Name="TransTID" />
+          </Key>
+          <Property Name="TransTID" Type="int" Nullable="false" />
+          <Property Name="TransTName" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="tb_User">
           <Key>
             <PropertyRef Name="UserID" />
@@ -1219,6 +1233,25 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Level_Detail' does not hav
           <Property Name="MlStepNew" Type="decimal" Precision="18" Scale="2" />
           <Property Name="MlSalaryNew" Type="decimal" Precision="18" Scale="2" />
           <Property Name="MlRemark" Type="nvarchar" MaxLength="400" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Level_Head' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_Move_Level_Head">
+          <Key>
+            <PropertyRef Name="MlID" />
+          </Key>
+          <Property Name="MlID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MlYear" Type="int" />
+          <Property Name="MlBookCmd" Type="nvarchar" MaxLength="200" />
+          <Property Name="MlDateCmd" Type="date" />
+          <Property Name="MlSignatory" Type="nvarchar" MaxLength="200" />
+          <Property Name="MIPathFile" Type="nvarchar(max)" />
+          <Property Name="MlStatus" Type="bit" />
+          <Property Name="MlTotal" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Man_Power_Detail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2752,7 +2785,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_Discipline" EntityType="Self.tb_Discipline" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_District" EntityType="Self.tb_District" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Division" EntityType="Self.tb_Division" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tb_DocNumber" EntityType="Self.tb_DocNumber" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Document_Number" EntityType="Self.tb_Document_Number" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Document_Type" EntityType="Self.tb_Document_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Education" EntityType="Self.tb_Education" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Empower" EntityType="Self.tb_Empower" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Excellent_Type" EntityType="Self.tb_Excellent_Type" Schema="dbo" store:Type="Tables" />
@@ -2788,6 +2822,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_SysConfig" EntityType="Self.tb_SysConfig" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Title" EntityType="Self.tb_Title" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Training_Type" EntityType="Self.tb_Training_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Transfer_Type" EntityType="Self.tb_Transfer_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_User" EntityType="Self.tb_User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_User_Certificate" EntityType="Self.tb_User_Certificate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_User_Education" EntityType="Self.tb_User_Education" Schema="dbo" store:Type="Tables" />
@@ -2922,6 +2957,22 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Move_Level_Detail].[MlSalaryNew] AS [MlSalaryNew], 
     [vw_Move_Level_Detail].[MlRemark] AS [MlRemark]
     FROM [dbo].[vw_Move_Level_Detail] AS [vw_Move_Level_Detail]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_Move_Level_Head" EntityType="Self.vw_Move_Level_Head" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_Move_Level_Head].[MlID] AS [MlID], 
+    [vw_Move_Level_Head].[MlYear] AS [MlYear], 
+    [vw_Move_Level_Head].[MlBookCmd] AS [MlBookCmd], 
+    [vw_Move_Level_Head].[MlDateCmd] AS [MlDateCmd], 
+    [vw_Move_Level_Head].[MlSignatory] AS [MlSignatory], 
+    [vw_Move_Level_Head].[MIPathFile] AS [MIPathFile], 
+    [vw_Move_Level_Head].[MlStatus] AS [MlStatus], 
+    [vw_Move_Level_Head].[MlTotal] AS [MlTotal], 
+    [vw_Move_Level_Head].[CreateDate] AS [CreateDate], 
+    [vw_Move_Level_Head].[CreateBy] AS [CreateBy], 
+    [vw_Move_Level_Head].[ModifyDate] AS [ModifyDate], 
+    [vw_Move_Level_Head].[ModifyBy] AS [ModifyBy]
+    FROM [dbo].[vw_Move_Level_Head] AS [vw_Move_Level_Head]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_Move_Man_Power_Detail" EntityType="Self.vw_Move_Man_Power_Detail" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -3709,7 +3760,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_Discipline" EntityType="SAT.HR.tb_Discipline" />
           <EntitySet Name="tb_District" EntityType="SAT.HR.tb_District" />
           <EntitySet Name="tb_Division" EntityType="SAT.HR.tb_Division" />
-          <EntitySet Name="tb_DocNumber" EntityType="SAT.HR.tb_DocNumber" />
           <EntitySet Name="tb_Education" EntityType="SAT.HR.tb_Education" />
           <EntitySet Name="tb_Empower" EntityType="SAT.HR.tb_Empower" />
           <EntitySet Name="tb_Holiday" EntityType="SAT.HR.tb_Holiday" />
@@ -4120,6 +4170,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="vw_Move_Man_Power_Detail" EntityType="SAT.HR.vw_Move_Man_Power_Detail" />
           <EntitySet Name="tb_Move_Level_Detail" EntityType="SAT.HR.tb_Move_Level_Detail" />
           <EntitySet Name="vw_Move_Level_Detail" EntityType="SAT.HR.vw_Move_Level_Detail" />
+          <EntitySet Name="tb_Transfer_Type" EntityType="SAT.HR.tb_Transfer_Type" />
+          <EntitySet Name="vw_Move_Level_Head" EntityType="SAT.HR.vw_Move_Level_Head" />
+          <EntitySet Name="tb_Document_Number" EntityType="SAT.HR.tb_Document_Number" />
+          <EntitySet Name="tb_Document_Type" EntityType="SAT.HR.tb_Document_Type" />
           </EntityContainer>
         <ComplexType Name="sp_Menu_GetByUser_Result">
           <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -4617,23 +4671,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <NavigationProperty Name="tb_Man_Power" Relationship="SAT.HR.FK_tb_Man_Power_tb_Division" FromRole="tb_Division" ToRole="tb_Man_Power" />
           <NavigationProperty Name="tb_Section" Relationship="SAT.HR.FK_tb_Section_tb_Division" FromRole="tb_Division" ToRole="tb_Section" />
           <NavigationProperty Name="tb_User_Position" Relationship="SAT.HR.FK_tb_User_Position_tb_Division" FromRole="tb_Division" ToRole="tb_User_Position" />
-        </EntityType>
-        <EntityType Name="tb_DocNumber">
-          <Key>
-            <PropertyRef Name="ObjectID" />
-          </Key>
-          <Property Name="ObjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DocCode" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="DocName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Prefix" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Suffix" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="NumLength" Type="Int32" />
-          <Property Name="CurrentNum" Type="Int32" />
-          <Property Name="ZeroContain" Type="Boolean" />
-          <Property Name="ResetMonth" Type="Boolean" />
-          <Property Name="ResetYear" Type="Boolean" />
-          <Property Name="LastMonth" Type="Int32" />
-          <Property Name="LastYear" Type="Int32" />
         </EntityType>
         <EntityType Name="tb_Education">
           <Key>
@@ -6996,6 +7033,54 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="MlSalaryNew" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="MlRemark" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="tb_Transfer_Type">
+          <Key>
+            <PropertyRef Name="TransTID" />
+          </Key>
+          <Property Name="TransTID" Type="Int32" Nullable="false" />
+          <Property Name="TransTName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="vw_Move_Level_Head">
+          <Key>
+            <PropertyRef Name="MlID" />
+          </Key>
+          <Property Name="MlID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MlYear" Type="Int32" />
+          <Property Name="MlBookCmd" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MlDateCmd" Type="DateTime" Precision="0" />
+          <Property Name="MlSignatory" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MIPathFile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MlStatus" Type="Boolean" />
+          <Property Name="MlTotal" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tb_Document_Number">
+          <Key>
+            <PropertyRef Name="ObjectID" />
+          </Key>
+          <Property Name="ObjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DocCode" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DocName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Prefix" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Suffix" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="NumLength" Type="Int32" />
+          <Property Name="CurrentNum" Type="Int32" />
+          <Property Name="ZeroContain" Type="Boolean" />
+          <Property Name="ResetMonth" Type="Boolean" />
+          <Property Name="ResetYear" Type="Boolean" />
+          <Property Name="LastMonth" Type="Int32" />
+          <Property Name="LastYear" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tb_Document_Type">
+          <Key>
+            <PropertyRef Name="DocType" />
+          </Key>
+          <Property Name="DocType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContentType" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7483,24 +7568,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="DivStatus" ColumnName="DivStatus" />
                 <ScalarProperty Name="DivName" ColumnName="DivName" />
                 <ScalarProperty Name="DivID" ColumnName="DivID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tb_DocNumber">
-            <EntityTypeMapping TypeName="SAT.HR.tb_DocNumber">
-              <MappingFragment StoreEntitySet="tb_DocNumber">
-                <ScalarProperty Name="LastYear" ColumnName="LastYear" />
-                <ScalarProperty Name="LastMonth" ColumnName="LastMonth" />
-                <ScalarProperty Name="ResetYear" ColumnName="ResetYear" />
-                <ScalarProperty Name="ResetMonth" ColumnName="ResetMonth" />
-                <ScalarProperty Name="ZeroContain" ColumnName="ZeroContain" />
-                <ScalarProperty Name="CurrentNum" ColumnName="CurrentNum" />
-                <ScalarProperty Name="NumLength" ColumnName="NumLength" />
-                <ScalarProperty Name="Suffix" ColumnName="Suffix" />
-                <ScalarProperty Name="Prefix" ColumnName="Prefix" />
-                <ScalarProperty Name="DocName" ColumnName="DocName" />
-                <ScalarProperty Name="DocCode" ColumnName="DocCode" />
-                <ScalarProperty Name="ObjectID" ColumnName="ObjectID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -8757,6 +8824,58 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="MlID" ColumnName="MlID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Transfer_Type">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Transfer_Type">
+              <MappingFragment StoreEntitySet="tb_Transfer_Type">
+                <ScalarProperty Name="TransTName" ColumnName="TransTName" />
+                <ScalarProperty Name="TransTID" ColumnName="TransTID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_Move_Level_Head">
+            <EntityTypeMapping TypeName="SAT.HR.vw_Move_Level_Head">
+              <MappingFragment StoreEntitySet="vw_Move_Level_Head">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="MlTotal" ColumnName="MlTotal" />
+                <ScalarProperty Name="MlStatus" ColumnName="MlStatus" />
+                <ScalarProperty Name="MIPathFile" ColumnName="MIPathFile" />
+                <ScalarProperty Name="MlSignatory" ColumnName="MlSignatory" />
+                <ScalarProperty Name="MlDateCmd" ColumnName="MlDateCmd" />
+                <ScalarProperty Name="MlBookCmd" ColumnName="MlBookCmd" />
+                <ScalarProperty Name="MlYear" ColumnName="MlYear" />
+                <ScalarProperty Name="MlID" ColumnName="MlID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Document_Number">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Document_Number">
+              <MappingFragment StoreEntitySet="tb_Document_Number">
+                <ScalarProperty Name="LastYear" ColumnName="LastYear" />
+                <ScalarProperty Name="LastMonth" ColumnName="LastMonth" />
+                <ScalarProperty Name="ResetYear" ColumnName="ResetYear" />
+                <ScalarProperty Name="ResetMonth" ColumnName="ResetMonth" />
+                <ScalarProperty Name="ZeroContain" ColumnName="ZeroContain" />
+                <ScalarProperty Name="CurrentNum" ColumnName="CurrentNum" />
+                <ScalarProperty Name="NumLength" ColumnName="NumLength" />
+                <ScalarProperty Name="Suffix" ColumnName="Suffix" />
+                <ScalarProperty Name="Prefix" ColumnName="Prefix" />
+                <ScalarProperty Name="DocName" ColumnName="DocName" />
+                <ScalarProperty Name="DocCode" ColumnName="DocCode" />
+                <ScalarProperty Name="ObjectID" ColumnName="ObjectID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Document_Type">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Document_Type">
+              <MappingFragment StoreEntitySet="tb_Document_Type">
+                <ScalarProperty Name="ContentType" ColumnName="ContentType" />
+                <ScalarProperty Name="DocType" ColumnName="DocType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

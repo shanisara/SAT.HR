@@ -50,7 +50,6 @@
     <EntitySet Name="tb_Discipline" EntityType="SAT.HR.tb_Discipline" />
     <EntitySet Name="tb_District" EntityType="SAT.HR.tb_District" />
     <EntitySet Name="tb_Division" EntityType="SAT.HR.tb_Division" />
-    <EntitySet Name="tb_DocNumber" EntityType="SAT.HR.tb_DocNumber" />
     <EntitySet Name="tb_Education" EntityType="SAT.HR.tb_Education" />
     <EntitySet Name="tb_Empower" EntityType="SAT.HR.tb_Empower" />
     <EntitySet Name="tb_Holiday" EntityType="SAT.HR.tb_Holiday" />
@@ -461,6 +460,10 @@
     <EntitySet Name="vw_Move_Man_Power_Detail" EntityType="SAT.HR.vw_Move_Man_Power_Detail" />
     <EntitySet Name="tb_Move_Level_Detail" EntityType="SAT.HR.tb_Move_Level_Detail" />
     <EntitySet Name="vw_Move_Level_Detail" EntityType="SAT.HR.vw_Move_Level_Detail" />
+    <EntitySet Name="tb_Transfer_Type" EntityType="SAT.HR.tb_Transfer_Type" />
+    <EntitySet Name="vw_Move_Level_Head" EntityType="SAT.HR.vw_Move_Level_Head" />
+    <EntitySet Name="tb_Document_Number" EntityType="SAT.HR.tb_Document_Number" />
+    <EntitySet Name="tb_Document_Type" EntityType="SAT.HR.tb_Document_Type" />
   </EntityContainer>
   <ComplexType Name="sp_Menu_GetByUser_Result">
     <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -958,23 +961,6 @@
     <NavigationProperty Name="tb_Man_Power" Relationship="SAT.HR.FK_tb_Man_Power_tb_Division" FromRole="tb_Division" ToRole="tb_Man_Power" />
     <NavigationProperty Name="tb_Section" Relationship="SAT.HR.FK_tb_Section_tb_Division" FromRole="tb_Division" ToRole="tb_Section" />
     <NavigationProperty Name="tb_User_Position" Relationship="SAT.HR.FK_tb_User_Position_tb_Division" FromRole="tb_Division" ToRole="tb_User_Position" />
-  </EntityType>
-  <EntityType Name="tb_DocNumber">
-    <Key>
-      <PropertyRef Name="ObjectID" />
-    </Key>
-    <Property Name="ObjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="DocCode" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-    <Property Name="DocName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-    <Property Name="Prefix" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-    <Property Name="Suffix" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-    <Property Name="NumLength" Type="Int32" />
-    <Property Name="CurrentNum" Type="Int32" />
-    <Property Name="ZeroContain" Type="Boolean" />
-    <Property Name="ResetMonth" Type="Boolean" />
-    <Property Name="ResetYear" Type="Boolean" />
-    <Property Name="LastMonth" Type="Int32" />
-    <Property Name="LastYear" Type="Int32" />
   </EntityType>
   <EntityType Name="tb_Education">
     <Key>
@@ -3336,5 +3322,53 @@
     <Property Name="MlStepNew" Type="Decimal" Precision="18" Scale="2" />
     <Property Name="MlSalaryNew" Type="Decimal" Precision="18" Scale="2" />
     <Property Name="MlRemark" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tb_Transfer_Type">
+    <Key>
+      <PropertyRef Name="TransTID" />
+    </Key>
+    <Property Name="TransTID" Type="Int32" Nullable="false" />
+    <Property Name="TransTName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="vw_Move_Level_Head">
+    <Key>
+      <PropertyRef Name="MlID" />
+    </Key>
+    <Property Name="MlID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MlYear" Type="Int32" />
+    <Property Name="MlBookCmd" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="MlDateCmd" Type="DateTime" Precision="0" />
+    <Property Name="MlSignatory" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="MIPathFile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="MlStatus" Type="Boolean" />
+    <Property Name="MlTotal" Type="Int32" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tb_Document_Number">
+    <Key>
+      <PropertyRef Name="ObjectID" />
+    </Key>
+    <Property Name="ObjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DocCode" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="DocName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Prefix" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Suffix" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="NumLength" Type="Int32" />
+    <Property Name="CurrentNum" Type="Int32" />
+    <Property Name="ZeroContain" Type="Boolean" />
+    <Property Name="ResetMonth" Type="Boolean" />
+    <Property Name="ResetYear" Type="Boolean" />
+    <Property Name="LastMonth" Type="Int32" />
+    <Property Name="LastYear" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tb_Document_Type">
+    <Key>
+      <PropertyRef Name="DocType" />
+    </Key>
+    <Property Name="DocType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ContentType" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
   </EntityType>
 </Schema>

@@ -15,7 +15,7 @@ namespace SAT.HR.Models
         public string MlSignatory { get; set; }
         public string MIPathFile { get; set; }
         public Nullable<bool> MlStatus { get; set; }
-        public int MlTotal { get; set; }
+        public int? MlTotal { get; set; }
         public string MlDateCmdText { get; set; }
         public string MlStatusName { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }

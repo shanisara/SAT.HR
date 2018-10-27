@@ -56,7 +56,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Discipline> tb_Discipline { get; set; }
         public virtual DbSet<tb_District> tb_District { get; set; }
         public virtual DbSet<tb_Division> tb_Division { get; set; }
-        public virtual DbSet<tb_DocNumber> tb_DocNumber { get; set; }
         public virtual DbSet<tb_Education> tb_Education { get; set; }
         public virtual DbSet<tb_Empower> tb_Empower { get; set; }
         public virtual DbSet<tb_Holiday> tb_Holiday { get; set; }
@@ -127,6 +126,10 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Move_Man_Power_Detail> vw_Move_Man_Power_Detail { get; set; }
         public virtual DbSet<tb_Move_Level_Detail> tb_Move_Level_Detail { get; set; }
         public virtual DbSet<vw_Move_Level_Detail> vw_Move_Level_Detail { get; set; }
+        public virtual DbSet<tb_Transfer_Type> tb_Transfer_Type { get; set; }
+        public virtual DbSet<vw_Move_Level_Head> vw_Move_Level_Head { get; set; }
+        public virtual DbSet<tb_Document_Number> tb_Document_Number { get; set; }
+        public virtual DbSet<tb_Document_Type> tb_Document_Type { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {

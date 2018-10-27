@@ -166,6 +166,39 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathUploadUserPosition");
             }
         }
+
+        public static string PathUploadLevelTransfer
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathUploadLevelTransfer");
+            }
+        }
+
+        public static string PathUploadPositionTransfer
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathUploadPositionTransfer");
+            }
+        }
+
+        public static string PathDownloadLevelTransfer
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathDownloadLevelTransfer");
+            }
+        }
+
+        public static string PathDownloadPositionTransfer
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathDownloadPositionTransfer");
+            }
+        }
+
     }
 
 

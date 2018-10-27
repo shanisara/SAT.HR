@@ -3,6 +3,7 @@ using SAT.HR.Helpers;
 using SAT.HR.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -19,7 +20,7 @@ namespace SAT.HR.Data.Repository
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    var data = db.tb_Move_Level_Head.ToList();
+                    var data = db.vw_Move_Level_Head.ToList();
 
                     int recordsTotal = data.Count();
 
@@ -51,9 +52,9 @@ namespace SAT.HR.Data.Repository
                         model.MlID = item.MlID;
                         model.MlYear = item.MlYear;
                         model.MlBookCmd = item.MlBookCmd;
-                        model.MlTotal = 0; // item.MlTotal;
+                        model.MlTotal = item.MlTotal;
                         model.MlDateCmd = item.MlDateCmd;
-                        model.MlDateCmdText = (item.MlDateCmd.HasValue) ? item.MlDateCmd.Value.ToString("dd/MM/yyy") : string.Empty;
+                        model.MlDateCmdText = (item.MlDateCmd.HasValue) ? item.MlDateCmd.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.CreateDateText = item.CreateDate.Value.ToString("dd/MM/yyy");
                         model.MlStatusName = (item.MlStatus.HasValue) ? "ยืนยันแล้ว" : "";
                         model.recordsTotal = recordsTotal;
@@ -179,23 +180,27 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    //if (fileUpload != null && fileUpload.ContentLength > 0)
-                    //{
-                    //    var fileName = Path.GetFileName(fileUpload.FileName);
-                    //    var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
+                    if (data.fileUpload != null)
+                    {
+                        HttpPostedFileBase fileUpload = data.fileUpload;
+                        if (fileUpload != null && fileUpload.ContentLength > 0)
+                        {
+                            var fileName = Path.GetFileName(fileUpload.FileName);
+                            var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
 
-                    //    string directory = SysConfig.PathUploadLevelTransfer;
-                    //    bool isExists = System.IO.Directory.Exists(directory);
-                    //    if (!isExists)
-                    //        System.IO.Directory.CreateDirectory(directory);
+                            string directory = SysConfig.PathUploadLevelTransfer;
+                            bool isExists = System.IO.Directory.Exists(directory);
+                            if (!isExists)
+                                System.IO.Directory.CreateDirectory(directory);
 
-                    //    string newFileName = newdata.UserID.ToString() + DateTime.Now.ToString("_yyyyMMdd_hhmmss") + "." + fileExt;
-                    //    string fileLocation = Path.Combine(directory, newFileName);
+                            string newFileName = " คส.ที่ " + data.MlBookCmd + " เรื่องการแต่งตั้งเลื่อนระดับพนักงาน" + "." + fileExt;
+                            string fileLocation = Path.Combine(directory, newFileName);
 
-                    //    fileUpload.SaveAs(fileLocation);
+                            fileUpload.SaveAs(fileLocation);
 
-                    //    newdata.UpPathFile = newFileName;
-                    //}
+                            data.MIPathFile = newFileName;
+                        }
+                    }
 
                     tb_Move_Level_Head head = new tb_Move_Level_Head();
                     head.MlYear = data.MlYear;
@@ -229,11 +234,12 @@ namespace SAT.HR.Data.Repository
                         db.tb_Move_Level_Detail.Add(detail);
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
                 }
-                
+
                 return result;
             }
         }
@@ -245,6 +251,28 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
+                    if (newdata.fileUpload != null)
+                    {
+                        HttpPostedFileBase fileUpload = newdata.fileUpload;
+                        if (fileUpload != null && fileUpload.ContentLength > 0)
+                        {
+                            var fileName = Path.GetFileName(fileUpload.FileName);
+                            var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
+
+                            string directory = SysConfig.PathUploadLevelTransfer;
+                            bool isExists = System.IO.Directory.Exists(directory);
+                            if (!isExists)
+                                System.IO.Directory.CreateDirectory(directory);
+
+                            string newFileName = " คส.ที่ " + newdata.MlBookCmd + " เรื่องการแต่งตั้งเลื่อนระดับพนักงาน" + "." + fileExt;
+                            string fileLocation = Path.Combine(directory, newFileName);
+
+                            fileUpload.SaveAs(fileLocation);
+
+                            newdata.MIPathFile = newFileName;
+                        }
+                    }
+
                     var head = db.tb_Move_Level_Head.Single(x => x.MlID == newdata.MlID);
                     head.MlID = newdata.MlID;
                     head.MlYear = newdata.MlYear;
@@ -281,10 +309,67 @@ namespace SAT.HR.Data.Repository
                 }
                 catch (Exception ex)
                 {
-
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
                 }
                 return result;
             }
+        }
+
+        public ResponseData DeleteLevelTransfer(int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var itemdelete = db.tb_Move_Level_Head.Where(x => x.MlID == id).FirstOrDefault();
+                    db.tb_Move_Level_Head.Remove(itemdelete);
+                    db.SaveChanges();
+
+                    var listdelete = db.tb_Move_Level_Detail.Where(x => x.MlID == id).ToList();
+                    db.tb_Move_Level_Detail.RemoveRange(listdelete);
+                    db.SaveChanges();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                result.MessageCode = "";
+                result.MessageText = ex.Message;
+            }
+            return result;
+        }
+
+        public FileViewModel DownloadFileLevelTransfer(int? id)
+        {
+            FileViewModel model = new FileViewModel();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var data = GetByID(id);
+                    string filename = data.MIPathFile;
+
+                    string[] fileSplit = filename.Split('.');
+                    int length = fileSplit.Length - 1;
+                    string fileExt = fileSplit[length].ToUpper();
+
+                    var doctype = db.tb_Document_Type.Where(x => x.DocType == fileExt).FirstOrDefault();
+                    string Contenttype = doctype.ContentType;
+
+                    string filepath = SysConfig.PathDownloadLevelTransfer;
+
+                    model.FileName = filename;
+                    model.FilePath = filepath;
+                    model.ContentType = Contenttype;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return model;
         }
 
     }

@@ -14,6 +14,8 @@ namespace SAT.HR.Models
 
         public string KeyDesc { get; set; }
 
+        public Nullable<bool> Visible { get; set; }
+
         public DateTime? CreateDate { get; set; }
 
         public Nullable<int> CreateBy { get; set; }

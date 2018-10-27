@@ -636,6 +636,21 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult DeleteLevelTransfer(int id)
+        {
+            var result = new LevelTransferRepository().DeleteLevelTransfer(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public FileResult DownloadFileLevelTransfer(int id)
+        {
+            var result = new LevelTransferRepository().DownloadFileLevelTransfer(id);
+            string fileName = result.FileName;
+            string filePath = result.FilePath;
+            string contentType = result.ContentType;
+            return new FilePathResult(Path.Combine(filePath, fileName), contentType);
+        }
 
         #endregion
 

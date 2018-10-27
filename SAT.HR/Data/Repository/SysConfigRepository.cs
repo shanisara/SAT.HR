@@ -38,7 +38,7 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.tb_SysConfig.Select(s => new SysConfigViewModel()
+                var data = db.tb_SysConfig.Where(w => w.Visible == true).Select(s => new SysConfigViewModel()
                 {
                     KeyName = s.KeyName,
                     KeyValue = s.KeyValue,

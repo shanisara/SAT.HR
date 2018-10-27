@@ -225,6 +225,8 @@
             }
         });
 
+       
+
         var DropDownList = {
             getDepartment: function (el, divid) {
                 $.ajax({
@@ -473,39 +475,7 @@
             window.location.href = url;
         });
 
-        $(".save-employee").click(function () {
-            var form = $('.form-employee')[0];
-            var data = new FormData(form);
-            data.append(".fileUpload", file);
-
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("SaveEmployee", "Employee")',
-                data: data, /*$(".form-employee").serialize(),*/
-                success: function (res) {
-                    if (res.MessageCode == null) {
-                        swal({
-                            title: "",
-                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
-                            type: "success",
-                            confirmButtonClass: "btn btn-primary",
-                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                            buttonsStyling: false
-                        }).catch(swal.noop);
-                    }
-                    else {
-                        swal({
-                            title: '',
-                            text: res.MessageText,
-                            type: 'error',
-                            confirmButtonClass: "btn btn-primary",
-                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                            buttonsStyling: false
-                        }).catch(swal.noop);
-                    }
-                }
-            });
-        });
+        
     });
 </script>
 

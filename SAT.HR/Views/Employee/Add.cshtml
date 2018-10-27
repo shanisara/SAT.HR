@@ -138,21 +138,19 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             @Html.Label("คำนำหน้า (ไทย)", null, new { @class = "label-select" })
-                                            @Html.DropDownListFor(n => n.TitleID, new SelectList((IEnumerable<SelectListItem>)ViewBag.UserTitle, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                            @Html.DropDownListFor(n => n.TitleID, new SelectList((IEnumerable<SelectListItem>)ViewBag.UserTitle, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group bmd-form-group">
                                             @Html.Label("ชื่อ (ไทย)", null, new { @class = "bmd-label-floating" })
-                                            @Html.TextBoxFor(m => m.FirstNameTh, new { @class = "form-control", required = "true" })
-                                            @Html.ValidationMessageFor(m => m.FirstNameTh)
+                                            @Html.TextBoxFor(m => m.FirstNameTh, new { @class = "form-control" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group bmd-form-group">
                                             @Html.Label("นามสกุล (ไทย)", null, new { @class = "bmd-label-floating" })
-                                            @Html.TextBoxFor(m => m.LastNameTh, new { @class = "form-control", required = "true" })
-                                            @Html.ValidationMessageFor(m => m.LastNameTh)
+                                            @Html.TextBoxFor(m => m.LastNameTh, new { @class = "form-control" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -166,7 +164,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group bmd-form-group">
                                             @Html.Label("เลขประจำตัวประชาชน", null, new { @class = "bmd-label-floating" })
-                                            @Html.TextBoxFor(m => m.IDCard, new { @class = "form-control", required = "true" })
+                                            @Html.TextBoxFor(m => m.IDCard, new { @class = "form-control" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -184,7 +182,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             @Html.Label("ประเภทการเข้าปฏิบัติงาน", null, new { @class = "label-select" })
-                                            @Html.DropDownListFor(n => n.WorkingTypeID, new SelectList((IEnumerable<SelectListItem>)ViewBag.WorkingType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                                            @Html.DropDownListFor(n => n.WorkingTypeID, new SelectList((IEnumerable<SelectListItem>)ViewBag.WorkingType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
                                         </div>
                                     </div>
                                 </div>
@@ -442,6 +440,33 @@
             }
         });
 
+        var $validator = $('.form-employee').validate({
+            rules: {
+                FirstNameTh: {
+                    required: true,
+                    minlength: 3
+                },
+                LastNameTh: {
+                    required: true,
+                    minlength: 3,
+                },
+                IDCard: {
+                    required: true,
+                    minlength: 13
+                }
+            },
+            highlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-danger');
+            },
+            success: function (element) {
+                $(element).closest('.form-group').removeClass('has-danger').addClass('has-success');
+            },
+            errorPlacement: function (error, element) {
+                $(element).append(error);
+            }
+        });
+
+
         var DropDownList = {
             getDepartment: function (el, divid) {
                 $.ajax({
@@ -581,41 +606,51 @@
         });
 
         $(".btn-save").click(function () {
-            var form = $('.form-employee')[0];
-            var data = new FormData(form);
-            data.append(".fileUpload", fileUpload);
+            var $valid = $('.form-employee').valid();
+            if (!$valid) {
+                $validator.focusInvalid();
+                return false;
+            }
+            else {
+                var form = $('.form-employee')[0];
+                var data = new FormData(form);
+                data.append(".fileUpload", fileUpload);
 
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("SaveEmployee", "Employee")',
-                data: data, /*$(".form-employee").serialize(),*/
-                success: function (res) {
-                    if (res.MessageCode == null) {
-                        swal({
-                            title: "",
-                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
-                            type: "success",
-                            confirmButtonClass: "btn btn-primary",
-                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                            buttonsStyling: false,
-                        }).then(function () {
-                            var type = $('#UserType').val();
-                            var url = '@Url.Action("Detail", "Employee")/' + res.ID + '?type=' + type;
-                            window.location.href = url;
-                        });
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SaveEmployee", "Employee")',
+                    data: data, /*$(".form-employee").serialize(),*/
+                    enctype: 'multipart/form-data',
+                    processData: false,
+                    contentType: false,
+                    success: function (res) {
+                        if (res.MessageCode == null) {
+                            swal({
+                                title: "",
+                                text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                                type: "success",
+                                confirmButtonClass: "btn btn-primary",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                buttonsStyling: false,
+                            }).then(function () {
+                                var type = $('#UserType').val();
+                                var url = '@Url.Action("Detail", "Employee")/' + res.ID + '?type=' + type;
+                                window.location.href = url;
+                            });
+                        }
+                        else {
+                            swal({
+                                title: '',
+                                text: res.MessageText,
+                                type: 'error',
+                                confirmButtonClass: "btn btn-primary",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                buttonsStyling: false
+                            }).catch(swal.noop);
+                        }
                     }
-                    else {
-                        swal({
-                            title: '',
-                            text: res.MessageText,
-                            type: 'error',
-                            confirmButtonClass: "btn btn-primary",
-                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                            buttonsStyling: false
-                        }).catch(swal.noop);
-                    }
-                }
-            });
+                });
+            }
         });
 
     });
