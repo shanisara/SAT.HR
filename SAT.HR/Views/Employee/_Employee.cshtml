@@ -1,5 +1,12 @@
 ﻿@model SAT.HR.Models.EmployeeViewModel
 
+<style>
+    .bmd-form-group .bmd-label-fixed {
+        top: -1rem;
+        font-size: .6875rem;
+    }
+</style>
+
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-employee" }))
 {
     @Html.AntiForgeryToken()
@@ -34,7 +41,7 @@
                                                 <span class="btn btn-round btn-file">
                                                     <span class="fileinput-new">Select image</span>
                                                     <span class="fileinput-exists">เปลี่ยน</span>
-                                                    <input type="hidden"><input type="file" id="fileUpload" name="fileUpload">
+                                                    <input type="hidden"><input type="file" id="fileUpload" name="fileUpload" class="">
                                                 </span>
                                                 <a class="btn btn-danger btn-round fileinput-exists" href="#" data-dismiss="fileinput"><i class="fa fa-times"></i> ลบ</a>
                                             </div>
@@ -127,7 +134,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row m-b-30">
+                                <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             @Html.Label("เชื้อชาติ", null, new { @class = "label-select" })
@@ -157,13 +164,13 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group bmd-form-group">
-                                            @Html.Label("วันเกิด", null, new { @class = "bmd-label-floating" })
+                                            @Html.Label("วันเกิด", null, new { @class = "bmd-label-fixed" })
                                             @Html.TextBoxFor(m => m.Birthday, new { @class = "form-control datepicker" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group bmd-form-group">
-                                            @Html.Label("อายุ (ปี)", null, new { @class = "bmd-label-floating" })
+                                            @Html.Label("อายุ (ปี)", null, new { @class = "bmd-label-fixed" })
                                             @Html.TextBoxFor(m => m.Age, new { @class = "form-control", @disabled = true })
                                         </div>
                                     </div>
@@ -184,7 +191,7 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group bmd-form-group">
-                                            @Html.Label("วันที่บรรจุ", null, new { @class = "bmd-label-floating" })
+                                            @Html.Label("วันที่บรรจุ", null, new { @class = "bmd-label-fixed" })
                                             @Html.TextBoxFor(m => m.StartWorkDate, new { @class = "form-control datepicker" })
                                         </div>
                                     </div>
@@ -223,25 +230,20 @@
                             </div>
                             <div class="card-body m-b-20">
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            @Html.Label("ตำแหน่ง", null, new { @class = "label-select" })
-                                            @Html.DropDownListFor(n => n.PoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
+                                    
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             @Html.Label("ระดับ", null, new { @class = "label-select" })
                                             @Html.DropDownListFor(n => n.SalaryLevel, new SelectList((IEnumerable<SelectListItem>)ViewBag.SalaryLevel, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             @Html.Label("ขั้นเงินเดือน", null, new { @class = "label-select" })
                                             @Html.DropDownListFor(n => n.SalaryStep, new SelectList((IEnumerable<SelectListItem>)ViewBag.SalaryStep, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-4">
                                         <div class="form-group bmd-form-group">
                                             @Html.Label("เงินเดือน", null, new { @class = "bmd-label-floating" })
                                             @Html.TextBoxFor(m => m.Salary, new { @class = "form-control" })
@@ -265,6 +267,14 @@
                                         <div class="form-group">
                                             @Html.Label("งาน", null, new { @class = "label-select" })
                                             @Html.DropDownListFor(n => n.SecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Section, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.Label("ตำแหน่ง", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.PoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
                                         </div>
                                     </div>
                                 </div>
@@ -333,12 +343,6 @@
                                             @Html.DropDownListFor(n => n.PoTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.PositionType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
                                         </div>
                                     </div>
-                                    <div class="col-md-8">
-                                        <div class="form-group">
-                                            @Html.Label("ตำแหน่ง", null, new { @class = "label-select" })
-                                            @Html.DropDownListFor(n => n.AgentPoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.AgentPosition, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
@@ -357,6 +361,14 @@
                                         <div class="form-group">
                                             @Html.Label("งาน", null, new { @class = "label-select" })
                                             @Html.DropDownListFor(n => n.AgentSecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.AgentSection, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.Label("ตำแหน่ง", null, new { @class = "label-select" })
+                                            @Html.DropDownListFor(n => n.AgentPoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.AgentPosition, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
                                         </div>
                                     </div>
                                 </div>
@@ -517,7 +529,224 @@
         </div>
     </div>
 }
+
+<script src="~/Content/assets/js/plugins/accounting.js"></script>
 <script>
+
+    $('.datepicker').datetimepicker({
+        format: 'DD/MM/YYYY',
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-screenshot',
+            clear: 'fa fa-trash',
+            close: 'fa fa-remove'
+        }
+    });
+
+    var DropDownList = {
+        getDepartment: function (el, divid, type) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GeDepartmentManPower", "Master")',
+                data: { divid: divid, type: type },
+                dataType: 'json',
+                success: function (res) {
+                    el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                    $.each(res, function (key, entry) {
+                        el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                    })
+                }
+            });
+        },
+        getSection: function (el, divid, depid, type) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetSectionManPower", "Master")',
+                data: { divid: divid, depid: depid, type: type },
+                dataType: 'json',
+                success: function (res) {
+                    el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                    $.each(res, function (key, entry) {
+                        el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                    })
+                }
+            });
+        },
+        getPosition: function (el, divid, depid, secid, type) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetPositionManPower", "Master")',
+                data: { divid: divid, depid: depid, secid: secid, type: type },
+                dataType: 'json',
+                success: function (res) {
+                    el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                    $.each(res, function (key, entry) {
+                        el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                    })
+                }
+            });
+        },
+        getProvince: function (el, proid) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Province", "Master")',
+                data: { defaultValue: proid },
+                dataType: 'json',
+                success: function (res) {
+                    el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                    $.each(res, function (key, entry) {
+                        el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                    })
+                }
+            });
+        },
+        getDistrict: function (el, disid, proid) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("District", "Master")',
+                data: { defaultValue: disid, proid: proid },
+                dataType: 'json',
+                success: function (res) {
+                    el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                    $.each(res, function (key, entry) {
+                        el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                    })
+                }
+            });
+        },
+        getSubDistrict: function (el, subid, proid, disid) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SubDistrict", "Master")',
+                data: { defaultValue: subid, proid: proid, disid: disid },
+                dataType: 'json',
+                success: function (res) {
+                    el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                    $.each(res, function (key, entry) {
+                        el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                    })
+                }
+            });
+        },
+        getSalaryLevel: function (el, level) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SalaryStepBylevel", "Master")',
+                data: { level: level },
+                dataType: 'json',
+                success: function (res) {
+                    el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                    $.each(res, function (key, entry) {
+                        el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                    })
+                }
+            });
+        },
+        getSex: function (el, titleid) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SexByTitle", "Master")',
+                data: { titleid: titleid },
+                dataType: 'json',
+                success: function (res) {
+                    el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                    $.each(res, function (key, entry) {
+                        el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                    })
+                }
+            });
+        }
+    }
+
+
+    $("#TitleID").change(function () {
+        DropDownList.getSex($("#SexID"), $('#TitleID').val());
+    });
+
+    $("#DivID").change(function () {
+        DropDownList.getDepartment($("#DepID"), $('#DivID').val(), $("#UserType").val());
+        DropDownList.getSection($("#SecID"), $('#DivID').val(), $('#DepID').val(), $("#UserType").val());
+        DropDownList.getPosition($("#PoID"), $('#DivID').val(), $('#DepID').val(), $("#SecID").val(), $("#UserType").val());
+    });
+    $("#DepID").change(function () {
+        DropDownList.getSection($("#SecID"), $('#DivID').val(), $('#DepID').val(), $("#UserType").val());
+        DropDownList.getPosition($("#PoID"), $('#DivID').val(), $('#DepID').val(), $("#SecID").val(), $("#UserType").val());
+    });
+    $("#SecID").change(function () {
+        DropDownList.getPosition($("#PoID"), $('#DivID').val(), $('#DepID').val(), $("#SecID").val(), $("#UserType").val());
+    });
+
+    $("#EmpowerDivID").change(function () {
+        DropDownList.getDepartment($("#EmpowerDepID"), $('#EmpowerDivID').val(), $("#UserType").val());
+        DropDownList.getSection($("#EmpowerSecID"), $('#EmpowerDivID').val(), $('#EmpowerDepID').val(), $("#UserType").val());
+    });
+    $("#EmpowerDepID").change(function () {
+        DropDownList.getSection($("#EmpowerSecID"), $('#EmpowerDivID').val(), $('#EmpowerDepID').val(), $("#UserType").val());
+    });
+
+    $("#AgentDivID").change(function () {
+        DropDownList.getDepartment($("#AgentDepID"), $('#AgentDivID').val(), $("#UserType").val());
+        DropDownList.getSection($("#AgentSecID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#UserType").val());
+        DropDownList.getPosition($("#AgentPoID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#AgentSecID").val(), $("#UserType").val());
+    });
+    $("#AgentDepID").change(function () {
+        DropDownList.getSection($("#AgentSecID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#UserType").val());
+        DropDownList.getPosition($("#AgentPoID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#AgentSecID").val(), $("#UserType").val());
+    });
+    $("#AgentSecID").change(function () {
+        DropDownList.getPosition($("#AgentPoID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#AgentSecID").val(), $("#UserType").val());
+    });
+
+    $("#HomeProvinceID").change(function () {
+        DropDownList.getDistrict($("#HomeDistrictID"), null, $('#HomeProvinceID').val());
+    });
+
+    $("#HomeDistrictID").change(function () {
+        DropDownList.getSubDistrict($("#HomeSubDistrictID"), null, $('#HomeProvinceID').val(), $('#HomeDistrictID').val());
+    });
+
+    $("#CurrProvinceID").change(function () {
+        DropDownList.getDistrict($("#CurrDistrictID"), null, $('#CurrProvinceID').val());
+    });
+
+    $("#CurrDistrictID").change(function () {
+        DropDownList.getSubDistrict($("#CurrSubDistrictID"), null, $('#CurrProvinceID').val(), $('#CurrDistrictID').val());
+    });
+
+    $("#SalaryLevel").change(function () {
+        DropDownList.getSalaryLevel($("#SalaryStep"), $('#SalaryLevel').val());
+    });
+
+    $("#SalaryStep").change(function () {
+        $.post('@Url.Action("SalaryByStep", "Master")', { level: $("#SalaryLevel").val(), step: $("#SalaryStep").val() }, function (res) {
+            var salary = accounting.formatNumber(res.Salary, 2);
+            $("#Salary").val(salary);
+        });
+    });
+
+    $("#CopyAddress").click(function () {
+        if ($(this).is(':checked')) {
+            var homeAddr = $("#HomeAddr").val();
+            var homeProvinceID = $("#HomeProvinceID").val();
+            var homeDistrictID = $("#HomeDistrictID").val();
+            var homeSubDistrictID = $("#HomeSubDistrictID").val();
+            var homeZipCode = $("#HomeZipCode").val();
+            if (homeProvinceID != '')
+                DropDownList.getProvince($("#CurrProvinceID"), homeProvinceID);
+            if (homeDistrictID != '')
+                DropDownList.getDistrict($("#CurrDistrictID"), homeDistrictID, homeProvinceID);
+            if (homeSubDistrictID != '')
+                DropDownList.getSubDistrict($("#CurrSubDistrictID"), homeSubDistrictID, homeProvinceID, homeDistrictID);
+            $("#CurrAddr").val(homeAddr);
+            $("#CurrZipCode").val(homeZipCode);
+        }
+    });
+
     var $validator = $('.form-employee').validate({
         rules: {
             FirstNameTh: {

@@ -138,8 +138,7 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
 
-                    var deivision = db.vw_Man_Power.Where(m => m.UserTID == usertype)
-                        .GroupBy(item => item.DivID, (key, group) => new { DivID = key, DivName = group.FirstOrDefault().DivName }).ToList();
+                    var deivision = GetDivisionManPower(usertype);
 
                     foreach (var item in deivision)
                     {
@@ -169,9 +168,7 @@ namespace SAT.HR.Data.Repository
 
             using (SATEntities db = new SATEntities())
             {
-                var department = db.vw_Man_Power.Where(m => m.UserTID == usertype && m.DivID == divid
-                    && !string.IsNullOrEmpty(m.DepName))
-                    .GroupBy(item => item.DepID, (key, group) => new { DepID = key, DepName = group.FirstOrDefault().DepName }).ToList();
+                var department = GetDepartmentManPower(usertype, divid);
 
                 foreach (var item in department)
                 {
@@ -196,8 +193,7 @@ namespace SAT.HR.Data.Repository
 
             using (SATEntities db = new SATEntities())
             {
-                var section = db.vw_Man_Power.Where(m => m.UserTID == usertype && m.DivID == divid && m.DepID == depid
-                    && !string.IsNullOrEmpty(m.SecName)).GroupBy(item => item.SecID, (key, group) => new { SecID = key, SecName = group.FirstOrDefault().SecName }).ToList();
+                var section = GetSectionManPower(usertype, divid, depid);
 
                 foreach (var item in section)
                 {
@@ -222,8 +218,7 @@ namespace SAT.HR.Data.Repository
 
             using (SATEntities db = new SATEntities())
             {
-                var position = db.vw_Man_Power.Where(m => m.UserTID == usertype && m.DivID == divid && m.DepID == depid && m.SecID == secid && !string.IsNullOrEmpty(m.PoName))
-                    .GroupBy(item => item.PoID, (key, group) => new { PoID = key, PoName = group.FirstOrDefault().PoName }).ToList();
+                var position = GetPositionManPower(usertype, divid, depid, secid);
 
                 foreach (var item in position)
                 {
@@ -372,5 +367,95 @@ namespace SAT.HR.Data.Repository
                 return list;
             }
         }
+
+        public List<PositionRateViewModel> GetDivisionManPower(int? type)
+        {
+            List<PositionRateViewModel> list = new List<PositionRateViewModel>();
+            using (SATEntities db = new SATEntities())
+            {
+                var deivision = db.vw_Man_Power.Where(m => m.UserTID == type)
+                                 .GroupBy(item => item.DivID, (key, group) => new { DivID = key, DivName = group.FirstOrDefault().DivName, MpID = group.FirstOrDefault().MpID })
+                                 .ToList();
+
+                foreach (var item in deivision)
+                {
+                    PositionRateViewModel model = new PositionRateViewModel();
+                    model.MpID = item.MpID;
+                    model.MpCode = (type == 1) ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
+                    model.DivID = item.DivID;
+                    model.DivName = item.DivName;
+                    list.Add(model);
+                }
+            }
+            return list;
+        }
+
+        public List<PositionRateViewModel> GetDepartmentManPower(int? type, int? divid)
+        {
+            List<PositionRateViewModel> list = new List<PositionRateViewModel>();
+            using (SATEntities db = new SATEntities())
+            {
+                var department = db.vw_Man_Power.Where(m => m.UserTID == type && m.DivID == divid && !string.IsNullOrEmpty(m.DepName))
+                                 .GroupBy(item => item.DepID, (key, group) => new { DepID = key, DepName = group.FirstOrDefault().DepName, MpID = group.FirstOrDefault().MpID })
+                                 .ToList();
+
+                foreach (var item in department)
+                {
+                    PositionRateViewModel model = new PositionRateViewModel();
+                    model.MpID = item.MpID;
+                    model.MpCode = (type == 1) ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
+                    model.DepID = item.DepID;
+                    model.DepName = item.DepName;
+                    list.Add(model);
+                }
+            }
+            return list;
+        }
+
+        public List<PositionRateViewModel> GetSectionManPower(int? type, int? divid, int? depid)
+        {
+            List<PositionRateViewModel> list = new List<PositionRateViewModel>();
+            using (SATEntities db = new SATEntities())
+            {
+                var section = db.vw_Man_Power.Where(m => m.UserTID == type && m.DivID == divid && m.DepID == depid && !string.IsNullOrEmpty(m.SecName))
+                               .GroupBy(item => item.SecID, (key, group) => new { SecID = key, SecName = group.FirstOrDefault().SecName, MpID = group.FirstOrDefault().MpID })
+                              . ToList();
+
+                foreach (var item in section)
+                {
+                    PositionRateViewModel model = new PositionRateViewModel();
+                    model.MpID = item.MpID;
+                    model.MpCode = (type == 1) ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
+                    model.SecID = item.SecID;
+                    model.SecName = item.SecName;
+                    list.Add(model);
+                }
+            }
+            return list;
+        }
+
+        public List<PositionRateViewModel> GetPositionManPower(int? type, int? divid, int? depid, int? secid)
+        {
+            List<PositionRateViewModel> list = new List<PositionRateViewModel>();
+            using (SATEntities db = new SATEntities())
+            {
+                var position = db.vw_Man_Power.Where(m => m.UserTID == type && m.DivID == divid && m.DepID == depid && m.SecID == secid && !string.IsNullOrEmpty(m.PoName))
+                                .GroupBy(item => item.PoID, (key, group) => new { PoID = key, PoName = group.FirstOrDefault().PoName, MpID = group.FirstOrDefault().MpID })
+                                .OrderBy(o => o.MpID)
+                                .ToList();
+
+                foreach (var item in position)
+                {
+                    PositionRateViewModel model = new PositionRateViewModel();
+                    model.MpID = item.MpID;
+                    model.MpCode = (type == 1) ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
+                    model.PoID = item.PoID;
+                    model.PoName = item.PoName;
+                    list.Add(model);
+                }
+            }
+            return list;
+        }
+
     }
 }

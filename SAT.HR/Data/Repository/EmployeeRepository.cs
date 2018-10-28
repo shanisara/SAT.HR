@@ -232,53 +232,57 @@ namespace SAT.HR.Data.Repository
                     model.WorkingTypeID = data.WorkingTypeID;
                     model.FingerScan = data.FingerScan;
                     model.CardScan = data.CardScan;
-                    model.SalaryLevel = data.SalaryLevel;
-                    model.SalaryStep = data.SalaryStep;
+                    model.Avatar = data.Avatar;
+                    model.IsActive = data.IsActive;
+                    model.UserType = data.UserTID;
+                    model.Age = data.Age;
+                    model.FullNameTh = data.FirstNameTh + " " + data.LastNameTh;
+
                     model.DivID = data.DivID;
                     model.DepID = data.DepID;
                     model.SecID = data.SecID;
                     model.PoID = data.PoID;
+                    model.SalaryLevel = data.SalaryLevel;
+                    model.SalaryStep = data.SalaryStep;
+                    //model.Salary = data.Salary;
+                    //model.Experience = data.Experience;
+                    model.DivName = data.DivName;
+                    model.DepName = data.DepName;
+                    model.SecName = data.SecName;
+                    model.PoName = data.PoName;
+
                     model.EmpowerID = data.EmpowerID;
                     model.EmpowerDivID = data.EmpowerDivID;
                     model.EmpowerDepID = data.EmpowerDepID;
                     model.EmpowerSecID = data.EmpowerSecID;
+
                     model.PoTID = data.PoTID;
                     model.AgentDivID = data.AgentDivID;
                     model.AgentDepID = data.AgentDepID;
                     model.AgentSecID = data.AgentSecID;
                     model.AgentPoID = data.AgentPoID;
+
                     model.HomeAddr = data.HomeAddr;
                     model.HomeSubDistrictID = data.HomeSubDistrictID;
                     model.HomeDistrictID = data.HomeDistrictID;
                     model.HomeProvinceID = data.HomeProvinceID;
                     model.HomeZipCode = data.HomeZipCode;
+
                     model.CurrAddr = data.CurrAddr;
                     model.CurrSubDistrictID = data.CurrSubDistrictID;
                     model.CurrDistrictID = data.CurrDistrictID;
                     model.CurrProvinceID = data.CurrProvinceID;
                     model.CurrZipCode = data.CurrZipCode;
+
                     model.Telephone = data.Telephone;
                     model.Email = data.Email;
                     model.ContactName = data.ContactName;
                     model.ContactPhone = data.ContactPhone;
-                    model.Avatar = data.Avatar;
-                    model.IsActive = data.IsActive;
+                    
                     //model.CreateDate = data.CreateDate;
                     //model.CreateBy = data.CreateBy;
                     //model.ModifyDate = data.ModifyDate;
                     //model.ModifyBy = data.ModifyBy;
-                    model.DivName = data.DivName;
-                    model.DepName = data.DepName;
-                    model.SecName = data.SecName;
-                    model.PoCode = data.PoCode;
-                    model.PoName = data.PoName;
-                    //model.Salary = data.Salary;
-                    //model.Age = data.Age;
-                    //model.Experience = data.Experience;
-                    model.FullNameTh = data.FirstNameTh + " " + data.LastNameTh;
-                    model.SecName = data.SecName;
-                    model.DivName = data.DivName;
-                    model.DepName = data.DepName;
                 }
             }
             catch (Exception)
@@ -309,6 +313,8 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
+                    tb_User model = new tb_User();
+
                     if (fileUpload != null && fileUpload.ContentLength > 0)
                     {
                         var fileName = Path.GetFileName(fileUpload.FileName);
@@ -324,10 +330,9 @@ namespace SAT.HR.Data.Repository
 
                         fileUpload.SaveAs(fileLocation);
 
-                        data.Avatar = newFileName;
+                        model.Avatar = newFileName;
                     }
-
-                    tb_User model = new tb_User();
+                    
                     model.UserTID = data.UserType;
                     //model.UserName = data.UserName;
                     model.TitleID = data.TitleID;
@@ -408,6 +413,8 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
+                    var model = db.tb_User.Single(x => x.UserID == newdata.UserID);
+
                     if (fileUpload != null && fileUpload.ContentLength > 0)
                     {
                         var fileName = Path.GetFileName(fileUpload.FileName);
@@ -423,10 +430,9 @@ namespace SAT.HR.Data.Repository
 
                         fileUpload.SaveAs(fileLocation);
 
-                        newdata.Avatar = newFileName;
+                        model.Avatar = newFileName;
                     }
-
-                    var model = db.tb_User.Single(x => x.UserID == newdata.UserID);
+                    
                     //model.UserName = newdata.UserName;
                     model.TitleID = newdata.TitleID;
                     model.FirstNameTh = newdata.FirstNameTh;

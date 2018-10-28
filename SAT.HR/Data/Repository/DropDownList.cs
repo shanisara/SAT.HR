@@ -111,34 +111,6 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
-        //public static List<SelectListItem> GetPosition(int? divid, int? depid, int? secid, int? defaultValue, bool isActive)
-        //{
-        //    List<SelectListItem> list = new List<SelectListItem>();
-
-        //    var data = new PositionRepository().GetAll();
-        //    if (isActive == true)
-        //        data = data.Where(m => m.PoStatus == true).ToList();
-
-        //    if (divid.HasValue)
-        //        data = data.Where(m => m.DivID == divid).ToList();
-
-        //    if (depid.HasValue)
-        //        data = data.Where(m => m.DepID == depid).ToList();
-
-        //    if (secid.HasValue)
-        //        data = data.Where(m => m.SecID == secid).ToList();
-
-        //    foreach (var item in data)
-        //    {
-        //        SelectListItem select = new SelectListItem();
-        //        select.Value = item.PoID.ToString();
-        //        select.Text = " (" + item.PoCode + ") " + item.PoName;
-        //        select.Selected = defaultValue.HasValue ? (item.PoID == defaultValue ? true : false) : false;
-        //        list.Add(select);
-        //    }
-        //    return list;
-        //}
-
         public static List<SelectListItem> GetLevel(int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
@@ -820,6 +792,73 @@ namespace SAT.HR.Data.Repository
             }
             return list;
         }
+
+
+
+        public static List<SelectListItem> GetDivisionManPower(int? type, int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new PositionRateRepository().GetDivisionManPower(type);
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.DivID.ToString();
+                select.Text = item.DivName;
+                select.Selected = defaultValue.HasValue ? (item.DivID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetDepartmentManPower(int? type, int? divid, int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new PositionRateRepository().GetDepartmentManPower(type, divid);
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.DepID.ToString();
+                select.Text = item.DepName;
+                select.Selected = defaultValue.HasValue ? (item.DepID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetSectionManPower(int? type, int? divid, int? depid, int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new PositionRateRepository().GetSectionManPower(type, divid, depid);
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.SecID.ToString();
+                select.Text = item.SecName;
+                select.Selected = defaultValue.HasValue ? (item.SecID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetPositionManPower(int? type, int? divid, int? depid, int? secid, int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new PositionRateRepository().GetPositionManPower(type, divid, depid, secid);
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.PoID.ToString();
+                select.Text = " (" + item.MpCode + ") " + item.PoName;
+                select.Selected = defaultValue.HasValue ? (item.PoID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
 
     }
 

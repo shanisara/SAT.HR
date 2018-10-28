@@ -98,22 +98,22 @@ namespace SAT.HR.Controllers
             ViewBag.SalaryLevel = DropDownList.GetSalaryLevel(model.SalaryLevel);
             ViewBag.SalaryStep = DropDownList.GetSalaryStep(model.SalaryStep, model.SalaryLevel);
 
-            ViewBag.Position = DropDownList.GetPosition(model.PoID, model.UserType, true);
-            ViewBag.Division = DropDownList.GetDivision(model.DivID, true);
-            ViewBag.Department = DropDownList.GetDepartment(model.DivID, model.DepID, true);
-            ViewBag.Section = DropDownList.GetSection(model.DivID, model.DepID, model.SecID, true);
+            ViewBag.Division = DropDownList.GetDivisionManPower(model.UserType, model.DivID);
+            ViewBag.Department = DropDownList.GetDepartmentManPower(model.UserType, model.DivID, model.DepID);
+            ViewBag.Section = DropDownList.GetSectionManPower(model.UserType, model.DivID, model.DepID, model.SecID);
+            ViewBag.Position = DropDownList.GetPositionManPower(model.UserType, model.DivID, model.DepID, model.SecID, model.PoID);
 
             ViewBag.Empower = DropDownList.GetEmpower(model.EmpowerID);     //-- > ช่วยราชการ
-            ViewBag.EmpowerPosition = DropDownList.GetPosition(model.EmpowerID, model.UserType, true);
-            ViewBag.EmpowerDivision = DropDownList.GetDivision(model.EmpowerDivID, true);
-            ViewBag.EmpowerDepartment = DropDownList.GetDepartment(model.EmpowerDivID, model.EmpowerDepID, true);
-            ViewBag.EmpowerSection = DropDownList.GetSection(model.EmpowerDivID, model.EmpowerDepID, model.EmpowerSecID, true);
+            ViewBag.EmpowerDivision = DropDownList.GetDivisionManPower(model.UserType, model.EmpowerDivID);
+            ViewBag.EmpowerDepartment = DropDownList.GetDepartmentManPower(model.UserType, model.EmpowerDivID, model.EmpowerDepID);
+            ViewBag.EmpowerSection = DropDownList.GetSectionManPower(model.UserType, model.EmpowerDivID, model.EmpowerDepID, model.EmpowerSecID);
+            ViewBag.EmpowerPosition = DropDownList.GetPositionManPower(model.UserType, model.EmpowerDivID, model.EmpowerDepID, model.EmpowerSecID, model.EmpowerID);
 
             ViewBag.PositionType = DropDownList.GetPositionType(model.PoTID);//-- > รักษาการแทน
-            ViewBag.AgentPosition = DropDownList.GetPosition(model.AgentPoID, model.UserType, true);
-            ViewBag.AgentDivision = DropDownList.GetDivision(model.AgentDivID, true);
-            ViewBag.AgentDepartment = DropDownList.GetDepartment(model.AgentDivID, model.AgentDepID, true);
-            ViewBag.AgentSection = DropDownList.GetSection(model.AgentDivID, model.AgentDepID, model.AgentSecID, true);
+            ViewBag.AgentDivision = DropDownList.GetDivisionManPower(model.UserType, model.AgentDivID);
+            ViewBag.AgentDepartment = DropDownList.GetDepartmentManPower(model.UserType, model.AgentDivID, model.AgentDepID);
+            ViewBag.AgentSection = DropDownList.GetSectionManPower(model.UserType, model.AgentDivID, model.AgentDepID, model.AgentSecID);
+            ViewBag.AgentPosition = DropDownList.GetPositionManPower(model.UserType, model.AgentDivID, model.AgentDepID, model.AgentSecID, model.AgentPoID);
 
             ViewBag.HomeProvince = DropDownList.GetProvince(model.HomeProvinceID);
             ViewBag.HomeDistrict = DropDownList.GetDistrict(model.HomeDistrictID, model.HomeProvinceID);

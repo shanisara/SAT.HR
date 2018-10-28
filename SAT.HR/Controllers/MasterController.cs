@@ -1105,5 +1105,21 @@ namespace SAT.HR.Controllers
 
         #endregion
 
+        public JsonResult GeDepartmentManPower(int divid, int type)
+        {
+            var result = DropDownList.GetDepartmentManPower(type, divid, null);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetSectionManPower(int divid, int depid, int type)
+        {
+            var result = DropDownList.GetSectionManPower(type, divid, depid, null);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetPositionManPower(int divid, int depid, int secid, int type)
+        {
+            var result = DropDownList.GetPositionManPower(type, divid, depid, secid, null);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
