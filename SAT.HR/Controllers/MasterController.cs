@@ -1097,9 +1097,9 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetDetailByPosition(int poid)
+        public JsonResult GetDetailByMp(int mpid)
         {
-            var result = new MasterRepository().GetDetailByPosition(poid);
+            var result = new MasterRepository().GetDetailByMp(mpid);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

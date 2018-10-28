@@ -147,26 +147,29 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var user = new EmployeeRepository().GetByID(userid);
-
+                //var user = new EmployeeRepository().GetByID(userid);
                 ManPowerViewModel model = new ManPowerViewModel();
-                model.BelongTo = user.DivName + " / " + user.DepName + " / " + user.SecName;
-                model.PositionID = user.PoID;
-                model.Position = "(" + user.PoCode + ") " + user.PoName;
-                model.Level = user.SalaryLevel.ToString();
-                model.Step = user.SalaryStep.ToString();
-                model.Salary = user.Salary.ToString();
+                var data = db.vw_Man_Power.Where(m => m.UserID == userid).FirstOrDefault();
+                if (data != null)
+                {
+                    model.BelongTo = data.DivName + " / " + data.DepName + " / " + data.SecName;
+                    model.MpID = data.MpID;
+                    model.Position = "(" + data.MpID + ") " + data.PoName;
+                    model.Level = data.SalaryLevel.ToString();
+                    model.Step = data.SalaryStep.ToString();
+                    model.Salary = data.Salary.ToString();
+                }
 
                 return model;
             }
         }
 
-        public ManPowerViewModel GetDetailByPosition(int poid)
+        public ManPowerViewModel GetDetailByMp(int mpid)
         {
             using (SATEntities db = new SATEntities())
             {
                 ManPowerViewModel model = new ManPowerViewModel();
-                var data = db.vw_Man_Power.Where(m => m.PoID == poid).FirstOrDefault();
+                var data = db.vw_Man_Power.Where(m => m.MpID == mpid).FirstOrDefault();
                 if (data != null)
                 {
                     model.BelongTo = data.DivName + " / " + data.DepName + " / " + data.SecName;

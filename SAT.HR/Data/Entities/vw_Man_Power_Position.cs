@@ -12,9 +12,11 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_Agent_Type
+    public partial class vw_Man_Power_Position
     {
-        public int AgentID { get; set; }
-        public string AgentName { get; set; }
+        public int MpID { get; set; }
+        public Nullable<int> PoID { get; set; }
+        public string PoName { get; set; }
+        public Nullable<int> UserID { get; set; }
     }
 }

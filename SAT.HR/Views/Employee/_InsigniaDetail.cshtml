@@ -71,65 +71,27 @@
     <div class="row">
         @Html.Label("ไฟล์แนบ: ", null, new { @class = "col-sm-3 col-form-label" })
         <div class="col-sm-9" style="margin-top:5px;">
-            <div id="div-file">
-                <input id="fileUpload" name="fileUpload" type="file" class="form-control file" >
+            <div class="input-group-prepend file-path">
+                <i class="fa fa-cloud-download m-t-15"></i>&nbsp;&nbsp;
+                <a class="m-t-15 file-name" target="_blank" href=@Url.Action("DownloadInsignia", "Employee", new { id = Model.UiID })>@Model.UiPartFile</a>
+                <button type="button" class="btn btn-link btn-sm text-danger m-t-12 file-delete" title="ลบ">ลบ</button>
             </div>
-            <a class="btn-file" href="@Url.Action("DownloadInsignia","Employee", new { userid = Model.UserID, id = Model.UiID, })" target="_blank">
-                <i class="material-icons">attach_file</i>ไฟล์แนบ
-            </a>
-            <a class="btn btn-sm btn-danger btn-round btn-cancel-file" href="#" data-dismiss="fileinput">ยกเลิก</a>
-            <a class="btn btn-sm btn-danger btn-round btn-delete-file" href="#" data-dismiss="fileinput"><i class="fa fa-times"></i> ลบ</a>
+            <input id="fileUpload" name="fileUpload" type="file" class="form-control file-upload">
         </div>
-
-        @*<div class="fileinput text-center fileinput-new" data-provides="fileinput">
-            <div class="fileinput-new thumbnail"><img alt="..." src="" /></div>
-            <div class="fileinput-preview fileinput-exists thumbnail"></div>
-            <div>
-                <span class="btn btn-round btn-file">
-                    <span class="fileinput-new">เลือกไฟล์</span>
-                    <span class="fileinput-exists">เปลี่ยน</span>
-                    <input type="hidden">
-                    <input type="file">
-                </span>
-                <a class="btn btn-danger btn-round fileinput-exists" href="#" data-dismiss="fileinput"><i class="fa fa-times"></i> ลบ</a>
-            </div>
-        </div>*@
     </div>
 </div>
 }
 
 
 <script>
-
-
-    if ('@Model' != null) {
-        if ('@Model.UiPartFile' != '') {
-            $(".btn-cancel-file").hide();
-            $("#div-file").hide();
-        }
-        else {
-            $(".btn-file").hide();
-            $(".btn-cancel-file").hide();
-            $(".btn-delete-file").hide();
-        }
+    if ('@Model.UiPartFile' != '') {
+        $(".file-path").show();
+        $(".file-upload").hide();
     }
-
-    $(".btn-delete-file").click(function () {
-        $("#div-file").show();
-        $(".btn-cancel-file").show();
-        $(".btn-delete-file").hide();
-        $(".btn-file").hide();
-    });
-
-    $(".btn-cancel-file").click(function () {
-
-        $(".file").val('');
-        //$("#div-file").hide();
-        //$(".btn-cancel-file").hide();
-        //$(".btn-delete-file").show();
-        //$(".btn-file").show();
-    });
-
+    else {
+        $(".file-path").hide();
+        $(".file-upload").show();
+    }
 
     $('.datepicker').datetimepicker({
         format: 'DD/MM/YYYY',
@@ -146,6 +108,17 @@
         }
     });
 
+    $(".file-delete").click(function () {
+        $("#UiPartFile").val('');
+        $(".file-upload").val('');
+        $(".file-upload").show();
+        $(".file-path").hide();
+    });
+
+    $(".file-upload").change(function () {
+        var name = "";
+        $("#MopPathFile").val(name);
+    });
 
 
 </script>

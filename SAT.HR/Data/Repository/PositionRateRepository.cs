@@ -18,19 +18,22 @@ namespace SAT.HR.Data.Repository
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    model = db.vw_Man_Power.Where(x => x.MpID == id).Select(s => new PositionRateViewModel
+                    var data = db.vw_Man_Power.Where(x => x.MpID == id).FirstOrDefault();
+                    if (model != null)
                     {
-                        MpID = s.MpID,
-                        DivID = s.DivID,
-                        DepID = s.DepID,
-                        SecID = s.SecID,
-                        PoID = s.PoID,
-                        MpCode = s.MpCode,
-                        MpMan = s.MpMan,
-                        UserID = s.UserID,
-                        FullNameTh = s.TiShortName + s.FullNameTh,
-                        EduID = s.EduID
-                    }).FirstOrDefault();
+                        PositionRateViewModel obj = new PositionRateViewModel();
+                        obj.MpID = data.MpID;
+                        obj.MpCode = data.UserTID == 1 ? data.MpID.ToString().PadLeft(3, '0') : data.MpID.ToString().PadLeft(4, '0');
+                        obj.DivID = data.DivID;
+                        obj.DepID = data.DepID;
+                        obj.SecID = data.SecID;
+                        obj.PoID = data.PoID;
+                        obj.MpMan = data.MpMan;
+                        obj.UserID = data.UserID;
+                        obj.FullNameTh = data.TiShortName + data.FullNameTh;
+                        obj.EduID = data.EduID;
+                        obj.UserTID = data.UserTID;
+                    }
                 }
             }
             catch (Exception)
@@ -54,7 +57,6 @@ namespace SAT.HR.Data.Repository
                     model.DepID = data.DepID;
                     model.SecID = data.SecID;
                     model.PoID = data.PoID;
-                    model.MpCode = data.MpCode;
                     model.MpMan = data.MpMan;
                     model.UserID = data.UserID;
                     model.EduID = data.EduID;
@@ -85,7 +87,6 @@ namespace SAT.HR.Data.Repository
                     model.DepID = newdata.DepID;
                     model.SecID = newdata.SecID;
                     model.PoID = newdata.PoID;
-                    model.MpCode = newdata.MpCode;
                     model.MpMan = newdata.MpMan;
                     model.UserID = newdata.UserID;
                     model.EduID = newdata.EduID;
@@ -254,7 +255,6 @@ namespace SAT.HR.Data.Repository
                                 UserID = key,
                                 TiShortName = group.FirstOrDefault().TiShortName,
                                 FullNameTh = group.FirstOrDefault().FullNameTh,
-                                MpCode = group.FirstOrDefault().MpCode,
                                 MpID = group.FirstOrDefault().MpID
                             }).ToList();
 
@@ -263,7 +263,7 @@ namespace SAT.HR.Data.Repository
 
                     var model = new TreeViewModel();
                     model.id = item.UserID.ToString();
-                    model.text = "("+ item.MpCode.ToString().PadLeft(4, '0') +") "+ item.TiShortName + item.FullNameTh; // + " [" + item.MpCode + "]";
+                    model.text = "("+ item.MpID.ToString().PadLeft(4, '0') +") "+ item.TiShortName + item.FullNameTh; // + " [" + item.MpCode + "]";
                     model.children = false;
                     model.node_type = "user";
                     model.node_mpid = item.MpID;
@@ -347,6 +347,30 @@ namespace SAT.HR.Data.Repository
             //.ToList();
 
             return items1;
+        }
+
+        public List<PositionRateViewModel> GetPositionRate(int? type)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                List<PositionRateViewModel> list = new List<PositionRateViewModel>();
+
+                var position = db.vw_Man_Power.Where(m => m.UserTID == type && !string.IsNullOrEmpty(m.PoName))
+                   .GroupBy(item => item.PoID, (key, group) => new { PoID = key, MpID = group.FirstOrDefault().MpID, PoName = group.FirstOrDefault().PoName })
+                   .OrderBy(o => o.MpID)
+                   .ToList();
+
+                foreach (var item in position)
+                {
+                    PositionRateViewModel model = new PositionRateViewModel();
+                    model.MpID = item.MpID;
+                    model.MpCode = type == 1 ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
+                    model.PoName = item.PoName;
+                    list.Add(model);
+                }
+                 
+                return list;
+            }
         }
     }
 }

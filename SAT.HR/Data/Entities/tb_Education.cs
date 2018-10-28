@@ -17,8 +17,8 @@ namespace SAT.HR.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tb_Education()
         {
-            this.tb_Man_Power = new HashSet<tb_Man_Power>();
             this.tb_User_Education = new HashSet<tb_User_Education>();
+            this.tb_Man_Power = new HashSet<tb_Man_Power>();
         }
     
         public int EduID { get; set; }
@@ -31,8 +31,8 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> ModifyBy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Man_Power> tb_Man_Power { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User_Education> tb_User_Education { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Man_Power> tb_Man_Power { get; set; }
     }
 }

@@ -33,7 +33,7 @@ namespace SAT.HR.Data.Entities
         public string PoName { get; set; }
         public Nullable<int> EduID { get; set; }
         public string EduName { get; set; }
-        public Nullable<int> MpCode { get; set; }
+        public Nullable<int> MpID { get; set; }
         public string MpMan { get; set; }
         public Nullable<int> SalaryLevel { get; set; }
         public Nullable<decimal> SalaryStep { get; set; }
@@ -42,7 +42,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> StatusID { get; set; }
         public string StatusName { get; set; }
         public Nullable<bool> IsActive { get; set; }
-        public int UserTypeID { get; set; }
+        public Nullable<int> UserTypeID { get; set; }
         public string UserTypeName { get; set; }
         public Nullable<int> RoleID { get; set; }
     }

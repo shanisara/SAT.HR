@@ -92,11 +92,11 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
-        public static List<SelectListItem> GetPosition(int? defaultValue, bool isActive)
+        public static List<SelectListItem> GetPosition(int? defaultValue, int? typeid, bool isActive)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new PositionRepository().GetAll();
+            var data = new PositionRepository().GetByType(typeid);
             if (isActive == true)
                 data = data.Where(m => m.PoStatus == true).ToList();
 
@@ -416,7 +416,7 @@ namespace SAT.HR.Data.Repository
             else if (table == "tb_Section")
                 list = GetSectionFull(null, null, defaultValue, false);
             else if (table == "tb_Position")
-                list = GetPosition(defaultValue, false);
+                list = GetPosition(defaultValue, null, false);
             else if (table == "tb_Level")
                 list = GetLevel(defaultValue);
             else if (table == "tb_Discipline")
@@ -804,7 +804,22 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
-        
+        public static List<SelectListItem> GetPositionRate(int? defaultValue, int? type)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new PositionRateRepository().GetPositionRate(type);
+            
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.MpID.ToString();
+                select.Text = " (" + item.MpCode + ") " + item.PoName;
+                select.Selected = defaultValue.HasValue ? (item.MpID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
 
     }
 

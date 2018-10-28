@@ -3,6 +3,7 @@ using SAT.HR.Helpers;
 using SAT.HR.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -26,48 +27,49 @@ namespace SAT.HR.Data.Repository
                     if (!string.IsNullOrEmpty(filter))
                     {
                         data = data.Where(x => x.MopYear.Contains(filter) || x.EmpTName.Contains(filter) || x.MtName.Contains(filter) || x.MopBookCmd.Contains(filter)).ToList();
+                    }
 
-                        int recordsFiltered = data.Count();
+                    int recordsFiltered = data.Count();
 
-                        switch (sortBy)
-                        {
-                            case "MopYear":
-                                data = (sortDir == "asc") ? data.OrderBy(x => x.MopYear).ToList() : data.OrderByDescending(x => x.MopYear).ToList(); break;
-                            case "EmpTName":
-                                data = (sortDir == "asc") ? data.OrderBy(x => x.EmpTName).ToList() : data.OrderByDescending(x => x.EmpTName).ToList(); break;
-                            case "MtName":
-                                data = (sortDir == "asc") ? data.OrderBy(x => x.MtName).ToList() : data.OrderByDescending(x => x.MtName).ToList(); break;
-                            case "MopBookCmd":
-                                data = (sortDir == "asc") ? data.OrderBy(x => x.MopBookCmd).ToList() : data.OrderByDescending(x => x.MopBookCmd).ToList(); break;
-                            case "MopTotal":
-                                data = (sortDir == "asc") ? data.OrderBy(x => x.MopTotal).ToList() : data.OrderByDescending(x => x.MopTotal).ToList(); break;
-                            case "MopDateCmdText":
-                                data = (sortDir == "asc") ? data.OrderBy(x => x.MopDateCmd).ToList() : data.OrderByDescending(x => x.MopDateCmd).ToList(); break;
-                            case "MopStatusName":
-                                data = (sortDir == "asc") ? data.OrderBy(x => x.MopStatus).ToList() : data.OrderByDescending(x => x.MopStatus).ToList(); break;
+                    switch (sortBy)
+                    {
+                        case "MopYear":
+                            data = (sortDir == "asc") ? data.OrderBy(x => x.MopYear).ToList() : data.OrderByDescending(x => x.MopYear).ToList(); break;
+                        case "EmpTName":
+                            data = (sortDir == "asc") ? data.OrderBy(x => x.EmpTName).ToList() : data.OrderByDescending(x => x.EmpTName).ToList(); break;
+                        case "MtName":
+                            data = (sortDir == "asc") ? data.OrderBy(x => x.MtName).ToList() : data.OrderByDescending(x => x.MtName).ToList(); break;
+                        case "MopBookCmd":
+                            data = (sortDir == "asc") ? data.OrderBy(x => x.MopBookCmd).ToList() : data.OrderByDescending(x => x.MopBookCmd).ToList(); break;
+                        case "MopTotal":
+                            data = (sortDir == "asc") ? data.OrderBy(x => x.MopTotal).ToList() : data.OrderByDescending(x => x.MopTotal).ToList(); break;
+                        case "MopDateCmdText":
+                            data = (sortDir == "asc") ? data.OrderBy(x => x.MopDateCmd).ToList() : data.OrderByDescending(x => x.MopDateCmd).ToList(); break;
+                        case "MopStatusName":
+                            data = (sortDir == "asc") ? data.OrderBy(x => x.MopStatus).ToList() : data.OrderByDescending(x => x.MopStatus).ToList(); break;
 
-                        }
+                    }
 
-                        int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
-                        int length = pageSize ?? 10;
+                    int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
+                    int length = pageSize ?? 10;
 
-                        int i = 1;
-                        foreach (var item in data)
-                        {
-                            PositionTransferViewModel model = new PositionTransferViewModel();
-                            model.RowNumber = ++i;
-                            model.MopID = item.MopID;
-                            model.MopYear = item.MopYear;
-                            model.UserTName = item.EmpTName;
-                            model.MtName = item.MtName;
-                            model.MopBookCmd = item.MopBookCmd;
-                            model.MopTotal = item.MopTotal;
-                            model.MopDateCmdText = (item.MopDateCmd.HasValue) ? item.MopDateCmd.Value.ToString("dd/MM/yyy") : string.Empty;
-                            model.MopStatusName = (item.MopStatus.HasValue) ? "ยืนยันแล้ว" : "";
-                            model.recordsTotal = recordsTotal;
-                            model.recordsFiltered = recordsFiltered;
-                            list.Add(model);
-                        }
+                    int i = 1;
+                    foreach (var item in data)
+                    {
+                        PositionTransferViewModel model = new PositionTransferViewModel();
+                        model.RowNumber = ++i;
+                        model.MopID = item.MopID;
+                        model.MopYear = item.MopYear;
+                        model.UserTName = item.EmpTName;
+                        model.MtName = item.MtName;
+                        model.MopBookCmd = item.MopBookCmd;
+                        model.MopTotal = item.MopTotal;
+                        model.MopDateCmdText = (item.MopDateCmd.HasValue) ? item.MopDateCmd.Value.ToString("dd/MM/yyy") : string.Empty;
+                        model.CreateDateText = item.CreateDate.Value.ToString("dd/MM/yyy");
+                        model.MopStatusName = (item.MopStatus.HasValue) ? "ยืนยันแล้ว" : "";
+                        model.recordsTotal = recordsTotal;
+                        model.recordsFiltered = recordsFiltered;
+                        list.Add(model);
                     }
                 }
             }
@@ -87,24 +89,34 @@ namespace SAT.HR.Data.Repository
         public PositionTransferViewModel GetByID(int? id, int? type)
         {
             PositionTransferViewModel model = new PositionTransferViewModel();
-            
+
             try
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    model = db.tb_Move_Man_Power_Head.Where(x => x.MopID == id).Select(s => new PositionTransferViewModel
+                    if (id != null)
                     {
-                        MopID = s.MopID,
-                        UserTID = s.UserTID,
-                        MtID = s.MtID,
-                        MopYear = s.MopYear,
-                        MopBookCmd = s.MopBookCmd,
-                        MopDateCmd = s.MopDateCmd,
-                        MopDateEff = s.MopDateEff,
-                        MopSignatory = s.MopSignatory,
-                        MopPathFile = s.MopPathFile,
-                        MopStatus = s.MopStatus
-                    }).FirstOrDefault();
+                        var data = db.tb_Move_Man_Power_Head.Where(x => x.MopID == id).FirstOrDefault();
+                        PositionTransferViewModel head = new PositionTransferViewModel();
+                        model.MopID = data.MopID;
+                        model.UserTID = data.UserTID;
+                        model.MtID = data.MtID;
+                        model.MopYear = data.MopYear;
+                        model.MopBookCmd = data.MopBookCmd;
+                        model.MopDateCmd = data.MopDateCmd;
+                        model.MopDateCmdText = data.MopDateCmd.HasValue ? data.MopDateCmd.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        model.MopDateEffText = data.MopDateEff.HasValue ? data.MopDateEff.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        model.MopSignatory = data.MopSignatory;
+                        model.MopPathFile = data.MopPathFile;
+                        model.MopStatus = data.MopStatus;
+
+                        var detail = GetDetail(model.MopID);
+                        model.ListDetail = detail;
+                    }
+                    else
+                    {
+                        model.MopYear = DateTime.Now.ToString("yyyy", new System.Globalization.CultureInfo("th-TH")).ToString();
+                    }
                 }
             }
             catch (Exception)
@@ -124,14 +136,17 @@ namespace SAT.HR.Data.Repository
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    model = db.tb_Move_Man_Power_Detail.Where(x => x.MopID == id).Select(s => new PositionTransferDetailViewModel
+                    model = db.vw_Move_Man_Power_Detail.Where(x => x.MopID == id).Select(s => new PositionTransferDetailViewModel
                     {
                         MopID = s.MopID,
                         UserID = s.UserID,
-                        CurPoID = s.CurPoID,
-                        MovPoID = s.MovPoID,
-                        AgentPoID = s.AgentID,
-                        AgentPoTID = s.PoTID,
+                        CurMpID = s.CurMpID,
+                        MovMpID = s.MovMpID,
+                        AgentMpID = s.AgentMpID,
+                        AgentPoTID = s.AgentPoTID,
+                        CurrentPo = s.CurPoName,
+                        MovePo = s.MovPoName,
+                        AgentPo = s.AgentPoName,
                         MovRemark = s.MovRemark
                     }).FirstOrDefault();
                 }
@@ -160,22 +175,22 @@ namespace SAT.HR.Data.Repository
                         model.RowNumber = index++;
                         model.MopID = item.MopID;
                         model.UserID = item.UserID;
-                        model.UserName = item.UserName;
-                        model.CurPoCode = item.CurPoCode;
+                        model.FullName = item.FullName;
+                        model.CurMpID = item.CurMpID;
                         model.CurPoName = item.CurPoName;
-                        model.MovPoID = item.MovPoID;
-                        model.MovPoCode = item.MovPoCode;
+                        model.MovMpID = item.MovMpID;
                         model.MovPoName = item.MovPoName;
                         model.AgentPoTID = item.AgentPoTID;
                         model.AgentPoTName = item.AgentPoTName;
-                        model.AgentPoID = item.AgentPoID;
-                        model.AgentPoCode = item.AgentPoCode;
+                        model.AgentMpID = item.AgentMpID;
                         model.AgentPoName = item.AgentPoName;
                         model.MovRemark = item.MovRemark;
-                        model.CurrentPo = "(" + item.CurPoCode + ") " + item.CurPoName;
-                        model.MovePo = "(" + item.MovPoCode + ") " + item.MovPoName;
-                        model.AgentPo = "(" + item.AgentPoCode + ") " + item.AgentPoName;
-                        model.AgentPo = item.AgentPoTName + " (" + item.AgentPoCode + ") " + item.AgentPoName;
+                        model.CurrentPo = "(" + item.CurMpID + ") " + item.CurPoName;
+                        model.MovePo = "(" + item.MovMpID + ") " + item.MovPoName;
+                        model.AgentPo = "(" + item.AgentMpID + ") " + item.AgentPoName;
+                        model.AgentPo = item.AgentPoTName + " (" + item.AgentMpID + ") " + item.AgentPoName;
+                        model.BelongTo = item.DivName + " / " + item.DepName + " / " + item.SecName;
+
                         list.Add(model);
                     }
                 }
@@ -195,31 +210,37 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    //if (fileUpload != null && fileUpload.ContentLength > 0)
-                    //{
-                    //    var fileName = Path.GetFileName(fileUpload.FileName);
-                    //    var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
+                    if (data.fileUpload != null)
+                    {
+                        HttpPostedFileBase fileUpload = data.fileUpload;
+                        if (fileUpload != null && fileUpload.ContentLength > 0)
+                        {
+                            var fileName = Path.GetFileName(fileUpload.FileName);
+                            var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
 
-                    //    string directory = SysConfig.PathUploadPositionTransfer;
-                    //    bool isExists = System.IO.Directory.Exists(directory);
-                    //    if (!isExists)
-                    //        System.IO.Directory.CreateDirectory(directory);
+                            string directory = SysConfig.PathUploadPositionTransfer;
+                            bool isExists = System.IO.Directory.Exists(directory);
+                            if (!isExists)
+                                System.IO.Directory.CreateDirectory(directory);
 
-                    //    string newFileName = newdata.UserID.ToString() + DateTime.Now.ToString("_yyyyMMdd_hhmmss") + "." + fileExt;
-                    //    string fileLocation = Path.Combine(directory, newFileName);
+                            string newFileName = " คส.ที่ " + data.MopBookCmd + " เรื่องการโยกย้ายอัตรากำลังพล" + "." + fileExt;
+                            string fileLocation = Path.Combine(directory, newFileName);
 
-                    //    fileUpload.SaveAs(fileLocation);
+                            fileUpload.SaveAs(fileLocation);
 
-                    //    newdata.UpPathFile = newFileName;
-                    //}
+                            data.MopPathFile = newFileName;
+                        }
+                    }
 
                     tb_Move_Man_Power_Head head = new tb_Move_Man_Power_Head();
                     head.UserTID = data.UserTID;
                     head.MtID = data.MtID;
                     head.MopYear = data.MopYear;
                     head.MopBookCmd = data.MopBookCmd;
-                    head.MopDateCmd = data.MopDateCmd;
-                    head.MopDateEff = data.MopDateEff;
+                    if (!string.IsNullOrEmpty(data.MopDateCmdText))
+                        head.MopDateCmd = Convert.ToDateTime(data.MopDateCmdText);
+                    if (!string.IsNullOrEmpty(data.MopDateEffText))
+                        head.MopDateEff = Convert.ToDateTime(data.MopDateEffText);
                     head.MopSignatory = data.MopSignatory;
                     head.MopPathFile = data.MopPathFile;
                     head.MopStatus = data.MopStatus;
@@ -236,10 +257,10 @@ namespace SAT.HR.Data.Repository
                         tb_Move_Man_Power_Detail detail = new tb_Move_Man_Power_Detail();
                         detail.MopID = head.MopID;
                         detail.UserID = item.UserID;
-                        detail.CurPoID = item.CurPoID;
-                        detail.MovPoID = item.MovPoID;
+                        detail.CurMpID = item.CurMpID;
+                        detail.MovMpID = item.MovMpID;
                         detail.PoTID = item.AgentPoTID;
-                        detail.AgentID = item.AgentPoID;
+                        detail.AgentMpID = item.AgentMpID;
                         detail.MovRemark = item.MovRemark;
                         detail.CreateBy = UtilityService.User.UserID;
                         detail.CreateDate = DateTime.Now;
@@ -249,9 +270,10 @@ namespace SAT.HR.Data.Repository
                         db.SaveChanges();
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
                 }
                 return result;
             }
@@ -264,13 +286,37 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
+                    if (newdata.fileUpload != null)
+                    {
+                        HttpPostedFileBase fileUpload = newdata.fileUpload;
+                        if (fileUpload != null && fileUpload.ContentLength > 0)
+                        {
+                            var fileName = Path.GetFileName(fileUpload.FileName);
+                            var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
+
+                            string directory = SysConfig.PathUploadPositionTransfer;
+                            bool isExists = System.IO.Directory.Exists(directory);
+                            if (!isExists)
+                                System.IO.Directory.CreateDirectory(directory);
+
+                            string newFileName = "คส.ที่ " + newdata.MopBookCmd + " เรื่องการโยกย้ายอัตรากำลังพล" + "." + fileExt;
+                            string fileLocation = Path.Combine(directory, newFileName);
+
+                            fileUpload.SaveAs(fileLocation);
+
+                            newdata.MopPathFile = newFileName;
+                        }
+                    }
+
                     var head = db.tb_Move_Man_Power_Head.Single(x => x.MopID == newdata.MopID);
                     head.UserTID = newdata.UserTID;
                     head.MtID = newdata.MtID;
                     head.MopYear = newdata.MopYear;
                     head.MopBookCmd = newdata.MopBookCmd;
-                    head.MopDateCmd = newdata.MopDateCmd;
-                    head.MopDateEff = newdata.MopDateEff;
+                    if (!string.IsNullOrEmpty(newdata.MopDateCmdText))
+                        head.MopDateCmd = Convert.ToDateTime(newdata.MopDateCmdText);
+                    if (!string.IsNullOrEmpty(newdata.MopDateEffText))
+                        head.MopDateEff = Convert.ToDateTime(newdata.MopDateEffText);
                     head.MopSignatory = newdata.MopSignatory;
                     head.MopPathFile = newdata.MopPathFile;
                     head.MopStatus = newdata.MopStatus;
@@ -282,28 +328,89 @@ namespace SAT.HR.Data.Repository
                     db.tb_Move_Man_Power_Detail.RemoveRange(listdelete);
                     db.SaveChanges();
 
-                    foreach (var item in newdata.ListDetail)
+                    if (newdata.ListDetail != null)
                     {
-                        tb_Move_Man_Power_Detail detail = new tb_Move_Man_Power_Detail();
-                        detail.UserID = item.UserID;
-                        detail.CurPoID = item.CurPoID;
-                        detail.MovPoID = item.MovPoID;
-                        detail.PoTID = item.AgentPoTID;
-                        detail.AgentID = item.AgentPoID;
-                        detail.MovRemark = item.MovRemark;
-                        detail.ModifyBy = UtilityService.User.UserID;
-                        detail.ModifyDate = DateTime.Now;
-                        db.tb_Move_Man_Power_Detail.Add(detail);
-                        db.SaveChanges();
+                        foreach (var item in newdata.ListDetail)
+                        {
+                            tb_Move_Man_Power_Detail detail = new tb_Move_Man_Power_Detail();
+                            detail.MopID = head.MopID;
+                            detail.UserID = item.UserID;
+                            detail.CurMpID = item.CurMpID;
+                            detail.MovMpID = item.MovMpID;
+                            detail.PoTID = item.AgentPoTID;
+                            detail.AgentMpID = item.AgentMpID;
+                            detail.MovRemark = item.MovRemark;
+                            detail.ModifyBy = UtilityService.User.UserID;
+                            detail.ModifyDate = DateTime.Now;
+                            db.tb_Move_Man_Power_Detail.Add(detail);
+                            db.SaveChanges();
+                        }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
                 }
                 return result;
             }
         }
+
+        public ResponseData DeletePositionTransfer(int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var listdelete = db.tb_Move_Man_Power_Detail.Where(x => x.MopID == id).ToList();
+                    db.tb_Move_Man_Power_Detail.RemoveRange(listdelete);
+                    db.SaveChanges();
+
+                    var itemdelete = db.tb_Move_Man_Power_Head.Where(x => x.MopID == id).FirstOrDefault();
+                    db.tb_Move_Man_Power_Head.Remove(itemdelete);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.MessageCode = "";
+                result.MessageText = ex.Message;
+            }
+            return result;
+        }
+
+        public FileViewModel DownloadFilePositionTransfer(int? id)
+        {
+            FileViewModel model = new FileViewModel();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var data = db.tb_Move_Man_Power_Head.Where(x => x.MopID == id).FirstOrDefault();
+                    string filename = data.MopPathFile;
+
+                    string[] fileSplit = filename.Split('.');
+                    int length = fileSplit.Length - 1;
+                    string fileExt = fileSplit[length].ToUpper();
+
+                    var doctype = db.tb_Document_Type.Where(x => x.DocType == fileExt).FirstOrDefault();
+                    string Contenttype = doctype.ContentType;
+
+                    string filepath = SysConfig.PathDownloadPositionTransfer;
+
+                    model.FileName = filename;
+                    model.FilePath = filepath;
+                    model.ContentType = Contenttype;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return model;
+        }
+
 
     }
 }

@@ -17,6 +17,8 @@ namespace SAT.HR.Models
 
         public bool? PoStatus { get; set; }
 
+        public int? TypeID { get; set; }
+
         public DateTime? CreateDate { get; set; }
 
         public Nullable<int> CreateBy { get; set; }
@@ -54,9 +56,12 @@ namespace SAT.HR.Models
         public string MtName { get; set; }
         public int? MopTotal { get; set; }
         public string MopDateCmdText { get; set; }
+
+        public string CreateDateText { get; set; }
         public string MopDateEffText { get; set; }
         public int recordsTotal { get; set; }
         public int recordsFiltered { get; set; }
+
         public HttpPostedFileBase fileUpload { get; set; }
         public List<PositionTransferDetailViewModel> ListDetail { get; set; }
     }
@@ -74,23 +79,24 @@ namespace SAT.HR.Models
         public int RowNumber { get; set; }
         public int MopID { get; set; }
         public int UserID { get; set; }
-        public string UserName { get; set; }
-        public int CurPoID { get; set; }
-        public string CurPoCode { get; set; }
+        public string FullName { get; set; }
+        public int CurMpID { get; set; }
         public string CurPoName { get; set; }
-        public int? MovPoID { get; set; }
-        public string MovPoCode { get; set; }
+        public int? MovMpID { get; set; }
         public string MovPoName { get; set; }
         public Nullable<int> AgentPoTID { get; set; }
         public string AgentPoTName { get; set; }
-        public Nullable<int> AgentPoID { get; set; }
-        public string AgentPoCode { get; set; }
+        public Nullable<int> AgentMpID { get; set; }
         public string AgentPoName { get; set; }
         public string MovRemark { get; set; }
 
         public string CurrentPo { get; set; }
         public string MovePo { get; set; }
         public string AgentPo { get; set; }
+        public string DivName { get; set; }
+        public string DepName { get; set; }
+        public string SecName { get; set; }
+        public string BelongTo { get; set; }
     }
 
     public class PositionTransferDetailResult
@@ -110,9 +116,9 @@ namespace SAT.HR.Models
 
     public class ManPowerViewModel
     {
+        public int? MpID { get; set; }
         public string FullName { get; set; }
         public string BelongTo { get; set; }
-        public int? PositionID { get; set; }
         public string Position { get; set; }
         public string Level { get; set; }
         public string Step { get; set; }
@@ -123,15 +129,17 @@ namespace SAT.HR.Models
     public class PositionRateViewModel
     {
         public int MpID { get; set; }
+        public string MpCode { get; set; }
         public Nullable<int> DivID { get; set; }
         public Nullable<int> DepID { get; set; }
         public Nullable<int> SecID { get; set; }
         public Nullable<int> PoID { get; set; }
-        public Nullable<int> MpCode { get; set; }
+        public Nullable<int> UserTID { get; set; }
         public string MpMan { get; set; }
         public Nullable<int> UserID { get; set; }
         public Nullable<int> EduID { get; set; }
         public string FullNameTh { get; set; }
+        public string PoName { get; set; }
     }
 
 }

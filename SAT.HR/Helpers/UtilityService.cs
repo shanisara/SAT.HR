@@ -199,6 +199,22 @@ namespace SAT.HR.Helpers
             }
         }
 
+        public static string PathDownloadUserInsignia
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathDownloadUserInsignia");
+            }
+        }
+
+        public static string PathDownloadUserPosition
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathDownloadUserPosition");
+            }
+        }
+
     }
 
 

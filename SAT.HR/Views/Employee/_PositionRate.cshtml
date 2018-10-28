@@ -8,6 +8,31 @@
     @Html.HiddenFor(m => m.MpID)
 
     <div class="m-t-10"></div>
+    if (@Model == null)
+    {
+        <div class="row">
+            @Html.Label("ตำแหน่ง: ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                @Html.DropDownListFor(n => n.PoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @Html.Label("อัตรากำลัง: ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.MpID, new { @class = "form-control disabled", required = "true" })
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("ผู้ดำรงตำแหน่ง: ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+
+                @Html.TextBoxFor(m => m.FullNameTh, new { @class = "form-control disabled", required = "true" })
+            </div>
+        </div>
+    }
     <div class="row">
         @Html.Label("ฝ่าย: ", null, new { @class = "col-sm-3 col-form-label" })
         <div class="col-sm-9">
@@ -32,32 +57,6 @@
             @Html.TextBoxFor(m => m.MpMan, new { @class = "form-control", required = "true" })
         </div>
     </div>
-    
-    if (@Model == null)
-    {
-        <div class="row">
-            @Html.Label("ตำแหน่ง: ", null, new { @class = "col-sm-3 col-form-label" })
-            <div class="col-sm-9">
-                @Html.DropDownListFor(n => n.PoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
-            </div>
-        </div>
-    }
-    else
-    {
-    <div class="row">
-        @Html.Label("อัตรากำลัง: ", null, new { @class = "col-sm-3 col-form-label" })
-        <div class="col-sm-9">
-            @Html.TextBoxFor(m => m.MpCode, new { @class = "form-control disabled", required = "true" })
-        </div>
-    </div>
-    <div class="row">
-        @Html.Label("ผู้ดำรงตำแหน่ง: ", null, new { @class = "col-sm-3 col-form-label" })
-        <div class="col-sm-9">
-            
-            @Html.TextBoxFor(m => m.FullNameTh, new { @class = "form-control disabled", required = "true" })
-        </div>
-    </div>
-    }
     <div class="row">
         @Html.Label("ระดับการศึกษา: ", null, new { @class = "col-sm-3 col-form-label" })
         <div class="col-sm-9">

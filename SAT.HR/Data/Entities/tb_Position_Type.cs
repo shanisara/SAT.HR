@@ -17,7 +17,6 @@ namespace SAT.HR.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tb_Position_Type()
         {
-            this.tb_User = new HashSet<tb_User>();
             this.tb_User_Position = new HashSet<tb_User_Position>();
             this.tb_Move_Man_Power_Detail = new HashSet<tb_Move_Man_Power_Detail>();
         }
@@ -25,8 +24,6 @@ namespace SAT.HR.Data.Entities
         public int PoTID { get; set; }
         public string PoTName { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_User> tb_User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User_Position> tb_User_Position { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

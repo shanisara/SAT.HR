@@ -103,7 +103,12 @@
         <div class="row">
             @Html.Label("ไฟล์แนบ: ", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-10">
-                <input id="fileUpload" name="fileUpload" type="file" class="form-control">
+                <div class="input-group-prepend file-path">
+                    <i class="fa fa-cloud-download m-t-15"></i>&nbsp;&nbsp;
+                    <a class="m-t-15 file-name" target="_blank" href=@Url.Action("DownloadPosition", "Employee", new { id = Model.UpID })>@Model.UpPathFile</a>
+                    <button type="button" class="btn btn-link btn-sm text-danger m-t-12 file-delete" title="ลบ">ลบ</button>
+                </div>
+                <input id="fileUpload" name="fileUpload" type="file" class="form-control file-upload">
             </div>
         </div>
     </div>
@@ -111,6 +116,15 @@
 }
 
 <script>
+    if ('@Model.UpPathFile' != '') {
+        $(".file-path").show();
+        $(".file-upload").hide();
+    }
+    else {
+        $(".file-path").hide();
+        $(".file-upload").show();
+    }
+
     $('.datepicker').datetimepicker({
         format: 'DD/MM/YYYY',
         icons: {
@@ -155,8 +169,7 @@
                 }
             });
         }
-    } 
-
+    }
 
     $(".po-div").change(function () {
         DropDownList.getDepartment($(".po-dep"), $('.po-div').val());
@@ -166,11 +179,21 @@
         DropDownList.getSection($(".po-sec"), $('.po-div').val(), $('.po-dep').val());
     });
 
+    $(".file-delete").click(function () {
+        $("#UpPathFile").val('');
+        $(".file-upload").val('');
+        $(".file-upload").show();
+        $(".file-path").hide();
+    });
 
-    
+    $(".file-upload").change(function () {
+        var name = "";
+        $("#MopPathFile").val(name);
+    });
 
 
-    
+
+
 
 
 </script>

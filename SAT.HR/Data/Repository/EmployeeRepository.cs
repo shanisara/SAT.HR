@@ -362,7 +362,6 @@ namespace SAT.HR.Data.Repository
                     model.EmpowerDivID = data.EmpowerDivID;
                     model.EmpowerDepID = data.EmpowerDepID;
                     model.EmpowerSecID = data.EmpowerSecID;
-                    model.PoTID = data.PoTID;
                     model.AgentDivID = data.AgentDivID;
                     model.AgentDepID = data.AgentDepID;
                     model.AgentSecID = data.AgentSecID;
@@ -461,7 +460,6 @@ namespace SAT.HR.Data.Repository
                     model.EmpowerDivID = newdata.EmpowerDivID;
                     model.EmpowerDepID = newdata.EmpowerDepID;
                     model.EmpowerSecID = newdata.EmpowerSecID;
-                    model.PoTID = newdata.PoTID;
                     model.AgentDivID = newdata.AgentDivID;
                     model.AgentDepID = newdata.AgentDepID;
                     model.AgentSecID = newdata.AgentSecID;
@@ -1121,6 +1119,38 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public FileViewModel DownloadPosition(int? id)
+        {
+            FileViewModel model = new FileViewModel();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var data = db.tb_User_Position.Where(x => x.UpID == id).FirstOrDefault();
+                    string filename = data.UpPathFile;
+
+                    string[] fileSplit = filename.Split('.');
+                    int length = fileSplit.Length - 1;
+                    string fileExt = fileSplit[length].ToUpper();
+
+                    var doctype = db.tb_Document_Type.Where(x => x.DocType == fileExt).FirstOrDefault();
+                    string Contenttype = doctype.ContentType;
+
+                    string filepath = SysConfig.PathDownloadUserPosition;
+
+                    model.FileName = filename;
+                    model.FilePath = filepath;
+                    model.ContentType = Contenttype;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return model;
+        }
+
+
         #endregion
 
         #region 1.5 Tab: User-Trainning
@@ -1482,6 +1512,38 @@ namespace SAT.HR.Data.Repository
                 return result;
             }
         }
+
+        public FileViewModel DownloadInsignia(int? id)
+        {
+            FileViewModel model = new FileViewModel();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var data = db.tb_User_Insignia.Where(x => x.UiID == id).FirstOrDefault();
+                    string filename = data.UiPartFile;
+
+                    string[] fileSplit = filename.Split('.');
+                    int length = fileSplit.Length - 1;
+                    string fileExt = fileSplit[length].ToUpper();
+
+                    var doctype = db.tb_Document_Type.Where(x => x.DocType == fileExt).FirstOrDefault();
+                    string Contenttype = doctype.ContentType;
+
+                    string filepath = SysConfig.PathDownloadUserInsignia;
+
+                    model.FileName = filename;
+                    model.FilePath = filepath;
+                    model.ContentType = Contenttype;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return model;
+        }
+
 
         #endregion
 

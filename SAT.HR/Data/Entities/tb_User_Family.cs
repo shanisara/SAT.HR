@@ -35,7 +35,6 @@ namespace SAT.HR.Data.Entities
     
         public virtual tb_Marital_Status tb_Marital_Status { get; set; }
         public virtual tb_Occupation tb_Occupation { get; set; }
-        public virtual tb_Position tb_Position { get; set; }
         public virtual tb_Recieve_Type tb_Recieve_Type { get; set; }
         public virtual tb_User tb_User { get; set; }
     }

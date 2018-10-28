@@ -4,9 +4,9 @@
 {
     <div class="form-horizontal">
         <div class="row">
-            @Html.Label("พนักงาน: ", null, new { @class = "col-sm-2 col-form-label" })
+            <label class="col-sm-2 col-form-label" for="UserID">พนักงาน:<span class="text-danger"> *</span> </label>
             <div class="col-sm-6">
-                @Html.DropDownListFor(n => n.UserID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Employee, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+                @Html.DropDownListFor(n => n.UserID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Employee, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
             </div>
             @Html.Label("ระดับ: ", null, new { @class = "col-sm-1 col-form-label" })
             <div class="col-sm-2">
@@ -16,7 +16,7 @@
         <div class="row">
             @Html.Label("ตำแหน่งปัจจุบัน: ", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-10">
-                @Html.Hidden("CurPoID")
+                @Html.Hidden("CurMpID")
                 <span class="label-text user-po"></span>
             </div>
         </div>
@@ -32,9 +32,9 @@
             </div>
         </div>
         <div class="row">
-            @Html.Label("ย้ายไปตำแหน่ง: ", null, new { @class = "col-sm-2 col-form-label" })
+            <label class="col-sm-2 col-form-label" for="UserID">ย้ายไปตำแหน่ง:<span class="text-danger"> *</span> </label>
             <div class="col-sm-6">
-                @Html.DropDownListFor(n => n.MovPoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+                @Html.DropDownListFor(n => n.MovMpID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
             </div>
             <div class="col-sm-4">
                 @Html.Label("ผู้ดำรงตำแหน่ง: ", null, new { @class = "col-form-label" })
@@ -60,8 +60,9 @@
         </div>
         <div class="row">
             @Html.Label("ตำแหน่ง: ", null, new { @class = "col-sm-2 col-form-label" })
+
             <div class="col-sm-6">
-                @Html.DropDownListFor(n => n.AgentPoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+                @Html.DropDownListFor(n => n.AgentMpID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
             </div>
             <div class="col-sm-4">
                 @Html.Label("ผู้ดำรงตำแหน่ง: ", null, new { @class = "col-form-label" })
@@ -80,7 +81,7 @@
         <div class="row">
             @Html.Label("หมายเหตุ: ", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-10">
-                @Html.TextBoxFor(m => m.MovRemark, new { @class = "form-control", required = "true" })
+                @Html.TextBoxFor(m => m.MovRemark, new { @class = "form-control" })
             </div>
         </div>
     </div>
@@ -95,12 +96,11 @@
             data: { userid: userid },
             dataType: 'json',
             success: function (res) {
-                debugger;
                 var belong = res.BelongTo;
                 var poname = res.Position;
                 var level = res.Level;
-                var curpoid = res.Level;
-                $('#CurPoID').val(curpoid);
+                var curmpid = res.MpID;
+                $('#CurMpID').val(curmpid);
                 $('.user-belong').text(belong);
                 $('.user-po').text(poname);
                 $('.user-level').text(level);
@@ -108,12 +108,12 @@
         });
     });
 
-    $("#MovPoID").change(function () {
-        var poid = $('#MovPoID').val();
+    $("#MovMpID").change(function () {
+        var mpid = $('#MovMpID').val();
         $.ajax({
             type: 'POST',
-            url: '@Url.Action("GetDetailByPosition", "Master")',
-            data: { poid: poid },
+            url: '@Url.Action("GetDetailByMp", "Master")',
+            data: { mpid: mpid },
             dataType: 'json',
             success: function (res) {
                 var belong = res.BelongTo;
@@ -124,12 +124,12 @@
         });
     });
 
-    $("#AgentPoID").change(function () {
-        var poid = $('#AgentPoID').val();
+    $("#AgentMpID").change(function () {
+        var mpid = $('#AgentMpID').val();
         $.ajax({
             type: 'POST',
-            url: '@Url.Action("GetDetailByPosition", "Master")',
-            data: { poid: poid },
+            url: '@Url.Action("GetDetailByMp", "Master")',
+            data: { mpid: mpid },
             dataType: 'json',
             success: function (res) {
                 var belong = res.BelongTo;

@@ -28,14 +28,13 @@ namespace SAT.HR.Data.Entities
             this.tb_Benefit_Other_Welfare = new HashSet<tb_Benefit_Other_Welfare>();
             this.tb_Benefit_Provident_Fund = new HashSet<tb_Benefit_Provident_Fund>();
             this.tb_Man_Power = new HashSet<tb_Man_Power>();
-            this.tb_User_Training = new HashSet<tb_User_Training>();
             this.tb_User_Certificate = new HashSet<tb_User_Certificate>();
             this.tb_User_Education = new HashSet<tb_User_Education>();
-            this.tb_User_Insignia = new HashSet<tb_User_Insignia>();
             this.tb_User_Excellent = new HashSet<tb_User_Excellent>();
-            this.tb_User_Position = new HashSet<tb_User_Position>();
-            this.tb_User_History = new HashSet<tb_User_History>();
             this.tb_User_Family = new HashSet<tb_User_Family>();
+            this.tb_User_History = new HashSet<tb_User_History>();
+            this.tb_User_Position = new HashSet<tb_User_Position>();
+            this.tb_User_Training = new HashSet<tb_User_Training>();
         }
     
         public int UserID { get; set; }
@@ -65,14 +64,10 @@ namespace SAT.HR.Data.Entities
         public string CardScan { get; set; }
         public Nullable<int> SalaryLevel { get; set; }
         public Nullable<decimal> SalaryStep { get; set; }
-        public Nullable<int> DepID { get; set; }
-        public Nullable<int> SecID { get; set; }
-        public Nullable<int> PoID { get; set; }
         public Nullable<int> EmpowerID { get; set; }
         public Nullable<int> EmpowerDivID { get; set; }
         public Nullable<int> EmpowerDepID { get; set; }
         public Nullable<int> EmpowerSecID { get; set; }
-        public Nullable<int> PoTID { get; set; }
         public Nullable<int> AgentDivID { get; set; }
         public Nullable<int> AgentDepID { get; set; }
         public Nullable<int> AgentSecID { get; set; }
@@ -126,29 +121,25 @@ namespace SAT.HR.Data.Entities
         public virtual tb_Marital_Status tb_Marital_Status { get; set; }
         public virtual tb_Nationality tb_Nationality { get; set; }
         public virtual tb_Nationality tb_Nationality1 { get; set; }
-        public virtual tb_Position tb_Position { get; set; }
-        public virtual tb_Position_Type tb_Position_Type { get; set; }
         public virtual tb_Religion tb_Religion { get; set; }
         public virtual tb_Sex tb_Sex { get; set; }
         public virtual tb_Title tb_Title { get; set; }
-        public virtual tb_User_Type tb_User_Type { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_User_Training> tb_User_Training { get; set; }
-        public virtual tb_User_Status tb_User_Status { get; set; }
-        public virtual tb_Working_Type tb_Working_Type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User_Certificate> tb_User_Certificate { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User_Education> tb_User_Education { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_User_Insignia> tb_User_Insignia { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User_Excellent> tb_User_Excellent { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_User_Position> tb_User_Position { get; set; }
+        public virtual ICollection<tb_User_Family> tb_User_Family { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User_History> tb_User_History { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_User_Family> tb_User_Family { get; set; }
+        public virtual ICollection<tb_User_Position> tb_User_Position { get; set; }
+        public virtual tb_User_Type tb_User_Type { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_User_Training> tb_User_Training { get; set; }
+        public virtual tb_User_Status tb_User_Status { get; set; }
+        public virtual tb_Working_Type tb_Working_Type { get; set; }
     }
 }

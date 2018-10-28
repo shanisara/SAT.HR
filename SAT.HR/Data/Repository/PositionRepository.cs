@@ -50,6 +50,7 @@ namespace SAT.HR.Data.Repository
                     PoCode = s.PoCode,
                     PoName = s.PoName,
                     PoStatus = s.PoStatus,
+                    TypeID = s.TypeID,
                     Status = s.PoStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive
                 }).Skip(start * length).Take(length).ToList();
 
@@ -72,7 +73,24 @@ namespace SAT.HR.Data.Repository
                     PoID = s.PoID,
                     PoCode = s.PoCode,
                     PoName = s.PoName,
-                    PoStatus = s.PoStatus
+                    PoStatus = s.PoStatus,
+                    TypeID = s.TypeID
+                }).OrderBy(x => x.PoCode).ToList();
+                return list;
+            }
+        }
+
+        public List<PositionViewModel> GetByType(int? typeid)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Position.Where(w => w.TypeID == typeid).Select(s => new PositionViewModel()
+                {
+                    PoID = s.PoID,
+                    PoCode = s.PoCode,
+                    PoName = s.PoName,
+                    PoStatus = s.PoStatus,
+                    TypeID = s.TypeID
                 }).OrderBy(x => x.PoCode).ToList();
                 return list;
             }
@@ -105,6 +123,7 @@ namespace SAT.HR.Data.Repository
                     model.PoCode = data.PoCode;
                     model.PoName = data.PoName;
                     model.PoStatus = (data.Status == "1") ? true : false;
+                    model.TypeID = data.TypeID;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -131,6 +150,7 @@ namespace SAT.HR.Data.Repository
                     model.PoCode = newdata.PoCode;
                     model.PoName = newdata.PoName;
                     model.PoStatus = (newdata.Status == "1") ? true : false;
+                    model.TypeID = newdata.TypeID;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();

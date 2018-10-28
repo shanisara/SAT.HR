@@ -39,21 +39,6 @@
                                     <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
                                 </tr>
                             </thead>
-                            @*<tbody>
-                                <tr role="row" class="odd">
-                                    <td style="width: 1px; white-space: nowrap" class="sorting_1">1.</td>
-                                    <td>2560</td>
-                                    <td>พนักงาน</td>
-                                    <td style="width: 1px; white-space: nowrap">โยกย้ายตำแหน่ง</td>
-                                    <td>48/2561</td>
-                                    <td style="text-align: center">45</td>
-                                    <td style="width: 1px; white-space: nowrap">5/4/2561</td>
-                                    <td class="td-actions">ยืนยันแล้ว</td>
-                                    <td class="text-right">
-                                        <button title="แก้ไข" type="button" class="btn btn-round btn-warning btn-just-icon edit-position-Transfer" data-id="1"><i class="material-icons">search</i></button>
-                                    </td>
-                                </tr>
-                            </tbody>*@
                         </table>
                     </div>
                 </div>
@@ -89,23 +74,24 @@
                         "columns": [
                             { "data": "RowNumber", "orderable": false, "searchable": false },
                             { "data": "MopYear", "orderable": true },
-                            { "data": "EmpTName", "orderable": true },
+                            { "data": "UserTName", "orderable": true },
                             { "data": "MtName", "orderable": true },
                             { "data": "MopBookCmd", "orderable": true },
                             { "data": "MopTotal", "orderable": true },
-                            { "data": "MopDateCmdText", "orderable": true },
+                            { "data": "CreateDateText", "orderable": true },
                             { "data": "MopStatusName", "orderable": true }
                         ],
                         "columnDefs": [
                             {
                                 "render": function (data, type, row) {
-                                    return '<div class="td-actions text-right">' + data + '</div>';
+                                    return '<div class="td-actions text-center">' + data + '</div>';
                                 }, "targets": [5]
                             },
                             {
                                 "render": function (data, type, row) {
                                     var inner = '<div class="td-actions text-right">' +
-                                                    '<button title="แสดงข้อมูล" type="button" class="btn btn-round btn-warning btn-just-icon edit-position-Transfer" data-id="' + row.MopID+'"><i class="material-icons">search</i></button>' +
+                                                    '<button title="แสดงข้อมูล" type="button" class="btn btn-round btn-warning edit-Transfer" data-id="' + row.MopID +'"><i class="material-icons">search</i></button>&nbsp;&nbsp;' +
+                                                    '<button title="ลบ" type="button" class="btn btn-round btn-danger delete-Transfer" data-id="' + row.MopID + '"><i class="material-icons">close</i></button>' +
                                                 '</div>';
                                     return inner;
                                 }, "targets": 8
@@ -116,11 +102,57 @@
                         "pagingType": "full_numbers",
                     });
 
-                    dataTable.table.on('click', '.edit-position-Transfer', function () {
+                    dataTable.table.on('click', '.edit-Transfer', function () {
                         var id = $(this).data("id");
                         var type = $('#usertype').val();
                         var url = '@Url.Action("PositionTransferDetail", "Employee")/' + id + '?type=' + type;
                         window.location.href = url;
+                    });
+
+                    dataTable.table.on('click', '.delete-position', function () {
+                        var id = $(this).data("id");
+                        var type = $('#usertype').val();
+                        swal({
+                            title: '',
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
+                            type: 'question',
+                            showCancelButton: true,
+                            confirmButtonClass: 'btn btn-success',
+                            cancelButtonClass: 'btn btn-danger',
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                            cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                            buttonsStyling: false
+                        }).then(function () {
+                            var url = '@Url.Action("DeleteLevelTransfer", "Employee")/' + id + '?type=' + type;
+                            $.ajax({
+                                type: 'POST',
+                                url: url,
+                                success: function (res) {
+                                    if (res.MessageCode == null) {
+                                        swal({
+                                            title: "",
+                                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                                            type: "success",
+                                            confirmButtonClass: "btn btn-primary",
+                                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                            buttonsStyling: false,
+                                        }).then(function () {
+                                            dataTable.getData();
+                                        });
+                                    }
+                                    else {
+                                        swal({
+                                            title: '',
+                                            text: res.MessageText,
+                                            type: 'error',
+                                            confirmButtonClass: "btn btn-primary",
+                                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                            buttonsStyling: false
+                                        }).catch(swal.noop);
+                                    }
+                                }
+                            });
+                        });
                     });
                 },
                 getData: function () {
@@ -139,12 +171,6 @@
                 window.location.href = url;
             });
 
-            @*$(".edit-position-Transfer").click(function () {
-                var id = 2;
-                var type = 1;
-                var url = '@Url.Action("PositionTransferDetail", "Employee")/' + id + '?type=' + type;
-                window.location.href = url;
-            });*@
 
         });
     </script>

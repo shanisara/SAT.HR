@@ -98,19 +98,19 @@ namespace SAT.HR.Controllers
             ViewBag.SalaryLevel = DropDownList.GetSalaryLevel(model.SalaryLevel);
             ViewBag.SalaryStep = DropDownList.GetSalaryStep(model.SalaryStep, model.SalaryLevel);
 
-            ViewBag.Position = DropDownList.GetPosition(model.PoID, true);
+            ViewBag.Position = DropDownList.GetPosition(model.PoID, model.UserType, true);
             ViewBag.Division = DropDownList.GetDivision(model.DivID, true);
             ViewBag.Department = DropDownList.GetDepartment(model.DivID, model.DepID, true);
             ViewBag.Section = DropDownList.GetSection(model.DivID, model.DepID, model.SecID, true);
 
             ViewBag.Empower = DropDownList.GetEmpower(model.EmpowerID);     //-- > ช่วยราชการ
-            ViewBag.EmpowerPosition = DropDownList.GetPosition(model.EmpowerID, true);
+            ViewBag.EmpowerPosition = DropDownList.GetPosition(model.EmpowerID, model.UserType, true);
             ViewBag.EmpowerDivision = DropDownList.GetDivision(model.EmpowerDivID, true);
             ViewBag.EmpowerDepartment = DropDownList.GetDepartment(model.EmpowerDivID, model.EmpowerDepID, true);
             ViewBag.EmpowerSection = DropDownList.GetSection(model.EmpowerDivID, model.EmpowerDepID, model.EmpowerSecID, true);
 
             ViewBag.PositionType = DropDownList.GetPositionType(model.PoTID);//-- > รักษาการแทน
-            ViewBag.AgentPosition = DropDownList.GetPosition(model.AgentPoID, true);
+            ViewBag.AgentPosition = DropDownList.GetPosition(model.AgentPoID, model.UserType, true);
             ViewBag.AgentDivision = DropDownList.GetDivision(model.AgentDivID, true);
             ViewBag.AgentDepartment = DropDownList.GetDepartment(model.AgentDivID, model.AgentDepID, true);
             ViewBag.AgentSection = DropDownList.GetSection(model.AgentDivID, model.AgentDepID, model.AgentSecID, true);
@@ -165,13 +165,13 @@ namespace SAT.HR.Controllers
             return PartialView("_Family");
         }
 
-        public ActionResult FamilyDetail(int userid, int recid, int ufid)
+        public ActionResult FamilyDetail(int userid, int recid, int ufid, int? usertype)
         {
             var model = new EmployeeRepository().GetFamilyByID(userid, recid, ufid);
 
             ViewBag.MaritalStatus = DropDownList.GetMaritalStatus(model != null ? model.MaritalStatusID : null);
             ViewBag.Occupation = DropDownList.GetOccupation(model != null ? model.OcID : null);
-            ViewBag.Position = DropDownList.GetPosition(model != null ? model.PoID : null, true);
+            ViewBag.Position = DropDownList.GetPosition(model != null ? model.PoID : null, usertype, true);
 
             return PartialView("_FamilyDetail", model);
         }
@@ -252,16 +252,16 @@ namespace SAT.HR.Controllers
             return PartialView("_Position");
         }
 
-        public ActionResult PositionDetail(int userid, int id)
+        public ActionResult PositionDetail(int userid, int id, int? usertype)
         {
             var model = new EmployeeRepository().GetPositionByID(userid, id);
             ViewBag.ActionType = DropDownList.GetActionType(model.ActID, null);
             ViewBag.PositionType = DropDownList.GetPositionType(model.PoTID);
-            ViewBag.Position = DropDownList.GetPosition(model.PoID, true);
+            ViewBag.Position = DropDownList.GetPosition(model.PoID, usertype, true);
             ViewBag.Division = DropDownList.GetDivision(model.DivID, true);
             ViewBag.Department = DropDownList.GetDepartment(model.DivID, model.DepID, true);
             ViewBag.Section = DropDownList.GetSection(model.DivID, model.DepID, model.SecID, true);
-            ViewBag.PositionAgent = DropDownList.GetPosition(model.PoAID, true);
+            ViewBag.PositionAgent = DropDownList.GetPosition(model.PoAID, usertype, true);
             return PartialView("_PositionDetail", model);
         }
 
@@ -286,6 +286,15 @@ namespace SAT.HR.Controllers
         {
             var list = new EmployeeRepository().GetPositionByUser(id);
             return Json(new { data = list.ListPosition }, JsonRequestBehavior.AllowGet);
+        }
+
+        public FileResult DownloadPosition(int id)
+        {
+            var result = new EmployeeRepository().DownloadPosition(id);
+            string fileName = result.FileName;
+            string filePath = result.FilePath;
+            string contentType = result.ContentType;
+            return new FilePathResult(Path.Combine(filePath, fileName), contentType);
         }
 
         #endregion
@@ -385,16 +394,13 @@ namespace SAT.HR.Controllers
             return Json(new { data = list.ListInsignia }, JsonRequestBehavior.AllowGet);
         }
 
-        public FileResult DownloadInsignia(int userid, int id)
+        public FileResult DownloadInsignia(int id)
         {
-            //var result = new EmployeeRepository().GetInsigniaByID(userid, id);
-            //string fileName = result.UiPartFile;
-
-            //var file = 
-            //string contentType = file.contentType;
-            //return new FilePathResult(fileName, contentType);
-
-            return null;
+            var result = new EmployeeRepository().DownloadInsignia(id);
+            string fileName = result.FileName;
+            string filePath = result.FilePath;
+            string contentType = result.ContentType;
+            return new FilePathResult(Path.Combine(filePath, fileName), contentType);
         }
 
         #endregion
@@ -525,7 +531,7 @@ namespace SAT.HR.Controllers
             ViewBag.Division = DropDownList.GetDivision(null, true);
             ViewBag.Department = DropDownList.GetDepartment(null, null, true);
             ViewBag.Section = DropDownList.GetSection(null, null, null, true);
-            ViewBag.Position = DropDownList.GetPosition(null, true);
+            ViewBag.Position = DropDownList.GetPosition(null,null, true);
             ViewBag.Education = DropDownList.GetEducation(null, true);
             return View();
         }
@@ -536,7 +542,7 @@ namespace SAT.HR.Controllers
             ViewBag.Division = DropDownList.GetDivision(model != null ? model.DivID : null, false);
             ViewBag.Department = DropDownList.GetDepartment(model != null ? model.DivID : null, model != null ? model.DepID: null, false);
             ViewBag.Section = DropDownList.GetSection(model != null ? model.DivID : null, model != null ? model.DepID: null, model != null ? model.SecID: null, false);
-            ViewBag.Position = DropDownList.GetPosition(model != null ? model.PoID : null, false);
+            ViewBag.Position = DropDownList.GetPosition(model != null ? model.PoID : null, model != null ? model.UserTID : null, false);
             ViewBag.Education = DropDownList.GetEducation(model != null ? model.EduID : null, true);
 
             return PartialView("_PositionRate", model);
@@ -642,7 +648,6 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-
         public FileResult DownloadFileLevelTransfer(int id)
         {
             var result = new LevelTransferRepository().DownloadFileLevelTransfer(id);
@@ -693,18 +698,27 @@ namespace SAT.HR.Controllers
             var model = new PositionTransferRepository().GetDetailByID(id);
             ViewBag.Employee = DropDownList.GetEmployee(null, type);
             ViewBag.PositionType = DropDownList.GetPositionType(null);
-            ViewBag.Position = DropDownList.GetPosition(null, true);
+            ViewBag.Position = DropDownList.GetPositionRate(null, type);
             return PartialView("_PositionTransferDetail", model);
         }
 
         public JsonResult SavePositionTransfer(PositionTransferViewModel data)
         {
             ResponseData result = new Models.ResponseData();
-            if (data.MtID != 0)
+            if (data.MopID != 0)
                 result = new PositionTransferRepository().UpdateByEntity(data);
             else
                 result = new PositionTransferRepository().AddByEntity(data);
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public FileResult DownloadFilePositionTransfer(int id)
+        {
+            var result = new PositionTransferRepository().DownloadFilePositionTransfer(id);
+            string fileName = result.FileName;
+            string filePath = result.FilePath;
+            string contentType = result.ContentType;
+            return new FilePathResult(Path.Combine(filePath, fileName), contentType);
         }
 
         #endregion

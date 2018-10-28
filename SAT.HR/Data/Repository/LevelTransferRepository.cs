@@ -264,7 +264,7 @@ namespace SAT.HR.Data.Repository
                             if (!isExists)
                                 System.IO.Directory.CreateDirectory(directory);
 
-                            string newFileName = " คส.ที่ " + newdata.MlBookCmd + " เรื่องการแต่งตั้งเลื่อนระดับพนักงาน" + "." + fileExt;
+                            string newFileName = "คส.ที่ " + newdata.MlBookCmd + " เรื่องการแต่งตั้งเลื่อนระดับพนักงาน" + "." + fileExt;
                             string fileLocation = Path.Combine(directory, newFileName);
 
                             fileUpload.SaveAs(fileLocation);
@@ -323,14 +323,13 @@ namespace SAT.HR.Data.Repository
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    var itemdelete = db.tb_Move_Level_Head.Where(x => x.MlID == id).FirstOrDefault();
-                    db.tb_Move_Level_Head.Remove(itemdelete);
-                    db.SaveChanges();
-
                     var listdelete = db.tb_Move_Level_Detail.Where(x => x.MlID == id).ToList();
                     db.tb_Move_Level_Detail.RemoveRange(listdelete);
                     db.SaveChanges();
 
+                    var itemdelete = db.tb_Move_Level_Head.Where(x => x.MlID == id).FirstOrDefault();
+                    db.tb_Move_Level_Head.Remove(itemdelete);
+                    db.SaveChanges();
                 }
             }
             catch (Exception ex)
