@@ -553,15 +553,11 @@ namespace SAT.HR.Controllers
             var data = new PositionRateRepository().GetTree(id);
             var items = new[]
             {
-                new
-                {
-                    id = "0",
-                    text = "การกีฬาแห่งประเทศไทย",
-                    state = new { opened = true },
-                    children = data
-                }
+                new { id = "0", text = "การกีฬาแห่งประเทศไทย", state = new { opened = true }, children = data }
             }
             .ToList();
+
+            //var items = new PositionRateRepository().GetTreeAll(id);
             return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 

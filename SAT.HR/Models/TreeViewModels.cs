@@ -21,4 +21,5 @@ namespace SAT.HR.Models
         public string node_type { get; set; }
         public int node_mpid { get; set; }
     }
+
 }

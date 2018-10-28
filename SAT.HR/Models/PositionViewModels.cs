@@ -138,6 +138,7 @@ namespace SAT.HR.Models
         public string MpMan { get; set; }
         public Nullable<int> UserID { get; set; }
         public Nullable<int> EduID { get; set; }
+        public string TiShortName { get; set; }
         public string FullNameTh { get; set; }
         public string DivName { get; set; }
         public string DepName { get; set; }

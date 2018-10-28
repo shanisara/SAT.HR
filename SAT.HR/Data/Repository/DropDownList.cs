@@ -793,8 +793,6 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
-
-
         public static List<SelectListItem> GetDivisionManPower(int? type, int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();

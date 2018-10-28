@@ -19,20 +19,19 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
                     var data = db.vw_Man_Power.Where(x => x.MpID == id).FirstOrDefault();
-                    if (model != null)
+                    if (data != null)
                     {
-                        PositionRateViewModel obj = new PositionRateViewModel();
-                        obj.MpID = data.MpID;
-                        obj.MpCode = data.UserTID == 1 ? data.MpID.ToString().PadLeft(3, '0') : data.MpID.ToString().PadLeft(4, '0');
-                        obj.DivID = data.DivID;
-                        obj.DepID = data.DepID;
-                        obj.SecID = data.SecID;
-                        obj.PoID = data.PoID;
-                        obj.MpMan = data.MpMan;
-                        obj.UserID = data.UserID;
-                        obj.FullNameTh = data.TiShortName + data.FullNameTh;
-                        obj.EduID = data.EduID;
-                        obj.UserTID = data.UserTID;
+                        model.MpID = data.MpID;
+                        model.MpCode = data.UserTID == 1 ? data.MpID.ToString().PadLeft(3, '0') : data.MpID.ToString().PadLeft(4, '0');
+                        model.DivID = data.DivID;
+                        model.DepID = data.DepID;
+                        model.SecID = data.SecID;
+                        model.PoID = data.PoID;
+                        model.MpMan = data.MpMan;
+                        model.UserID = data.UserID;
+                        model.FullNameTh = data.TiShortName + data.FullNameTh;
+                        model.EduID = data.EduID;
+                        model.UserTID = data.UserTID;
                     }
                 }
             }
@@ -52,7 +51,10 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
+                    int maxID = db.vw_Man_Power.Where(m => m.UserTID == data.UserTID).Max(m => m.MpID);
+
                     tb_Man_Power model = new tb_Man_Power();
+                    model.MpID = maxID;
                     model.DivID = data.DivID;
                     model.DepID = data.DepID;
                     model.SecID = data.SecID;
@@ -69,7 +71,8 @@ namespace SAT.HR.Data.Repository
                 }
                 catch (Exception)
                 {
-
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
                 }
                 return result;
             }
@@ -96,7 +99,8 @@ namespace SAT.HR.Data.Repository
                 }
                 catch (Exception)
                 {
-
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
                 }
                 return result;
             }
@@ -147,7 +151,7 @@ namespace SAT.HR.Data.Repository
 
                         var model = new TreeViewModel();
                         model.id = item.DivID.ToString();
-                        model.text = item.DivName + " ("  + countChild + ")";
+                        model.text = item.DivName + " (" + countChild + ")";
                         model.node_type = "div";
                         model.children = (countChild > 0) ? true : false;
                         items.Add(model);
@@ -245,20 +249,25 @@ namespace SAT.HR.Data.Repository
             using (SATEntities db = new SATEntities())
             {
                 var user = db.vw_Man_Power.Where(m => m.UserTID == usertype && m.DivID == divid && m.DepID == depid && m.SecID == secid && m.PoID == poid
-                                && !string.IsNullOrEmpty(m.DivName) && !string.IsNullOrEmpty(m.DepName) && !string.IsNullOrEmpty(m.SecName) && !string.IsNullOrEmpty(m.FullNameTh))
-                            .GroupBy(item => item.UserID, (key, group) => new {
-                                UserID = key,
-                                TiShortName = group.FirstOrDefault().TiShortName,
-                                FullNameTh = group.FirstOrDefault().FullNameTh,
-                                MpID = group.FirstOrDefault().MpID
-                            }).ToList();
+                              && !string.IsNullOrEmpty(m.DivName) && !string.IsNullOrEmpty(m.DepName) && !string.IsNullOrEmpty(m.SecName) && !string.IsNullOrEmpty(m.FullNameTh))
+                              .GroupBy(item => item.UserID, (key, group) => new
+                              {
+                                  UserID = key,
+                                  TiShortName = group.FirstOrDefault().TiShortName,
+                                  FullNameTh = group.FirstOrDefault().FullNameTh,
+                                  MpID = group.FirstOrDefault().MpID,
+                                  DivID = group.FirstOrDefault().DivID,
+                                  DepID = group.FirstOrDefault().DepID,
+                                  SecID = group.FirstOrDefault().SecID,
+                                  PoID = group.FirstOrDefault().PoID,
+                              }).ToList();
+                //GetUserManPower(usertype, divid, depid, secid, poid);
 
                 foreach (var item in user)
                 {
-
                     var model = new TreeViewModel();
                     model.id = item.UserID.ToString();
-                    model.text = "("+ item.MpID.ToString().PadLeft(4, '0') +") "+ item.TiShortName + item.FullNameTh; // + " [" + item.MpCode + "]";
+                    model.text = "(" + item.MpID.ToString().PadLeft(4, '0') + ") " + item.TiShortName + item.FullNameTh; // + " [" + item.MpCode + "]";
                     model.children = false;
                     model.node_type = "user";
                     model.node_mpid = item.MpID;
@@ -269,7 +278,177 @@ namespace SAT.HR.Data.Repository
             return items;
         }
 
-        public List<TreeViewModel> GetTreeAll(int usertype)
+        public List<PositionRateViewModel> GetPositionRate(int? type)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                List<PositionRateViewModel> list = new List<PositionRateViewModel>();
+
+                var position = db.vw_Man_Power.Where(m => m.UserTID == type && !string.IsNullOrEmpty(m.PoName))
+                   .GroupBy(item => item.PoID, (key, group) => new { PoID = key, MpID = group.FirstOrDefault().MpID, PoName = group.FirstOrDefault().PoName })
+                   .OrderBy(o => o.MpID)
+                   .ToList();
+
+                foreach (var item in position)
+                {
+                    PositionRateViewModel model = new PositionRateViewModel();
+                    model.MpID = item.MpID;
+                    model.MpCode = type == 1 ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
+                    model.PoName = item.PoName;
+                    list.Add(model);
+                }
+
+                return list;
+            }
+        }
+
+        public List<PositionRateViewModel> GetDivisionManPower(int? type)
+        {
+            List<PositionRateViewModel> list = new List<PositionRateViewModel>();
+            using (SATEntities db = new SATEntities())
+            {
+                var deivision = db.vw_Man_Power.Where(m => m.UserTID == type)
+                                 .GroupBy(item => item.DivID, (key, group) => new {
+                                     DivID = key,
+                                     DivName = group.FirstOrDefault().DivName,
+                                     MpID = group.FirstOrDefault().MpID
+                                 }).ToList();
+
+                foreach (var item in deivision)
+                {
+                    PositionRateViewModel model = new PositionRateViewModel();
+                    model.MpID = item.MpID;
+                    model.MpCode = (type == 1) ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
+                    model.DivID = item.DivID;
+                    model.DivName = item.DivName;
+                    list.Add(model);
+                }
+            }
+            return list;
+        }
+
+        public List<PositionRateViewModel> GetDepartmentManPower(int? type, int? divid)
+        {
+            List<PositionRateViewModel> list = new List<PositionRateViewModel>();
+            using (SATEntities db = new SATEntities())
+            {
+                var department = db.vw_Man_Power.Where(m => m.UserTID == type && m.DivID == divid && !string.IsNullOrEmpty(m.DepName))
+                                 .GroupBy(item => item.DepID, (key, group) => new {
+                                     DepID = key,
+                                     DepName = group.FirstOrDefault().DepName,
+                                     MpID = group.FirstOrDefault().MpID,
+                                     DivID = group.FirstOrDefault().DivID
+                                 }).ToList();
+
+                foreach (var item in department)
+                {
+                    PositionRateViewModel model = new PositionRateViewModel();
+                    model.MpID = item.MpID;
+                    model.MpCode = (type == 1) ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
+                    model.DepID = item.DepID;
+                    model.DepName = item.DepName;
+                    model.DivID = item.DivID;
+                    list.Add(model);
+                }
+            }
+            return list;
+        }
+
+        public List<PositionRateViewModel> GetSectionManPower(int? type, int? divid, int? depid)
+        {
+            List<PositionRateViewModel> list = new List<PositionRateViewModel>();
+            using (SATEntities db = new SATEntities())
+            {
+                var section = db.vw_Man_Power.Where(m => m.UserTID == type && m.DivID == divid && m.DepID == depid && !string.IsNullOrEmpty(m.SecName))
+                               .GroupBy(item => item.SecID, (key, group) => new {
+                                   SecID = key,
+                                   SecName = group.FirstOrDefault().SecName,
+                                   MpID = group.FirstOrDefault().MpID,
+                                   DivID = group.FirstOrDefault().DivID,
+                                   DepID = group.FirstOrDefault().DepID
+                               }).ToList();
+
+                foreach (var item in section)
+                {
+                    PositionRateViewModel model = new PositionRateViewModel();
+                    model.MpID = item.MpID;
+                    model.MpCode = (type == 1) ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
+                    model.SecID = item.SecID;
+                    model.SecName = item.SecName;
+                    model.DivID = item.DivID;
+                    model.DepID = item.DepID;
+                    list.Add(model);
+                }
+            }
+            return list;
+        }
+
+        public List<PositionRateViewModel> GetPositionManPower(int? type, int? divid, int? depid, int? secid)
+        {
+            List<PositionRateViewModel> list = new List<PositionRateViewModel>();
+            using (SATEntities db = new SATEntities())
+            {
+                var position = db.vw_Man_Power.Where(m => m.UserTID == type && m.DivID == divid && m.DepID == depid && m.SecID == secid && !string.IsNullOrEmpty(m.PoName))
+                                .GroupBy(item => item.PoID, (key, group) => new {
+                                    PoID = key,
+                                    PoName = group.FirstOrDefault().PoName,
+                                    MpID = group.FirstOrDefault().MpID,
+                                    DivID = group.FirstOrDefault().DivID,
+                                    DepID = group.FirstOrDefault().DepID,
+                                    SecID = group.FirstOrDefault().SecID
+                                })
+                                .OrderBy(o => o.MpID)
+                                .ToList();
+
+                foreach (var item in position)
+                {
+                    PositionRateViewModel model = new PositionRateViewModel();
+                    model.MpID = item.MpID;
+                    model.MpCode = (type == 1) ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
+                    model.PoID = item.PoID;
+                    model.PoName = item.PoName;
+                    model.DivID = item.DivID;
+                    model.DepID = item.DepID;
+                    model.SecID = item.SecID;
+                    list.Add(model);
+                }
+            }
+            return list;
+        }
+
+        public List<PositionRateViewModel> GetUserManPower(int? type, int? divid, int? depid, int? secid, int? poid)
+        {
+            List<PositionRateViewModel> list = new List<PositionRateViewModel>();
+            using (SATEntities db = new SATEntities())
+            {
+                var user = db.vw_Man_Power.Where(m => m.UserTID == type && m.DivID == divid && m.DepID == depid && m.SecID == secid && m.PoID == poid
+                               && !string.IsNullOrEmpty(m.DivName) && !string.IsNullOrEmpty(m.DepName) && !string.IsNullOrEmpty(m.SecName) && !string.IsNullOrEmpty(m.FullNameTh))
+                           .GroupBy(item => item.UserID, (key, group) => new
+                           {
+                               UserID = key,
+                               TiShortName = group.FirstOrDefault().TiShortName,
+                               FullNameTh = group.FirstOrDefault().FullNameTh,
+                               MpID = group.FirstOrDefault().MpID,
+                               DivID = group.FirstOrDefault().DivID,
+                               DepID = group.FirstOrDefault().DepID,
+                               SecID = group.FirstOrDefault().SecID,
+                               PoID = group.FirstOrDefault().PoID,
+                           }).ToList();
+            }
+            return list;
+        }
+
+
+
+
+
+
+
+
+
+
+
+        public List<TreeViewModel> GetTreeAll2(int usertype)
         {
             var items1 = new List<TreeViewModel>();
             var first = new[]
@@ -285,14 +464,17 @@ namespace SAT.HR.Data.Repository
                             state = new  { opened= true, selected = true, disabled= true },
                             children = new[]
                             {
+
                                 new { id = "2", text = "กอง",
                                     state = new  { opened= true, selected = true, disabled= true },
                                     children = new[]
                                     {
+
                                         new { id = "3", text = "งาน",
                                             state = new  { opened= true, selected = true, disabled= true },
                                             children = new[]
                                             {
+
                                                 new { id = "4",  text = "ตำแหน่ง",
                                                     state = new  { opened= true, selected = true, disabled= true },
                                                     children = new[]
@@ -341,121 +523,136 @@ namespace SAT.HR.Data.Repository
             //}
             //.ToList();
 
+
+
             return items1;
         }
-
-        public List<PositionRateViewModel> GetPositionRate(int? type)
+        public JSTreeViewModel GetTreeAll(int usertype)
         {
-            using (SATEntities db = new SATEntities())
-            {
-                List<PositionRateViewModel> list = new List<PositionRateViewModel>();
-
-                var position = db.vw_Man_Power.Where(m => m.UserTID == type && !string.IsNullOrEmpty(m.PoName))
-                   .GroupBy(item => item.PoID, (key, group) => new { PoID = key, MpID = group.FirstOrDefault().MpID, PoName = group.FirstOrDefault().PoName })
-                   .OrderBy(o => o.MpID)
-                   .ToList();
-
-                foreach (var item in position)
-                {
-                    PositionRateViewModel model = new PositionRateViewModel();
-                    model.MpID = item.MpID;
-                    model.MpCode = type == 1 ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
-                    model.PoName = item.PoName;
-                    list.Add(model);
-                }
-                 
-                return list;
-            }
+            var model = new JSTreeViewModel();
+            model.id = "0";
+            model.text = "การกีฬาแห่งประเทศไทย";
+            model.opened = true;
+            model.children = GetDivision(usertype);
+            return model;
         }
-
-        public List<PositionRateViewModel> GetDivisionManPower(int? type)
+        public List<JSTreeViewModel> GetDivision(int usertype)
         {
-            List<PositionRateViewModel> list = new List<PositionRateViewModel>();
-            using (SATEntities db = new SATEntities())
+            var items = new List<JSTreeViewModel>();
+            try
             {
-                var deivision = db.vw_Man_Power.Where(m => m.UserTID == type)
-                                 .GroupBy(item => item.DivID, (key, group) => new { DivID = key, DivName = group.FirstOrDefault().DivName, MpID = group.FirstOrDefault().MpID })
-                                 .ToList();
-
-                foreach (var item in deivision)
+                using (SATEntities db = new SATEntities())
                 {
-                    PositionRateViewModel model = new PositionRateViewModel();
-                    model.MpID = item.MpID;
-                    model.MpCode = (type == 1) ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
-                    model.DivID = item.DivID;
-                    model.DivName = item.DivName;
-                    list.Add(model);
+
+                    var deivision = GetDivisionManPower(usertype);
+
+                    foreach (var item in deivision)
+                    {
+                        var countChild = db.vw_Man_Power.Where(m => m.UserTID == usertype && m.DivID == item.DivID && !string.IsNullOrEmpty(m.DepName))
+                            .GroupBy(g => g.DepID).Select(group => new { DepID = group.Key }).Count();
+
+                        var model = new JSTreeViewModel();
+                        model.id = item.DivID.ToString();
+                        model.text = item.DivName + " (" + countChild + ")";
+                        model.opened = true;
+                        model.children = GetDepartmentByDiv(usertype, (int)item.DivID);
+                        items.Add(model);
+                    }
                 }
             }
-            return list;
-        }
+            catch (Exception ex)
+            {
+                throw;
+            }
 
-        public List<PositionRateViewModel> GetDepartmentManPower(int? type, int? divid)
+            return items;
+        }
+        public List<JSTreeViewModel> GetDepartmentByDiv(int usertype, int divid)
         {
-            List<PositionRateViewModel> list = new List<PositionRateViewModel>();
+            var items = new List<JSTreeViewModel>();
+
             using (SATEntities db = new SATEntities())
             {
-                var department = db.vw_Man_Power.Where(m => m.UserTID == type && m.DivID == divid && !string.IsNullOrEmpty(m.DepName))
-                                 .GroupBy(item => item.DepID, (key, group) => new { DepID = key, DepName = group.FirstOrDefault().DepName, MpID = group.FirstOrDefault().MpID })
-                                 .ToList();
+                var department = GetDepartmentManPower(usertype, divid);
 
                 foreach (var item in department)
                 {
-                    PositionRateViewModel model = new PositionRateViewModel();
-                    model.MpID = item.MpID;
-                    model.MpCode = (type == 1) ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
-                    model.DepID = item.DepID;
-                    model.DepName = item.DepName;
-                    list.Add(model);
+                    var countChild = db.vw_Man_Power.Where(m => m.UserTID == usertype && m.DepID == item.DepID && m.DivID == divid && !string.IsNullOrEmpty(m.SecName))
+                        .GroupBy(g => g.SecID).Select(group => new { SecID = group.Key }).Count();
+
+                    var model = new JSTreeViewModel();
+                    model.id = item.DepID.ToString();
+                    model.text = item.DepName + " (" + countChild + ")";
+                    model.opened = true;
+                    model.children = GetSectionByDep(usertype, item.DivID, item.DepID);
+                    items.Add(model);
                 }
             }
-            return list;
-        }
 
-        public List<PositionRateViewModel> GetSectionManPower(int? type, int? divid, int? depid)
+            return items;
+        }
+        public List<JSTreeViewModel> GetSectionByDep(int usertype, int? divid, int? depid)
         {
-            List<PositionRateViewModel> list = new List<PositionRateViewModel>();
+            var items = new List<JSTreeViewModel>();
+
             using (SATEntities db = new SATEntities())
             {
-                var section = db.vw_Man_Power.Where(m => m.UserTID == type && m.DivID == divid && m.DepID == depid && !string.IsNullOrEmpty(m.SecName))
-                               .GroupBy(item => item.SecID, (key, group) => new { SecID = key, SecName = group.FirstOrDefault().SecName, MpID = group.FirstOrDefault().MpID })
-                              . ToList();
+                var section = GetSectionManPower(usertype, divid, depid);
 
                 foreach (var item in section)
                 {
-                    PositionRateViewModel model = new PositionRateViewModel();
-                    model.MpID = item.MpID;
-                    model.MpCode = (type == 1) ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
-                    model.SecID = item.SecID;
-                    model.SecName = item.SecName;
-                    list.Add(model);
+                    var countChild = db.vw_Man_Power.Where(m => m.UserTID == usertype && m.SecID == item.SecID && !string.IsNullOrEmpty(m.PoName))
+                        .GroupBy(g => g.PoID).Select(group => new { PoID = group.Key }).Count();
+
+                    var model = new JSTreeViewModel();
+                    model.id = item.SecID.ToString();
+                    model.text = item.SecName + " (" + countChild + ")";
+                    model.opened = true;
+                    model.children = GetPositionBySec(usertype, item.DivID, item.DepID, item.SecID);
+                    items.Add(model);
                 }
             }
-            return list;
-        }
 
-        public List<PositionRateViewModel> GetPositionManPower(int? type, int? divid, int? depid, int? secid)
+            return items;
+        }
+        public List<JSTreeViewModel> GetPositionBySec(int usertype, int? divid, int? depid, int? secid)
         {
-            List<PositionRateViewModel> list = new List<PositionRateViewModel>();
+            var items = new List<JSTreeViewModel>();
+
             using (SATEntities db = new SATEntities())
             {
-                var position = db.vw_Man_Power.Where(m => m.UserTID == type && m.DivID == divid && m.DepID == depid && m.SecID == secid && !string.IsNullOrEmpty(m.PoName))
-                                .GroupBy(item => item.PoID, (key, group) => new { PoID = key, PoName = group.FirstOrDefault().PoName, MpID = group.FirstOrDefault().MpID })
-                                .OrderBy(o => o.MpID)
-                                .ToList();
+                var position = GetPositionManPower(usertype, divid, depid, secid);
 
                 foreach (var item in position)
                 {
-                    PositionRateViewModel model = new PositionRateViewModel();
-                    model.MpID = item.MpID;
-                    model.MpCode = (type == 1) ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
-                    model.PoID = item.PoID;
-                    model.PoName = item.PoName;
-                    list.Add(model);
+                    var countChild = db.vw_Man_Power.Where(m => m.UserTID == usertype && m.DivID == divid && m.DepID == depid && m.SecID == secid && m.PoID == item.PoID
+                            && !string.IsNullOrEmpty(m.DivName) && !string.IsNullOrEmpty(m.DepName) && !string.IsNullOrEmpty(m.SecName) && !string.IsNullOrEmpty(m.FullNameTh))
+                        .GroupBy(g => g.UserID).Select(group => new { UserID = group.Key }).Count();
+
+                    var model = new JSTreeViewModel();
+                    model.id = item.PoID.ToString();
+                    model.text = item.PoName + " (" + countChild + ")";
+
+                    items.Add(model);
                 }
             }
-            return list;
-        }
 
+            return items;
+        }
     }
 }
+
+public class JSTreeViewModel
+{
+    public string id { get; set; }
+    public string text { get; set; }
+    public string icon { get; set; }
+    public string state { get; set; }
+    public bool opened { get; set; }
+    public bool disabled { get; set; }
+    public bool selected { get; set; }
+    public string li_attr { get; set; }
+    public string a_attr { get; set; }
+    public List<JSTreeViewModel> children { get; set; }
+}
+
