@@ -199,5 +199,18 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<PositionAgentViewModel> GetPositionAgent()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Position_Agent.Select(s => new PositionAgentViewModel()
+                {
+                    PoAID = s.PoAID,
+                    PoAName = s.PoAName
+                }).ToList();
+                return list;
+            }
+        }
+
     }
 }

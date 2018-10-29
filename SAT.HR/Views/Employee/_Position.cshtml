@@ -100,10 +100,11 @@
             });
 
             dataTable.table.on('click', '.edit', function () {
+                var usertype = $("#UserType").val();
                 var userid = $("#UserID").val();
                 var id = $(this).data("id");
                 var url = '@Url.Action("PositionDetail", "Employee")';
-                $.post(url, { userid: userid, id: id }, function (data) {
+                $.post(url, { usertype: usertype, userid: userid, id: id }, function (data) {
                     $(".detail-position").html(data);
                     $('.modal-position').modal('show');
                 });

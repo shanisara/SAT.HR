@@ -24,7 +24,7 @@ namespace SAT.HR.Data.Repository
                         UserID = s.UserID,
                         UserName = s.UserName,
                         FullNameTh = s.FullNameTh,
-                        Avatar = s.Avatar,
+                        Avatar = SysConfig.ApplicationRoot + SysConfig.PathDownloadUserAvatar + s.Avatar,
                         Email = s.Email,
                         DivID = s.DivID,
                         DivName = s.DivName,
@@ -232,7 +232,7 @@ namespace SAT.HR.Data.Repository
                     model.WorkingTypeID = data.WorkingTypeID;
                     model.FingerScan = data.FingerScan;
                     model.CardScan = data.CardScan;
-                    model.Avatar = data.Avatar;
+                    model.Avatar = SysConfig.ApplicationRoot + SysConfig.PathDownloadUserAvatar + data.Avatar;
                     model.IsActive = data.IsActive;
                     model.UserType = data.UserTID;
                     model.Age = data.Age;

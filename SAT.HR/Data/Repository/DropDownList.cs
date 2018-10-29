@@ -758,6 +758,23 @@ namespace SAT.HR.Data.Repository
             }
             return list;
         }
+        
+        public static List<SelectListItem> PositionAgent(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new PositionRepository().GetPositionAgent();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.PoAID.ToString();
+                select.Text = item.PoAName;
+                select.Selected = defaultValue.HasValue ? (item.PoAID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
 
         public static List<SelectListItem> GetEmployee(int? defaultValue, int? userType)
         {

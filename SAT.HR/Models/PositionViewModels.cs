@@ -114,16 +114,11 @@ namespace SAT.HR.Models
         public string PoTName { get; set; }
     }
 
-    public class ManPowerViewModel
+    public class PositionAgentViewModel
     {
-        public int? MpID { get; set; }
-        public string FullName { get; set; }
-        public string BelongTo { get; set; }
-        public string Position { get; set; }
-        public string Level { get; set; }
-        public string Step { get; set; }
-        public string Salary { get; set; }
-        
+        public int PoAID { get; set; }
+
+        public string PoAName { get; set; }
     }
 
     public class PositionRateViewModel
@@ -144,6 +139,18 @@ namespace SAT.HR.Models
         public string DepName { get; set; }
         public string SecName { get; set; }
         public string PoName { get; set; }
+    }
+
+    public class ManPowerViewModel
+    {
+        public int? MpID { get; set; }
+        public string FullName { get; set; }
+        public string BelongTo { get; set; }
+        public string Position { get; set; }
+        public string Level { get; set; }
+        public string Step { get; set; }
+        public string Salary { get; set; }
+        
     }
 
 }

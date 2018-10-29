@@ -48,7 +48,7 @@ namespace SAT.HR.Helpers
             get
             {
                 var obj = GetSessionValue<UserProfile>("USER");
-               
+
                 if (obj == null)
                 {
                     try
@@ -143,6 +143,14 @@ namespace SAT.HR.Helpers
             }
         }
 
+        public static string ApplicationRoot
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("ApplicationRoot");
+            }
+        }
+
         public static string PathUploadUserAvatar
         {
             get
@@ -180,6 +188,14 @@ namespace SAT.HR.Helpers
             get
             {
                 return SysConfigRepository.GetKeyValue("PathUploadPositionTransfer");
+            }
+        }
+
+        public static string PathDownloadUserAvatar
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathDownloadUserAvatar");
             }
         }
 
