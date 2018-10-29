@@ -175,44 +175,59 @@
 
 
     $(".save-position").click(function () {
-        var form = $('.form-position')[0];
-        var data = new FormData(form);
-        data.append("#fileUpload", fileUpload);
-
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("SavePosition", "Employee")',
-            data: data, /*$(".form-position").serialize(),*/
-            enctype: 'multipart/form-data',
-            processData: false,
-            contentType: false,
-            cache: false,
-            success: function (res) {
-                if (res.MessageCode == null) {
-                    swal({
-                        title: "",
-                        text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
-                        type: "success",
-                        buttonsStyling: false,
-                        confirmButtonClass: "btn btn-primary",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                    }).then(function () {
-                        $('.modal-position').modal('hide');
-                        dataTable.getData();
-                    });
-                }
-                else {
-                    swal({
-                        title: '',
-                        text: res.MessageText,
-                        type: 'error',
-                        confirmButtonClass: "btn btn-primary",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                        buttonsStyling: false
-                    }).catch(swal.noop)
-                }
+        var $valid = $('.form-position').valid();
+        if (!$valid) {
+            if ($("#PoTID").val() == '') {
+                $('#PoTID-error').text(''); //กรุณาระบุประเภทตำแหน่ง
             }
-        });
+            if ($("#ActID").val() == '') {
+                $('#ActID-error').text(''); //กรุณาระบุการเคลื่อนไหว
+            }
+            if ($("#PoID").val() == '') {
+                $('#PoID-error').text(''); //กรุณาระบุตำแหน่ง
+            }
+            return false;
+        }
+        else {
+            var form = $('.form-position')[0];
+            var data = new FormData(form);
+            data.append("#fileUpload", fileUpload);
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SavePosition", "Employee")',
+                data: data, /*$(".form-position").serialize(),*/
+                enctype: 'multipart/form-data',
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function (res) {
+                    if (res.MessageCode == null) {
+                        swal({
+                            title: "",
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                            type: "success",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                        }).then(function () {
+                            $('.modal-position').modal('hide');
+                            dataTable.getData();
+                        });
+                    }
+                    else {
+                        swal({
+                            title: '',
+                            text: res.MessageText,
+                            type: 'error',
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                            buttonsStyling: false
+                        }).catch(swal.noop)
+                    }
+                }
+            });
+        }
     });
 
 </script>

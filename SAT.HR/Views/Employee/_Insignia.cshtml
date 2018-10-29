@@ -168,52 +168,53 @@
 
 
     $(".save-insignia").click(function () {
-        //var formData = new FormData();
-        //var totalFiles = $("#fileUpload")[0].files.length;
-        //if (totalFiles > 0) {
-        //    var files = $("#fileUpload")[0].files[0];
-        //    var typeFile = files.name.split('.').pop().toLowerCase();
-        //    formData.append("#fileUpload", fileUpload);
-        //}
-
-        var form = $('.form-insignia')[0];
-        var data = new FormData(form);
-        data.append(".fileUpload", fileUpload);
-
-        $.ajax({
-            type: "POST",
-            url: '@Url.Action("SaveInsignia", "Employee")',
-            data: data, /*$(".form-insignia").serialize(),*/
-            enctype: 'multipart/form-data',
-            processData: false,
-            contentType: false,
-            cache: false,
-            success: function (res) {
-                if (res.MessageCode == null) {
-                    swal({
-                        title: "",
-                        text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
-                        type: "success",
-                        buttonsStyling: false,
-                        confirmButtonClass: "btn btn-primary",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                    }).then(function () {
-                        $('.modal-insignia').modal('hide');
-                        dataTable.getData();
-                    });
-                }
-                else {
-                    swal({
-                        title: '',
-                        text: res.MessageText,
-                        type: 'error',
-                        confirmButtonClass: "btn btn-primary",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                        buttonsStyling: false
-                    }).catch(swal.noop)
-                }
+        var $valid = $('.form-insignia').valid();
+        if (!$valid) {
+            if ($("#InsID").val() == '') {
+                $('#InsID-error').text(''); //กรุณาระบุเครื่องราชฯ/วิริยะ
             }
-        });
+            return false;
+        }
+        else {
+            var form = $('.form-insignia')[0];
+            var data = new FormData(form);
+            data.append(".fileUpload", fileUpload);
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SaveInsignia", "Employee")',
+                data: data, /*$(".form-insignia").serialize(),*/
+                enctype: 'multipart/form-data',
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function (res) {
+                    if (res.MessageCode == null) {
+                        swal({
+                            title: "",
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                            type: "success",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                        }).then(function () {
+                            $('.modal-insignia').modal('hide');
+                            dataTable.getData();
+                        });
+                    }
+                    else {
+                        swal({
+                            title: '',
+                            text: res.MessageText,
+                            type: 'error',
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                            buttonsStyling: false
+                        }).catch(swal.noop)
+                    }
+                }
+            });
+        }
     });
 
 </script>

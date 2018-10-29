@@ -157,36 +157,48 @@
 
 
     $(".save-trainning").click(function () {
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("SaveTraining", "Employee")',
-            data: $(".form-trainning").serialize(),
-            success: function (res) {
-                if (res.MessageCode == null) {
-                    swal({
-                        title: "",
-                        text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
-                        type: "success",
-                        buttonsStyling: false,
-                        confirmButtonClass: "btn btn-primary",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                    }).then(function () {
-                        $('.modal-trainning').modal('hide');
-                        dataTable.getData();
-                    });
-                }
-                else {
-                    swal({
-                        title: '',
-                        text: res.MessageText,
-                        type: 'error',
-                        confirmButtonClass: "btn btn-primary",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                        buttonsStyling: false
-                    }).catch(swal.noop)
-                }
+        var $valid = $('.form-trainning').valid();
+        if (!$valid) {
+            if ($("#TtID").val() == '') {
+                $('#TtID-error').text(''); //กรุณาระบุประเภท
             }
-        });
+            if ($("#CountryID").val() == '') {
+                $('#CountryID-error').text(''); //กรุณาระบุประเทศ
+            }
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SaveTraining", "Employee")',
+                data: $(".form-trainning").serialize(),
+                success: function (res) {
+                    if (res.MessageCode == null) {
+                        swal({
+                            title: "",
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                            type: "success",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                        }).then(function () {
+                            $('.modal-trainning').modal('hide');
+                            dataTable.getData();
+                        });
+                    }
+                    else {
+                        swal({
+                            title: '',
+                            text: res.MessageText,
+                            type: 'error',
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                            buttonsStyling: false
+                        }).catch(swal.noop)
+                    }
+                }
+            });
+        }
     });
 
 </script>

@@ -170,36 +170,51 @@
     });
 
     $(".save-education").click(function () {
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("SaveEducation", "Employee")',
-            data: $(".form-education").serialize(),
-            success: function (res) {
-                if (res.MessageCode == null) {
-                    swal({
-                        title: "",
-                        text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
-                        type: "success",
-                        confirmButtonClass: "btn btn-primary",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                        buttonsStyling: false,
-                    }).then(function () {
-                        $('.modal-education').modal('hide');
-                        dataTable.getData();
-                    });
-                }
-                else {
-                    swal({
-                        title: '',
-                        text: res.MessageText,
-                        type: 'error',
-                        confirmButtonClass: "btn btn-primary",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                        buttonsStyling: false
-                    }).catch(swal.noop)
-                }
+        var $valid = $('.form-education').valid();
+        if (!$valid) {
+            if ($("#EduID").val() == '') {
+                $('#EduID-error').text(''); //กรุณาระบุระดับการศึกษา
             }
-        });
+            if ($("#DegID").val() == '') {
+                $('#DegID-error').text(''); //กรุณาระบุวุฒิการศึกษา
+            }
+            if ($("#MajID").val() == '') {
+                $('#MajID-error').text(''); //กรุณาระบุสาขาวิชา
+            }
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SaveEducation", "Employee")',
+                data: $(".form-education").serialize(),
+                success: function (res) {
+                    if (res.MessageCode == null) {
+                        swal({
+                            title: "",
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                            type: "success",
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                            buttonsStyling: false,
+                        }).then(function () {
+                            $('.modal-education').modal('hide');
+                            dataTable.getData();
+                        });
+                    }
+                    else {
+                        swal({
+                            title: '',
+                            text: res.MessageText,
+                            type: 'error',
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                            buttonsStyling: false
+                        }).catch(swal.noop)
+                    }
+                }
+            });
+        }
     });
 
 </script>

@@ -155,36 +155,51 @@
 
 
     $(".save-excellent").click(function () {
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("SaveExcellent", "Employee")',
-            data: $(".form-excellent").serialize(),
-            success: function (res) {
-                if (res.MessageCode == null) {
-                    swal({
-                        title: "",
-                        text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
-                        type: "success",
-                        buttonsStyling: false,
-                        confirmButtonClass: "btn btn-primary",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                    }).then(function () {
-                        $('.modal-excellent').modal('hide');
-                        dataTable.getData();
-                    });
-                }
-                else {
-                    swal({
-                        title: '',
-                        text: res.MessageText,
-                        type: 'error',
-                        confirmButtonClass: "btn btn-primary",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                        buttonsStyling: false
-                    }).catch(swal.noop)
-                }
+        var $valid = $('.form-excellent').valid();
+        if (!$valid) {
+            if ($("#ExTID").val() == '') {
+                $('#ExTID-error').text(''); //กรุณาระบุประเภท
             }
-        });
+            //if ($("#UeRecYear").val() == '') {
+            //    $('#UeRecYear-error').text(''); //กรุณาระบุปีที่ได้รับ
+            //}
+            //if ($("#UeProjectName").val() == '') {
+            //    $('#UeProjectName-error').text(''); //กรุณาระบุชื่อโครงการ
+            //}
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SaveExcellent", "Employee")',
+                data: $(".form-excellent").serialize(),
+                success: function (res) {
+                    if (res.MessageCode == null) {
+                        swal({
+                            title: "",
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                            type: "success",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                        }).then(function () {
+                            $('.modal-excellent').modal('hide');
+                            dataTable.getData();
+                        });
+                    }
+                    else {
+                        swal({
+                            title: '',
+                            text: res.MessageText,
+                            type: 'error',
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                            buttonsStyling: false
+                        }).catch(swal.noop)
+                    }
+                }
+            });
+        }
     });
 
 </script>

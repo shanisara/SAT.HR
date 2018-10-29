@@ -409,49 +409,61 @@
 
 
     $(".save-family").click(function () {
-        var recid = $("#FamilyType").val();
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("SaveFamily", "Employee")',
-            data: $(".form-family").serialize(),
-            success: function (res) {
-                if (res.MessageCode == null) {
-                    swal({
-                        title: "",
-                        text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
-                        type: "success",
-                        confirmButtonClass: "btn btn-primary",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                        buttonsStyling: false
-                    }).then(function () {
-                        if (recid == 2) {
-                            $(".add-father").hide();
-                            dataTable.getDataFather();
-                        }
-                        else if (recid == 3) {
-                            $(".add-mother").hide();
-                            dataTable.getDataMother();
-                        }
-                        else if (recid == 4)
-                            dataTable.getDataSpouse();
-                        else if (recid == 5)
-                            dataTable.getDataChild();
+        var $valid = $('.form-family').valid();
+        if (!$valid) {
+            //if ($("#UfName").val() == '') {
+            //    $('#UfName-error').text(''); //กรุณาระบุชื่อ-สกุล
+            //}
+            //if ($("#UfCardID").val() == '') {
+            //    $('#UfCardID-error').text(''); //กรุณาระบุเลขประจำตัวประชาชน
+            //}
+            return false;
+        }
+        else {
+            var recid = $("#FamilyType").val();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SaveFamily", "Employee")',
+                data: $(".form-family").serialize(),
+                success: function (res) {
+                    if (res.MessageCode == null) {
+                        swal({
+                            title: "",
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                            type: "success",
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                            buttonsStyling: false
+                        }).then(function () {
+                            if (recid == 2) {
+                                $(".add-father").hide();
+                                dataTable.getDataFather();
+                            }
+                            else if (recid == 3) {
+                                $(".add-mother").hide();
+                                dataTable.getDataMother();
+                            }
+                            else if (recid == 4)
+                                dataTable.getDataSpouse();
+                            else if (recid == 5)
+                                dataTable.getDataChild();
 
-                        $('.modal-family').modal('hide');
-                    });
+                            $('.modal-family').modal('hide');
+                        });
+                    }
+                    else {
+                        swal({
+                            title: '',
+                            text: res.MessageText,
+                            type: 'error',
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                            buttonsStyling: false
+                        }).catch(swal.noop)
+                    }
                 }
-                else {
-                    swal({
-                        title: '',
-                        text: res.MessageText,
-                        type: 'error',
-                        confirmButtonClass: "btn btn-primary",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                        buttonsStyling: false
-                    }).catch(swal.noop)
-                }
-            }
-        });
+            });
+        }
     });
 
     function EditFamily(ufid, recid) {

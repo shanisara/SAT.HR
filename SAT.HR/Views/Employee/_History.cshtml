@@ -157,36 +157,51 @@
     });
 
     $(".save-history").click(function () {
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("SaveHistory", "Employee")',
-            data: $(".form-history").serialize(),
-            success: function (res) {
-                if (res.MessageCode == null) {
-                    swal({
-                        title: "",
-                        text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
-                        type: "success",
-                        buttonsStyling: false,
-                        confirmButtonClass: "btn btn-primary",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                    }).then(function () {
-                        $('.modal-history').modal('hide');
-                        dataTable.getData();
-                    });
+        var $valid = $('.form-history').valid();
+        if (!$valid) {
+            //if ($("#UhEditDateText").val() == '') {
+            //    $('#UhEditDateText-error').text(''); //กรุณาระบุวันที่แก้ไข
+            //}
+            //if ($("#NewFirstNameTh").val() == '') {
+            //    $('#NewFirstNameTh-error').text(''); //กรุณาระบุชื่อ(ไทย)
+            //}
+            //if ($("#NewLastNameTh").val() == '') {
+            //    $('#NewLastNameTh-error').text(''); //กรุณาระบุนามสกุล(ไทย)
+            //}
+            //return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SaveHistory", "Employee")',
+                data: $(".form-history").serialize(),
+                success: function (res) {
+                    if (res.MessageCode == null) {
+                        swal({
+                            title: "",
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                            type: "success",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                        }).then(function () {
+                            $('.modal-history').modal('hide');
+                            dataTable.getData();
+                        });
+                    }
+                    else {
+                        swal({
+                            title: '',
+                            text: res.MessageText,
+                            type: 'error',
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                            buttonsStyling: false
+                        }).catch(swal.noop)
+                    }
                 }
-                else {
-                    swal({
-                        title: '',
-                        text: res.MessageText,
-                        type: 'error',
-                        confirmButtonClass: "btn btn-primary",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                        buttonsStyling: false
-                    }).catch(swal.noop)
-                }
-            }
-        });
+            });
+        }
     });
 
 </script>
