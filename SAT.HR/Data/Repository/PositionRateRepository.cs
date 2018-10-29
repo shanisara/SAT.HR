@@ -137,7 +137,7 @@ namespace SAT.HR.Data.Repository
             List<PositionRateViewModel> list = new List<PositionRateViewModel>();
             using (SATEntities db = new SATEntities())
             {
-                var deivision = db.vw_Man_Power.Where(m => m.TypeID == type)
+                var deivision = db.vw_Man_Power.Where(m => m.TypeID == type && m.DivID != null)
                                  .GroupBy(item => item.DivID, (key, group) => new
                                  {
                                      DivID = key,
