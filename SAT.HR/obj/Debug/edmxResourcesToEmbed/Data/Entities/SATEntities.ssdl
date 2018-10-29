@@ -504,11 +504,13 @@
       <PropertyRef Name="MpID" />
     </Key>
     <Property Name="MpID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MpCode" Type="int" />
     <Property Name="MpMan" Type="nvarchar" MaxLength="200" />
     <Property Name="DivID" Type="int" />
     <Property Name="DepID" Type="int" />
     <Property Name="SecID" Type="int" />
     <Property Name="PoID" Type="int" />
+    <Property Name="TypeID" Type="int" />
     <Property Name="UserID" Type="int" />
     <Property Name="EduID" Type="int" />
     <Property Name="CreateDate" Type="datetime" />
@@ -1164,6 +1166,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Man_Power' does not have a prim
       <PropertyRef Name="MpID" />
     </Key>
     <Property Name="MpID" Type="int" Nullable="false" />
+    <Property Name="MpCode" Type="int" />
     <Property Name="DivID" Type="int" />
     <Property Name="UserID" Type="int" />
     <Property Name="DivName" Type="nvarchar" MaxLength="200" />
@@ -1184,18 +1187,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Man_Power' does not have a prim
     <Property Name="SalaryLevel" Type="int" />
     <Property Name="SalaryStep" Type="decimal" Precision="18" Scale="0" />
     <Property Name="Salary" Type="decimal" Precision="18" Scale="2" />
-    <Property Name="UserTID" Type="int" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Man_Power_Position' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-  <EntityType Name="vw_Man_Power_Position">
-    <Key>
-      <PropertyRef Name="MpID" />
-    </Key>
-    <Property Name="MpID" Type="int" Nullable="false" />
-    <Property Name="PoID" Type="int" />
-    <Property Name="PoName" Type="nvarchar" MaxLength="200" />
-    <Property Name="UserID" Type="int" />
+    <Property Name="TypeID" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Menu_Role' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1373,6 +1365,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     <Property Name="CardScan" Type="nvarchar" MaxLength="20" />
     <Property Name="SalaryLevel" Type="int" />
     <Property Name="SalaryStep" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Salary" Type="decimal" Precision="18" Scale="2" />
     <Property Name="DivID" Type="int" />
     <Property Name="DivName" Type="nvarchar" MaxLength="200" />
     <Property Name="DepID" Type="int" />
@@ -2835,6 +2828,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="vw_Man_Power" EntityType="Self.vw_Man_Power" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [vw_Man_Power].[MpID] AS [MpID], 
+    [vw_Man_Power].[MpCode] AS [MpCode], 
     [vw_Man_Power].[DivID] AS [DivID], 
     [vw_Man_Power].[UserID] AS [UserID], 
     [vw_Man_Power].[DivName] AS [DivName], 
@@ -2855,16 +2849,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Man_Power].[SalaryLevel] AS [SalaryLevel], 
     [vw_Man_Power].[SalaryStep] AS [SalaryStep], 
     [vw_Man_Power].[Salary] AS [Salary], 
-    [vw_Man_Power].[UserTID] AS [UserTID]
+    [vw_Man_Power].[TypeID] AS [TypeID]
     FROM [dbo].[vw_Man_Power] AS [vw_Man_Power]</DefiningQuery>
-    </EntitySet>
-    <EntitySet Name="vw_Man_Power_Position" EntityType="Self.vw_Man_Power_Position" store:Type="Views" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [vw_Man_Power_Position].[MpID] AS [MpID], 
-    [vw_Man_Power_Position].[PoID] AS [PoID], 
-    [vw_Man_Power_Position].[PoName] AS [PoName], 
-    [vw_Man_Power_Position].[UserID] AS [UserID]
-    FROM [dbo].[vw_Man_Power_Position] AS [vw_Man_Power_Position]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vw_Menu_Role" EntityType="Self.vw_Menu_Role" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
@@ -3012,6 +2998,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_User].[CardScan] AS [CardScan], 
     [vw_User].[SalaryLevel] AS [SalaryLevel], 
     [vw_User].[SalaryStep] AS [SalaryStep], 
+    [vw_User].[Salary] AS [Salary], 
     [vw_User].[DivID] AS [DivID], 
     [vw_User].[DivName] AS [DivName], 
     [vw_User].[DepID] AS [DepID], 

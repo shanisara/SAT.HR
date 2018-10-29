@@ -104,5 +104,6 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> UserTID { get; set; }
         public string UserTName { get; set; }
         public Nullable<int> RoleID { get; set; }
+        public Nullable<decimal> Salary { get; set; }
     }
 }

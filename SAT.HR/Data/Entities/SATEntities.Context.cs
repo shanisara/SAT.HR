@@ -122,15 +122,14 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Move_Level_Head> vw_Move_Level_Head { get; set; }
         public virtual DbSet<tb_Document_Number> tb_Document_Number { get; set; }
         public virtual DbSet<tb_Document_Type> tb_Document_Type { get; set; }
-        public virtual DbSet<tb_Man_Power> tb_Man_Power { get; set; }
         public virtual DbSet<tb_Move_Man_Power_Detail> tb_Move_Man_Power_Detail { get; set; }
-        public virtual DbSet<vw_Man_Power> vw_Man_Power { get; set; }
-        public virtual DbSet<vw_Man_Power_Position> vw_Man_Power_Position { get; set; }
         public virtual DbSet<vw_Move_Man_Power_Detail> vw_Move_Man_Power_Detail { get; set; }
         public virtual DbSet<tb_Position> tb_Position { get; set; }
         public virtual DbSet<tb_User> tb_User { get; set; }
         public virtual DbSet<vw_User> vw_User { get; set; }
         public virtual DbSet<vw_Employee> vw_Employee { get; set; }
+        public virtual DbSet<tb_Man_Power> tb_Man_Power { get; set; }
+        public virtual DbSet<vw_Man_Power> vw_Man_Power { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {

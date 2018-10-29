@@ -23,11 +23,13 @@ namespace SAT.HR.Data.Entities
         }
     
         public int MpID { get; set; }
+        public Nullable<int> MpCode { get; set; }
         public string MpMan { get; set; }
         public Nullable<int> DivID { get; set; }
         public Nullable<int> DepID { get; set; }
         public Nullable<int> SecID { get; set; }
         public Nullable<int> PoID { get; set; }
+        public Nullable<int> TypeID { get; set; }
         public Nullable<int> UserID { get; set; }
         public Nullable<int> EduID { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
@@ -39,12 +41,12 @@ namespace SAT.HR.Data.Entities
         public virtual tb_Division tb_Division { get; set; }
         public virtual tb_Education tb_Education { get; set; }
         public virtual tb_Section tb_Section { get; set; }
+        public virtual tb_User tb_User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Move_Man_Power_Detail> tb_Move_Man_Power_Detail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Move_Man_Power_Detail> tb_Move_Man_Power_Detail1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Move_Man_Power_Detail> tb_Move_Man_Power_Detail2 { get; set; }
-        public virtual tb_User tb_User { get; set; }
     }
 }

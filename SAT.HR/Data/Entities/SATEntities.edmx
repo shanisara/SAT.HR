@@ -509,11 +509,13 @@
             <PropertyRef Name="MpID" />
           </Key>
           <Property Name="MpID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MpCode" Type="int" />
           <Property Name="MpMan" Type="nvarchar" MaxLength="200" />
           <Property Name="DivID" Type="int" />
           <Property Name="DepID" Type="int" />
           <Property Name="SecID" Type="int" />
           <Property Name="PoID" Type="int" />
+          <Property Name="TypeID" Type="int" />
           <Property Name="UserID" Type="int" />
           <Property Name="EduID" Type="int" />
           <Property Name="CreateDate" Type="datetime" />
@@ -1169,6 +1171,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Man_Power' does not have a prim
             <PropertyRef Name="MpID" />
           </Key>
           <Property Name="MpID" Type="int" Nullable="false" />
+          <Property Name="MpCode" Type="int" />
           <Property Name="DivID" Type="int" />
           <Property Name="UserID" Type="int" />
           <Property Name="DivName" Type="nvarchar" MaxLength="200" />
@@ -1189,18 +1192,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Man_Power' does not have a prim
           <Property Name="SalaryLevel" Type="int" />
           <Property Name="SalaryStep" Type="decimal" Precision="18" Scale="0" />
           <Property Name="Salary" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="UserTID" Type="int" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Man_Power_Position' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="vw_Man_Power_Position">
-          <Key>
-            <PropertyRef Name="MpID" />
-          </Key>
-          <Property Name="MpID" Type="int" Nullable="false" />
-          <Property Name="PoID" Type="int" />
-          <Property Name="PoName" Type="nvarchar" MaxLength="200" />
-          <Property Name="UserID" Type="int" />
+          <Property Name="TypeID" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Menu_Role' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1378,6 +1370,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <Property Name="CardScan" Type="nvarchar" MaxLength="20" />
           <Property Name="SalaryLevel" Type="int" />
           <Property Name="SalaryStep" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Salary" Type="decimal" Precision="18" Scale="2" />
           <Property Name="DivID" Type="int" />
           <Property Name="DivName" Type="nvarchar" MaxLength="200" />
           <Property Name="DepID" Type="int" />
@@ -2840,6 +2833,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="vw_Man_Power" EntityType="Self.vw_Man_Power" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_Man_Power].[MpID] AS [MpID], 
+    [vw_Man_Power].[MpCode] AS [MpCode], 
     [vw_Man_Power].[DivID] AS [DivID], 
     [vw_Man_Power].[UserID] AS [UserID], 
     [vw_Man_Power].[DivName] AS [DivName], 
@@ -2860,16 +2854,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Man_Power].[SalaryLevel] AS [SalaryLevel], 
     [vw_Man_Power].[SalaryStep] AS [SalaryStep], 
     [vw_Man_Power].[Salary] AS [Salary], 
-    [vw_Man_Power].[UserTID] AS [UserTID]
+    [vw_Man_Power].[TypeID] AS [TypeID]
     FROM [dbo].[vw_Man_Power] AS [vw_Man_Power]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="vw_Man_Power_Position" EntityType="Self.vw_Man_Power_Position" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [vw_Man_Power_Position].[MpID] AS [MpID], 
-    [vw_Man_Power_Position].[PoID] AS [PoID], 
-    [vw_Man_Power_Position].[PoName] AS [PoName], 
-    [vw_Man_Power_Position].[UserID] AS [UserID]
-    FROM [dbo].[vw_Man_Power_Position] AS [vw_Man_Power_Position]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_Menu_Role" EntityType="Self.vw_Menu_Role" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -3017,6 +3003,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_User].[CardScan] AS [CardScan], 
     [vw_User].[SalaryLevel] AS [SalaryLevel], 
     [vw_User].[SalaryStep] AS [SalaryStep], 
+    [vw_User].[Salary] AS [Salary], 
     [vw_User].[DivID] AS [DivID], 
     [vw_User].[DivName] AS [DivName], 
     [vw_User].[DepID] AS [DepID], 
@@ -3908,38 +3895,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="vw_Move_Level_Head" EntityType="SAT.HR.vw_Move_Level_Head" />
           <EntitySet Name="tb_Document_Number" EntityType="SAT.HR.tb_Document_Number" />
           <EntitySet Name="tb_Document_Type" EntityType="SAT.HR.tb_Document_Type" />
-          <EntitySet Name="tb_Man_Power" EntityType="SAT.HR.tb_Man_Power" />
           <EntitySet Name="tb_Move_Man_Power_Detail" EntityType="SAT.HR.tb_Move_Man_Power_Detail" />
-          <EntitySet Name="vw_Man_Power" EntityType="SAT.HR.vw_Man_Power" />
-          <EntitySet Name="vw_Man_Power_Position" EntityType="SAT.HR.vw_Man_Power_Position" />
-          <AssociationSet Name="FK_tb_Man_Power_tb_Department" Association="SAT.HR.FK_tb_Man_Power_tb_Department">
-            <End Role="tb_Department" EntitySet="tb_Department" />
-            <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tb_Man_Power_tb_Division" Association="SAT.HR.FK_tb_Man_Power_tb_Division">
-            <End Role="tb_Division" EntitySet="tb_Division" />
-            <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tb_Man_Power_tb_Education" Association="SAT.HR.FK_tb_Man_Power_tb_Education">
-            <End Role="tb_Education" EntitySet="tb_Education" />
-            <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tb_Man_Power_tb_Section" Association="SAT.HR.FK_tb_Man_Power_tb_Section">
-            <End Role="tb_Section" EntitySet="tb_Section" />
-            <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tb_Move_Man_Power_Detail_AgentMpID" Association="SAT.HR.FK_tb_Move_Man_Power_Detail_AgentMpID">
-            <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
-            <End Role="tb_Move_Man_Power_Detail" EntitySet="tb_Move_Man_Power_Detail" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tb_Move_Man_Power_Detail_CurMpID" Association="SAT.HR.FK_tb_Move_Man_Power_Detail_CurMpID">
-            <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
-            <End Role="tb_Move_Man_Power_Detail" EntitySet="tb_Move_Man_Power_Detail" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tb_Move_Man_Power_Detail_MovMpID" Association="SAT.HR.FK_tb_Move_Man_Power_Detail_MovMpID">
-            <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
-            <End Role="tb_Move_Man_Power_Detail" EntitySet="tb_Move_Man_Power_Detail" />
-          </AssociationSet>
           <AssociationSet Name="FK_tb_Move_Man_Power_Detail_MopID" Association="SAT.HR.FK_tb_Move_Man_Power_Detail_MopID">
             <End Role="tb_Move_Man_Power_Head" EntitySet="tb_Move_Man_Power_Head" />
             <End Role="tb_Move_Man_Power_Detail" EntitySet="tb_Move_Man_Power_Detail" />
@@ -3999,10 +3955,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <AssociationSet Name="FK_tb_Users_tb_Empower" Association="SAT.HR.FK_tb_Users_tb_Empower">
             <End Role="tb_Empower" EntitySet="tb_Empower" />
             <End Role="tb_User" EntitySet="tb_User" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tb_Man_Power_tb_User" Association="SAT.HR.FK_tb_Man_Power_tb_User">
-            <End Role="tb_User" EntitySet="tb_User" />
-            <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_Users_tb_Marital_Status" Association="SAT.HR.FK_tb_Users_tb_Marital_Status">
             <End Role="tb_Marital_Status" EntitySet="tb_Marital_Status" />
@@ -4069,6 +4021,40 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <End Role="tb_User" EntitySet="tb_User" />
           </AssociationSet>
           <EntitySet Name="vw_Employee" EntityType="SAT.HR.vw_Employee" />
+          <EntitySet Name="tb_Man_Power" EntityType="SAT.HR.tb_Man_Power" />
+          <EntitySet Name="vw_Man_Power" EntityType="SAT.HR.vw_Man_Power" />
+          <AssociationSet Name="FK_tb_Man_Power_tb_Department" Association="SAT.HR.FK_tb_Man_Power_tb_Department">
+            <End Role="tb_Department" EntitySet="tb_Department" />
+            <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Man_Power_tb_Division" Association="SAT.HR.FK_tb_Man_Power_tb_Division">
+            <End Role="tb_Division" EntitySet="tb_Division" />
+            <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Man_Power_tb_Education" Association="SAT.HR.FK_tb_Man_Power_tb_Education">
+            <End Role="tb_Education" EntitySet="tb_Education" />
+            <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Man_Power_tb_Section" Association="SAT.HR.FK_tb_Man_Power_tb_Section">
+            <End Role="tb_Section" EntitySet="tb_Section" />
+            <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Man_Power_tb_User" Association="SAT.HR.FK_tb_Man_Power_tb_User">
+            <End Role="tb_User" EntitySet="tb_User" />
+            <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Move_Man_Power_Detail_AgentMpID" Association="SAT.HR.FK_tb_Move_Man_Power_Detail_AgentMpID">
+            <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
+            <End Role="tb_Move_Man_Power_Detail" EntitySet="tb_Move_Man_Power_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Move_Man_Power_Detail_CurMpID" Association="SAT.HR.FK_tb_Move_Man_Power_Detail_CurMpID">
+            <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
+            <End Role="tb_Move_Man_Power_Detail" EntitySet="tb_Move_Man_Power_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Move_Man_Power_Detail_MovMpID" Association="SAT.HR.FK_tb_Move_Man_Power_Detail_MovMpID">
+            <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
+            <End Role="tb_Move_Man_Power_Detail" EntitySet="tb_Move_Man_Power_Detail" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_Menu_GetByUser_Result">
           <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -6098,31 +6084,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="DocType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ContentType" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="tb_Man_Power">
-          <Key>
-            <PropertyRef Name="MpID" />
-          </Key>
-          <Property Name="MpID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MpMan" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="DivID" Type="Int32" />
-          <Property Name="DepID" Type="Int32" />
-          <Property Name="SecID" Type="Int32" />
-          <Property Name="PoID" Type="Int32" />
-          <Property Name="UserID" Type="Int32" />
-          <Property Name="EduID" Type="Int32" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="Int32" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="Int32" />
-          <NavigationProperty Name="tb_Department" Relationship="SAT.HR.FK_tb_Man_Power_tb_Department" FromRole="tb_Man_Power" ToRole="tb_Department" />
-          <NavigationProperty Name="tb_Division" Relationship="SAT.HR.FK_tb_Man_Power_tb_Division" FromRole="tb_Man_Power" ToRole="tb_Division" />
-          <NavigationProperty Name="tb_Education" Relationship="SAT.HR.FK_tb_Man_Power_tb_Education" FromRole="tb_Man_Power" ToRole="tb_Education" />
-          <NavigationProperty Name="tb_Section" Relationship="SAT.HR.FK_tb_Man_Power_tb_Section" FromRole="tb_Man_Power" ToRole="tb_Section" />
-          <NavigationProperty Name="tb_Move_Man_Power_Detail" Relationship="SAT.HR.FK_tb_Move_Man_Power_Detail_AgentMpID" FromRole="tb_Man_Power" ToRole="tb_Move_Man_Power_Detail" />
-          <NavigationProperty Name="tb_Move_Man_Power_Detail1" Relationship="SAT.HR.FK_tb_Move_Man_Power_Detail_CurMpID" FromRole="tb_Man_Power" ToRole="tb_Move_Man_Power_Detail" />
-          <NavigationProperty Name="tb_Move_Man_Power_Detail2" Relationship="SAT.HR.FK_tb_Move_Man_Power_Detail_MovMpID" FromRole="tb_Man_Power" ToRole="tb_Move_Man_Power_Detail" />
-          <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Man_Power_tb_User" FromRole="tb_Man_Power" ToRole="tb_User" />
-        </EntityType>
         <EntityType Name="tb_Move_Man_Power_Detail">
           <Key>
             <PropertyRef Name="MopID" />
@@ -6139,132 +6100,12 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="CreateBy" Type="Int32" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="Int32" />
+          <NavigationProperty Name="tb_Move_Man_Power_Head" Relationship="SAT.HR.FK_tb_Move_Man_Power_Detail_MopID" FromRole="tb_Move_Man_Power_Detail" ToRole="tb_Move_Man_Power_Head" />
+          <NavigationProperty Name="tb_Position_Type" Relationship="SAT.HR.FK_tb_Move_Man_Power_Detail_PoTID" FromRole="tb_Move_Man_Power_Detail" ToRole="tb_Position_Type" />
           <NavigationProperty Name="tb_Man_Power" Relationship="SAT.HR.FK_tb_Move_Man_Power_Detail_AgentMpID" FromRole="tb_Move_Man_Power_Detail" ToRole="tb_Man_Power" />
           <NavigationProperty Name="tb_Man_Power1" Relationship="SAT.HR.FK_tb_Move_Man_Power_Detail_CurMpID" FromRole="tb_Move_Man_Power_Detail" ToRole="tb_Man_Power" />
           <NavigationProperty Name="tb_Man_Power2" Relationship="SAT.HR.FK_tb_Move_Man_Power_Detail_MovMpID" FromRole="tb_Move_Man_Power_Detail" ToRole="tb_Man_Power" />
-          <NavigationProperty Name="tb_Move_Man_Power_Head" Relationship="SAT.HR.FK_tb_Move_Man_Power_Detail_MopID" FromRole="tb_Move_Man_Power_Detail" ToRole="tb_Move_Man_Power_Head" />
-          <NavigationProperty Name="tb_Position_Type" Relationship="SAT.HR.FK_tb_Move_Man_Power_Detail_PoTID" FromRole="tb_Move_Man_Power_Detail" ToRole="tb_Position_Type" />
         </EntityType>
-        <EntityType Name="vw_Man_Power">
-          <Key>
-            <PropertyRef Name="MpID" />
-          </Key>
-          <Property Name="MpID" Type="Int32" Nullable="false" />
-          <Property Name="DivID" Type="Int32" />
-          <Property Name="UserID" Type="Int32" />
-          <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="DepID" Type="Int32" />
-          <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="SecID" Type="Int32" />
-          <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PoID" Type="Int32" />
-          <Property Name="PoCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="EduID" Type="Int32" />
-          <Property Name="EduName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="MpMan" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="IDCard" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="TiShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
-          <Property Name="FullNameEn" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
-          <Property Name="SalaryLevel" Type="Int32" />
-          <Property Name="SalaryStep" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="Salary" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="UserTID" Type="Int32" />
-        </EntityType>
-        <EntityType Name="vw_Man_Power_Position">
-          <Key>
-            <PropertyRef Name="MpID" />
-          </Key>
-          <Property Name="MpID" Type="Int32" Nullable="false" />
-          <Property Name="PoID" Type="Int32" />
-          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="UserID" Type="Int32" />
-        </EntityType>
-        <Association Name="FK_tb_Man_Power_tb_Department">
-          <End Type="SAT.HR.tb_Department" Role="tb_Department" Multiplicity="0..1" />
-          <End Type="SAT.HR.tb_Man_Power" Role="tb_Man_Power" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_Department">
-              <PropertyRef Name="DepID" />
-            </Principal>
-            <Dependent Role="tb_Man_Power">
-              <PropertyRef Name="DepID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tb_Man_Power_tb_Division">
-          <End Type="SAT.HR.tb_Division" Role="tb_Division" Multiplicity="0..1" />
-          <End Type="SAT.HR.tb_Man_Power" Role="tb_Man_Power" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_Division">
-              <PropertyRef Name="DivID" />
-            </Principal>
-            <Dependent Role="tb_Man_Power">
-              <PropertyRef Name="DivID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tb_Man_Power_tb_Education">
-          <End Type="SAT.HR.tb_Education" Role="tb_Education" Multiplicity="0..1" />
-          <End Type="SAT.HR.tb_Man_Power" Role="tb_Man_Power" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_Education">
-              <PropertyRef Name="EduID" />
-            </Principal>
-            <Dependent Role="tb_Man_Power">
-              <PropertyRef Name="EduID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tb_Man_Power_tb_Section">
-          <End Type="SAT.HR.tb_Section" Role="tb_Section" Multiplicity="0..1" />
-          <End Type="SAT.HR.tb_Man_Power" Role="tb_Man_Power" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_Section">
-              <PropertyRef Name="SecID" />
-            </Principal>
-            <Dependent Role="tb_Man_Power">
-              <PropertyRef Name="SecID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tb_Move_Man_Power_Detail_AgentMpID">
-          <End Type="SAT.HR.tb_Man_Power" Role="tb_Man_Power" Multiplicity="0..1" />
-          <End Type="SAT.HR.tb_Move_Man_Power_Detail" Role="tb_Move_Man_Power_Detail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_Man_Power">
-              <PropertyRef Name="MpID" />
-            </Principal>
-            <Dependent Role="tb_Move_Man_Power_Detail">
-              <PropertyRef Name="AgentMpID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tb_Move_Man_Power_Detail_CurMpID">
-          <End Type="SAT.HR.tb_Man_Power" Role="tb_Man_Power" Multiplicity="1" />
-          <End Type="SAT.HR.tb_Move_Man_Power_Detail" Role="tb_Move_Man_Power_Detail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_Man_Power">
-              <PropertyRef Name="MpID" />
-            </Principal>
-            <Dependent Role="tb_Move_Man_Power_Detail">
-              <PropertyRef Name="CurMpID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tb_Move_Man_Power_Detail_MovMpID">
-          <End Type="SAT.HR.tb_Man_Power" Role="tb_Man_Power" Multiplicity="0..1" />
-          <End Type="SAT.HR.tb_Move_Man_Power_Detail" Role="tb_Move_Man_Power_Detail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_Man_Power">
-              <PropertyRef Name="MpID" />
-            </Principal>
-            <Dependent Role="tb_Move_Man_Power_Detail">
-              <PropertyRef Name="MovMpID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tb_Move_Man_Power_Detail_MopID">
           <End Type="SAT.HR.tb_Move_Man_Power_Head" Role="tb_Move_Man_Power_Head" Multiplicity="1" />
           <End Type="SAT.HR.tb_Move_Man_Power_Detail" Role="tb_Move_Man_Power_Detail" Multiplicity="*" />
@@ -6397,7 +6238,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <NavigationProperty Name="tb_Benefit_Provident_Fund" Relationship="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Provident_Fund" />
           <NavigationProperty Name="tb_Blood_Type" Relationship="SAT.HR.FK_tb_Users_tb_Blood_Type" FromRole="tb_User" ToRole="tb_Blood_Type" />
           <NavigationProperty Name="tb_Empower" Relationship="SAT.HR.FK_tb_Users_tb_Empower" FromRole="tb_User" ToRole="tb_Empower" />
-          <NavigationProperty Name="tb_Man_Power" Relationship="SAT.HR.FK_tb_Man_Power_tb_User" FromRole="tb_User" ToRole="tb_Man_Power" />
           <NavigationProperty Name="tb_Marital_Status" Relationship="SAT.HR.FK_tb_Users_tb_Marital_Status" FromRole="tb_User" ToRole="tb_Marital_Status" />
           <NavigationProperty Name="tb_Nationality" Relationship="SAT.HR.FK_tb_Users_tb_Nationality" FromRole="tb_User" ToRole="tb_Nationality" />
           <NavigationProperty Name="tb_Nationality1" Relationship="SAT.HR.FK_tb_Users_tb_Nationality1" FromRole="tb_User" ToRole="tb_Nationality" />
@@ -6414,6 +6254,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <NavigationProperty Name="tb_User_Training" Relationship="SAT.HR.FK_tb_User_Training_tb_User" FromRole="tb_User" ToRole="tb_User_Training" />
           <NavigationProperty Name="tb_User_Status" Relationship="SAT.HR.FK_tb_Users_tb_User_Status" FromRole="tb_User" ToRole="tb_User_Status" />
           <NavigationProperty Name="tb_Working_Type" Relationship="SAT.HR.FK_tb_Users_tb_Working_Type" FromRole="tb_User" ToRole="tb_Working_Type" />
+          <NavigationProperty Name="tb_Man_Power" Relationship="SAT.HR.FK_tb_Man_Power_tb_User" FromRole="tb_User" ToRole="tb_Man_Power" />
         </EntityType>
         <EntityType Name="vw_User">
           <Key>
@@ -6510,6 +6351,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="UserTID" Type="Int32" />
           <Property Name="UserTName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RoleID" Type="Int32" />
+          <Property Name="Salary" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <Association Name="FK_tb_Benefit_Child_Education_tb_User">
           <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="0..1" />
@@ -6652,18 +6494,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Principal>
             <Dependent Role="tb_User">
               <PropertyRef Name="EmpowerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tb_Man_Power_tb_User">
-          <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="0..1" />
-          <End Type="SAT.HR.tb_Man_Power" Role="tb_Man_Power" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_User">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="tb_Man_Power">
-              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6895,6 +6725,157 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="UserTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RoleID" Type="Int32" />
         </EntityType>
+        <EntityType Name="tb_Man_Power">
+          <Key>
+            <PropertyRef Name="MpID" />
+          </Key>
+          <Property Name="MpID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MpCode" Type="Int32" />
+          <Property Name="MpMan" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DivID" Type="Int32" />
+          <Property Name="DepID" Type="Int32" />
+          <Property Name="SecID" Type="Int32" />
+          <Property Name="PoID" Type="Int32" />
+          <Property Name="TypeID" Type="Int32" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="EduID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+          <NavigationProperty Name="tb_Department" Relationship="SAT.HR.FK_tb_Man_Power_tb_Department" FromRole="tb_Man_Power" ToRole="tb_Department" />
+          <NavigationProperty Name="tb_Division" Relationship="SAT.HR.FK_tb_Man_Power_tb_Division" FromRole="tb_Man_Power" ToRole="tb_Division" />
+          <NavigationProperty Name="tb_Education" Relationship="SAT.HR.FK_tb_Man_Power_tb_Education" FromRole="tb_Man_Power" ToRole="tb_Education" />
+          <NavigationProperty Name="tb_Section" Relationship="SAT.HR.FK_tb_Man_Power_tb_Section" FromRole="tb_Man_Power" ToRole="tb_Section" />
+          <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Man_Power_tb_User" FromRole="tb_Man_Power" ToRole="tb_User" />
+          <NavigationProperty Name="tb_Move_Man_Power_Detail" Relationship="SAT.HR.FK_tb_Move_Man_Power_Detail_AgentMpID" FromRole="tb_Man_Power" ToRole="tb_Move_Man_Power_Detail" />
+          <NavigationProperty Name="tb_Move_Man_Power_Detail1" Relationship="SAT.HR.FK_tb_Move_Man_Power_Detail_CurMpID" FromRole="tb_Man_Power" ToRole="tb_Move_Man_Power_Detail" />
+          <NavigationProperty Name="tb_Move_Man_Power_Detail2" Relationship="SAT.HR.FK_tb_Move_Man_Power_Detail_MovMpID" FromRole="tb_Man_Power" ToRole="tb_Move_Man_Power_Detail" />
+        </EntityType>
+        <EntityType Name="vw_Man_Power">
+          <Key>
+            <PropertyRef Name="MpID" />
+          </Key>
+          <Property Name="MpID" Type="Int32" Nullable="false" />
+          <Property Name="MpCode" Type="Int32" />
+          <Property Name="DivID" Type="Int32" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DepID" Type="Int32" />
+          <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SecID" Type="Int32" />
+          <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PoID" Type="Int32" />
+          <Property Name="PoCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="EduID" Type="Int32" />
+          <Property Name="EduName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MpMan" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IDCard" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TiShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+          <Property Name="FullNameEn" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+          <Property Name="SalaryLevel" Type="Int32" />
+          <Property Name="SalaryStep" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Salary" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TypeID" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_tb_Man_Power_tb_Department">
+          <End Type="SAT.HR.tb_Department" Role="tb_Department" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Man_Power" Role="tb_Man_Power" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Department">
+              <PropertyRef Name="DepID" />
+            </Principal>
+            <Dependent Role="tb_Man_Power">
+              <PropertyRef Name="DepID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Man_Power_tb_Division">
+          <End Type="SAT.HR.tb_Division" Role="tb_Division" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Man_Power" Role="tb_Man_Power" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Division">
+              <PropertyRef Name="DivID" />
+            </Principal>
+            <Dependent Role="tb_Man_Power">
+              <PropertyRef Name="DivID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Man_Power_tb_Education">
+          <End Type="SAT.HR.tb_Education" Role="tb_Education" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Man_Power" Role="tb_Man_Power" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Education">
+              <PropertyRef Name="EduID" />
+            </Principal>
+            <Dependent Role="tb_Man_Power">
+              <PropertyRef Name="EduID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Man_Power_tb_Section">
+          <End Type="SAT.HR.tb_Section" Role="tb_Section" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Man_Power" Role="tb_Man_Power" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Section">
+              <PropertyRef Name="SecID" />
+            </Principal>
+            <Dependent Role="tb_Man_Power">
+              <PropertyRef Name="SecID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Man_Power_tb_User">
+          <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Man_Power" Role="tb_Man_Power" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tb_Man_Power">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Move_Man_Power_Detail_AgentMpID">
+          <End Type="SAT.HR.tb_Man_Power" Role="tb_Man_Power" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Move_Man_Power_Detail" Role="tb_Move_Man_Power_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Man_Power">
+              <PropertyRef Name="MpID" />
+            </Principal>
+            <Dependent Role="tb_Move_Man_Power_Detail">
+              <PropertyRef Name="AgentMpID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Move_Man_Power_Detail_CurMpID">
+          <End Type="SAT.HR.tb_Man_Power" Role="tb_Man_Power" Multiplicity="1" />
+          <End Type="SAT.HR.tb_Move_Man_Power_Detail" Role="tb_Move_Man_Power_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Man_Power">
+              <PropertyRef Name="MpID" />
+            </Principal>
+            <Dependent Role="tb_Move_Man_Power_Detail">
+              <PropertyRef Name="CurMpID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Move_Man_Power_Detail_MovMpID">
+          <End Type="SAT.HR.tb_Man_Power" Role="tb_Man_Power" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Move_Man_Power_Detail" Role="tb_Move_Man_Power_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Man_Power">
+              <PropertyRef Name="MpID" />
+            </Principal>
+            <Dependent Role="tb_Move_Man_Power_Detail">
+              <PropertyRef Name="MovMpID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8394,24 +8375,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tb_Man_Power">
-            <EntityTypeMapping TypeName="SAT.HR.tb_Man_Power">
-              <MappingFragment StoreEntitySet="tb_Man_Power">
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="EduID" ColumnName="EduID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="PoID" ColumnName="PoID" />
-                <ScalarProperty Name="SecID" ColumnName="SecID" />
-                <ScalarProperty Name="DepID" ColumnName="DepID" />
-                <ScalarProperty Name="DivID" ColumnName="DivID" />
-                <ScalarProperty Name="MpMan" ColumnName="MpMan" />
-                <ScalarProperty Name="MpID" ColumnName="MpID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tb_Move_Man_Power_Detail">
             <EntityTypeMapping TypeName="SAT.HR.tb_Move_Man_Power_Detail">
               <MappingFragment StoreEntitySet="tb_Move_Man_Power_Detail">
@@ -8426,44 +8389,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="CurMpID" ColumnName="CurMpID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="MopID" ColumnName="MopID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="vw_Man_Power">
-            <EntityTypeMapping TypeName="SAT.HR.vw_Man_Power">
-              <MappingFragment StoreEntitySet="vw_Man_Power">
-                <ScalarProperty Name="UserTID" ColumnName="UserTID" />
-                <ScalarProperty Name="Salary" ColumnName="Salary" />
-                <ScalarProperty Name="SalaryStep" ColumnName="SalaryStep" />
-                <ScalarProperty Name="SalaryLevel" ColumnName="SalaryLevel" />
-                <ScalarProperty Name="FullNameEn" ColumnName="FullNameEn" />
-                <ScalarProperty Name="FullNameTh" ColumnName="FullNameTh" />
-                <ScalarProperty Name="TiShortName" ColumnName="TiShortName" />
-                <ScalarProperty Name="IDCard" ColumnName="IDCard" />
-                <ScalarProperty Name="MpMan" ColumnName="MpMan" />
-                <ScalarProperty Name="EduName" ColumnName="EduName" />
-                <ScalarProperty Name="EduID" ColumnName="EduID" />
-                <ScalarProperty Name="PoName" ColumnName="PoName" />
-                <ScalarProperty Name="PoCode" ColumnName="PoCode" />
-                <ScalarProperty Name="PoID" ColumnName="PoID" />
-                <ScalarProperty Name="SecName" ColumnName="SecName" />
-                <ScalarProperty Name="SecID" ColumnName="SecID" />
-                <ScalarProperty Name="DepName" ColumnName="DepName" />
-                <ScalarProperty Name="DepID" ColumnName="DepID" />
-                <ScalarProperty Name="DivName" ColumnName="DivName" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="DivID" ColumnName="DivID" />
-                <ScalarProperty Name="MpID" ColumnName="MpID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="vw_Man_Power_Position">
-            <EntityTypeMapping TypeName="SAT.HR.vw_Man_Power_Position">
-              <MappingFragment StoreEntitySet="vw_Man_Power_Position">
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="PoName" ColumnName="PoName" />
-                <ScalarProperty Name="PoID" ColumnName="PoID" />
-                <ScalarProperty Name="MpID" ColumnName="MpID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -8568,6 +8493,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySetMapping Name="vw_User">
             <EntityTypeMapping TypeName="SAT.HR.vw_User">
               <MappingFragment StoreEntitySet="vw_User">
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
                 <ScalarProperty Name="UserTName" ColumnName="UserTName" />
                 <ScalarProperty Name="UserTID" ColumnName="UserTID" />
@@ -8695,6 +8621,55 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Man_Power">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Man_Power">
+              <MappingFragment StoreEntitySet="tb_Man_Power">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="EduID" ColumnName="EduID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="PoID" ColumnName="PoID" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="DepID" ColumnName="DepID" />
+                <ScalarProperty Name="DivID" ColumnName="DivID" />
+                <ScalarProperty Name="MpMan" ColumnName="MpMan" />
+                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
+                <ScalarProperty Name="MpID" ColumnName="MpID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_Man_Power">
+            <EntityTypeMapping TypeName="SAT.HR.vw_Man_Power">
+              <MappingFragment StoreEntitySet="vw_Man_Power">
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="SalaryStep" ColumnName="SalaryStep" />
+                <ScalarProperty Name="SalaryLevel" ColumnName="SalaryLevel" />
+                <ScalarProperty Name="FullNameEn" ColumnName="FullNameEn" />
+                <ScalarProperty Name="FullNameTh" ColumnName="FullNameTh" />
+                <ScalarProperty Name="TiShortName" ColumnName="TiShortName" />
+                <ScalarProperty Name="IDCard" ColumnName="IDCard" />
+                <ScalarProperty Name="MpMan" ColumnName="MpMan" />
+                <ScalarProperty Name="EduName" ColumnName="EduName" />
+                <ScalarProperty Name="EduID" ColumnName="EduID" />
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="PoCode" ColumnName="PoCode" />
+                <ScalarProperty Name="PoID" ColumnName="PoID" />
+                <ScalarProperty Name="SecName" ColumnName="SecName" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="DepName" ColumnName="DepName" />
+                <ScalarProperty Name="DepID" ColumnName="DepID" />
+                <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="DivID" ColumnName="DivID" />
+                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
+                <ScalarProperty Name="MpID" ColumnName="MpID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

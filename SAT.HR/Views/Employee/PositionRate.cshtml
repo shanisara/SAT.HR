@@ -6,38 +6,10 @@
 }
 
 <style>
-    .m-b-30 {
-        margin-bottom: 30px;
-    }
-    .m-t-10 {
-        margin-top: 10px;
-    }
-    .title-header {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-    }
-
-    .tree {
-        font-size: 13px;
-        border-right: 1px solid silver;
-        overflow: auto;
-        padding: 10px;
-    }
-
-    .tree2 {
-        font-size: 13px;
-        border-right: 1px solid silver;
-        overflow: auto;
-        padding: 10px;
-        box-shadow: 0 0 5px #ccc;
-        border-radius: 5px;
-    }
     select.form-control:focus {
         font-size: 13px;
     }
 </style>
-
 <link href="@Url.Content("~/Content/assets/js/jstree/themes/default/style.css")" rel="stylesheet" />
 <div class="content">
     <div class="row">
@@ -130,8 +102,9 @@
                 });
 
                 $tree.on('changed.jstree', function (e, data) {
+                    var usertype = $('.usertype').val();
                     if (data.node.original.node_type == 'user') {
-                        var url = '@Url.Action("PositionRateDetail", "Employee")/' + data.node.id;
+                        var url = '@Url.Action("PositionRateDetail", "Employee")/' + data.node.id + "?type=" + usertype;
                         $.post(url, function (data) {
                             $(".detail-position").html(data);
                             $('.modal-position').modal('show');
@@ -184,7 +157,7 @@
                 //        }
                 //    }
                 //});
-                
+
             },
             destroyTree: function (usertype) {
                 if (jstree.tree != null) {
@@ -194,7 +167,7 @@
             }
         }
 
-        jstree.initializeTree(1);
+        //jstree.initializeTree(1);
 
 
         $(".btn-search").click(function (e) {
@@ -210,7 +183,8 @@
 
 
         $(".add-position").click(function () {
-            var url = '@Url.Action("PositionRateDetail", "Employee")';
+            var usertype = $('.usertype').val();
+            var url = '@Url.Action("PositionRateDetail", "Employee")/0' + "?type=" + usertype;
             $.post(url, function (data) {
                 $(".detail-position").html(data);
                 $('.modal-position').modal('show');
@@ -236,17 +210,21 @@
                 return false;
             }
             else {
-                var usertype = $("#usertype").val()
                 $.ajax({
                     type: 'POST',
                     url: '@Url.Action("SavePositionRate", "Employee")',
                     data: $(".form-position").serialize(),
                     dataType: 'json',
                     success: function (res) {
+                        var msg = '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)'
+                        if (res.ID != 0) {
+                            msg = "เพิ่มอัตรากำลังพล " + res.ID + " เรียบร้อย";
+                        }
+
                         if (res.MessageCode == null) {
                             swal({
                                 title: "",
-                                text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                                text: msg,
                                 type: "success",
                                 confirmButtonClass: "btn btn-primary",
                                 confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',

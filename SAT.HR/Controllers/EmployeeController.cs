@@ -528,23 +528,23 @@ namespace SAT.HR.Controllers
         public ActionResult PositionRate()
         {
             ViewBag.UserType = DropDownList.GetUserType(1);
-            ViewBag.Division = DropDownList.GetDivision(null, true);
-            ViewBag.Department = DropDownList.GetDepartment(null, null, true);
-            ViewBag.Section = DropDownList.GetSection(null, null, null, true);
-            ViewBag.Position = DropDownList.GetPosition(null,null, true);
-            ViewBag.Education = DropDownList.GetEducation(null, true);
+            //ViewBag.Division = DropDownList.GetDivision(null, true);
+            //ViewBag.Department = DropDownList.GetDepartment(null, null, true);
+            //ViewBag.Section = DropDownList.GetSection(null, null, null, true);
+            //ViewBag.Position = DropDownList.GetPosition(null,null, true);
+            //ViewBag.Education = DropDownList.GetEducation(null, true);
             return View();
         }
 
-        public ActionResult PositionRateDetail(int? id)
+        public ActionResult PositionRateDetail(int? id, int? type)
         {
             var model = new PositionRateRepository().GetByID(id);
             ViewBag.Division = DropDownList.GetDivision(model != null ? model.DivID : null, false);
             ViewBag.Department = DropDownList.GetDepartment(model != null ? model.DivID : null, model != null ? model.DepID: null, false);
             ViewBag.Section = DropDownList.GetSection(model != null ? model.DivID : null, model != null ? model.DepID: null, model != null ? model.SecID: null, false);
-            ViewBag.Position = DropDownList.GetPosition(model != null ? model.PoID : null, model != null ? model.UserTID : null, false);
+            ViewBag.Position = DropDownList.GetPosition(model != null ? model.PoID : null, type, false);
             ViewBag.Education = DropDownList.GetEducation(model != null ? model.EduID : null, true);
-
+            ViewBag.TypeID = type;
             return PartialView("_PositionRate", model);
         }
 

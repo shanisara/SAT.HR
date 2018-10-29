@@ -129,7 +129,7 @@ namespace SAT.HR.Models
         public Nullable<int> DepID { get; set; }
         public Nullable<int> SecID { get; set; }
         public Nullable<int> PoID { get; set; }
-        public Nullable<int> UserTID { get; set; }
+        public Nullable<int> TypeID { get; set; }
         public string MpMan { get; set; }
         public Nullable<int> UserID { get; set; }
         public Nullable<int> EduID { get; set; }
