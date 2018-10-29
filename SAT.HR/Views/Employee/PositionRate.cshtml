@@ -58,10 +58,10 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-10">
-                            @*<div>
+                            <div>
                                 <input type="search" class="search-tree" />
-                                <button type="button" class="btn-search">Search</button>
-                            </div>*@
+                                <button type="button" class="btn-search">ค้นหา</button>
+                            </div>
                             <div id="organization"></div>
                         </div>
                         <div class="col-sm-2">
@@ -116,64 +116,75 @@
             tree: null,
             initializeTree: function (usertype) {
                 var $tree = $('#organization');
+
                 jstree.tree = $tree.jstree({
-                    'plugins': ['search', 'wholerow', 'sort'],
-                    'types': {
-                        'default': { 'icon': '//jstree.com/tree.png' },
-                        'user': { 'icon': 'glyphicon glyphicon-flash' }
-                    },
                     'core': {
                         'data': {
-                            'url': function (node) {
-                                if (node.id === '#') {
-                                    return '/Employee/GetRoot/' + usertype;
-                                }
-                                else {
-                                    var divid = null; var depid = null; var secid = null; var poid = null;
-                                    var parenttype = node.original.node_type;
-                                    if (parenttype == 'div') {
-                                        divid = node.id;
-                                    }
-                                    else if (parenttype == 'dep') {
-                                        divid = (node.parents.length == 3) ? node.parents[0] : null;
-                                        depid = node.id;
-                                    }
-                                    else if (parenttype == 'sec') {
-                                        divid = (node.parents.length == 4) ? node.parents[1] : null;
-                                        depid = (node.parents.length == 4) ? node.parents[0] : null;
-                                        secid = node.id;
-                                    }
-                                    else if (parenttype == 'pos') {
-                                        divid = (node.parents.length == 5) ? node.parents[2] : null;
-                                        depid = (node.parents.length == 5) ? node.parents[1] : null;
-                                        secid = (node.parents.length == 5) ? node.parents[0] : null;
-                                        poid = node.id;
-                                    }
-                                    else if (parenttype == 'user') {
-                                        divid = (node.parents.length == 6) ? node.parents[3] : null;
-                                        depid = (node.parents.length == 6) ? node.parents[2] : null;
-                                        secid = (node.parents.length == 6) ? node.parents[1] : null;
-                                        poid = (node.parents.length == 6) ? node.parents[0] : null;
-                                    }
-                                    return '/Employee/GetChildren/' + node.id + '?parenttype=' + parenttype + '&usertype=' + usertype + '&divid=' + divid + '&depid=' + depid + '&secid=' + secid + '&poid=' + poid;
-                                }
-                            },
-                            'data': function (node, callback) {
+                            'url': '/Employee/GetRoot/' + usertype,
+                            'data': function (node) {
                                 return { 'id': node.id };
                             }
                         }
-                    }
+                    },
+                    'plugins': ['search', 'wholerow', 'sort']
                 });
 
                 $tree.on('changed.jstree', function (e, data) {
                     if (data.node.original.node_type == 'user') {
-                        var url = '@Url.Action("PositionRateDetail", "Employee")/' + data.node.original.node_mpid;
+                        var url = '@Url.Action("PositionRateDetail", "Employee")/' + data.node.id;
                         $.post(url, function (data) {
                             $(".detail-position").html(data);
                             $('.modal-position').modal('show');
                         });
                     }
                 });
+
+
+                //jstree.tree = $tree.jstree({
+                //    'plugins': ['search', 'wholerow', 'sort'],
+                //    'core': {
+                //        'data': {
+                //            'url': function (node) {
+                //                if (node.id === '#') {
+                //                    return '/Employee/GetRoot/' + usertype;
+                //                }
+                //                else {
+                //                    var divid = null; var depid = null; var secid = null; var poid = null;
+                //                    var parenttype = node.original.node_type;
+                //                    if (parenttype == 'div') {
+                //                        divid = node.id;
+                //                    }
+                //                    else if (parenttype == 'dep') {
+                //                        divid = (node.parents.length == 3) ? node.parents[0] : null;
+                //                        depid = node.id;
+                //                    }
+                //                    else if (parenttype == 'sec') {
+                //                        divid = (node.parents.length == 4) ? node.parents[1] : null;
+                //                        depid = (node.parents.length == 4) ? node.parents[0] : null;
+                //                        secid = node.id;
+                //                    }
+                //                    else if (parenttype == 'pos') {
+                //                        divid = (node.parents.length == 5) ? node.parents[2] : null;
+                //                        depid = (node.parents.length == 5) ? node.parents[1] : null;
+                //                        secid = (node.parents.length == 5) ? node.parents[0] : null;
+                //                        poid = node.id;
+                //                    }
+                //                    else if (parenttype == 'user') {
+                //                        divid = (node.parents.length == 6) ? node.parents[3] : null;
+                //                        depid = (node.parents.length == 6) ? node.parents[2] : null;
+                //                        secid = (node.parents.length == 6) ? node.parents[1] : null;
+                //                        poid = (node.parents.length == 6) ? node.parents[0] : null;
+                //                    }
+                //                    return '/Employee/GetChildren/' + node.id + '?parenttype=' + parenttype + '&usertype=' + usertype + '&divid=' + divid + '&depid=' + depid + '&secid=' + secid + '&poid=' + poid;
+                //                }
+                //            },
+                //            'data': function (node, callback) {
+                //                return { 'id': node.id };
+                //            }
+                //        }
+                //    }
+                //});
+                
             },
             destroyTree: function (usertype) {
                 if (jstree.tree != null) {
@@ -241,7 +252,7 @@
                                 confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
                                 buttonsStyling: false
                             }).then(function () {
-                                jstree.destroyTree;
+                                $('.modal-position').modal('hide');
                             });
                         }
                         else {

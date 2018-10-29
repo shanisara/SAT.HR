@@ -550,14 +550,7 @@ namespace SAT.HR.Controllers
 
         public JsonResult GetRoot(int id)
         {
-            var data = new PositionRateRepository().GetTree(id);
-            var items = new[]
-            {
-                new { id = "0", text = "การกีฬาแห่งประเทศไทย", state = new { opened = true }, children = data }
-            }
-            .ToList();
-
-            //var items = new PositionRateRepository().GetTreeAll(id);
+            var items = new PositionRateRepository().GetTreeAll(id);
             return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
