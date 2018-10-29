@@ -57,22 +57,20 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-6 tree">
+                        <div class="col-sm-10">
                             @*<div>
                                 <input type="search" class="search-tree" />
                                 <button type="button" class="btn-search">Search</button>
                             </div>*@
                             <div id="organization"></div>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="title-header">
-                                <h5><span>ข้อมูลอัตรากำลังพล</span></h5>
+                        <div class="col-sm-2">
+                            <div class="title-header pull-right">
+                                @*<h5><span>ข้อมูลอัตรากำลังพล</span></h5>*@
                                 @*@Html.Label("ประเภทอัตรากำลังพล: ", null, new { @class = "col-form-label" })*@
-                                <button class="btn btn-primary btn-sm pull-right add-position" data-toggle="modal" id="btnAdd"><i class="material-icons">add</i> เพิ่มอัตรากำลังพล</button>
+                                <button class="btn btn-primary btn-sm add-position" data-toggle="modal" id="btnAdd"><i class="material-icons">add</i> เพิ่มอัตรากำลังพล</button>
                             </div>
-                            <div id="detail">
-                                @*@{ Html.RenderPartial("_PositionRateDetail"); }*@
-                            </div>
+                            @*<div id="detail"></div>*@
                         </div>
                     </div>
                 </div>
@@ -81,15 +79,38 @@
     </div>
 </div>
 
+<!-- Classic Modal -->
+<div class="modal fade modal-large modal-position" role="dialog" aria-labelledby="modalPositionLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span>โยกย้ายอัตรากำลังพล</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div class="detail-position"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-roundbtn-default btn-close" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary btn-save">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  End Modal -->
+
+
 @section Scripts {
     <script src="@Url.Content("~/Content/assets/js/jstree/jstree.js")"></script>
     <script>
 
     $(document).ready(function () {
 
-        var windowHeight = window.innerHeight;
-        var treeHeight = 'height:' + (windowHeight - 230) + 'px';
-        $('.tree').attr("style", treeHeight);
+        //var windowHeight = window.innerHeight;
+        //var treeHeight = 'height:' + (windowHeight - 230) + 'px';
+        //$('.tree').attr("style", treeHeight);
 
         var jstree = {
             tree: null,
@@ -98,12 +119,8 @@
                 jstree.tree = $tree.jstree({
                     'plugins': ['search', 'wholerow', 'sort'],
                     'types': {
-                        'default': {
-                            'icon': '//jstree.com/tree.png'
-                        },
-                        'user': {
-                            'icon': 'glyphicon glyphicon-flash'
-                        }
+                        'default': { 'icon': '//jstree.com/tree.png' },
+                        'user': { 'icon': 'glyphicon glyphicon-flash' }
                     },
                     'core': {
                         'data': {
@@ -152,17 +169,11 @@
                     if (data.node.original.node_type == 'user') {
                         var url = '@Url.Action("PositionRateDetail", "Employee")/' + data.node.original.node_mpid;
                         $.post(url, function (data) {
-                            $("#detail").html(data);
+                            $(".detail-position").html(data);
+                            $('.modal-position').modal('show');
                         });
                     }
-                    else {
-                        $("#detail").html('');
-                    }
                 });
-
-                //$tree.bind("open_node.jstree", function (event, data) {
-                    
-                //});
             },
             destroyTree: function (usertype) {
                 if (jstree.tree != null) {
@@ -190,11 +201,63 @@
         $(".add-position").click(function () {
             var url = '@Url.Action("PositionRateDetail", "Employee")';
             $.post(url, function (data) {
-                $("#detail").html(data);
+                $(".detail-position").html(data);
+                $('.modal-position').modal('show');
             });
         });
 
 
+        $(".btn-save").click(function () {
+            var $valid = $('.form-position').valid();
+            if (!$valid) {
+                if ($("#DivID").val() == '') {
+                    $('#DivID-error').text(''); //กรุณาระบุฝ่าย
+                }
+                if ($("#DepID").val() == '') {
+                    $('#DepID-error').text(''); //กรุณาระบุกอง
+                }
+                if ($("#SecID").val() == '') {
+                    $('#SecID-error').text(''); //กรุณาระบุงาน
+                }
+                if ($("#PoID").val() == '') {
+                    $('#PoID-error').text(''); //กรุณาระบุตำแหน่ง
+                }
+                return false;
+            }
+            else {
+                var usertype = $("#usertype").val()
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SavePositionRate", "Employee")',
+                    data: $(".form-position").serialize(),
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.MessageCode == null) {
+                            swal({
+                                title: "",
+                                text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                                type: "success",
+                                confirmButtonClass: "btn btn-primary",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                buttonsStyling: false
+                            }).then(function () {
+                                jstree.destroyTree;
+                            });
+                        }
+                        else {
+                            swal({
+                                title: '',
+                                text: res.MessageText,
+                                type: 'error',
+                                confirmButtonClass: "btn btn-primary",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                buttonsStyling: false
+                            }).catch(swal.noop);
+                        }
+                    }
+                });
+            }
+        });
 
     });
 

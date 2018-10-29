@@ -8,47 +8,49 @@
     @Html.HiddenFor(m => m.MpID)
 
     <div class="m-t-10"></div>
+    if (@Model.MpID != 0)
+    {
     <div class="row">
         @Html.Label("อัตรากำลัง: ", null, new { @class = "col-sm-3 col-form-label" })
         <div class="col-sm-9">
-            @Html.TextBoxFor(m => m.MpID, new { @class = "form-control disabled", required = "true" })
+            @Html.TextBoxFor(m => m.MpID, new { @class = "form-control disabled" })
         </div>
     </div>
     <div class="row">
         @Html.Label("ผู้ดำรงตำแหน่ง: ", null, new { @class = "col-sm-3 col-form-label" })
         <div class="col-sm-9">
-
-            @Html.TextBoxFor(m => m.FullNameTh, new { @class = "form-control disabled", required = "true" })
+            @Html.TextBoxFor(m => m.FullNameTh, new { @class = "form-control disabled" })
         </div>
     </div>
+    }
     <div class="row">
         @Html.Label("ฝ่าย: ", null, new { @class = "col-sm-3 col-form-label" })
         <div class="col-sm-9">
-            @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition po-div" })
+            @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition po-div", required = "true" })
         </div>
     </div>
     <div class="row">
         @Html.Label("กอง: ", null, new { @class = "col-sm-3 col-form-label" })
         <div class="col-sm-9">
-            @Html.DropDownListFor(n => n.DepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Department, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition po-dep" })
+            @Html.DropDownListFor(n => n.DepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Department, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition po-dep", required = "true" })
         </div>
     </div>
     <div class="row">
         @Html.Label("งาน: ", null, new { @class = "col-sm-3 col-form-label" })
         <div class="col-sm-9">
-            @Html.DropDownListFor(n => n.SecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Section, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+            @Html.DropDownListFor(n => n.SecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Section, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
         </div>
     </div>
     <div class="row">
         @Html.Label("ตำแหน่ง: ", null, new { @class = "col-sm-3 col-form-label" })
         <div class="col-sm-9">
-            @Html.DropDownListFor(n => n.PoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+            @Html.DropDownListFor(n => n.PoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
         </div>
     </div>
     <div class="row">
         @Html.Label("ระดับสายงาน: ", null, new { @class = "col-sm-3 col-form-label" })
         <div class="col-sm-9">
-            @Html.TextBoxFor(m => m.MpMan, new { @class = "form-control", required = "true" })
+            @Html.TextBoxFor(m => m.MpMan, new { @class = "form-control" })
         </div>
     </div>
     <div class="row">
@@ -56,10 +58,6 @@
         <div class="col-sm-9">
             @Html.DropDownListFor(n => n.EduID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Education, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
         </div>
-    </div>
-    <div class="card-footer pull-right">
-        <button type="button" class="btn btn-cancel">ยกเลิก</button>
-        <button type="button" class="btn btn-primary btn-save">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
     </div>
 }
 
@@ -112,55 +110,20 @@
 
     $("#DivID").change(function () {
         DropDownList.getDepartment($("#DepID"), $('#DivID').val(), $("#usertype").val());
-        DropDownList.getSection($("#SecID"), $('#DivID').val(), $('#DepID').val(), $("#usertype").val());
-        DropDownList.getPosition($("#PoID"), $('#DivID').val(), $('#DepID').val(), $("#SecID").val(), $("#usertype").val());
+        //DropDownList.getSection($("#SecID"), $('#DivID').val(), $('#DepID').val(), $("#usertype").val());
+        //DropDownList.getPosition($("#PoID"), $('#DivID').val(), $('#DepID').val(), $("#SecID").val(), $("#usertype").val());
     });
 
     $("#DepID").change(function () {
         DropDownList.getSection($("#SecID"), $('#DivID').val(), $('#DepID').val(), $("#usertype").val());
-        DropDownList.getPosition($("#PoID"), $('#DivID').val(), $('#DepID').val(), $("#SecID").val(), $("#usertype").val());
+        //DropDownList.getPosition($("#PoID"), $('#DivID').val(), $('#DepID').val(), $("#SecID").val(), $("#usertype").val());
     });
 
     $("#SecID").change(function () {
         DropDownList.getPosition($("#PoID"), $('#DivID').val(), $('#DepID').val(), $("#SecID").val(), $("#usertype").val());
     });
 
-    $(".btn-cancel").click(function () {
-        $("#detail").html('');
-    });
 
-    $(".btn-save").click(function () {
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("SavePositionRate", "Employee")',
-            data: $(".form-position").serialize(),
-            dataType: 'json',
-            success: function (res) {
-                if (res.MessageCode == null) {
-                    swal({
-                        title: "",
-                        text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.DeleteSucceed)",
-                        type: "success",
-                        confirmButtonClass: "btn btn-primary",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                        buttonsStyling: false
-                    }).then(function () {
-                        //$('#organization').jstree();
-                        //jstree.getTree();
-                    });
-                }
-                else {
-                    swal({
-                        title: '',
-                        text: res.MessageText,
-                        type: 'error',
-                        confirmButtonClass: "btn btn-primary",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                        buttonsStyling: false
-                    }).catch(swal.noop);
-                }
-            }
-        });
-    });
+    
 
 </script>
