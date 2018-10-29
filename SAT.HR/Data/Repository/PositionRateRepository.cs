@@ -69,7 +69,7 @@ namespace SAT.HR.Data.Repository
                     db.tb_Man_Power.Add(model);
                     db.SaveChanges();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     result.MessageCode = "";
                     result.MessageText = ex.Message;
@@ -97,7 +97,7 @@ namespace SAT.HR.Data.Repository
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     result.MessageCode = "";
                     result.MessageText = ex.Message;
