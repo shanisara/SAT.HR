@@ -501,31 +501,36 @@ namespace SAT.HR.Data.Repository
                         var man = db.tb_Man_Power.Where(x => x.UserID == newdata.UserID).FirstOrDefault();
                         if (man != null)
                         {
-                            man.DivID = newdata.DivID;
-                            man.DepID = newdata.DepID;
-                            man.SecID = newdata.SecID;
-                            man.PoID = newdata.SecID;
-                            db.SaveChanges();
+                            var po = db.tb_Man_Power.Where(x => x.MpID == newdata.PoID).FirstOrDefault();
+                            if (po != null)
+                            {
+                                man.DivID = newdata.DivID;
+                                man.DepID = newdata.DepID;
+                                man.SecID = newdata.SecID;
+                                man.PoID = po.PoID;
+                                man.TypeID = newdata.UserType;
+                                db.SaveChanges();
+                            }
                         }
-                        else
-                        {
-                            int maxID = db.tb_Man_Power.Where(m => m.TypeID == newdata.UserType).Max(m => (int)m.MpID);
+                        //else
+                        //{
+                        //    int maxID = db.tb_Man_Power.Where(m => m.TypeID == newdata.UserType).Max(m => (int)m.MpID);
 
-                            tb_Man_Power objMan = new tb_Man_Power();
-                            objMan.MpID = maxID;
-                            objMan.DivID = newdata.DivID;
-                            objMan.DepID = newdata.DepID;
-                            objMan.SecID = newdata.SecID;
-                            objMan.PoID = newdata.SecID;
-                            objMan.TypeID = newdata.UserType;
-                            objMan.UserID = newdata.UserID;
-                            objMan.CreateBy = UtilityService.User.UserID;
-                            objMan.CreateDate = DateTime.Now;
-                            objMan.ModifyBy = UtilityService.User.UserID;
-                            objMan.ModifyDate = DateTime.Now;
-                            db.tb_Man_Power.Add(objMan);
-                            db.SaveChanges();
-                        }
+                        //    tb_Man_Power objMan = new tb_Man_Power();
+                        //    objMan.MpID = maxID;
+                        //    objMan.DivID = newdata.DivID;
+                        //    objMan.DepID = newdata.DepID;
+                        //    objMan.SecID = newdata.SecID;
+                        //    objMan.PoID = newdata.SecID;
+                        //    objMan.TypeID = newdata.UserType;
+                        //    objMan.UserID = newdata.UserID;
+                        //    objMan.CreateBy = UtilityService.User.UserID;
+                        //    objMan.CreateDate = DateTime.Now;
+                        //    objMan.ModifyBy = UtilityService.User.UserID;
+                        //    objMan.ModifyDate = DateTime.Now;
+                        //    db.tb_Man_Power.Add(objMan);
+                        //    db.SaveChanges();
+                        //}
 
                         #endregion
 

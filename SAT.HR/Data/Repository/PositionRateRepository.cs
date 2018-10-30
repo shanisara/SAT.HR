@@ -443,7 +443,7 @@ namespace SAT.HR.Data.Repository
                         id = item.MpID.ToString(),
                         icon = SysConfig.ApplicationRoot + "Content/assets/img/user2.png",
                         node_type = "user",
-                        text = "(" + item.MpID.ToString().PadLeft(4, '0') + ") " + item.TiShortName + item.FullNameTh,
+                        text = "(" + (type.ToString() == "1" ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0')) + ") " + item.TiShortName + item.FullNameTh,
                     };
                     items.Add(model);
                 }
