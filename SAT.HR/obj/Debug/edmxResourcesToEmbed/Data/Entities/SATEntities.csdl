@@ -312,26 +312,6 @@
       <End Role="tb_Section" EntitySet="tb_Section" />
       <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
     </AssociationSet>
-    <AssociationSet Name="FK_tb_Man_Power_tb_User" Association="SAT.HR.FK_tb_Man_Power_tb_User">
-      <End Role="tb_User" EntitySet="tb_User" />
-      <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Man_Power_tb_User_Type" Association="SAT.HR.FK_tb_Man_Power_tb_User_Type">
-      <End Role="tb_User_Type" EntitySet="tb_User_Type" />
-      <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Move_Man_Power_Detail_AgentMpID" Association="SAT.HR.FK_tb_Move_Man_Power_Detail_AgentMpID">
-      <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
-      <End Role="tb_Move_Man_Power_Detail" EntitySet="tb_Move_Man_Power_Detail" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Move_Man_Power_Detail_CurMpID" Association="SAT.HR.FK_tb_Move_Man_Power_Detail_CurMpID">
-      <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
-      <End Role="tb_Move_Man_Power_Detail" EntitySet="tb_Move_Man_Power_Detail" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Move_Man_Power_Detail_MovMpID" Association="SAT.HR.FK_tb_Move_Man_Power_Detail_MovMpID">
-      <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
-      <End Role="tb_Move_Man_Power_Detail" EntitySet="tb_Move_Man_Power_Detail" />
-    </AssociationSet>
     <AssociationSet Name="FK_tb_User_Family_tb_Marital_Status" Association="SAT.HR.FK_tb_User_Family_tb_Marital_Status">
       <End Role="tb_Marital_Status" EntitySet="tb_Marital_Status" />
       <End Role="tb_User_Family" EntitySet="tb_User_Family" />
@@ -492,7 +472,6 @@
     <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
     <Property Type="Int32" Name="EduID" Nullable="true" />
     <Property Type="String" Name="EduName" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="MpMan" Nullable="true" MaxLength="200" />
     <Property Type="Int32" Name="SalaryLevel" Nullable="true" />
     <Property Type="Decimal" Name="SalaryStep" Nullable="true" Precision="18" Scale="0" />
     <Property Type="String" Name="Email" Nullable="true" MaxLength="200" />
@@ -505,6 +484,7 @@
     <Property Type="Int32" Name="RoleID" Nullable="true" />
     <Property Type="Int32" Name="recordsTotal" Nullable="true" />
     <Property Type="Int32" Name="recordsFiltered" Nullable="true" />
+    <Property Type="Int32" Name="DisID" Nullable="true" />
   </ComplexType>
   <EntityType Name="tb_Accumulative_Fund">
     <Key>
@@ -1063,13 +1043,12 @@
     <Key>
       <PropertyRef Name="MpID" />
     </Key>
-    <Property Name="MpID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="MpCode" Type="Int32" />
-    <Property Name="MpMan" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="MpID" Type="Int32" Nullable="false" />
     <Property Name="DivID" Type="Int32" />
     <Property Name="DepID" Type="Int32" />
     <Property Name="SecID" Type="Int32" />
     <Property Name="PoID" Type="Int32" />
+    <Property Name="DisID" Type="Int32" />
     <Property Name="TypeID" Type="Int32" />
     <Property Name="UserID" Type="Int32" />
     <Property Name="EduID" Type="Int32" />
@@ -1081,11 +1060,6 @@
     <NavigationProperty Name="tb_Division" Relationship="SAT.HR.FK_tb_Man_Power_tb_Division" FromRole="tb_Man_Power" ToRole="tb_Division" />
     <NavigationProperty Name="tb_Education" Relationship="SAT.HR.FK_tb_Man_Power_tb_Education" FromRole="tb_Man_Power" ToRole="tb_Education" />
     <NavigationProperty Name="tb_Section" Relationship="SAT.HR.FK_tb_Man_Power_tb_Section" FromRole="tb_Man_Power" ToRole="tb_Section" />
-    <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Man_Power_tb_User" FromRole="tb_Man_Power" ToRole="tb_User" />
-    <NavigationProperty Name="tb_User_Type" Relationship="SAT.HR.FK_tb_Man_Power_tb_User_Type" FromRole="tb_Man_Power" ToRole="tb_User_Type" />
-    <NavigationProperty Name="tb_Move_Man_Power_Detail" Relationship="SAT.HR.FK_tb_Move_Man_Power_Detail_AgentMpID" FromRole="tb_Man_Power" ToRole="tb_Move_Man_Power_Detail" />
-    <NavigationProperty Name="tb_Move_Man_Power_Detail1" Relationship="SAT.HR.FK_tb_Move_Man_Power_Detail_CurMpID" FromRole="tb_Man_Power" ToRole="tb_Move_Man_Power_Detail" />
-    <NavigationProperty Name="tb_Move_Man_Power_Detail2" Relationship="SAT.HR.FK_tb_Move_Man_Power_Detail_MovMpID" FromRole="tb_Man_Power" ToRole="tb_Move_Man_Power_Detail" />
   </EntityType>
   <EntityType Name="tb_Marital_Status">
     <Key>
@@ -1142,7 +1116,7 @@
       <PropertyRef Name="MlID" />
       <PropertyRef Name="UserID" />
     </Key>
-    <Property Name="MlID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MlID" Type="Int32" Nullable="false" />
     <Property Name="UserID" Type="Int32" Nullable="false" />
     <Property Name="MlLevelOld" Type="Decimal" Precision="18" Scale="2" />
     <Property Name="MlStepOld" Type="Decimal" Precision="18" Scale="2" />
@@ -1187,9 +1161,6 @@
     <Property Name="CreateBy" Type="Int32" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
-    <NavigationProperty Name="tb_Man_Power" Relationship="SAT.HR.FK_tb_Move_Man_Power_Detail_AgentMpID" FromRole="tb_Move_Man_Power_Detail" ToRole="tb_Man_Power" />
-    <NavigationProperty Name="tb_Man_Power1" Relationship="SAT.HR.FK_tb_Move_Man_Power_Detail_CurMpID" FromRole="tb_Move_Man_Power_Detail" ToRole="tb_Man_Power" />
-    <NavigationProperty Name="tb_Man_Power2" Relationship="SAT.HR.FK_tb_Move_Man_Power_Detail_MovMpID" FromRole="tb_Move_Man_Power_Detail" ToRole="tb_Man_Power" />
     <NavigationProperty Name="tb_Move_Man_Power_Head" Relationship="SAT.HR.FK_tb_Move_Man_Power_Detail_MopID" FromRole="tb_Move_Man_Power_Detail" ToRole="tb_Move_Man_Power_Head" />
     <NavigationProperty Name="tb_Position_Type" Relationship="SAT.HR.FK_tb_Move_Man_Power_Detail_PoTID" FromRole="tb_Move_Man_Power_Detail" ToRole="tb_Position_Type" />
   </EntityType>
@@ -1512,7 +1483,6 @@
     <NavigationProperty Name="tb_Benefit_Provident_Fund" Relationship="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Provident_Fund" />
     <NavigationProperty Name="tb_Blood_Type" Relationship="SAT.HR.FK_tb_Users_tb_Blood_Type" FromRole="tb_User" ToRole="tb_Blood_Type" />
     <NavigationProperty Name="tb_Empower" Relationship="SAT.HR.FK_tb_Users_tb_Empower" FromRole="tb_User" ToRole="tb_Empower" />
-    <NavigationProperty Name="tb_Man_Power" Relationship="SAT.HR.FK_tb_Man_Power_tb_User" FromRole="tb_User" ToRole="tb_Man_Power" />
     <NavigationProperty Name="tb_Marital_Status" Relationship="SAT.HR.FK_tb_Users_tb_Marital_Status" FromRole="tb_User" ToRole="tb_Marital_Status" />
     <NavigationProperty Name="tb_Nationality" Relationship="SAT.HR.FK_tb_Users_tb_Nationality" FromRole="tb_User" ToRole="tb_Nationality" />
     <NavigationProperty Name="tb_Nationality1" Relationship="SAT.HR.FK_tb_Users_tb_Nationality1" FromRole="tb_User" ToRole="tb_Nationality" />
@@ -1745,7 +1715,6 @@
     </Key>
     <Property Name="TypeID" Type="Int32" Nullable="false" />
     <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="tb_Man_Power" Relationship="SAT.HR.FK_tb_Man_Power_tb_User_Type" FromRole="tb_User_Type" ToRole="tb_Man_Power" />
     <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_User_tb_User_Type" FromRole="tb_User_Type" ToRole="tb_User" />
   </EntityType>
   <EntityType Name="tb_Working_Type">
@@ -1801,12 +1770,10 @@
     <Property Name="SecID" Type="Int32" />
     <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="PoID" Type="Int32" />
-    <Property Name="PoCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="EduID" Type="Int32" />
     <Property Name="EduName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="MpID" Type="Int32" />
-    <Property Name="MpMan" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="SalaryLevel" Type="Int32" />
     <Property Name="SalaryStep" Type="Decimal" Precision="18" Scale="0" />
     <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
@@ -1823,7 +1790,6 @@
       <PropertyRef Name="MpID" />
     </Key>
     <Property Name="MpID" Type="Int32" Nullable="false" />
-    <Property Name="MpCode" Type="Int32" />
     <Property Name="DivID" Type="Int32" />
     <Property Name="UserID" Type="Int32" />
     <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
@@ -1832,11 +1798,10 @@
     <Property Name="SecID" Type="Int32" />
     <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="PoID" Type="Int32" />
-    <Property Name="PoCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DisID" Type="Int32" />
     <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="EduID" Type="Int32" />
     <Property Name="EduName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="MpMan" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="IDCard" Type="Decimal" Precision="18" Scale="0" />
     <Property Name="TiShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
@@ -2881,66 +2846,6 @@
       </Principal>
       <Dependent Role="tb_Man_Power">
         <PropertyRef Name="SecID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_Man_Power_tb_User">
-    <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="0..1" />
-    <End Type="SAT.HR.tb_Man_Power" Role="tb_Man_Power" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_User">
-        <PropertyRef Name="UserID" />
-      </Principal>
-      <Dependent Role="tb_Man_Power">
-        <PropertyRef Name="UserID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_Man_Power_tb_User_Type">
-    <End Type="SAT.HR.tb_User_Type" Role="tb_User_Type" Multiplicity="0..1" />
-    <End Type="SAT.HR.tb_Man_Power" Role="tb_Man_Power" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_User_Type">
-        <PropertyRef Name="TypeID" />
-      </Principal>
-      <Dependent Role="tb_Man_Power">
-        <PropertyRef Name="TypeID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_Move_Man_Power_Detail_AgentMpID">
-    <End Type="SAT.HR.tb_Man_Power" Role="tb_Man_Power" Multiplicity="0..1" />
-    <End Type="SAT.HR.tb_Move_Man_Power_Detail" Role="tb_Move_Man_Power_Detail" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Man_Power">
-        <PropertyRef Name="MpID" />
-      </Principal>
-      <Dependent Role="tb_Move_Man_Power_Detail">
-        <PropertyRef Name="AgentMpID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_Move_Man_Power_Detail_CurMpID">
-    <End Type="SAT.HR.tb_Man_Power" Role="tb_Man_Power" Multiplicity="1" />
-    <End Type="SAT.HR.tb_Move_Man_Power_Detail" Role="tb_Move_Man_Power_Detail" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Man_Power">
-        <PropertyRef Name="MpID" />
-      </Principal>
-      <Dependent Role="tb_Move_Man_Power_Detail">
-        <PropertyRef Name="CurMpID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_Move_Man_Power_Detail_MovMpID">
-    <End Type="SAT.HR.tb_Man_Power" Role="tb_Man_Power" Multiplicity="0..1" />
-    <End Type="SAT.HR.tb_Move_Man_Power_Detail" Role="tb_Move_Man_Power_Detail" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Man_Power">
-        <PropertyRef Name="MpID" />
-      </Principal>
-      <Dependent Role="tb_Move_Man_Power_Detail">
-        <PropertyRef Name="MovMpID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

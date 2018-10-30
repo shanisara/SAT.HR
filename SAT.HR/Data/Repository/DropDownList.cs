@@ -793,23 +793,6 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
-        public static List<SelectListItem> GetPositionRate(int? defaultValue, int? type)
-        {
-            List<SelectListItem> list = new List<SelectListItem>();
-
-            var data = new PositionRateRepository().GetPositionRate(type);
-            
-            foreach (var item in data)
-            {
-                SelectListItem select = new SelectListItem();
-                select.Value = item.MpID.ToString();
-                select.Text = " (" + item.MpCode + ") " + item.PoName;
-                select.Selected = defaultValue.HasValue ? (item.MpID == defaultValue ? true : false) : false;
-                list.Add(select);
-            }
-            return list;
-        }
-
         public static List<SelectListItem> GetDivisionManPower(int? type, int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
@@ -866,14 +849,30 @@ namespace SAT.HR.Data.Repository
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
-                select.Value = item.PoID.ToString();
-                select.Text = " (" + item.MpCode + ") " + item.PoName;
-                select.Selected = defaultValue.HasValue ? (item.PoID == defaultValue ? true : false) : false;
+                select.Value = item.MpID.ToString();
+                select.Text = " (" + (type.ToString() == "1" ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0')) + ") " + item.PoName;
+                select.Selected = defaultValue.HasValue ? (item.MpID.Equals(defaultValue) ? true : false) : false;
                 list.Add(select);
             }
             return list;
         }
 
+        public static List<SelectListItem> GetPositionRate(int? defaultValue, int? type)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new PositionRateRepository().GetPositionRate(type);
+            
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.MpID.ToString();
+                select.Text = " (" + (type.ToString() == "1" ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0')) + ") " + item.PoName;
+                select.Selected = defaultValue.HasValue ? (item.MpID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
 
     }
 

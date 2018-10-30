@@ -1092,13 +1092,13 @@ namespace SAT.HR.Controllers
 
         public JsonResult GetDetailByUser(int userid)
         {
-            var result = new MasterRepository().GetDetailByUser(userid);
+            var result = new PositionRateRepository().GetDetailByUser(userid);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetDetailByMp(int mpid)
         {
-            var result = new MasterRepository().GetDetailByMp(mpid);
+            var result = new PositionRateRepository().GetDetailByMp(mpid);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

@@ -22,12 +22,12 @@ namespace SAT.HR.Data.Repository
                     if (data != null)
                     {
                         model.MpID = data.MpID;
-                        model.MpCode = data.TypeID == 1 ? data.MpID.ToString().PadLeft(3, '0') : data.MpID.ToString().PadLeft(4, '0');
+                        //model.MpCode = data.TypeID == 1 ? data.MpID.ToString().PadLeft(3, '0') : data.MpID.ToString().PadLeft(4, '0');
                         model.DivID = data.DivID;
                         model.DepID = data.DepID;
                         model.SecID = data.SecID;
                         model.PoID = data.PoID;
-                        model.MpMan = data.MpMan;
+                        model.DisID = data.DisID;
                         model.UserID = data.UserID;
                         model.FullNameTh = data.TiShortName + data.FullNameTh;
                         model.EduID = data.EduID;
@@ -51,16 +51,16 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    int maxID = db.tb_Man_Power.Where(m => m.TypeID == data.TypeID).Max(m => (int)m.MpCode);
+                    int maxID = db.tb_Man_Power.Where(m => m.TypeID == data.TypeID).Max(m => (int)m.MpID);
 
                     tb_Man_Power model = new tb_Man_Power();
-                    model.MpCode = maxID;
+                    model.MpID = maxID;
                     model.TypeID = data.TypeID;
                     model.DivID = data.DivID;
                     model.DepID = data.DepID;
                     model.SecID = data.SecID;
                     model.PoID = data.PoID;
-                    model.MpMan = data.MpMan;
+                    model.DisID = data.DisID;
                     model.UserID = data.UserID;
                     model.EduID = data.EduID;
                     model.CreateBy = UtilityService.User.UserID;
@@ -92,7 +92,7 @@ namespace SAT.HR.Data.Repository
                     model.DepID = newdata.DepID;
                     model.SecID = newdata.SecID;
                     model.PoID = newdata.PoID;
-                    model.MpMan = newdata.MpMan;
+                    model.DisID = newdata.DisID;
                     model.UserID = newdata.UserID;
                     model.EduID = newdata.EduID;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -123,7 +123,7 @@ namespace SAT.HR.Data.Repository
                 {
                     PositionRateViewModel model = new PositionRateViewModel();
                     model.MpID = item.MpID;
-                    model.MpCode = type == 1 ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
+                    //model.MpCode = type == 1 ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
                     model.PoName = item.PoName;
                     list.Add(model);
                 }
@@ -149,7 +149,7 @@ namespace SAT.HR.Data.Repository
                 {
                     PositionRateViewModel model = new PositionRateViewModel();
                     model.MpID = item.MpID;
-                    model.MpCode = (type == 1) ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
+                    //model.MpCode = (type == 1) ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
                     model.DivID = item.DivID;
                     model.DivName = item.DivName;
                     list.Add(model);
@@ -176,7 +176,7 @@ namespace SAT.HR.Data.Repository
                 {
                     PositionRateViewModel model = new PositionRateViewModel();
                     model.MpID = item.MpID;
-                    model.MpCode = (type == 1) ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
+                    //model.MpCode = (type == 1) ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
                     model.DepID = item.DepID;
                     model.DepName = item.DepName;
                     model.DivID = item.DivID;
@@ -205,7 +205,7 @@ namespace SAT.HR.Data.Repository
                 {
                     PositionRateViewModel model = new PositionRateViewModel();
                     model.MpID = item.MpID;
-                    model.MpCode = (type == 1) ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
+                    //model.MpCode = (type == 1) ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
                     model.SecID = item.SecID;
                     model.SecName = item.SecName;
                     model.DivID = item.DivID;
@@ -236,7 +236,7 @@ namespace SAT.HR.Data.Repository
                 {
                     PositionRateViewModel model = new PositionRateViewModel();
                     model.MpID = item.MpID;
-                    model.MpCode = (type == 1) ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
+                    //model.MpCode = (type == 1) ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
                     model.PoID = item.PoID;
                     model.PoName = item.PoName;
                     model.DivID = item.DivID;
@@ -247,6 +247,43 @@ namespace SAT.HR.Data.Repository
             }
             return list;
         }
+
+        public ManPowerViewModel GetDetailByUser(int userid)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                //var user = new EmployeeRepository().GetByID(userid);
+                ManPowerViewModel model = new ManPowerViewModel();
+                var data = db.vw_Man_Power.Where(m => m.UserID == userid).FirstOrDefault();
+                if (data != null)
+                {
+                    model.BelongTo = data.DivName + " / " + data.DepName + " / " + data.SecName;
+                    model.MpID = data.MpID;
+                    model.Position = "(" + (data.TypeID.ToString() == "1" ? data.MpID.ToString().PadLeft(3, '0') : data.MpID.ToString().PadLeft(4, '0')) + ") " + data.PoName;
+                    model.Level = data.SalaryLevel.ToString();
+                    model.Step = data.SalaryStep.ToString();
+                    model.Salary = data.Salary.ToString();
+                }
+
+                return model;
+            }
+        }
+
+        public ManPowerViewModel GetDetailByMp(int mpid)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ManPowerViewModel model = new ManPowerViewModel();
+                var data = db.vw_Man_Power.Where(m => m.MpID == mpid).FirstOrDefault();
+                if (data != null)
+                {
+                    model.BelongTo = data.DivName + " / " + data.DepName + " / " + data.SecName;
+                    model.FullName = data.FullNameTh;
+                }
+                return model;
+            }
+        }
+
 
 
         #region JSTreeViewModel
@@ -308,7 +345,7 @@ namespace SAT.HR.Data.Repository
                     {
                         id = "Dep" + item.DepID.ToString(),
                         text = item.DepName + " (" + countChild + ")",
-                        state = new JSTreeState() { opened = false },
+                        state = new JSTreeState() { opened = true },
                         icon = SysConfig.ApplicationRoot + "Content/assets/img/department.gif",
                         node_type = "dep",
                         children = GetSectionByDep(usertype, item.DivID, item.DepID),
@@ -340,7 +377,7 @@ namespace SAT.HR.Data.Repository
                         state = new JSTreeState() { opened = true },
                         icon = SysConfig.ApplicationRoot + "Content/assets/img/department.gif",
                         node_type = "sec",
-                        //children = GetPositionBySec(usertype, item.DivID, item.DepID, item.SecID),
+                        children = GetPositionBySec(usertype, item.DivID, item.DepID, item.SecID),
                     };
                     items.Add(model);
                 }
@@ -367,10 +404,10 @@ namespace SAT.HR.Data.Repository
                     {
                         id = "Pos" + item.PoID.ToString(),
                         text = item.PoName + " (" + countChild + ")",
-                        state = new JSTreeState() { opened = true },
-                        icon = SysConfig.ApplicationRoot + "Content/assets/img/flag_orange.gif",
+                        state = new JSTreeState() { opened = false },
+                        icon = SysConfig.ApplicationRoot + "Content/assets/img/flag_white.gif",
                         node_type = "pos",
-                        //children = GetUserManPower(usertype, item.DivID, item.DepID, item.SecID, item.PoID),
+                        children = GetUserManPower(usertype, item.DivID, item.DepID, item.SecID, item.PoID),
                     };
                     items.Add(model);
                 }

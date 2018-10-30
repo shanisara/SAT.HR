@@ -177,70 +177,76 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                ResponseData result = new Models.ResponseData();
-                try
+                using (var transection = db.Database.BeginTransaction())
                 {
-                    if (data.fileUpload != null)
+                    ResponseData result = new Models.ResponseData();
+                    try
                     {
-                        HttpPostedFileBase fileUpload = data.fileUpload;
-                        if (fileUpload != null && fileUpload.ContentLength > 0)
+                        if (data.fileUpload != null)
                         {
-                            var fileName = Path.GetFileName(fileUpload.FileName);
-                            var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
+                            HttpPostedFileBase fileUpload = data.fileUpload;
+                            if (fileUpload != null && fileUpload.ContentLength > 0)
+                            {
+                                var fileName = Path.GetFileName(fileUpload.FileName);
+                                var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
 
-                            string directory = SysConfig.PathUploadLevelTransfer;
-                            bool isExists = System.IO.Directory.Exists(directory);
-                            if (!isExists)
-                                System.IO.Directory.CreateDirectory(directory);
+                                string directory = SysConfig.PathUploadLevelTransfer;
+                                bool isExists = System.IO.Directory.Exists(directory);
+                                if (!isExists)
+                                    System.IO.Directory.CreateDirectory(directory);
 
-                            string newFileName = " คส.ที่ " + data.MlBookCmd + " เรื่องการแต่งตั้งเลื่อนระดับพนักงาน" + "." + fileExt;
-                            string fileLocation = Path.Combine(directory, newFileName);
+                                string newFileName = " คส.ที่ " + data.MlBookCmd + " เรื่องการแต่งตั้งเลื่อนระดับพนักงาน" + "." + fileExt;
+                                string fileLocation = Path.Combine(directory, newFileName);
 
-                            fileUpload.SaveAs(fileLocation);
+                                fileUpload.SaveAs(fileLocation);
 
-                            data.MIPathFile = newFileName;
+                                data.MIPathFile = newFileName;
+                            }
                         }
+
+                        tb_Move_Level_Head head = new tb_Move_Level_Head();
+                        head.MlYear = data.MlYear;
+                        head.MlBookCmd = data.MlBookCmd;
+                        if (!string.IsNullOrEmpty(data.MlDateCmdText))
+                            head.MlDateCmd = Convert.ToDateTime(data.MlDateCmdText);
+                        head.MlSignatory = data.MlSignatory;
+                        head.MIPathFile = data.MIPathFile;
+                        head.MlStatus = data.MlStatus;
+                        head.CreateBy = UtilityService.User.UserID;
+                        head.CreateDate = DateTime.Now;
+                        head.ModifyBy = UtilityService.User.UserID;
+                        head.ModifyDate = DateTime.Now;
+                        db.tb_Move_Level_Head.Add(head);
+                        db.SaveChanges();
+                        result.ID = head.MlID;
+
+                        foreach (var item in data.ListDetail)
+                        {
+                            tb_Move_Level_Detail detail = new tb_Move_Level_Detail();
+                            detail.MlID = head.MlID;
+                            detail.UserID = item.UserID;
+                            detail.MlLevelOld = item.MlLevelOld;
+                            detail.MlStepOld = item.MlStepOld;
+                            detail.MlLevelNew = item.MlLevelNew;
+                            detail.MlStepNew = item.MlStepNew;
+                            detail.CreateBy = UtilityService.User.UserID;
+                            detail.CreateDate = DateTime.Now;
+                            detail.ModifyBy = UtilityService.User.UserID;
+                            detail.ModifyDate = DateTime.Now;
+                            db.tb_Move_Level_Detail.Add(detail);
+                        }
+
+                        transection.Commit();
                     }
-
-                    tb_Move_Level_Head head = new tb_Move_Level_Head();
-                    head.MlYear = data.MlYear;
-                    head.MlBookCmd = data.MlBookCmd;
-                    if (!string.IsNullOrEmpty(data.MlDateCmdText))
-                        head.MlDateCmd = Convert.ToDateTime(data.MlDateCmdText);
-                    head.MlSignatory = data.MlSignatory;
-                    head.MIPathFile = data.MIPathFile;
-                    head.MlStatus = data.MlStatus;
-                    head.CreateBy = UtilityService.User.UserID;
-                    head.CreateDate = DateTime.Now;
-                    head.ModifyBy = UtilityService.User.UserID;
-                    head.ModifyDate = DateTime.Now;
-                    db.tb_Move_Level_Head.Add(head);
-                    db.SaveChanges();
-                    result.ID = head.MlID;
-
-                    foreach (var item in data.ListDetail)
+                    catch (Exception ex)
                     {
-                        tb_Move_Level_Detail detail = new tb_Move_Level_Detail();
-                        detail.MlID = head.MlID;
-                        detail.UserID = item.UserID;
-                        detail.MlLevelOld = item.MlLevelOld;
-                        detail.MlStepOld = item.MlStepOld;
-                        detail.MlLevelNew = item.MlLevelNew;
-                        detail.MlStepNew = item.MlStepNew;
-                        detail.CreateBy = UtilityService.User.UserID;
-                        detail.CreateDate = DateTime.Now;
-                        detail.ModifyBy = UtilityService.User.UserID;
-                        detail.ModifyDate = DateTime.Now;
-                        db.tb_Move_Level_Detail.Add(detail);
+                        transection.Rollback();
+                        result.MessageCode = "";
+                        result.MessageText = ex.Message;
                     }
-                }
-                catch (Exception ex)
-                {
-                    result.MessageCode = "";
-                    result.MessageText = ex.Message;
-                }
 
-                return result;
+                    return result;
+                }
             }
         }
 
@@ -248,96 +254,108 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                ResponseData result = new Models.ResponseData();
-                try
+                using (var transection = db.Database.BeginTransaction())
                 {
-                    if (newdata.fileUpload != null)
+                    ResponseData result = new Models.ResponseData();
+                    try
                     {
-                        HttpPostedFileBase fileUpload = newdata.fileUpload;
-                        if (fileUpload != null && fileUpload.ContentLength > 0)
+                        if (newdata.fileUpload != null)
                         {
-                            var fileName = Path.GetFileName(fileUpload.FileName);
-                            var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
+                            HttpPostedFileBase fileUpload = newdata.fileUpload;
+                            if (fileUpload != null && fileUpload.ContentLength > 0)
+                            {
+                                var fileName = Path.GetFileName(fileUpload.FileName);
+                                var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
 
-                            string directory = SysConfig.PathUploadLevelTransfer;
-                            bool isExists = System.IO.Directory.Exists(directory);
-                            if (!isExists)
-                                System.IO.Directory.CreateDirectory(directory);
+                                string directory = SysConfig.PathUploadLevelTransfer;
+                                bool isExists = System.IO.Directory.Exists(directory);
+                                if (!isExists)
+                                    System.IO.Directory.CreateDirectory(directory);
 
-                            string newFileName = "คส.ที่ " + newdata.MlBookCmd + " เรื่องการแต่งตั้งเลื่อนระดับพนักงาน" + "." + fileExt;
-                            string fileLocation = Path.Combine(directory, newFileName);
+                                string newFileName = "คส.ที่ " + newdata.MlBookCmd + " เรื่องการแต่งตั้งเลื่อนระดับพนักงาน" + "." + fileExt;
+                                string fileLocation = Path.Combine(directory, newFileName);
 
-                            fileUpload.SaveAs(fileLocation);
+                                fileUpload.SaveAs(fileLocation);
 
-                            newdata.MIPathFile = newFileName;
+                                newdata.MIPathFile = newFileName;
+                            }
                         }
-                    }
 
-                    var head = db.tb_Move_Level_Head.Single(x => x.MlID == newdata.MlID);
-                    head.MlID = newdata.MlID;
-                    head.MlYear = newdata.MlYear;
-                    head.MlBookCmd = newdata.MlBookCmd;
-                    if (!string.IsNullOrEmpty(newdata.MlDateCmdText))
-                        head.MlDateCmd = Convert.ToDateTime(newdata.MlDateCmdText);
-                    head.MlSignatory = newdata.MlSignatory;
-                    head.MIPathFile = newdata.MIPathFile;
-                    head.MlStatus = newdata.MlStatus;
-                    head.ModifyBy = UtilityService.User.UserID;
-                    head.ModifyDate = DateTime.Now;
-                    db.SaveChanges();
-
-                    var listdelete = db.tb_Move_Level_Detail.Where(x => x.MlID == newdata.MlID).ToList();
-                    db.tb_Move_Level_Detail.RemoveRange(listdelete);
-                    db.SaveChanges();
-
-                    foreach (var item in newdata.ListDetail)
-                    {
-                        tb_Move_Level_Detail detail = new tb_Move_Level_Detail();
-                        detail.MlID = head.MlID;
-                        detail.UserID = item.UserID;
-                        detail.MlLevelOld = item.MlLevelOld;
-                        detail.MlStepOld = item.MlStepOld;
-                        detail.MlLevelNew = item.MlLevelNew;
-                        detail.MlStepNew = item.MlStepNew;
-                        detail.CreateBy = UtilityService.User.UserID;
-                        detail.CreateDate = DateTime.Now;
-                        detail.ModifyBy = UtilityService.User.UserID;
-                        detail.ModifyDate = DateTime.Now;
-                        db.tb_Move_Level_Detail.Add(detail);
+                        var head = db.tb_Move_Level_Head.Single(x => x.MlID == newdata.MlID);
+                        head.MlID = newdata.MlID;
+                        head.MlYear = newdata.MlYear;
+                        head.MlBookCmd = newdata.MlBookCmd;
+                        if (!string.IsNullOrEmpty(newdata.MlDateCmdText))
+                            head.MlDateCmd = Convert.ToDateTime(newdata.MlDateCmdText);
+                        head.MlSignatory = newdata.MlSignatory;
+                        head.MIPathFile = newdata.MIPathFile;
+                        head.MlStatus = newdata.MlStatus;
+                        head.ModifyBy = UtilityService.User.UserID;
+                        head.ModifyDate = DateTime.Now;
                         db.SaveChanges();
+
+                        var listdelete = db.tb_Move_Level_Detail.Where(x => x.MlID == newdata.MlID).ToList();
+                        db.tb_Move_Level_Detail.RemoveRange(listdelete);
+                        db.SaveChanges();
+
+                        foreach (var item in newdata.ListDetail)
+                        {
+                            tb_Move_Level_Detail detail = new tb_Move_Level_Detail();
+                            detail.MlID = head.MlID;
+                            detail.UserID = item.UserID;
+                            detail.MlLevelOld = item.MlLevelOld;
+                            detail.MlStepOld = item.MlStepOld;
+                            detail.MlLevelNew = item.MlLevelNew;
+                            detail.MlStepNew = item.MlStepNew;
+                            detail.CreateBy = UtilityService.User.UserID;
+                            detail.CreateDate = DateTime.Now;
+                            detail.ModifyBy = UtilityService.User.UserID;
+                            detail.ModifyDate = DateTime.Now;
+                            db.tb_Move_Level_Detail.Add(detail);
+                            db.SaveChanges();
+                        }
+
+                        transection.Commit();
                     }
+                    catch (Exception ex)
+                    {
+                        transection.Rollback();
+                        result.MessageCode = "";
+                        result.MessageText = ex.Message;
+                    }
+                    return result;
                 }
-                catch (Exception ex)
-                {
-                    result.MessageCode = "";
-                    result.MessageText = ex.Message;
-                }
-                return result;
             }
         }
 
         public ResponseData DeleteLevelTransfer(int id)
         {
             ResponseData result = new Models.ResponseData();
-            try
+            using (SATEntities db = new SATEntities())
             {
-                using (SATEntities db = new SATEntities())
+                using (var transection = db.Database.BeginTransaction())
                 {
-                    var listdelete = db.tb_Move_Level_Detail.Where(x => x.MlID == id).ToList();
-                    db.tb_Move_Level_Detail.RemoveRange(listdelete);
-                    db.SaveChanges();
+                    try
+                    {
+                        var listdelete = db.tb_Move_Level_Detail.Where(x => x.MlID == id).ToList();
+                        db.tb_Move_Level_Detail.RemoveRange(listdelete);
+                        db.SaveChanges();
 
-                    var itemdelete = db.tb_Move_Level_Head.Where(x => x.MlID == id).FirstOrDefault();
-                    db.tb_Move_Level_Head.Remove(itemdelete);
-                    db.SaveChanges();
+                        var itemdelete = db.tb_Move_Level_Head.Where(x => x.MlID == id).FirstOrDefault();
+                        db.tb_Move_Level_Head.Remove(itemdelete);
+                        db.SaveChanges();
+
+                        transection.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transection.Rollback();
+                        result.MessageCode = "";
+                        result.MessageText = ex.Message;
+                    }
+                    return result;
                 }
             }
-            catch (Exception ex)
-            {
-                result.MessageCode = "";
-                result.MessageText = ex.Message;
-            }
-            return result;
         }
 
         public FileViewModel DownloadFileLevelTransfer(int? id)

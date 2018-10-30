@@ -205,7 +205,10 @@ namespace SAT.HR.Data.Repository
             using (SATEntities db = new SATEntities())
             {
                 var data = db.tb_Salary.Where(m => m.SaLevel == level && m.SaStep == step).FirstOrDefault();
-                return Convert.ToDecimal(data.SaRate);
+                if (data != null)
+                    return Convert.ToDecimal(data.SaRate);
+                else
+                    return 0;
             }
         }
     }

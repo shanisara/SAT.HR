@@ -143,41 +143,6 @@ namespace SAT.HR.Data.Repository
 
         #endregion
 
-        public ManPowerViewModel GetDetailByUser(int userid)
-        {
-            using (SATEntities db = new SATEntities())
-            {
-                //var user = new EmployeeRepository().GetByID(userid);
-                ManPowerViewModel model = new ManPowerViewModel();
-                var data = db.vw_Man_Power.Where(m => m.UserID == userid).FirstOrDefault();
-                if (data != null)
-                {
-                    model.BelongTo = data.DivName + " / " + data.DepName + " / " + data.SecName;
-                    model.MpID = data.MpID;
-                    model.Position = "(" + data.MpID + ") " + data.PoName;
-                    model.Level = data.SalaryLevel.ToString();
-                    model.Step = data.SalaryStep.ToString();
-                    model.Salary = data.Salary.ToString();
-                }
-
-                return model;
-            }
-        }
-
-        public ManPowerViewModel GetDetailByMp(int mpid)
-        {
-            using (SATEntities db = new SATEntities())
-            {
-                ManPowerViewModel model = new ManPowerViewModel();
-                var data = db.vw_Man_Power.Where(m => m.MpID == mpid).FirstOrDefault();
-                if (data != null)
-                {
-                    model.BelongTo = data.DivName + " / " + data.DepName + " / " + data.SecName;
-                    model.FullName = data.FullNameTh;
-                }
-                return model;
-            }
-        }
 
     }
 }

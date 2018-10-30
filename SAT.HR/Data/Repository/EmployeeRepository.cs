@@ -24,7 +24,7 @@ namespace SAT.HR.Data.Repository
                         UserID = s.UserID,
                         UserName = s.UserName,
                         FullNameTh = s.FullNameTh,
-                        Avatar = SysConfig.ApplicationRoot + SysConfig.PathDownloadUserAvatar + s.Avatar,
+                        Avatar = SysConfig.ApplicationRoot + (!string.IsNullOrEmpty(s.Avatar) ? SysConfig.PathDownloadUserAvatar + s.Avatar : "Content/assets/img/default-avatar.png"),
                         Email = s.Email,
                         DivID = s.DivID,
                         DivName = s.DivName,
@@ -62,7 +62,7 @@ namespace SAT.HR.Data.Repository
                     model.UserID = data.UserID;
                     model.UserName = data.UserName;
                     model.FullNameTh = data.FullNameTh;
-                    model.Avatar = !string.IsNullOrEmpty(data.Avatar) ? data.Avatar : "avatar.png";
+                    model.Avatar = SysConfig.ApplicationRoot + (!string.IsNullOrEmpty(data.Avatar) ? SysConfig.PathDownloadUserAvatar + data.Avatar : "Content/assets/img/image_placeholder.jpg");
                     model.Email = data.Email;
                     model.DivID = data.DivID;
                     model.DivName = data.DivName;
@@ -189,7 +189,7 @@ namespace SAT.HR.Data.Repository
                     result.data = list;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }
@@ -232,7 +232,7 @@ namespace SAT.HR.Data.Repository
                     model.WorkingTypeID = data.WorkingTypeID;
                     model.FingerScan = data.FingerScan;
                     model.CardScan = data.CardScan;
-                    model.Avatar = SysConfig.ApplicationRoot + SysConfig.PathDownloadUserAvatar + data.Avatar;
+                    model.Avatar = SysConfig.ApplicationRoot + (!string.IsNullOrEmpty(data.Avatar) ? SysConfig.PathDownloadUserAvatar + data.Avatar : "Content/assets/img/image_placeholder.jpg");
                     model.IsActive = data.IsActive;
                     model.UserType = data.UserTID;
                     model.Age = data.Age;
@@ -278,7 +278,7 @@ namespace SAT.HR.Data.Repository
                     model.Email = data.Email;
                     model.ContactName = data.ContactName;
                     model.ContactPhone = data.ContactPhone;
-                    
+
                     //model.CreateDate = data.CreateDate;
                     //model.CreateBy = data.CreateBy;
                     //model.ModifyDate = data.ModifyDate;
@@ -332,7 +332,7 @@ namespace SAT.HR.Data.Repository
 
                         model.Avatar = newFileName;
                     }
-                    
+
                     model.UserTID = data.UserType;
                     //model.UserName = data.UserName;
                     model.TitleID = data.TitleID;
@@ -410,92 +410,135 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                ResponseData result = new Models.ResponseData();
-                try
+                using (var transection = db.Database.BeginTransaction())
                 {
-                    var model = db.tb_User.Single(x => x.UserID == newdata.UserID);
-
-                    if (fileUpload != null && fileUpload.ContentLength > 0)
+                    ResponseData result = new Models.ResponseData();
+                    try
                     {
-                        var fileName = Path.GetFileName(fileUpload.FileName);
-                        var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
+                        var model = db.tb_User.Single(x => x.UserID == newdata.UserID);
 
-                        string directory = SysConfig.PathUploadUserAvatar;
-                        bool isExists = System.IO.Directory.Exists(directory);
-                        if (!isExists)
-                            System.IO.Directory.CreateDirectory(directory);
+                        if (fileUpload != null && fileUpload.ContentLength > 0)
+                        {
+                            var fileName = Path.GetFileName(fileUpload.FileName);
+                            var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
 
-                        string newFileName = newdata.UserID.ToString() + DateTime.Now.ToString("_yyyyMMdd_hhmmss") + "." + fileExt;
-                        string fileLocation = Path.Combine(directory, newFileName);
+                            string directory = SysConfig.PathUploadUserAvatar;
+                            bool isExists = System.IO.Directory.Exists(directory);
+                            if (!isExists)
+                                System.IO.Directory.CreateDirectory(directory);
 
-                        fileUpload.SaveAs(fileLocation);
+                            string newFileName = newdata.UserID.ToString() + DateTime.Now.ToString("_yyyyMMdd_hhmmss") + "." + fileExt;
+                            string fileLocation = Path.Combine(directory, newFileName);
 
-                        model.Avatar = newFileName;
+                            fileUpload.SaveAs(fileLocation);
+
+                            model.Avatar = newFileName;
+                        }
+
+                        #region Information
+
+                        //model.UserName = newdata.UserName;
+                        model.TitleID = newdata.TitleID;
+                        model.FirstNameTh = newdata.FirstNameTh;
+                        model.LastNameTh = newdata.LastNameTh;
+                        model.FirstNameEn = newdata.FirstNameEn;
+                        model.LastNameEn = newdata.LastNameEn;
+                        model.StatusID = newdata.StatusID;
+                        model.IDCard = newdata.IDCard;
+                        model.TIN = newdata.TIN;
+                        model.SexID = newdata.SexID;
+                        model.BloodID = newdata.BloodID;
+                        model.ReligionID = newdata.ReligionID;
+                        model.EthnicityID = newdata.EthnicityID;
+                        model.NationalityID = newdata.NationalityID;
+                        model.MaritalStatusID = newdata.MaritalStatusID;
+                        model.Birthday = newdata.Birthday;
+                        model.RetireDate = newdata.RetireDate;
+                        model.StartWorkDate = newdata.StartWorkDate;
+                        model.ProbationDate = newdata.ProbationDate;
+                        model.Remuneration = newdata.Remuneration;
+                        model.WorkingTypeID = newdata.WorkingTypeID;
+                        model.FingerScan = newdata.FingerScan;
+                        model.CardScan = newdata.CardScan;
+                        model.SalaryLevel = newdata.SalaryLevel;
+                        model.SalaryStep = newdata.SalaryStep;
+                        //model.DivID = newdata.DivID;
+                        //model.DepID = newdata.DepID;
+                        //model.SecID = newdata.SecID;
+                        //model.PoID = newdata.PoID;
+                        model.EmpowerID = newdata.EmpowerID;
+                        model.EmpowerDivID = newdata.EmpowerDivID;
+                        model.EmpowerDepID = newdata.EmpowerDepID;
+                        model.EmpowerSecID = newdata.EmpowerSecID;
+                        model.AgentDivID = newdata.AgentDivID;
+                        model.AgentDepID = newdata.AgentDepID;
+                        model.AgentSecID = newdata.AgentSecID;
+                        model.AgentPoID = newdata.AgentPoID;
+                        model.HomeAddr = newdata.HomeAddr;
+                        model.HomeSubDistrictID = newdata.HomeSubDistrictID;
+                        model.HomeDistrictID = newdata.HomeDistrictID;
+                        model.HomeProvinceID = newdata.HomeProvinceID;
+                        model.HomeZipCode = newdata.HomeZipCode;
+                        model.CurrAddr = newdata.CurrAddr;
+                        model.CurrSubDistrictID = newdata.CurrSubDistrictID;
+                        model.CurrDistrictID = newdata.CurrDistrictID;
+                        model.CurrProvinceID = newdata.CurrProvinceID;
+                        model.CurrZipCode = newdata.CurrZipCode;
+                        model.Telephone = newdata.Telephone;
+                        model.Email = newdata.Email;
+                        model.ContactName = newdata.ContactName;
+                        model.ContactPhone = newdata.ContactPhone;
+                        //model.Avatar = newdata.Avatar;
+                        //model.IsActive = newdata.IsActive;
+                        model.ModifyBy = UtilityService.User.UserID;
+                        model.ModifyDate = DateTime.Now;
+                        db.SaveChanges();
+
+                        #endregion
+
+                        #region Division / Department /Section / Position
+
+                        var man = db.tb_Man_Power.Where(x => x.UserID == newdata.UserID).FirstOrDefault();
+                        if (man != null)
+                        {
+                            man.DivID = newdata.DivID;
+                            man.DepID = newdata.DepID;
+                            man.SecID = newdata.SecID;
+                            man.PoID = newdata.SecID;
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            int maxID = db.tb_Man_Power.Where(m => m.TypeID == newdata.UserType).Max(m => (int)m.MpID);
+
+                            tb_Man_Power objMan = new tb_Man_Power();
+                            objMan.MpID = maxID;
+                            objMan.DivID = newdata.DivID;
+                            objMan.DepID = newdata.DepID;
+                            objMan.SecID = newdata.SecID;
+                            objMan.PoID = newdata.SecID;
+                            objMan.TypeID = newdata.UserType;
+                            objMan.UserID = newdata.UserID;
+                            objMan.CreateBy = UtilityService.User.UserID;
+                            objMan.CreateDate = DateTime.Now;
+                            objMan.ModifyBy = UtilityService.User.UserID;
+                            objMan.ModifyDate = DateTime.Now;
+                            db.tb_Man_Power.Add(objMan);
+                            db.SaveChanges();
+                        }
+
+                        #endregion
+
+                        transection.Commit();
                     }
-                    
-                    //model.UserName = newdata.UserName;
-                    model.TitleID = newdata.TitleID;
-                    model.FirstNameTh = newdata.FirstNameTh;
-                    model.LastNameTh = newdata.LastNameTh;
-                    model.FirstNameEn = newdata.FirstNameEn;
-                    model.LastNameEn = newdata.LastNameEn;
-                    model.StatusID = newdata.StatusID;
-                    model.IDCard = newdata.IDCard;
-                    model.TIN = newdata.TIN;
-                    model.SexID = newdata.SexID;
-                    model.BloodID = newdata.BloodID;
-                    model.ReligionID = newdata.ReligionID;
-                    model.EthnicityID = newdata.EthnicityID;
-                    model.NationalityID = newdata.NationalityID;
-                    model.MaritalStatusID = newdata.MaritalStatusID;
-                    model.Birthday = newdata.Birthday;
-                    model.RetireDate = newdata.RetireDate;
-                    model.StartWorkDate = newdata.StartWorkDate;
-                    model.ProbationDate = newdata.ProbationDate;
-                    model.Remuneration = newdata.Remuneration;
-                    model.WorkingTypeID = newdata.WorkingTypeID;
-                    model.FingerScan = newdata.FingerScan;
-                    model.CardScan = newdata.CardScan;
-                    model.SalaryLevel = newdata.SalaryLevel;
-                    model.SalaryStep = newdata.SalaryStep;
-                    //model.DivID = newdata.DivID;
-                    //model.DepID = newdata.DepID;
-                    //model.SecID = newdata.SecID;
-                    //model.PoID = newdata.PoID;
-                    model.EmpowerID = newdata.EmpowerID;
-                    model.EmpowerDivID = newdata.EmpowerDivID;
-                    model.EmpowerDepID = newdata.EmpowerDepID;
-                    model.EmpowerSecID = newdata.EmpowerSecID;
-                    model.AgentDivID = newdata.AgentDivID;
-                    model.AgentDepID = newdata.AgentDepID;
-                    model.AgentSecID = newdata.AgentSecID;
-                    model.AgentPoID = newdata.AgentPoID;
-                    model.HomeAddr = newdata.HomeAddr;
-                    model.HomeSubDistrictID = newdata.HomeSubDistrictID;
-                    model.HomeDistrictID = newdata.HomeDistrictID;
-                    model.HomeProvinceID = newdata.HomeProvinceID;
-                    model.HomeZipCode = newdata.HomeZipCode;
-                    model.CurrAddr = newdata.CurrAddr;
-                    model.CurrSubDistrictID = newdata.CurrSubDistrictID;
-                    model.CurrDistrictID = newdata.CurrDistrictID;
-                    model.CurrProvinceID = newdata.CurrProvinceID;
-                    model.CurrZipCode = newdata.CurrZipCode;
-                    model.Telephone = newdata.Telephone;
-                    model.Email = newdata.Email;
-                    model.ContactName = newdata.ContactName;
-                    model.ContactPhone = newdata.ContactPhone;
-                    //model.Avatar = newdata.Avatar;
-                    //model.IsActive = newdata.IsActive;
-                    model.ModifyBy = UtilityService.User.UserID;
-                    model.ModifyDate = DateTime.Now;
-                    db.SaveChanges();
+                    catch (Exception ex)
+                    {
+                        transection.Rollback();
+                        result.MessageCode = "";
+                        result.MessageText = ex.Message;
+                    }
+                    return result;
                 }
-                catch (Exception ex)
-                {
-                    result.MessageCode = "";
-                    result.MessageText = ex.Message;
-                }
-                return result;
             }
         }
 
@@ -1376,7 +1419,7 @@ namespace SAT.HR.Data.Repository
                     model.UiPart = obj.UiPart;
                     model.UiPage = obj.UiPage;
                     model.UiRecDate = obj.UiRecDate;
-                    model.UiRecDateText = obj.UiRecDate.HasValue ? Convert.ToDateTime(obj.UiRecDate).ToString("dd/MM/yyyy") : string.Empty ;
+                    model.UiRecDateText = obj.UiRecDate.HasValue ? Convert.ToDateTime(obj.UiRecDate).ToString("dd/MM/yyyy") : string.Empty;
                     model.UiRetDate = obj.UiRetDate;
                     model.UiRetDateText = obj.UiRetDate.HasValue ? Convert.ToDateTime(obj.UiRetDate).ToString("dd/MM/yyyy") : string.Empty;
                     model.UiCmd = obj.UiCmd;
@@ -1971,7 +2014,7 @@ namespace SAT.HR.Data.Repository
                     db.tb_User_History.Add(model);
                     db.SaveChanges();
 
-                    if(data.UhStatus == true)
+                    if (data.UhStatus == true)
                     {
                         obj.TitleID = model.NewTiID;
                         obj.FirstNameTh = model.NewFirstNameTh;

@@ -29,12 +29,10 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> SecID { get; set; }
         public string SecName { get; set; }
         public Nullable<int> PoID { get; set; }
-        public string PoCode { get; set; }
         public string PoName { get; set; }
         public Nullable<int> EduID { get; set; }
         public string EduName { get; set; }
         public Nullable<int> MpID { get; set; }
-        public string MpMan { get; set; }
         public Nullable<int> SalaryLevel { get; set; }
         public Nullable<decimal> SalaryStep { get; set; }
         public string Email { get; set; }

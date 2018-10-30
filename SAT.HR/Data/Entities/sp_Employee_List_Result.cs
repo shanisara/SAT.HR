@@ -29,7 +29,6 @@ namespace SAT.HR.Data.Entities
         public string PoName { get; set; }
         public Nullable<int> EduID { get; set; }
         public string EduName { get; set; }
-        public string MpMan { get; set; }
         public Nullable<int> SalaryLevel { get; set; }
         public Nullable<decimal> SalaryStep { get; set; }
         public string Email { get; set; }
@@ -42,5 +41,6 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> RoleID { get; set; }
         public Nullable<int> recordsTotal { get; set; }
         public Nullable<int> recordsFiltered { get; set; }
+        public Nullable<int> DisID { get; set; }
     }
 }

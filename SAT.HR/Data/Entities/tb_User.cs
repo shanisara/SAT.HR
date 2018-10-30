@@ -27,7 +27,6 @@ namespace SAT.HR.Data.Entities
             this.tb_Benefit_Medical = new HashSet<tb_Benefit_Medical>();
             this.tb_Benefit_Other_Welfare = new HashSet<tb_Benefit_Other_Welfare>();
             this.tb_Benefit_Provident_Fund = new HashSet<tb_Benefit_Provident_Fund>();
-            this.tb_Man_Power = new HashSet<tb_Man_Power>();
             this.tb_User_Certificate = new HashSet<tb_User_Certificate>();
             this.tb_User_Education = new HashSet<tb_User_Education>();
             this.tb_User_Excellent = new HashSet<tb_User_Excellent>();
@@ -116,8 +115,6 @@ namespace SAT.HR.Data.Entities
         public virtual ICollection<tb_Benefit_Provident_Fund> tb_Benefit_Provident_Fund { get; set; }
         public virtual tb_Blood_Type tb_Blood_Type { get; set; }
         public virtual tb_Empower tb_Empower { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Man_Power> tb_Man_Power { get; set; }
         public virtual tb_Marital_Status tb_Marital_Status { get; set; }
         public virtual tb_Nationality tb_Nationality { get; set; }
         public virtual tb_Nationality tb_Nationality1 { get; set; }

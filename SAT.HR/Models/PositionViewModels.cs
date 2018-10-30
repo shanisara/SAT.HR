@@ -124,13 +124,12 @@ namespace SAT.HR.Models
     public class PositionRateViewModel
     {
         public int MpID { get; set; }
-        public string MpCode { get; set; }
         public Nullable<int> DivID { get; set; }
         public Nullable<int> DepID { get; set; }
         public Nullable<int> SecID { get; set; }
         public Nullable<int> PoID { get; set; }
         public Nullable<int> TypeID { get; set; }
-        public string MpMan { get; set; }
+        public Nullable<int> DisID { get; set; }
         public Nullable<int> UserID { get; set; }
         public Nullable<int> EduID { get; set; }
         public string TiShortName { get; set; }
