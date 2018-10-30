@@ -51,7 +51,7 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    int maxID = db.vw_Man_Power.Where(m => m.TypeID == data.TypeID).Max(m => m.MpID);
+                    int maxID = db.tb_Man_Power.Where(m => m.TypeID == data.TypeID).Max(m => (int)m.MpCode);
 
                     tb_Man_Power model = new tb_Man_Power();
                     model.MpCode = maxID;
