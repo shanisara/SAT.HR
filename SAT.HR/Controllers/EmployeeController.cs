@@ -126,12 +126,14 @@ namespace SAT.HR.Controllers
             ViewBag.UserStatus = DropDownList.GetUserStatus(model.StatusID);
             ViewBag.WorkingType = DropDownList.GetWorkingType(model.StatusID);
 
+            ViewBag.UserTypeID = model.UserType;
             return PartialView("_Employee", model);
         }
 
         public ActionResult Detail(int id, int? type)
         {
             var model = new EmployeeRepository().GetByID(id);
+
             ViewBag.UserTypeID = type;
             return View(model);
         }
