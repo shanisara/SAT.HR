@@ -51,6 +51,7 @@ namespace SAT.HR.Data.Entities
         public string CardScan { get; set; }
         public Nullable<int> SalaryLevel { get; set; }
         public Nullable<decimal> SalaryStep { get; set; }
+        public Nullable<decimal> Salary { get; set; }
         public Nullable<int> DivID { get; set; }
         public string DivName { get; set; }
         public Nullable<int> DepID { get; set; }
@@ -104,6 +105,5 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> UserTID { get; set; }
         public string UserTName { get; set; }
         public Nullable<int> RoleID { get; set; }
-        public Nullable<decimal> Salary { get; set; }
     }
 }

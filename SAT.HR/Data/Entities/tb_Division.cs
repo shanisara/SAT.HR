@@ -18,9 +18,9 @@ namespace SAT.HR.Data.Entities
         public tb_Division()
         {
             this.tb_Department = new HashSet<tb_Department>();
+            this.tb_Man_Power = new HashSet<tb_Man_Power>();
             this.tb_Section = new HashSet<tb_Section>();
             this.tb_User_Position = new HashSet<tb_User_Position>();
-            this.tb_Man_Power = new HashSet<tb_Man_Power>();
         }
     
         public int DivID { get; set; }
@@ -34,10 +34,10 @@ namespace SAT.HR.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Department> tb_Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Man_Power> tb_Man_Power { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Section> tb_Section { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User_Position> tb_User_Position { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Man_Power> tb_Man_Power { get; set; }
     }
 }

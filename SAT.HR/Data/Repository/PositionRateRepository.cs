@@ -308,7 +308,7 @@ namespace SAT.HR.Data.Repository
                     {
                         id = "Dep" + item.DepID.ToString(),
                         text = item.DepName + " (" + countChild + ")",
-                        state = new JSTreeState() { opened = true },
+                        state = new JSTreeState() { opened = false },
                         icon = SysConfig.ApplicationRoot + "Content/assets/img/department.gif",
                         node_type = "dep",
                         children = GetSectionByDep(usertype, item.DivID, item.DepID),
@@ -340,7 +340,7 @@ namespace SAT.HR.Data.Repository
                         state = new JSTreeState() { opened = true },
                         icon = SysConfig.ApplicationRoot + "Content/assets/img/department.gif",
                         node_type = "sec",
-                        children = GetPositionBySec(usertype, item.DivID, item.DepID, item.SecID),
+                        //children = GetPositionBySec(usertype, item.DivID, item.DepID, item.SecID),
                     };
                     items.Add(model);
                 }
@@ -370,7 +370,7 @@ namespace SAT.HR.Data.Repository
                         state = new JSTreeState() { opened = true },
                         icon = SysConfig.ApplicationRoot + "Content/assets/img/flag_orange.gif",
                         node_type = "pos",
-                        children = GetUserManPower(usertype, item.DivID, item.DepID, item.SecID, item.PoID),
+                        //children = GetUserManPower(usertype, item.DivID, item.DepID, item.SecID, item.PoID),
                     };
                     items.Add(model);
                 }

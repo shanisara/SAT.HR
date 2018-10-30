@@ -42,6 +42,7 @@ namespace SAT.HR.Data.Entities
         public virtual tb_Education tb_Education { get; set; }
         public virtual tb_Section tb_Section { get; set; }
         public virtual tb_User tb_User { get; set; }
+        public virtual tb_User_Type tb_User_Type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Move_Man_Power_Detail> tb_Move_Man_Power_Detail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -1,5 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="SAT.HR.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="AALocation">
+          <Property Name="province" Type="nvarchar" MaxLength="255" />
+          <Property Name="district" Type="nvarchar" MaxLength="255" />
+          <Property Name="subdistrict" Type="nvarchar" MaxLength="255" />
+          <Property Name="zipcode" Type="float" />
+        </EntityType>-->
   <EntityType Name="tb_Accumulative_Fund">
     <Key>
       <PropertyRef Name="CuID" />
@@ -371,7 +379,7 @@
       <PropertyRef Name="DistrictID" />
       <PropertyRef Name="ProvinceID" />
     </Key>
-    <Property Name="DistrictID" Type="int" Nullable="false" />
+    <Property Name="DistrictID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="DistrictName" Type="nvarchar" MaxLength="100" />
     <Property Name="ProvinceID" Type="int" Nullable="false" />
   </EntityType>
@@ -566,7 +574,7 @@
       <PropertyRef Name="MlID" />
       <PropertyRef Name="UserID" />
     </Key>
-    <Property Name="MlID" Type="int" Nullable="false" />
+    <Property Name="MlID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="MlLevelOld" Type="decimal" Precision="18" Scale="2" />
     <Property Name="MlStepOld" Type="decimal" Precision="18" Scale="2" />
@@ -589,6 +597,7 @@
     <Property Name="MlSignatory" Type="nvarchar" MaxLength="200" />
     <Property Name="MIPathFile" Type="nvarchar(max)" />
     <Property Name="MlStatus" Type="bit" />
+    <Property Name="MiApproveDate" Type="datetime" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -699,7 +708,7 @@
     <Key>
       <PropertyRef Name="ProvinceID" />
     </Key>
-    <Property Name="ProvinceID" Type="int" Nullable="false" />
+    <Property Name="ProvinceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ProvinceName" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="tb_Recieve_Type">
@@ -779,13 +788,11 @@
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'SATHRDB_DEV.dbo.tb_SubDistrict' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="tb_SubDistrict">
     <Key>
       <PropertyRef Name="SubDistrictID" />
     </Key>
-    <Property Name="SubDistrictID" Type="int" Nullable="false" />
+    <Property Name="SubDistrictID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="SubDistrictName" Type="nvarchar" MaxLength="100" />
     <Property Name="DistrictID" Type="int" />
     <Property Name="ProvinceID" Type="int" />
@@ -1292,6 +1299,16 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Man_Power_Head' does not h
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Level' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Level">
+          <Property Name="Level" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Step' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Step">
+          <Property Name="Step" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Section">
@@ -2107,6 +2124,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tb_Man_Power_tb_User_Type">
+    <End Role="tb_User_Type" Type="Self.tb_User_Type" Multiplicity="0..1" />
+    <End Role="tb_Man_Power" Type="Self.tb_Man_Power" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User_Type">
+        <PropertyRef Name="TypeID" />
+      </Principal>
+      <Dependent Role="tb_Man_Power">
+        <PropertyRef Name="TypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tb_Move_Man_Power_Detail_AgentMpID">
     <End Role="tb_Man_Power" Type="Self.tb_Man_Power" Multiplicity="0..1" />
     <End Role="tb_Move_Man_Power_Detail" Type="Self.tb_Move_Man_Power_Detail" Multiplicity="*" />
@@ -2741,6 +2770,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_Salary" EntityType="Self.tb_Salary" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Section" EntityType="Self.tb_Section" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Sex" EntityType="Self.tb_Sex" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_SubDistrict" EntityType="Self.tb_SubDistrict" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_SysConfig" EntityType="Self.tb_SysConfig" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Title" EntityType="Self.tb_Title" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Training_Type" EntityType="Self.tb_Training_Type" Schema="dbo" store:Type="Tables" />
@@ -2758,15 +2788,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_User_Training" EntityType="Self.tb_User_Training" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_User_Type" EntityType="Self.tb_User_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Working_Type" EntityType="Self.tb_Working_Type" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="tb_SubDistrict" EntityType="Self.tb_SubDistrict" store:Type="Tables" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [tb_SubDistrict].[SubDistrictID] AS [SubDistrictID], 
-    [tb_SubDistrict].[SubDistrictName] AS [SubDistrictName], 
-    [tb_SubDistrict].[DistrictID] AS [DistrictID], 
-    [tb_SubDistrict].[ProvinceID] AS [ProvinceID], 
-    [tb_SubDistrict].[ZipCode] AS [ZipCode]
-    FROM [dbo].[tb_SubDistrict] AS [tb_SubDistrict]</DefiningQuery>
-    </EntitySet>
     <EntitySet Name="vw_Capability" EntityType="Self.vw_Capability" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [vw_Capability].[CapYear] AS [CapYear], 
@@ -3423,6 +3444,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     </AssociationSet>
     <AssociationSet Name="FK_tb_Man_Power_tb_User" Association="Self.FK_tb_Man_Power_tb_User">
       <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Man_Power_tb_User_Type" Association="Self.FK_tb_Man_Power_tb_User_Type">
+      <End Role="tb_User_Type" EntitySet="tb_User_Type" />
       <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_Move_Man_Power_Detail_AgentMpID" Association="Self.FK_tb_Move_Man_Power_Detail_AgentMpID">
