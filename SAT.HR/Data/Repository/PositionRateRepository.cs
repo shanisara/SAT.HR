@@ -368,7 +368,7 @@ namespace SAT.HR.Data.Repository
                         id = "Pos" + item.PoID.ToString(),
                         text = item.PoName + " (" + countChild + ")",
                         state = new JSTreeState() { opened = true },
-                        icon = SysConfig.ApplicationRoot + "Content/assets/img/organization.gif",
+                        icon = SysConfig.ApplicationRoot + "Content/assets/img/flag_orange.gif",
                         node_type = "pos",
                         children = GetUserManPower(usertype, item.DivID, item.DepID, item.SecID, item.PoID),
                     };
@@ -404,7 +404,7 @@ namespace SAT.HR.Data.Repository
                     var model = new JSTreeViewModel()
                     {
                         id = item.MpID.ToString(),
-                        icon = SysConfig.ApplicationRoot + "Content/assets/img/user.png",
+                        icon = SysConfig.ApplicationRoot + "Content/assets/img/user2.png",
                         node_type = "user",
                         text = "(" + item.MpID.ToString().PadLeft(4, '0') + ") " + item.TiShortName + item.FullNameTh,
                     };
