@@ -166,7 +166,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group bmd-form-group">
                                             @Html.Label("วันเกิด", null, new { @class = "bmd-label-fixed" })
-                                            @Html.TextBoxFor(m => m.Birthday, new { @class = "form-control datepicker" })
+                                            @Html.TextBoxFor(m => m.Birthday, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -193,13 +193,13 @@
                                     <div class="col-md-3">
                                         <div class="form-group bmd-form-group">
                                             @Html.Label("วันที่บรรจุ", null, new { @class = "bmd-label-fixed" })
-                                            @Html.TextBoxFor(m => m.StartWorkDate, new { @class = "form-control datepicker" })
+                                            @Html.TextBoxFor(m => m.StartWorkDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group bmd-form-group">
                                             @Html.Label("วันที่พ้นทดลองงาน", null, new { @class = "bmd-label-floating" })
-                                            @Html.TextBoxFor(m => m.ProbationDate, new { @class = "form-control datepicker", @disabled = true })
+                                            @Html.TextBoxFor(m => m.ProbationDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", @disabled = true })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -581,7 +581,7 @@
         getPosition: function (el, divid, depid, secid, type) {
             $.ajax({
                 type: 'POST',
-                url: '@Url.Action("GetPositionManPower", "Master")',
+                url: '@Url.Action("GetPositionManPowerValuePo", "Master")',
                 data: { divid: divid, depid: depid, secid: secid, type: type },
                 dataType: 'json',
                 success: function (res) {
@@ -720,10 +720,12 @@
     });
 
     $("#SalaryLevel").change(function () {
+        debugger;
         DropDownList.getSalaryLevel($("#SalaryStep"), $('#SalaryLevel').val());
     });
 
     $("#SalaryStep").change(function () {
+        debugger;
         $.post('@Url.Action("SalaryByStep", "Master")', { level: $("#SalaryLevel").val(), step: $("#SalaryStep").val() }, function (res) {
             var salary = accounting.formatNumber(res.Salary, 2);
             $("#Salary").val(salary);

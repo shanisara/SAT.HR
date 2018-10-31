@@ -232,7 +232,7 @@ namespace SAT.HR.Data.Repository
                     model.WorkingTypeID = data.WorkingTypeID;
                     model.FingerScan = data.FingerScan;
                     model.CardScan = data.CardScan;
-                    model.Avatar = SysConfig.ApplicationRoot + (!string.IsNullOrEmpty(data.Avatar) ? SysConfig.PathDownloadUserAvatar + data.Avatar : "Content/assets/img/image_placeholder.jpg");
+                    model.Avatar = SysConfig.ApplicationRoot +"/"+ (!string.IsNullOrEmpty(data.Avatar) ? SysConfig.PathDownloadUserAvatar + data.Avatar : "Content/assets/img/image_placeholder.jpg");
                     model.IsActive = data.IsActive;
                     model.UserType = data.UserTID;
                     model.Age = data.Age;
@@ -501,16 +501,16 @@ namespace SAT.HR.Data.Repository
                         var man = db.tb_Man_Power.Where(x => x.UserID == newdata.UserID).FirstOrDefault();
                         if (man != null)
                         {
-                            var po = db.tb_Man_Power.Where(x => x.MpID == newdata.PoID).FirstOrDefault();
-                            if (po != null)
-                            {
+                            //var po = db.tb_Man_Power.Where(x => x.MpID == newdata.PoID).FirstOrDefault();
+                            //if (po != null)
+                            //{
                                 man.DivID = newdata.DivID;
                                 man.DepID = newdata.DepID;
                                 man.SecID = newdata.SecID;
-                                man.PoID = po.PoID;
+                                man.PoID = newdata.PoID;
                                 man.TypeID = newdata.UserType;
                                 db.SaveChanges();
-                            }
+                            //}
                         }
                         //else
                         //{

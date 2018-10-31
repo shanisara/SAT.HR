@@ -1114,11 +1114,16 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetPositionManPower(int divid, int depid, int secid, int type)
+        public JsonResult GetPositionManPowerValuePo(int divid, int depid, int secid, int type)
         {
-            var result = DropDownList.GetPositionManPower(type, divid, depid, secid, null);
+            var result = DropDownList.GetPositionManPowerValuePo(type, divid, depid, secid, null);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetPositionManPowerValueMp(int divid, int depid, int secid, int type)
+        {
+            var result = DropDownList.GetPositionManPowerValueMp(type, divid, depid, secid, null);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

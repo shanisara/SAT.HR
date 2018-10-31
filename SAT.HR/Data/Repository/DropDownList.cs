@@ -841,7 +841,23 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
-        public static List<SelectListItem> GetPositionManPower(int? type, int? divid, int? depid, int? secid, int? defaultValue)
+        public static List<SelectListItem> GetPositionManPowerValuePo(int? type, int? divid, int? depid, int? secid, int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new PositionRateRepository().GetPositionManPower(type, divid, depid, secid);
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.PoID.ToString();
+                select.Text = " (" + (type.ToString() == "1" ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0')) + ") " + item.PoName;
+                select.Selected = defaultValue.HasValue ? (item.PoID.Equals(defaultValue) ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetPositionManPowerValueMp(int? type, int? divid, int? depid, int? secid, int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
