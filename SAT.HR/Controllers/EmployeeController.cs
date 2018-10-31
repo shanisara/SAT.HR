@@ -529,11 +529,6 @@ namespace SAT.HR.Controllers
         public ActionResult PositionRate()
         {
             ViewBag.UserType = DropDownList.GetUserType(1);
-            //ViewBag.Division = DropDownList.GetDivision(null, true);
-            //ViewBag.Department = DropDownList.GetDepartment(null, null, true);
-            //ViewBag.Section = DropDownList.GetSection(null, null, null, true);
-            //ViewBag.Position = DropDownList.GetPosition(null,null, true);
-            //ViewBag.Education = DropDownList.GetEducation(null, true);
             return View();
         }
 
@@ -551,13 +546,33 @@ namespace SAT.HR.Controllers
 
         public JsonResult GetRoot(int id)
         {
+            //var data = new PositionRateRepository().GetTree(id);
+            //var items = new[]
+            //{
+            //    new
+            //    {
+            //        id = "#",
+            //        text = "การกีฬาแห่งประเทศไทย",
+            //        state = new { opened = true },
+            //        icon = SysConfig.ApplicationRoot + "Content/assets/img/home.png",
+            //        children = data
+            //    }
+            //}
+            //.ToList();
+
+            var items = new PositionRateRepository().GetTree(id);
+            return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
+        public JsonResult GetTreeAll(int id)
+        {
             var items = new PositionRateRepository().GetTreeAll(id);
             return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
-        public JsonResult GetChildren(string parenttype, int usertype, int? divid, int? depid, int? secid, int? poid)
+        public JsonResult GetChildren(string parenttype, int usertype, string div, string dep, string sec, string po)
         {
-            List<TreeViewModel> items = new PositionRateRepository().GetTree(parenttype, usertype, divid, depid, secid, poid);
+            List<TreeViewModel> items = new PositionRateRepository().GetTree(parenttype, usertype, div, dep, sec, po);
             return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
             //var g1 = Guid.NewGuid().ToString();
