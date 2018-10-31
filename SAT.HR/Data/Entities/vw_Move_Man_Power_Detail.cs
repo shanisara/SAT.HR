@@ -17,7 +17,7 @@ namespace SAT.HR.Data.Entities
         public int MopID { get; set; }
         public int UserID { get; set; }
         public string FullName { get; set; }
-        public int CurMpID { get; set; }
+        public Nullable<int> CurMpID { get; set; }
         public string CurPoName { get; set; }
         public Nullable<int> MovMpID { get; set; }
         public string MovPoName { get; set; }
@@ -29,5 +29,6 @@ namespace SAT.HR.Data.Entities
         public string DepName { get; set; }
         public string SecName { get; set; }
         public string MovRemark { get; set; }
+        public Nullable<int> MopStatus { get; set; }
     }
 }

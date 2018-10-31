@@ -255,7 +255,7 @@ namespace SAT.HR.Models
         public string ExTName { get; set; }
         
         public string UeProjectName { get; set; }
-        public Nullable<int> UeRecYear { get; set; }
+        public string UeRecYear { get; set; }
         public Nullable<System.DateTime> UeRecDate { get; set; }
         public string UeRecDateText { get; set; }
 

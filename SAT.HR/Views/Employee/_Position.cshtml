@@ -10,10 +10,10 @@
             <tr>
                 <th style="width:5%">#</th>
                 <th style="width:16%">การเคลื่อนไหว</th>
-                <th style="width:20%">คำสั่ง</th>
+                <th style="width:22%">คำสั่ง</th>
                 <th style="width:10%">วันที่ลงคำสั่ง</th>
                 <th style="width:10%">วันที่บังคับใช้</th>
-                <th style="width:18%">ชื่อตำแหน่ง</th>
+                <th style="width:16%">ชื่อตำแหน่ง</th>
                 <th style="width:5%">ระดับ</th>
                 <th style="width:7%">เงินเดือน</th>
                 <th style="width:9%" class="text-right">ปฏิบัติการ</th>
@@ -45,6 +45,7 @@
 </div>
 <!--  End Modal -->
 
+<script src="~/Content/assets/js/plugins/accounting.js"></script>
 <script>
 
     var dataTable = {
@@ -84,8 +85,13 @@
                     },
                     {
                         "render": function (data, type, row) {
-                            return '<div class="text-right">' + data + '</div>';
-                        }, "targets": [6,7]
+                            return '<div class="text-center">' + data + '</div>';
+                        }, "targets": [6]
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<div class="text-right">' + accounting.formatNumber(data, 2) + '</div>';
+                        }, "targets": [7]
                     },
                     {
                         "render": function (data, type, row) {

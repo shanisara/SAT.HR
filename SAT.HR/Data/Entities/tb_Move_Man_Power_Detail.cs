@@ -14,11 +14,12 @@ namespace SAT.HR.Data.Entities
     
     public partial class tb_Move_Man_Power_Detail
     {
+        public int MopDID { get; set; }
         public int MopID { get; set; }
         public int UserID { get; set; }
-        public int CurMpID { get; set; }
-        public Nullable<int> MovMpID { get; set; }
-        public Nullable<int> PoTID { get; set; }
+        public Nullable<int> MopNewPoID { get; set; }
+        public Nullable<int> MopOldPoID { get; set; }
+        public Nullable<int> PoTAgentID { get; set; }
         public Nullable<int> AgentMpID { get; set; }
         public string MovRemark { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
@@ -27,6 +28,5 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> ModifyBy { get; set; }
     
         public virtual tb_Move_Man_Power_Head tb_Move_Man_Power_Head { get; set; }
-        public virtual tb_Position_Type tb_Position_Type { get; set; }
     }
 }

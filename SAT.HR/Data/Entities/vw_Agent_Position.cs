@@ -12,16 +12,11 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class vw_User_Excellent
+    public partial class vw_Agent_Position
     {
-        public int UeID { get; set; }
-        public int UserID { get; set; }
-        public string FullNameTH { get; set; }
-        public string FullNameEn { get; set; }
-        public Nullable<int> ExTID { get; set; }
-        public string ExTName { get; set; }
-        public string UeProjectName { get; set; }
-        public Nullable<int> UeRecYear { get; set; }
-        public Nullable<System.DateTime> UeRecDate { get; set; }
+        public int MpID { get; set; }
+        public string PoName { get; set; }
+        public string FullSectionName { get; set; }
+        public Nullable<int> PoID { get; set; }
     }
 }

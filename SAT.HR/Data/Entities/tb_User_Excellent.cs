@@ -16,11 +16,10 @@ namespace SAT.HR.Data.Entities
     {
         public int UeID { get; set; }
         public int UserID { get; set; }
-        public Nullable<int> ExID { get; set; }
         public Nullable<int> ExTID { get; set; }
         public string UeProjectName { get; set; }
-        public Nullable<int> UeRecYear { get; set; }
         public Nullable<System.DateTime> UeRecDate { get; set; }
+        public Nullable<System.DateTime> UeRetDate { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }

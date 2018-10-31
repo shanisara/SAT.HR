@@ -108,7 +108,7 @@ namespace SAT.HR.Data.Repository
                         model.MopDateEffText = data.MopDateEff.HasValue ? data.MopDateEff.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.MopSignatory = data.MopSignatory;
                         model.MopPathFile = data.MopPathFile;
-                        model.MopStatus = data.MopStatus;
+                        //model.MopStatus = data.MopStatus;
 
                         var detail = GetDetail(model.MopID);
                         model.ListDetail = detail;
@@ -185,12 +185,13 @@ namespace SAT.HR.Data.Repository
                         model.AgentMpID = item.AgentMpID;
                         model.AgentPoName = item.AgentPoName;
                         model.MovRemark = item.MovRemark;
-                        model.CurrentPo = "(" + item.CurMpID + ") " + item.CurPoName;
-                        model.MovePo = "(" + item.MovMpID + ") " + item.MovPoName;
-                        model.AgentPo = "(" + item.AgentMpID + ") " + item.AgentPoName;
-                        model.AgentPo = item.AgentPoTName + " (" + item.AgentMpID + ") " + item.AgentPoName;
-                        model.BelongTo = item.DivName + " / " + item.DepName + " / " + item.SecName;
-
+                        model.CurrentPo = (item.CurMpID != null) ? "(" + item.CurMpID + ") " + item.CurPoName : string.Empty;
+                        model.MovePo = (item.MovMpID != null) ? "(" + item.MovMpID + ") " + item.MovPoName : string.Empty;
+                        if (item.AgentMpID != null)
+                        {
+                            model.AgentPo = item.AgentPoTName + " (" + item.AgentMpID + ") " + item.AgentPoName;
+                            model.BelongTo = item.DivName + (!string.IsNullOrEmpty(item.DepName) ? " / " + item.DepName : string.Empty) + (!string.IsNullOrEmpty(item.SecName) ? " / " + item.SecName : string.Empty);
+                        }
                         list.Add(model);
                     }
                 }
@@ -245,7 +246,7 @@ namespace SAT.HR.Data.Repository
                             head.MopDateEff = Convert.ToDateTime(data.MopDateEffText);
                         head.MopSignatory = data.MopSignatory;
                         head.MopPathFile = data.MopPathFile;
-                        head.MopStatus = data.MopStatus;
+                        //head.MopStatus = data.MopStatus;
                         head.CreateBy = UtilityService.User.UserID;
                         head.CreateDate = DateTime.Now;
                         head.ModifyBy = UtilityService.User.UserID;
@@ -259,9 +260,9 @@ namespace SAT.HR.Data.Repository
                             tb_Move_Man_Power_Detail detail = new tb_Move_Man_Power_Detail();
                             detail.MopID = head.MopID;
                             detail.UserID = item.UserID;
-                            detail.CurMpID = item.CurMpID;
-                            detail.MovMpID = item.MovMpID;
-                            detail.PoTID = item.AgentPoTID;
+                            detail.MopOldPoID = item.CurMpID;
+                            detail.MopNewPoID = item.MovMpID;
+                            detail.PoTAgentID = item.AgentPoTID;
                             detail.AgentMpID = item.AgentMpID;
                             detail.MovRemark = item.MovRemark;
                             detail.CreateBy = UtilityService.User.UserID;
@@ -326,7 +327,7 @@ namespace SAT.HR.Data.Repository
                             head.MopDateEff = Convert.ToDateTime(newdata.MopDateEffText);
                         head.MopSignatory = newdata.MopSignatory;
                         head.MopPathFile = newdata.MopPathFile;
-                        head.MopStatus = newdata.MopStatus;
+                        //head.MopStatus = newdata.MopStatus;
                         head.ModifyBy = UtilityService.User.UserID;
                         head.ModifyDate = DateTime.Now;
                         db.SaveChanges();
@@ -342,9 +343,9 @@ namespace SAT.HR.Data.Repository
                                 tb_Move_Man_Power_Detail detail = new tb_Move_Man_Power_Detail();
                                 detail.MopID = head.MopID;
                                 detail.UserID = item.UserID;
-                                detail.CurMpID = item.CurMpID;
-                                detail.MovMpID = item.MovMpID;
-                                detail.PoTID = item.AgentPoTID;
+                                detail.MopOldPoID = item.CurMpID;
+                                detail.MopNewPoID = item.MovMpID;
+                                detail.PoTAgentID = item.AgentPoTID;
                                 detail.AgentMpID = item.AgentMpID;
                                 detail.MovRemark = item.MovRemark;
                                 detail.ModifyBy = UtilityService.User.UserID;

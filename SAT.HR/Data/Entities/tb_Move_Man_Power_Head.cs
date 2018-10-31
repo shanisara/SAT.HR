@@ -29,7 +29,8 @@ namespace SAT.HR.Data.Entities
         public Nullable<System.DateTime> MopDateEff { get; set; }
         public string MopSignatory { get; set; }
         public string MopPathFile { get; set; }
-        public Nullable<bool> MopStatus { get; set; }
+        public Nullable<bool> MopApproveStatus { get; set; }
+        public Nullable<System.DateTime> MopApproveDate { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }

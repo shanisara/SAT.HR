@@ -20,7 +20,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<System.DateTime> MlDateCmd { get; set; }
         public string MlSignatory { get; set; }
         public string MIPathFile { get; set; }
-        public Nullable<bool> MlStatus { get; set; }
+        public Nullable<int> MlStatus { get; set; }
         public Nullable<int> MlTotal { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }

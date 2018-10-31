@@ -108,6 +108,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_User_Training> tb_User_Training { get; set; }
         public virtual DbSet<tb_User_Type> tb_User_Type { get; set; }
         public virtual DbSet<tb_Working_Type> tb_Working_Type { get; set; }
+        public virtual DbSet<vw_Agent_Position> vw_Agent_Position { get; set; }
         public virtual DbSet<vw_Capability> vw_Capability { get; set; }
         public virtual DbSet<vw_Department> vw_Department { get; set; }
         public virtual DbSet<vw_Employee> vw_Employee { get; set; }
@@ -115,7 +116,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Menu_Role> vw_Menu_Role { get; set; }
         public virtual DbSet<vw_Move_Level_Detail> vw_Move_Level_Detail { get; set; }
         public virtual DbSet<vw_Move_Level_Head> vw_Move_Level_Head { get; set; }
-        public virtual DbSet<vw_Move_Man_Power_Detail> vw_Move_Man_Power_Detail { get; set; }
         public virtual DbSet<vw_Move_Man_Power_Head> vw_Move_Man_Power_Head { get; set; }
         public virtual DbSet<vw_Section> vw_Section { get; set; }
         public virtual DbSet<vw_Title> vw_Title { get; set; }
@@ -130,6 +130,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Position> vw_User_Position { get; set; }
         public virtual DbSet<vw_User_Role> vw_User_Role { get; set; }
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
+        public virtual DbSet<vw_Move_Man_Power_Detail> vw_Move_Man_Power_Detail { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {
@@ -184,13 +185,13 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("SortrDir", sortrDir) :
                 new ObjectParameter("SortrDir", typeof(string));
     
-            var userStatusParameter = userStatus != null ?
-                new ObjectParameter("UserStatus", userStatus) :
-                new ObjectParameter("UserStatus", typeof(string));
-    
             var userTypeParameter = userType != null ?
                 new ObjectParameter("UserType", userType) :
                 new ObjectParameter("UserType", typeof(string));
+    
+            var userStatusParameter = userStatus != null ?
+                new ObjectParameter("UserStatus", userStatus) :
+                new ObjectParameter("UserStatus", typeof(string));
     
             var keywordParameter = keyword != null ?
                 new ObjectParameter("Keyword", keyword) :

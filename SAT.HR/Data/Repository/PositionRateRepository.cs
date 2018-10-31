@@ -402,7 +402,7 @@ namespace SAT.HR.Data.Repository
 
                     var model = new JSTreeViewModel()
                     {
-                        id = "Pos" + item.PoID.ToString(),
+                        id = "Pos" + item.MpID.ToString(),
                         text = item.PoName + " (" + countChild + ")",
                         state = new JSTreeState() { opened = false },
                         icon = SysConfig.ApplicationRoot + "Content/assets/img/flag_white.gif",

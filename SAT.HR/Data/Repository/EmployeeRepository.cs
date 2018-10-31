@@ -1620,9 +1620,8 @@ namespace SAT.HR.Data.Repository
                         model.RowNumber = index++;
                         model.UeID = item.UeID;
                         model.UserID = item.UserID;
-                        model.UeRecYear = item.UeRecYear;
+                        model.UeRecYear = item.UeRecDate.HasValue ? Convert.ToDateTime(item.UeRecDate).Year.ToString() : string.Empty;
                         model.ExTName = item.ExTName;
-                        model.ExName = item.ExName;
                         model.UeProjectName = item.UeProjectName;
                         model.UeRecDateText = (item.UeRecDate.HasValue) ? item.UeRecDate.Value.ToString("dd/MM/yyyy") : string.Empty;
                         list.Add(model);
@@ -1652,11 +1651,11 @@ namespace SAT.HR.Data.Repository
                     UserExcellentViewModel model = new UserExcellentViewModel();
                     model.UeID = obj.UeID;
                     model.UserID = obj.UserID;
-                    model.ExID = obj.ExID;
+                    //model.ExID = obj.ExID;
                     model.ExTID = obj.ExTID;
                     model.UeProjectName = obj.UeProjectName;
-                    model.UeRecYear = obj.UeRecYear;
                     model.UeRecDate = obj.UeRecDate;
+                    model.UeRecYear = obj.UeRecDate.HasValue ? Convert.ToDateTime(obj.UeRecDate).Year.ToString() : string.Empty;
                     model.UeRecDateText = Convert.ToDateTime(obj.UeRecDate).ToString("dd/MM/yyyy");
 
                     if (model != null)
@@ -1678,11 +1677,10 @@ namespace SAT.HR.Data.Repository
                 try
                 {
                     tb_User_Excellent model = new tb_User_Excellent();
+                    model.UeID = data.UeID;
                     model.UserID = data.UserID;
-                    model.ExID = data.ExID;
                     model.ExTID = data.ExTID;
                     model.UeProjectName = data.UeProjectName;
-                    model.UeRecYear = data.UeRecYear;
                     if (Convert.ToDateTime(data.UeRecDateText) > DateTime.MinValue)
                         model.UeRecDate = Convert.ToDateTime(data.UeRecDateText);
                     model.CreateBy = UtilityService.User.UserID;
@@ -1709,10 +1707,9 @@ namespace SAT.HR.Data.Repository
                 try
                 {
                     var model = db.tb_User_Excellent.Single(x => x.UserID == newdata.UserID && x.UeID == newdata.UeID);
-                    model.ExID = newdata.ExID;
+                    model.UeID = newdata.UeID;
                     model.ExTID = newdata.ExTID;
                     model.UeProjectName = newdata.UeProjectName;
-                    model.UeRecYear = newdata.UeRecYear;
                     if (Convert.ToDateTime(newdata.UeRecDateText) > DateTime.MinValue)
                         model.UeRecDate = Convert.ToDateTime(newdata.UeRecDateText);
                     model.ModifyBy = UtilityService.User.UserID;

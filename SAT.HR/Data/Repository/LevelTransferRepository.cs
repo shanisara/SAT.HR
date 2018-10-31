@@ -95,7 +95,7 @@ namespace SAT.HR.Data.Repository
                         model.MlDateCmdText = data.MlDateCmd.HasValue ? data.MlDateCmd.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.MlSignatory = data.MlSignatory;
                         model.MIPathFile = data.MIPathFile;
-                        model.MlStatus = data.MlStatus;
+                        //model.MlStatus = data.MlStatus;
 
                         var detail = GetDetail(id);
                         model.ListDetail = detail;
@@ -211,7 +211,7 @@ namespace SAT.HR.Data.Repository
                             head.MlDateCmd = Convert.ToDateTime(data.MlDateCmdText);
                         head.MlSignatory = data.MlSignatory;
                         head.MIPathFile = data.MIPathFile;
-                        head.MlStatus = data.MlStatus;
+                        //head.MlStatus = data.MlStatus;
                         head.CreateBy = UtilityService.User.UserID;
                         head.CreateDate = DateTime.Now;
                         head.ModifyBy = UtilityService.User.UserID;
@@ -289,7 +289,7 @@ namespace SAT.HR.Data.Repository
                             head.MlDateCmd = Convert.ToDateTime(newdata.MlDateCmdText);
                         head.MlSignatory = newdata.MlSignatory;
                         head.MIPathFile = newdata.MIPathFile;
-                        head.MlStatus = newdata.MlStatus;
+                        //head.MlStatus = newdata.MlStatus;
                         head.ModifyBy = UtilityService.User.UserID;
                         head.ModifyDate = DateTime.Now;
                         db.SaveChanges();

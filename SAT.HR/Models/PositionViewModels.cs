@@ -80,7 +80,7 @@ namespace SAT.HR.Models
         public int MopID { get; set; }
         public int UserID { get; set; }
         public string FullName { get; set; }
-        public int CurMpID { get; set; }
+        public int? CurMpID { get; set; }
         public string CurPoName { get; set; }
         public int? MovMpID { get; set; }
         public string MovPoName { get; set; }
