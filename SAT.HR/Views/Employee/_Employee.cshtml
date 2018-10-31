@@ -235,13 +235,13 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             @Html.Label("ระดับ", null, new { @class = "label-select" })
-                                            @Html.DropDownListFor(n => n.SalaryLevel, new SelectList((IEnumerable<SelectListItem>)ViewBag.SalaryLevel, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+                                            @Html.DropDownListFor(n => n.SalaryLevel, new SelectList((IEnumerable<SelectListItem>)ViewBag.SalaryLevel, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition SalaryLevel" })
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             @Html.Label("ขั้นเงินเดือน", null, new { @class = "label-select" })
-                                            @Html.DropDownListFor(n => n.SalaryStep, new SelectList((IEnumerable<SelectListItem>)ViewBag.SalaryStep, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+                                            @Html.DropDownListFor(n => n.SalaryStep, new SelectList((IEnumerable<SelectListItem>)ViewBag.SalaryStep, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition SalaryStep" })
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -533,6 +533,14 @@
 
 <script src="~/Content/assets/js/plugins/accounting.js"></script>
 <script>
+
+    if ('@Model.SalaryLevel' != '') {
+        $('.SalaryLevel').val('@Model.SalaryLevel');
+    }
+
+    if ('@Model.SalaryStep' != '') {
+        $('.SalaryStep').val('@Model.SalaryStep');
+    }
 
     $('.datepicker').datetimepicker({
         format: 'DD/MM/YYYY',

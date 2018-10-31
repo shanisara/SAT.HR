@@ -206,7 +206,6 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
                     var data = db.vw_User.Where(x => x.UserID == id).FirstOrDefault();
-
                     model.UserID = data.UserID;
                     model.UserName = data.UserName;
                     model.Password = data.Password;
@@ -244,8 +243,8 @@ namespace SAT.HR.Data.Repository
                     model.PoID = data.PoID;
                     model.SalaryLevel = data.SalaryLevel;
                     model.SalaryStep = data.SalaryStep;
-                    //model.Salary = data.Salary;
-                    //model.Experience = data.Experience;
+                    model.Salary = data.Salary.HasValue ? (decimal)data.Salary : 0;
+                    
                     model.DivName = data.DivName;
                     model.DepName = data.DepName;
                     model.SecName = data.SecName;
@@ -279,6 +278,7 @@ namespace SAT.HR.Data.Repository
                     model.ContactName = data.ContactName;
                     model.ContactPhone = data.ContactPhone;
 
+                    //model.Experience = data.Experience;
                     //model.CreateDate = data.CreateDate;
                     //model.CreateBy = data.CreateBy;
                     //model.ModifyDate = data.ModifyDate;

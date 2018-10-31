@@ -176,12 +176,12 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var list = db.tb_Salary.Select(s => new SalaryLevelViewModel()
-                {
-                    Level = (int)s.SaLevel
-                })
-                .Distinct().OrderBy(x => x.Level).ToList();
-
+                var list = db.tb_Salary.GroupBy(g => g.SaLevel).Select(group => new { SaLevel = group.Key })
+                            .Select(s => new SalaryLevelViewModel()
+                            {
+                                Level = (int)s.SaLevel
+                            })
+                            .OrderBy(x => x.Level).ToList();
                 return list;
             }
         }
@@ -190,12 +190,12 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var list = db.tb_Salary.Where(m => m.SaLevel == level).Select(s => new SalaryStepViewModel()
-                {
-                    Step = (decimal)s.SaStep
-                })
-                .Distinct().OrderBy(x => x.Step).ToList();
-
+                var list = db.tb_Salary.Where(m => m.SaLevel == level).GroupBy(g => g.SaStep).Select(group => new { SaStep = group.Key })
+                            .Select(s => new SalaryStepViewModel()
+                            {
+                                Step = (int)s.SaStep
+                            })
+                            .OrderBy(x => x.Step).ToList();
                 return list;
             }
         }
