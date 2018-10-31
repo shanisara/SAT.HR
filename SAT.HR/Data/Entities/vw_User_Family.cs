@@ -24,7 +24,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<System.DateTime> UfDOB { get; set; }
         public Nullable<bool> UfLifeStatus { get; set; }
         public string UfLifeStatusName { get; set; }
-        public Nullable<int> TdID { get; set; }
+        public Nullable<bool> TdStatus { get; set; }
         public string TdName { get; set; }
         public Nullable<int> PoID { get; set; }
         public string PoName { get; set; }
@@ -38,6 +38,6 @@ namespace SAT.HR.Data.Entities
         public string RecName { get; set; }
         public Nullable<int> MaritalStatusID { get; set; }
         public string MaritalName { get; set; }
-        public Nullable<int> Age { get; set; }
+        public string Age { get; set; }
     }
 }

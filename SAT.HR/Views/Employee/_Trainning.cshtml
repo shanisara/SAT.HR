@@ -1,16 +1,17 @@
-﻿
+﻿@model SAT.HR.Models.UserTrainningViewModel
+
 <button class="btn btn-primary btn-sm pull-right add-trainning" data-toggle="modal"> เพิ่มรายการ </button>
 <div class="material-datatables">
     <table class="table table-trainning" data-url="@Url.Content("~/Employee/Trainning")">
         <thead class="text-primary">
             <tr>
                 <th style="width:5%">#</th>
-                <th style="width:35%">หลักสูตร</th>
+                <th style="width:43%">หลักสูตร</th>
                 <th style="width:10%">วันที่เริ่ม</th>
                 <th style="width:10%">วันที่สิ้นสุด</th>
-                <th style="width:15%">ประเทศ</th>
-                <th style="width:15%">ประเภท</th>
-                <th style="width:10%">ปฏิบัติการ</th>
+                <th style="width:12%">ประเทศ</th>
+                <th style="width:10%">ประเภท</th>
+                <th style="width:10%" class="text-right">ปฏิบัติการ</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -31,8 +32,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-default close-trainning" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn btn-sm btn-primary save-trainning">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+                <button type="button" class="btn btn-default close-trainning" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary save-trainning">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
             </div>
         </div>
     </div>
@@ -40,6 +41,7 @@
 <!--  End Modal -->
 
 <script>
+
     var dataTable = {
         table: null,
         initializeDataTable: function () {
@@ -70,14 +72,68 @@
                 "columnDefs": [
                     {
                         "render": function (data, type, row) {
-                            var inner = '<div class="td-actions text-right">' +
-                                            '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.UtID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;' +
+                            var inner = '<div class="td-actions pull-right">' +
+                                            '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.UtID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;' +
                                             '<button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.UtID + '"><i class="material-icons">close</i></button>' +
                                         '</div>';
                             return inner;
                         }, "targets": 6
                     },
                 ]
+            });
+
+            dataTable.table.on('click', '.edit', function () {
+                var userid = $("#UserID").val();
+                var id = $(this).data("id");
+                var url = '@Url.Action("TrainningDetail", "Employee")';
+                $.post(url, { userid: userid, id: id }, function (data) {
+                    $(".detail-trainning").html(data);
+                    $('.modal-trainning').modal('show');
+                });
+            });
+
+            dataTable.table.on('click', '.delete', function () {
+                var id = $(this).data("id");
+                swal({
+                    title: '',
+                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                    buttonsStyling: false
+                }).then(function () {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("DeleteTrainning", "Employee")/' + id,
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                swal({
+                                    title: "",
+                                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.DeleteSucceed)",
+                                    type: "success",
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                    buttonsStyling: false
+                                }).then(function () {
+                                    dataTable.getData();
+                                });
+                            }
+                            else {
+                                swal({
+                                    title: '',
+                                    text: res.MessageText,
+                                    type: 'error',
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                    buttonsStyling: false
+                                }).catch(swal.noop);
+                            }
+                        }
+                    });
+                }).catch(swal.noop)
             });
         },
         getData: function () {
@@ -91,52 +147,58 @@
     dataTable.getData();
 
     $(".add-trainning").click(function () {
+        var userid = $("#UserID").val();
         var url = '@Url.Action("TrainningDetail", "Employee")';
-        $.post(url, { id: 0 }, function (data) {
+        $.post(url, { userid: userid, id: 0 }, function (data) {
             $(".detail-trainning").html(data);
             $('.modal-trainning').modal('show');
         });
     });
 
-    $(".edit-trainning").click(function () {
-        var id = $(this).data("id");
-        var url = '@Url.Action("TrainningDetail", "Employee")';
-        $.post(url, { id: id }, function (data) {
-            $(".detail-trainning").html(data);
-            $('.modal-trainning').modal('show');
-        });
-    });
 
     $(".save-trainning").click(function () {
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("SaveTrainning", "Employee")',
-            data: $(".form-trainning").serialize(),
-            success: function (res) {
-                if (res.MessageCode == null) {
-                    swal({
-                        title: "",
-                        text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
-                        type: "success",
-                        buttonsStyling: false,
-                        confirmButtonClass: "btn btn-success",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                    }).catch(swal.noop)
-
-                    $('.modal-trainning').modal('hide');
-                }
-                else {
-                    swal({
-                        title: '',
-                        text: msg,
-                        type: 'error',
-                        confirmButtonClass: "btn btn-info",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                        buttonsStyling: false
-                    }).catch(swal.noop)
-                }
+        var $valid = $('.form-trainning').valid();
+        if (!$valid) {
+            if ($("#TtID").val() == '') {
+                $('#TtID-error').text(''); //กรุณาระบุประเภท
             }
-        });
+            if ($("#CountryID").val() == '') {
+                $('#CountryID-error').text(''); //กรุณาระบุประเทศ
+            }
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SaveTraining", "Employee")',
+                data: $(".form-trainning").serialize(),
+                success: function (res) {
+                    if (res.MessageCode == null) {
+                        swal({
+                            title: "",
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                            type: "success",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                        }).then(function () {
+                            $('.modal-trainning').modal('hide');
+                            dataTable.getData();
+                        });
+                    }
+                    else {
+                        swal({
+                            title: '',
+                            text: res.MessageText,
+                            type: 'error',
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                            buttonsStyling: false
+                        }).catch(swal.noop)
+                    }
+                }
+            });
+        }
     });
 
 </script>

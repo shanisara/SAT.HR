@@ -1,4 +1,5 @@
-﻿
+﻿@model SAT.HR.Models.UserEducationViewModel
+
 <div class="row">
     <div class="col-md-12">
         <button class="btn btn-primary btn-sm pull-right add-education" data-toggle="modal"> เพิ่มรายการ </button>
@@ -7,22 +8,20 @@
                 <thead class="text-primary">
                     <tr>
                         <th style="width:5%">#</th>
-                        <th style="width:15%">ระดับการศึกษา</th>
+                        <th style="width:14%">ระดับการศึกษา</th>
                         <th style="width:15%">วุฒิการศึกษา</th>
-                        <th style="width:13%">สาขาวิชา</th>
-                        <th style="width:13%">สถาบัน</th>
-                        <th style="width:7%">ประเทศ</th>
-                        <th style="width:15%">วันที่จบการศึกษา</th>
-                        <th style="width:8%">เกรดเฉลี่ย</th>
-                        <th style="width:9%">ปฏิบัติการ</th>
+                        <th style="width:15%">สาขาวิชา</th>
+                        <th style="width:19%">สถาบัน</th>
+                        <th style="width:10%">ประเทศ</th>
+                        <th style="width:10%">วันที่จบ</th>
+                        <th style="width:9%">เกรดเฉลี่ย</th>
+                        <th style="width:9%" class="text-right">ปฏิบัติการ</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
             </table>
         </div>
     </div>
 </div>
-
 
 <!-- Classic Modal -->
 <div class="modal fade modal-large modal-education" tabindex="-1" role="dialog" aria-labelledby="modalEducationLabel" aria-hidden="true">
@@ -38,8 +37,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-default close-education" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn btn-sm btn-primary save-education">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+                <button type="button" class="btn btn-default close-education" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary save-education">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
             </div>
         </div>
     </div>
@@ -74,14 +73,19 @@
                     { "data": "MajName", "orderable": true },
                     { "data": "UeInstituteName", "orderable": true },
                     { "data": "CountryName", "orderable": true },
-                    { "data": "UeGraduationDate", "orderable": true },
+                    { "data": "UeGraduationDateText", "orderable": true },
                     { "data": "UeGPA", "orderable": true }
                 ],
                 "columnDefs": [
                     {
                         "render": function (data, type, row) {
-                            var inner = '<div class="td-actions text-right">' +
-                                            '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.UeID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;' +
+                            return '<div class="text-right">' + data + '</div>';
+                        }, "targets": [7]
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            var inner = '<div class="td-actions pull-right">' +
+                                            '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.UeID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;' +
                                             '<button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.UeID + '"><i class="material-icons">close</i></button>' +
                                         '</div>';
                             return inner;
@@ -89,6 +93,61 @@
                     },
                 ]
             });
+
+            dataTable.table.on('click', '.edit', function () {
+                var userid = $("#UserID").val();
+                var id = $(this).data("id");
+                var url = '@Url.Action("EducationDetail", "Employee")';
+                $.post(url, { userid: userid, id: id }, function (data) {
+                    $(".detail-education").html(data);
+                    $('.modal-education').modal('show');
+                });
+            });
+
+            dataTable.table.on('click', '.delete', function () {
+                var ueid = $(this).data("id");
+                swal({
+                    title: '',
+                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                    buttonsStyling: false
+                }).then(function () {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("DeleteEducation", "Employee")/' + ueid,
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                swal({
+                                    title: "",
+                                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.DeleteSucceed)",
+                                    type: "success",
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                    buttonsStyling: false
+                                }).then(function () {
+                                    dataTable.getData();
+                                });
+                            }
+                            else {
+                                swal({
+                                    title: '',
+                                    text: res.MessageText,
+                                    type: 'error',
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                    buttonsStyling: false
+                                }).catch(swal.noop);
+                            }
+                        }
+                    });
+                }).catch(swal.noop)
+            });
+
         },
         getData: function () {
             if (dataTable.table == null)
@@ -102,52 +161,60 @@
 
 
     $(".add-education").click(function () {
+        var userid = $("#UserID").val();
         var url = '@Url.Action("EducationDetail", "Employee")';
-        $.post(url, { id: 0 }, function (data) {
-            $(".detail-education").html(data);
-            $('.modal-education').modal('show');
-        });
-    });
-
-    $(".edit-education").click(function () {
-        var id = $(this).data("id");
-        var url = '@Url.Action("EducationDetail", "Employee")';
-        $.post(url, { userid: userid, id: id }, function (data) {
+        $.post(url, { userid: userid, id: 0 }, function (data) {
             $(".detail-education").html(data);
             $('.modal-education').modal('show');
         });
     });
 
     $(".save-education").click(function () {
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("SaveEducation", "Employee")',
-            data: $(".form-education").serialize(),
-            success: function (res) {
-                if (res.MessageCode == null) {
-                    swal({
-                        title: "",
-                        text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
-                        type: "success",
-                        buttonsStyling: false,
-                        confirmButtonClass: "btn btn-success",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                    }).catch(swal.noop)
-
-                    $('.modal-education').modal('hide');
-                }
-                else {
-                    swal({
-                        title: '',
-                        text: msg,
-                        type: 'error',
-                        confirmButtonClass: "btn btn-info",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                        buttonsStyling: false
-                    }).catch(swal.noop)
-                }
+        var $valid = $('.form-education').valid();
+        if (!$valid) {
+            if ($("#EduID").val() == '') {
+                $('#EduID-error').text(''); //กรุณาระบุระดับการศึกษา
             }
-        });
+            if ($("#DegID").val() == '') {
+                $('#DegID-error').text(''); //กรุณาระบุวุฒิการศึกษา
+            }
+            if ($("#MajID").val() == '') {
+                $('#MajID-error').text(''); //กรุณาระบุสาขาวิชา
+            }
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SaveEducation", "Employee")',
+                data: $(".form-education").serialize(),
+                success: function (res) {
+                    if (res.MessageCode == null) {
+                        swal({
+                            title: "",
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                            type: "success",
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                            buttonsStyling: false,
+                        }).then(function () {
+                            $('.modal-education').modal('hide');
+                            dataTable.getData();
+                        });
+                    }
+                    else {
+                        swal({
+                            title: '',
+                            text: res.MessageText,
+                            type: 'error',
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                            buttonsStyling: false
+                        }).catch(swal.noop)
+                    }
+                }
+            });
+        }
     });
 
 </script>

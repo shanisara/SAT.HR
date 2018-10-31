@@ -31,6 +31,5 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> ModifyBy { get; set; }
     
         public virtual tb_Insignia tb_Insignia { get; set; }
-        public virtual tb_User tb_User { get; set; }
     }
 }

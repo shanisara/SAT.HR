@@ -5,11 +5,8 @@
 }
 
 <style>
+    .error{ color:red;}
     .datepicker { z-index: 99999 !important; }
-    .m-b-20 { margin-bottom: 20px; }
-    .m-t-10 { margin-top:10px; }
-    .m-t-20 { margin-top:20px; }
-    .m-t-30 { margin-top:30px; }
 
     .fileinput .thumbnail {
         max-width: 250px;
@@ -39,9 +36,6 @@
         position: static;
         top: -5px;
     }
-</style>
-
-<style>
 
     .fileinput .thumbnail {
         max-width: 250px;
@@ -89,9 +83,6 @@
     }*/
 
 
-</style>
-
-<style>
     .table thead tr th {
         font-size: 15px;
     }
@@ -124,7 +115,6 @@
 
 </style>
 
-
 <div class="content">
     <div class="row">
         <div class="col-md-12">
@@ -135,6 +125,8 @@
                     </div>
                     <h4 class="card-title">
                         @Html.HiddenFor(m => m.UserID)
+                        @Html.HiddenFor(m => m.UserType, new { Value = @ViewBag.UserTypeID })
+
                         <span>ทะเบียนประวัติ: </span><span class="text-primary">@Model.FullNameTh (@Model.IDCard)</span>
                         <button type="button" class="btn btn-round pull-right btn-back">ย้อนกลับ</button>
                     </h4>
@@ -142,7 +134,7 @@
                 <div class="card-body" id="tabs">
                     <ul class="nav nav-pills nav-pills-warning" role="tablist">
                         <li class="nav-item" id="employee">
-                            <a class="nav-link text-link active" data-toggle="tab" href="#tab-employee" role="tablist"> ประวัติส่วนตัว </a>
+                            <a class="nav-link text-link active" data-id="employee" data-toggle="tab" href="#tab-employee" role="tablist"> ประวัติส่วนตัว </a>
                         </li>
                         <li class="nav-item" id="family">
                             <a class="nav-link text-link" data-toggle="tab" href="#tab-family" role="tablist"> ครอบครัว </a>
@@ -171,9 +163,7 @@
                     </ul>
                     <div class="tab-content tab-space">
                         <div class="tab-pane active" id="tab-employee">
-                            <div id="div-employee">
-                                @Html.Partial("_Employee", Model)
-                            </div>
+                            <div id="div-employee"> @*@Html.Partial("_Employee", Model)*@ </div>
                         </div>
                         <div class="tab-pane" id="tab-family">
                             <div id="div-family"></div>
@@ -224,229 +214,73 @@
                 close: 'fa fa-remove'
             }
         });
-
-        var DropDownList = {
-            getDepartment: function (el, divid) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("DepartmentByDiv", "Master")',
-                    data: { divid: divid },
-                    dataType: 'json',
-                    success: function (res) {
-                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
-                        $.each(res, function (key, entry) {
-                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
-                        })
-                    }
-                });
-            },
-            getSection: function (el, divid, depid) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("SectionByDep", "Master")',
-                    data: { divid: divid, depid: depid },
-                    dataType: 'json',
-                    success: function (res) {
-                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
-                        $.each(res, function (key, entry) {
-                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
-                        })
-                    }
-                });
-            },
-            getProvince: function (el, proid) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("Province", "Master")',
-                    data: { defaultValue: proid },
-                    dataType: 'json',
-                    success: function (res) {
-                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
-                        $.each(res, function (key, entry) {
-                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
-                        })
-                    }
-                });
-            },
-            getDistrict: function (el, disid, proid) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("District", "Master")',
-                    data: { defaultValue: disid, proid: proid },
-                    dataType: 'json',
-                    success: function (res) {
-                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
-                        $.each(res, function (key, entry) {
-                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
-                        })
-                    }
-                });
-            },
-            getSubDistrict: function (el, subid, proid, disid) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("SubDistrict", "Master")',
-                    data: { defaultValue: subid, proid: proid, disid: disid },
-                    dataType: 'json',
-                    success: function (res) {
-                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
-                        $.each(res, function (key, entry) {
-                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
-                        })
-                    }
-                });
-            },
-            getSalaryLevel: function (el, level) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("SalaryStepBylevel", "Master")',
-                    data: { level: level },
-                    dataType: 'json',
-                    success: function (res) {
-                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
-                        $.each(res, function (key, entry) {
-                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
-                        })
-                    }
-                });
-            },
-            getSex: function (el, titleid) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("SexByTitle", "Master")',
-                    data: { titleid: titleid },
-                    dataType: 'json',
-                    success: function (res) {
-                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
-                        $.each(res, function (key, entry) {
-                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
-                        })
-                    }
-                });
-            }
+        
+        var ref_this = $("#tabs li").find(".active");
+        if (ref_this.data("id") == "employee") {
+            var userid = $("#UserID").val();
+            var type = $("#UserType").val();
+            var url = '@Url.Action("Employee", "Employee")/' + userid;
+            $.post(url, function (data) {
+                $("#div-employee").html(data);
+            });
         }
 
         $("#tabs li").click(function () {
-            var id = $("#UserID").val();
+            var userid = $("#UserID").val();
+            var type = $("#UserType").val();
+            if (this.id == "employee") {
+                var url = '@Url.Action("Employee", "Employee")/' + userid;
+                $.post(url, function (data) {
+                    $("#div-employee").html(data);
+                });
+            }
             if (this.id == "family") {
-                var url = '@Url.Action("FamilyByUser", "Employee")/'+id;
+                var url = '@Url.Action("FamilyByUser", "Employee")/' + userid;
                 $.post(url, function (data) {
                     $("#div-family").html(data);
                 });
             }
             else if (this.id == "education") {
-                var url = '@Url.Action("EducationByUser", "Employee")';
+                var url = '@Url.Action("EducationByUser", "Employee")/' + userid;
                 $.post(url, function (data) {
                     $("#div-education").html(data);
                 });
             }
             else if (this.id == "position") {
-                var url = '@Url.Action("PositionByUser", "Employee")';
+                var url = '@Url.Action("PositionByUser", "Employee")/' + userid;
                 $.post(url, function (data) {
                     $("#div-position").html(data);
                 });
             }
             else if (this.id == "trainning") {
-                var url = '@Url.Action("TrainningByUser", "Employee")';
+                var url = '@Url.Action("TrainningByUser", "Employee")/' + userid;
                 $.post(url, function (data) {
                     $("#div-trainning").html(data);
                 });
             }
             else if (this.id == "insignia") {
-                var url = '@Url.Action("InsigniaByUser", "Employee")';
+                var url = '@Url.Action("InsigniaByUser", "Employee")/' + userid;
                 $.post(url, function (data) {
                     $("#div-insignia").html(data);
                 });
             }
             else if (this.id == "excellent") {
-                var url = '@Url.Action("ExcellentByUser", "Employee")';
+                var url = '@Url.Action("ExcellentByUser", "Employee")/' + userid;
                 $.post(url, function (data) {
                     $("#div-excellent").html(data);
                 });
             }
             else if (this.id == "certificate") {
-                var url = '@Url.Action("CertificateByUser", "Employee")';
+                var url = '@Url.Action("CertificateByUser", "Employee")/' + userid;
                 $.post(url, function (data) {
                     $("#div-certificate").html(data);
                 });
             }
             else if (this.id == "history") {
-                var url = '@Url.Action("HistoryByUser", "Employee")';
+                var url = '@Url.Action("HistoryByUser", "Employee")/' + userid;
                 $.post(url, function (data) {
                     $("#div-history").html(data);
                 });
-            }
-        });
-
-        $("#TitleID").change(function () {
-            DropDownList.getSex($("#SexID"), $('#TitleID').val());
-        });
-
-        $("#DivID").change(function () {
-            DropDownList.getDepartment($("#DepID"), $('#DivID').val());
-        });
-
-        $("#DepID").change(function () {
-            DropDownList.getSection($("#SecID"), $('#DivID').val(), $('#DepID').val());
-        });
-
-        $("#EmpowerDivID").change(function () {
-            DropDownList.getDepartment($("#EmpowerDepID"), $('#EmpowerDivID').val());
-        });
-
-        $("#EmpowerDepID").change(function () {
-            DropDownList.getSection($("#EmpowerSecID"), $('#EmpowerDivID').val(), $('#EmpowerDepID').val());
-        });
-
-        $("#AgentDivID").change(function () {
-            DropDownList.getDepartment($("#AgentDepID"), $('#AgentDivID').val());
-        });
-
-        $("#AgentDepID").change(function () {
-            DropDownList.getSection($("#AgentSecID"), $('#AgentDivID').val(), $('#AgentDepID').val());
-        });
-
-        $("#HomeProvinceID").change(function () {
-            DropDownList.getDistrict($("#HomeDistrictID"), null, $('#HomeProvinceID').val());
-        });
-
-        $("#HomeDistrictID").change(function () {
-            DropDownList.getSubDistrict($("#HomeSubDistrictID"), null, $('#HomeProvinceID').val(), $('#HomeDistrictID').val());
-        });
-
-        $("#CurrProvinceID").change(function () {
-            DropDownList.getDistrict($("#CurrDistrictID"), null, $('#CurrProvinceID').val());
-        });
-
-        $("#CurrDistrictID").change(function () {
-            DropDownList.getSubDistrict($("#CurrSubDistrictID"), null, $('#CurrProvinceID').val(), $('#CurrDistrictID').val());
-        });
-
-        $("#SalaryLevel").change(function () {
-            DropDownList.getSalaryLevel($("#SalaryStep"), $('#SalaryLevel').val());
-        });
-
-        $("#SalaryStep").change(function () {
-            $.post('@Url.Action("SalaryByStep", "Master")', { level: $("#SalaryLevel").val(), step: $("#SalaryStep").val() }, function (res) {
-                $("#Salary").val(res.Salary);
-            });
-        });
-
-        $("#CopyAddress").click(function () {
-            if ($(this).is(':checked')) {
-                var homeAddr = $("#HomeAddr").val();
-                var homeProvinceID = $("#HomeProvinceID").val();
-                var homeDistrictID = $("#HomeDistrictID").val();
-                var homeSubDistrictID = $("#HomeSubDistrictID").val();
-                var homeZipCode = $("#HomeZipCode").val();
-                if (homeProvinceID != '')
-                    DropDownList.getProvince($("#CurrProvinceID"), homeProvinceID);
-                if (homeDistrictID != '')
-                    DropDownList.getDistrict($("#CurrDistrictID"), homeDistrictID, homeProvinceID);
-                if (homeSubDistrictID != '')
-                    DropDownList.getSubDistrict($("#CurrSubDistrictID"), homeSubDistrictID, homeProvinceID, homeDistrictID);
-                $("#CurrAddr").val(homeAddr);
-                $("#CurrZipCode").val(homeZipCode);
             }
         });
 
@@ -455,42 +289,8 @@
             window.location.href = url;
         });
 
-        $(".save-employee").click(function () {
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("SaveEmployee", "Employee")',
-                data: $("#formEmployee").serialize(),
-                success: function (res) {
-                    if (res.MessageCode == null) {
-                        swal({
-                            title: "",
-                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
-                            type: "success",
-                            buttonsStyling: false,
-                            confirmButtonClass: "btn btn-success",
-                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                        }).catch(swal.noop);
-                    }
-                    else {
-                        swal({
-                            title: '',
-                            text: res.MessageText,
-                            type: 'error',
-                            confirmButtonClass: "btn btn-info",
-                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                            buttonsStyling: false
-                        }).catch(swal.noop);
-                    }
-                }
-            });
-        });
-
-
-
-
+        
     });
-
-
 </script>
 
 }

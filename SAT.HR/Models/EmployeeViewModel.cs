@@ -12,6 +12,8 @@ namespace SAT.HR.Models
         public int UserID { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+        public Nullable<int> UserType { get; set; }
+        public Nullable<int> UserStatus { get; set; }
         public Nullable<int> TitleID { get; set; }
         public string FirstNameTh { get; set; }
         public string LastNameTh { get; set; }
@@ -91,6 +93,7 @@ namespace SAT.HR.Models
 
     public class UserFamilyViewModel
     {
+        public int RowNumber { get; set; }
         public int UfID { get; set; }
         public int UserID { get; set; }
         public string FullNameTH { get; set; }
@@ -101,7 +104,7 @@ namespace SAT.HR.Models
         public Nullable<System.DateTime> UfDOB { get; set; }
         public Nullable<bool> UfLifeStatus { get; set; }
         public string UfLifeStatusName { get; set; }
-        public Nullable<int> TdID { get; set; }
+        public Nullable<bool> TdStatus { get; set; }
         public string TdName { get; set; }
         public Nullable<int> PoID { get; set; }
         public string PoName { get; set; }
@@ -116,6 +119,11 @@ namespace SAT.HR.Models
         public string MaritalName { get; set; }
         public string UfAge { get; set; }
         public string UfStudyStatusName { get; set; }
+        public string UfWeddingDateText { get; set; }
+        public string DivorceDateText { get; set; }
+        public string UfDOBText { get; set; }
+        public int CountFather { get; set; }
+        public int CountMother { get; set; }
 
         public List<UserFamilyViewModel> ListFamily { get; set; }
         public List<UserFamilyViewModel> ListFather { get; set; }
@@ -230,7 +238,7 @@ namespace SAT.HR.Models
         public string UiPartFile { get; set; }
         public string UiRecDateText { get; set; }
         public string UiRetDateText { get; set; }
-
+        //public HttpPostedFileBase fileUpload { get; set; }
         public List<UserInsigniaViewModel> ListInsignia { get; set; }
     }
 
@@ -244,8 +252,10 @@ namespace SAT.HR.Models
         public Nullable<int> ExID { get; set; }
         public Nullable<int> ExTID { get; set; }
         public string ExName { get; set; }
+        public string ExTName { get; set; }
+        
         public string UeProjectName { get; set; }
-        public Nullable<System.DateTime> UeRecYear { get; set; }
+        public Nullable<int> UeRecYear { get; set; }
         public Nullable<System.DateTime> UeRecDate { get; set; }
         public string UeRecDateText { get; set; }
 
@@ -279,13 +289,20 @@ namespace SAT.HR.Models
         public string FullNameTH { get; set; }
         public string FullNameEn { get; set; }
         public Nullable<System.DateTime> UhEditDate { get; set; }
-        public Nullable<int> TiID { get; set; }
-        public string TiFullName { get; set; }
-        public string TiShortName { get; set; }
-        public string UhFirstNameTH { get; set; }
-        public string UhLastNameTH { get; set; }
-        public string UhFirstNameEN { get; set; }
-        public string UhLastNameEN { get; set; }
+        public Nullable<int> OldTiID { get; set; }
+        public string OldTiFullName { get; set; }
+        public string OldTiShortName { get; set; }
+        public Nullable<int> NewTiID { get; set; }
+        public string NewTiFullName { get; set; }
+        public string NewTiShortName { get; set; }
+        public string OldFirstNameTh { get; set; }
+        public string OldLastNameTh { get; set; }
+        public string OldFirstNameEn { get; set; }
+        public string OldLastNameEn { get; set; }
+        public string NewLastNameEn { get; set; }
+        public string NewFirstNameTh { get; set; }
+        public string NewLastNameTh { get; set; }
+        public string NewFirstNameEn { get; set; }
         public string Remark { get; set; }
         public Nullable<bool> UhStatus { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
@@ -294,7 +311,11 @@ namespace SAT.HR.Models
         public Nullable<int> ModifyBy { get; set; }
         public string UhEditDateText { get; set; }
         public int? SexID { get; set; }
-
+        public bool? IsChange { get; set; }
+        public string OldFullNameTh { get; set; }
+        public string OldFullNameEn { get; set; }
+        public string NewFullNameTh { get; set; }
+        public string NewFullNameEn { get; set; }
 
         public List<UserHistoryViewModel> ListHistory { get; set; }
     }
@@ -343,8 +364,8 @@ namespace SAT.HR.Models
 
     public class ExcellentViewModel
     {
-        public int ExID { get; set; }
-        public string ExName { get; set; }
+        public int ExTID { get; set; }
+        public string ExTName { get; set; }
     }
 
     public class RecieveTypeViewModel
@@ -365,55 +386,7 @@ namespace SAT.HR.Models
         public string MoveTypeName { get; set; }
     }
 
-    public class EmployeeTransferViewModel
-    {
-        public int RowNumber { get; set; }
-        public int MlID { get; set; }
-        public Nullable<int> MlYear { get; set; }
-        public string MlBookCmd { get; set; }
-        public Nullable<System.DateTime> MlDateCmd { get; set; }
-        public string MlSignatory { get; set; }
-        public string MIPathFile { get; set; }
-        public Nullable<bool> MlStatus { get; set; }
-        public int MlTotal { get; set; }
-        public string MlDateCmdText { get; set; }
-        public string MlStatusName { get; set; }
-        public int recordsTotal { get; set; }
-        public int recordsFiltered { get; set; }
-        public List<EmployeeTransferDetailViewModel> ListDetail { get; set; }
-    }
 
-    public class EmployeeTransferResult
-    {
-        public int draw { get; set; }
-        public int recordsTotal { get; set; }
-        public int recordsFiltered { get; set; }
-        public List<EmployeeTransferViewModel> data { get; set; }
-    }
-
-    public class EmployeeTransferDetailViewModel
-    {
-        public int RowNumber { get; set; }
-        public int MlID { get; set; }
-        public Nullable<int> EmpID { get; set; }
-        public string FullName { get; set; }
-        public Nullable<decimal> MlLevelOld { get; set; }
-        public Nullable<decimal> MlStepOld { get; set; }
-        public Nullable<decimal> MlSalaryOld { get; set; }
-        public Nullable<decimal> MlLevelNew { get; set; }
-        public Nullable<decimal> MlStepNew { get; set; }
-        public Nullable<decimal> MlSalaryNew { get; set; }
-        public int recordsTotal { get; set; }
-        public int recordsFiltered { get; set; }
-    }
-
-    public class EmployeeTransferDetailResult
-    {
-        public int draw { get; set; }
-        public int recordsTotal { get; set; }
-        public int recordsFiltered { get; set; }
-        public List<EmployeeTransferDetailViewModel> data { get; set; }
-    }
 
 
 }

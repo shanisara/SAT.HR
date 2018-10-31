@@ -6,35 +6,10 @@
 }
 
 <style>
-    .m-b-30 {
-        margin-bottom: 30px;
-    }
-    .m-t-10 {
-        margin-top: 10px;
-    }
-    .title-header {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-    }
-
-    .tree {
+    select.form-control:focus {
         font-size: 13px;
-        border-right: 1px solid silver;
-        overflow: auto;
-        padding: 10px;
-    }
-
-    .tree2 {
-        font-size: 13px;
-        border-right: 1px solid silver;
-        overflow: auto;
-        padding: 10px;
-        box-shadow: 0 0 5px #ccc;
-        border-radius: 5px;
     }
 </style>
-
 <link href="@Url.Content("~/Content/assets/js/jstree/themes/default/style.css")" rel="stylesheet" />
 <div class="content">
     <div class="row">
@@ -48,27 +23,26 @@
                         <span> อัตรากำลังพล  > </span><small>พนักงาน</small>
                         <div class="pull-right">
                             @*@Html.Label("ประเภทบุคลากร: ", null, new { @class = "col-form-label" })*@
-                            @Html.DropDownList("usertype", new SelectList((IEnumerable<SelectListItem>)ViewBag.UserType, "Value", "Text"), new { @class = "form-control" })
+                            @Html.DropDownList("usertype", new SelectList((IEnumerable<SelectListItem>)ViewBag.UserType, "Value", "Text"), new { @class = "form-control usertype" })
                         </div>
                     </h4>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-7 tree">
-                            @*<div>
-                                <input type="search" class="search-tree" />
-                                <button type="button" class="btn-search">Search</button>
-                            </div>*@
+                        <div class="col-sm-10">
+                            <div class="row col-md-12 form-horizontal m-b-10">
+                                <input type="search" class="form-control search-tree" placeholder="ระบุคำค้นหา" />
+                                <button type="button" class="col-sm-1 btn btn-primary btn-sm btn-search">ค้นหา</button>
+                            </div>
                             <div id="organization"></div>
                         </div>
-                        <div class="col-sm-5">
-                            <div class="title-header">
-                                <h5><span>ข้อมูลอัตรากำลังพล</span></h5>
+                        <div class="col-sm-2">
+                            <div class="title-header pull-right">
+                                @*<h5><span>ข้อมูลอัตรากำลังพล</span></h5>*@
                                 @*@Html.Label("ประเภทอัตรากำลังพล: ", null, new { @class = "col-form-label" })*@
-                                <button class="btn btn-primary btn-sm pull-right add-position" data-toggle="modal" id="btnAdd"><i class="material-icons">add</i> เพิ่มอัตรากำลังพล</button>
+                                <button class="btn btn-primary btn-sm add-position" data-toggle="modal" id="btnAdd"><i class="material-icons">add</i> เพิ่มอัตรากำลังพล</button>
                             </div>
-                            @*<span id="event_result"></span>*@
-                            <div id="detail"></div>
+                            @*<div id="detail"></div>*@
                         </div>
                     </div>
                 </div>
@@ -77,40 +51,124 @@
     </div>
 </div>
 
+<!-- Classic Modal -->
+<div class="modal fade modal-large modal-position" role="dialog" aria-labelledby="modalPositionLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span>โยกย้ายอัตรากำลังพล</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div class="detail-position"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-roundbtn-default btn-close" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary btn-save">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  End Modal -->
+
+
 @section Scripts {
     <script src="@Url.Content("~/Content/assets/js/jstree/jstree.js")"></script>
     <script>
 
     $(document).ready(function () {
 
-        $('#organization').jstree({
-            'core': {
-                'data': {
-                    'url': function (node) {
-                        return node.id === '#' ? '/Employee/GetRoot' : '/Employee/GetChildren/' + node.id + '?type=' + node.original.node_type;
+        //var windowHeight = window.innerHeight;
+        //var treeHeight = 'height:' + (windowHeight - 230) + 'px';
+        //$('.tree').attr("style", treeHeight);
+
+        var jstree = {
+            tree: null,
+            initializeTree: function (usertype) {
+                var $tree = $('#organization');
+
+                jstree.tree = $tree.jstree({
+                    'core': {
+                        'strings': { 'Loading ...': 'กรุณารอสักครู่ ...' },
+                        'data': {
+                            'url': '/Employee/GetRoot/' + usertype,
+                            'data': function (node) {
+                                return { 'id': node.id };
+                            }
+                        }
                     },
-                    'data': function (node) {
-                        debugger;
-                        return { 'id': node.id };
+                    'plugins': ['search', 'wholerow', 'sort']
+                });
+
+                $tree.on('changed.jstree', function (e, data) {
+                    var usertype = $('.usertype').val();
+                    if (data.node.original.node_type == 'user') {
+                        var url = '@Url.Action("PositionRateDetail", "Employee")/' + data.node.id + "?type=" + usertype;
+                        $.post(url, function (data) {
+                            $(".detail-position").html(data);
+                            $('.modal-position').modal('show');
+                        });
                     }
-                }
-            },
-            'plugins': ['search', 'wholerow'],
-            'types': {
-                'default': {
-                    'icon': '//jstree.com/tree.png'
-                },
-                'user': {
-                    'icon': 'glyphicon glyphicon-flash'
-                }
-            },
+                });
 
-        });
 
-        $('#organization').on('changed.jstree', function (e, data) {
-            $("#detail").html('');
-            //$('#event_result').html("selected: " + data.node.id + " - " + data.node.text);
-        });
+                //jstree.tree = $tree.jstree({
+                //    'plugins': ['search', 'wholerow', 'sort'],
+                //    'core': {
+                //        'data': {
+                //            'url': function (node) {
+                //                if (node.id === '#') {
+                //                    return '/Employee/GetRoot/' + usertype;
+                //                }
+                //                else {
+                //                    var divid = null; var depid = null; var secid = null; var poid = null;
+                //                    var parenttype = node.original.node_type;
+                //                    if (parenttype == 'div') {
+                //                        divid = node.id;
+                //                    }
+                //                    else if (parenttype == 'dep') {
+                //                        divid = (node.parents.length == 3) ? node.parents[0] : null;
+                //                        depid = node.id;
+                //                    }
+                //                    else if (parenttype == 'sec') {
+                //                        divid = (node.parents.length == 4) ? node.parents[1] : null;
+                //                        depid = (node.parents.length == 4) ? node.parents[0] : null;
+                //                        secid = node.id;
+                //                    }
+                //                    else if (parenttype == 'pos') {
+                //                        divid = (node.parents.length == 5) ? node.parents[2] : null;
+                //                        depid = (node.parents.length == 5) ? node.parents[1] : null;
+                //                        secid = (node.parents.length == 5) ? node.parents[0] : null;
+                //                        poid = node.id;
+                //                    }
+                //                    else if (parenttype == 'user') {
+                //                        divid = (node.parents.length == 6) ? node.parents[3] : null;
+                //                        depid = (node.parents.length == 6) ? node.parents[2] : null;
+                //                        secid = (node.parents.length == 6) ? node.parents[1] : null;
+                //                        poid = (node.parents.length == 6) ? node.parents[0] : null;
+                //                    }
+                //                    return '/Employee/GetChildren/' + node.id + '?parenttype=' + parenttype + '&usertype=' + usertype + '&divid=' + divid + '&depid=' + depid + '&secid=' + secid + '&poid=' + poid;
+                //                }
+                //            },
+                //            'data': function (node, callback) {
+                //                return { 'id': node.id };
+                //            }
+                //        }
+                //    }
+                //});
+
+            },
+            destroyTree: function (usertype) {
+                if (jstree.tree != null) {
+                    jstree.tree.jstree("destroy");
+                }
+                jstree.initializeTree(usertype);
+            }
+        }
+
+        jstree.initializeTree(1);
 
 
         $(".btn-search").click(function (e) {
@@ -118,57 +176,81 @@
             $("#organization").jstree(true).search($(".search-tree").val());
         });
 
-        var DropDownList = {
-            getDepartment: function (el, divid) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("DepartmentByDiv", "Master")',
-                    data: { divid: divid },
-                    dataType: 'json',
-                    success: function (res) {
-                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
-                        $.each(res, function (key, entry) {
-                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
-                        })
-                    }
-                });
-            },
-            getSection: function (el, divid, depid) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("SectionByDep", "Master")',
-                    data: { divid: divid, depid: depid },
-                    dataType: 'json',
-                    success: function (res) {
-                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
-                        $.each(res, function (key, entry) {
-                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
-                        })
-                    }
-                });
-            }
-        }
 
-        $("#DivID").change(function () {
-            DropDownList.getDepartment($("#DepID"), $('#DivID').val());
+        $('.usertype').change(function () {
+            var usertype = $('.usertype').val();
+            jstree.destroyTree(usertype);
         });
 
-        $("#DepID").change(function () {
-            DropDownList.getSection($("#SecID"), $('#DivID').val(), $('#DepID').val());
-        });
-
-        //$("#SecID").change(function () {
-        //    DropDownList.getPosition($("#PoID"), $('#DivID').val(), $('#DepID').val(), $('#SecID').val());
-        //});
 
         $(".add-position").click(function () {
-            var url = '@Url.Action("PositionRateDetail", "Employee")';
+            var usertype = $('.usertype').val();
+            var url = '@Url.Action("PositionRateDetail", "Employee")/0' + "?type=" + usertype;
             $.post(url, function (data) {
-                $("#detail").html(data);
+                $(".detail-position").html(data);
+                $('.modal-position').modal('show');
             });
         });
 
-       
+
+        $(".btn-save").click(function () {
+            var $valid = $('.form-position').valid();
+            if (!$valid) {
+                if ($("#DivID").val() == '') {
+                    $('#DivID-error').text(''); //กรุณาระบุฝ่าย
+                }
+                if ($("#DepID").val() == '') {
+                    $('#DepID-error').text(''); //กรุณาระบุกอง
+                }
+                if ($("#SecID").val() == '') {
+                    $('#SecID-error').text(''); //กรุณาระบุงาน
+                }
+                if ($("#PoID").val() == '') {
+                    $('#PoID-error').text(''); //กรุณาระบุตำแหน่ง
+                }
+                return false;
+            }
+            else {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SavePositionRate", "Employee")',
+                    data: $(".form-position").serialize(),
+                    dataType: 'json',
+                    success: function (res) {
+                        var msg = '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)'
+                        if (res.ID != 0) {
+                            msg = "เพิ่มอัตรากำลังพล " + res.ID + " เรียบร้อย";
+                        }
+
+                        if (res.MessageCode == null) {
+                            swal({
+                                title: "",
+                                text: msg,
+                                type: "success",
+                                confirmButtonClass: "btn btn-primary",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                buttonsStyling: false
+                            }).then(function () {
+                                if (res.ID != 0) {
+                                    jstree.destroyTree();
+                                }
+                                $('.modal-position').modal('hide');
+                            });
+                        }
+                        else {
+                            swal({
+                                title: '',
+                                text: res.MessageText,
+                                type: 'error',
+                                confirmButtonClass: "btn btn-primary",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                buttonsStyling: false
+                            }).catch(swal.noop);
+                        }
+                    }
+                });
+            }
+        });
 
     });
 

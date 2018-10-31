@@ -1,0 +1,394 @@
+﻿@model SAT.HR.Models.LevelTransferViewModel
+
+@{
+    ViewBag.Title = "PositionTransferDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .modal-dialog {
+        max-width: 1100px;
+    }
+
+    .col-form-label {
+        font-size: 14px;
+    }
+
+    .label-text {
+        font-size: 14px;
+        line-height: 2.679;
+        color: #170cdb;
+        font-weight: 100;
+    }
+
+    .table > thead > tr > th {
+        vertical-align: text-top;
+    }
+
+    .table thead tr th {
+        font-size: 15px;
+    }
+    .m-t-12 {
+        margin-top: 12px;
+    }
+</style>
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-icon card-header-primary">
+                    <div class="card-icon">
+                        <i class="material-icons">perm_identity</i>
+                    </div>
+                    <h4 class="card-title">
+                        <span>โยกย้ายระดับ </span><small class="text-primary"></small>
+                        <button type="button" class="btn btn-round pull-right btn-back">ย้อนกลับ</button>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "formDetail" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.MlID)
+                        @Html.HiddenFor(m => m.MlStatus)
+                        @Html.HiddenFor(m => m.MIPathFile)
+
+                        <div class="form-horizontal">
+                            <div class="row">
+                                <label class="col-sm-1 col-form-label" for="MlYear">ปีบัญชี<span class="text-danger"> *</span> </label>
+                                <div class="col-sm-1 form-group">
+                                    @Html.TextBoxFor(m => m.MlYear, new { @class = "form-control", required = "true" })
+                                </div>
+                                <label class="col-sm-1 col-form-label" for="MlDateCmdText">วันที่ลงคำสั่ง<span class="text-danger"> *</span> </label>
+                                <div class="col-sm-2 form-group">
+                                    @Html.TextBoxFor(m => m.MlDateCmdText, new { @class = "form-control datepicker", required = "true" })
+                                </div>
+                                <label class="col-sm-2 col-form-label" for="MlBookCmd">เลขที่หนังสือคำสั่ง<span class="text-danger"> *</span> </label>
+                                <div class="col-sm-5 form-group">
+                                    @Html.TextBoxFor(m => m.MlBookCmd, new { @class = "form-control", required = "true" })
+                                </div>
+                            </div>
+                            <div class="row m-b-10">
+                                @Html.Label("ผู้ลงนาม", null, new { @class = "col-sm-1 col-form-label" })
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.MlSignatory, new { @class = "form-control" })
+                                </div>
+                                @Html.Label("ไฟล์หนังสือคำสั่ง ", null, new { @class = "col-sm-2 col-form-label" })
+                                <div class="col-sm-5">
+                                    <div class="input-group-prepend file-path">
+                                        <i class="fa fa-cloud-download m-t-15"></i>&nbsp;&nbsp;
+                                        <a class="m-t-15 file-name" target="_blank" href=@Url.Action("DownloadFileLevelTransfer", "Employee", new { id = Model.MlID })>@Model.MIPathFile</a>
+                                        <a class="btn btn-link btn-danger btn-just-icon file-delete" file-delete href="#" title="ลบ"><i class="material-icons">delete_forever</i></a>
+                                    </div>
+                                    @Html.TextBoxFor(m => m.fileUpload, new { @class = "form-control file-upload", @type = "file" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="toolbar pull-right">
+                            <button type="button" class="btn btn-primary btn-sm btn-new" data-toggle="modal"><i class="material-icons">add</i> เพิ่มรายการ</button>
+                        </div>
+                        <div class="position-transfer">
+                            <table id="tb-detail" data-url="@Url.Content("~/Employee/LevelTransferDetailPage")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                                <thead class="text-primary">
+                                    <tr>
+                                        <th style="width:5%" class="disabled-sorting">ลำดับ</th>
+                                        <th style="width:15%">ชื่อ-นามสกุล</th>
+                                        <th style="width:9%" class="text-right">ระดับเก่า</th>
+                                        <th style="width:8%" class="text-right">ขั้นเก่า</th>
+                                        <th style="width:10%" class="text-right">เงินเดือนเก่า</th>
+                                        <th style="width:9%" class="text-right">ระดับใหม่</th>
+                                        <th style="width:8%" class="text-right">ขั้นใหม่</th>
+                                        <th style="width:11%" class="text-right">เงินเดือนใหม่</th>
+                                        <th style="width:15%">หมายเหตุ</th>
+                                        <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null && Model.ListDetail != null)
+                                    {
+                                        int index = 1;
+                                        for (int i = 0; i < Model.ListDetail.Count; i++)
+                                        {
+                                        <tr data-userid="@Model.ListDetail[i].UserID" data-oldlevel="@Model.ListDetail[i].MlLevelOld" data-oldstep="@Model.ListDetail[i].MlStepOld" data-oldsalary="@Model.ListDetail[i].MlSalaryOld" data-newlevel="@Model.ListDetail[i].MlLevelNew" data-newstep=@Model.ListDetail[i].MlStepNew data-newsalary="@Model.ListDetail[i].MlSalaryNew" data-remark="@Model.ListDetail[i].MlRemark">
+                                            <td>@index</td>
+                                            <td>@Model.ListDetail[i].FullName</td>
+                                            <td class="text-right">@Convert.ToInt32(Model.ListDetail[i].MlLevelOld)</td>
+                                            <td class="text-right">@Model.ListDetail[i].MlStepOld</td>
+                                            <td class="text-right">@(Model.ListDetail[i].MlSalaryOld != null ? Model.ListDetail[i].MlSalaryOld.Value.ToString("#,###,###.00") : "0")</td>
+                                            <td class="text-right">@Convert.ToInt32(Model.ListDetail[i].MlLevelNew)</td>
+                                            <td class="text-right">@Model.ListDetail[i].MlStepNew</td>
+                                            <td class="text-right">@Model.ListDetail[i].MlSalaryNew.Value.ToString("#,###,###.00")</td>
+                                            <td>@Model.ListDetail[i].MlRemark</td>
+                                            <td class="td-actions text-right">
+                                                <button title="ลบ" type="button" class="btn btn-round btn-danger btn-delete" data-id="@Model.ListDetail[i].UserID"><i class="material-icons">close</i></button>
+                                            </td>
+                                        </tr>
+                                            index++;
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+                <div class="row m-b-10">
+                    <div class="ml-auto mr-auto">
+                        <button type="button" class="btn btn-round btn-back">ย้อนกลับ</button>
+                        <button type="button" class="btn btn-round btn-primary btn-save">บันทึก</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Classic Modal -->
+<div class="modal fade modal-large modal-transfer" role="dialog" aria-labelledby="modalTransferLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span>โยกย้ายระดับ</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div class="detail-transfer"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-roundbtn-default btn-close" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary btn-add">เพิ่มลงรายการ</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  End Modal -->
+
+@section Scripts {
+    <script src="~/Content/assets/js/plugins/accounting.js"></script>
+    <script>
+    $(document).ready(function () {
+
+
+        if ('@Model.MIPathFile' != '') {
+            $(".file-path").show();
+            $(".file-upload").hide();
+        }
+        else {
+            $(".file-path").hide();
+            $(".file-upload").show();
+        }
+
+        $('.datepicker').datetimepicker({
+            format: 'DD/MM/YYYY',
+            icons: {
+                time: "fa fa-clock-o",
+                date: "fa fa-calendar",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            }
+        });
+
+        var $validatorHead = $('.formDetail').validate({
+            rules: {
+                MlYear: {
+                    required: true,
+                    minlength: 4
+                },
+                MlBookCmd: {
+                    required: true,
+                    minlength: 3,
+                },
+                MlDateCmdText: {
+                    required: true,
+                }
+            },
+            highlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-danger');
+            },
+            success: function (element) {
+                $(element).closest('.form-group').removeClass('has-danger').addClass('has-success');
+            },
+            errorPlacement: function (error, element) {
+                $(element).append(error);
+            }
+        });
+
+        var runningIndex = function () {
+            var index = 1;
+            $('#tb-detail tbody tr td:first-child').each(function () {
+                $(this).html(index);
+                index++;
+            });
+        }
+
+        $(".file-delete").click(function () {
+            $("#MIPathFile").val('');
+            $(".file-upload").val('');
+            $(".file-upload").show();
+            $(".file-path").hide();
+        });
+
+        $(".file-upload").change(function () {
+            var book = $('#MlBookCmd').val();
+            var name = "คส.ที่ " + book + " เรื่องการแต่งตั้งเลื่อนระดับพนักงาน";
+            $("#MIPathFile").val(name);
+        });
+
+        $(".btn-back").click(function () {
+            var url = '@Url.Action("LevelTransfer", "Employee")';
+            window.location.href = url;
+        });
+
+        $(".btn-new").click(function () {
+            var url = '@Url.Action("LevelTransferDetailByID", "Employee")';
+            $.post(url, function (data) {
+                $(".detail-transfer").html(data);
+                $('.modal-transfer').modal('show');
+            });
+        });
+
+        $(".btn-add").click(function () {
+            var $valid = $('.form-level-transfer').valid();
+            if (!$valid) {
+                if ($("#UserID").val() == '') {
+                    $('#UserID-error').text(''); //กรุณาระบุพนักงาน
+                }
+                if ($("#MlLevelNew").val() == '') {
+                    $('#MlLevelNew-error').text(''); //กรุณาระบุระดับ
+                }
+                return false;
+            }
+            else {
+                var userid = $("#UserID").val();
+                var username = $("#UserID option:selected").text();
+                var oldlevel = $('.user-level').text();
+                var oldstep = $('.user-step').text();
+                var oldsalary = $('.user-salary').text();
+                var newlevel = $('#MlLevelNew').val();
+                var newstep = $('#MlStepNew').val();
+                var newsalary = $('.new-salary').text();
+                var remark = $("#MlRemark").val();
+
+                var data = "<tr data-userid='" + userid + "' data-oldlevel='" + oldlevel + "' data-oldstep='" + oldstep + "' data-oldsalary= '" + oldsalary + "' data-newlevel='" + newlevel + "' data-newstep='" + newstep + "' data-newsalary='" + newsalary + "' data-remark='" + remark + "'>" +
+                    "<td></td>" +
+                    "<td>" + username + "</td>" +
+                    "<td class='text-right'>" + oldlevel + "</td>" +
+                    "<td class='text-right'>" + oldstep + "</td>" +
+                    "<td class='text-right'>" + oldsalary + "</td>" +
+                    "<td class='text-right'>" + newlevel + "</td> " +
+                    "<td class='text-right'>" + newstep + "</td> " +
+                    "<td class='text-right'>" + newsalary + "</td> " +
+                    "<td>" + remark + "</td>" +
+                    "<td class='td-actions text-right'><button title='ลบ' type='button' rel='tooltip' class='btn btn-round btn-danger btn-delete' data-id='" + userid + "'><i class='material-icons'>close</i></button></td>" +
+                    "</tr>";
+                $("#tb-detail tbody").append(data);
+
+                runningIndex();
+
+                $('.modal-transfer').modal('hide');
+            }
+        });
+
+        $(".btn-save").click(function () {
+            var $valid = $('.formDetail').valid();
+            if (!$valid) {
+                $validatorHead.focusInvalid();
+                return false;
+            }
+            else {
+                var listName = "ListDetail";
+                var qtd = 0;
+                $("#tb-detail tbody tr").each(function () {
+                    var userid = $(this).data("userid");
+                    var oldlevel = $(this).data("oldlevel");
+                    var oldstep = $(this).data("oldstep");
+                    var newlevel = $(this).data("newlevel");
+                    var newstep = $(this).data("newstep");
+                    var oldlevel = $(this).data("oldlevel");
+                    var remark = $(this).data("remark");
+                    $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].UserID' value= '" + userid + "' > ");
+                    $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlLevelOld' value= '" + oldlevel + "' > ");
+                    $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlStepOld' value= '" + oldstep + "' > ");
+                    $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlLevelNew' value= '" + newlevel + "' > ");
+                    $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlStepNew' value= '" + newstep + "' > ");
+                    $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlRemark' value= '" + remark + "' > ");
+                    qtd += 1;
+                });
+
+                debugger;
+                var form = $('.formDetail')[0];
+                var data = new FormData(form);
+                data.append(".fileUpload", fileUpload);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SaveLevelTransfer", "Employee")',
+                    data: data,
+                    dataType: 'json',
+                    enctype: 'multipart/form-data',
+                    processData: false,
+                    contentType: false,
+                    success: function (res) {
+                        if (res.MessageCode == null) {
+                            swal({
+                                title: "",
+                                text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                                type: "success",
+                                confirmButtonClass: "btn btn-primary",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                buttonsStyling: false,
+                            }).then(function () {
+                                //window.location.reload();
+                                if ($("#MIPathFile").val() != '') {
+                                    $(".file-name").text($("#MIPathFile").val());
+                                    $(".file-upload").hide();
+                                    $(".file-path").show();
+                                }
+                                $('#modalDetail').modal('hide');
+                            });
+                        }
+                        else {
+                            swal({
+                                title: '',
+                                text: res.MessageText,
+                                type: 'error',
+                                confirmButtonClass: "btn btn-primary",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                buttonsStyling: false
+                            }).catch(swal.noop);
+                        }
+                    }
+                });
+            }
+        });
+
+        $("#tb-detail").on('click', '.btn-delete', function () {
+            var itemDelete = $(this);
+            swal({
+                title: '',
+                text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                buttonsStyling: false
+            }).then(function () {
+                itemDelete.parent().parent().remove();
+                runningIndex();
+            });
+        });
+
+    });
+
+
+    </script>
+}

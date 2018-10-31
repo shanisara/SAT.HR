@@ -1089,21 +1089,41 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region  Detail
 
         public JsonResult GetDetailByUser(int userid)
         {
-            var result = new MasterRepository().GetDetailByUser(userid);
+            var result = new PositionRateRepository().GetDetailByUser(userid);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetDetailByPosition(int poid)
+        public JsonResult GetDetailByMp(int mpid)
         {
-            var result = new MasterRepository().GetDetailByPosition(poid);
+            var result = new PositionRateRepository().GetDetailByMp(mpid);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        #endregion
+        public JsonResult GeDepartmentManPower(int divid, int type)
+        {
+            var result = DropDownList.GetDepartmentManPower(type, divid, null);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
+        public JsonResult GetSectionManPower(int divid, int depid, int type)
+        {
+            var result = DropDownList.GetSectionManPower(type, divid, depid, null);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetPositionManPowerValuePo(int divid, int depid, int secid, int type)
+        {
+            var result = DropDownList.GetPositionManPowerValuePo(type, divid, depid, secid, null);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetPositionManPowerValueMp(int divid, int depid, int secid, int type)
+        {
+            var result = DropDownList.GetPositionManPowerValueMp(type, divid, depid, secid, null);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -1,67 +1,76 @@
 ﻿@model SAT.HR.Models.PositionRateViewModel
 
-<style>
-    select.form-control:focus {
-        /*padding: .375rem 1.75rem .375rem .75rem;*/
-        font-size: 13px;
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-position" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.MpID)
+    @Html.HiddenFor(m => m.TypeID, new { Value = @ViewBag.TypeID })
+    @Html.HiddenFor(m => m.UserID)
+    
+
+    <div class="m-t-10"></div>
+    if (@Model.MpID != 0)
+    {
+    <div class="row">
+        @Html.Label("อัตรากำลัง: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-9">
+            @Html.TextBoxFor(m => m.MpID, new { @class = "form-control disabled" })
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("ผู้ดำรงตำแหน่ง: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-9">
+            @Html.TextBoxFor(m => m.FullNameTh, new { @class = "form-control disabled" })
+        </div>
+    </div>
     }
-</style>
-<div class="m-t-10"></div>
-<div class="row">
-    @Html.Label("ฝ่าย: ", null, new { @class = "col-sm-3 col-form-label" })
-    <div class="col-sm-9">
-        @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition po-div" })
+    <div class="row">
+        @Html.Label("ฝ่าย: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-9">
+            @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition po-div", required = "true" })
+        </div>
     </div>
-</div>
-<div class="row">
-    @Html.Label("กอง: ", null, new { @class = "col-sm-3 col-form-label" })
-    <div class="col-sm-9">
-        @Html.DropDownListFor(n => n.DepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Department, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition po-dep" })
+    <div class="row">
+        @Html.Label("กอง: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-9">
+            @Html.DropDownListFor(n => n.DepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Department, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition po-dep", required = "true" })
+        </div>
     </div>
-</div>
-<div class="row">
-    @Html.Label("งาน: ", null, new { @class = "col-sm-3 col-form-label" })
-    <div class="col-sm-9">
-        @Html.DropDownListFor(n => n.SecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Section, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+    <div class="row">
+        @Html.Label("งาน: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-9">
+            @Html.DropDownListFor(n => n.SecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Section, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+        </div>
     </div>
-</div>
-<div class="row">
-    @Html.Label("ระดับสายงาน: ", null, new { @class = "col-sm-3 col-form-label" })
-    <div class="col-sm-9">
-        @Html.TextBoxFor(m => m.MpMan, new { @class = "form-control", required = "true" })
+    <div class="row">
+        @Html.Label("ตำแหน่ง: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-9">
+            @Html.DropDownListFor(n => n.PoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+        </div>
     </div>
-</div>
-<div class="row">
-    @Html.Label("อัตรากำลัง: ", null, new { @class = "col-sm-3 col-form-label" })
-    <div class="col-sm-9">
-        @Html.TextBoxFor(m => m.MpCode, new { @class = "form-control", required = "true" })
+    <div class="row">
+        @Html.Label("ระดับสายงาน: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-9">
+            @Html.TextBoxFor(m => m.DisID, new { @class = "form-control" })
+        </div>
     </div>
-</div>
-<div class="row">
-    @Html.Label("ผู้ดำรงตำแหน่ง: ", null, new { @class = "col-sm-3 col-form-label" })
-    <div class="col-sm-9">
-        @Html.TextBoxFor(m => m.FullNameTh, new { @class = "form-control", required = "true" })
+    <div class="row">
+        @Html.Label("ระดับการศึกษา: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-9">
+            @Html.DropDownListFor(n => n.EduID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Education, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+        </div>
     </div>
-</div>
-<div class="row">
-    @Html.Label("ระดับการศึกษา: ", null, new { @class = "col-sm-3 col-form-label" })
-    <div class="col-sm-9">
-        @Html.DropDownListFor(n => n.EduID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Education, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
-    </div>
-</div>
-<div class="card-footer pull-right">
-    <button type="button" class="btn btn-cancel">ยกเลิก</button>
-    <button type="button" class="btn btn-primary btn-save">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
-</div>
+}
 
 <script>
 
     var DropDownList = {
-        getDepartment: function (el, divid) {
+        getDepartment: function (el, divid, type) {
             $.ajax({
                 type: 'POST',
-                url: '@Url.Action("DepartmentByDiv", "Master")',
-                data: { divid: divid },
+                url: '@Url.Action("GeDepartmentManPower", "Master")',
+                data: { divid: divid, type: type },
                 dataType: 'json',
                 success: function (res) {
                     el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
@@ -71,11 +80,25 @@
                 }
             });
         },
-        getSection: function (el, divid, depid) {
+        getSection: function (el, divid, depid, type) {
             $.ajax({
                 type: 'POST',
-                url: '@Url.Action("SectionByDep", "Master")',
-                data: { divid: divid, depid: depid },
+                url: '@Url.Action("GetSectionManPower", "Master")',
+                data: { divid: divid, depid: depid, type: type },
+                dataType: 'json',
+                success: function (res) {
+                    el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                    $.each(res, function (key, entry) {
+                        el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                    })
+                }
+            });
+        },
+        getPosition: function (el, divid, depid, secid, type) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetPositionManPowerValueMp", "Master")',
+                data: { divid: divid, depid: depid, secid: secid, type: type },
                 dataType: 'json',
                 success: function (res) {
                     el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
@@ -87,19 +110,22 @@
         }
     }
 
-    $(".po-div").change(function () {
-        DropDownList.getDepartment($(".po-dep"), $('.po-div').val());
+    $("#DivID").change(function () {
+        DropDownList.getDepartment($("#DepID"), $('#DivID').val(), $("#usertype").val());
+        //DropDownList.getSection($("#SecID"), $('#DivID').val(), $('#DepID').val(), $("#usertype").val());
+        //DropDownList.getPosition($("#PoID"), $('#DivID').val(), $('#DepID').val(), $("#SecID").val(), $("#usertype").val());
     });
 
-    $(".po-dep").change(function () {
-        DropDownList.getSection($(".po-sec"), $('.po-div').val(), $('.po-dep').val());
+    $("#DepID").change(function () {
+        DropDownList.getSection($("#SecID"), $('#DivID').val(), $('#DepID').val(), $("#usertype").val());
+        //DropDownList.getPosition($("#PoID"), $('#DivID').val(), $('#DepID').val(), $("#SecID").val(), $("#usertype").val());
     });
 
-    $(".btn-cancel").click(function () {
-        $("#detail").html('');
-    });
+    //$("#SecID").change(function () {
+    //    DropDownList.getPosition($("#PoID"), $('#DivID').val(), $('#DepID').val(), $("#SecID").val(), $("#usertype").val());
+    //});
 
-    $(".btn-save").click(function () {
 
-    });
+    
+
 </script>

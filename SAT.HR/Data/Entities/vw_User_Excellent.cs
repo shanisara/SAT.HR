@@ -20,8 +20,10 @@ namespace SAT.HR.Data.Entities
         public string FullNameEn { get; set; }
         public Nullable<int> ExID { get; set; }
         public string ExName { get; set; }
+        public Nullable<int> ExTID { get; set; }
+        public string ExTName { get; set; }
         public string UeProjectName { get; set; }
-        public Nullable<System.DateTime> UeRecYear { get; set; }
+        public Nullable<int> UeRecYear { get; set; }
         public Nullable<System.DateTime> UeRecDate { get; set; }
     }
 }

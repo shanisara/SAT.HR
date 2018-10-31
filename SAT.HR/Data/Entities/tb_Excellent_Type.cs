@@ -20,8 +20,8 @@ namespace SAT.HR.Data.Entities
             this.tb_User_Excellent = new HashSet<tb_User_Excellent>();
         }
     
-        public int ExID { get; set; }
-        public string ExName { get; set; }
+        public int ExTID { get; set; }
+        public string ExTName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User_Excellent> tb_User_Excellent { get; set; }

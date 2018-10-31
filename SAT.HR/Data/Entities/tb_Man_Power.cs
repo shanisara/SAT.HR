@@ -19,8 +19,8 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> DepID { get; set; }
         public Nullable<int> SecID { get; set; }
         public Nullable<int> PoID { get; set; }
-        public Nullable<int> MpCode { get; set; }
-        public string MpMan { get; set; }
+        public Nullable<int> DisID { get; set; }
+        public Nullable<int> TypeID { get; set; }
         public Nullable<int> UserID { get; set; }
         public Nullable<int> EduID { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
@@ -31,8 +31,6 @@ namespace SAT.HR.Data.Entities
         public virtual tb_Department tb_Department { get; set; }
         public virtual tb_Division tb_Division { get; set; }
         public virtual tb_Education tb_Education { get; set; }
-        public virtual tb_Position tb_Position { get; set; }
         public virtual tb_Section tb_Section { get; set; }
-        public virtual tb_User tb_User { get; set; }
     }
 }

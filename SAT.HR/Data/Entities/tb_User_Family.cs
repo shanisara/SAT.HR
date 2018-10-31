@@ -20,7 +20,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<decimal> UfCardID { get; set; }
         public Nullable<System.DateTime> UfDOB { get; set; }
         public Nullable<bool> UfLifeStatus { get; set; }
-        public Nullable<int> TdID { get; set; }
+        public Nullable<bool> TdStatus { get; set; }
         public Nullable<int> PoID { get; set; }
         public Nullable<int> OcID { get; set; }
         public Nullable<System.DateTime> UfWeddingDate { get; set; }
@@ -35,9 +35,7 @@ namespace SAT.HR.Data.Entities
     
         public virtual tb_Marital_Status tb_Marital_Status { get; set; }
         public virtual tb_Occupation tb_Occupation { get; set; }
-        public virtual tb_Position tb_Position { get; set; }
         public virtual tb_Recieve_Type tb_Recieve_Type { get; set; }
-        public virtual tb_Tax_Deduction tb_Tax_Deduction { get; set; }
         public virtual tb_User tb_User { get; set; }
     }
 }

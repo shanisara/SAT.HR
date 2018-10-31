@@ -3,42 +3,37 @@
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-trainning" }))
 {
     @Html.AntiForgeryToken()
-
+    @Html.HiddenFor(m => m.UserID)
+    @Html.HiddenFor(m => m.UtID)
     <div>
-        <div class="row occupation">
+        <div class="row">
             @Html.Label("ประเภท: ", null, new { @class = "col-sm-3 col-form-label" })
             <div class="col-sm-9 m-t-10">
-                @Html.DropDownListFor(n => n.TtID, new SelectList((IEnumerable<SelectListItem>)ViewBag.TrainingType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+                @Html.DropDownListFor(n => n.TtID, new SelectList((IEnumerable<SelectListItem>)ViewBag.TrainingType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
             </div>
         </div>
-        <div class="row occupation">
+        <div class="row">
             @Html.Label("ประเทศ: ", null, new { @class = "col-sm-3 col-form-label" })
             <div class="col-sm-9 m-t-10">
-                @Html.DropDownListFor(n => n.CountryID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Country, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+                @Html.DropDownListFor(n => n.CountryID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Country, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
             </div>
         </div>
-        <div class="row">
+        <div class="row m-t-10">
             @Html.Label("หลักสูตร: ", null, new { @class = "col-sm-3 col-form-label" })
             <div class="col-sm-9">
-                <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UtCourse, new { @class = "form-control", required = "true" })
-                </div>
+                @Html.TextBoxFor(m => m.UtCourse, new { @class = "form-control", required = "true" })
             </div>
         </div>
-        <div class="row">
+        <div class="row m-t-10">
             @Html.Label("วันที่เริ่ม: ", null, new { @class = "col-sm-3 col-form-label" })
             <div class="col-sm-9">
-                <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UtStartDate, new { @class = "form-control datepicker" })
-                </div>
+                @Html.TextBoxFor(m => m.UtStartDateText, new { @class = "form-control datepicker" })
             </div>
         </div>
-        <div class="row">
+        <div class="row m-t-10">
             @Html.Label("วันที่สิ้นสุด: ", null, new { @class = "col-sm-3 col-form-label" })
             <div class="col-sm-9">
-                <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UtEndDate, new { @class = "form-control datepicker" })
-                </div>
+                @Html.TextBoxFor(m => m.UtEndDateText, new { @class = "form-control datepicker" })
             </div>
         </div>
     </div>

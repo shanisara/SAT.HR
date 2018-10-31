@@ -1,5 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="SAT.HR.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="AALocation">
+          <Property Name="province" Type="nvarchar" MaxLength="255" />
+          <Property Name="district" Type="nvarchar" MaxLength="255" />
+          <Property Name="subdistrict" Type="nvarchar" MaxLength="255" />
+          <Property Name="zipcode" Type="float" />
+        </EntityType>-->
   <EntityType Name="tb_Accumulative_Fund">
     <Key>
       <PropertyRef Name="CuID" />
@@ -371,7 +379,7 @@
       <PropertyRef Name="DistrictID" />
       <PropertyRef Name="ProvinceID" />
     </Key>
-    <Property Name="DistrictID" Type="int" Nullable="false" />
+    <Property Name="DistrictID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="DistrictName" Type="nvarchar" MaxLength="100" />
     <Property Name="ProvinceID" Type="int" Nullable="false" />
   </EntityType>
@@ -387,7 +395,7 @@
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
-  <EntityType Name="tb_DocNumber">
+  <EntityType Name="tb_Document_Number">
     <Key>
       <PropertyRef Name="ObjectID" />
     </Key>
@@ -403,6 +411,13 @@
     <Property Name="ResetYear" Type="bit" />
     <Property Name="LastMonth" Type="int" />
     <Property Name="LastYear" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Document_Type">
+    <Key>
+      <PropertyRef Name="DocType" />
+    </Key>
+    <Property Name="DocType" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ContentType" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <EntityType Name="tb_Education">
     <Key>
@@ -426,10 +441,10 @@
   </EntityType>
   <EntityType Name="tb_Excellent_Type">
     <Key>
-      <PropertyRef Name="ExID" />
+      <PropertyRef Name="ExTID" />
     </Key>
-    <Property Name="ExID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ExName" Type="nvarchar" MaxLength="200" />
+    <Property Name="ExTID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ExTName" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <EntityType Name="tb_Holiday">
     <Key>
@@ -496,13 +511,13 @@
     <Key>
       <PropertyRef Name="MpID" />
     </Key>
-    <Property Name="MpID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MpID" Type="int" Nullable="false" />
     <Property Name="DivID" Type="int" />
     <Property Name="DepID" Type="int" />
     <Property Name="SecID" Type="int" />
     <Property Name="PoID" Type="int" />
-    <Property Name="MpCode" Type="int" />
-    <Property Name="MpMan" Type="nvarchar" MaxLength="200" />
+    <Property Name="DisID" Type="int" />
+    <Property Name="TypeID" Type="int" />
     <Property Name="UserID" Type="int" />
     <Property Name="EduID" Type="int" />
     <Property Name="CreateDate" Type="datetime" />
@@ -553,14 +568,13 @@
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'SATHRDB_DEV.dbo.tb_Move_Level_Detail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="tb_Move_Level_Detail">
     <Key>
       <PropertyRef Name="MlID" />
+      <PropertyRef Name="UserID" />
     </Key>
     <Property Name="MlID" Type="int" Nullable="false" />
-    <Property Name="EmpID" Type="int" />
+    <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="MlLevelOld" Type="decimal" Precision="18" Scale="2" />
     <Property Name="MlStepOld" Type="decimal" Precision="18" Scale="2" />
     <Property Name="MlLevelNew" Type="decimal" Precision="18" Scale="2" />
@@ -582,6 +596,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.tb_Move_Level_Detail' does not hav
     <Property Name="MlSignatory" Type="nvarchar" MaxLength="200" />
     <Property Name="MIPathFile" Type="nvarchar(max)" />
     <Property Name="MlStatus" Type="bit" />
+    <Property Name="MiApproveDate" Type="datetime" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -594,9 +609,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.tb_Move_Level_Detail' does not hav
     </Key>
     <Property Name="MopID" Type="int" Nullable="false" />
     <Property Name="UserID" Type="int" Nullable="false" />
-    <Property Name="MovPoID" Type="int" />
-    <Property Name="AgentID" Type="int" />
+    <Property Name="CurMpID" Type="int" Nullable="false" />
+    <Property Name="MovMpID" Type="int" />
     <Property Name="PoTID" Type="int" />
+    <Property Name="AgentMpID" Type="int" />
     <Property Name="MovRemark" Type="nvarchar" MaxLength="400" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
@@ -663,6 +679,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.tb_Move_Level_Detail' does not hav
     <Property Name="PoCode" Type="nvarchar" MaxLength="200" />
     <Property Name="PoName" Type="nvarchar" MaxLength="200" />
     <Property Name="PoStatus" Type="bit" />
+    <Property Name="TypeID" Type="int" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -690,7 +707,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.tb_Move_Level_Detail' does not hav
     <Key>
       <PropertyRef Name="ProvinceID" />
     </Key>
-    <Property Name="ProvinceID" Type="int" Nullable="false" />
+    <Property Name="ProvinceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ProvinceName" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="tb_Recieve_Type">
@@ -770,13 +787,11 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.tb_Move_Level_Detail' does not hav
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'SATHRDB_DEV.dbo.tb_SubDistrict' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="tb_SubDistrict">
     <Key>
       <PropertyRef Name="SubDistrictID" />
     </Key>
-    <Property Name="SubDistrictID" Type="int" Nullable="false" />
+    <Property Name="SubDistrictID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="SubDistrictName" Type="nvarchar" MaxLength="100" />
     <Property Name="DistrictID" Type="int" />
     <Property Name="ProvinceID" Type="int" />
@@ -794,13 +809,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.tb_SubDistrict' does not have a pr
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
-  </EntityType>
-  <EntityType Name="tb_Tax_Deduction">
-    <Key>
-      <PropertyRef Name="TdID" />
-    </Key>
-    <Property Name="TdID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="TdName" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="tb_Title">
     <Key>
@@ -822,6 +830,13 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.tb_SubDistrict' does not have a pr
     </Key>
     <Property Name="TtID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="TtName" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="tb_Transfer_Type">
+    <Key>
+      <PropertyRef Name="TransTID" />
+    </Key>
+    <Property Name="TransTID" Type="int" Nullable="false" />
+    <Property Name="TransTName" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="tb_User">
     <Key>
@@ -854,14 +869,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.tb_SubDistrict' does not have a pr
     <Property Name="CardScan" Type="nvarchar" MaxLength="20" />
     <Property Name="SalaryLevel" Type="int" />
     <Property Name="SalaryStep" Type="decimal" Precision="18" Scale="0" />
-    <Property Name="DepID" Type="int" />
-    <Property Name="SecID" Type="int" />
-    <Property Name="PoID" Type="int" />
     <Property Name="EmpowerID" Type="int" />
     <Property Name="EmpowerDivID" Type="int" />
     <Property Name="EmpowerDepID" Type="int" />
     <Property Name="EmpowerSecID" Type="int" />
-    <Property Name="PoTID" Type="int" />
     <Property Name="AgentDivID" Type="int" />
     <Property Name="AgentDepID" Type="int" />
     <Property Name="AgentSecID" Type="int" />
@@ -886,13 +897,14 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.tb_SubDistrict' does not have a pr
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
+    <Property Name="UserTID" Type="int" />
   </EntityType>
   <EntityType Name="tb_User_Certificate">
     <Key>
       <PropertyRef Name="UcID" />
       <PropertyRef Name="UserID" />
     </Key>
-    <Property Name="UcID" Type="int" Nullable="false" />
+    <Property Name="UcID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="CerId" Type="int" />
     <Property Name="UcRecDate" Type="date" />
@@ -927,12 +939,12 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.tb_SubDistrict' does not have a pr
       <PropertyRef Name="UeID" />
       <PropertyRef Name="UserID" />
     </Key>
-    <Property Name="UeID" Type="int" Nullable="false" />
+    <Property Name="UeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="ExID" Type="int" />
     <Property Name="ExTID" Type="int" />
     <Property Name="UeProjectName" Type="nvarchar" MaxLength="200" />
-    <Property Name="UeRecYear" Type="date" />
+    <Property Name="UeRecYear" Type="int" />
     <Property Name="UeRecDate" Type="date" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
@@ -950,7 +962,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.tb_SubDistrict' does not have a pr
     <Property Name="UfCardID" Type="numeric" Precision="18" Scale="0" />
     <Property Name="UfDOB" Type="datetime" />
     <Property Name="UfLifeStatus" Type="bit" />
-    <Property Name="TdID" Type="int" />
+    <Property Name="TdStatus" Type="bit" />
     <Property Name="PoID" Type="int" />
     <Property Name="OcID" Type="int" />
     <Property Name="UfWeddingDate" Type="datetime" />
@@ -968,14 +980,19 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.tb_SubDistrict' does not have a pr
       <PropertyRef Name="UhID" />
       <PropertyRef Name="UserID" />
     </Key>
-    <Property Name="UhID" Type="int" Nullable="false" />
+    <Property Name="UhID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="UhEditDate" Type="date" />
-    <Property Name="TiID" Type="int" />
-    <Property Name="UhFirstNameTH" Type="nvarchar" MaxLength="200" />
-    <Property Name="UhLastNameTH" Type="nvarchar" MaxLength="200" />
-    <Property Name="UhFirstNameEN" Type="nvarchar" MaxLength="200" />
-    <Property Name="UhLastNameEN" Type="nvarchar" MaxLength="200" />
+    <Property Name="OldTiID" Type="int" />
+    <Property Name="OldFirstNameTh" Type="nvarchar" MaxLength="200" />
+    <Property Name="OldLastNameTh" Type="nvarchar" MaxLength="200" />
+    <Property Name="OldFirstNameEn" Type="nvarchar" MaxLength="200" />
+    <Property Name="OldLastNameEn" Type="nvarchar" MaxLength="200" />
+    <Property Name="NewTiID" Type="int" />
+    <Property Name="NewFirstNameTh" Type="nvarchar" MaxLength="200" />
+    <Property Name="NewLastNameTh" Type="nvarchar" MaxLength="200" />
+    <Property Name="NewFirstNameEn" Type="nvarchar" MaxLength="200" />
+    <Property Name="NewLastNameEn" Type="nvarchar" MaxLength="200" />
     <Property Name="Remark" Type="nvarchar(max)" />
     <Property Name="UhStatus" Type="bit" />
     <Property Name="CreateDate" Type="datetime" />
@@ -1115,8 +1132,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Employee' does not have a prima
   <EntityType Name="vw_Employee">
     <Key>
       <PropertyRef Name="UserID" />
-      <PropertyRef Name="UserTypeID" />
-      <PropertyRef Name="UserTypeName" />
     </Key>
     <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="UserName" Type="nvarchar" MaxLength="50" />
@@ -1133,12 +1148,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Employee' does not have a prima
     <Property Name="SecID" Type="int" />
     <Property Name="SecName" Type="nvarchar" MaxLength="200" />
     <Property Name="PoID" Type="int" />
-    <Property Name="PoCode" Type="nvarchar" MaxLength="200" />
     <Property Name="PoName" Type="nvarchar" MaxLength="200" />
     <Property Name="EduID" Type="int" />
     <Property Name="EduName" Type="nvarchar" MaxLength="200" />
-    <Property Name="MpCode" Type="int" />
-    <Property Name="MpMan" Type="nvarchar" MaxLength="200" />
+    <Property Name="MpID" Type="int" />
     <Property Name="SalaryLevel" Type="int" />
     <Property Name="SalaryStep" Type="decimal" Precision="18" Scale="0" />
     <Property Name="Email" Type="nvarchar" MaxLength="200" />
@@ -1146,8 +1159,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Employee' does not have a prima
     <Property Name="StatusID" Type="int" />
     <Property Name="StatusName" Type="nvarchar" MaxLength="50" />
     <Property Name="IsActive" Type="bit" />
-    <Property Name="UserTypeID" Type="int" Nullable="false" />
-    <Property Name="UserTypeName" Type="varchar" MaxLength="7" Nullable="false" />
+    <Property Name="UserTypeID" Type="int" />
+    <Property Name="UserTypeName" Type="nvarchar" MaxLength="50" />
     <Property Name="RoleID" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
@@ -1165,18 +1178,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Man_Power' does not have a prim
     <Property Name="SecID" Type="int" />
     <Property Name="SecName" Type="nvarchar" MaxLength="200" />
     <Property Name="PoID" Type="int" />
-    <Property Name="PoCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="DisID" Type="int" />
     <Property Name="PoName" Type="nvarchar" MaxLength="200" />
     <Property Name="EduID" Type="int" />
     <Property Name="EduName" Type="nvarchar" MaxLength="200" />
-    <Property Name="MpCode" Type="int" />
-    <Property Name="MpMan" Type="nvarchar" MaxLength="200" />
     <Property Name="IDCard" Type="numeric" Precision="18" Scale="0" />
     <Property Name="TiShortName" Type="nvarchar" MaxLength="100" />
     <Property Name="FullNameTh" Type="nvarchar" MaxLength="401" />
     <Property Name="FullNameEn" Type="nvarchar" MaxLength="401" />
     <Property Name="SalaryLevel" Type="int" />
     <Property Name="SalaryStep" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Salary" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="TypeID" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Menu_Role' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1202,9 +1215,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Level_Detail' does not hav
   <EntityType Name="vw_Move_Level_Detail">
     <Key>
       <PropertyRef Name="MlID" />
+      <PropertyRef Name="UserID" />
     </Key>
     <Property Name="MlID" Type="int" Nullable="false" />
-    <Property Name="EmpID" Type="int" />
+    <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="FullName" Type="nvarchar" MaxLength="401" />
     <Property Name="MlLevelOld" Type="decimal" Precision="18" Scale="2" />
     <Property Name="MlStepOld" Type="decimal" Precision="18" Scale="2" />
@@ -1215,25 +1229,46 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Level_Detail' does not hav
     <Property Name="MlRemark" Type="nvarchar" MaxLength="400" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Level_Head' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Move_Level_Head">
+    <Key>
+      <PropertyRef Name="MlID" />
+    </Key>
+    <Property Name="MlID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MlYear" Type="int" />
+    <Property Name="MlBookCmd" Type="nvarchar" MaxLength="200" />
+    <Property Name="MlDateCmd" Type="date" />
+    <Property Name="MlSignatory" Type="nvarchar" MaxLength="200" />
+    <Property Name="MIPathFile" Type="nvarchar(max)" />
+    <Property Name="MlStatus" Type="bit" />
+    <Property Name="MlTotal" Type="int" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Man_Power_Detail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Move_Man_Power_Detail">
     <Key>
       <PropertyRef Name="MopID" />
       <PropertyRef Name="UserID" />
+      <PropertyRef Name="CurMpID" />
     </Key>
     <Property Name="MopID" Type="int" Nullable="false" />
     <Property Name="UserID" Type="int" Nullable="false" />
-    <Property Name="UserName" Type="nvarchar" MaxLength="401" />
-    <Property Name="UserPoCode" Type="nvarchar" MaxLength="200" />
-    <Property Name="UserPoName" Type="nvarchar" MaxLength="200" />
-    <Property Name="MovPoID" Type="int" />
-    <Property Name="MovPoCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="FullName" Type="nvarchar" MaxLength="401" />
+    <Property Name="CurMpID" Type="int" Nullable="false" />
+    <Property Name="CurPoName" Type="nvarchar" MaxLength="200" />
+    <Property Name="MovMpID" Type="int" />
     <Property Name="MovPoName" Type="nvarchar" MaxLength="200" />
     <Property Name="AgentPoTID" Type="int" />
     <Property Name="AgentPoTName" Type="nvarchar" MaxLength="50" />
-    <Property Name="AgentPoID" Type="int" />
-    <Property Name="AgentPoCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="AgentMpID" Type="int" />
     <Property Name="AgentPoName" Type="nvarchar" MaxLength="200" />
+    <Property Name="DivName" Type="nvarchar" MaxLength="200" />
+    <Property Name="DepName" Type="nvarchar" MaxLength="200" />
+    <Property Name="SecName" Type="nvarchar" MaxLength="200" />
     <Property Name="MovRemark" Type="nvarchar" MaxLength="400" />
   </EntityType>
   <!--Errors Found During Generation:
@@ -1259,6 +1294,16 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Man_Power_Head' does not h
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Level' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Level">
+          <Property Name="Level" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Step' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Step">
+          <Property Name="Step" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Section">
@@ -1293,6 +1338,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
   <EntityType Name="vw_User">
     <Key>
       <PropertyRef Name="UserID" />
+      <PropertyRef Name="PoTName" />
     </Key>
     <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="UserName" Type="nvarchar" MaxLength="50" />
@@ -1331,6 +1377,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     <Property Name="CardScan" Type="nvarchar" MaxLength="20" />
     <Property Name="SalaryLevel" Type="int" />
     <Property Name="SalaryStep" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Salary" Type="decimal" Precision="18" Scale="2" />
     <Property Name="DivID" Type="int" />
     <Property Name="DivName" Type="nvarchar" MaxLength="200" />
     <Property Name="DepID" Type="int" />
@@ -1349,7 +1396,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     <Property Name="EmpowerSecID" Type="int" />
     <Property Name="EmpowerSecName" Type="nvarchar" MaxLength="200" />
     <Property Name="PoTID" Type="int" />
-    <Property Name="PoTName" Type="nvarchar" MaxLength="50" />
+    <Property Name="PoTName" Type="varchar" MaxLength="1" Nullable="false" />
     <Property Name="AgentDivID" Type="int" />
     <Property Name="AgentDivName" Type="nvarchar" MaxLength="200" />
     <Property Name="AgentDepID" Type="int" />
@@ -1357,7 +1404,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     <Property Name="AgentSecID" Type="int" />
     <Property Name="AgentSecName" Type="nvarchar" MaxLength="200" />
     <Property Name="AgentPoID" Type="int" />
-    <Property Name="PoAName" Type="nchar" MaxLength="10" />
+    <Property Name="PoAName" Type="nvarchar" MaxLength="100" />
     <Property Name="HomeAddr" Type="nvarchar" MaxLength="100" />
     <Property Name="HomeSubDistrictID" Type="int" />
     <Property Name="HomeSubDistrictName" Type="nvarchar" MaxLength="100" />
@@ -1381,6 +1428,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     <Property Name="Avatar" Type="nvarchar" MaxLength="200" />
     <Property Name="IsActive" Type="bit" />
     <Property Name="Age" Type="nvarchar" MaxLength="50" />
+    <Property Name="UserTID" Type="int" />
+    <Property Name="UserTName" Type="nvarchar" MaxLength="50" />
     <Property Name="RoleID" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
@@ -1433,15 +1482,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Excellent' does not have a
     <Key>
       <PropertyRef Name="UeID" />
       <PropertyRef Name="UserID" />
+      <PropertyRef Name="ExName" />
     </Key>
     <Property Name="UeID" Type="int" Nullable="false" />
     <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="FullNameTH" Type="nvarchar" MaxLength="401" />
     <Property Name="FullNameEn" Type="nvarchar" MaxLength="401" />
     <Property Name="ExID" Type="int" />
-    <Property Name="ExName" Type="nvarchar" MaxLength="200" />
+    <Property Name="ExName" Type="varchar" MaxLength="1" Nullable="false" />
+    <Property Name="ExTID" Type="int" />
+    <Property Name="ExTName" Type="nvarchar" MaxLength="200" />
     <Property Name="UeProjectName" Type="nvarchar" MaxLength="200" />
-    <Property Name="UeRecYear" Type="date" />
+    <Property Name="UeRecYear" Type="int" />
     <Property Name="UeRecDate" Type="date" />
   </EntityType>
   <!--Errors Found During Generation:
@@ -1451,6 +1503,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Family' does not have a pr
       <PropertyRef Name="UfID" />
       <PropertyRef Name="UserID" />
       <PropertyRef Name="UfLifeStatusName" />
+      <PropertyRef Name="TdName" />
       <PropertyRef Name="UfStudyStatusName" />
     </Key>
     <Property Name="UfID" Type="int" Nullable="false" />
@@ -1463,8 +1516,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Family' does not have a pr
     <Property Name="UfDOB" Type="datetime" />
     <Property Name="UfLifeStatus" Type="bit" />
     <Property Name="UfLifeStatusName" Type="varchar" MaxLength="11" Nullable="false" />
-    <Property Name="TdID" Type="int" />
-    <Property Name="TdName" Type="nvarchar" MaxLength="50" />
+    <Property Name="TdStatus" Type="bit" />
+    <Property Name="TdName" Type="varchar" MaxLength="11" Nullable="false" />
     <Property Name="PoID" Type="int" />
     <Property Name="PoName" Type="nvarchar" MaxLength="200" />
     <Property Name="OcID" Type="int" />
@@ -1477,7 +1530,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Family' does not have a pr
     <Property Name="RecName" Type="nvarchar" MaxLength="50" />
     <Property Name="MaritalStatusID" Type="int" />
     <Property Name="MaritalName" Type="nvarchar" MaxLength="50" />
-    <Property Name="Age" Type="int" />
+    <Property Name="Age" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_History' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1491,13 +1544,20 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_History' does not have a p
     <Property Name="FullNameTH" Type="nvarchar" MaxLength="401" />
     <Property Name="FullNameEn" Type="nvarchar" MaxLength="401" />
     <Property Name="UhEditDate" Type="date" />
-    <Property Name="TiID" Type="int" />
-    <Property Name="TiFullName" Type="nvarchar" MaxLength="100" />
-    <Property Name="TiShortName" Type="nvarchar" MaxLength="100" />
-    <Property Name="UhFirstNameTH" Type="nvarchar" MaxLength="200" />
-    <Property Name="UhLastNameTH" Type="nvarchar" MaxLength="200" />
-    <Property Name="UhFirstNameEN" Type="nvarchar" MaxLength="200" />
-    <Property Name="UhLastNameEN" Type="nvarchar" MaxLength="200" />
+    <Property Name="OldTiID" Type="int" />
+    <Property Name="OldTiFullName" Type="nvarchar" MaxLength="100" />
+    <Property Name="OldTiShortName" Type="nvarchar" MaxLength="100" />
+    <Property Name="NewTiID" Type="int" />
+    <Property Name="NewTiFullName" Type="nvarchar" MaxLength="100" />
+    <Property Name="NewTiShortName" Type="nvarchar" MaxLength="100" />
+    <Property Name="OldFirstNameTh" Type="nvarchar" MaxLength="200" />
+    <Property Name="OldLastNameTh" Type="nvarchar" MaxLength="200" />
+    <Property Name="OldFirstNameEn" Type="nvarchar" MaxLength="200" />
+    <Property Name="OldLastNameEn" Type="nvarchar" MaxLength="200" />
+    <Property Name="NewFirstNameTh" Type="nvarchar" MaxLength="200" />
+    <Property Name="NewLastNameTh" Type="nvarchar" MaxLength="200" />
+    <Property Name="NewFirstNameEn" Type="nvarchar" MaxLength="200" />
+    <Property Name="NewLastNameEn" Type="nvarchar" MaxLength="200" />
     <Property Name="Remark" Type="nvarchar(max)" />
     <Property Name="UhStatus" Type="bit" />
     <Property Name="SexID" Type="int" />
@@ -1591,7 +1651,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Position' does not have a 
     <Property Name="PoID" Type="int" />
     <Property Name="PoName" Type="nvarchar" MaxLength="200" />
     <Property Name="PoAID" Type="int" />
-    <Property Name="PoAName" Type="nchar" MaxLength="10" />
+    <Property Name="PoAName" Type="nvarchar" MaxLength="200" />
     <Property Name="UpLevel" Type="nvarchar" MaxLength="50" />
     <Property Name="UpSalary" Type="numeric" Precision="18" Scale="2" />
     <Property Name="UpCmdDate" Type="date" />
@@ -2035,18 +2095,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_Man_Power_tb_Position">
-    <End Role="tb_Position" Type="Self.tb_Position" Multiplicity="0..1" />
-    <End Role="tb_Man_Power" Type="Self.tb_Man_Power" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Position">
-        <PropertyRef Name="PoID" />
-      </Principal>
-      <Dependent Role="tb_Man_Power">
-        <PropertyRef Name="PoID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_tb_Man_Power_tb_Section">
     <End Role="tb_Section" Type="Self.tb_Section" Multiplicity="0..1" />
     <End Role="tb_Man_Power" Type="Self.tb_Man_Power" Multiplicity="*" />
@@ -2059,43 +2107,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_Man_Power_tb_User">
-    <End Role="tb_User" Type="Self.tb_User" Multiplicity="0..1" />
-    <End Role="tb_Man_Power" Type="Self.tb_Man_Power" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_User">
-        <PropertyRef Name="UserID" />
-      </Principal>
-      <Dependent Role="tb_Man_Power">
-        <PropertyRef Name="UserID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_Move_Level_Detail_tb_Move_Level_Head">
-    <End Role="tb_Move_Level_Head" Type="Self.tb_Move_Level_Head" Multiplicity="1" />
-    <End Role="tb_Move_Level_Detail" Type="Self.tb_Move_Level_Detail" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Move_Level_Head">
-        <PropertyRef Name="MlID" />
-      </Principal>
-      <Dependent Role="tb_Move_Level_Detail">
-        <PropertyRef Name="MlID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_Move_Man_Power_Detail_tb_Agent_Type">
-    <End Role="tb_Agent_Type" Type="Self.tb_Agent_Type" Multiplicity="0..1" />
-    <End Role="tb_Move_Man_Power_Detail" Type="Self.tb_Move_Man_Power_Detail" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Agent_Type">
-        <PropertyRef Name="AgentID" />
-      </Principal>
-      <Dependent Role="tb_Move_Man_Power_Detail">
-        <PropertyRef Name="AgentID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_Move_Man_Power_Detail_tb_Move_Man_Power_Head">
+  <Association Name="FK_tb_Move_Man_Power_Detail_MopID">
     <End Role="tb_Move_Man_Power_Head" Type="Self.tb_Move_Man_Power_Head" Multiplicity="1" />
     <End Role="tb_Move_Man_Power_Detail" Type="Self.tb_Move_Man_Power_Detail" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2107,19 +2119,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_Move_Man_Power_Detail_tb_Position">
-    <End Role="tb_Position" Type="Self.tb_Position" Multiplicity="0..1" />
-    <End Role="tb_Move_Man_Power_Detail" Type="Self.tb_Move_Man_Power_Detail" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Position">
-        <PropertyRef Name="PoID" />
-      </Principal>
-      <Dependent Role="tb_Move_Man_Power_Detail">
-        <PropertyRef Name="MovPoID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_Move_Man_Power_Detail_tb_Position_Agent">
+  <Association Name="FK_tb_Move_Man_Power_Detail_PoTID">
     <End Role="tb_Position_Type" Type="Self.tb_Position_Type" Multiplicity="0..1" />
     <End Role="tb_Move_Man_Power_Detail" Type="Self.tb_Move_Man_Power_Detail" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2280,7 +2280,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <End Role="tb_User_Excellent" Type="Self.tb_User_Excellent" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="tb_Excellent_Type">
-        <PropertyRef Name="ExID" />
+        <PropertyRef Name="ExTID" />
       </Principal>
       <Dependent Role="tb_User_Excellent">
         <PropertyRef Name="ExID" />
@@ -2323,18 +2323,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_User_Family_tb_Position">
-    <End Role="tb_Position" Type="Self.tb_Position" Multiplicity="0..1" />
-    <End Role="tb_User_Family" Type="Self.tb_User_Family" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Position">
-        <PropertyRef Name="PoID" />
-      </Principal>
-      <Dependent Role="tb_User_Family">
-        <PropertyRef Name="PoID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_tb_User_Family_tb_Recieve_Type">
     <End Role="tb_Recieve_Type" Type="Self.tb_Recieve_Type" Multiplicity="0..1" />
     <End Role="tb_User_Family" Type="Self.tb_User_Family" Multiplicity="*" />
@@ -2347,18 +2335,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_User_Family_tb_Tax_Deduction">
-    <End Role="tb_Tax_Deduction" Type="Self.tb_Tax_Deduction" Multiplicity="0..1" />
-    <End Role="tb_User_Family" Type="Self.tb_User_Family" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Tax_Deduction">
-        <PropertyRef Name="TdID" />
-      </Principal>
-      <Dependent Role="tb_User_Family">
-        <PropertyRef Name="TdID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_tb_User_Family_tb_User">
     <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
     <End Role="tb_User_Family" Type="Self.tb_User_Family" Multiplicity="*" />
@@ -2368,18 +2344,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Principal>
       <Dependent Role="tb_User_Family">
         <PropertyRef Name="UserID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_User_History_tb_Title">
-    <End Role="tb_Title" Type="Self.tb_Title" Multiplicity="0..1" />
-    <End Role="tb_User_History" Type="Self.tb_User_History" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Title">
-        <PropertyRef Name="TiID" />
-      </Principal>
-      <Dependent Role="tb_User_History">
-        <PropertyRef Name="TiID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2404,18 +2368,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Principal>
       <Dependent Role="tb_User_Insignia">
         <PropertyRef Name="InsID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_User_Insignia_tb_User">
-    <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
-    <End Role="tb_User_Insignia" Type="Self.tb_User_Insignia" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_User">
-        <PropertyRef Name="UserID" />
-      </Principal>
-      <Dependent Role="tb_User_Insignia">
-        <PropertyRef Name="UserID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2455,30 +2407,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_User_Position_tb_Position">
-    <End Role="tb_Position" Type="Self.tb_Position" Multiplicity="0..1" />
-    <End Role="tb_User_Position" Type="Self.tb_User_Position" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Position">
-        <PropertyRef Name="PoID" />
-      </Principal>
-      <Dependent Role="tb_User_Position">
-        <PropertyRef Name="PoID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_User_Position_tb_Position_Agent">
-    <End Role="tb_Position_Agent" Type="Self.tb_Position_Agent" Multiplicity="0..1" />
-    <End Role="tb_User_Position" Type="Self.tb_User_Position" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Position_Agent">
-        <PropertyRef Name="PoAID" />
-      </Principal>
-      <Dependent Role="tb_User_Position">
-        <PropertyRef Name="PoAID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_tb_User_Position_tb_Position_Type">
     <End Role="tb_Position_Type" Type="Self.tb_Position_Type" Multiplicity="0..1" />
     <End Role="tb_User_Position" Type="Self.tb_User_Position" Multiplicity="*" />
@@ -2512,6 +2440,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Principal>
       <Dependent Role="tb_User_Position">
         <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_tb_User_Type">
+    <End Role="tb_User_Type" Type="Self.tb_User_Type" Multiplicity="0..1" />
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User_Type">
+        <PropertyRef Name="TypeID" />
+      </Principal>
+      <Dependent Role="tb_User">
+        <PropertyRef Name="UserTID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2611,30 +2551,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_Users_tb_Position">
-    <End Role="tb_Position" Type="Self.tb_Position" Multiplicity="0..1" />
-    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Position">
-        <PropertyRef Name="PoID" />
-      </Principal>
-      <Dependent Role="tb_User">
-        <PropertyRef Name="PoID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_Users_tb_PositionType">
-    <End Role="tb_Position_Type" Type="Self.tb_Position_Type" Multiplicity="0..1" />
-    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Position_Type">
-        <PropertyRef Name="PoTID" />
-      </Principal>
-      <Dependent Role="tb_User">
-        <PropertyRef Name="PoTID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_tb_Users_tb_Religion">
     <End Role="tb_Religion" Type="Self.tb_Religion" Multiplicity="0..1" />
     <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
@@ -2710,8 +2626,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <Parameter Name="InitialPage" Type="nvarchar" Mode="In" />
     <Parameter Name="SortBy" Type="nvarchar" Mode="In" />
     <Parameter Name="SortrDir" Type="nvarchar" Mode="In" />
-    <Parameter Name="UserStatus" Type="int" Mode="In" />
-    <Parameter Name="UserType" Type="int" Mode="In" />
+    <Parameter Name="UserStatus" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserType" Type="nvarchar" Mode="In" />
     <Parameter Name="Keyword" Type="nvarchar" Mode="In" />
   </Function>
   <Function Name="sp_Menu_GetByRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -2755,7 +2671,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_Discipline" EntityType="Self.tb_Discipline" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_District" EntityType="Self.tb_District" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Division" EntityType="Self.tb_Division" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="tb_DocNumber" EntityType="Self.tb_DocNumber" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Document_Number" EntityType="Self.tb_Document_Number" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Document_Type" EntityType="Self.tb_Document_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Education" EntityType="Self.tb_Education" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Empower" EntityType="Self.tb_Empower" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Excellent_Type" EntityType="Self.tb_Excellent_Type" Schema="dbo" store:Type="Tables" />
@@ -2769,6 +2686,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_Member_Type" EntityType="Self.tb_Member_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Menu" EntityType="Self.tb_Menu" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Menu_Role" EntityType="Self.tb_Menu_Role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Move_Level_Detail" EntityType="Self.tb_Move_Level_Detail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Move_Level_Head" EntityType="Self.tb_Move_Level_Head" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Move_Man_Power_Detail" EntityType="Self.tb_Move_Man_Power_Detail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Move_Man_Power_Head" EntityType="Self.tb_Move_Man_Power_Head" Schema="dbo" store:Type="Tables" />
@@ -2787,10 +2705,11 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_Salary" EntityType="Self.tb_Salary" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Section" EntityType="Self.tb_Section" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Sex" EntityType="Self.tb_Sex" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_SubDistrict" EntityType="Self.tb_SubDistrict" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_SysConfig" EntityType="Self.tb_SysConfig" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="tb_Tax_Deduction" EntityType="Self.tb_Tax_Deduction" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Title" EntityType="Self.tb_Title" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Training_Type" EntityType="Self.tb_Training_Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Transfer_Type" EntityType="Self.tb_Transfer_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_User" EntityType="Self.tb_User" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_User_Certificate" EntityType="Self.tb_User_Certificate" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_User_Education" EntityType="Self.tb_User_Education" Schema="dbo" store:Type="Tables" />
@@ -2804,30 +2723,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_User_Training" EntityType="Self.tb_User_Training" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_User_Type" EntityType="Self.tb_User_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Working_Type" EntityType="Self.tb_Working_Type" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="tb_Move_Level_Detail" EntityType="Self.tb_Move_Level_Detail" store:Type="Tables" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [tb_Move_Level_Detail].[MlID] AS [MlID], 
-    [tb_Move_Level_Detail].[EmpID] AS [EmpID], 
-    [tb_Move_Level_Detail].[MlLevelOld] AS [MlLevelOld], 
-    [tb_Move_Level_Detail].[MlStepOld] AS [MlStepOld], 
-    [tb_Move_Level_Detail].[MlLevelNew] AS [MlLevelNew], 
-    [tb_Move_Level_Detail].[MlStepNew] AS [MlStepNew], 
-    [tb_Move_Level_Detail].[MlRemark] AS [MlRemark], 
-    [tb_Move_Level_Detail].[CreateDate] AS [CreateDate], 
-    [tb_Move_Level_Detail].[CreateBy] AS [CreateBy], 
-    [tb_Move_Level_Detail].[ModifyDate] AS [ModifyDate], 
-    [tb_Move_Level_Detail].[ModifyBy] AS [ModifyBy]
-    FROM [dbo].[tb_Move_Level_Detail] AS [tb_Move_Level_Detail]</DefiningQuery>
-    </EntitySet>
-    <EntitySet Name="tb_SubDistrict" EntityType="Self.tb_SubDistrict" store:Type="Tables" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [tb_SubDistrict].[SubDistrictID] AS [SubDistrictID], 
-    [tb_SubDistrict].[SubDistrictName] AS [SubDistrictName], 
-    [tb_SubDistrict].[DistrictID] AS [DistrictID], 
-    [tb_SubDistrict].[ProvinceID] AS [ProvinceID], 
-    [tb_SubDistrict].[ZipCode] AS [ZipCode]
-    FROM [dbo].[tb_SubDistrict] AS [tb_SubDistrict]</DefiningQuery>
-    </EntitySet>
     <EntitySet Name="vw_Capability" EntityType="Self.vw_Capability" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [vw_Capability].[CapYear] AS [CapYear], 
@@ -2868,12 +2763,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Employee].[SecID] AS [SecID], 
     [vw_Employee].[SecName] AS [SecName], 
     [vw_Employee].[PoID] AS [PoID], 
-    [vw_Employee].[PoCode] AS [PoCode], 
     [vw_Employee].[PoName] AS [PoName], 
     [vw_Employee].[EduID] AS [EduID], 
     [vw_Employee].[EduName] AS [EduName], 
-    [vw_Employee].[MpCode] AS [MpCode], 
-    [vw_Employee].[MpMan] AS [MpMan], 
+    [vw_Employee].[MpID] AS [MpID], 
     [vw_Employee].[SalaryLevel] AS [SalaryLevel], 
     [vw_Employee].[SalaryStep] AS [SalaryStep], 
     [vw_Employee].[Email] AS [Email], 
@@ -2897,18 +2790,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Man_Power].[SecID] AS [SecID], 
     [vw_Man_Power].[SecName] AS [SecName], 
     [vw_Man_Power].[PoID] AS [PoID], 
-    [vw_Man_Power].[PoCode] AS [PoCode], 
+    [vw_Man_Power].[DisID] AS [DisID], 
     [vw_Man_Power].[PoName] AS [PoName], 
     [vw_Man_Power].[EduID] AS [EduID], 
     [vw_Man_Power].[EduName] AS [EduName], 
-    [vw_Man_Power].[MpCode] AS [MpCode], 
-    [vw_Man_Power].[MpMan] AS [MpMan], 
     [vw_Man_Power].[IDCard] AS [IDCard], 
     [vw_Man_Power].[TiShortName] AS [TiShortName], 
     [vw_Man_Power].[FullNameTh] AS [FullNameTh], 
     [vw_Man_Power].[FullNameEn] AS [FullNameEn], 
     [vw_Man_Power].[SalaryLevel] AS [SalaryLevel], 
-    [vw_Man_Power].[SalaryStep] AS [SalaryStep]
+    [vw_Man_Power].[SalaryStep] AS [SalaryStep], 
+    [vw_Man_Power].[Salary] AS [Salary], 
+    [vw_Man_Power].[TypeID] AS [TypeID]
     FROM [dbo].[vw_Man_Power] AS [vw_Man_Power]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vw_Menu_Role" EntityType="Self.vw_Menu_Role" store:Type="Views" store:Schema="dbo">
@@ -2929,7 +2822,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="vw_Move_Level_Detail" EntityType="Self.vw_Move_Level_Detail" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [vw_Move_Level_Detail].[MlID] AS [MlID], 
-    [vw_Move_Level_Detail].[EmpID] AS [EmpID], 
+    [vw_Move_Level_Detail].[UserID] AS [UserID], 
     [vw_Move_Level_Detail].[FullName] AS [FullName], 
     [vw_Move_Level_Detail].[MlLevelOld] AS [MlLevelOld], 
     [vw_Move_Level_Detail].[MlStepOld] AS [MlStepOld], 
@@ -2940,21 +2833,38 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Move_Level_Detail].[MlRemark] AS [MlRemark]
     FROM [dbo].[vw_Move_Level_Detail] AS [vw_Move_Level_Detail]</DefiningQuery>
     </EntitySet>
+    <EntitySet Name="vw_Move_Level_Head" EntityType="Self.vw_Move_Level_Head" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Move_Level_Head].[MlID] AS [MlID], 
+    [vw_Move_Level_Head].[MlYear] AS [MlYear], 
+    [vw_Move_Level_Head].[MlBookCmd] AS [MlBookCmd], 
+    [vw_Move_Level_Head].[MlDateCmd] AS [MlDateCmd], 
+    [vw_Move_Level_Head].[MlSignatory] AS [MlSignatory], 
+    [vw_Move_Level_Head].[MIPathFile] AS [MIPathFile], 
+    [vw_Move_Level_Head].[MlStatus] AS [MlStatus], 
+    [vw_Move_Level_Head].[MlTotal] AS [MlTotal], 
+    [vw_Move_Level_Head].[CreateDate] AS [CreateDate], 
+    [vw_Move_Level_Head].[CreateBy] AS [CreateBy], 
+    [vw_Move_Level_Head].[ModifyDate] AS [ModifyDate], 
+    [vw_Move_Level_Head].[ModifyBy] AS [ModifyBy]
+    FROM [dbo].[vw_Move_Level_Head] AS [vw_Move_Level_Head]</DefiningQuery>
+    </EntitySet>
     <EntitySet Name="vw_Move_Man_Power_Detail" EntityType="Self.vw_Move_Man_Power_Detail" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [vw_Move_Man_Power_Detail].[MopID] AS [MopID], 
     [vw_Move_Man_Power_Detail].[UserID] AS [UserID], 
-    [vw_Move_Man_Power_Detail].[UserName] AS [UserName], 
-    [vw_Move_Man_Power_Detail].[UserPoCode] AS [UserPoCode], 
-    [vw_Move_Man_Power_Detail].[UserPoName] AS [UserPoName], 
-    [vw_Move_Man_Power_Detail].[MovPoID] AS [MovPoID], 
-    [vw_Move_Man_Power_Detail].[MovPoCode] AS [MovPoCode], 
+    [vw_Move_Man_Power_Detail].[FullName] AS [FullName], 
+    [vw_Move_Man_Power_Detail].[CurMpID] AS [CurMpID], 
+    [vw_Move_Man_Power_Detail].[CurPoName] AS [CurPoName], 
+    [vw_Move_Man_Power_Detail].[MovMpID] AS [MovMpID], 
     [vw_Move_Man_Power_Detail].[MovPoName] AS [MovPoName], 
     [vw_Move_Man_Power_Detail].[AgentPoTID] AS [AgentPoTID], 
     [vw_Move_Man_Power_Detail].[AgentPoTName] AS [AgentPoTName], 
-    [vw_Move_Man_Power_Detail].[AgentPoID] AS [AgentPoID], 
-    [vw_Move_Man_Power_Detail].[AgentPoCode] AS [AgentPoCode], 
+    [vw_Move_Man_Power_Detail].[AgentMpID] AS [AgentMpID], 
     [vw_Move_Man_Power_Detail].[AgentPoName] AS [AgentPoName], 
+    [vw_Move_Man_Power_Detail].[DivName] AS [DivName], 
+    [vw_Move_Man_Power_Detail].[DepName] AS [DepName], 
+    [vw_Move_Man_Power_Detail].[SecName] AS [SecName], 
     [vw_Move_Man_Power_Detail].[MovRemark] AS [MovRemark]
     FROM [dbo].[vw_Move_Man_Power_Detail] AS [vw_Move_Man_Power_Detail]</DefiningQuery>
     </EntitySet>
@@ -3040,6 +2950,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_User].[CardScan] AS [CardScan], 
     [vw_User].[SalaryLevel] AS [SalaryLevel], 
     [vw_User].[SalaryStep] AS [SalaryStep], 
+    [vw_User].[Salary] AS [Salary], 
     [vw_User].[DivID] AS [DivID], 
     [vw_User].[DivName] AS [DivName], 
     [vw_User].[DepID] AS [DepID], 
@@ -3090,6 +3001,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_User].[Avatar] AS [Avatar], 
     [vw_User].[IsActive] AS [IsActive], 
     [vw_User].[Age] AS [Age], 
+    [vw_User].[UserTID] AS [UserTID], 
+    [vw_User].[UserTName] AS [UserTName], 
     [vw_User].[RoleID] AS [RoleID]
     FROM [dbo].[vw_User] AS [vw_User]</DefiningQuery>
     </EntitySet>
@@ -3137,6 +3050,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_User_Excellent].[FullNameEn] AS [FullNameEn], 
     [vw_User_Excellent].[ExID] AS [ExID], 
     [vw_User_Excellent].[ExName] AS [ExName], 
+    [vw_User_Excellent].[ExTID] AS [ExTID], 
+    [vw_User_Excellent].[ExTName] AS [ExTName], 
     [vw_User_Excellent].[UeProjectName] AS [UeProjectName], 
     [vw_User_Excellent].[UeRecYear] AS [UeRecYear], 
     [vw_User_Excellent].[UeRecDate] AS [UeRecDate]
@@ -3154,7 +3069,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_User_Family].[UfDOB] AS [UfDOB], 
     [vw_User_Family].[UfLifeStatus] AS [UfLifeStatus], 
     [vw_User_Family].[UfLifeStatusName] AS [UfLifeStatusName], 
-    [vw_User_Family].[TdID] AS [TdID], 
+    [vw_User_Family].[TdStatus] AS [TdStatus], 
     [vw_User_Family].[TdName] AS [TdName], 
     [vw_User_Family].[PoID] AS [PoID], 
     [vw_User_Family].[PoName] AS [PoName], 
@@ -3178,13 +3093,20 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_User_History].[FullNameTH] AS [FullNameTH], 
     [vw_User_History].[FullNameEn] AS [FullNameEn], 
     [vw_User_History].[UhEditDate] AS [UhEditDate], 
-    [vw_User_History].[TiID] AS [TiID], 
-    [vw_User_History].[TiFullName] AS [TiFullName], 
-    [vw_User_History].[TiShortName] AS [TiShortName], 
-    [vw_User_History].[UhFirstNameTH] AS [UhFirstNameTH], 
-    [vw_User_History].[UhLastNameTH] AS [UhLastNameTH], 
-    [vw_User_History].[UhFirstNameEN] AS [UhFirstNameEN], 
-    [vw_User_History].[UhLastNameEN] AS [UhLastNameEN], 
+    [vw_User_History].[OldTiID] AS [OldTiID], 
+    [vw_User_History].[OldTiFullName] AS [OldTiFullName], 
+    [vw_User_History].[OldTiShortName] AS [OldTiShortName], 
+    [vw_User_History].[NewTiID] AS [NewTiID], 
+    [vw_User_History].[NewTiFullName] AS [NewTiFullName], 
+    [vw_User_History].[NewTiShortName] AS [NewTiShortName], 
+    [vw_User_History].[OldFirstNameTh] AS [OldFirstNameTh], 
+    [vw_User_History].[OldLastNameTh] AS [OldLastNameTh], 
+    [vw_User_History].[OldFirstNameEn] AS [OldFirstNameEn], 
+    [vw_User_History].[OldLastNameEn] AS [OldLastNameEn], 
+    [vw_User_History].[NewFirstNameTh] AS [NewFirstNameTh], 
+    [vw_User_History].[NewLastNameTh] AS [NewLastNameTh], 
+    [vw_User_History].[NewFirstNameEn] AS [NewFirstNameEn], 
+    [vw_User_History].[NewLastNameEn] AS [NewLastNameEn], 
     [vw_User_History].[Remark] AS [Remark], 
     [vw_User_History].[UhStatus] AS [UhStatus], 
     [vw_User_History].[SexID] AS [SexID], 
@@ -3447,35 +3369,15 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       <End Role="tb_Education" EntitySet="tb_Education" />
       <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
     </AssociationSet>
-    <AssociationSet Name="FK_tb_Man_Power_tb_Position" Association="Self.FK_tb_Man_Power_tb_Position">
-      <End Role="tb_Position" EntitySet="tb_Position" />
-      <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
-    </AssociationSet>
     <AssociationSet Name="FK_tb_Man_Power_tb_Section" Association="Self.FK_tb_Man_Power_tb_Section">
       <End Role="tb_Section" EntitySet="tb_Section" />
       <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
     </AssociationSet>
-    <AssociationSet Name="FK_tb_Man_Power_tb_User" Association="Self.FK_tb_Man_Power_tb_User">
-      <End Role="tb_User" EntitySet="tb_User" />
-      <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Move_Level_Detail_tb_Move_Level_Head" Association="Self.FK_tb_Move_Level_Detail_tb_Move_Level_Head">
-      <End Role="tb_Move_Level_Head" EntitySet="tb_Move_Level_Head" />
-      <End Role="tb_Move_Level_Detail" EntitySet="tb_Move_Level_Detail" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Move_Man_Power_Detail_tb_Agent_Type" Association="Self.FK_tb_Move_Man_Power_Detail_tb_Agent_Type">
-      <End Role="tb_Agent_Type" EntitySet="tb_Agent_Type" />
-      <End Role="tb_Move_Man_Power_Detail" EntitySet="tb_Move_Man_Power_Detail" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Move_Man_Power_Detail_tb_Move_Man_Power_Head" Association="Self.FK_tb_Move_Man_Power_Detail_tb_Move_Man_Power_Head">
+    <AssociationSet Name="FK_tb_Move_Man_Power_Detail_MopID" Association="Self.FK_tb_Move_Man_Power_Detail_MopID">
       <End Role="tb_Move_Man_Power_Head" EntitySet="tb_Move_Man_Power_Head" />
       <End Role="tb_Move_Man_Power_Detail" EntitySet="tb_Move_Man_Power_Detail" />
     </AssociationSet>
-    <AssociationSet Name="FK_tb_Move_Man_Power_Detail_tb_Position" Association="Self.FK_tb_Move_Man_Power_Detail_tb_Position">
-      <End Role="tb_Position" EntitySet="tb_Position" />
-      <End Role="tb_Move_Man_Power_Detail" EntitySet="tb_Move_Man_Power_Detail" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Move_Man_Power_Detail_tb_Position_Agent" Association="Self.FK_tb_Move_Man_Power_Detail_tb_Position_Agent">
+    <AssociationSet Name="FK_tb_Move_Man_Power_Detail_PoTID" Association="Self.FK_tb_Move_Man_Power_Detail_PoTID">
       <End Role="tb_Position_Type" EntitySet="tb_Position_Type" />
       <End Role="tb_Move_Man_Power_Detail" EntitySet="tb_Move_Man_Power_Detail" />
     </AssociationSet>
@@ -3543,25 +3445,13 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       <End Role="tb_Occupation" EntitySet="tb_Occupation" />
       <End Role="tb_User_Family" EntitySet="tb_User_Family" />
     </AssociationSet>
-    <AssociationSet Name="FK_tb_User_Family_tb_Position" Association="Self.FK_tb_User_Family_tb_Position">
-      <End Role="tb_Position" EntitySet="tb_Position" />
-      <End Role="tb_User_Family" EntitySet="tb_User_Family" />
-    </AssociationSet>
     <AssociationSet Name="FK_tb_User_Family_tb_Recieve_Type" Association="Self.FK_tb_User_Family_tb_Recieve_Type">
       <End Role="tb_Recieve_Type" EntitySet="tb_Recieve_Type" />
-      <End Role="tb_User_Family" EntitySet="tb_User_Family" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_User_Family_tb_Tax_Deduction" Association="Self.FK_tb_User_Family_tb_Tax_Deduction">
-      <End Role="tb_Tax_Deduction" EntitySet="tb_Tax_Deduction" />
       <End Role="tb_User_Family" EntitySet="tb_User_Family" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_User_Family_tb_User" Association="Self.FK_tb_User_Family_tb_User">
       <End Role="tb_User" EntitySet="tb_User" />
       <End Role="tb_User_Family" EntitySet="tb_User_Family" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_User_History_tb_Title" Association="Self.FK_tb_User_History_tb_Title">
-      <End Role="tb_Title" EntitySet="tb_Title" />
-      <End Role="tb_User_History" EntitySet="tb_User_History" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_User_History_tb_User" Association="Self.FK_tb_User_History_tb_User">
       <End Role="tb_User" EntitySet="tb_User" />
@@ -3569,10 +3459,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     </AssociationSet>
     <AssociationSet Name="FK_tb_User_Insignia_tb_Insignia" Association="Self.FK_tb_User_Insignia_tb_Insignia">
       <End Role="tb_Insignia" EntitySet="tb_Insignia" />
-      <End Role="tb_User_Insignia" EntitySet="tb_User_Insignia" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_User_Insignia_tb_User" Association="Self.FK_tb_User_Insignia_tb_User">
-      <End Role="tb_User" EntitySet="tb_User" />
       <End Role="tb_User_Insignia" EntitySet="tb_User_Insignia" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_User_Position_tb_Action_Type" Association="Self.FK_tb_User_Position_tb_Action_Type">
@@ -3587,14 +3473,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       <End Role="tb_Division" EntitySet="tb_Division" />
       <End Role="tb_User_Position" EntitySet="tb_User_Position" />
     </AssociationSet>
-    <AssociationSet Name="FK_tb_User_Position_tb_Position" Association="Self.FK_tb_User_Position_tb_Position">
-      <End Role="tb_Position" EntitySet="tb_Position" />
-      <End Role="tb_User_Position" EntitySet="tb_User_Position" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_User_Position_tb_Position_Agent" Association="Self.FK_tb_User_Position_tb_Position_Agent">
-      <End Role="tb_Position_Agent" EntitySet="tb_Position_Agent" />
-      <End Role="tb_User_Position" EntitySet="tb_User_Position" />
-    </AssociationSet>
     <AssociationSet Name="FK_tb_User_Position_tb_Position_Type" Association="Self.FK_tb_User_Position_tb_Position_Type">
       <End Role="tb_Position_Type" EntitySet="tb_Position_Type" />
       <End Role="tb_User_Position" EntitySet="tb_User_Position" />
@@ -3606,6 +3484,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <AssociationSet Name="FK_tb_User_Position_tb_User" Association="Self.FK_tb_User_Position_tb_User">
       <End Role="tb_User" EntitySet="tb_User" />
       <End Role="tb_User_Position" EntitySet="tb_User_Position" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_tb_User_Type" Association="Self.FK_tb_User_tb_User_Type">
+      <End Role="tb_User_Type" EntitySet="tb_User_Type" />
+      <End Role="tb_User" EntitySet="tb_User" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_User_Training_tb_Country" Association="Self.FK_tb_User_Training_tb_Country">
       <End Role="tb_Country" EntitySet="tb_Country" />
@@ -3637,14 +3519,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     </AssociationSet>
     <AssociationSet Name="FK_tb_Users_tb_Nationality1" Association="Self.FK_tb_Users_tb_Nationality1">
       <End Role="tb_Nationality" EntitySet="tb_Nationality" />
-      <End Role="tb_User" EntitySet="tb_User" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Users_tb_Position" Association="Self.FK_tb_Users_tb_Position">
-      <End Role="tb_Position" EntitySet="tb_Position" />
-      <End Role="tb_User" EntitySet="tb_User" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Users_tb_PositionType" Association="Self.FK_tb_Users_tb_PositionType">
-      <End Role="tb_Position_Type" EntitySet="tb_Position_Type" />
       <End Role="tb_User" EntitySet="tb_User" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_Users_tb_Religion" Association="Self.FK_tb_Users_tb_Religion">

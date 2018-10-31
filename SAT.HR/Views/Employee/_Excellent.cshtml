@@ -1,18 +1,16 @@
 ﻿@model SAT.HR.Models.UserExcellentViewModel
 
-@Html.HiddenFor(m => m.UserID)
-
 <button class="btn btn-primary btn-sm pull-right add-excellent" data-toggle="modal"> เพิ่มรายการ </button>
 <div class="material-datatables">
     <table class="table table-excellent">
         <thead class="text-primary">
             <tr>
                 <th style="width:5%">#</th>
-                <th style="width:10%">ปีที่รับ</th>
-                <th style="width:25%">ประเภท</th>
-                <th style="width:40%">ชื่อโครงการ</th>
+                <th style="width:7%">ปีที่รับ</th>
+                <th style="width:15%">ประเภท</th>
+                <th style="width:53%">ชื่อโครงการ</th>
                 <th style="width:10%">วันที่ได้รับ</th>
-                <th style="width:10%">ปฏิบัติการ</th>
+                <th style="width:10%" class="text-right">ปฏิบัติการ</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -33,8 +31,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-default close-excellent" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn btn-sm btn-primary save-excellent">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+                <button type="button" class="btn btn-default close-excellent" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary save-excellent">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
             </div>
         </div>
     </div>
@@ -42,12 +40,13 @@
 <!--  End Modal -->
 
 <script>
+
     var dataTable = {
         table: null,
         initializeDataTable: function () {
             var id = $("#UserID").val();
-            $table = $('.table-excellent');
 
+            $table = $('.table-excellent');
             dataTable.table = $table.DataTable({
                 "proccessing": true,
                 "serverSide": true,
@@ -64,21 +63,75 @@
                 "columns": [
                     { "data": "RowNumber", "orderable": false, "searchable": false },
                     { "data": "UeRecYear", "orderable": true },
-                    { "data": "ExName", "orderable": true },
+                    { "data": "ExTName", "orderable": true },
                     { "data": "UeProjectName", "orderable": true },
                     { "data": "UeRecDateText", "orderable": true },
                 ],
                 "columnDefs": [
                     {
                         "render": function (data, type, row) {
-                            var inner = '<div class="td-actions text-right">' +
-                                            '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.UeID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;' +
+                            var inner = '<div class="td-actions pull-right">' +
+                                            '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.UeID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;' +
                                             '<button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.UeID + '"><i class="material-icons">close</i></button>' +
                                         '</div>';
                             return inner;
                         }, "targets": 5
                     },
                 ]
+            });
+
+            dataTable.table.on('click', '.edit', function () {
+                var userid = $("#UserID").val();
+                var id = $(this).data("id");
+                var url = '@Url.Action("ExcellentDetail", "Employee")';
+                $.post(url, { userid: userid, id: id }, function (data) {
+                    $(".detail-excellent").html(data);
+                    $('.modal-excellent').modal('show');
+                });
+            });
+
+            dataTable.table.on('click', '.delete', function () {
+                var id = $(this).data("id");
+                swal({
+                    title: '',
+                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                    buttonsStyling: false
+                }).then(function () {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("DeleteExcellent", "Employee")/' + id,
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                swal({
+                                    title: "",
+                                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.DeleteSucceed)",
+                                    type: "success",
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                    buttonsStyling: false
+                                }).then(function () {
+                                    dataTable.getData();
+                                });
+                            }
+                            else {
+                                swal({
+                                    title: '',
+                                    text: res.MessageText,
+                                    type: 'error',
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                    buttonsStyling: false
+                                }).catch(swal.noop);
+                            }
+                        }
+                    });
+                }).catch(swal.noop)
             });
         },
         getData: function () {
@@ -92,52 +145,61 @@
     dataTable.getData();
 
     $(".add-excellent").click(function () {
+        var userid = $("#UserID").val();
         var url = '@Url.Action("ExcellentDetail", "Employee")';
-        $.post(url, { id: 0 }, function (data) {
+        $.post(url, { userid: userid, id: 0 }, function (data) {
             $(".detail-excellent").html(data);
             $('.modal-excellent').modal('show');
         });
     });
 
-    $(".edit-excellent").click(function () {
-        var id = $(this).data("id");
-        var url = '@Url.Action("ExcellentDetail", "Employee")';
-        $.post(url, { id: id }, function (data) {
-            $(".detail-excellent").html(data);
-            $('.modal-excellent').modal('show');
-        });
-    });
 
     $(".save-excellent").click(function () {
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("SaveExcellent", "Employee")',
-            data: $(".form-excellent").serialize(),
-            success: function (res) {
-                if (res.MessageCode == null) {
-                    swal({
-                        title: "",
-                        text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
-                        type: "success",
-                        buttonsStyling: false,
-                        confirmButtonClass: "btn btn-success",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                    }).catch(swal.noop)
-
-                    $('.modal-excellent').modal('hide');
-                }
-                else {
-                    swal({
-                        title: '',
-                        text: msg,
-                        type: 'error',
-                        confirmButtonClass: "btn btn-info",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                        buttonsStyling: false
-                    }).catch(swal.noop)
-                }
+        var $valid = $('.form-excellent').valid();
+        if (!$valid) {
+            if ($("#ExTID").val() == '') {
+                $('#ExTID-error').text(''); //กรุณาระบุประเภท
             }
-        });
+            //if ($("#UeRecYear").val() == '') {
+            //    $('#UeRecYear-error').text(''); //กรุณาระบุปีที่ได้รับ
+            //}
+            //if ($("#UeProjectName").val() == '') {
+            //    $('#UeProjectName-error').text(''); //กรุณาระบุชื่อโครงการ
+            //}
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SaveExcellent", "Employee")',
+                data: $(".form-excellent").serialize(),
+                success: function (res) {
+                    if (res.MessageCode == null) {
+                        swal({
+                            title: "",
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                            type: "success",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                        }).then(function () {
+                            $('.modal-excellent').modal('hide');
+                            dataTable.getData();
+                        });
+                    }
+                    else {
+                        swal({
+                            title: '',
+                            text: res.MessageText,
+                            type: 'error',
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                            buttonsStyling: false
+                        }).catch(swal.noop)
+                    }
+                }
+            });
+        }
     });
 
 </script>

@@ -21,7 +21,16 @@ namespace SAT.HR.Models
 
     public class ResponseData
     {
+        public int ID { get; set; }
         public string MessageCode { get; set; }
         public string MessageText { get; set; }
     }
+
+    public class FileViewModel
+    {
+        public string FileName { get; set; }
+        public string FilePath { get; set; }
+        public string ContentType { get; set; }
+    }
+
 }

@@ -1,22 +1,20 @@
 ﻿@model SAT.HR.Models.UserInsigniaViewModel
 
-@Html.HiddenFor(m => m.UserID)
-
 <button class="btn btn-primary btn-sm pull-right add-insignia" data-toggle="modal"> เพิ่มรายการ </button>
 <div class="material-datatables">
     <table class="table table-insignia">
         <thead class=" text-primary">
             <tr>
                 <th style="width:5%">#</th>
-                <th style="width:5%">ปีที่รับ</th>
-                <th style="width:20%">เครื่องราชฯ/วิริยะ</th>
-                <th style="width:10%">เล่มที่</th>
-                <th style="width:10%">ตอนที่</th>
-                <th style="width:10%">หน้าที่</th>
+                <th style="width:6%">ปีที่รับ</th>
+                <th style="width:15%">เครื่องราชฯ/วิริยะ</th>
+                <th style="width:5%">เล่มที่</th>
+                <th style="width:6%">ตอนที่</th>
+                <th style="width:5%">หน้าที่</th>
                 <th style="width:10%">วันที่ได้รับ</th>
                 <th style="width:10%">วันที่ส่งคืน</th>
-                <th style="width:10%">คำสั่ง</th>
-                <th style="width:10%">ปฏิบัติการ</th>
+                <th style="width:18%">คำสั่ง</th>
+                <th style="width:10%" class="text-right">ปฏิบัติการ</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -37,8 +35,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-default close-insignia" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn btn-sm btn-primary save-insignia">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+                <button type="button" class="btn btn-default close-insignia" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary save-insignia">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
             </div>
         </div>
     </div>
@@ -46,12 +44,13 @@
 <!--  End Modal -->
 
 <script>
+
     var dataTable = {
         table: null,
         initializeDataTable: function () {
             var id = $("#UserID").val();
-            $table = $('.table-insignia');
 
+            $table = $('.table-insignia');
             dataTable.table = $table.DataTable({
                 "proccessing": true,
                 "serverSide": true,
@@ -79,14 +78,73 @@
                 "columnDefs": [
                     {
                         "render": function (data, type, row) {
-                            var inner = '<div class="td-actions text-right">' +
-                                            '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.UiID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;' +
+                            return '<div class="text-right">' + data + '</div>';
+                        }, "targets": [3,4,5]
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            var inner = '<div class="td-actions pull-right">' +
+                                            '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.UiID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;' +
                                             '<button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.UiID + '"><i class="material-icons">close</i></button>' +
                                         '</div>';
                             return inner;
                         }, "targets": 9
                     },
                 ]
+            });
+
+            dataTable.table.on('click', '.edit', function () {
+                var userid = $("#UserID").val();
+                var id = $(this).data("id");
+                var url = '@Url.Action("InsigniaDetail", "Employee")';
+                $.post(url, { userid: userid, id: id }, function (data) {
+                    $(".detail-insignia").html(data);
+                    $('.modal-insignia').modal('show');
+                });
+            });
+
+            dataTable.table.on('click', '.delete', function () {
+                var id = $(this).data("id");
+                swal({
+                    title: '',
+                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                    buttonsStyling: false
+                }).then(function () {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("DeleteInsignia", "Employee")/' + id,
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                swal({
+                                    title: "",
+                                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.DeleteSucceed)",
+                                    type: "success",
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                    buttonsStyling: false
+                                }).then(function () {
+                                    dataTable.getData();
+                                });
+                            }
+                            else {
+                                swal({
+                                    title: '',
+                                    text: res.MessageText,
+                                    type: 'error',
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                    buttonsStyling: false
+                                }).catch(swal.noop);
+                            }
+                        }
+                    });
+                }).catch(swal.noop)
             });
         },
         getData: function () {
@@ -100,52 +158,62 @@
     dataTable.getData();
 
     $(".add-insignia").click(function () {
+        var userid = $("#UserID").val();
         var url = '@Url.Action("InsigniaDetail", "Employee")';
-        $.post(url, { id: 0 }, function (data) {
-            $(".detail-insignia").html(data);
-            $('.modal-insignia').modal('show');
-        });
-    });
-
-    $(".edit-insignia").click(function () {
-        var id = $(this).data("id");
-        var url = '@Url.Action("InsigniaDetail", "Employee")';
-        $.post(url, { id: id }, function (data) {
+        $.post(url, { userid: userid, id: 0 }, function (data) {
             $(".detail-insignia").html(data);
             $('.modal-insignia').modal('show');
         });
     });
 
     $(".save-insignia").click(function () {
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("SaveInsignia", "Employee")',
-            data: $(".form-insignia").serialize(),
-            success: function (res) {
-                if (res.MessageCode == null) {
-                    swal({
-                        title: "",
-                        text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
-                        type: "success",
-                        buttonsStyling: false,
-                        confirmButtonClass: "btn btn-success",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                    }).catch(swal.noop)
-
-                    $('.modal-insignia').modal('hide');
-                }
-                else {
-                    swal({
-                        title: '',
-                        text: msg,
-                        type: 'error',
-                        confirmButtonClass: "btn btn-info",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                        buttonsStyling: false
-                    }).catch(swal.noop)
-                }
+        var $valid = $('.form-insignia').valid();
+        if (!$valid) {
+            if ($("#InsID").val() == '') {
+                $('#InsID-error').text(''); //กรุณาระบุเครื่องราชฯ/วิริยะ
             }
-        });
+            return false;
+        }
+        else {
+            var form = $('.form-insignia')[0];
+            var data = new FormData(form);
+            data.append(".fileUpload", fileUpload);
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SaveInsignia", "Employee")',
+                data: data, /*$(".form-insignia").serialize(),*/
+                enctype: 'multipart/form-data',
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function (res) {
+                    if (res.MessageCode == null) {
+                        swal({
+                            title: "",
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                            type: "success",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                        }).then(function () {
+                            $('.modal-insignia').modal('hide');
+                            dataTable.getData();
+                        });
+                    }
+                    else {
+                        swal({
+                            title: '',
+                            text: res.MessageText,
+                            type: 'error',
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                            buttonsStyling: false
+                        }).catch(swal.noop)
+                    }
+                }
+            });
+        }
     });
 
 </script>

@@ -14,16 +14,7 @@ namespace SAT.HR.Data.Entities
     
     public partial class tb_Agent_Type
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tb_Agent_Type()
-        {
-            this.tb_Move_Man_Power_Detail = new HashSet<tb_Move_Man_Power_Detail>();
-        }
-    
         public int AgentID { get; set; }
         public string AgentName { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Move_Man_Power_Detail> tb_Move_Man_Power_Detail { get; set; }
     }
 }

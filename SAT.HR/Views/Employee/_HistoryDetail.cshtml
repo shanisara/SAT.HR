@@ -8,13 +8,14 @@
 
         @Html.HiddenFor(m => m.UserID)
         @Html.HiddenFor(m => m.UhID)
+        @Html.HiddenFor(m => m.UhStatus)
 
         <div class="row">
             @Html.Label("ปรับปรุงข้อมูลนี้เป็นปัจจุบัน: ", null, new { @class = "col-sm-4 col-form-label" })
             <div class="col-sm-8">
                 <div class="form-check mr-auto">
                     <label class="form-check-label">
-                        <input class="form-check-input ufIsworked" type="checkbox" aria-required="true">
+                        <input class="form-check-input uhIsChange" type="checkbox" aria-required="true">
                         <span class="form-check-sign"><span class="check"></span></span>
                     </label>
                 </div>
@@ -24,21 +25,21 @@
             @Html.Label("วันที่แก้ไข: ", null, new { @class = "col-sm-4 col-form-label" })
             <div class="col-sm-8">
                 <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UhEditDateText, new { @class = "form-control datepicker" })
+                    @Html.TextBoxFor(m => m.UhEditDateText, new { @class = "form-control datepicker", required = "true" })
                 </div>
             </div>
         </div>
         <div class="row occupation">
             @Html.Label("คำนำหน้า: ", null, new { @class = "col-sm-4 col-form-label" })
             <div class="col-sm-8 m-t-10">
-                @Html.DropDownListFor(n => n.TiID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Title, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+                @Html.DropDownListFor(n => n.NewTiID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Title, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
             </div>
         </div>
         <div class="row  m-t-10">
             @Html.Label("ชื่อ(ไทย): ", null, new { @class = "col-sm-4 col-form-label" })
             <div class="col-sm-8">
                 <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.FullNameTH, new { @class = "form-control", required = "true" })
+                    @Html.TextBoxFor(m => m.NewFirstNameTh, new { @class = "form-control", required = "true" })
                 </div>
             </div>
         </div>
@@ -46,7 +47,7 @@
             @Html.Label("นามสกุล(ไทย): ", null, new { @class = "col-sm-4 col-form-label" })
             <div class="col-sm-8">
                 <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UhLastNameTH, new { @class = "form-control", required = "true" })
+                    @Html.TextBoxFor(m => m.NewLastNameTh, new { @class = "form-control", required = "true" })
                 </div>
             </div>
         </div>
@@ -54,7 +55,7 @@
             @Html.Label("ชื่อ (อังกฤษ): ", null, new { @class = "col-sm-4 col-form-label" })
             <div class="col-sm-8">
                 <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UhFirstNameEN, new { @class = "form-control", required = "true" })
+                    @Html.TextBoxFor(m => m.NewFirstNameEn, new { @class = "form-control" })
                 </div>
             </div>
         </div>
@@ -62,7 +63,7 @@
             @Html.Label("นามสกุล (อังกฤษ): ", null, new { @class = "col-sm-4 col-form-label" })
             <div class="col-sm-8">
                 <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UhLastNameEN, new { @class = "form-control", required = "true" })
+                    @Html.TextBoxFor(m => m.NewLastNameEn, new { @class = "form-control" })
                 </div>
             </div>
         </div>
@@ -70,14 +71,22 @@
             @Html.Label("หมายเหตุ: ", null, new { @class = "col-sm-4 col-form-label" })
             <div class="col-sm-8">
                 <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UhLastNameEN, new { @class = "form-control", required = "true" })
+                    @Html.TextBoxFor(m => m.Remark, new { @class = "form-control" })
                 </div>
             </div>
         </div>
     </div>
 }
-
+<style>
+    .error{ color:red;}
+</style>
 <script>
+    if ('@Model' != null) {
+        if ('@Model.UhStatus' == 'True') {
+            $(".uhIsChange").prop("checked", true);
+        }
+    }
+
     $('.datepicker').datetimepicker({
         format: 'DD/MM/YYYY',
         icons: {
@@ -92,4 +101,15 @@
             close: 'fa fa-remove'
         }
     });
+
+    $(".uhIsChange").click(function () {
+        var checked = $(this).is(':checked');
+        if (checked) {
+            $('#UhStatus').val(true);
+        }
+        else {
+            $('#UhStatus').val(false);
+        }
+    });
+
 </script>

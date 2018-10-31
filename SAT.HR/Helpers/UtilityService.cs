@@ -48,7 +48,7 @@ namespace SAT.HR.Helpers
             get
             {
                 var obj = GetSessionValue<UserProfile>("USER");
-               
+
                 if (obj == null)
                 {
                     try
@@ -143,13 +143,94 @@ namespace SAT.HR.Helpers
             }
         }
 
-        public static string PathUploadAvatar
+        public static string ApplicationRoot
         {
             get
             {
-                return SysConfigRepository.GetKeyValue("PathUploadAvatar");
+                return SysConfigRepository.GetKeyValue("ApplicationRoot");
             }
         }
+
+        public static string PathUploadUserAvatar
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathUploadUserAvatar");
+            }
+        }
+
+        public static string PathUploadUserInsignia
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathUploadUserInsignia");
+            }
+        }
+
+        public static string PathUploadUserPosition
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathUploadUserPosition");
+            }
+        }
+
+        public static string PathUploadLevelTransfer
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathUploadLevelTransfer");
+            }
+        }
+
+        public static string PathUploadPositionTransfer
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathUploadPositionTransfer");
+            }
+        }
+
+        public static string PathDownloadUserAvatar
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathDownloadUserAvatar");
+            }
+        }
+
+        public static string PathDownloadLevelTransfer
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathDownloadLevelTransfer");
+            }
+        }
+
+        public static string PathDownloadPositionTransfer
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathDownloadPositionTransfer");
+            }
+        }
+
+        public static string PathDownloadUserInsignia
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathDownloadUserInsignia");
+            }
+        }
+
+        public static string PathDownloadUserPosition
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathDownloadUserPosition");
+            }
+        }
+
     }
 
 

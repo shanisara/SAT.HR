@@ -1,7 +1,7 @@
 ﻿@model SAT.HR.Models.UserFamilyViewModel
 
 <div class="content">
-    @Html.HiddenFor(m => m.UserID)
+    @Html.Hidden("FamilyType")
 
     <div class="row">
         <div class="col-md-12">
@@ -10,44 +10,26 @@
                     <div class="card-text">
                         <h5 class="card-title w-title">บิดา</h5>
                     </div>
-                    @if (Model.ListFather.Count == 0)
+                    @if (@ViewBag.CountFather == 0)
                     {
-                        <button class="btn btn-primary btn-sm pull-right add-father" data-toggle="modal" style="width:100px;"> เพิ่มบิดา </button>
+                    <button class="btn btn-primary btn-sm pull-right add-father" data-toggle="modal" style="width:100px;"> เพิ่มบิดา </button>
                     }
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table">
+                    <div class="material-datatables">
+                        <table class="table table-father">
                             <thead class="text-primary">
                                 <tr>
-                                    <th>ชื่อ-สกุล</th>
-                                    <th>เลขประจำตัวประชาชน</th>
-                                    <th>วันเกิด</th>
-                                    <th>อายุ</th>
-                                    <th>สถานะการมีชีวิต</th>
-                                    <th>สิทธิลดหย่อน</th>
-                                    <th>เคยเป็นพนักงาน กกท.</th>
-                                    <th>ปฏิบัติการ</th>
+                                    <th style="width:17%">ชื่อ-สกุล</th>
+                                    <th style="width:16%">เลขประจำตัวประชาชน</th>
+                                    <th style="width:9%">วันเกิด</th>
+                                    <th style="width:8%">อายุ</th>
+                                    <th style="width:13%">สถานะการมีชีวิต</th>
+                                    <th style="width:11%">สิทธิลดหย่อน</th>
+                                    <th style="width:16%">เคยเป็นพนักงาน กกท.</th>
+                                    <th style="width:10%" class="text-right">ปฏิบัติการ</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @foreach (var item in Model.ListFather)
-                                {
-                                    <tr>
-                                        <td>@item.UfName</td>
-                                        <td>@item.UfCardID</td>
-                                        <td>@item.UfDOB</td>
-                                        <td>@item.UfAge</td>
-                                        <td>@item.UfLifeStatusName</td>
-                                        <td>@item.TdName</td>
-                                        <td>@item.PoName</td>
-                                        <td class="td-actions text-center">
-                                            <button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit-family" data-id="@item.UfID" data-rec-id="@item.RecID"><i class="material-icons">edit</i></button>
-
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -62,47 +44,29 @@
                     <div class="card-text">
                         <h5 class="card-title w-title">มารดา</h5>
                     </div>
-                    @if (Model.ListMother.Count == 0)
+                    @if (@ViewBag.CountMother == 0)
                     {
-                        <button class="btn btn-primary btn-sm pull-right add-mother" data-toggle="modal" style="width:100px;"> เพิ่มมารดา </button>
+                    <button class="btn btn-primary btn-sm pull-right add-mother" data-toggle="modal" style="width:100px;"> เพิ่มมารดา </button>
                     }
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table">
+                    <div class="material-datatables">
+                        <table class="table table-mother">
                             <thead class="text-primary">
                                 <tr>
-                                    <th>ชื่อ-สกุล</th>
-                                    <th>เลขประจำตัวประชาชน</th>
-                                    <th>วันเกิด</th>
-                                    <th>อายุ</th>
-                                    <th>สถานะการมีชีวิต</th>
-                                    <th>สิทธิลดหย่อน</th>
-                                    <th>เคยเป็นพนักงาน กกท.</th>
-                                    <th>ปฏิบัติการ</th>
+                                    <th style="width:17%">ชื่อ-สกุล</th>
+                                    <th style="width:16%">เลขประจำตัวประชาชน</th>
+                                    <th style="width:9%">วันเกิด</th>
+                                    <th style="width:8%">อายุ</th>
+                                    <th style="width:13%">สถานะการมีชีวิต</th>
+                                    <th style="width:11%">สิทธิลดหย่อน</th>
+                                    <th style="width:16%">เคยเป็นพนักงาน กกท.</th>
+                                    <th style="width:10%" class="text-right">ปฏิบัติการ</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @foreach (var item in Model.ListMother)
-                                {
-                                    <tr>
-                                        <td>@item.UfName</td>
-                                        <td>@item.UfCardID</td>
-                                        <td>@item.UfDOB</td>
-                                        <td>@item.UfAge</td>
-                                        <td>@item.UfLifeStatusName</td>
-                                        <td>@item.TdName</td>
-                                        <td>@item.PoName</td>
-                                        <td class="td-actions text-center">
-                                            <button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit-family" data-id="@item.UfID" data-rec-id="@item.RecID"><i class="material-icons">edit</i></button>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
                         </table>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -114,49 +78,24 @@
                     <div class="card-text">
                         <h5 class="card-title w-title">คู่สมรส</h5>
                     </div>
-                    @if (Model.ListSpouse.Count == 0)
-                    {
-                        <button class="btn btn-primary btn-sm pull-right add-spouse" data-toggle="modal" style="width:100px;"> เพิ่มคู่สมรส </button>
-                    }
+                    <button class="btn btn-primary btn-sm pull-right add-spouse" data-toggle="modal" style="width:100px;"> เพิ่มคู่สมรส </button>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table">
+                    <div class="material-datatables">
+                        <table class="table table-spouse">
                             <thead class="text-primary">
                                 <tr>
-                                    <th>#</th>
-                                    <th>ชื่อ-สกุล</th>
-                                    <th>เลขประจำตัวประชาชน</th>
-                                    <th>วันเกิด</th>
-                                    <th>วันที่สมรส</th>
-                                    <th>สถานะการมีชีวิต</th>
-                                    <th>อาชีพ</th>
-                                    <th>สถานะสมรส</th>
-                                    <th>วันที่หย่าร้าง</th>
-                                    <th>ปฏิบัติการ</th>
+                                    <th style="width:2%">#</th>
+                                    <th style="width:15%">ชื่อ-สกุล</th>
+                                    <th style="width:16%">เลขประจำตัวประชาชน</th>
+                                    <th style="width:10%">วันเกิด</th>
+                                    <th style="width:10%">วันที่สมรส</th>
+                                    <th style="width:13%">สถานะการมีชีวิต</th>
+                                    <th style="width:11%">สถานะสมรส</th>
+                                    <th style="width:13%">อาชีพ</th>
+                                    <th class="text-right">ปฏิบัติการ</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @{ int i = 1;}
-                                @foreach (var item in Model.ListSpouse)
-                                {
-                                    <tr>
-                                        <td>@i</td>
-                                        <td>@item.UfName</td>
-                                        <td>@item.UfCardID</td>
-                                        <td>@item.UfDOB</td>
-                                        <td>@item.UfWeddingDate</td>
-                                        <td>@item.UfLifeStatusName</td>
-                                        <td>@item.OcName</td>
-                                        <td>@item.MaritalName</td>
-                                        <td>@item.DivorceDate</td>
-                                        <td class="td-actions text-center">
-                                            <button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit-family" data-id="@item.UfID" data-rec-id="@item.RecID"><i class="material-icons">edit</i></button>
-                                        </td>
-                                    </tr>
-                                    i++;
-                                }
-                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -174,40 +113,20 @@
                     <button class="btn btn-primary btn-sm pull-right add-child" data-toggle="modal" style="width:100px;"> เพิ่มบุตร </button>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table">
+                    <div class="material-datatables">
+                        <table class="table table-child">
                             <thead class="text-primary">
                                 <tr>
-                                    <th>#</th>
-                                    <th>ชื่อ-สกุล</th>
-                                    <th>เลขประจำตัวประชาชน</th>
-                                    <th>วันเกิด</th>
-                                    <th>อายุ</th>
-                                    <th>สถานะการมีชีวิต</th>
-                                    <th>สถานะการศึกษา</th>
-                                    <th>ปฏิบัติการ</th>
+                                    <th style="width:2%">#</th>
+                                    <th style="width:15%">ชื่อ-สกุล</th>
+                                    <th style="width:16%">เลขประจำตัวประชาชน</th>
+                                    <th style="width:10%">วันเกิด</th>
+                                    <th style="width:10%">อายุ</th>
+                                    <th style="width:13%">สถานะการมีชีวิต</th>
+                                    <th style="width:24%">สถานะการศึกษา</th>
+                                    <th class="text-right">ปฏิบัติการ</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @{ int index = 1;}
-                                @foreach (var item in Model.ListChild)
-                                {
-                                    <tr>
-                                        <td>@index</td>
-                                        <td>@item.UfName</td>
-                                        <td>@item.UfCardID</td>
-                                        <td>@item.UfDOB</td>
-                                        <td>@item.UfAge</td>
-                                        <td>@item.UfLifeStatusName</td>
-                                        <td>@item.UfStudyStatusName</td>
-                                        <td class="td-actions text-center">
-                                            <button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit-family" data-id="@item.UfID" data-rec-id="@item.RecID"><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;
-                                            <button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-danger delete-family" data-id="@item.UfID" data-rec-id="@item.RecID"><i class="material-icons">close</i></button>
-                                        </td>
-                                    </tr>
-                                    index++;
-                                }
-                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -233,16 +152,173 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-default close-family" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn btn-sm btn-primary save-family">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+                <button type="button" class="btn btn-default close-family" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary save-family">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
             </div>
         </div>
     </div>
 </div>
 <!--  End Modal -->
 
-
 <script>
+
+    var dataTable = {
+        tableFather: null,
+        tableMother: null,
+        tableSpouse: null,
+        tableChild: null,
+        initializeDataTableFatherMother: function (el, recid) {
+            var id = $("#UserID").val();
+
+            var table = el.DataTable({
+                "proccessing": true,
+                "serverSide": true,
+                paging: false,
+                bFilter: false,
+                ordering: false,
+                searching: true,
+                language: { zeroRecords: "ไม่พบข้อมูล" },
+                dom: 't',
+                ajax: {
+                    url: '@Url.Action("Family", "Employee")/' + id + "?recid=" + recid,
+                    type: "POST",
+                },
+                "columns": [
+                    { "data": "UfName", "orderable": true },
+                    { "data": "UfCardID", "orderable": true },
+                    { "data": "UfDOBText", "orderable": true },
+                    { "data": "UfAge", "orderable": true },
+                    { "data": "UfLifeStatusName", "orderable": true },
+                    { "data": "TdName", "orderable": true },
+                    { "data": "PoName", "orderable": true }
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            var inner = '<div class="td-actions pull-right">' +
+                                            '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit-family" data-id="' + row.UfID + '" data-rec-id="' + row.RecID +' "><i class="material-icons">edit</i></button>' +
+                                        '</div>';
+                            return inner;
+                        }, "targets": 7
+                    },
+                ]
+            });
+
+            if (recid == 2) {
+                dataTable.tableFather = table;
+            }
+            else if (recid == 3) {
+                dataTable.tableMother = table;
+            }
+        },
+        initializeDataTableSpouse: function (recid) {
+            var id = $("#UserID").val();
+            dataTable.tableSpouse = $('.table-spouse').DataTable({
+                "proccessing": true,
+                "serverSide": true,
+                paging: false,
+                bFilter: false,
+                ordering: false,
+                searching: true,
+                language: { zeroRecords: "ไม่พบข้อมูล" },
+                dom: 't',
+                ajax: {
+                    url: '@Url.Action("Family", "Employee")/' + id + "?recid=" + recid,
+                    type: "POST",
+                },
+                "columns": [
+                    { "data": "RowNumber", "orderable": false, "searchable": false },
+                    { "data": "UfName", "orderable": true },
+                    { "data": "UfCardID", "orderable": true },
+                    { "data": "UfDOBText", "orderable": true },
+                    { "data": "UfWeddingDateText", "orderable": true },
+                    { "data": "UfLifeStatusName", "orderable": true },
+                    { "data": "MaritalName", "orderable": true },
+                    { "data": "OcName", "orderable": true }
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            var inner = '<div class="td-actions pull-right">' +
+                                            '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit-family" data-id="' + row.UfID + '" data-rec-id="' + row.RecID +' "><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;' +
+                                            '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-danger delete-family" data-id="' + row.UfID + '" data-rec-id="' + row.RecID +' "><i class="material-icons">close</i></button>'
+                                        '</div>';
+                            return inner;
+                        }, "targets": 8
+                    },
+                ]
+            });
+
+        },
+        initializeDataTableChild: function (recid) {
+            var id = $("#UserID").val();
+            dataTable.tableChild = $('.table-child').DataTable({
+                "proccessing": true,
+                "serverSide": true,
+                paging: false,
+                bFilter: false,
+                ordering: false,
+                searching: true,
+                language: { zeroRecords: "ไม่พบข้อมูล" },
+                dom: 't',
+                ajax: {
+                    url: '@Url.Action("Family", "Employee")/' + id + "?recid=" + recid,
+                    type: "POST",
+                },
+                "columns": [
+                    { "data": "RowNumber", "orderable": false, "searchable": false },
+                    { "data": "UfName", "orderable": true },
+                    { "data": "UfCardID", "orderable": true },
+                    { "data": "UfDOBText", "orderable": true },
+                    { "data": "UfAge", "orderable": true },
+                    { "data": "UfLifeStatusName", "orderable": true },
+                    { "data": "UfStudyStatusName", "orderable": true }
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            var inner = '<div class="td-actions pull-right">' +
+                                            '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit-family" data-id="' + row.UfID + '" data-rec-id="' + row.RecID + ' "><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;' +
+                                            '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-danger delete-family" data-id="' + row.UfID + '" data-rec-id="' + row.RecID + ' "><i class="material-icons">close</i></button>'
+                                        '</div>';
+                            return inner;
+                        }, "targets": 7
+                    },
+                ]
+            });
+
+        },
+
+        getDataFather: function () {
+            if (dataTable.tableFather == null)
+                dataTable.initializeDataTableFatherMother($('.table-father'), 2);
+            else
+                dataTable.tableFather.ajax.reload();
+        },
+        getDataMother: function () {
+            if (dataTable.tableMother == null)
+                dataTable.initializeDataTableFatherMother($('.table-mother'), 3);
+            else
+                dataTable.tableMother.ajax.reload();
+        },
+        getDataSpouse: function () {
+            if (dataTable.tableSpouse == null)
+                dataTable.initializeDataTableSpouse(4);
+            else
+                dataTable.tableSpouse.ajax.reload();
+        },
+        getDataChild: function () {
+            if (dataTable.tableChild == null)
+                dataTable.initializeDataTableChild(5);
+            else
+                dataTable.tableChild.ajax.reload();
+        }
+    }
+
+    dataTable.getDataFather();
+    dataTable.getDataMother();
+    dataTable.getDataSpouse();
+    dataTable.getDataChild();
 
 
     $('.modal-family').on('hidden.bs.modal', function () {
@@ -282,6 +358,8 @@
     $(".add-father").click(function () {
         var userid = $("#UserID").val();
         var recid = 2;
+        $("#FamilyType").val(recid);
+
         var url = '@Url.Action("FamilyDetail", "Employee")';
         $.post(url, { userid: userid, recid: recid, ufid: 0 }, function (data) {
             $(".detail-family").html(data);
@@ -293,6 +371,8 @@
     $(".add-mother").click(function () {
         var userid = $("#UserID").val();
         var recid = 3;
+        $("#FamilyType").val(recid);
+
         var url = '@Url.Action("FamilyDetail", "Employee")';
         $.post(url, { userid: userid, recid: recid, ufid: 0 }, function (data) {
             $(".detail-family").html(data);
@@ -304,6 +384,8 @@
     $(".add-spouse").click(function () {
         var userid = $("#UserID").val();
         var recid = 4;
+        $("#FamilyType").val(recid);
+
         var url = '@Url.Action("FamilyDetail", "Employee")';
         $.post(url, { userid: userid, recid: recid, ufid: 0 }, function (data) {
             $(".detail-family").html(data);
@@ -315,6 +397,8 @@
     $(".add-child").click(function () {
         var userid = $("#UserID").val();
         var recid = 5;
+        $("#FamilyType").val(recid);
+
         var url = '@Url.Action("FamilyDetail", "Employee")';
         $.post(url, { userid: userid, recid: recid, ufid: 0 }, function (data) {
             $(".detail-family").html(data);
@@ -324,59 +408,168 @@
     });
 
 
-    $(".edit-family").click(function () {
+    $(".save-family").click(function () {
+        var $valid = $('.form-family').valid();
+        if (!$valid) {
+            //if ($("#UfName").val() == '') {
+            //    $('#UfName-error').text(''); //กรุณาระบุชื่อ-สกุล
+            //}
+            //if ($("#UfCardID").val() == '') {
+            //    $('#UfCardID-error').text(''); //กรุณาระบุเลขประจำตัวประชาชน
+            //}
+            return false;
+        }
+        else {
+            var recid = $("#FamilyType").val();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SaveFamily", "Employee")',
+                data: $(".form-family").serialize(),
+                success: function (res) {
+                    if (res.MessageCode == null) {
+                        swal({
+                            title: "",
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                            type: "success",
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                            buttonsStyling: false
+                        }).then(function () {
+                            if (recid == 2) {
+                                $(".add-father").hide();
+                                dataTable.getDataFather();
+                            }
+                            else if (recid == 3) {
+                                $(".add-mother").hide();
+                                dataTable.getDataMother();
+                            }
+                            else if (recid == 4)
+                                dataTable.getDataSpouse();
+                            else if (recid == 5)
+                                dataTable.getDataChild();
+
+                            $('.modal-family').modal('hide');
+                        });
+                    }
+                    else {
+                        swal({
+                            title: '',
+                            text: res.MessageText,
+                            type: 'error',
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                            buttonsStyling: false
+                        }).catch(swal.noop)
+                    }
+                }
+            });
+        }
+    });
+
+    function EditFamily(ufid, recid) {
+        $("#FamilyType").val(recid);
         var userid = $("#UserID").val();
-        var ufid = $(this).data("id");
-        var recid = $(this).data("rec-id");
-        var url = '@Url.Action("FamilyDetail", "Employee")';
+        var url = '@Url.Action("FamilyDetail", "Employee")/'+ userid + "?recid=" + recid;
         $.post(url, { userid: userid, recid: recid, ufid: ufid }, function (data) {
             $(".detail-family").html(data);
             displayDetail(recid);
             $('.modal-family').modal('show');
         });
+    }
+
+    function DeleteFamily(ufid, recid) {
+        swal({
+            title: '',
+            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
+            type: 'question',
+            showCancelButton: true,
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger',
+            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+            cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+            buttonsStyling: false
+        }).then(function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("DeleteFamily", "Employee")/' + ufid,
+                success: function (res) {
+                    if (res.MessageCode == null) {
+                        swal({
+                            title: "",
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.DeleteSucceed)",
+                            type: "success",
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                            buttonsStyling: false
+                        }).then(function () {
+                            if (recid == 2)
+                                dataTable.getDataFather();
+                            else if (recid == 3)
+                                dataTable.getDataMother();
+                            else if (recid == 4)
+                                dataTable.getDataSpouse();
+                            else if (recid == 5)
+                                dataTable.getDataChild();
+                        });
+                    }
+                    else {
+                        swal({
+                            title: '',
+                            text: res.MessageText,
+                            type: 'error',
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                            buttonsStyling: false
+                        }).catch(swal.noop);
+                    }
+                }
+            });
+        }).catch(swal.noop)
+    }
+
+
+    dataTable.tableFather.on('click', '.edit-family', function () {
+        var ufid = $(this).data("id");
+        var recid = $(this).data("rec-id");
+        EditFamily(ufid, recid);
+    });
+    dataTable.tableFather.on('click', '.delete-family', function () {
+        var ufid = $(this).data("id");
+        var recid = $(this).data("rec-id");
+        DeleteFamily(ufid, recid);
     });
 
-
-    $(".save-family").click(function () {
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("SaveFamily", "Employee")',
-            data: $(".form-family").serialize(),
-            success: function (res) {
-                if (res.MessageCode == null) {
-                    swal({
-                        title: "",
-                        text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
-                        type: "success",
-                        buttonsStyling: false,
-                        confirmButtonClass: "btn btn-success",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                    }).catch(swal.noop)
-
-                    debugger;
-                    @*var url = '@Url.Action("FamilyByUser", "Employee")/'+id;
-                    $.post(url, function (data) {
-                        $("#div-family").html(data);
-                    });*@
-
-                    //window.location.reload();
-
-                    $('.modal-family').modal('hide');
-                }
-                else {
-                    swal({
-                        title: '',
-                        text: msg,
-                        type: 'error',
-                        confirmButtonClass: "btn btn-info",
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                        buttonsStyling: false
-                    }).catch(swal.noop)
-                }
-            }
-        });
+    dataTable.tableMother.on('click', '.edit-family', function () {
+        var ufid = $(this).data("id");
+        var recid = $(this).data("rec-id");
+        EditFamily(ufid, recid);
+    });
+    dataTable.tableMother.on('click', '.delete-family', function () {
+        var ufid = $(this).data("id");
+        var recid = $(this).data("rec-id");
+        DeleteFamily(ufid, recid);
     });
 
+    dataTable.tableSpouse.on('click', '.edit-family', function () {
+        var ufid = $(this).data("id");
+        var recid = $(this).data("rec-id");
+        EditFamily(ufid, recid);
+    });
+    dataTable.tableSpouse.on('click', '.delete-family', function () {
+        var ufid = $(this).data("id");
+        var recid = $(this).data("rec-id");
+        DeleteFamily(ufid, recid);
+    });
 
+    dataTable.tableChild.on('click', '.edit-family', function () {
+        var ufid = $(this).data("id");
+        var recid = $(this).data("rec-id");
+        EditFamily(ufid, recid);
+    });
+    dataTable.tableChild.on('click', '.delete-family', function () {
+        var ufid = $(this).data("id");
+        var recid = $(this).data("rec-id");
+        DeleteFamily(ufid, recid);
+    });
 
 </script>

@@ -20,9 +20,9 @@ namespace SAT.HR
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             log4net.Config.XmlConfigurator.Configure();
-            var binder = new DateTimeModelBinder();
-            ModelBinders.Binders.Add(typeof(DateTime), binder);
-            ModelBinders.Binders.Add(typeof(DateTime?), binder);
+            //var binder = new DateTimeModelBinder();
+            //ModelBinders.Binders.Add(typeof(DateTime), binder);
+            //ModelBinders.Binders.Add(typeof(DateTime?), binder);
         }
         protected void Application_Error(object sender, EventArgs e)
         {

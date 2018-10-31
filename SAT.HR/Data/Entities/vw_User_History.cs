@@ -19,13 +19,20 @@ namespace SAT.HR.Data.Entities
         public string FullNameTH { get; set; }
         public string FullNameEn { get; set; }
         public Nullable<System.DateTime> UhEditDate { get; set; }
-        public Nullable<int> TiID { get; set; }
-        public string TiFullName { get; set; }
-        public string TiShortName { get; set; }
-        public string UhFirstNameTH { get; set; }
-        public string UhLastNameTH { get; set; }
-        public string UhFirstNameEN { get; set; }
-        public string UhLastNameEN { get; set; }
+        public Nullable<int> OldTiID { get; set; }
+        public string OldTiFullName { get; set; }
+        public string OldTiShortName { get; set; }
+        public Nullable<int> NewTiID { get; set; }
+        public string NewTiFullName { get; set; }
+        public string NewTiShortName { get; set; }
+        public string OldFirstNameTh { get; set; }
+        public string OldLastNameTh { get; set; }
+        public string OldFirstNameEn { get; set; }
+        public string OldLastNameEn { get; set; }
+        public string NewFirstNameTh { get; set; }
+        public string NewLastNameTh { get; set; }
+        public string NewFirstNameEn { get; set; }
+        public string NewLastNameEn { get; set; }
         public string Remark { get; set; }
         public Nullable<bool> UhStatus { get; set; }
         public Nullable<int> SexID { get; set; }

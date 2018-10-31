@@ -15,7 +15,7 @@ namespace SAT.HR.Data.Entities
     public partial class vw_Move_Level_Detail
     {
         public int MlID { get; set; }
-        public Nullable<int> EmpID { get; set; }
+        public int UserID { get; set; }
         public string FullName { get; set; }
         public Nullable<decimal> MlLevelOld { get; set; }
         public Nullable<decimal> MlStepOld { get; set; }

@@ -16,17 +16,18 @@ namespace SAT.HR.Data.Entities
     {
         public int MopID { get; set; }
         public int UserID { get; set; }
-        public string UserName { get; set; }
-        public string UserPoCode { get; set; }
-        public string UserPoName { get; set; }
-        public Nullable<int> MovPoID { get; set; }
-        public string MovPoCode { get; set; }
+        public string FullName { get; set; }
+        public int CurMpID { get; set; }
+        public string CurPoName { get; set; }
+        public Nullable<int> MovMpID { get; set; }
         public string MovPoName { get; set; }
         public Nullable<int> AgentPoTID { get; set; }
         public string AgentPoTName { get; set; }
-        public Nullable<int> AgentPoID { get; set; }
-        public string AgentPoCode { get; set; }
+        public Nullable<int> AgentMpID { get; set; }
         public string AgentPoName { get; set; }
+        public string DivName { get; set; }
+        public string DepName { get; set; }
+        public string SecName { get; set; }
         public string MovRemark { get; set; }
     }
 }
