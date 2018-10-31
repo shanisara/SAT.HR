@@ -54,7 +54,7 @@ namespace SAT.HR.Data.Repository
                     int maxID = db.tb_Man_Power.Where(m => m.TypeID == data.TypeID).Max(m => (int)m.MpID);
 
                     tb_Man_Power model = new tb_Man_Power();
-                    model.MpID = maxID;
+                    model.MpID = maxID + 1;
                     model.TypeID = data.TypeID;
                     model.DivID = data.DivID;
                     model.DepID = data.DepID;
@@ -426,7 +426,7 @@ namespace SAT.HR.Data.Repository
                     model.id = "Pos" + item.PoID.ToString();
                     model.text = item.PoName + " (" + countChild + ")";
                     model.children = (countChild > 0) ? true : false;
-                    model.state = new TreeStateViewModel() { opened = false };
+                    model.state = new TreeStateViewModel() { opened = true };
                     model.icon = SysConfig.ApplicationRoot + "Content/assets/img/flag_white.gif";
                     model.node_type = "pos";
                     items.Add(model);

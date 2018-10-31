@@ -546,16 +546,15 @@ namespace SAT.HR.Controllers
 
         public JsonResult GetRoot(int id)
         {
-            //var data = new PositionRateRepository().GetTree(id);
             //var items = new[]
             //{
             //    new
             //    {
-            //        id = "#",
+            //        id = "0",
             //        text = "การกีฬาแห่งประเทศไทย",
             //        state = new { opened = true },
             //        icon = SysConfig.ApplicationRoot + "Content/assets/img/home.png",
-            //        children = data
+            //        children = new PositionRateRepository().GetTree(id)
             //    }
             //}
             //.ToList();
