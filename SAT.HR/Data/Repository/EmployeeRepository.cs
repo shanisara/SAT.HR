@@ -231,7 +231,7 @@ namespace SAT.HR.Data.Repository
                     model.WorkingTypeID = data.WorkingTypeID;
                     model.FingerScan = data.FingerScan;
                     model.CardScan = data.CardScan;
-                    model.Avatar = SysConfig.ApplicationRoot +"/"+ (!string.IsNullOrEmpty(data.Avatar) ? SysConfig.PathDownloadUserAvatar + data.Avatar : "Content/assets/img/image_placeholder.jpg");
+                    model.Avatar = SysConfig.ApplicationRoot + "/" + (!string.IsNullOrEmpty(data.Avatar) ? SysConfig.PathDownloadUserAvatar + data.Avatar : "Content/assets/img/image_placeholder.jpg");
                     model.IsActive = data.IsActive;
                     model.UserType = data.UserTID;
                     model.Age = data.Age;
@@ -244,7 +244,7 @@ namespace SAT.HR.Data.Repository
                     model.SalaryLevel = data.SalaryLevel;
                     model.SalaryStep = data.SalaryStep;
                     model.Salary = data.Salary.HasValue ? (decimal)data.Salary : 0;
-                    
+
                     model.DivName = data.DivName;
                     model.DepName = data.DepName;
                     model.SecName = data.SecName;
@@ -504,12 +504,12 @@ namespace SAT.HR.Data.Repository
                             //var po = db.tb_Man_Power.Where(x => x.MpID == newdata.PoID).FirstOrDefault();
                             //if (po != null)
                             //{
-                                man.DivID = newdata.DivID;
-                                man.DepID = newdata.DepID;
-                                man.SecID = newdata.SecID;
-                                man.PoID = newdata.PoID;
-                                man.TypeID = newdata.UserType;
-                                db.SaveChanges();
+                            man.DivID = newdata.DivID;
+                            man.DepID = newdata.DepID;
+                            man.SecID = newdata.SecID;
+                            man.PoID = newdata.PoID;
+                            man.TypeID = newdata.UserType;
+                            db.SaveChanges();
                             //}
                         }
                         //else
@@ -795,7 +795,7 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
                     int index = 1;
-                    var education = db.vw_User_Education.Where(x => x.UserID == userid).ToList();
+                    var education = db.vw_User_Education.Where(x => x.UserID == userid).OrderByDescending(o => o.UeGraduationDate).ToList();
                     foreach (var s in education)
                     {
                         UserEducationViewModel model = new Models.UserEducationViewModel();
@@ -964,7 +964,7 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
                     int index = 1;
-                    var position = db.vw_User_Position.Where(x => x.UserID == userid).ToList();
+                    var position = db.vw_User_Position.Where(x => x.UserID == userid).OrderByDescending(o => o.UpForceDate).ToList();
                     foreach (var item in position)
                     {
                         UserPositionViewModel model = new UserPositionViewModel();
@@ -1218,7 +1218,7 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
                     int index = 1;
-                    var training = db.vw_User_Training.Where(x => x.UserID == userid).ToList();
+                    var training = db.vw_User_Training.Where(x => x.UserID == userid).OrderByDescending(o => o.UtStartDate).ToList();
                     foreach (var item in training)
                     {
                         UserTrainningViewModel model = new UserTrainningViewModel();
@@ -1375,7 +1375,7 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
                     int index = 1;
-                    var insignia = db.vw_User_Insignia.Where(x => x.UserID == userid).ToList();
+                    var insignia = db.vw_User_Insignia.Where(x => x.UserID == userid).OrderByDescending(o => o.UiRecDate).ToList();
 
                     foreach (var item in insignia)
                     {
@@ -1612,7 +1612,7 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
                     int index = 1;
-                    var excellent = db.vw_User_Excellent.Where(x => x.UserID == userid).ToList();
+                    var excellent = db.vw_User_Excellent.Where(x => x.UserID == userid).OrderByDescending(o => o.UeRecDate).ToList();
 
                     foreach (var item in excellent)
                     {
@@ -1761,7 +1761,7 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
                     int index = 1;
-                    var certificate = db.vw_User_Certificate.Where(x => x.UserID == userid).ToList();
+                    var certificate = db.vw_User_Certificate.Where(x => x.UserID == userid).OrderByDescending(o => o.UcRecDate).ToList();
 
                     foreach (var item in certificate)
                     {
@@ -1902,7 +1902,7 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
                     int index = 1;
-                    var history = db.vw_User_History.Where(x => x.UserID == userid).ToList();
+                    var history = db.vw_User_History.Where(x => x.UserID == userid).OrderByDescending(o => o.UhEditDate).ToList();
 
                     foreach (var item in history)
                     {
