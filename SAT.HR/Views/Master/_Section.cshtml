@@ -13,22 +13,22 @@
             <div class="col-sm-9">
                 <div class="form-group bmd-form-group">
                     <label class="bmd-label-floating"></label>
-                    @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "-- กรุณาเลือก / Please choose --", new { @class = "form-control", required = "true" })
+                    @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control selectpicker", data_show_subtext = "true", data_live_search = "true", required = "true" })
                     @Html.ValidationMessageFor(m  => m.DepID)
                 </div>
             </div>
         </div>
-        <div class="row" style="margin-top:15px">
+        <div class="row">
             @Html.Label("กอง", null, new { @class = "col-sm-3 col-form-label" })
             <div class="col-sm-9">
                 <div class="form-group bmd-form-group">
                     <label class="bmd-label-floating"></label>
-                    @Html.DropDownListFor(n => n.DepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Department, "Value", "Text"), "-- กรุณาเลือก / Please choose --", new { @class = "form-control", required = "true" })
+                    @Html.DropDownListFor(n => n.DepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Department, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control selectpicker", data_show_subtext = "true", data_live_search = "true", required = "true" })
                     @Html.ValidationMessageFor(m => m.DivID)
                 </div>
             </div>
         </div>
-        <div class="row" style="margin-top:15px">
+        <div class="row">
             @Html.Label("หน่วยงาน", null, new { @class = "col-sm-3 col-form-label" })
             <div class="col-sm-9">
                 <div class="form-group bmd-form-group">
@@ -54,6 +54,8 @@
 }
 <script>
     $(document).ready(function () {
+
+        $('.selectpicker').selectpicker();
 
         if ('@Model.SecStatus' == 'True') {
             $(".checkbox").prop("checked", true);

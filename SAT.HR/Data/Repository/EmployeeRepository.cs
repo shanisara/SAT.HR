@@ -140,7 +140,6 @@ namespace SAT.HR.Data.Repository
             }
             catch (Exception)
             {
-
                 throw;
             }
             return result;

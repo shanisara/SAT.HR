@@ -133,16 +133,16 @@ namespace SAT.HR.Data.Repository
                     RoleID = s.RoleID,
                     RoleName = s.RoleName,
                     RoleDesc = s.RoleDesc,
-                    UserID = (int)s.UserID,
+                    UserID = s.UserID,
                     UserName = s.UserName,
                     FullName = s.FirstName + " " + s.LastName,
-                    DivID = (int)s.DivID,
+                    DivID = s.DivID,
                     DivName = s.DivName,
-                    DepID = (int)s.DepID,
+                    DepID = s.DepID,
                     DepName = s.DepName,
-                    SecID = (int)s.SecID,
+                    SecID = s.SecID,
                     SecName = s.SecName,
-                    PoID = (int)s.PoID,
+                    PoID = s.PoID,
                     PoName = s.PoName
                 }).OrderBy(x => x.UserName).ToList();
 
