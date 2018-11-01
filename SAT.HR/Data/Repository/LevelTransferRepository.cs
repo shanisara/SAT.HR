@@ -234,6 +234,7 @@ namespace SAT.HR.Data.Repository
                             detail.ModifyBy = UtilityService.User.UserID;
                             detail.ModifyDate = DateTime.Now;
                             db.tb_Move_Level_Detail.Add(detail);
+                            db.SaveChanges();
                         }
 
                         transection.Commit();
