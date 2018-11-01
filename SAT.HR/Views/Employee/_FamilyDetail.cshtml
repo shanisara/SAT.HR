@@ -44,7 +44,7 @@
         <div class="row marital">
             @Html.Label("สถานะสมรส: ", null, new { @class = "col-sm-3 col-form-label" })
             <div class="col-sm-3">
-                @Html.DropDownListFor(n => n.MaritalStatusID, new SelectList((IEnumerable<SelectListItem>)ViewBag.MaritalStatus, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition ufMaritalStatusID" })
+                @Html.DropDownListFor(n => n.MaritalStatusID, new SelectList((IEnumerable<SelectListItem>)ViewBag.MaritalStatus, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition selectpicker ufMaritalStatusID", data_show_subtext = "true", data_live_search = "true" })
             </div>
             @Html.Label("วันที่หย่าร้าง: ", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-4">
@@ -125,7 +125,7 @@
         <div class="row occupation">
             @Html.Label("อาชีพ: ", null, new { @class = "col-sm-3 col-form-label" })
             <div class="col-sm-9 m-t-10">
-                @Html.DropDownListFor(n => n.OcID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Occupation, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+                @Html.DropDownListFor(n => n.OcID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Occupation, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition selectpicker", data_show_subtext = "true", data_live_search = "true" })
             </div>
         </div>
         <div class="row isworked">
@@ -139,14 +139,14 @@
                 </div>
             </div>
             <div class="col-sm-8 m-t-20">
-                @Html.DropDownListFor(n => n.PoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition ufPosition" })
+                @Html.DropDownListFor(n => n.PoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition ufPosition selectpicker", data_show_subtext = "true", data_live_search = "true" })
             </div>
         </div>
     </div>
 }
 <script>
 
-    if ('@Model' != null) {
+    @*if ('@Model' != null) {
         if ('@Model.PoID' != '') {
             $(".ufIsworked").prop("checked", true);
             $(".ufPosition").prop("disabled", false);
@@ -154,8 +154,9 @@
         else {
             $(".ufPosition").prop("disabled", true);
         }
-    }
+    }*@
 
+    $('.selectpicker').selectpicker();
 
     $('.datepicker').datetimepicker({
         format: 'DD/MM/YYYY',

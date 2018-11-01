@@ -1,7 +1,7 @@
 ﻿@model SAT.HR.Models.UserPositionViewModel
 <style>
     .m-t-10 {
-        margin-top:10px;
+        margin-top: 10px;
     }
 </style>
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-position" }))
@@ -16,14 +16,14 @@
         @Html.HiddenFor(m => m.UserID)
         @Html.HiddenFor(m => m.UpID)
 
-        <div class="row occupation">
+        <div class="row">
             @Html.Label("ประเภทตำแหน่ง: ", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-3">
-                @Html.DropDownListFor(n => n.PoTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.PositionType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                @Html.DropDownListFor(n => n.PoTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.PositionType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition selectpicker", data_show_subtext = "true", data_live_search = "true", required = "true" })
             </div>
-             @Html.Label("การเคลื่อนไหว: ", null, new { @class = "col-sm-2 col-form-label" })
+            @Html.Label("การเคลื่อนไหว: ", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-5">
-                @Html.DropDownListFor(n => n.ActID, new SelectList((IEnumerable<SelectListItem>)ViewBag.ActionType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
+                @Html.DropDownListFor(n => n.ActID, new SelectList((IEnumerable<SelectListItem>)ViewBag.ActionType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition selectpicker", data_show_subtext = "true", data_live_search = "true", required = "true" })
             </div>
         </div>
         <div class="row">
@@ -34,45 +34,43 @@
                 </div>
             </div>
         </div>
-        <div class="row occupation">
+        <div class="row">
             @Html.Label("ฝ่าย: ", null, new { @class = "col-sm-2 col-form-label" })
-            <div class="col-sm-10 m-t-10">
-                @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition po-div" })
+            <div class="col-sm-10">
+                @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition po-div selectpicker", data_show_subtext = "true", data_live_search = "true" })
             </div>
         </div>
         <div class="row occupation">
             @Html.Label("กอง: ", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-10 m-t-10">
-                @Html.DropDownListFor(n => n.DepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Department, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition po-dep" })
-            </div>
-        </div>
-        <div class="row occupation">
-            @Html.Label("งาน: ", null, new { @class = "col-sm-2 col-form-label" })
-            <div class="col-sm-10 m-t-10">
-                @Html.DropDownListFor(n => n.SecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Section, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition po-sec" })
-            </div>
-        </div>
-        <div class="row occupation">
-            @Html.Label("ตำแหน่ง: ", null, new { @class = "col-sm-2 col-form-label" })
-            <div class="col-sm-10">
-                @Html.DropDownListFor(n => n.PoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
-            </div>
-        </div>
-        <div class="row occupation m-t-10">
-            @Html.Label("ตำแหน่ง (รักษาการ): ", null, new { @class = "col-sm-2 col-form-label" })
-            <div class="col-sm-9">
-                @Html.DropDownListFor(n => n.PoAID, new SelectList((IEnumerable<SelectListItem>)ViewBag.PositionAgent, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+                @Html.DropDownListFor(n => n.DepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Department, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition po-dep selectpicker", data_show_subtext = "true", data_live_search = "true" })
             </div>
         </div>
         <div class="row">
-            @Html.Label("ระดับ: ", null, new { @class = "col-sm-2 col-form-label" })
-            <div class="col-sm-3">
+            @Html.Label("งาน: ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10 m-t-10">
+                @Html.DropDownListFor(n => n.SecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Section, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition po-sec selectpicker", data_show_subtext = "true", data_live_search = "true" })
+            </div>
+        </div>
+        <div class="row m-t-10">
+            @Html.Label("ตำแหน่ง: ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.DropDownListFor(n => n.PoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition selectpicker", data_show_subtext = "true", data_live_search = "true", required = "true" })
+            </div>
+        </div>
+        <div class="row m-t-10">
+            @Html.Label("ตำแหน่ง (รักษาการ): ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-4">
+                @Html.DropDownListFor(n => n.PoAID, new SelectList((IEnumerable<SelectListItem>)ViewBag.PositionAgent, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition selectpicker", data_show_subtext = "true", data_live_search = "true" })
+            </div>
+            @Html.Label("ระดับ: ", null, new { @class = "col-sm-1 col-form-label" })
+            <div class="col-sm-2">
                 <div class="form-group bmd-form-group">
                     @Html.TextBoxFor(m => m.UpLevel, new { @class = "form-control", type = "number" })
                 </div>
             </div>
-            @Html.Label("เงินเดือน: ", null, new { @class = "col-sm-2 col-form-label" })
-            <div class="col-sm-5">
+            @Html.Label("เงินเดือน: ", null, new { @class = "col-sm-1 col-form-label" })
+            <div class="col-sm-2">
                 <div class="form-group bmd-form-group">
                     @Html.TextBoxFor(m => m.UpSalary, new { @class = "form-control", type = "number", min = "0", step = "0.01" })
                 </div>
@@ -81,15 +79,11 @@
         <div class="row">
             @Html.Label("วันที่ลงคำส่ง: ", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-3">
-                <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UpCmdDateText, new { @class = "form-control datepicker" })
-                </div>
+                @Html.TextBoxFor(m => m.UpCmdDateText, new { @class = "form-control datepicker" })
             </div>
             @Html.Label("วันที่มีผลบังคับใช้: ", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-5">
-                <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UpForceDateText, new { @class = "form-control datepicker" })
-                </div>
+                @Html.TextBoxFor(m => m.UpForceDateText, new { @class = "form-control datepicker" })
             </div>
         </div>
         <div class="row">
@@ -124,6 +118,8 @@
         $(".file-path").hide();
         $(".file-upload").show();
     }
+
+    $('.selectpicker').selectpicker();
 
     $('.datepicker').datetimepicker({
         format: 'DD/MM/YYYY',

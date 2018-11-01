@@ -32,7 +32,7 @@
         <div class="row occupation">
             @Html.Label("คำนำหน้า: ", null, new { @class = "col-sm-4 col-form-label" })
             <div class="col-sm-8 m-t-10">
-                @Html.DropDownListFor(n => n.NewTiID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Title, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
+                @Html.DropDownListFor(n => n.NewTiID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Title, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition selectpicker", data_show_subtext = "true", data_live_search = "true" })
             </div>
         </div>
         <div class="row  m-t-10">
@@ -77,15 +77,15 @@
         </div>
     </div>
 }
-<style>
-    .error{ color:red;}
-</style>
+
 <script>
     if ('@Model' != null) {
         if ('@Model.UhStatus' == 'True') {
             $(".uhIsChange").prop("checked", true);
         }
     }
+
+    $('.selectpicker').selectpicker();
 
     $('.datepicker').datetimepicker({
         format: 'DD/MM/YYYY',

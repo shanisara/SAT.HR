@@ -357,11 +357,11 @@
 
     $(".add-father").click(function () {
         var userid = $("#UserID").val();
+        var usertype = $("#UserType").val();
         var recid = 2;
         $("#FamilyType").val(recid);
-
         var url = '@Url.Action("FamilyDetail", "Employee")';
-        $.post(url, { userid: userid, recid: recid, ufid: 0 }, function (data) {
+        $.post(url, { userid: userid, recid: recid, ufid: 0, usertype: usertype }, function (data) {
             $(".detail-family").html(data);
             displayDetail(recid);
             $('.modal-family').modal('show');
@@ -370,11 +370,11 @@
 
     $(".add-mother").click(function () {
         var userid = $("#UserID").val();
+        var usertype = $("#UserType").val();
         var recid = 3;
         $("#FamilyType").val(recid);
-
         var url = '@Url.Action("FamilyDetail", "Employee")';
-        $.post(url, { userid: userid, recid: recid, ufid: 0 }, function (data) {
+        $.post(url, { userid: userid, recid: recid, ufid: 0, usertype: usertype }, function (data) {
             $(".detail-family").html(data);
             displayDetail(recid);
             $('.modal-family').modal('show');
@@ -383,11 +383,11 @@
 
     $(".add-spouse").click(function () {
         var userid = $("#UserID").val();
+        var usertype = $("#UserType").val();
         var recid = 4;
         $("#FamilyType").val(recid);
-
         var url = '@Url.Action("FamilyDetail", "Employee")';
-        $.post(url, { userid: userid, recid: recid, ufid: 0 }, function (data) {
+        $.post(url, { userid: userid, recid: recid, ufid: 0, usertype: usertype }, function (data) {
             $(".detail-family").html(data);
             displayDetail(recid);
             $('.modal-family').modal('show');
@@ -396,11 +396,12 @@
 
     $(".add-child").click(function () {
         var userid = $("#UserID").val();
+        var usertype = $("#UserType").val();
         var recid = 5;
         $("#FamilyType").val(recid);
 
         var url = '@Url.Action("FamilyDetail", "Employee")';
-        $.post(url, { userid: userid, recid: recid, ufid: 0 }, function (data) {
+        $.post(url, { userid: userid, recid: recid, ufid: 0, usertype: usertype }, function (data) {
             $(".detail-family").html(data);
             displayDetail(recid);
             $('.modal-family').modal('show');
@@ -469,8 +470,9 @@
     function EditFamily(ufid, recid) {
         $("#FamilyType").val(recid);
         var userid = $("#UserID").val();
+        var usertype = $("#UserType").val();
         var url = '@Url.Action("FamilyDetail", "Employee")/'+ userid + "?recid=" + recid;
-        $.post(url, { userid: userid, recid: recid, ufid: ufid }, function (data) {
+        $.post(url, { userid: userid, recid: recid, ufid: ufid, usertype: usertype }, function (data) {
             $(".detail-family").html(data);
             displayDetail(recid);
             $('.modal-family').modal('show');

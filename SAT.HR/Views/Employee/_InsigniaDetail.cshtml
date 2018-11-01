@@ -11,17 +11,17 @@
     @Html.HiddenFor(m => m.UiPartFile)
 
     <div class="row">
-        @Html.Label("เครื่องราชฯ/วิริยะ: ", null, new { @class = "col-sm-3 col-form-label" })
-        <div class="col-sm-9 m-t-10">
-            @Html.DropDownListFor(n => n.InsID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Insignia, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition", required = "true" })
-        </div>
-    </div>
-    <div class="row">
         @Html.Label("ปีที่ได้รับ: ", null, new { @class = "col-sm-3 col-form-label" })
         <div class="col-sm-9">
             <div class="form-group">
                 @Html.TextBoxFor(m => m.UiYear, new { @class = "form-control", required = "true", type = "number" })
             </div>
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("เครื่องราชฯ/วิริยะ: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-9 m-t-5">
+            @Html.DropDownListFor(n => n.InsID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Insignia, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition selectpicker", data_show_subtext = "true", data_live_search = "true", required = "true" })
         </div>
     </div>
     <div class="row">
@@ -46,15 +46,13 @@
     </div>
     <div class="row">
         @Html.Label("วันที่รับ: ", null, new { @class = "col-sm-3 col-form-label" })
-        <div class="col-sm-9">
+        <div class="col-sm-3">
             <div class="form-group">
                 @Html.TextBoxFor(m => m.UiRecDateText, new { @class = "form-control datepicker" })
             </div>
         </div>
-    </div>
-    <div class="row">
-        @Html.Label("วันที่ส่งคืน: ", null, new { @class = "col-sm-3 col-form-label" })
-        <div class="col-sm-9">
+        @Html.Label("วันที่ส่งคืน: ", null, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-4">
             <div class="form-group">
                 @Html.TextBoxFor(m => m.UiRetDateText, new { @class = "form-control datepicker" })
             </div>
@@ -92,6 +90,8 @@
         $(".file-path").hide();
         $(".file-upload").show();
     }
+
+    $('.selectpicker').selectpicker();
 
     $('.datepicker').datetimepicker({
         format: 'DD/MM/YYYY',
