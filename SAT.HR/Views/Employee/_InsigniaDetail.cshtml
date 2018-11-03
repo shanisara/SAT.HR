@@ -4,20 +4,19 @@
     .bootstrap-select .dropdown-toggle[title="-- กรุณาเลือก --"] .filter-option-inner-inner {
         color: red;
     }
+
 </style>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-insignia" }))
 {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.UserID)
+    @Html.HiddenFor(m => m.UiID)
+    @Html.HiddenFor(m => m.UiPartFile)
 
     <div class="form-horizontal">
-
-        @Html.HiddenFor(m => m.UserID)
-        @Html.HiddenFor(m => m.UiID)
-        @Html.HiddenFor(m => m.UiPartFile)
-
         <div class="row">
-            @Html.Label("ปีที่ได้รับ: ", null, new { @class = "col-sm-3 col-form-label" })
+            <label class="col-sm-3 col-form-label" for="NewLastNameTh">ปีที่ได้รับ:<span class="text-danger"> *</span> </label>
             <div class="col-sm-9">
                 <div class="form-group">
                     @Html.TextBoxFor(m => m.UiYear, new { @class = "form-control", required = "true", type = "number" })
@@ -25,25 +24,25 @@
             </div>
         </div>
         <div class="row">
-            @Html.Label("เครื่องราชฯ/วิริยะ: ", null, new { @class = "col-sm-3 col-form-label" })
+            <label class="col-sm-3 col-form-label" for="NewLastNameTh">เครื่องราชฯ/วิริยะ:<span class="text-danger"> *</span> </label>
             <div class="col-sm-9 m-t-5">
                 @Html.DropDownListFor(n => n.InsID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Insignia, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control selectpicker", data_show_subtext = "true", data_live_search = "true", required = "true" })
             </div>
         </div>
         <div class="row">
-            @Html.Label("เล่ม: ", null, new { @class = "col-sm-3 col-form-label" })
+            <label class="col-sm-3 col-form-label" for="NewLastNameTh">เล่ม:<span class="text-danger"> *</span> </label>
             <div class="col-sm-3">
                 <div class="form-group">
                     @Html.TextBoxFor(m => m.UiBook, new { @class = "form-control", required = "true" })
                 </div>
             </div>
-            @Html.Label("ตอน: ", null, new { @class = "col-sm-1 col-form-label" })
+            <label class="col-sm-1 col-form-label" for="NewLastNameTh">ตอน:<span class="text-danger"> *</span> </label>
             <div class="col-sm-2">
                 <div class="form-group">
                     @Html.TextBoxFor(m => m.UiPart, new { @class = "form-control", required = "true" })
                 </div>
             </div>
-            @Html.Label("หน้า: ", null, new { @class = "col-sm-1 col-form-label" })
+            <label class="col-sm-1 col-form-label" for="NewLastNameTh">หน้า:<span class="text-danger"> *</span> </label>
             <div class="col-sm-2">
                 <div class="form-group">
                     @Html.TextBoxFor(m => m.UiPage, new { @class = "form-control", required = "true" })

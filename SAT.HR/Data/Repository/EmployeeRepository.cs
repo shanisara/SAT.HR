@@ -24,7 +24,7 @@ namespace SAT.HR.Data.Repository
                         UserID = s.UserID,
                         UserName = s.UserName,
                         FullNameTh = s.FullNameTh,
-                        Avatar = SysConfig.ApplicationRoot + (!string.IsNullOrEmpty(s.Avatar) ? SysConfig.PathDownloadUserAvatar + s.Avatar : "Content/assets/img/default-avatar.png"),
+                        Avatar = SysConfig.ApplicationRoot + (!string.IsNullOrEmpty(s.Avatar) ? SysConfig.PathDownloadUserAvatar +"/"+ s.Avatar : "Content/assets/img/default-avatar.png"),
                         Email = s.Email,
                         DivID = s.DivID,
                         DivName = s.DivName,
@@ -230,7 +230,7 @@ namespace SAT.HR.Data.Repository
                     model.WorkingTypeID = data.WorkingTypeID;
                     model.FingerScan = data.FingerScan;
                     model.CardScan = data.CardScan;
-                    model.Avatar = SysConfig.ApplicationRoot + "/" + (!string.IsNullOrEmpty(data.Avatar) ? SysConfig.PathDownloadUserAvatar + data.Avatar : "Content/assets/img/image_placeholder.jpg");
+                    model.Avatar = SysConfig.ApplicationRoot + (!string.IsNullOrEmpty(data.Avatar) ? SysConfig.PathDownloadUserAvatar + "/" + data.Avatar : "Content/assets/img/image_placeholder.jpg");
                     model.IsActive = data.IsActive;
                     model.UserType = data.UserTID;
                     model.Age = data.Age;

@@ -3,26 +3,25 @@
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-history" }))
 {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.UserID)
+    @Html.HiddenFor(m => m.UhID)
+    @Html.HiddenFor(m => m.UhStatus)
 
     <div class="form-horizontal">
-
-        @Html.HiddenFor(m => m.UserID)
-        @Html.HiddenFor(m => m.UhID)
-        @Html.HiddenFor(m => m.UhStatus)
-
         <div class="row">
-            @Html.Label("ปรับปรุงข้อมูลนี้เป็นปัจจุบัน: ", null, new { @class = "col-sm-4 col-form-label" })
+            <div class="col-sm-4"></div>
             <div class="col-sm-8">
                 <div class="form-check mr-auto">
                     <label class="form-check-label">
                         <input class="form-check-input uhIsChange" type="checkbox" aria-required="true">
-                        <span class="form-check-sign"><span class="check"></span></span>
+                        <span class="form-check-sign" style="margin-top:-15px;"><span class="check"></span></span>
                     </label>
+                    @Html.Label("ปรับปรุงข้อมูลนี้เป็นปัจจุบัน: ", null, new { @class = "col-form-label" })
                 </div>
             </div>
         </div>
         <div class="row">
-            @Html.Label("วันที่แก้ไข: ", null, new { @class = "col-sm-4 col-form-label" })
+            <label class="col-sm-4 col-form-label" for="UhEditDateText">วันที่แก้ไข<span class="text-danger"> *</span> </label>
             <div class="col-sm-8">
                 <div class="form-group bmd-form-group">
                     @Html.TextBoxFor(m => m.UhEditDateText, new { @class = "form-control datepicker", required = "true" })
@@ -36,7 +35,7 @@
             </div>
         </div>
         <div class="row  m-t-10">
-            @Html.Label("ชื่อ(ไทย): ", null, new { @class = "col-sm-4 col-form-label" })
+            <label class="col-sm-4 col-form-label" for="NewFirstNameTh">ชื่อ(ไทย):<span class="text-danger"> *</span> </label>
             <div class="col-sm-8">
                 <div class="form-group bmd-form-group">
                     @Html.TextBoxFor(m => m.NewFirstNameTh, new { @class = "form-control", required = "true" })
@@ -44,7 +43,7 @@
             </div>
         </div>
         <div class="row">
-            @Html.Label("นามสกุล(ไทย): ", null, new { @class = "col-sm-4 col-form-label" })
+            <label class="col-sm-4 col-form-label" for="NewLastNameTh">นามสกุล(ไทย):<span class="text-danger"> *</span> </label>
             <div class="col-sm-8">
                 <div class="form-group bmd-form-group">
                     @Html.TextBoxFor(m => m.NewLastNameTh, new { @class = "form-control", required = "true" })

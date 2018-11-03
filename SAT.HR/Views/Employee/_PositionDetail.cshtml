@@ -1,5 +1,11 @@
 ﻿@model SAT.HR.Models.UserPositionViewModel
 
+<style>
+    .bootstrap-select .dropdown-toggle[title="-- กรุณาเลือก --"] .filter-option-inner-inner {
+        color: red;
+    }
+</style>
+
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-position" }))
 {
     @Html.AntiForgeryToken()
@@ -8,22 +14,18 @@
     @Html.HiddenFor(m => m.UpPathFile)
 
     <div class="form-horizontal">
-
-        @Html.HiddenFor(m => m.UserID)
-        @Html.HiddenFor(m => m.UpID)
-
         <div class="row">
-            @Html.Label("ประเภทตำแหน่ง: ", null, new { @class = "col-sm-2 col-form-label" })
+            <label class="col-sm-2 col-form-label" for="PoTID">ประเภทตำแหน่ง:<span class="text-danger"> *</span> </label>
             <div class="col-sm-3">
                 @Html.DropDownListFor(n => n.PoTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.PositionType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control selectpicker", data_show_subtext = "true", data_live_search = "true", required = "true" })
             </div>
-            @Html.Label("การเคลื่อนไหว: ", null, new { @class = "col-sm-2 col-form-label" })
+            <label class="col-sm-2 col-form-label" for="ActID">การเคลื่อนไหว:<span class="text-danger"> *</span> </label>
             <div class="col-sm-5">
                 @Html.DropDownListFor(n => n.ActID, new SelectList((IEnumerable<SelectListItem>)ViewBag.ActionType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control selectpicker", data_show_subtext = "true", data_live_search = "true", required = "true" })
             </div>
         </div>
         <div class="row">
-            @Html.Label("คำสั่ง: ", null, new { @class = "col-sm-2 col-form-label" })
+            <label class="col-sm-2 col-form-label" for="UpCmd">คำสั่ง:<span class="text-danger"> *</span> </label>
             <div class="col-sm-10">
                 <div class="form-group bmd-form-group">
                     @Html.TextBoxFor(m => m.UpCmd, new { @class = "form-control", required = "true" })
@@ -31,25 +33,25 @@
             </div>
         </div>
         <div class="row">
-            @Html.Label("ฝ่าย: ", null, new { @class = "col-sm-2 col-form-label" })
+            <label class="col-sm-2 col-form-label" for="DivID">ฝ่าย:<span class="text-danger"> *</span> </label>
             <div class="col-sm-10">
                 @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control selectpicker", data_show_subtext = "true", data_live_search = "true" })
             </div>
         </div>
         <div class="row occupation">
-            @Html.Label("กอง: ", null, new { @class = "col-sm-2 col-form-label" })
+            <label class="col-sm-2 col-form-label" for="DepID">กอง:<span class="text-danger"> *</span> </label>
             <div class="col-sm-10 m-t-10">
                 @Html.DropDownListFor(n => n.DepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Department, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control selectpicker", data_show_subtext = "true", data_live_search = "true" })
             </div>
         </div>
         <div class="row">
-            @Html.Label("งาน: ", null, new { @class = "col-sm-2 col-form-label" })
+            <label class="col-sm-2 col-form-label" for="SecID">งาน:<span class="text-danger"> *</span> </label>
             <div class="col-sm-10 m-t-10">
                 @Html.DropDownListFor(n => n.SecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Section, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control selectpicker", data_show_subtext = "true", data_live_search = "true" })
             </div>
         </div>
         <div class="row m-t-10">
-            @Html.Label("ตำแหน่ง: ", null, new { @class = "col-sm-2 col-form-label" })
+            <label class="col-sm-2 col-form-label" for="PoID">ตำแหน่ง:<span class="text-danger"> *</span> </label>
             <div class="col-sm-10">
                 @Html.DropDownListFor(n => n.PoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control selectpicker", data_show_subtext = "true", data_live_search = "true", required = "true" })
             </div>
@@ -57,7 +59,7 @@
         <div class="row m-t-10">
             @Html.Label("ตำแหน่ง (รักษาการ): ", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-4">
-                @Html.DropDownListFor(n => n.PoAID, new SelectList((IEnumerable<SelectListItem>)ViewBag.PositionAgent, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control selectpicker", data_show_subtext = "true", data_live_search = "true" })
+                @Html.DropDownListFor(n => n.PoAID, new SelectList((IEnumerable<SelectListItem>)ViewBag.PositionAgent, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition" })
             </div>
             @Html.Label("ระดับ: ", null, new { @class = "col-sm-1 col-form-label" })
             <div class="col-sm-2">
@@ -106,6 +108,10 @@
 }
 
 <script>
+    $(".form-position").validate({
+        errorPlacement: $.noop
+    });
+
     if ('@Model.UpPathFile' != '') {
         $(".file-path").show();
         $(".file-upload").hide();

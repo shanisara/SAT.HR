@@ -2,26 +2,24 @@
 
 <style>
     .bootstrap-select .dropdown-toggle[title="-- กรุณาเลือก --"] .filter-option-inner-inner  {
-        color: red; 
+        color: red;
     }
 </style>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-certificate" }))
 {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.UserID)
+    @Html.HiddenFor(m => m.UcID)
 
     <div class="form-horizontal">
-
-        @Html.HiddenFor(m => m.UserID)
-        @Html.HiddenFor(m => m.UcID)
-
         <div class="row occupation">
-            @Html.Label("ใบประกอบวิชาชีพ: ", null, new { @class = "col-sm-3 col-form-label" })
+            <label class="col-sm-3 col-form-label" for="NewLastNameTh">ใบประกอบวิชาชีพ:<span class="text-danger"> *</span> </label>
             <div class="col-sm-9 m-t-10">
-                @Html.DropDownListFor(n => n.CerId, new SelectList((IEnumerable<SelectListItem>)ViewBag.Certificate, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition selectpicker", data_show_subtext = "true", data_live_search = "true", required = "true" })
+                @Html.DropDownListFor(n => n.CerId, new SelectList((IEnumerable<SelectListItem>)ViewBag.Certificate, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control selectpicker", data_show_subtext = "true", data_live_search = "true", required = "true" })
             </div>
         </div>
-        <div class="row">
+        <div class="row m-t-10">
             @Html.Label("วันทีได้รับ: ", null, new { @class = "col-sm-3 col-form-label" })
             <div class="col-sm-9">
                 <div class="form-group bmd-form-group">
@@ -38,7 +36,6 @@
     });
 
     $('.selectpicker').selectpicker();
-
 
     $('.datepicker').datetimepicker({
         format: 'DD/MM/YYYY',

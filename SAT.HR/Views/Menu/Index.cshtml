@@ -38,12 +38,7 @@
         </div>
 
         <ul class="nav">
-            <li class="nav-item ">
-                <a class="nav-link active" href="@Url.Action("Dashboard", "Home")">
-                    <i class="material-icons">home</i>
-                    <p> หน้าแรก </p>
-                </a>
-            </li>
+
             @{
                 string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
                 string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
@@ -53,7 +48,15 @@
                     else if (actionName == "LevelTransferDetail") { actionName = "LevelTransfer"; }
                     else if (actionName == "PositionTransferDetail") { actionName = "PositionTransfer"; }
                 }
+                string activeDashboard = (actionName == "Dashboard") ? "active" : string.Empty;
             }
+
+            <li class="nav-item @activeDashboard">
+                <a class="nav-link" href="@Url.Action("Dashboard", "Home")">
+                    <i class="material-icons">home</i>
+                    <p> หน้าแรก </p>
+                </a>
+            </li>
 
             @foreach (var item in Model.ListMenu.Where(m => m.ParentID == 0))
             {

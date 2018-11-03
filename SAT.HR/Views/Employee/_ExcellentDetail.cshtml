@@ -1,31 +1,21 @@
 ﻿@model SAT.HR.Models.UserExcellentViewModel
 
-<style>
-    .bootstrap-select .dropdown-toggle[title="-- กรุณาเลือก --"] .filter-option-inner-inner {
-        color: red;
-    }
-</style>
-
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-excellent" }))
 {
     @Html.AntiForgeryToken()
-
     @Html.HiddenFor(m => m.UserID)
     @Html.HiddenFor(m => m.UeID)
+    @Html.HiddenFor(m => m.ExID)
 
     <div class="form-horizontal">
-
-        @Html.HiddenFor(m => m.UserID)
-        @Html.HiddenFor(m => m.ExID)
-
-        <div class="row occupation">
+        <div class="row">
             @Html.Label("ประเภท: ", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-10 m-t-10">
-                @Html.DropDownListFor(n => n.ExTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.ExcellentType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control selectpicker", data_show_subtext = "true", data_live_search = "true", required = "true" })
+                @Html.DropDownListFor(n => n.ExTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.ExcellentType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control selectpicker", data_show_subtext = "true", data_live_search = "true" })
             </div>
         </div>
-        <div class="row">
-            @Html.Label("ชื่อโครงการ: ", null, new { @class = "col-sm-2 col-form-label" })
+        <div class="row m-t-10">
+            <label class="col-sm-2 col-form-label" for="NewLastNameTh">ชื่อโครงการ:<span class="text-danger"> *</span> </label>
             <div class="col-sm-10">
                 <div class="form-group bmd-form-group">
                     @Html.TextBoxFor(m => m.UeProjectName, new { @class = "form-control", required = "true" })
@@ -33,21 +23,17 @@
             </div>
         </div>
         <div class="row">
-            @Html.Label("วันที่รับ: ", null, new { @class = "col-sm-2 col-form-label" })
+            <label class="col-sm-2 col-form-label" for="NewLastNameTh">วันที่รับ:<span class="text-danger"> *</span> </label>
             <div class="col-sm-10">
                 <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UeRecDateText, new { @class = "form-control datepicker" })
+                    @Html.TextBoxFor(m => m.UeRecDateText, new { @class = "form-control datepicker", required = "true" })
                 </div>
             </div>
         </div>
-
     </div>
 }
 
 <script>
-    $(".form-excellent").validate({
-        errorPlacement: $.noop
-    });
 
     $('.selectpicker').selectpicker();
 
