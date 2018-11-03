@@ -254,7 +254,7 @@ namespace SAT.HR.Data.Repository
                     model.EmpowerDepID = data.EmpowerDepID;
                     model.EmpowerSecID = data.EmpowerSecID;
 
-                    model.PoTID = data.PoTID;
+                    model.AgentPoAID = data.AgentPoAID;
                     model.AgentDivID = data.AgentDivID;
                     model.AgentDepID = data.AgentDepID;
                     model.AgentSecID = data.AgentSecID;
@@ -356,34 +356,24 @@ namespace SAT.HR.Data.Repository
                     model.WorkingTypeID = data.WorkingTypeID;
                     model.FingerScan = data.FingerScan;
                     model.CardScan = data.CardScan;
-                    model.SalaryLevel = data.SalaryLevel;
-                    model.SalaryStep = data.SalaryStep;
-                    //model.DivID = data.DivID;
-                    //model.DepID = data.DepID;
-                    //model.SecID = data.SecID;
-                    //model.PoID = data.PoID;
-                    model.EmpowerID = data.EmpowerID;
-                    model.EmpowerDivID = data.EmpowerDivID;
-                    model.EmpowerDepID = data.EmpowerDepID;
-                    model.EmpowerSecID = data.EmpowerSecID;
-                    model.AgentDivID = data.AgentDivID;
-                    model.AgentDepID = data.AgentDepID;
-                    model.AgentSecID = data.AgentSecID;
-                    model.AgentPoID = data.AgentPoID;
+                    
                     model.HomeAddr = data.HomeAddr;
                     model.HomeSubDistrictID = data.HomeSubDistrictID;
                     model.HomeDistrictID = data.HomeDistrictID;
                     model.HomeProvinceID = data.HomeProvinceID;
                     model.HomeZipCode = data.HomeZipCode;
+
                     model.CurrAddr = data.CurrAddr;
                     model.CurrSubDistrictID = data.CurrSubDistrictID;
                     model.CurrDistrictID = data.CurrDistrictID;
                     model.CurrProvinceID = data.CurrProvinceID;
                     model.CurrZipCode = data.CurrZipCode;
+
                     model.Telephone = data.Telephone;
                     model.Email = data.Email;
                     model.ContactName = data.ContactName;
                     model.ContactPhone = data.ContactPhone;
+
                     model.Avatar = data.Avatar;
                     model.IsActive = data.IsActive;
                     model.CreateBy = UtilityService.User.UserID;
@@ -459,34 +449,38 @@ namespace SAT.HR.Data.Repository
                         model.WorkingTypeID = newdata.WorkingTypeID;
                         model.FingerScan = newdata.FingerScan;
                         model.CardScan = newdata.CardScan;
+
                         model.SalaryLevel = newdata.SalaryLevel;
                         model.SalaryStep = newdata.SalaryStep;
-                        //model.DivID = newdata.DivID;
-                        //model.DepID = newdata.DepID;
-                        //model.SecID = newdata.SecID;
-                        //model.PoID = newdata.PoID;
+
                         model.EmpowerID = newdata.EmpowerID;
                         model.EmpowerDivID = newdata.EmpowerDivID;
                         model.EmpowerDepID = newdata.EmpowerDepID;
                         model.EmpowerSecID = newdata.EmpowerSecID;
+
+                        model.AgentPoAID = newdata.AgentPoAID;
                         model.AgentDivID = newdata.AgentDivID;
                         model.AgentDepID = newdata.AgentDepID;
                         model.AgentSecID = newdata.AgentSecID;
                         model.AgentPoID = newdata.AgentPoID;
+
                         model.HomeAddr = newdata.HomeAddr;
                         model.HomeSubDistrictID = newdata.HomeSubDistrictID;
                         model.HomeDistrictID = newdata.HomeDistrictID;
                         model.HomeProvinceID = newdata.HomeProvinceID;
                         model.HomeZipCode = newdata.HomeZipCode;
+
                         model.CurrAddr = newdata.CurrAddr;
                         model.CurrSubDistrictID = newdata.CurrSubDistrictID;
                         model.CurrDistrictID = newdata.CurrDistrictID;
                         model.CurrProvinceID = newdata.CurrProvinceID;
                         model.CurrZipCode = newdata.CurrZipCode;
+
                         model.Telephone = newdata.Telephone;
                         model.Email = newdata.Email;
                         model.ContactName = newdata.ContactName;
                         model.ContactPhone = newdata.ContactPhone;
+
                         //model.Avatar = newdata.Avatar;
                         //model.IsActive = newdata.IsActive;
                         model.ModifyBy = UtilityService.User.UserID;

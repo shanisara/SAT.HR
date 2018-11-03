@@ -1,5 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="SAT.HR.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="AALocation">
+          <Property Name="province" Type="nvarchar" MaxLength="255" />
+          <Property Name="district" Type="nvarchar" MaxLength="255" />
+          <Property Name="subdistrict" Type="nvarchar" MaxLength="255" />
+          <Property Name="zipcode" Type="float" />
+        </EntityType>-->
   <EntityType Name="tb_Accumulative_Fund">
     <Key>
       <PropertyRef Name="CuID" />
@@ -892,6 +900,7 @@
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
     <Property Name="UserTID" Type="int" />
+    <Property Name="AgentPoAID" Type="int" />
   </EntityType>
   <EntityType Name="tb_User_Certificate">
     <Key>
@@ -1245,6 +1254,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Level_Head' does not have 
     <Property Name="MlSignatory" Type="nvarchar" MaxLength="200" />
     <Property Name="MIPathFile" Type="nvarchar(max)" />
     <Property Name="MlStatus" Type="int" />
+    <Property Name="MiApproveDate" Type="datetime" />
     <Property Name="MlTotal" Type="int" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
@@ -1342,7 +1352,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
   <EntityType Name="vw_User">
     <Key>
       <PropertyRef Name="UserID" />
-      <PropertyRef Name="PoTName" />
     </Key>
     <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="UserName" Type="nvarchar" MaxLength="50" />
@@ -1399,8 +1408,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     <Property Name="EmpowerDepName" Type="nvarchar" MaxLength="200" />
     <Property Name="EmpowerSecID" Type="int" />
     <Property Name="EmpowerSecName" Type="nvarchar" MaxLength="200" />
-    <Property Name="PoTID" Type="int" />
-    <Property Name="PoTName" Type="varchar" MaxLength="1" Nullable="false" />
+    <Property Name="AgentPoAID" Type="int" />
+    <Property Name="AgentPoAName" Type="nvarchar" MaxLength="100" />
     <Property Name="AgentDivID" Type="int" />
     <Property Name="AgentDivName" Type="nvarchar" MaxLength="200" />
     <Property Name="AgentDepID" Type="int" />
@@ -1596,8 +1605,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_NotRole' does not have a p
   <EntityType Name="vw_User_NotRole">
     <Key>
       <PropertyRef Name="UserID" />
-      <PropertyRef Name="UserTypID" />
-      <PropertyRef Name="UserTypeName" />
     </Key>
     <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="UserName" Type="nvarchar" MaxLength="50" />
@@ -1616,7 +1623,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_NotRole' does not have a p
     <Property Name="EduID" Type="int" />
     <Property Name="EduName" Type="nvarchar" MaxLength="200" />
     <Property Name="MpCode" Type="int" />
-    <Property Name="MpMan" Type="nvarchar" MaxLength="200" />
+    <Property Name="MpMan" Type="int" />
     <Property Name="SalaryLevel" Type="int" />
     <Property Name="SalaryStep" Type="decimal" Precision="18" Scale="0" />
     <Property Name="Email" Type="nvarchar" MaxLength="200" />
@@ -1624,8 +1631,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_NotRole' does not have a p
     <Property Name="StatusID" Type="int" />
     <Property Name="StatusName" Type="nvarchar" MaxLength="50" />
     <Property Name="IsActive" Type="bit" />
-    <Property Name="UserTypID" Type="int" Nullable="false" />
-    <Property Name="UserTypeName" Type="varchar" MaxLength="7" Nullable="false" />
+    <Property Name="UserTypID" Type="int" />
+    <Property Name="UserTypeName" Type="nvarchar" MaxLength="50" />
     <Property Name="RoleID" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
@@ -1671,8 +1678,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
     <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
     <Property Name="RoleDesc" Type="nvarchar" MaxLength="200" />
     <Property Name="UserID" Type="int" />
-    <Property Name="UserName" Type="nchar" MaxLength="10" />
-    <Property Name="Password" Type="nchar" MaxLength="10" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" />
     <Property Name="FirstName" Type="nvarchar" MaxLength="200" />
     <Property Name="LastName" Type="nvarchar" MaxLength="200" />
     <Property Name="UserTID" Type="int" />
@@ -2840,6 +2847,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Move_Level_Head].[MlSignatory] AS [MlSignatory], 
     [vw_Move_Level_Head].[MIPathFile] AS [MIPathFile], 
     [vw_Move_Level_Head].[MlStatus] AS [MlStatus], 
+    [vw_Move_Level_Head].[MiApproveDate] AS [MiApproveDate], 
     [vw_Move_Level_Head].[MlTotal] AS [MlTotal], 
     [vw_Move_Level_Head].[CreateDate] AS [CreateDate], 
     [vw_Move_Level_Head].[CreateBy] AS [CreateBy], 
@@ -2967,8 +2975,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_User].[EmpowerDepName] AS [EmpowerDepName], 
     [vw_User].[EmpowerSecID] AS [EmpowerSecID], 
     [vw_User].[EmpowerSecName] AS [EmpowerSecName], 
-    [vw_User].[PoTID] AS [PoTID], 
-    [vw_User].[PoTName] AS [PoTName], 
+    [vw_User].[AgentPoAID] AS [AgentPoAID], 
+    [vw_User].[AgentPoAName] AS [AgentPoAName], 
     [vw_User].[AgentDivID] AS [AgentDivID], 
     [vw_User].[AgentDivName] AS [AgentDivName], 
     [vw_User].[AgentDepID] AS [AgentDepID], 

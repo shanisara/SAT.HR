@@ -21,6 +21,7 @@ namespace SAT.HR.Data.Entities
         public string MlSignatory { get; set; }
         public string MIPathFile { get; set; }
         public Nullable<int> MlStatus { get; set; }
+        public Nullable<System.DateTime> MiApproveDate { get; set; }
         public Nullable<int> MlTotal { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }

@@ -233,7 +233,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group bmd-form-group">
                                             @Html.Label("เงินเดือน", null, new { @class = "bmd-label-fixed" })
-                                            @Html.TextBoxFor(m => m.Salary, new { @class = "form-control", @disabled = true })
+                                            @Html.TextBoxFor(m => m.Salary, "{0:N2}", new { @class = "form-control", @disabled = true })
                                         </div>
                                     </div>
                                 </div>
@@ -327,7 +327,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             @Html.Label("รักษาการแทน", null, new { @class = "label-select" })
-                                            @Html.DropDownListFor(n => n.PoTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.PositionType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control" })
+                                            @Html.DropDownListFor(n => n.AgentPoAID, new SelectList((IEnumerable<SelectListItem>)ViewBag.PositionType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control" })
                                         </div>
                                     </div>
                                 </div>
@@ -521,13 +521,15 @@
 
     debugger;
     if ('@Model.SalaryLevel' != '') {
-        $('.SalaryLevel').val('@Model.SalaryLevel');
+        $('select[name=SalaryLevel]').val('@Model.SalaryLevel');
+        $('select[name=SalaryLevel]').selectpicker('refresh');
     }
 
     if ('@Model.SalaryStep' != '') {
-        $('.SalaryStep').val('@Model.SalaryStep');
+        var salarystep = accounting.formatNumber('@Model.SalaryStep', 2);
+        $('select[name=SalaryStep]').val(salarystep);
+        $('select[name=SalaryStep]').selectpicker('refresh');
     }
-
 
     $('.selectpicker').selectpicker();
 

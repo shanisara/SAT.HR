@@ -109,7 +109,7 @@ namespace SAT.HR.Controllers
             ViewBag.EmpowerSection = DropDownList.GetSectionManPower(model.UserType, model.EmpowerDivID, model.EmpowerDepID, model.EmpowerSecID);
             ViewBag.EmpowerPosition = DropDownList.GetPositionManPowerValuePo(model.UserType, model.EmpowerDivID, model.EmpowerDepID, model.EmpowerSecID, model.EmpowerID);
 
-            ViewBag.PositionType = DropDownList.GetPositionType(model.PoTID);//-- > รักษาการแทน
+            ViewBag.PositionType = DropDownList.GetPositionType(model.AgentPoAID);//-- > รักษาการแทน
             ViewBag.AgentDivision = DropDownList.GetDivisionManPower(model.UserType, model.AgentDivID);
             ViewBag.AgentDepartment = DropDownList.GetDepartmentManPower(model.UserType, model.AgentDivID, model.AgentDepID);
             ViewBag.AgentSection = DropDownList.GetSectionManPower(model.UserType, model.AgentDivID, model.AgentDepID, model.AgentSecID);

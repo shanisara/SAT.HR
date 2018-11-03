@@ -92,6 +92,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
         public Nullable<int> UserTID { get; set; }
+        public Nullable<int> AgentPoAID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Benefit_Child_Education> tb_Benefit_Child_Education { get; set; }
