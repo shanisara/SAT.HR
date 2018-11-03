@@ -1,5 +1,11 @@
 ﻿@model SAT.HR.Models.UserCertificateViewModel
 
+<style>
+    .bootstrap-select .dropdown-toggle[title="-- กรุณาเลือก --"] .filter-option-inner-inner  {
+        color: red; 
+    }
+</style>
+
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-certificate" }))
 {
     @Html.AntiForgeryToken()
@@ -25,7 +31,12 @@
         </div>
     </div>
 }
+
 <script>
+    $(".form-certificate").validate({
+        errorPlacement: $.noop
+    });
+
     $('.selectpicker').selectpicker();
 
 

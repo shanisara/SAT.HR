@@ -74,6 +74,7 @@
     </div>
     </div>
 }
+
 <script>
     $('.selectpicker').selectpicker();
 
@@ -100,13 +101,14 @@
 
     $("#MlLevelNew").change(function () {
         var level = $('#MlLevelNew').val();
+        var step = '1.00';
         $.ajax({
             type: 'POST',
             url: '@Url.Action("SalaryByStep", "Master")',
-            data: { level: level, step: 1 },
+            data: { level: level, step: step },
             dataType: 'json',
             success: function (res) {
-                $('#MlStepNew').val('1');
+                $('#MlStepNew').val(step);
                 var salary = accounting.formatNumber(res.Salary, 2);
                 $('.new-salary').text(salary);
             }

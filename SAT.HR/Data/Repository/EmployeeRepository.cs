@@ -656,14 +656,15 @@ namespace SAT.HR.Data.Repository
                     model.UserID = obj.UserID;
                     model.UfName = obj.UfName;
                     model.UfCardID = obj.UfCardID;
-                    model.UfDOBText = Convert.ToDateTime(obj.UfDOB).ToString("dd/MM/yyyy");
+                    if(obj.UfDOB != null)
+                        model.UfDOBText = Convert.ToDateTime(obj.UfDOB).ToString("dd/MM/yyyy");
                     model.UfLifeStatus = obj.UfLifeStatus;
                     model.TdStatus = obj.TdStatus;
                     model.PoID = obj.PoID;
                     model.UfWeddingDate = obj.UfWeddingDate;
-                    model.UfWeddingDateText = Convert.ToDateTime(obj.UfWeddingDate).ToString("dd/MM/yyyy");
+                    model.UfWeddingDateText = (obj.UfWeddingDate != null) ? Convert.ToDateTime(obj.UfWeddingDate).ToString("dd/MM/yyyy") : string.Empty;
                     model.DivorceDate = obj.DivorceDate;
-                    model.DivorceDateText = Convert.ToDateTime(obj.DivorceDate).ToString("dd/MM/yyyy");
+                    model.DivorceDateText = (obj.DivorceDate != null) ? Convert.ToDateTime(obj.DivorceDate).ToString("dd/MM/yyyy") : string.Empty;
                     model.MaritalStatusID = obj.MaritalStatusID;
                     model.UfStudyStatus = obj.UfStudyStatus;
                     model.RecID = obj.RecID;
@@ -1650,7 +1651,6 @@ namespace SAT.HR.Data.Repository
                     UserExcellentViewModel model = new UserExcellentViewModel();
                     model.UeID = obj.UeID;
                     model.UserID = obj.UserID;
-                    //model.ExID = obj.ExID;
                     model.ExTID = obj.ExTID;
                     model.UeProjectName = obj.UeProjectName;
                     model.UeRecDate = obj.UeRecDate;

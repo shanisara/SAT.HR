@@ -34,6 +34,7 @@ namespace SAT.HR
                         "~/Content/assets/js/plugins/nouislider.min.js",
                         "~/Content/assets/js/plugins/arrive.min.js",
                         "~/Content/assets/js/plugins/chartist.min.js",
+                        "~/Content/assets/js/plugins/accounting.js",
                         "~/Content/assets/js/material-dashboard.min.js",
                         "~/Content/assets/demo/demo.js"));
 

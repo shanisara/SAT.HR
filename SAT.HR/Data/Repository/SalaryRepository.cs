@@ -193,7 +193,7 @@ namespace SAT.HR.Data.Repository
                 var list = db.tb_Salary.Where(m => m.SaLevel == level).GroupBy(g => g.SaStep).Select(group => new { SaStep = group.Key })
                             .Select(s => new SalaryStepViewModel()
                             {
-                                Step = (int)s.SaStep
+                                Step = (decimal)s.SaStep
                             })
                             .OrderBy(x => x.Step).ToList();
                 return list;
