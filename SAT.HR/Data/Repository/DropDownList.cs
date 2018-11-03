@@ -572,7 +572,7 @@ namespace SAT.HR.Data.Repository
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
-                select.Value = item.Step.ToString();
+                select.Value = item.Step.ToString("F2");
                 select.Text = item.Step.ToString();
                 select.Selected = defaultValue.HasValue ? (item.Step == defaultValue ? true : false) : false;
                 list.Add(select);
