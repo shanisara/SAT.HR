@@ -50,7 +50,7 @@
                 if (controllerName == "Employee")
                 {
                     if (actionName == "Detail" || actionName == "Add") { actionName = "Index"; }
-                    else if(actionName == "LevelTransferDetail") { actionName = "LevelTransfer"; }
+                    else if (actionName == "LevelTransferDetail") { actionName = "LevelTransfer"; }
                     else if (actionName == "PositionTransferDetail") { actionName = "PositionTransfer"; }
                 }
             }
@@ -68,28 +68,16 @@
                     <div class="collapse @show" id="m_@item.MenuID">
                         <ul class="nav">
 
-                        @foreach (var item2 in Model.ListMenu.Where(m => m.ParentID == @item.MenuID))
-                        {
-                            string active2 = (actionName == @item2.ActionName) ? "active" : string.Empty;
-                            int count = Model.ListMenu.Where(m => m.MenuType == "R").Count();
+                            @foreach (var item2 in Model.ListMenu.Where(m => m.ParentID == @item.MenuID))
+                            {
+                                string active2 = (actionName == @item2.ActionName) ? "active" : string.Empty;
 
-                            if (count > 0)
-                            {
-                                <li class="nav-item @active2">
-                                    <a class="nav-link" href="@Url.Action(@item2.ActionName, @item2.ControllerName)/@item2.MenuID">
-                                        <span class="sidebar-normal"> @item2.MenuName </span>
-                                    </a>
-                                </li>
-                            }
-                            else
-                            {
                                 <li class="nav-item @active2">
                                     <a class="nav-link" href="@Url.Action(@item2.ActionName, @item2.ControllerName)">
                                         <span class="sidebar-normal"> @item2.MenuName </span>
                                     </a>
                                 </li>
                             }
-                        }
                         </ul>
                     </div>
                 </li>

@@ -39,8 +39,8 @@
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="@Url.Content("~/Content/assets/js/material-dashboard.min.js?v=2.0.2")"></script>
 
-    @*<link href="~/Content/assets/js/nprogress/nprogress.css" rel="stylesheet" />
-    <script src="~/Content/assets/js/nprogress/nprogress.js"></script>*@
+    <link href="~/Content/assets/js/nprogress/nprogress.css" rel="stylesheet" />
+    <script src="~/Content/assets/js/nprogress/nprogress.js"></script>
 
     <script src="~/Content/assets/js/plugins/jquery.blockUI.js"></script>
     <script>
@@ -64,7 +64,7 @@
 
             $(document).ajaxStart(function () {
                 $.blockUI({
-                    message: 'กรุณารอสักครู่',
+                    message: 'กรุณารอสักครู่...',
                     css: {
                         border: 'none',
                         padding: '15px',
@@ -75,26 +75,26 @@
                         color: '#fff'
                     }
                 });
-                //if (typeof NProgress != 'undefined') {
-                //    NProgress.start();
-                //}
+                if (typeof NProgress != 'undefined') {
+                    NProgress.start();
+                }
             }).ajaxStop(function () {
                 $.unblockUI();
-                //if (typeof NProgress != 'undefined') {
-                //    NProgress.done();
-                //}
+                if (typeof NProgress != 'undefined') {
+                    NProgress.done();
+                }
             //}).ajaxSend(function (event, xhr, settings) {
             //    $.blockUI({ message: null }); 
             }).ajaxSuccess(function (event, xhr, settings) {
                 $.unblockUI();
-                //if (typeof NProgress != 'undefined') {
-                //    NProgress.done();
-                //}
+                if (typeof NProgress != 'undefined') {
+                    NProgress.done();
+                }
             }).ajaxError(function (event, jqxhr, settings, thrownError) {
                 $.unblockUI();
-                //if (typeof NProgress != 'undefined') {
-                //    NProgress.done();
-                //}
+                if (typeof NProgress != 'undefined') {
+                    NProgress.done();
+                }
                 try {
                     var jsonValue = jQuery.parseJSON(jqxhr.responseText);
                     $.alert({
