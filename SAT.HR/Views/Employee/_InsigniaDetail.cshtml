@@ -1,5 +1,11 @@
 ﻿@model SAT.HR.Models.UserInsigniaViewModel
 
+<style>
+    .bootstrap-select .dropdown-toggle[title="-- กรุณาเลือก --"] .filter-option-inner-inner {
+        color: red;
+    }
+</style>
+
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-insignia" }))
 {
     @Html.AntiForgeryToken()
@@ -21,26 +27,26 @@
         <div class="row">
             @Html.Label("เครื่องราชฯ/วิริยะ: ", null, new { @class = "col-sm-3 col-form-label" })
             <div class="col-sm-9 m-t-5">
-                @Html.DropDownListFor(n => n.InsID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Insignia, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition selectpicker", data_show_subtext = "true", data_live_search = "true", required = "true" })
+                @Html.DropDownListFor(n => n.InsID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Insignia, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control selectpicker", data_show_subtext = "true", data_live_search = "true", required = "true" })
             </div>
         </div>
         <div class="row">
             @Html.Label("เล่ม: ", null, new { @class = "col-sm-3 col-form-label" })
             <div class="col-sm-3">
                 <div class="form-group">
-                    @Html.TextBoxFor(m => m.UiBook, new { @class = "form-control", type = "number", required = "true" })
+                    @Html.TextBoxFor(m => m.UiBook, new { @class = "form-control", required = "true" })
                 </div>
             </div>
-            @Html.Label("ตอน: ", null, new { @class = "col-sm-1 col-form-label", type = "number", required = "true" })
+            @Html.Label("ตอน: ", null, new { @class = "col-sm-1 col-form-label" })
             <div class="col-sm-2">
                 <div class="form-group">
-                    @Html.TextBoxFor(m => m.UiPart, new { @class = "form-control", type = "number", required = "true" })
+                    @Html.TextBoxFor(m => m.UiPart, new { @class = "form-control", required = "true" })
                 </div>
             </div>
             @Html.Label("หน้า: ", null, new { @class = "col-sm-1 col-form-label" })
             <div class="col-sm-2">
                 <div class="form-group">
-                    @Html.TextBoxFor(m => m.UiPage, new { @class = "form-control", type = "number", required = "true" })
+                    @Html.TextBoxFor(m => m.UiPage, new { @class = "form-control", required = "true" })
                 </div>
             </div>
         </div>
@@ -81,6 +87,10 @@
 }
 
 <script>
+    //$(".form-insignia").validate({
+    //    errorPlacement: $.noop
+    //});
+
     if ('@Model.UiPartFile' != '') {
         $(".file-path").show();
         $(".file-upload").hide();

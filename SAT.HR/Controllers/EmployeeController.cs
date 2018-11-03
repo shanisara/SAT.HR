@@ -259,10 +259,10 @@ namespace SAT.HR.Controllers
             ViewBag.ActionType = DropDownList.GetActionType(model.ActID, null);
             ViewBag.PositionType = DropDownList.GetPositionType(model.PoTID);
             ViewBag.PositionAgent = DropDownList.PositionAgent(model.PoAID);
-            ViewBag.Division = DropDownList.GetDivision(model.DivID, true);
-            ViewBag.Department = DropDownList.GetDepartment(model.DivID, model.DepID, true);
-            ViewBag.Section = DropDownList.GetSection(model.DivID, model.DepID, model.SecID, true);
-            ViewBag.Position = DropDownList.GetPosition(model.PoID, usertype, true);
+            ViewBag.Division = DropDownList.GetDivisionManPower(usertype, model.DivID);
+            ViewBag.Department = DropDownList.GetDepartmentManPower(usertype, model.DivID, model.DepID);
+            ViewBag.Section = DropDownList.GetSectionManPower(usertype, model.DivID, model.DepID, model.SecID);
+            ViewBag.Position = DropDownList.GetPositionManPowerValuePo(usertype, model.DivID, model.DepID, model.SecID, model.PoID);
             return PartialView("_PositionDetail", model);
         }
 

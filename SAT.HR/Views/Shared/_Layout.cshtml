@@ -13,6 +13,8 @@
     @RenderSection("Styles", false);
 </head>
 <body>
+    <div id="preloader"><div id="loader"></div></div>
+
     <div class="wrapper ">
         <!-- Menu -->
         @Html.Action("Index", "Menu")
@@ -29,10 +31,6 @@
         </div>
     </div>
 
-    <div id="preloader">
-        <div id="loader"></div>
-    </div>
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
@@ -41,6 +39,10 @@
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="@Url.Content("~/Content/assets/js/material-dashboard.min.js?v=2.0.2")"></script>
 
+    @*<link href="~/Content/assets/js/nprogress/nprogress.css" rel="stylesheet" />
+    <script src="~/Content/assets/js/nprogress/nprogress.js"></script>*@
+
+    <script src="~/Content/assets/js/plugins/jquery.blockUI.js"></script>
     <script>
         $(document).ready(function () {
 
@@ -60,60 +62,59 @@
             });
 
 
-            //$(document).ajaxStart(function () {
-            //    $.blockUI({ message: null, overlayCSS: { backgroundColor: '#ffffff00' } });
-            //    // NProgress
-            //    if (typeof NProgress != 'undefined') {
-            //        NProgress.start();
-            //    }
-            //}).ajaxStop(function () {
-            //    $.unblockUI();
-            //    // NProgress
-            //    if (typeof NProgress != 'undefined') {
-            //        NProgress.done();
-            //    }
+            $(document).ajaxStart(function () {
+                $.blockUI({
+                    message: 'กรุณารอสักครู่',
+                    css: {
+                        border: 'none',
+                        padding: '15px',
+                        backgroundColor: '#000',
+                        '-webkit-border-radius': '10px',
+                        '-moz-border-radius': '10px',
+                        opacity: .5,
+                        color: '#fff'
+                    }
+                });
+                //if (typeof NProgress != 'undefined') {
+                //    NProgress.start();
+                //}
+            }).ajaxStop(function () {
+                $.unblockUI();
+                //if (typeof NProgress != 'undefined') {
+                //    NProgress.done();
+                //}
             //}).ajaxSend(function (event, xhr, settings) {
-            //    //$.blockUI({ message: null, overlayCSS: { backgroundColor:'#ffffff00'} });
-            //}).ajaxSuccess(function (event, xhr, settings) {
-            //    $.unblockUI();
-            //    if (typeof NProgress != 'undefined') {
-            //        NProgress.done();
-            //    }
-            //}).ajaxError(function (event, jqxhr, settings, thrownError) {
-            //    $.unblockUI();
-            //    if (typeof NProgress != 'undefined') {
-            //        NProgress.done();
-            //    }
-            //    try {
-            //        var jsonValue = jQuery.parseJSON(jqxhr.responseText);
-            //        $.alert({
-            //            columnClass: 'col-xs-10 col-xs-offset-1',
-            //            theme: 'supervan',
-            //            content: jsonValue.message + '</br>' + jsonValue.callstack,
-            //            title: 'Internal Server Error', // hides the title.
-            //            //cancelButton: true, // hides the cancel button.
-            //            //confirmButton: true, // hides the confirm button.
-            //            closeIcon: false, // hides the close icon.
-            //            //content: false, // hides content block.
-            //            //backgroundDismiss:true
-            //        });
-            //    } catch (e) {
-
-            //    }
-            //});
+            //    $.blockUI({ message: null }); 
+            }).ajaxSuccess(function (event, xhr, settings) {
+                $.unblockUI();
+                //if (typeof NProgress != 'undefined') {
+                //    NProgress.done();
+                //}
+            }).ajaxError(function (event, jqxhr, settings, thrownError) {
+                $.unblockUI();
+                //if (typeof NProgress != 'undefined') {
+                //    NProgress.done();
+                //}
+                try {
+                    var jsonValue = jQuery.parseJSON(jqxhr.responseText);
+                    $.alert({
+                        columnClass: 'col-xs-10 col-xs-offset-1',
+                        theme: 'supervan',
+                        content: jsonValue.message + '</br>' + jsonValue.callstack,
+                        title: 'Internal Server Error', // hides the title.
+                        //cancelButton: true, // hides the cancel button.
+                        //confirmButton: true, // hides the confirm button.
+                        closeIcon: false, // hides the close icon.
+                        //content: false, // hides content block.
+                        //backgroundDismiss:true
+                    });
+                } catch (e) { }
+            });
 
 
         });
 
-        //$(window).load(function () {
-        //    // will first fade out the loading animation
-        //    $("#loader").fadeOut("slow", function () {
-
-        //        // will fade out the whole DIV that covers the website.
-        //        $("#preloader").delay(300).fadeOut("slow");
-
-        //    });
-        //})
+        
     </script>
 
 

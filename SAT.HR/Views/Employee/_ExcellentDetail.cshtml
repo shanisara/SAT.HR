@@ -1,5 +1,11 @@
 ﻿@model SAT.HR.Models.UserExcellentViewModel
 
+<style>
+    .bootstrap-select .dropdown-toggle[title="-- กรุณาเลือก --"] .filter-option-inner-inner {
+        color: red;
+    }
+</style>
+
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-excellent" }))
 {
     @Html.AntiForgeryToken()
@@ -15,17 +21,9 @@
         <div class="row occupation">
             @Html.Label("ประเภท: ", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-10 m-t-10">
-                @Html.DropDownListFor(n => n.ExTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.ExcellentType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control custom-select select-with-transition selectpicker", data_show_subtext = "true", data_live_search = "true", required = "true" })
+                @Html.DropDownListFor(n => n.ExTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.ExcellentType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control selectpicker", data_show_subtext = "true", data_live_search = "true", required = "true" })
             </div>
         </div>
-        @*<div class="row">
-            @Html.Label("ปีที่ได้รับ: ", null, new { @class = "col-sm-3 col-form-label" })
-            <div class="col-sm-9">
-                <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.UeRecYear, new { @class = "form-control", type = "number", required = "true" })
-                </div>
-            </div>
-        </div>*@
         <div class="row">
             @Html.Label("ชื่อโครงการ: ", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-10">
@@ -47,6 +45,10 @@
 }
 
 <script>
+    $(".form-excellent").validate({
+        errorPlacement: $.noop
+    });
+
     $('.selectpicker').selectpicker();
 
     $('.datepicker').datetimepicker({

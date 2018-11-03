@@ -1312,7 +1312,7 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    var model = db.tb_User_Training.Single(x => x.UserID == newdata.UserID && x.TtID == newdata.TtID);
+                    var model = db.tb_User_Training.Where(x => x.UserID == newdata.UserID && x.TtID == newdata.TtID).FirstOrDefault();
                     model.TtID = newdata.TtID;
                     model.CountryID = newdata.CountryID;
                     model.UtCourse = newdata.UtCourse;
