@@ -73,7 +73,8 @@
 
                             @foreach (var item2 in Model.ListMenu.Where(m => m.ParentID == @item.MenuID))
                             {
-                                string active2 = (active == "active" && actionName == @item2.ActionName) ? "active" : string.Empty;
+                                string actname = @item2.ActionName.Split('/')[0];
+                                string active2 = (actionName == actname) ? "active" : string.Empty;
 
                                 <li class="nav-item @active2">
                                     <a class="nav-link" href="@Url.Action(@item2.ActionName, @item2.ControllerName)">
