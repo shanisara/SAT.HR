@@ -950,9 +950,9 @@ namespace SAT.HR.Data.Repository
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
-                select.Value = item.BankLoanID.ToString();
-                select.Text = item.BankLoanName;
-                select.Selected = defaultValue.HasValue ? (item.BankLoanID == defaultValue ? true : false) : false;
+                select.Value = item.BankTypeID.ToString();
+                select.Text = item.BankTypeName;
+                select.Selected = defaultValue.HasValue ? (item.BankTypeID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;

@@ -40,32 +40,32 @@ namespace SAT.HR.Controllers
 
         public ActionResult RemunerationDetail(int userid, int id)
         {
-            var model = new BenefitRepository().GetCertificateByID(userid, id);
-            ViewBag.Certificate = DropDownList.GetCertificate(model.CerId);
+            var model = new BenefitRepository().GetRemunerationByID(userid, id);
+            //ViewBag.Certificate = DropDownList.GetCertificate(model.CerId);
             return PartialView("_CertificateDetail", model);
         }
 
         public JsonResult SaveRemuneration(BenefitRemunerationViewModel data)
         {
             ResponseData result = new Models.ResponseData();
-            if (data.UcID != 0)
-                result = new BenefitRepository().UpdateCertificateByEntity(data);
+            if (data.BrID != 0)
+                result = new BenefitRepository().UpdateRemunerationByEntity(data);
             else
-                result = new BenefitRepository().AddCertificateByEntity(data);
+                result = new BenefitRepository().AddRemunerationByEntity(data);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult DeleteRemuneration(int id)
         {
-            var result = new BenefitRepository().DeleteCertificateByID(id);
+            var result = new BenefitRepository().DeleteRemunerationByID(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         public JsonResult Remuneration(int id)
         {
-            var list = new BenefitRepository().GetCertificateByUser(id);
-            return Json(new { data = list.ListCertificate }, JsonRequestBehavior.AllowGet);
+            var list = new BenefitRepository().GetRemunerationByUser(id);
+            return Json(new { data = list.ListRemuneration }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -280,7 +280,7 @@ namespace SAT.HR.Controllers
             return PartialView("_ChildEducationDetail", model);
         }
 
-        public JsonResult SaveRemuneration(BenefitChildEducationViewModel data)
+        public JsonResult SaveChildEducation(BenefitChildEducationViewModel data)
         {
             ResponseData result = new Models.ResponseData();
             if (data.BceID != 0)
@@ -358,7 +358,7 @@ namespace SAT.HR.Controllers
             return PartialView("_DeathReplacementDetail", model);
         }
 
-        public JsonResult SaveRemuneration(BenefitDeathReplacementViewModel data)
+        public JsonResult SaveDeathRemuneration(BenefitDeathReplacementViewModel data)
         {
             ResponseData result = new Models.ResponseData();
             if (data.BdID != 0)

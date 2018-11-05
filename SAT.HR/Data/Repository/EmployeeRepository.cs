@@ -117,7 +117,7 @@ namespace SAT.HR.Data.Repository
                     int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
                     int length = pageSize ?? 10;
 
-                    var list = data.Select((s, i) => new EmployeeViewModels()
+                    var list = data.Select((s, i) => new EmployeeViewModel()
                     {
                         RowNumber = ++i,
                         UserID = s.UserID,
@@ -154,7 +154,7 @@ namespace SAT.HR.Data.Repository
         public EmployeePageResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy, string userType, string userStatus)
         {
             EmployeePageResult result = new EmployeePageResult();
-            List<EmployeeViewModels> list = new List<EmployeeViewModels>();
+            List<EmployeeViewModel> list = new List<EmployeeViewModel>();
 
             try
             {
@@ -166,7 +166,7 @@ namespace SAT.HR.Data.Repository
                     int i = 0;
                     foreach (var item in data)
                     {
-                        EmployeeViewModels model = new EmployeeViewModels();
+                        EmployeeViewModel model = new EmployeeViewModel();
                         model.RowNumber = ++i;
                         model.UserID = item.UserID;
                         model.IDCard = item.IDCard;
@@ -202,7 +202,7 @@ namespace SAT.HR.Data.Repository
 
         public EmployeeViewModel GetByID(int id)
         {
-            EmployeeViewModels model = new Models.EmployeeViewModels();
+            EmployeeViewModel model = new Models.EmployeeViewModel();
 
             try
             {

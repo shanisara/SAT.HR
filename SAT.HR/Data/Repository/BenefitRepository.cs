@@ -392,7 +392,7 @@ namespace SAT.HR.Data.Repository
                 throw;
             }
             data.UserID = userid;
-            data.ListCertificate = list;
+            data.ListMedical = list;
             return data;
         }
 
@@ -573,7 +573,7 @@ namespace SAT.HR.Data.Repository
                 throw;
             }
             data.UserID = userid;
-            data.ListCertificate = list;
+            data.ListLoan = list;
             return data;
         }
 
@@ -762,7 +762,7 @@ namespace SAT.HR.Data.Repository
                 throw;
             }
             data.UserID = userid;
-            data.ListCertificate = list;
+            data.ListHomeRental = list;
             return data;
         }
 
@@ -944,7 +944,7 @@ namespace SAT.HR.Data.Repository
                 throw;
             }
             data.UserID = userid;
-            data.ListCertificate = list;
+            data.ListChildFund = list;
             return data;
         }
 
@@ -1445,6 +1445,7 @@ namespace SAT.HR.Data.Repository
                         model.UserID = item.UserID;
                         model.RecID = item.RecID;
                         model.RecName = "";
+                        model.BdYear = 2560;
                         model.BdFullName = item.BdFullName;
                         model.BdTime = item.BdTime;
                         model.BdPer = item.BdPer;
@@ -1621,6 +1622,7 @@ namespace SAT.HR.Data.Repository
                         model.UserID = item.UserID;
                         model.RecID = item.RecID;
                         model.RecName = "";// item.RecName;
+                        model.BdYear = 2560;
                         model.BdFullName = item.BdFullName;
                         model.BdTime = item.BdTime;
                         model.BdPer = item.BdPer;
@@ -1813,6 +1815,7 @@ namespace SAT.HR.Data.Repository
                         model.BenTName = "";
                         model.BoRecName = "";
                         model.BoOptRecName = "";
+                        model.BoYear = 2560;
                         list.Add(model);
                     }
                 }

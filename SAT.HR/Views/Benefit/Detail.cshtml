@@ -1,4 +1,5 @@
-﻿
+﻿@model SAT.HR.Models.BenefitViewModel
+
 @{
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -37,66 +38,69 @@
                         <i class="material-icons">card_giftcard</i>
                     </div>
                     <h4 class="card-title">
-                        <span>สวัสดิการพนักงาน: </span><span class="text-primary">ชนิสรา เมืองทรัพย์ (1770500003531)</span>
+                        @Html.HiddenFor(m => m.UserID)
+                        @Html.HiddenFor(m => m.UserTypeID)
+
+                        <span>สวัสดิการพนักงาน: </span><span class="text-primary">@Model.FullNameTh (@Model.IDCard)</span>
                         <button type="submit" class="btn btn-round pull-right">ย้อนกลับ</button>
                     </h4>
                 </div>
                 <div class="card-body">
                     <div class="row m-b-20">
-                        <div class="col-md-2 m-t-10">
+                        <div id="tabs" class="col-md-2 m-t-10" >
                             <ul class="nav nav-pills nav-pills-warning flex-column" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active text-left show" data-toggle="tab" href="#tab-Remuneration" role="tablist">
+                                <li class="nav-item" id="remuneration">
+                                    <a class="nav-link active text-left show" data-id="remuneration" data-toggle="tab" href="#" role="tablist">
                                         เงินตอบแทนความชอบ
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-left" data-toggle="tab" href="#tab-ProvidentFund" role="tablist">
+                                <li class="nav-item" id="providentFund">
+                                    <a class="nav-link text-left" data-id="providentFund" data-toggle="tab" href="#" role="tablist">
                                         กองทุน
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-left" data-toggle="tab" href="#tab-MedicalTreatment" role="tablist">
+                                <li class="nav-item" id="medicalTreatment">
+                                    <a class="nav-link text-left" data-id="medicalTreatment" data-toggle="tab" href="#" role="tablist">
                                         รักษาพยาบาล
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-left" data-toggle="tab" href="#tab-Loan" role="tablist">
+                                <li class="nav-item" id="loan">
+                                    <a class="nav-link text-left" data-id="loan" data-toggle="tab" href="#" role="tablist">
                                         เงินกู้
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-left" data-toggle="tab" href="#tab-HomeRental" role="tablist">
+                                <li class="nav-item" id="homeRental">
+                                    <a class="nav-link text-left" data-id="homeRental" data-toggle="tab" href="#" role="tablist">
                                         ค่าเช่าบ้าน
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-left" data-toggle="tab" href="#tab-ChildFund" role="tablist">
+                                <li class="nav-item" id="childFund">
+                                    <a class="nav-link text-left" data-id="childFund" data-toggle="tab" href="#" role="tablist">
                                         เงินช่วยเหลือบุตร
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-left" data-toggle="tab" href="#tab-ChildEducation" role="tablist">
+                                <li class="nav-item" id="childEducation">
+                                    <a class="nav-link text-left" data-id="childEducation" data-toggle="tab" href="#" role="tablist">
                                         เงินช่วยเหลือการศึกษาบุตร
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-left" data-toggle="tab" href="#tab-Cremation" role="tablist">
+                                <li class="nav-item" id="cremation">
+                                    <a class="nav-link text-left" data-id="cremation" data-toggle="tab" href="#" role="tablist">
                                         ฌาปนกิจสงเคราะห์
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-left" data-toggle="tab" href="#tab-DeathReplacement" role="tablist">
+                                <li class="nav-item" id="deathReplacement">
+                                    <a class="nav-link text-left" data-id="deathReplacement" data-toggle="tab" href="#" role="tablist">
                                         เงินทดแทนกรณีเสียชีวิต
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-left" data-toggle="tab" href="#tab-DeathSubsidy" role="tablist">
+                                <li class="nav-item" id="deathSubsidy">
+                                    <a class="nav-link text-left" data-id="deathSubsidy" data-toggle="tab" href="#" role="tablist">
                                         เงินช่วยเหลือพิเศษกรณีเสียชีวิต
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-left" data-toggle="tab" href="#tab-OtherWelfare" role="tablist">
+                                <li class="nav-item" id="otherWelfare">
+                                    <a class="nav-link text-left" data-id="otherWelfare" data-toggle="tab" href="#" role="tablist">
                                         สวัสดิการอื่นๆ
                                     </a>
                                 </li>
@@ -104,38 +108,8 @@
                         </div>
                         <div class="col-md-10">
                             <div class="tab-content">
-                                <div class="tab-pane active show" id="tab-Remuneration">
-                                    @Html.Partial("_Remuneration")
-                                </div>
-                                <div class="tab-pane" id="tab-ProvidentFund">
-                                    @Html.Partial("_ProvidentFund")
-                                </div>
-                                <div class="tab-pane" id="tab-MedicalTreatment">
-                                    @Html.Partial("_MedicalTreatment")
-                                </div>
-                                <div class="tab-pane" id="tab-Loan">
-                                    @Html.Partial("_Loan")
-                                </div>
-                                <div class="tab-pane" id="tab-HomeRental">
-                                    @Html.Partial("_HomeRental")
-                                </div>
-                                <div class="tab-pane" id="tab-ChildFund">
-                                    @Html.Partial("_ChildFund")
-                                </div>
-                                <div class="tab-pane" id="tab-ChildEducation">
-                                    @Html.Partial("_ChildEducation")
-                                </div>
-                                <div class="tab-pane" id="tab-Cremation">
-                                    @Html.Partial("_Cremation")
-                                </div>
-                                <div class="tab-pane" id="tab-DeathReplacement">
-                                    @Html.Partial("_DeathReplacement")
-                                </div>
-                                <div class="tab-pane" id="tab-DeathSubsidy">
-                                    @Html.Partial("_DeathSubsidy")
-                                </div>
-                                <div class="tab-pane" id="tab-OtherWelfare">
-                                    @Html.Partial("_OtherWelfare")
+                                <div class="tab-pane active show" id="tab-detail">
+                                    <div id="div-detail"></div>
                                 </div>
                             </div>
                         </div>
@@ -151,31 +125,92 @@
 
     $(document).ready(function () {
 
-
-
-        // Add Remuneration
-        $("#btnAddRemuneration").click(function () {
-            $('#modalRemuneration').modal('show');
-
-            @*var url = '@Url.Action("OtherWelfare", "Benefit")';
+        var ref_this = $("#tabs li").find(".active");
+        if (ref_this.data("id") == "remuneration") {
+            var userid = $("#UserID").val();
+            var type = $("#UserTypeID").val();
+            var url = '@Url.Action("RemunerationByUser", "Benefit")/' + userid;
             $.post(url, function (data) {
-                $("#detail").html(data);
-                $('#modalDetail').modal('show');
-            });*@
+                $("#div-detail").html(data);
+            });
+        }
+
+        $("#tabs li").click(function () {
+            var userid = $("#UserID").val();
+            var type = $("#UserTypeID").val();
+            if (this.id == "remuneration") {
+                var url = '@Url.Action("RemunerationByUser", "Benefit")/' + userid;
+                $.post(url, function (data) {
+                    $("#div-detail").html(data);
+                });
+            }
+            else if (this.id == "providentFund") {
+                var url = '@Url.Action("ProvidentFundByUser", "Benefit")/' + userid;
+                $.post(url, function (data) {
+                    $("#div-detail").html(data);
+                });
+            }
+            else if (this.id == "medicalTreatment") {
+                var url = '@Url.Action("MedicalTreatmentByUser", "Benefit")/' + userid;
+                $.post(url, function (data) {
+                    $("#div-detail").html(data);
+                });
+            }
+            else if (this.id == "loan") {
+                var url = '@Url.Action("LoanByUser", "Benefit")/' + userid;
+                $.post(url, function (data) {
+                    $("#div-detail").html(data);
+                });
+            }
+            else if (this.id == "homeRental") {
+                var url = '@Url.Action("HomeRentalByUser", "Benefit")/' + userid;
+                $.post(url, function (data) {
+                    $("#div-detail").html(data);
+                });
+            }
+            else if (this.id == "childFund") {
+                var url = '@Url.Action("ChildFundByUser", "Benefit")/' + userid;
+                $.post(url, function (data) {
+                    $("#div-detail").html(data);
+                });
+            }
+            else if (this.id == "childEducation") {
+                var url = '@Url.Action("ChildEducationByUser", "Benefit")/' + userid;
+                $.post(url, function (data) {
+                    $("#div-detail").html(data);
+                });
+            }
+            else if (this.id == "cremation") {
+                var url = '@Url.Action("CremationByUser", "Benefit")/' + userid;
+                $.post(url, function (data) {
+                    $("#div-detail").html(data);
+                });
+            }
+            else if (this.id == "deathReplacement") {
+                var url = '@Url.Action("DeathReplacementByUser", "Benefit")/' + userid;
+                $.post(url, function (data) {
+                    $("#div-detail").html(data);
+                });
+            }
+            else if (this.id == "deathSubsidy") {
+                var url = '@Url.Action("DeathSubsidyByUser", "Benefit")/' + userid;
+                $.post(url, function (data) {
+                    $("#div-detail").html(data);
+                });
+            }
+            else if (this.id == "otherWelfare") {
+                var url = '@Url.Action("OtherWelfareByUser", "Benefit")/' + userid;
+                $.post(url, function (data) {
+                    $("#div-detail").html(data);
+                });
+            }
         });
 
-
-
-
-        // Save Remuneration
-        $("#btnRemuneration").click(function () {
-
-            //$(".bmd-help").text("require");
-            //$(".form-group").addClass("has-danger");
-            //$(".selectpicker").focus();
-
-
+        $(".btn-back").click(function () {
+            var url = '@Url.Action("Index", "Benefit")';
+            window.location.href = url;
         });
+
 
     });
     </script>

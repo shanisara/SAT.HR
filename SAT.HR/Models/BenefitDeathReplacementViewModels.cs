@@ -23,6 +23,7 @@ namespace SAT.HR.Models
         public Nullable<int> ModifyBy { get; set; }
         public string RecName { get; set; }
         public string BdDateText { get; set; }
+        public decimal BdYear { get; set; }
         public List<BenefitDeathReplacementViewModel> ListDeathReplacement { get; set; }
 }
 }
