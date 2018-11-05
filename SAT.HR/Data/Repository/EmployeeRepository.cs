@@ -12,6 +12,8 @@ namespace SAT.HR.Data.Repository
 {
     public class EmployeeRepository
     {
+        #region Login & Role
+
         public UserProfile Login(string username, string password)
         {
             var data = new UserProfile();
@@ -115,7 +117,7 @@ namespace SAT.HR.Data.Repository
                     int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
                     int length = pageSize ?? 10;
 
-                    var list = data.Select((s, i) => new EmployeeViewModel()
+                    var list = data.Select((s, i) => new EmployeeViewModels()
                     {
                         RowNumber = ++i,
                         UserID = s.UserID,
@@ -145,12 +147,14 @@ namespace SAT.HR.Data.Repository
             return result;
         }
 
+        #endregion
+
         #region 1.1 Tab: User-Employee
 
         public EmployeePageResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy, string userType, string userStatus)
         {
             EmployeePageResult result = new EmployeePageResult();
-            List<EmployeeViewModel> list = new List<EmployeeViewModel>();
+            List<EmployeeViewModels> list = new List<EmployeeViewModels>();
 
             try
             {
@@ -162,7 +166,7 @@ namespace SAT.HR.Data.Repository
                     int i = 0;
                     foreach (var item in data)
                     {
-                        EmployeeViewModel model = new EmployeeViewModel();
+                        EmployeeViewModels model = new EmployeeViewModels();
                         model.RowNumber = ++i;
                         model.UserID = item.UserID;
                         model.IDCard = item.IDCard;
@@ -198,7 +202,7 @@ namespace SAT.HR.Data.Repository
 
         public EmployeeViewModel GetByID(int id)
         {
-            EmployeeViewModel model = new Models.EmployeeViewModel();
+            EmployeeViewModels model = new Models.EmployeeViewModels();
 
             try
             {

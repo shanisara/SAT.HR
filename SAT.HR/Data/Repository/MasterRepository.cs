@@ -141,8 +141,98 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        #endregion
+        public List<MemberTypeViewModel> GetMemberType()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Member_Type.Select(s => new MemberTypeViewModel()
+                {
+                    MemberTypeID = s.MID,
+                    MemberTypeName = s.MName
+                }).ToList();
+                return list;
+            }
+        }
 
+        public List<RentTypeViewModel> GetRentType()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Rent_Type.Select(s => new RentTypeViewModel()
+                {
+                    RentTypeID = s.RID,
+                    RentTypeName = s.RName
+                }).ToList();
+                return list;
+            }
+        }
+
+        public List<PartTypeViewModel> GetPartType()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Part_Type.Select(s => new PartTypeViewModel()
+                {
+                    PartTypeID = s.PID,
+                    PartTypeName = s.PName
+                }).ToList();
+                return list;
+            }
+        }
+
+        public List<BankLoanViewModel> GetBankLoan()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Bank_Loan.Select(s => new BankLoanViewModel()
+                {
+                    BankTypeID = s.BID,
+                    BankTypeName = s.BName
+                }).ToList();
+                return list;
+            }
+        }
+
+        public List<LoanTypeViewModel> GetLoanType()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Loan_Type.Select(s => new LoanTypeViewModel()
+                {
+                    LoanTypeID = s.LtID,
+                    LoanTypeName = s.LtName
+                }).ToList();
+                return list;
+            }
+        }
+
+        public List<ClaimTypeViewModel> GetClaimType()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Claim_Type.Select(s => new ClaimTypeViewModel()
+                {
+                    ClaimTypeID = s.ClID,
+                    ClaimTypeName = s.ClName
+                }).ToList();
+                return list;
+            }
+        }
+
+        public List<AccumulativeFundViewModel> GetAccumulativeFund()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Accumulative_Fund.Select(s => new AccumulativeFundViewModel()
+                {
+                    CuID = s.CuID,
+                    CuAmoutPer = s.CuAmoutPer
+                }).ToList();
+                return list;
+            }
+        }
+
+        #endregion
 
     }
 }

@@ -30,28 +30,8 @@ namespace SAT.HR.Controllers
             ViewBag.MaritalStatus = DropDownList.GetMaritalStatus(null);
 
             ViewBag.Religion = DropDownList.GetReligion(null, true);
-            ViewBag.Ethnicity = DropDownList.GetNationality(null, true);       //-- > เชื้อชาติ
+            ViewBag.Ethnicity = DropDownList.GetNationality(null, true);     //-- > เชื้อชาติ
             ViewBag.Nationality = DropDownList.GetNationality(null, true);   //--> สัญชาติ 
-
-            //ViewBag.SalaryLevel = DropDownList.GetSalaryLevel(null);
-            //ViewBag.SalaryStep = DropDownList.GetSalaryStep(null, null);
-
-            //ViewBag.Position = DropDownList.GetPosition(null, true);
-            //ViewBag.Division = DropDownList.GetDivision(null, true);
-            //ViewBag.Department = DropDownList.GetDepartment(null, null, true);
-            //ViewBag.Section = DropDownList.GetSection(null, null, null, true);
-
-            //ViewBag.Empower = DropDownList.GetEmpower(null);     //-- > ช่วยราชการ
-            //ViewBag.EmpowerPosition = DropDownList.GetPosition(null, true);
-            //ViewBag.EmpowerDivision = DropDownList.GetDivision(null, true);
-            //ViewBag.EmpowerDepartment = DropDownList.GetDepartment(null, null, true);
-            //ViewBag.EmpowerSection = DropDownList.GetSection(null, null, null, true);
-
-            //ViewBag.PositionType = DropDownList.GetPositionType(null);//-- > รักษาการแทน
-            //ViewBag.AgentPosition = DropDownList.GetPosition(null, true);
-            //ViewBag.AgentDivision = DropDownList.GetDivision(null, true);
-            //ViewBag.AgentDepartment = DropDownList.GetDepartment(null, null, true);
-            //ViewBag.AgentSection = DropDownList.GetSection(null, null, null, true);
 
             ViewBag.HomeProvince = DropDownList.GetProvince(null);
             ViewBag.HomeDistrict = DropDownList.GetDistrict(null, null);

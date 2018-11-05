@@ -31,17 +31,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Action_Type> tb_Action_Type { get; set; }
         public virtual DbSet<tb_Agent_Type> tb_Agent_Type { get; set; }
         public virtual DbSet<tb_Bank_Loan> tb_Bank_Loan { get; set; }
-        public virtual DbSet<tb_Benefit_Child_Education> tb_Benefit_Child_Education { get; set; }
-        public virtual DbSet<tb_Benefit_Child_Fund> tb_Benefit_Child_Fund { get; set; }
-        public virtual DbSet<tb_Benefit_Cremation> tb_Benefit_Cremation { get; set; }
-        public virtual DbSet<tb_Benefit_Death_Replacement> tb_Benefit_Death_Replacement { get; set; }
-        public virtual DbSet<tb_Benefit_Death_Subsidy> tb_Benefit_Death_Subsidy { get; set; }
-        public virtual DbSet<tb_Benefit_Home_Rental> tb_Benefit_Home_Rental { get; set; }
-        public virtual DbSet<tb_Benefit_Loan> tb_Benefit_Loan { get; set; }
-        public virtual DbSet<tb_Benefit_Medical> tb_Benefit_Medical { get; set; }
-        public virtual DbSet<tb_Benefit_Other_Welfare> tb_Benefit_Other_Welfare { get; set; }
-        public virtual DbSet<tb_Benefit_Provident_Fund> tb_Benefit_Provident_Fund { get; set; }
-        public virtual DbSet<tb_Benefit_Remuneration> tb_Benefit_Remuneration { get; set; }
         public virtual DbSet<tb_Benefit_Type> tb_Benefit_Type { get; set; }
         public virtual DbSet<tb_Blood_Type> tb_Blood_Type { get; set; }
         public virtual DbSet<tb_Capability> tb_Capability { get; set; }
@@ -131,6 +120,17 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Position> vw_User_Position { get; set; }
         public virtual DbSet<vw_User_Role> vw_User_Role { get; set; }
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
+        public virtual DbSet<tb_Benefit_Child_Education> tb_Benefit_Child_Education { get; set; }
+        public virtual DbSet<tb_Benefit_Child_Fund> tb_Benefit_Child_Fund { get; set; }
+        public virtual DbSet<tb_Benefit_Cremation> tb_Benefit_Cremation { get; set; }
+        public virtual DbSet<tb_Benefit_Death_Replacement> tb_Benefit_Death_Replacement { get; set; }
+        public virtual DbSet<tb_Benefit_Death_Subsidy> tb_Benefit_Death_Subsidy { get; set; }
+        public virtual DbSet<tb_Benefit_Home_Rental> tb_Benefit_Home_Rental { get; set; }
+        public virtual DbSet<tb_Benefit_Loan> tb_Benefit_Loan { get; set; }
+        public virtual DbSet<tb_Benefit_Medical> tb_Benefit_Medical { get; set; }
+        public virtual DbSet<tb_Benefit_Other_Welfare> tb_Benefit_Other_Welfare { get; set; }
+        public virtual DbSet<tb_Benefit_Provident_Fund> tb_Benefit_Provident_Fund { get; set; }
+        public virtual DbSet<tb_Benefit_Remuneration> tb_Benefit_Remuneration { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {

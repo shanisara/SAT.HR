@@ -17,6 +17,13 @@ namespace SAT.HR.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tb_User()
         {
+            this.tb_User_Certificate = new HashSet<tb_User_Certificate>();
+            this.tb_User_Education = new HashSet<tb_User_Education>();
+            this.tb_User_Excellent = new HashSet<tb_User_Excellent>();
+            this.tb_User_Family = new HashSet<tb_User_Family>();
+            this.tb_User_History = new HashSet<tb_User_History>();
+            this.tb_User_Position = new HashSet<tb_User_Position>();
+            this.tb_User_Training = new HashSet<tb_User_Training>();
             this.tb_Benefit_Child_Education = new HashSet<tb_Benefit_Child_Education>();
             this.tb_Benefit_Child_Fund = new HashSet<tb_Benefit_Child_Fund>();
             this.tb_Benefit_Cremation = new HashSet<tb_Benefit_Cremation>();
@@ -27,13 +34,6 @@ namespace SAT.HR.Data.Entities
             this.tb_Benefit_Medical = new HashSet<tb_Benefit_Medical>();
             this.tb_Benefit_Other_Welfare = new HashSet<tb_Benefit_Other_Welfare>();
             this.tb_Benefit_Provident_Fund = new HashSet<tb_Benefit_Provident_Fund>();
-            this.tb_User_Certificate = new HashSet<tb_User_Certificate>();
-            this.tb_User_Education = new HashSet<tb_User_Education>();
-            this.tb_User_Excellent = new HashSet<tb_User_Excellent>();
-            this.tb_User_Family = new HashSet<tb_User_Family>();
-            this.tb_User_History = new HashSet<tb_User_History>();
-            this.tb_User_Position = new HashSet<tb_User_Position>();
-            this.tb_User_Training = new HashSet<tb_User_Training>();
         }
     
         public int UserID { get; set; }
@@ -94,26 +94,6 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> UserTID { get; set; }
         public Nullable<int> AgentPoAID { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Benefit_Child_Education> tb_Benefit_Child_Education { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Benefit_Child_Fund> tb_Benefit_Child_Fund { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Benefit_Cremation> tb_Benefit_Cremation { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Benefit_Death_Replacement> tb_Benefit_Death_Replacement { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Benefit_Death_Subsidy> tb_Benefit_Death_Subsidy { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Benefit_Home_Rental> tb_Benefit_Home_Rental { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Benefit_Loan> tb_Benefit_Loan { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Benefit_Medical> tb_Benefit_Medical { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Benefit_Other_Welfare> tb_Benefit_Other_Welfare { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Benefit_Provident_Fund> tb_Benefit_Provident_Fund { get; set; }
         public virtual tb_Blood_Type tb_Blood_Type { get; set; }
         public virtual tb_Empower tb_Empower { get; set; }
         public virtual tb_Marital_Status tb_Marital_Status { get; set; }
@@ -139,5 +119,25 @@ namespace SAT.HR.Data.Entities
         public virtual ICollection<tb_User_Training> tb_User_Training { get; set; }
         public virtual tb_User_Status tb_User_Status { get; set; }
         public virtual tb_Working_Type tb_Working_Type { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Benefit_Child_Education> tb_Benefit_Child_Education { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Benefit_Child_Fund> tb_Benefit_Child_Fund { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Benefit_Cremation> tb_Benefit_Cremation { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Benefit_Death_Replacement> tb_Benefit_Death_Replacement { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Benefit_Death_Subsidy> tb_Benefit_Death_Subsidy { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Benefit_Home_Rental> tb_Benefit_Home_Rental { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Benefit_Loan> tb_Benefit_Loan { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Benefit_Medical> tb_Benefit_Medical { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Benefit_Other_Welfare> tb_Benefit_Other_Welfare { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Benefit_Provident_Fund> tb_Benefit_Provident_Fund { get; set; }
     }
 }

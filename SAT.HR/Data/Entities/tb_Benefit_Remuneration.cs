@@ -15,7 +15,7 @@ namespace SAT.HR.Data.Entities
     public partial class tb_Benefit_Remuneration
     {
         public int BrID { get; set; }
-        public string UserID { get; set; }
+        public int UserID { get; set; }
         public string BrYear { get; set; }
         public int RecID { get; set; }
         public Nullable<decimal> BrAmout { get; set; }

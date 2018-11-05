@@ -83,4 +83,17 @@ namespace SAT.HR.Models
         public int? RoleID { get; set; }
 
     }
+
+    public class UserStatusViewModel
+    {
+        public int UserStatusID { get; set; }
+        public string UserStatusName { get; set; }
+    }
+
+    public class UserTypeViewModel
+    {
+        public int UserTypeID { get; set; }
+        public string UserTypeName { get; set; }
+    }
+
 }

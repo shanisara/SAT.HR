@@ -890,6 +890,125 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
+        public static List<SelectListItem> GetMemberType(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new MasterRepository().GetMemberType();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.MemberTypeID.ToString();
+                select.Text = item.MemberTypeName;
+                select.Selected = defaultValue.HasValue ? (item.MemberTypeID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetRentType(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new MasterRepository().GetRentType();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.RentTypeID.ToString();
+                select.Text = item.RentTypeName;
+                select.Selected = defaultValue.HasValue ? (item.RentTypeID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetPartType(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new MasterRepository().GetPartType();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.PartTypeID.ToString();
+                select.Text = item.PartTypeName;
+                select.Selected = defaultValue.HasValue ? (item.PartTypeID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetBankLoan(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new MasterRepository().GetBankLoan();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.BankLoanID.ToString();
+                select.Text = item.BankLoanName;
+                select.Selected = defaultValue.HasValue ? (item.BankLoanID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetLoanType(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new MasterRepository().GetLoanType();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.LoanTypeID.ToString();
+                select.Text = item.LoanTypeName;
+                select.Selected = defaultValue.HasValue ? (item.LoanTypeID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetClaimType(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new MasterRepository().GetClaimType();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.ClaimTypeID.ToString();
+                select.Text = item.ClaimTypeName;
+                select.Selected = defaultValue.HasValue ? (item.ClaimTypeID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetAccumulativeFund(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new MasterRepository().GetAccumulativeFund();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.CuID.ToString();
+                select.Text = item.CuAmoutPer;
+                select.Selected = defaultValue.HasValue ? (item.CuID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
     }
 
 }

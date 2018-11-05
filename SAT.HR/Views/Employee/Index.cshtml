@@ -4,7 +4,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+<style>
+    .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+        width: 75px;
+        margin-left: 13px;
+        margin-top: -5px;
+    }
+    .card [class*=card-header-] .card-title a{
+        color:#fff;
+    }
+</style>
 <div class="content">
     <div class="row">
         <div class="col-md-12">
@@ -16,9 +25,8 @@
                     <h4 class="card-title">
                         <span>ทะเบียนประวัติ > </span><small>รายชื่อพนักงาน </small>
                         <div class="pull-right">
-                            @*@Html.Label("ประเภทบุคลากร: ", null, new { @class = "col-sm-3 col-form-label" })*@
-                            @Html.DropDownList("usertype", new SelectList((IEnumerable<SelectListItem>)ViewBag.UserType, "Value", "Text"), new { @class = "form-control usertype" })
-                            @Html.DropDownList("userstatus", new SelectList((IEnumerable<SelectListItem>)ViewBag.UserStatus, "Value", "Text"), new { @class = "form-control userstatus" })
+                            @Html.DropDownList("usertype", new SelectList((IEnumerable<SelectListItem>)ViewBag.UserType, "Value", "Text"), new { @class = "selectpicker usertype", data_style = "select-with-transition" })
+                            @Html.DropDownList("userstatus", new SelectList((IEnumerable<SelectListItem>)ViewBag.UserStatus, "Value", "Text"), new { @class = "selectpicker userstatus", data_style = "select-with-transition" })
                         </div>
                     </h4>
                 </div>
@@ -72,7 +80,7 @@
                             type: "POST",
                         },
                         "columns": [
-                            { "data": "RowNumber", "orderable": false, "searchable": false },
+                            { "data": "RowNumber", "orderable": true, "orderable": false, "searchable": false },
                             { "data": "IDCard", "orderable": true },
                             { "data": "FullNameTh", "orderable": true },
                         ],

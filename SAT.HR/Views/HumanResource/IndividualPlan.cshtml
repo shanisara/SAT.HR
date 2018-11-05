@@ -4,11 +4,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    .bootstrap-select .btn.dropdown-toggle.select-with-transition {
-        margin-top: 10px;
-    }
-</style>
 
 <div class="content">
     <div class="row">
@@ -23,16 +18,16 @@
                 <div class="card-body">
                     <div class="form-horizontal">
                         <div class="row">
-                            <label class="col-sm-1 col-form-label">ปีบัญชี</label>
-                            <select class="col-sm-1 selectpicker" data-style="select-with-transition" tabindex="-98">
+                            <label class="col-sm-1 col-form-label">ปีบัญชี:</label>
+                            <select class="col-sm-1 selectpicker" data-style="select-with-transition" tabindex="-98", data-show-subtext = true", data-live-search = "true">
                                 <option value="2561" selected="selected"> 2561 </option>
                                 <option value="2560"> 2560 </option>
                             </select>
-                            <label class="col-sm-1 col-form-label">แบบแผนพัฒนา</label>
-                            <select class="col-sm-6 selectpicker" data-style="select-with-transition" tabindex="-98">
+                            <label class="col-sm-2 col-form-label">แบบแผนพัฒนา:</label>
+                            <select class="col-sm-5 selectpicker" data-style="select-with-transition" tabindex="-98", data-show-subtext = "true", data-live-search = "true">
                                 <option value="1" selected="selected">-- กรุณาเลือก --</option>
                             </select>
-                            <label class="col-sm-2 col-form-label">ประเภทบุคลากร</label>
+                            <label class="col-sm-2 col-form-label">ประเภทบุคลากร:</label>
                             <select class="col-sm-1 selectpicker" data-style="select-with-transition" tabindex="-98">
                                 <option value="1" selected="selected"> พนักงาน </option>
                                 <option value="2"> ลูกจ้าง </option>
@@ -61,6 +56,90 @@
 
 @section Scripts {
     <script>
+        $(document).ready(function () {
+
+            $('.selectpicker').selectpicker();
+
+            var dataTable = {
+                table: null,
+                initializeDataTable: function (capid, usertype) {
+                    $table = $('#datatables');
+                    dataTable.table = $table.DataTable({
+                        "proccessing": true,
+                        "serverSide": true,
+                        responsive: true,
+                        language: {
+                            search: "_INPUT_",
+                            searchPlaceholder: "ค้นหา",
+                            zeroRecords: "ไม่พบข้อมูล",
+                        },
+                        ajax: {
+                            url: $table.data("url"),
+                            data: { userType: usertype, userStatus: userstatus },
+                            type: "POST",
+                        },
+                        "columns": [
+                            { "data": "RowNumber", "orderable": false, "searchable": false },
+                            { "data": "IDCard", "orderable": true },
+                            { "data": "FullNameTh", "orderable": true },
+                            { "data": "PoName", "orderable": true },
+                        ],
+                        "columnDefs": [
+                            {
+                                "render": function (data, type, row) {
+                                    var inner = '<div class="td-actions text-right">' +
+                                                    '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.UserID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;' +
+                                                    '<button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.UserID + '"><i class="material-icons">close</i></button>' +
+                                                '</div>';
+                                    return inner;
+                                }, "targets": 4
+                            },
+                        ],
+                        "order": [[2, "asc"]],
+                        "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                        "pagingType": "full_numbers",
+                    });
+
+                    dataTable.table.on('click', '.edit', function () {
+                        var id = $(this).data("id");
+                        var url = '@Url.Action("IndividualPlanDetail", "HumanResource")/' + id;
+                        window.location.href = url;
+                    });
+                    
+                },
+                getData: function () {
+                    var capid = $('.capID').val();
+                    var usertype = $('.userType').val();
+
+                    if (dataTable.table == null)
+                        dataTable.initializeDataTable(capid, usertype);
+                    else
+                        dataTable.table.ajax.reload();
+                },
+                renewData: function () {
+                    debugger;
+                    var capid = $('.capID').val();
+                    var usertype = $('.userType').val();
+                    $('#datatables').dataTable().fnDestroy();
+                    dataTable.initializeDataTable(capid, usertype);
+                },
+            }
+
+            $('.planyear').change(function () {
+                //Get Capability fill dropdown
+
+            });
+
+            $('.userstatus').change(function () {
+                dataTable.renewData();
+            });
+
+            $('.usertype').change(function () {
+                dataTable.renewData();
+            });
+
+
+        });
 
     </script>
 }
