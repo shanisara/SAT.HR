@@ -4,16 +4,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@section Styles {
-    <style>
-        .card .card-body .col-form-label, .card .card-body {
-            padding-top: 0px;
+<style>
+    .card .card-body .col-form-label, .card .card-body {
+        padding-top: 0px;
+    }
+
+        .card .card-body .col-form-label.label-checkbox, .card .card-body .label-on-right.label-checkbox {
+            padding-top: 5px;
         }
-            .card .card-body .col-form-label.label-checkbox, .card .card-body .label-on-right.label-checkbox {
-                padding-top: 5px;
-            }
-    </style>
-}
+</style>
+
+
 
 <div class="content">
     <div class="row">
@@ -191,11 +192,11 @@
                     </div>
                     <div class="card-footer">
                         <div class="mr-auto">
-                            <input name="previous" class="btn btn-previous btn-fill btn-default" style="display: none;" type="button" value="Previous">
+                            <input name="previous" class="btn btn-previous btn-fill btn-default" style="display: none;" type="button" value="ย้อนกลับ">
                         </div>
                         <div class="ml-auto">
-                            <input name="next" class="btn btn-next btn-fill btn-primary" type="button" value="Next">
-                            <input name="finish" class="btn btn-finish btn-fill btn-primary" style="display: none;" type="button" value="Finish">
+                            <input name="next" class="btn btn-next btn-fill btn-primary" type="button" value="ถัดไป">
+                            <input name="finish" class="btn btn-finish btn-fill btn-primary" style="display: none;" type="button" value="ยืนยัน">
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -208,121 +209,121 @@
 </div>
 
 @section Scripts {
-    <script>
+<script>
 
-        $(document).ready(function () {
+    $(document).ready(function () {
 
-            $('.datepicker').datetimepicker({
-                format: 'DD/MM/YYYY',
-                icons: {
-                    time: "fa fa-clock-o",
-                    date: "fa fa-calendar",
-                    up: "fa fa-chevron-up",
-                    down: "fa fa-chevron-down",
-                    previous: 'fa fa-chevron-left',
-                    next: 'fa fa-chevron-right',
-                    today: 'fa fa-screenshot',
-                    clear: 'fa fa-trash',
-                    close: 'fa fa-remove'
-                }
-            });
+        $('.datepicker').datetimepicker({
+            format: 'DD/MM/YYYY',
+            icons: {
+                time: "fa fa-clock-o",
+                date: "fa fa-calendar",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            }
+        });
 
 
-            $("#tabs li").click(function () {
-                if (this.id == "li-step1") {
-                    $(".btn-previous").hide();
+        $("#tabs li").click(function () {
+            if (this.id == "li-step1") {
+                $(".btn-previous").hide();
+                $(".btn-next").show();
+                $(".btn-finish").hide();
+            }
+            else if (this.id == "li-step2") {
+                if (!$('.li-step2').find('a').hasClass('disabled')) {
+                    $(".btn-previous").show();
                     $(".btn-next").show();
                     $(".btn-finish").hide();
-                }
-                else if (this.id == "li-step2") {
-                    if (!$('.li-step2').find('a').hasClass('disabled')) {
-                        $(".btn-previous").show();
-                        $(".btn-next").show();
-                        $(".btn-finish").hide();
 
-                        @*var url = '@Url.Action("GetEmpSalaryIncrease", "Payroll")';
+                    @*var url = '@Url.Action("GetEmpSalaryIncrease", "Payroll")';
                         $.post(url, function (data) {
                             $("#div-step2").html(data);
                         });*@
-                    }
                 }
-                else if (this.id == "li-step3") {
-                    if (!$('.li-step3').find('a').hasClass('disabled')) {
-                        $(".btn-previous").show();
-                        $(".btn-next").hide();
-                        $(".btn-finish").show();
-                    }
-                }
-            });
-
-
-            $(".btn-previous").click(function () {
-                var ref_this = $("#tabs li").find(".active");
-                var id = ref_this.data("id");
-                if (id == "tab-step2") {
-                    $('.li-step2').find('a').removeClass('active');
-                    $('.div-step2').removeClass('active');
-
-                    $('.li-step1').find('a').removeClass('disabled').addClass('active');
-                    $('.div-step1').addClass('active');
-
-                    $(".btn-previous").hide();
-                    $(".btn-next").show();
-                }
-                else if (id == "tab-step3") {
-                    $('.li-step3').find('a').removeClass('active');
-                    $('.div-step3').removeClass('active');
-
-                    $('.li-step2').find('a').removeClass('disabled').addClass('active');
-                    $('.div-step2').addClass('active');
-
-                    $(".btn-next").show();
-                    $(".btn-finish").hide();
-                }
-            });
-
-            $(".btn-next").click(function () {
-                var ref_this = $("#tabs li").find(".active");
-                var id = ref_this.data("id");
-                if (id == "tab-step1") {
-                    $('.li-step1').find('a').removeClass('active');
-                    $('.div-step1').removeClass('active');
-
-                    $('.li-step2').find('a').removeClass('disabled').addClass('active');
-                    $('.div-step2').addClass('active');
-
+            }
+            else if (this.id == "li-step3") {
+                if (!$('.li-step3').find('a').hasClass('disabled')) {
                     $(".btn-previous").show();
-                }
-                else if (id == "tab-step2") {
-                    $('.li-step2').find('a').removeClass('active');
-                    $('.div-step2').removeClass('active');
-
-                    $('.li-step3').find('a').removeClass('disabled').addClass('active');
-                    $('.div-step3').addClass('active');
-
                     $(".btn-next").hide();
                     $(".btn-finish").show();
                 }
-            });
-
-            $(".btn-finish").click(function () {
-                swal({
-                    title: '',
-                    text: "ยืนยันการปรับขั้นเงินเดือน",
-                    type: 'question',
-                    showCancelButton: true,
-                    confirmButtonClass: 'btn btn-success',
-                    cancelButtonClass: 'btn btn-danger',
-                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
-                    buttonsStyling: false
-                }).then(function () {
-
-                }).catch(swal.noop)
-            });
-
-
+            }
         });
 
-    </script>
+
+        $(".btn-previous").click(function () {
+            var ref_this = $("#tabs li").find(".active");
+            var id = ref_this.data("id");
+            if (id == "tab-step2") {
+                $('.li-step2').find('a').removeClass('active');
+                $('.div-step2').removeClass('active');
+
+                $('.li-step1').find('a').removeClass('disabled').addClass('active');
+                $('.div-step1').addClass('active');
+
+                $(".btn-previous").hide();
+                $(".btn-next").show();
+            }
+            else if (id == "tab-step3") {
+                $('.li-step3').find('a').removeClass('active');
+                $('.div-step3').removeClass('active');
+
+                $('.li-step2').find('a').removeClass('disabled').addClass('active');
+                $('.div-step2').addClass('active');
+
+                $(".btn-next").show();
+                $(".btn-finish").hide();
+            }
+        });
+
+        $(".btn-next").click(function () {
+            var ref_this = $("#tabs li").find(".active");
+            var id = ref_this.data("id");
+            if (id == "tab-step1") {
+                $('.li-step1').find('a').removeClass('active');
+                $('.div-step1').removeClass('active');
+
+                $('.li-step2').find('a').removeClass('disabled').addClass('active');
+                $('.div-step2').addClass('active');
+
+                $(".btn-previous").show();
+            }
+            else if (id == "tab-step2") {
+                $('.li-step2').find('a').removeClass('active');
+                $('.div-step2').removeClass('active');
+
+                $('.li-step3').find('a').removeClass('disabled').addClass('active');
+                $('.div-step3').addClass('active');
+
+                $(".btn-next").hide();
+                $(".btn-finish").show();
+            }
+        });
+
+        $(".btn-finish").click(function () {
+            swal({
+                title: '',
+                text: "ยืนยันการปรับขั้นเงินเดือน",
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                buttonsStyling: false
+            }).then(function () {
+
+            }).catch(swal.noop)
+        });
+
+
+    });
+
+</script>
 }

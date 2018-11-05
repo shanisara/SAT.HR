@@ -62,7 +62,7 @@ $(document).ready(function () {
     // check if there is an image set for the sidebar's background
     md.checkSidebarImage();
 
-    //    Activate bootstrap-select
+    // Activate bootstrap-select
     if ($(".selectpicker").length != 0) {
         $(".selectpicker").selectpicker();
     }
@@ -97,7 +97,8 @@ $(document).on('click', '.navbar-toggler', function () {
         }, 400);
 
         mobile_menu_visible = 0;
-    } else {
+    }
+    else {
         setTimeout(function () {
             $toggle.addClass('toggled');
         }, 430);
@@ -215,7 +216,7 @@ md = {
 
         $('.timepicker').datetimepicker({
             //          format: 'H:mm',    // use this format if you want the 24hours timepicker
-            format: 'hh:mm A', //use this format if you want the 12hours timpiecker with AM/PM toggle
+            format: 'HH:mm', //use this format if you want the 12hours timpiecker with AM/PM toggle //hh:mm A
             icons: {
                 time: "fa fa-clock-o",
                 date: "fa fa-calendar",
@@ -477,7 +478,6 @@ md = {
         seq = 0;
     },
     startAnimationForBarChart: function (chart) {
-
         chart.on('draw', function (data) {
             if (data.type === 'bar') {
                 seq2++;

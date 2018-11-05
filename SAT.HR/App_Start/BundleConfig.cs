@@ -31,9 +31,12 @@ namespace SAT.HR
                         "~/Content/assets/js/plugins/bootstrap-tagsinput.js",
                         "~/Content/assets/js/plugins/jasny-bootstrap.min.js",
                         "~/Content/assets/js/plugins/bootstrap-select.min.js",
+
                         "~/Content/assets/js/plugins/nouislider.min.js",
                         "~/Content/assets/js/plugins/arrive.min.js",
                         "~/Content/assets/js/plugins/chartist.min.js",
+                        "~/Content/assets/js/nprogress/nprogress.js",
+                        "~/Content/assets/js/plugins/jquery.blockUI.js",
                         "~/Content/assets/js/plugins/accounting.js",
                         "~/Content/assets/js/material-dashboard.min.js"));
 
@@ -41,6 +44,7 @@ namespace SAT.HR
                       "~/Content/assets/css/material-dashboard.css",
                       "~/Content/assets/demo/demo.css",
                       "~/fonts/font-awesome/css/font-awesome.min.css",
+                      "~/Content/assets/js/nprogress/nprogress.css",
                       "~/fonts/font-materialicons/fonts/material-icons.css",
                       "~/fonts/font-prompt/css/Prompt.css"));
         }
