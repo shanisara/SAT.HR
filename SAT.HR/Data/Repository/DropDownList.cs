@@ -1009,6 +1009,40 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
+        public static List<SelectListItem> GetUserSpouse(int userid, string defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new EmployeeRepository().GetFamilyByUser(userid,4);
+
+            foreach (var item in data.ListFamily)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.UfName.ToString();
+                select.Text = item.UfName;
+                select.Selected = !string.IsNullOrEmpty(defaultValue) ? (item.UfName == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetUserChild(int userid, string defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new EmployeeRepository().GetFamilyByUser(userid,5);
+
+            foreach (var item in data.ListFamily)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.UfName.ToString();
+                select.Text = item.UfName;
+                select.Selected = !string.IsNullOrEmpty(defaultValue) ? (item.UfName == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
     }
 
 }

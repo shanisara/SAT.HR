@@ -121,7 +121,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Role> vw_User_Role { get; set; }
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
         public virtual DbSet<tb_Benefit_Child_Education> tb_Benefit_Child_Education { get; set; }
-        public virtual DbSet<tb_Benefit_Child_Fund> tb_Benefit_Child_Fund { get; set; }
         public virtual DbSet<tb_Benefit_Cremation> tb_Benefit_Cremation { get; set; }
         public virtual DbSet<tb_Benefit_Death_Replacement> tb_Benefit_Death_Replacement { get; set; }
         public virtual DbSet<tb_Benefit_Death_Subsidy> tb_Benefit_Death_Subsidy { get; set; }
@@ -131,6 +130,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Benefit_Other_Welfare> tb_Benefit_Other_Welfare { get; set; }
         public virtual DbSet<tb_Benefit_Provident_Fund> tb_Benefit_Provident_Fund { get; set; }
         public virtual DbSet<tb_Benefit_Remuneration> tb_Benefit_Remuneration { get; set; }
+        public virtual DbSet<tb_Benefit_Child_Fund> tb_Benefit_Child_Fund { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {

@@ -1,1 +1,93 @@
-﻿
+﻿@model SAT.HR.Models.BenefitDeathReplacementViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-detail" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.UserID)
+    @Html.HiddenFor(m => m.BdID)
+
+    <div class="form-horizontal">
+        <div class="row">
+            @Html.Label("ปีบัญชี", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-8">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BdYear, new { @class = "form-control", type = "number" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("ผู้รับผลประโยชน์", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-8">
+                <div class="dropdown bootstrap-select dropup">
+                    @Html.DropDownListFor(x => x.RecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.RecieveType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("BdFullName", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-8">
+                <div class="dropdown bootstrap-select dropup">
+                    @Html.DropDownListFor(x => x.BdFullName, new SelectList((IEnumerable<SelectListItem>)ViewBag.BdFullName, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("ระยะเวลา", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-8">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BdTime, new { @class = "form-control", type = "number" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("ร้อยละ/เท่า", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-8">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BdPer, new { @class = "form-control", type = "number" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("จำนวนเงิน", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-8">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BdAmout, new { @class = "form-control", type = "number" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("วันที่", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-8">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BdDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("หมายเหตุ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-8">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BdRemark, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $('.selectpicker').selectpicker();
+
+    $('.datepicker').datetimepicker({
+        format: 'DD/MM/YYYY',
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-screenshot',
+            clear: 'fa fa-trash',
+            close: 'fa fa-remove'
+        }
+    });
+</script>

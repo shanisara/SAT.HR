@@ -19,6 +19,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> BrYear { get; set; }
         public int RecID { get; set; }
         public Nullable<decimal> BrAmout { get; set; }
+        public Nullable<System.DateTime> BrDate { get; set; }
         public string BrRemark { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }

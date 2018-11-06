@@ -69,6 +69,7 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primar
           </Key>
           <Property Name="BcfID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserID" Type="int" />
+          <Property Name="BcfYear" Type="int" />
           <Property Name="BcfName" Type="nvarchar" MaxLength="200" />
           <Property Name="BcfIDCard" Type="numeric" Precision="18" Scale="0" />
           <Property Name="BcfBirthDate" Type="date" />
@@ -89,12 +90,12 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primar
           <Property Name="BcYear" Type="int" />
           <Property Name="MID" Type="int" />
           <Property Name="BcMemberNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="BcDate" Type="datetime" />
           <Property Name="BcBeneficiary1" Type="nvarchar" MaxLength="200" />
           <Property Name="BcBeneficiary2" Type="nvarchar" MaxLength="200" />
           <Property Name="BcBeneficiary3" Type="nvarchar" MaxLength="200" />
           <Property Name="BcBeneficiary4" Type="nvarchar" MaxLength="200" />
           <Property Name="BcBeneficiary5" Type="nvarchar" MaxLength="200" />
-          <Property Name="BcDate" Type="datetime" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="int" />
           <Property Name="ModifyDate" Type="datetime" />
@@ -150,8 +151,8 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primar
           <Property Name="BhrYear" Type="int" />
           <Property Name="RID" Type="int" />
           <Property Name="PID" Type="int" />
-          <Property Name="BhrLevel" Type="numeric" Precision="18" Scale="0" />
-          <Property Name="BhrStep" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="BhrLevel" Type="int" />
+          <Property Name="BhrStep" Type="int" />
           <Property Name="BhrStartDate" Type="date" />
           <Property Name="BhrEndDate" Type="date" />
           <Property Name="BhrAmout" Type="decimal" Precision="18" Scale="2" />
@@ -168,6 +169,7 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primar
           </Key>
           <Property Name="BlID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="BlYear" Type="int" />
           <Property Name="BID" Type="int" />
           <Property Name="LtID" Type="int" />
           <Property Name="BlAccountNo" Type="numeric" Precision="18" Scale="0" />
@@ -257,6 +259,7 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primar
           <Property Name="BrYear" Type="int" />
           <Property Name="RecID" Type="int" Nullable="false" />
           <Property Name="BrAmout" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="BrDate" Type="datetime" />
           <Property Name="BrRemark" Type="nvarchar(max)" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="int" />
@@ -1317,16 +1320,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Man_Power_Head' does not h
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Level' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vw_Salary_Level">
-          <Property Name="Level" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>-->
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Step' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vw_Salary_Step">
-          <Property Name="Step" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>-->
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Section">
@@ -3868,7 +3861,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <End Role="tb_User" EntitySet="tb_User" />
           </AssociationSet>
           <EntitySet Name="tb_Benefit_Child_Education" EntityType="SAT.HR.tb_Benefit_Child_Education" />
-          <EntitySet Name="tb_Benefit_Child_Fund" EntityType="SAT.HR.tb_Benefit_Child_Fund" />
           <EntitySet Name="tb_Benefit_Cremation" EntityType="SAT.HR.tb_Benefit_Cremation" />
           <EntitySet Name="tb_Benefit_Death_Replacement" EntityType="SAT.HR.tb_Benefit_Death_Replacement" />
           <EntitySet Name="tb_Benefit_Death_Subsidy" EntityType="SAT.HR.tb_Benefit_Death_Subsidy" />
@@ -3893,10 +3885,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <AssociationSet Name="FK_tb_Benefit_Child_Education_tb_User" Association="SAT.HR.FK_tb_Benefit_Child_Education_tb_User">
             <End Role="tb_User" EntitySet="tb_User" />
             <End Role="tb_Benefit_Child_Education" EntitySet="tb_Benefit_Child_Education" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tb_Benefit_Child_Fund_tb_User" Association="SAT.HR.FK_tb_Benefit_Child_Fund_tb_User">
-            <End Role="tb_User" EntitySet="tb_User" />
-            <End Role="tb_Benefit_Child_Fund" EntitySet="tb_Benefit_Child_Fund" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_Benefit_Cremation_tb_Member_Type" Association="SAT.HR.FK_tb_Benefit_Cremation_tb_Member_Type">
             <End Role="tb_Member_Type" EntitySet="tb_Member_Type" />
@@ -3977,6 +3965,11 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <AssociationSet Name="FK_tb_Benefit_Remuneration_tb_Recieve_Type" Association="SAT.HR.FK_tb_Benefit_Remuneration_tb_Recieve_Type">
             <End Role="tb_Recieve_Type" EntitySet="tb_Recieve_Type" />
             <End Role="tb_Benefit_Remuneration" EntitySet="tb_Benefit_Remuneration" />
+          </AssociationSet>
+          <EntitySet Name="tb_Benefit_Child_Fund" EntityType="SAT.HR.tb_Benefit_Child_Fund" />
+          <AssociationSet Name="FK_tb_Benefit_Child_Fund_tb_User" Association="SAT.HR.FK_tb_Benefit_Child_Fund_tb_User">
+            <End Role="tb_User" EntitySet="tb_User" />
+            <End Role="tb_Benefit_Child_Fund" EntitySet="tb_Benefit_Child_Fund" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_Menu_GetByUser_Result">
@@ -4808,7 +4801,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <NavigationProperty Name="tb_User_Status" Relationship="SAT.HR.FK_tb_Users_tb_User_Status" FromRole="tb_User" ToRole="tb_User_Status" />
           <NavigationProperty Name="tb_Working_Type" Relationship="SAT.HR.FK_tb_Users_tb_Working_Type" FromRole="tb_User" ToRole="tb_Working_Type" />
           <NavigationProperty Name="tb_Benefit_Child_Education" Relationship="SAT.HR.FK_tb_Benefit_Child_Education_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Child_Education" />
-          <NavigationProperty Name="tb_Benefit_Child_Fund" Relationship="SAT.HR.FK_tb_Benefit_Child_Fund_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Child_Fund" />
           <NavigationProperty Name="tb_Benefit_Cremation" Relationship="SAT.HR.FK_tb_Benefit_Cremation_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Cremation" />
           <NavigationProperty Name="tb_Benefit_Death_Replacement" Relationship="SAT.HR.FK_tb_Benefit_Death_Replacement_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Death_Replacement" />
           <NavigationProperty Name="tb_Benefit_Death_Subsidy" Relationship="SAT.HR.FK_tb_Benefit_Death_Subsidy_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Death_Subsidy" />
@@ -4817,6 +4809,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <NavigationProperty Name="tb_Benefit_Medical" Relationship="SAT.HR.FK_tb_Benefit_Medical_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Medical" />
           <NavigationProperty Name="tb_Benefit_Other_Welfare" Relationship="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Other_Welfare" />
           <NavigationProperty Name="tb_Benefit_Provident_Fund" Relationship="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Provident_Fund" />
+          <NavigationProperty Name="tb_Benefit_Child_Fund" Relationship="SAT.HR.FK_tb_Benefit_Child_Fund_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Child_Fund" />
         </EntityType>
         <EntityType Name="tb_User_Certificate">
           <Key>
@@ -6212,23 +6205,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="ModifyBy" Type="Int32" />
           <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Benefit_Child_Education_tb_User" FromRole="tb_Benefit_Child_Education" ToRole="tb_User" />
         </EntityType>
-        <EntityType Name="tb_Benefit_Child_Fund">
-          <Key>
-            <PropertyRef Name="BcfID" />
-          </Key>
-          <Property Name="BcfID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserID" Type="Int32" />
-          <Property Name="BcfName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="BcfIDCard" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="BcfBirthDate" Type="DateTime" Precision="0" />
-          <Property Name="BcfExpireDate" Type="DateTime" Precision="0" />
-          <Property Name="BcfAmout" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="Int32" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="Int32" />
-          <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Benefit_Child_Fund_tb_User" FromRole="tb_Benefit_Child_Fund" ToRole="tb_User" />
-        </EntityType>
         <EntityType Name="tb_Benefit_Cremation">
           <Key>
             <PropertyRef Name="BcID" />
@@ -6239,12 +6215,12 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="BcYear" Type="Int32" />
           <Property Name="MID" Type="Int32" />
           <Property Name="BcMemberNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BcDate" Type="DateTime" Precision="3" />
           <Property Name="BcBeneficiary1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="BcBeneficiary2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="BcBeneficiary3" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="BcBeneficiary4" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="BcBeneficiary5" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="BcDate" Type="DateTime" Precision="3" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="CreateBy" Type="Int32" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
@@ -6306,8 +6282,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="BhrYear" Type="Int32" />
           <Property Name="RID" Type="Int32" />
           <Property Name="PID" Type="Int32" />
-          <Property Name="BhrLevel" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="BhrStep" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="BhrLevel" Type="Int32" />
+          <Property Name="BhrStep" Type="Int32" />
           <Property Name="BhrStartDate" Type="DateTime" Precision="0" />
           <Property Name="BhrEndDate" Type="DateTime" Precision="0" />
           <Property Name="BhrAmout" Type="Decimal" Precision="18" Scale="2" />
@@ -6327,6 +6303,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           </Key>
           <Property Name="BlID" Type="Int32" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="BlYear" Type="Int32" />
           <Property Name="BID" Type="Int32" />
           <Property Name="LtID" Type="Int32" />
           <Property Name="BlAccountNo" Type="Decimal" Precision="18" Scale="0" />
@@ -6429,6 +6406,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="BrYear" Type="Int32" />
           <Property Name="RecID" Type="Int32" Nullable="false" />
           <Property Name="BrAmout" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BrDate" Type="DateTime" Precision="3" />
           <Property Name="BrRemark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="CreateBy" Type="Int32" />
@@ -6480,18 +6458,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               <PropertyRef Name="UserID" />
             </Principal>
             <Dependent Role="tb_Benefit_Child_Education">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tb_Benefit_Child_Fund_tb_User">
-          <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="0..1" />
-          <End Type="SAT.HR.tb_Benefit_Child_Fund" Role="tb_Benefit_Child_Fund" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_User">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="tb_Benefit_Child_Fund">
               <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
@@ -6733,6 +6699,36 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Principal>
             <Dependent Role="tb_Benefit_Remuneration">
               <PropertyRef Name="RecID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tb_Benefit_Child_Fund">
+          <Key>
+            <PropertyRef Name="BcfID" />
+          </Key>
+          <Property Name="BcfID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="BcfYear" Type="Int32" />
+          <Property Name="BcfName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="BcfIDCard" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="BcfBirthDate" Type="DateTime" Precision="0" />
+          <Property Name="BcfExpireDate" Type="DateTime" Precision="0" />
+          <Property Name="BcfAmout" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+          <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Benefit_Child_Fund_tb_User" FromRole="tb_Benefit_Child_Fund" ToRole="tb_User" />
+        </EntityType>
+        <Association Name="FK_tb_Benefit_Child_Fund_tb_User">
+          <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Benefit_Child_Fund" Role="tb_Benefit_Child_Fund" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tb_Benefit_Child_Fund">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8344,23 +8340,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tb_Benefit_Child_Fund">
-            <EntityTypeMapping TypeName="SAT.HR.tb_Benefit_Child_Fund">
-              <MappingFragment StoreEntitySet="tb_Benefit_Child_Fund">
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="BcfAmout" ColumnName="BcfAmout" />
-                <ScalarProperty Name="BcfExpireDate" ColumnName="BcfExpireDate" />
-                <ScalarProperty Name="BcfBirthDate" ColumnName="BcfBirthDate" />
-                <ScalarProperty Name="BcfIDCard" ColumnName="BcfIDCard" />
-                <ScalarProperty Name="BcfName" ColumnName="BcfName" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="BcfID" ColumnName="BcfID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tb_Benefit_Cremation">
             <EntityTypeMapping TypeName="SAT.HR.tb_Benefit_Cremation">
               <MappingFragment StoreEntitySet="tb_Benefit_Cremation">
@@ -8368,12 +8347,12 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="BcDate" ColumnName="BcDate" />
                 <ScalarProperty Name="BcBeneficiary5" ColumnName="BcBeneficiary5" />
                 <ScalarProperty Name="BcBeneficiary4" ColumnName="BcBeneficiary4" />
                 <ScalarProperty Name="BcBeneficiary3" ColumnName="BcBeneficiary3" />
                 <ScalarProperty Name="BcBeneficiary2" ColumnName="BcBeneficiary2" />
                 <ScalarProperty Name="BcBeneficiary1" ColumnName="BcBeneficiary1" />
+                <ScalarProperty Name="BcDate" ColumnName="BcDate" />
                 <ScalarProperty Name="BcMemberNo" ColumnName="BcMemberNo" />
                 <ScalarProperty Name="MID" ColumnName="MID" />
                 <ScalarProperty Name="BcYear" ColumnName="BcYear" />
@@ -8460,6 +8439,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="BlAccountNo" ColumnName="BlAccountNo" />
                 <ScalarProperty Name="LtID" ColumnName="LtID" />
                 <ScalarProperty Name="BID" ColumnName="BID" />
+                <ScalarProperty Name="BlYear" ColumnName="BlYear" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="BlID" ColumnName="BlID" />
               </MappingFragment>
@@ -8537,11 +8517,30 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="BrRemark" ColumnName="BrRemark" />
+                <ScalarProperty Name="BrDate" ColumnName="BrDate" />
                 <ScalarProperty Name="BrAmout" ColumnName="BrAmout" />
                 <ScalarProperty Name="RecID" ColumnName="RecID" />
                 <ScalarProperty Name="BrYear" ColumnName="BrYear" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="BrID" ColumnName="BrID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Benefit_Child_Fund">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Benefit_Child_Fund">
+              <MappingFragment StoreEntitySet="tb_Benefit_Child_Fund">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="BcfAmout" ColumnName="BcfAmout" />
+                <ScalarProperty Name="BcfExpireDate" ColumnName="BcfExpireDate" />
+                <ScalarProperty Name="BcfBirthDate" ColumnName="BcfBirthDate" />
+                <ScalarProperty Name="BcfIDCard" ColumnName="BcfIDCard" />
+                <ScalarProperty Name="BcfName" ColumnName="BcfName" />
+                <ScalarProperty Name="BcfYear" ColumnName="BcfYear" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="BcfID" ColumnName="BcfID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -10,6 +10,7 @@ namespace SAT.HR.Models
         public int RowNumber { get; set; }
         public int BoID { get; set; }
         public int UserID { get; set; }
+        public Nullable<int> BoYear { get; set; }
         public Nullable<int> BenTID { get; set; }
         public Nullable<int> BoRecID { get; set; }
         public string BoRecFullName { get; set; }
@@ -29,7 +30,6 @@ namespace SAT.HR.Models
         public string BoRecName { get; set; }
         public string BoOptRecName { get; set; }
         public string BoDateText { get; set; }
-        public Nullable<int> BoYear { get; set; }
 
         public List<BenefitOtherWelfareViewModel> ListOtherWelfare { get; set; }
     }

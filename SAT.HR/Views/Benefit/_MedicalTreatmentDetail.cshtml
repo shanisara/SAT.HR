@@ -1,1 +1,85 @@
-﻿
+﻿@model SAT.HR.Models.BenefitMedicalViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-detail" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.UserID)
+    @Html.HiddenFor(m => m.BmID)
+
+    <div class="form-horizontal">
+        <div class="row">
+            @Html.Label("ปีบัญชี", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-8">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BmYear, new { @class = "form-control", type = "number" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("สิทธิ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-8">
+                <div class="dropdown bootstrap-select dropup">
+                    @Html.DropDownListFor(x => x.ClID, new SelectList((IEnumerable<SelectListItem>)ViewBag.ClaimType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("ผู้รับ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-8">
+                <div class="dropdown bootstrap-select dropup">
+                    @Html.DropDownListFor(x => x.RecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.RecieveType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("เลขบัตรประชาชน", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-8">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BmCardID, new { @class = "form-control", type = "number" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("ค่าห้อง+ค่าอาหาร", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-8">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BmAmoutService, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("ค่ารักษาพยาบาล", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-8">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BmAmoutCare, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("หมายเหตุ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-8">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BmRemark, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $('.selectpicker').selectpicker();
+
+    $('.datepicker').datetimepicker({
+        format: 'DD/MM/YYYY',
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-screenshot',
+            clear: 'fa fa-trash',
+            close: 'fa fa-remove'
+        }
+    });
+</script>

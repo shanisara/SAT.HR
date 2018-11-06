@@ -547,6 +547,7 @@ namespace SAT.HR.Data.Repository
                         model.RowNumber = index++;
                         model.BlID = item.BlID;
                         model.UserID = item.UserID;
+                        //model.BlYear = item.BlYear;
                         model.BID = item.BID;
                         model.LtID = item.LtID;
                         model.BlAccountNo = item.BlAccountNo;
@@ -590,6 +591,7 @@ namespace SAT.HR.Data.Repository
                     BenefitLoanViewModel model = new BenefitLoanViewModel();
                     model.BlID = item.BlID;
                     model.UserID = item.UserID;
+                    //model.BlYear = item.BlYear;
                     model.BID = item.BID;
                     model.LtID = item.LtID;
                     model.BlAccountNo = item.BlAccountNo;
@@ -626,6 +628,7 @@ namespace SAT.HR.Data.Repository
                     tb_Benefit_Loan model = new tb_Benefit_Loan();
                     model.BlID = data.BlID;
                     model.UserID = data.UserID;
+                    //model.BlYear = item.BlYear;
                     model.BID = data.BID;
                     model.LtID = data.LtID;
                     model.BlAccountNo = data.BlAccountNo;
@@ -665,6 +668,7 @@ namespace SAT.HR.Data.Repository
                     var model = db.tb_Benefit_Loan.Single(x => x.UserID == newdata.UserID && x.BlID == newdata.BlID);
                     model.BlID = newdata.BlID;
                     model.UserID = newdata.UserID;
+                    //model.BlYear = item.BlYear;
                     model.BID = newdata.BID;
                     model.LtID = newdata.LtID;
                     model.BlAccountNo = newdata.BlAccountNo;

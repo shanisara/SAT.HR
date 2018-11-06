@@ -77,7 +77,8 @@ namespace SAT.HR.Controllers
         public ActionResult ProvidentFundDetail(int userid, int id)
         {
             var model = new BenefitRepository().GetProvidentFundByID(userid, id);
-            //ViewBag.Certificate = DropDownList.GetProvidentFund(model.CerId);
+            ViewBag.BpAccumFundCu = DropDownList.GetAccumulativeFund(model.BpAccumFundCuID);
+            ViewBag.BpAssoFundCu = DropDownList.GetAccumulativeFund(model.BpAssoFundCuID);
             return PartialView("_ProvidentFundDetail", model);
         }
 
@@ -116,7 +117,8 @@ namespace SAT.HR.Controllers
         public ActionResult MedicalTreatmentDetail(int userid, int id)
         {
             var model = new BenefitRepository().GetMedicalTreatmentByID(userid, id);
-            //ViewBag.Certificate = DropDownList.GetCertificate(model.CerId);
+            ViewBag.ClaimType = DropDownList.GetCertificate(model.ClID);
+            ViewBag.RecieveType = DropDownList.GetCertificate(model.RecID);
             return PartialView("_MedicalTreatmentDetail", model);
         }
 
@@ -155,7 +157,8 @@ namespace SAT.HR.Controllers
         public ActionResult LoanDetail(int userid, int id)
         {
             var model = new BenefitRepository().GetLoanByID(userid, id);
-            //ViewBag.Certificate = DropDownList.GetLoan(model.CerId);
+            ViewBag.BankLoan = DropDownList.GetBankLoan(model.BID);
+            ViewBag.LoanType = DropDownList.GetLoanType(model.LtID);
             return PartialView("_LoanDetail", model);
         }
 
@@ -194,7 +197,10 @@ namespace SAT.HR.Controllers
         public ActionResult HomeRentalDetail(int userid, int id)
         {
             var model = new BenefitRepository().GetHomeRentalByID(userid, id);
-            //ViewBag.Certificate = DropDownList.GetCertificate(model.CerId);
+            ViewBag.RentType = DropDownList.GetCertificate(model.RID);
+            ViewBag.PartType = DropDownList.GetCertificate(model.PID);
+            ViewBag.BhrLevel = DropDownList.GetCertificate(model.BhrLevel);
+            ViewBag.BhrStep = DropDownList.GetCertificate(model.BhrStep);
             return PartialView("_HomeRentalDetail", model);
         }
 
@@ -230,13 +236,6 @@ namespace SAT.HR.Controllers
             return PartialView("_ChildFund");
         }
 
-        public ActionResult ChildFundDetail(int userid, int id)
-        {
-            var model = new BenefitRepository().GetChildFundByID(userid, id);
-            //ViewBag.Certificate = DropDownList.GetChildFund(model.CerId);
-            return PartialView("_ChildFundDetail", model);
-        }
-
         public JsonResult SaveChildFund(BenefitChildFundViewModel data)
         {
             ResponseData result = new Models.ResponseData();
@@ -267,13 +266,6 @@ namespace SAT.HR.Controllers
         public ActionResult ChildEducationByUser()
         {
             return PartialView("_ChildEducation");
-        }
-
-        public ActionResult ChildEducationDetail(int userid, int id)
-        {
-            var model = new BenefitRepository().GetChildEducationByID(userid, id);
-            //ViewBag.Certificate = DropDownList.GetCertificate(model.CerId);
-            return PartialView("_ChildEducationDetail", model);
         }
 
         public JsonResult SaveChildEducation(BenefitChildEducationViewModel data)
@@ -311,7 +303,7 @@ namespace SAT.HR.Controllers
         public ActionResult CremationDetail(int userid, int id)
         {
             var model = new BenefitRepository().GetCremationByID(userid, id);
-            //ViewBag.Certificate = DropDownList.GetCremation(model.CerId);
+            ViewBag.MemberType = DropDownList.GetMemberType(model.MID);
             return PartialView("_CremationDetail", model);
         }
 
@@ -350,7 +342,8 @@ namespace SAT.HR.Controllers
         public ActionResult DeathReplacementDetail(int userid, int id)
         {
             var model = new BenefitRepository().GetDeathReplacementByID(userid, id);
-            //ViewBag.Certificate = DropDownList.GetCertificate(model.CerId);
+            ViewBag.RecieveType = DropDownList.GetCertificate(model.RecID);
+            //ViewBag.BdFullName = DropDownList.GetCertificate(model.BdFullName);
             return PartialView("_DeathReplacementDetail", model);
         }
 
@@ -390,7 +383,8 @@ namespace SAT.HR.Controllers
         public ActionResult DeathSubsidyDetail(int userid, int id)
         {
             var model = new BenefitRepository().GetDeathSubsidyByID(userid, id);
-            //ViewBag.Certificate = DropDownList.GetCertificate(model.CerId);
+            ViewBag.RecieveType = DropDownList.GetCertificate(model.RecID);
+            //ViewBag.BdFullName = DropDownList.GetCertificate(model.BdFullName);
             return PartialView("_DeathSubsidyDetail", model);
         }
 
@@ -429,7 +423,9 @@ namespace SAT.HR.Controllers
         public ActionResult OtherWelfareDetail(int userid, int id)
         {
             var model = new BenefitRepository().GetOtherWelfareByID(userid, id);
-            //ViewBag.Certificate = DropDownList.GetCertificate(model.CerId);
+            ViewBag.BenefitType = DropDownList.GetCertificate(model.BenTID);
+            ViewBag.RecieveType = DropDownList.GetCertificate(model.BoRecID);
+            ViewBag.RecieveType = DropDownList.GetCertificate(model.BoOptRecID);
             return PartialView("_OtherWelfareDetail", model);
         }
 
