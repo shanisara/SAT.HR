@@ -100,6 +100,10 @@ namespace SAT.HR.Data.Repository
                         var detail = GetDetail(id);
                         model.ListDetail = detail;
                     }
+                    else
+                    {
+                        //model.MlYear = DateTime.Now.ToString("yyyy", new System.Globalization.CultureInfo("th-TH")).ToString();
+                    }
                 }
             }
             catch (Exception)

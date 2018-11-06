@@ -20,9 +20,19 @@
                             <button class="btn btn-primary btn-sm pull-right btn-add" data-toggle="modal"><i class="material-icons">add</i> เพิ่มรายการ</button>
                         </h4>
                     </div>
-                    <div>
-                        เลขสมาชิกกองทุน:
-                        วันที่เป็นสมาชิก:
+                    <div class="form-horizontal">
+                        <div class="row">
+                            @Html.Label("เลขสมาชิกกองทุน: ", null, new { @class = "col-sm-4 col-form-label" })
+                            <div class="col-sm-2">
+                                @*@Html.TextBoxFor(m => m.ProvidentFundNo, new { @class = "form-control" })*@
+                                @Html.TextBox("ProvidentFundNo", null, new { @class = "form-control " })
+                            </div>
+                            @Html.Label("วันที่เป็นสมาชิก: ", null, new { @class = "col-sm-2 col-form-label" })
+                            <div class="col-sm-2">
+                                @*@Html.TextBoxFor(m => m.ProvidentFundDate, new { @class = "form-control datepicker" })*@
+                                @Html.TextBox("ProvidentFundDate", null, new { @class = "form-control datepicker" })
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="material-datatables">
@@ -53,7 +63,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title"><span>เงินช่วยเหลือการศึกษาบุตร</span></h4>
+                <h4 class="modal-title"><span>กองทุน</span></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
             </div>
             <div class="modal-body">
@@ -76,6 +86,21 @@
     //    <li>นางจรวจพร  ไผ่งาม</li>
     //    <li>นางสาวศิริลักษณ์  เวชสุมังคะโล</li>
     //</ul>
+
+    $('.datepicker').datetimepicker({
+        format: 'DD/MM/YYYY',
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-screenshot',
+            clear: 'fa fa-trash',
+            close: 'fa fa-remove'
+        }
+    });
 
     var dataTable = {
         table: null,

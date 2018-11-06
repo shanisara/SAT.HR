@@ -8,35 +8,56 @@
 
     <div class="form-horizontal">
         <div class="row">
-            @Html.Label("ปีบัญชี", null, new { @class = "col-sm-3 col-form-label" })
-            <div class="col-sm-8">
+            @Html.Label("ปีบัญชี", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-4">
                 <div class="form-group bmd-form-group">
                     @Html.TextBoxFor(m => m.BlYear, new { @class = "form-control", type = "number" })
                 </div>
             </div>
-        </div>
-        <div class="row">
-            @Html.Label("แหล่งเงินกู้", null, new { @class = "col-sm-3 col-form-label" })
+            @Html.Label("แหล่งเงินกู้", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-4">
                 <div class="dropdown bootstrap-select dropup">
                     @Html.DropDownListFor(x => x.BID, new SelectList((IEnumerable<SelectListItem>)ViewBag.BankLoan, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
                 </div>
             </div>
-            @Html.Label("ประเภทเงินกู้", null, new { @class = "col-sm-3 col-form-label" })
+        </div>
+        <div class="row m-t-5">
+            @Html.Label("ประเภทเงินกู้", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-4">
                 <div class="dropdown bootstrap-select dropup">
                     @Html.DropDownListFor(x => x.LtID, new SelectList((IEnumerable<SelectListItem>)ViewBag.LoanType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
                 </div>
             </div>
-        </div>
-        <div class="row">
-            @Html.Label("หมายเลขบัญชีเงินกู้", null, new { @class = "col-sm-3 col-form-label" })
+            @Html.Label("หมายเลขบัญชี", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-4">
                 <div class="form-group bmd-form-group">
                     @Html.TextBoxFor(m => m.BlAccountNo, new { @class = "form-control", type = "number" })
                 </div>
             </div>
-            @Html.Label("วันที่ปิดบัญชีเงินกู้", null, new { @class = "col-sm-3 col-form-label" })
+        </div>
+       
+        <div class="row">
+            @Html.Label("วันที่เริ่มต้น", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-4">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BlStartDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
+                </div>
+            </div>
+            @Html.Label("วันที่สิ้นสุด", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-4">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BlEndDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
+                </div>
+            </div>
+        </div>
+        <div class="row m-t-5">
+            @Html.Label("ยอดเงินกู้", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-4">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BISummaryAmout, new { @class = "form-control", type = "number" })
+                </div>
+            </div>
+            @Html.Label("วันที่ปิดบัญชี", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-4">
                 <div class="form-group bmd-form-group">
                     @Html.TextBoxFor(m => m.BlCloseDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
@@ -44,42 +65,22 @@
             </div>
         </div>
         <div class="row">
-            @Html.Label("วันที่เริ่มต้น", null, new { @class = "col-sm-3 col-form-label" })
-            <div class="col-sm-4">
-                <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.BlStartDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
-                </div>
-            </div>
-            @Html.Label("วันที่สิ้นสุด", null, new { @class = "col-sm-3 col-form-label" })
-            <div class="col-sm-4">
-                <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.BlEndDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            @Html.Label("ยอดเงินกู้", null, new { @class = "col-sm-3 col-form-label" })
-            <div class="col-sm-2">
-                <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.BISummaryAmout, new { @class = "form-control", type = "number" })
-                </div>
-            </div>
             @Html.Label("จำนวนงวด", null, new { @class = "col-sm-2 col-form-label" })
-            <div class="col-sm-2">
+            <div class="col-sm-4">
                 <div class="form-group bmd-form-group">
                     @Html.TextBoxFor(m => m.BlPeriod, new { @class = "form-control", type = "number" })
                 </div>
             </div>
             @Html.Label("ชำระต่องวด", null, new { @class = "col-sm-2 col-form-label" })
-            <div class="col-sm-2">
+            <div class="col-sm-4">
                 <div class="form-group bmd-form-group">
                     @Html.TextBoxFor(m => m.BlPeriodPay, new { @class = "form-control", type = "number" })
                 </div>
             </div>
         </div>
         <div class="row">
-            @Html.Label("หมายเหตุ", null, new { @class = "col-sm-3 col-form-label" })
-            <div class="col-sm-8">
+            @Html.Label("หมายเหตุ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
                 <div class="form-group bmd-form-group">
                     @Html.TextBoxFor(m => m.BlRemark, new { @class = "form-control" })
                 </div>
@@ -88,6 +89,9 @@
     </div>
 }
 <script>
+    //กู้อเนกประสงค์
+    //กู้ที่อยู่อาศัย
+
     $('.selectpicker').selectpicker();
 
     $('.datepicker').datetimepicker({

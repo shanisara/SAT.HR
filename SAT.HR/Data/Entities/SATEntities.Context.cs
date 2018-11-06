@@ -126,11 +126,11 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Benefit_Death_Subsidy> tb_Benefit_Death_Subsidy { get; set; }
         public virtual DbSet<tb_Benefit_Home_Rental> tb_Benefit_Home_Rental { get; set; }
         public virtual DbSet<tb_Benefit_Loan> tb_Benefit_Loan { get; set; }
-        public virtual DbSet<tb_Benefit_Medical> tb_Benefit_Medical { get; set; }
         public virtual DbSet<tb_Benefit_Other_Welfare> tb_Benefit_Other_Welfare { get; set; }
         public virtual DbSet<tb_Benefit_Provident_Fund> tb_Benefit_Provident_Fund { get; set; }
-        public virtual DbSet<tb_Benefit_Remuneration> tb_Benefit_Remuneration { get; set; }
         public virtual DbSet<tb_Benefit_Child_Fund> tb_Benefit_Child_Fund { get; set; }
+        public virtual DbSet<tb_Benefit_Medical> tb_Benefit_Medical { get; set; }
+        public virtual DbSet<tb_Benefit_Remuneration> tb_Benefit_Remuneration { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {
