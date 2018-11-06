@@ -16,6 +16,7 @@ namespace SAT.HR.Data.Entities
     {
         public int BdID { get; set; }
         public int UserID { get; set; }
+        public Nullable<int> BdYear { get; set; }
         public Nullable<int> RecID { get; set; }
         public string BdFullName { get; set; }
         public string BdTime { get; set; }

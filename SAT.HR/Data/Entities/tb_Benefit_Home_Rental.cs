@@ -16,7 +16,7 @@ namespace SAT.HR.Data.Entities
     {
         public int BhrID { get; set; }
         public int UserID { get; set; }
-        public string BhrYear { get; set; }
+        public Nullable<int> BhrYear { get; set; }
         public Nullable<int> RID { get; set; }
         public Nullable<int> PID { get; set; }
         public Nullable<decimal> BhrLevel { get; set; }

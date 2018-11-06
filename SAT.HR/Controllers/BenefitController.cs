@@ -21,28 +21,24 @@ namespace SAT.HR.Controllers
 
         public ActionResult Detail(int id, int? type)
         {
+            var model = new EmployeeRepository().GetByID(id);
             ViewBag.UserTypeID = type;
-            return View();
+            return View(model);
         }
 
 
         #region  1. เงินตอบแทนความชอบ
 
-        public ActionResult Remuneration()
-        {
-            return PartialView("_Remuneration");
-        }
-
         public ActionResult RemunerationByUser()
         {
-            return PartialView("_Certificate");
+            return PartialView("_Remuneration");
         }
 
         public ActionResult RemunerationDetail(int userid, int id)
         {
             var model = new BenefitRepository().GetRemunerationByID(userid, id);
-            //ViewBag.Certificate = DropDownList.GetCertificate(model.CerId);
-            return PartialView("_CertificateDetail", model);
+            ViewBag.RecieveType = DropDownList.GetRecieveType(model.RecID);
+            return PartialView("_RemunerationDetail", model);
         }
 
         public JsonResult SaveRemuneration(BenefitRemunerationViewModel data)
@@ -319,7 +315,7 @@ namespace SAT.HR.Controllers
             return PartialView("_CremationDetail", model);
         }
 
-        public JsonResult SaveRemuneration(BenefitCremationViewModel data)
+        public JsonResult SaveCremation(BenefitCremationViewModel data)
         {
             ResponseData result = new Models.ResponseData();
             if (data.BcID != 0)
@@ -358,7 +354,7 @@ namespace SAT.HR.Controllers
             return PartialView("_DeathReplacementDetail", model);
         }
 
-        public JsonResult SaveDeathRemuneration(BenefitDeathReplacementViewModel data)
+        public JsonResult SaveDeathReplacement(BenefitDeathReplacementViewModel data)
         {
             ResponseData result = new Models.ResponseData();
             if (data.BdID != 0)

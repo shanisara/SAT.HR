@@ -29,7 +29,7 @@ namespace SAT.HR.Models
         public string BoRecName { get; set; }
         public string BoOptRecName { get; set; }
         public string BoDateText { get; set; }
-        public decimal BoYear { get; set; }
+        public Nullable<int> BoYear { get; set; }
 
         public List<BenefitOtherWelfareViewModel> ListOtherWelfare { get; set; }
     }

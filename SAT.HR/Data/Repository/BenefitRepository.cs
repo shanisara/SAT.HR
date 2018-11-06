@@ -1445,7 +1445,7 @@ namespace SAT.HR.Data.Repository
                         model.UserID = item.UserID;
                         model.RecID = item.RecID;
                         model.RecName = "";
-                        model.BdYear = 2560;
+                        model.BdYear = item.BdYear;
                         model.BdFullName = item.BdFullName;
                         model.BdTime = item.BdTime;
                         model.BdPer = item.BdPer;
@@ -1622,7 +1622,7 @@ namespace SAT.HR.Data.Repository
                         model.UserID = item.UserID;
                         model.RecID = item.RecID;
                         model.RecName = "";// item.RecName;
-                        model.BdYear = 2560;
+                        model.BdYear = item.BdYear;
                         model.BdFullName = item.BdFullName;
                         model.BdTime = item.BdTime;
                         model.BdPer = item.BdPer;
@@ -1815,7 +1815,7 @@ namespace SAT.HR.Data.Repository
                         model.BenTName = "";
                         model.BoRecName = "";
                         model.BoOptRecName = "";
-                        model.BoYear = 2560;
+                        model.BoYear = item.BoYear;
                         list.Add(model);
                     }
                 }

@@ -1,5 +1,4 @@
-﻿@model SAT.HR.Models.BenefitViewModel
-
+﻿@model SAT.HR.Models.EmployeeViewModel
 @{
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,17 +6,17 @@
 
 <style>
     .nav-pills .nav-item .nav-link {
-        font-size: 14px;
+        font-size: 13px;
     }
 
-        .nav-pills .nav-item .nav-link.active {
-            font-size: 14px;
-        }
+    .nav-pills.nav-pills-warning .nav-item .nav-link.active, .nav-pills.nav-pills-warning .nav-item .nav-link.active:focus, .nav-pills.nav-pills-warning .nav-item .nav-link.active:hover {
+        font-size: 13px;
+    }
 
     .nav-pills {
         border: 0;
         border-radius: 3px;
-        padding: 0px; 
+        padding: 0px;
     }
 
     .col-md-2, .col-md-10 {
@@ -39,7 +38,7 @@
                     </div>
                     <h4 class="card-title">
                         @Html.HiddenFor(m => m.UserID)
-                        @Html.HiddenFor(m => m.UserTypeID)
+                        @Html.HiddenFor(m => m.UserType, new { Value = @ViewBag.UserTypeID })
 
                         <span>สวัสดิการพนักงาน: </span><span class="text-primary">@Model.FullNameTh (@Model.IDCard)</span>
                         <button type="submit" class="btn btn-round pull-right">ย้อนกลับ</button>
@@ -47,7 +46,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row m-b-20">
-                        <div id="tabs" class="col-md-2 m-t-10" >
+                        <div id="tabs" class="col-md-2 m-t-10">
                             <ul class="nav nav-pills nav-pills-warning flex-column" role="tablist">
                                 <li class="nav-item" id="remuneration">
                                     <a class="nav-link active text-left show" data-id="remuneration" data-toggle="tab" href="#" role="tablist">
@@ -123,95 +122,95 @@
 @section Scripts {
     <script>
 
-    $(document).ready(function () {
+        $(document).ready(function () {
 
-        var ref_this = $("#tabs li").find(".active");
-        if (ref_this.data("id") == "remuneration") {
-            var userid = $("#UserID").val();
-            var type = $("#UserTypeID").val();
-            var url = '@Url.Action("RemunerationByUser", "Benefit")/' + userid;
-            $.post(url, function (data) {
-                $("#div-detail").html(data);
-            });
-        }
-
-        $("#tabs li").click(function () {
-            var userid = $("#UserID").val();
-            var type = $("#UserTypeID").val();
-            if (this.id == "remuneration") {
+            var ref_this = $("#tabs li").find(".active");
+            if (ref_this.data("id") == "remuneration") {
+                var userid = $("#UserID").val();
+                var type = $("#UserTypeID").val();
                 var url = '@Url.Action("RemunerationByUser", "Benefit")/' + userid;
                 $.post(url, function (data) {
                     $("#div-detail").html(data);
                 });
             }
-            else if (this.id == "providentFund") {
-                var url = '@Url.Action("ProvidentFundByUser", "Benefit")/' + userid;
-                $.post(url, function (data) {
-                    $("#div-detail").html(data);
-                });
-            }
-            else if (this.id == "medicalTreatment") {
-                var url = '@Url.Action("MedicalTreatmentByUser", "Benefit")/' + userid;
-                $.post(url, function (data) {
-                    $("#div-detail").html(data);
-                });
-            }
-            else if (this.id == "loan") {
-                var url = '@Url.Action("LoanByUser", "Benefit")/' + userid;
-                $.post(url, function (data) {
-                    $("#div-detail").html(data);
-                });
-            }
-            else if (this.id == "homeRental") {
-                var url = '@Url.Action("HomeRentalByUser", "Benefit")/' + userid;
-                $.post(url, function (data) {
-                    $("#div-detail").html(data);
-                });
-            }
-            else if (this.id == "childFund") {
-                var url = '@Url.Action("ChildFundByUser", "Benefit")/' + userid;
-                $.post(url, function (data) {
-                    $("#div-detail").html(data);
-                });
-            }
-            else if (this.id == "childEducation") {
-                var url = '@Url.Action("ChildEducationByUser", "Benefit")/' + userid;
-                $.post(url, function (data) {
-                    $("#div-detail").html(data);
-                });
-            }
-            else if (this.id == "cremation") {
-                var url = '@Url.Action("CremationByUser", "Benefit")/' + userid;
-                $.post(url, function (data) {
-                    $("#div-detail").html(data);
-                });
-            }
-            else if (this.id == "deathReplacement") {
-                var url = '@Url.Action("DeathReplacementByUser", "Benefit")/' + userid;
-                $.post(url, function (data) {
-                    $("#div-detail").html(data);
-                });
-            }
-            else if (this.id == "deathSubsidy") {
-                var url = '@Url.Action("DeathSubsidyByUser", "Benefit")/' + userid;
-                $.post(url, function (data) {
-                    $("#div-detail").html(data);
-                });
-            }
-            else if (this.id == "otherWelfare") {
-                var url = '@Url.Action("OtherWelfareByUser", "Benefit")/' + userid;
-                $.post(url, function (data) {
-                    $("#div-detail").html(data);
-                });
-            }
+
+            $("#tabs li").click(function () {
+                var userid = $("#UserID").val();
+                var type = $("#UserTypeID").val();
+                if (this.id == "remuneration") {
+                    var url = '@Url.Action("RemunerationByUser", "Benefit")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "providentFund") {
+                    var url = '@Url.Action("ProvidentFundByUser", "Benefit")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "medicalTreatment") {
+                    var url = '@Url.Action("MedicalTreatmentByUser", "Benefit")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "loan") {
+                    var url = '@Url.Action("LoanByUser", "Benefit")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "homeRental") {
+                    var url = '@Url.Action("HomeRentalByUser", "Benefit")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "childFund") {
+                    var url = '@Url.Action("ChildFundByUser", "Benefit")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "childEducation") {
+                    var url = '@Url.Action("ChildEducationByUser", "Benefit")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "cremation") {
+                    var url = '@Url.Action("CremationByUser", "Benefit")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "deathReplacement") {
+                    var url = '@Url.Action("DeathReplacementByUser", "Benefit")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "deathSubsidy") {
+                    var url = '@Url.Action("DeathSubsidyByUser", "Benefit")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "otherWelfare") {
+                    var url = '@Url.Action("OtherWelfareByUser", "Benefit")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+            });
+
+            $(".btn-back").click(function () {
+                var url = '@Url.Action("Index", "Benefit")';
+                window.location.href = url;
+            });
+
+
         });
-
-        $(".btn-back").click(function () {
-            var url = '@Url.Action("Index", "Benefit")';
-            window.location.href = url;
-        });
-
-
-    });
     </script>
 }

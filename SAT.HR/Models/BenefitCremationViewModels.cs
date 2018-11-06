@@ -10,7 +10,7 @@ namespace SAT.HR.Models
         public int RowNumber { get; set; }
         public int BcID { get; set; }
         public int UserID { get; set; }
-        public string BcYear { get; set; }
+        public Nullable<int> BcYear { get; set; }
         public Nullable<int> MID { get; set; }
         public string BcMemberNo { get; set; }
         public string BcBeneficiary1 { get; set; }
