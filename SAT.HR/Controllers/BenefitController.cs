@@ -423,9 +423,9 @@ namespace SAT.HR.Controllers
         public ActionResult OtherWelfareDetail(int userid, int id)
         {
             var model = new BenefitRepository().GetOtherWelfareByID(userid, id);
-            ViewBag.BenefitType = DropDownList.GetCertificate(model.BenTID);
-            ViewBag.RecieveType = DropDownList.GetCertificate(model.BoRecID);
-            ViewBag.RecieveType = DropDownList.GetCertificate(model.BoOptRecID);
+            //ViewBag.BenefitType = DropDownList.GetBenefitType(model.BenTID);
+            ViewBag.RecieveType = DropDownList.GetRecieveType(model.BoRecID);
+            ViewBag.RecieveType = DropDownList.GetRecieveType(model.BoOptRecID);
             return PartialView("_OtherWelfareDetail", model);
         }
 
