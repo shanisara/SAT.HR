@@ -202,7 +202,7 @@ namespace SAT.HR.Data.Repository
                         model.BpDateChangeFundText = (item.BpDateChangeFund.HasValue) ? item.BpDateChangeFund.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.BpAccumFundCuName = "";
                         model.BpAssoFundCuName = "";
-                      list.Add(model);
+                        list.Add(model);
                     }
                 }
             }
@@ -918,10 +918,63 @@ namespace SAT.HR.Data.Repository
             {
                 using (SATEntities db = new SATEntities())
                 {
+                    BenefitChildFundViewModel model = new BenefitChildFundViewModel();
                     int index = 1;
                     var childFund = db.tb_Benefit_Child_Fund.Where(x => x.UserID == userid).OrderByDescending(o => o.BcfID).ToList();
+                    if (childFund.Count > 0)
+                    {
+                        foreach (var item in childFund)
+                        {
+                            model.RowNumber = index++;
+                            model.BcfID = item.BcfID;
+                            model.UserID = item.UserID;
+                            model.BcfName = item.BcfName;
+                            model.BcfIDCard = item.BcfIDCard;
+                            model.BcfBirthDate = item.BcfBirthDate;
+                            model.BcfExpireDate = item.BcfExpireDate;
+                            model.BcfAmout = item.BcfAmout;
+                            model.BcfBirthDateText = (item.BcfBirthDate.HasValue) ? item.BcfBirthDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                            model.BcfExpireDateText = (item.BcfExpireDate.HasValue) ? item.BcfExpireDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                            list.Add(model);
+                        }
+                    }
+                    else
+                    {
+                        var childFamily = db.tb_User_Family.Where(x => x.UserID == userid && x.RecID == 5).ToList();
+                        foreach (var item in childFamily)
+                        {
+                            model.RowNumber = index++;
+                            model.UserID = item.UserID;
+                            model.BcfName = item.UfName;
+                            model.BcfIDCard = item.UfCardID;
+                            model.BcfBirthDate = item.UfDOB;
+                            model.BcfBirthDateText = (item.UfDOB.HasValue) ? item.UfDOB.Value.ToString("dd/MM/yyyy") : string.Empty;
+                            list.Add(model);
+                        }
+                    }
+                }
+                data.UserID = userid;
+                data.ListChildFund = list;
+                return data;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
-                    foreach (var item in childFund)
+        public BenefitChildFundViewModel GetChildFundByID(int userid, int id)
+        {
+            BenefitChildFundViewModel data = new BenefitChildFundViewModel();
+            data.UserID = userid;
+
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    int index = 1;
+                    var item = db.tb_Benefit_Child_Fund.Where(x => x.BcfID == id).FirstOrDefault();
+                    if (item != null)
                     {
                         BenefitChildFundViewModel model = new BenefitChildFundViewModel();
                         model.RowNumber = index++;
@@ -938,54 +991,13 @@ namespace SAT.HR.Data.Repository
                         model.ModifyBy = item.ModifyBy;
                         model.BcfBirthDateText = (item.BcfBirthDate.HasValue) ? item.BcfBirthDate.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.BcfExpireDateText = (item.BcfExpireDate.HasValue) ? item.BcfExpireDate.Value.ToString("dd/MM/yyyy") : string.Empty;
-                        list.Add(model);
+                        data = model;
                     }
                 }
             }
             catch (Exception)
             {
-
                 throw;
-            }
-            data.UserID = userid;
-            data.ListChildFund = list;
-            return data;
-        }
-
-        public BenefitChildFundViewModel GetChildFundByID(int userid, int id)
-        {
-            BenefitChildFundViewModel data = new BenefitChildFundViewModel();
-            data.UserID = userid;
-
-            try
-            {
-                using (SATEntities db = new SATEntities())
-                {
-                    int index = 1;
-                    var item = db.tb_Benefit_Child_Fund.Where(x => x.BcfID == id).FirstOrDefault();
-                    BenefitChildFundViewModel model = new BenefitChildFundViewModel();
-                    model.RowNumber = index++;
-                    model.BcfID = item.BcfID;
-                    model.UserID = item.UserID;
-                    model.BcfName = item.BcfName;
-                    model.BcfIDCard = item.BcfIDCard;
-                    model.BcfBirthDate = item.BcfBirthDate;
-                    model.BcfExpireDate = item.BcfExpireDate;
-                    model.BcfAmout = item.BcfAmout;
-                    model.CreateDate = item.CreateDate;
-                    model.CreateBy = item.CreateBy;
-                    model.ModifyDate = item.ModifyDate;
-                    model.ModifyBy = item.ModifyBy;
-                    model.BcfBirthDateText = (item.BcfBirthDate.HasValue) ? item.BcfBirthDate.Value.ToString("dd/MM/yyyy") : string.Empty;
-                    model.BcfExpireDateText = (item.BcfExpireDate.HasValue) ? item.BcfExpireDate.Value.ToString("dd/MM/yyyy") : string.Empty;
-
-                    if (model != null)
-                        data = model;
-                }
-            }
-            catch (Exception)
-            {
-
             }
             return data;
         }
@@ -1088,27 +1100,43 @@ namespace SAT.HR.Data.Repository
             {
                 using (SATEntities db = new SATEntities())
                 {
+                    BenefitChildEducationViewModel model = new BenefitChildEducationViewModel();
                     int index = 1;
                     var childEducation = db.tb_Benefit_Child_Education.Where(x => x.UserID == userid).OrderByDescending(o => o.BceID).ToList();
-
-                    foreach (var item in childEducation)
+                    if (childEducation.Count > 0)
                     {
-                        BenefitChildEducationViewModel model = new BenefitChildEducationViewModel();
-                        model.RowNumber = index++;
-                        model.BceID = item.BceID;
-                        model.UserID = item.UserID;
-                        model.BceName = item.BceName;
-                        model.BceIDCard = item.BceIDCard;
-                        model.BcdBirthDate = item.BcdBirthDate;
-                        model.BcdExpireDate = item.BcdExpireDate;
-                        model.BcdAmout = item.BcdAmout;
-                        model.CreateDate = item.CreateDate;
-                        model.CreateBy = item.CreateBy;
-                        model.ModifyDate = item.ModifyDate;
-                        model.ModifyBy = item.ModifyBy;
-                        model.BcdBirthDateText = (item.BcdBirthDate.HasValue) ? item.BcdBirthDate.Value.ToString("dd/MM/yyyy") : string.Empty;
-                        model.BcdExpireDateText = (item.BcdExpireDate.HasValue) ? item.BcdExpireDate.Value.ToString("dd/MM/yyyy") : string.Empty;
-                        list.Add(model);
+                        foreach (var item in childEducation)
+                        {
+                            model.RowNumber = index++;
+                            model.BceID = item.BceID;
+                            model.UserID = item.UserID;
+                            model.BceName = item.BceName;
+                            model.BceIDCard = item.BceIDCard;
+                            model.BcdBirthDate = item.BcdBirthDate;
+                            model.BcdExpireDate = item.BcdExpireDate;
+                            model.BcdAmout = item.BcdAmout;
+                            model.CreateDate = item.CreateDate;
+                            model.CreateBy = item.CreateBy;
+                            model.ModifyDate = item.ModifyDate;
+                            model.ModifyBy = item.ModifyBy;
+                            model.BcdBirthDateText = (item.BcdBirthDate.HasValue) ? item.BcdBirthDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                            model.BcdExpireDateText = (item.BcdExpireDate.HasValue) ? item.BcdExpireDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                            list.Add(model);
+                        }
+                    }
+                    else
+                    {
+                        var childFamily = db.tb_User_Family.Where(x => x.UserID == userid && x.RecID == 5).ToList();
+                        foreach (var item in childFamily)
+                        {
+                            model.RowNumber = index++;
+                            model.UserID = item.UserID;
+                            model.BceName = item.UfName;
+                            model.BceIDCard = item.UfCardID;
+                            model.BcdBirthDate = item.UfDOB;
+                            model.BcdBirthDateText = (item.UfDOB.HasValue) ? item.UfDOB.Value.ToString("dd/MM/yyyy") : string.Empty;
+                            list.Add(model);
+                        }
                     }
                 }
             }
@@ -1132,23 +1160,24 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
                     var item = db.tb_Benefit_Child_Education.Where(x => x.BceID == id).FirstOrDefault();
-                    BenefitChildEducationViewModel model = new BenefitChildEducationViewModel();
-                    model.BceID = item.BceID;
-                    model.UserID = item.UserID;
-                    model.BceName = item.BceName;
-                    model.BceIDCard = item.BceIDCard;
-                    model.BcdBirthDate = item.BcdBirthDate;
-                    model.BcdExpireDate = item.BcdExpireDate;
-                    model.BcdAmout = item.BcdAmout;
-                    model.CreateDate = item.CreateDate;
-                    model.CreateBy = item.CreateBy;
-                    model.ModifyDate = item.ModifyDate;
-                    model.ModifyBy = item.ModifyBy;
-                    model.BcdBirthDateText = (item.BcdBirthDate.HasValue) ? item.BcdBirthDate.Value.ToString("dd/MM/yyyy") : string.Empty;
-                    model.BcdExpireDateText = (item.BcdExpireDate.HasValue) ? item.BcdExpireDate.Value.ToString("dd/MM/yyyy") : string.Empty;
-
-                    if (model != null)
+                    if (item != null)
+                    {
+                        BenefitChildEducationViewModel model = new BenefitChildEducationViewModel();
+                        model.BceID = item.BceID;
+                        model.UserID = item.UserID;
+                        model.BceName = item.BceName;
+                        model.BceIDCard = item.BceIDCard;
+                        model.BcdBirthDate = item.BcdBirthDate;
+                        model.BcdExpireDate = item.BcdExpireDate;
+                        model.BcdAmout = item.BcdAmout;
+                        model.CreateDate = item.CreateDate;
+                        model.CreateBy = item.CreateBy;
+                        model.ModifyDate = item.ModifyDate;
+                        model.ModifyBy = item.ModifyBy;
+                        model.BcdBirthDateText = (item.BcdBirthDate.HasValue) ? item.BcdBirthDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        model.BcdExpireDateText = (item.BcdExpireDate.HasValue) ? item.BcdExpireDate.Value.ToString("dd/MM/yyyy") : string.Empty;
                         data = model;
+                    }
                 }
             }
             catch (Exception)

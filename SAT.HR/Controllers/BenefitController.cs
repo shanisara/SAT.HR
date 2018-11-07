@@ -236,6 +236,12 @@ namespace SAT.HR.Controllers
             return PartialView("_ChildFund");
         }
 
+        public ActionResult ChildFundDetail(int userid, int id)
+        {
+            var model = new BenefitRepository().GetChildFundByID(userid, id);
+            return PartialView("_ChildFundDetail", model);
+        }
+
         public JsonResult SaveChildFund(BenefitChildFundViewModel data)
         {
             ResponseData result = new Models.ResponseData();
@@ -266,6 +272,12 @@ namespace SAT.HR.Controllers
         public ActionResult ChildEducationByUser()
         {
             return PartialView("_ChildEducation");
+        }
+
+        public ActionResult ChildEducationDetail(int userid, int id)
+        {
+            var model = new BenefitRepository().GetChildEducationByID(userid, id);
+            return PartialView("_ChildEducationDetail", model);
         }
 
         public JsonResult SaveChildEducation(BenefitChildEducationViewModel data)
