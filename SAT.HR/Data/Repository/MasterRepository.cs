@@ -58,7 +58,7 @@ namespace SAT.HR.Data.Repository
                 {
                     RecID = s.RecID,
                     RecName = s.RecName
-                }).OrderBy(x => x.RecName).ToList();
+                }).ToList();
                 return list;
             }
         }
