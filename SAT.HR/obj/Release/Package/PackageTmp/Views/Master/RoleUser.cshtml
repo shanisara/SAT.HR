@@ -1,0 +1,313 @@
+﻿@model SAT.HR.Models.RoleViewModel
+
+@{
+    ViewBag.Title = "RoleUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .modal-dialog {
+        max-width: 1100px;
+        margin: 1.75rem auto;
+    }
+
+    .table thead tr th {
+        font-size: 15px;
+    }
+
+    div.dataTables_wrapper div.dataTables_length label {
+        font-size: 12px;
+    }
+
+    div.dataTables_wrapper div.dataTables_info {
+        font-size: 12px;
+    }
+
+    .pagination > .page-item > .page-link, .pagination > .page-item > span {
+        font-size: 13px;
+    }
+
+</style>
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card-body">
+                <div class="form-horizontal">
+                    @Html.HiddenFor(m => m.RoleID)
+                    <h4 class="card-title">
+                        <span>รายการกลุ่ม > กำหนดผู้ใช้งาน</span>
+                    </h4>
+                    <div class="pull-right">
+                        <button class="btn pull-right btnBack">ย้อนกลับ<div class="ripple-container"></div></button>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-2 col-form-label">กลุ่ม</label>
+                        <div class="col-sm-5">
+                            <div class="form-group bmd-form-group">
+                                @Model.RoleName
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-2 col-form-label">รายละเอียด</label>
+                        <div class="col-sm-5">
+                            <div class="form-group bmd-form-group">
+                                @Model.RoleDesc
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-tabs card-header-primary">
+                    <div class="nav-tabs-navigation">
+                        <div class="nav-tabs-wrapper">
+                            <span class="nav-tabs-title">รายการผู้ใช้งาน:</span>
+                        </div>
+                        <button class="btn btn-success btn-sm pull-right btnAdd" data-toggle="modal"><i class="material-icons">add</i> เพิ่มผู้ใช้งาน</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content">
+                        <table class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                            <thead class="text-primary">
+                                <tr class="td-font-size">
+                                    <th style="width:10%">ลำดับ</th>
+                                    <th style="width:20%">ชื่อ-นามสกุล</th>
+                                    <th style="width:20%">ตำแหน่ง</th>
+                                    <th style="width:30%">ฝ่าย/ฝ่าย/งาน</th>
+                                    <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ int index = 1; }
+                                @foreach (var item in Model.ListUserRole)
+                                {
+                                    <tr>
+                                        <td>@index</td>
+                                        <td>@item.FullName</td>
+                                        <td>@item.PoName</td>
+                                        <td>@item.DivName / @item.DepName /@item.SecName</td>
+                                        <td class="td-actions text-right">
+                                            <button type="button" rel="tooltip" class="btn btn-round btn-danger btnDelete" value="@item.UserID"><i class="material-icons">close</i></button>
+                                        </td>
+                                    </tr>
+                                    index++;
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Classic Modal -->
+<div class="modal fade modal-large" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span>รายการพนักงาน</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="material-icons">clear</i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div class="container-fluid">
+                        @{ Html.RenderPartial("_RoleUser"); }
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-sm btn-primary" id="btnSave">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  End Modal -->
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            $(".btnBack").click(function () {
+                var url = '@Url.Action("Permission", "Master")';
+                window.location.href = url;
+
+                @*swal({
+                    title: '',
+                    text: "ท่านต้องการกลับไปยังรายการก่อนหน้า?!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: 'ใช่',
+                    cancelButtonText: 'ไม่',
+                    buttonsStyling: false
+                }).then(function () {
+                    var url = '@Url.Action("Permission", "Master")';
+                    window.location.href = url;
+                }).catch(swal.noop)*@
+            });
+
+
+            // Delete User
+            $(".btnDelete").click(function () {
+                var userid = $(this).val();
+                var roleid = $('#RoleID').val();
+                var $row = $(this).closest('tr');
+                swal({
+                    title: '',
+                    text: "ยืนยันการลบข้อมูล?!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: 'ใช่',
+                    cancelButtonText: 'ไม่',
+                    buttonsStyling: false
+                }).then(function () {
+                    $.ajax({
+                        url: '@Url.Action("DeleteRoleUser", "Master")',
+                        data: { userid: userid, roleid: roleid },
+                        type: 'POST',
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                swal({
+                                    title: 'Deleted!',
+                                    text: 'Your file has been deleted.',
+                                    type: 'success',
+                                    confirmButtonClass: "btn btn-success",
+                                    buttonsStyling: false
+                                }).then(function () {
+                                    $row.remove();
+                                }).catch(swal.noop)
+                            }
+                            else {
+                                alert(res.MessageText);
+                            }
+                        }
+                    });
+                }).catch(swal.noop)
+            });
+
+
+        });
+    </script>
+
+<script>
+
+    $(document).ready(function () {
+
+        var dataTable = {
+            table: null,
+            initializeDataTable: function () {
+
+                $table = $('#datatables');
+
+                dataTable.table = $table.DataTable({
+                    "proccessing": true,
+                    "serverSide": true,
+                    responsive: true,
+                    language: {
+                        search: "_INPUT_",
+                        searchPlaceholder: "ค้นหา",
+                        //paginate: { "first": "หน้าแรก", "last": "หน้าสุดท้าย", "next": "ถัดไป", "previous": "ก่อนหน้า" },
+                        //info: "จำนวน _START_ ถึง _END_ จากทั้งหมด _TOTAL_ รายการ",
+                        //infoFiltered: "จำนวน 0 ถึง 0 จากทั้งหมด 0 รายการ",
+                        //zeroRecords: "ไม่พบข้อมูล",
+                        //sLengthMenu: "แสดง _MENU_ รายการต่อหน้า",
+                    },
+                    ajax: {
+                        url: '@Url.Action("Employee", "Master")',
+                        type: "POST",
+                    },
+                    "columns": [
+                        { "data": "RowNumber", "orderable": true, "orderable": false, "searchable": false  },
+                        { "data": "UserID", "orderable": true, "orderable": false, "searchable": false },
+                        { "data": "FullNameTh", "orderable": true },
+                        { "data": "PoName", "orderable": true },
+                        { "data": "DivName", "orderable": true },
+                        { "data": "DepName", "orderable": true },
+                        { "data": "SecName", "orderable": true },
+                    ],
+                    "columnDefs": [
+                        {
+                            "render": function (data, type, row) {
+                                var inner = '<div class="td-actions text-left">' +
+                                                '<div class="form-check">' +
+                                                '<label class="form-check-label">' +
+                                                    '<input class="form-check-input call-checkbox" type="checkbox" value="' + row.UserID + '">' +
+                                                    '<span class="form-check-sign"><span class="check"></span></span>' +
+                                                '</label>' +
+                                                '</div>' +
+                                            '</div>';
+                                return inner;
+                            }, "targets": 1
+                        },
+                    ],
+                    "order": [[1, "asc"]],
+                    "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                    "pagingType": "full_numbers",
+                });
+            },
+            getData: function () {
+                if (dataTable.table == null)
+                    dataTable.initializeDataTable();
+                else
+                    dataTable.table.ajax.reload();
+            }
+        }
+
+
+        // Add User
+        $(".btnAdd").click(function () {
+            $('#modalDetail').modal('show');
+            dataTable.getData();
+        });
+
+
+        // Select User
+        $("#btnSave").click(function () {
+            var roleid = $('#RoleID').val();
+            var selected = '';
+            $('#datatables').find('input[type="checkbox"]:checked').each(function () {
+                var id = $(this).val();
+                selected += (selected == '') ? id : "," + id;
+            });
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SaveRoleUser", "Master")',
+                data: { roleid: roleid, users: selected },
+                dataType: 'json',
+                success: function (res) {
+                    if (res.MessageCode == null) {
+                        swal({
+                            title: "",
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                            type: "success",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-success",
+                        }).then(function () {
+                            window.location.reload();
+                            $('#modalDetail').modal('hide');
+                        }).catch(swal.noop)
+                    }
+                    else {
+                        alert(res.MessageText);
+                    }
+                }
+            });
+        });
+    });
+
+</script>
+
+}

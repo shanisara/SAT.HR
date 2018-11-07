@@ -1,0 +1,133 @@
+﻿@model SAT.HR.Models.UserProfile
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutPartial.cshtml";
+}
+
+<div class="wrapper wrapper-full-page">
+    <div class="page-header login-page header-filter" filter-color="black" style="background-image: url('@Url.Content("~/Content/assets/img/login.jpg")'); background-size: cover; background-position: top center;">
+        <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
+        <div class="container">
+            <div class="col-lg-4 col-md-6 col-sm-6 ml-auto mr-auto">
+                <img width="343" src="~/Content/assets/img/logo.png" />
+                <br /><br />
+                <div id="authenticationForm" class="form">
+                    <div class="card card-login card-hidden">
+                        <div class="card-header card-header-primary text-center">
+                            <h4 class="card-title"><span>ระบบบริหารงานบุคคล</span></h4>
+                        </div>
+                        <div class="card-body">
+                            <span class="bmd-form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="material-icons">face</i>
+                                        </span>
+                                    </div>
+                                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", required = "true", placeholder = "User Name...", @value="admin" })
+                                </div>
+                            </span>
+                            <span class="bmd-form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="material-icons">lock_outline</i>
+                                        </span>
+                                    </div>
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", required = "true", placeholder = "Password...", @value = "a" })
+                                </div>
+                            </span>
+                        </div>
+                        <div class="card-footer justify-content-center">
+                            <button id="submit-auth" class="btn btn-primary btn-round">เข้าสู่ระบบ<div class="ripple-container"></div></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="container">
+                <nav class="float-left"></nav>
+                <div class="copyright float-right">
+                    &copy;
+                    <script>
+                        document.write(new Date().getFullYear())
+                    </script>, made with <i class="material-icons">favorite</i> by
+                    <a href="#" target="_blank">Creative Human</a> for a better web.
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+
+        $(document).ready(function () {
+
+            demo = {
+                checkFullPageBackgroundImage: function () {
+                    $page = $('.full-page');
+                    image_src = $page.data('image');
+
+                    if (image_src !== undefined) {
+                        image_container = '<div class="full-page-background" style="background-image: url(' + image_src + ') "/>'
+                        $page.append(image_container);
+                    }
+                }
+            },
+
+            demo.checkFullPageBackgroundImage(); setTimeout(function () {
+                $('.card').removeClass('card-hidden');  // after 1000 ms we add the class animated to the login/register card
+            }, 700);
+
+            $("#submit-auth").click(function () {
+                if ($('#UserName').val() == "") {
+                    $('#UserName').focus();
+                }
+                else if ($('#Password').val() == "") {
+                    $('#Password').focus();
+                }
+                else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("Login", "Home")',
+                        data: { username: $('#UserName').val(), password: $('#Password').val() },
+                        dataType: 'json',
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                var url = '@Url.Action("Dashboard", "Home")';
+                                window.location.href = url;
+                            }
+                            else {
+                                alert(res.MessageText);
+                            }
+                        },
+                        error: function (req, status, err) {
+                            alert('something went wrong', status, err);
+                        }
+                    });
+                }
+            });
+
+            //$('#UserName').keypress(function (event) {
+            //    var keycode = (event.keyCode ? event.keyCode : event.which);
+            //    if (keycode == '13') {
+            //        $("#submit-auth").click();
+            //    }
+            //    event.stopPropagation();
+            //});
+
+            //$('#Password').keypress(function (event) {
+            //    var keycode = (event.keyCode ? event.keyCode : event.which);
+            //    if (keycode == '13') {
+            //        $("#submit-auth").click();
+            //    }
+            //    event.stopPropagation();
+            //});
+
+        });
+
+    </script>
+}

@@ -1,0 +1,184 @@
+﻿
+@{
+    ViewBag.Title = "PositionTransfer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+        width: 80px;
+        margin-left: 13px;
+        margin-top: -5px;
+    }
+</style>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">group</i>
+                    </div>
+                    <h4 class="card-title">
+                        <span> โยกย้ายอัตรากำลังพล > <small>พนักงาน </small></span>
+                        <div class="pull-right">
+                            @*@Html.Label("ประเภทบุคลากร: ", null, new { @class = "col-sm-3 col-form-label" })*@
+                            @Html.DropDownList("usertype", new SelectList((IEnumerable<SelectListItem>)ViewBag.UserType, "Value", "Text"), new { @class = "selectpicker", data_style = "select-with-transition" })
+                        </div>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="toolbar pull-right">
+                        <button class="btn btn-primary btn-sm add-position-Transfer" data-toggle="modal"><i class="material-icons">add</i> เพิ่มรายการ</button>
+                    </div>
+                    <div class="position-transfer">
+                        <table id="datatables" data-url="@Url.Content("~/Employee/PositionTransfer")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th style="width:5%" class="disabled-sorting">ลำดับ</th>
+                                    <th style="width:8%">ปีบัญชี</th>
+                                    <th style="width:13%">ประเภทบุคลากร</th>
+                                    <th style="width:14%">ประเภท</th>
+                                    <th style="width:15%">เลขที่หนังสือคำสั่ง</th>
+                                    <th style="width:10%">จำนวน(คน)</th>
+                                    <th style="width:15%">วันที่ทำรายการ</th>
+                                    <th style="width:10%">สถานะ</th>
+                                    <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            var dataTable = {
+                table: null,
+                initializeDataTable: function () {
+
+                    $table = $('#datatables');
+
+                    dataTable.table = $table.DataTable({
+                        "proccessing": true,
+                        "serverSide": true,
+                        responsive: true,
+                        language: {
+                            search: "_INPUT_",
+                            searchPlaceholder: "ค้นหา",
+                            zeroRecords: "ไม่พบข้อมูล",
+                        },
+                        ajax: {
+                            url: $table.data("url"),
+                            data: { usertype: $('#usertype').val() },
+                            type: "POST",
+                        },
+                        "columns": [
+                            { "data": "RowNumber", "orderable": false, "searchable": false },
+                            { "data": "MopYear", "orderable": true },
+                            { "data": "UserTName", "orderable": true },
+                            { "data": "MtName", "orderable": true },
+                            { "data": "MopBookCmd", "orderable": true },
+                            { "data": "MopTotal", "orderable": true },
+                            { "data": "CreateDateText", "orderable": true },
+                            { "data": "MopStatusName", "orderable": true }
+                        ],
+                        "columnDefs": [
+                            {
+                                "render": function (data, type, row) {
+                                    return '<div class="td-actions text-center">' + data + '</div>';
+                                }, "targets": [5]
+                            },
+                            {
+                                "render": function (data, type, row) {
+                                    var inner = '<div class="td-actions text-right">' +
+                                                    '<button title="แสดงข้อมูล" type="button" class="btn btn-round btn-warning edit-Transfer" data-id="' + row.MopID +'"><i class="material-icons">search</i></button>&nbsp;&nbsp;' +
+                                                    '<button title="ลบ" type="button" class="btn btn-round btn-danger delete-Transfer" data-id="' + row.MopID + '"><i class="material-icons">close</i></button>' +
+                                                '</div>';
+                                    return inner;
+                                }, "targets": 8
+                            },
+                        ],
+                        "order": [[2, "asc"]],
+                        "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                        "pagingType": "full_numbers",
+                    });
+
+                    dataTable.table.on('click', '.edit-Transfer', function () {
+                        var id = $(this).data("id");
+                        var type = $('#usertype').val();
+                        var url = '@Url.Action("PositionTransferDetail", "Employee")/' + id + '?type=' + type;
+                        window.location.href = url;
+                    });
+
+                    dataTable.table.on('click', '.delete-position', function () {
+                        var id = $(this).data("id");
+                        var type = $('#usertype').val();
+                        swal({
+                            title: '',
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
+                            type: 'question',
+                            showCancelButton: true,
+                            confirmButtonClass: 'btn btn-success',
+                            cancelButtonClass: 'btn btn-danger',
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                            cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                            buttonsStyling: false
+                        }).then(function () {
+                            var url = '@Url.Action("DeleteLevelTransfer", "Employee")/' + id + '?type=' + type;
+                            $.ajax({
+                                type: 'POST',
+                                url: url,
+                                success: function (res) {
+                                    if (res.MessageCode == null) {
+                                        swal({
+                                            title: "",
+                                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                                            type: "success",
+                                            confirmButtonClass: "btn btn-primary",
+                                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                            buttonsStyling: false,
+                                        }).then(function () {
+                                            dataTable.getData();
+                                        });
+                                    }
+                                    else {
+                                        swal({
+                                            title: '',
+                                            text: res.MessageText,
+                                            type: 'error',
+                                            confirmButtonClass: "btn btn-primary",
+                                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                            buttonsStyling: false
+                                        }).catch(swal.noop);
+                                    }
+                                }
+                            });
+                        });
+                    });
+                },
+                getData: function () {
+                    if (dataTable.table == null)
+                        dataTable.initializeDataTable();
+                    else
+                        dataTable.table.ajax.reload();
+                }
+            }
+
+            dataTable.getData();
+
+            $(".add-position-Transfer").click(function () {
+                var type = $('#usertype').val();
+                var url = '@Url.Action("PositionTransferDetail", "Employee")'+'?type=' + type;
+                window.location.href = url;
+            });
+
+
+        });
+    </script>
+}

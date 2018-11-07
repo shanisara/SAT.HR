@@ -1043,6 +1043,24 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
+        public static List<SelectListItem> GetBenefitType(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new MasterRepository().GetBenefitType();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.BenTID.ToString();
+                select.Text = item.BenTName;
+                select.Selected = defaultValue.HasValue ? (item.BenTID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        
     }
 
 }

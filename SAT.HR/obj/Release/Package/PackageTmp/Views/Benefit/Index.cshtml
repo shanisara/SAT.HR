@@ -1,0 +1,138 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+        width: 80px;
+        margin-left: 13px;
+        margin-top: -5px;
+    }
+</style>
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">card_giftcard</i>
+                    </div>
+                    <h4 class="card-title"><span>สวัสดิการ > </span><small>รายชื่อพนักงาน </small></h4>
+                </div>
+                <div class="card-body">
+                    <div class="toolbar pull-right">
+                        @Html.DropDownList("usertype", new SelectList((IEnumerable<SelectListItem>)ViewBag.UserType, "Value", "Text"), new { @class = "selectpicker usertype", data_style = "select-with-transition" })
+                        @Html.DropDownList("userstatus", new SelectList((IEnumerable<SelectListItem>)ViewBag.UserStatus, "Value", "Text"), new { @class = "selectpicker userstatus", data_style = "select-with-transition" })
+                    </div>
+                    <div class="material-datatables">
+                        <table id="datatables" data-url="@Url.Content("~/Employee/Index")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th style="width:5%" class="disabled-sorting">ลำดับ</th>
+                                    <th style="width:20%">เลขประจำตัวประชาชน</th>
+                                    <th style="width:20%">ชื่อ-นามสกุล</th>
+                                    <th style="width:45%">ตำแหน่ง</th>
+                                    <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            var dataTable = {
+                table: null,
+                initializeDataTable: function (usertype, userstatus) {
+                    $table = $('#datatables');
+                    dataTable.table = $table.DataTable({
+                        "proccessing": true,
+                        "serverSide": true,
+                        responsive: true,
+                        language: {
+                            search: "_INPUT_",
+                            searchPlaceholder: "ค้นหา",
+                            zeroRecords: "ไม่พบข้อมูล",
+                        },
+                        ajax: {
+                            url: $table.data("url"),
+                            data: { userType: usertype, userStatus: userstatus },
+                            type: "POST",
+                        },
+                        "columns": [
+                            { "data": "RowNumber", "orderable": true, "orderable": false, "searchable": false },
+                            { "data": "IDCard", "orderable": true },
+                            { "data": "FullNameTh", "orderable": true },
+                        ],
+                        "columnDefs": [
+                            {
+                                "render": function (data, type, row) {
+                                    var inner = '<div title="สังกัด" style="font-size: 12px; color: #0000ff; border-bottom: #c0c0c0 0px dotted; margin-bottom: 5px;">' +
+                                                    '<i class="fa fa-home"></i> ' + row.DivName + ' / ' + row.DepName + ' / ' + row.SecName + '' +
+                                                '</div>(' + row.PoCode + ') ' + row.PoName + '';
+                                    return inner;
+                                }, "targets": 3
+                            },
+                            {
+                                "render": function (data, type, row) {
+                                    var inner = '<div class="td-actions text-right">' +
+                                                    '<button title="แสดงข้อมูล" type="button" class="btn btn-round btn-warning edit" data-id="' + row.UserID + '"><i class="material-icons">search</i></button>&nbsp;&nbsp;' +
+                                                '</div>';
+                                    return inner;
+                                }, "targets": 4
+                            },
+                        ],
+                        "order": [[2, "asc"]],
+                        "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                        "pagingType": "full_numbers",
+                    });
+
+                    dataTable.table.on('click', '.edit', function () {
+                        var id = $(this).data("id");
+                        var type = $('#usertype').val();
+                        var url = '@Url.Action("Detail", "Benefit")/' + id + '?type=' + type;
+                        window.location.href = url;
+                    });
+
+                },
+                getData: function (usertype, userstatus) {
+                    if (dataTable.table == null)
+                        dataTable.initializeDataTable(usertype, userstatus);
+                    else
+                        dataTable.table.ajax.reload();
+                },
+                renewData: function (usertype, userstatus) {
+                    $('#datatables').dataTable().fnDestroy();
+                    dataTable.initializeDataTable(usertype, userstatus);
+                },
+            }
+
+            dataTable.getData(1, 1);
+
+            $('.usertype').change(function () {
+                var usertype = $('.usertype').val();
+                var userstatus = $('.userstatus').val();
+                dataTable.renewData(usertype, userstatus);
+            });
+
+            $('.userstatus').change(function () {
+                var usertype = $('.usertype').val();
+                var userstatus = $('.userstatus').val();
+                dataTable.renewData(usertype, userstatus);
+            });
+
+
+        });
+
+    </script>
+}

@@ -232,6 +232,19 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<BenefitTypeViewModel> GetBenefitType()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Benefit_Type.Select(s => new BenefitTypeViewModel()
+                {
+                    BenTID = s.BenTID,
+                    BenTName = s.BenTName
+                }).ToList();
+                return list;
+            }
+        }
+
         #endregion
 
     }

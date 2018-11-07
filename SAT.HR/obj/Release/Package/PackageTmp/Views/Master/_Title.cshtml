@@ -1,0 +1,68 @@
+﻿@model SAT.HR.Models.TitleViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formDetail" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => m.TiID)
+    @Html.Hidden("Status")
+
+    <div class="col-md-12">
+        <div class="row">
+            @Html.Label("คำนำหน้าชื่อ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.TiFullName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.TiFullName)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("ชื่อย่อ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.TiShortName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.TiShortName)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("เพศ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    @Html.DropDownListFor(n => n.SexID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Sex, "Value", "Text"), "-- กรุณาเลือก / Please choose --", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.SexID)
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top:15px;">
+            @Html.Label("สถานะ", null, new { @class = "col-sm-3 col-form-label label-checkbox" })
+            <div class="col-sm-9">
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input checkbox" type="checkbox">
+                        <span class="form-check-sign" style="top:0px"><span class="check"></span></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+
+        if ('@Model.TiStatus' == 'True') {
+            $(".checkbox").prop("checked", true);
+        }
+
+        $(".checkbox").click(function () {
+            var checked = $(this).is(':checked');
+            if (checked) {
+                $('#Status').val('1');
+            }
+            else {
+                $('#Status').val('0');
+            }
+        });
+    });
+</script>

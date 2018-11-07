@@ -1,0 +1,224 @@
+﻿@model SAT.HR.Models.BenefitChildEducationViewModel
+
+<style>
+    .table thead tr th {
+        font-size: 14px;
+    }
+</style>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-warning card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">card_membership</i>
+                        </div>
+                        <h4 class="card-title">
+                            <span>เงินช่วยเหลือการศึกษาบุตร</span>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="material-datatables">
+                            <table class="table table-detail">
+                                <thead>
+                                    <tr>
+                                        <th style="width:5%;" class="text-center">#</th>
+                                        <th style="width:25%;" class="text-center">ชื่อบุตร</th>
+                                        <th style="width:15%;" class="text-right">เลขบัตรประชาชน</th>
+                                        <th style="width:15%;" class="text-right">วันเกิด</th>
+                                        <th style="width:15%;" class="text-center">วันที่หมดสิทธิ</th>
+                                        <th style="width:15%;" class="text-right">เงินทุนการศึกษา</th>
+                                        <th style="width:10%;" class="text-center">ปฏิบัติการ</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Classic Modal -->
+<div class="modal fade modal-large modal-detail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span>เงินช่วยเหลือการศึกษาบุตร</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div class="div-detail"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-close" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary btn-save">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  End Modal -->
+
+<script>
+
+    var dataTable = {
+        table: null,
+        initializeDataTable: function () {
+            var id = $("#UserID").val();
+
+            $table = $('.table-detail');
+            dataTable.table = $table.DataTable({
+                "proccessing": true,
+                "serverSide": true,
+                paging: false,
+                bFilter: false,
+                ordering: false,
+                searching: true,
+                language: { zeroRecords: "ไม่พบข้อมูล" },
+                dom: 't',
+                ajax: {
+                    url: '@Url.Action("ChildEducation", "Benefit")/' + id,
+                    type: "POST",
+                },
+                "columns": [
+                    { "data": "RowNumber", "orderable": false, "searchable": false },
+                    { "data": "BceName", "orderable": true },
+                    { "data": "BceIDCard", "orderable": true },
+                    { "data": "BcdBirthDateText", "orderable": true },
+                    { "data": "BcdExpireDateText", "orderable": true },
+                    { "data": "BcdAmout", "orderable": true },
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            var inner = '<div class="td-actions pull-right">' +
+                                            '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.BceID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;' +
+                                            '<button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.BceID + '"><i class="material-icons">close</i></button>' +
+                                        '</div>';
+                            return inner;
+                        }, "targets": 6
+                    },
+                ]
+            });
+
+            dataTable.table.on('click', '.edit', function () {
+                var userid = $("#UserID").val();
+                var id = $(this).data("id");
+                var url = '@Url.Action("ChildEducationDetail", "Benefit")';
+                $.post(url, { userid: userid, id: id }, function (data) {
+                    $(".div-detail").html(data);
+                    $('.modal-detail').modal('show');
+                });
+            });
+
+            dataTable.table.on('click', '.delete', function () {
+                var id = $(this).data("id");
+                swal({
+                    title: '',
+                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                    buttonsStyling: false
+                }).then(function () {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("DeleteChildEducation", "Benefit")/' + id,
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                swal({
+                                    title: "",
+                                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.DeleteSucceed)",
+                                    type: "success",
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                    buttonsStyling: false
+                                }).then(function () {
+                                    dataTable.getData();
+                                });
+                            }
+                            else {
+                                swal({
+                                    title: '',
+                                    text: res.MessageText,
+                                    type: 'error',
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                    buttonsStyling: false
+                                }).catch(swal.noop);
+                            }
+                        }
+                    });
+                }).catch(swal.noop)
+            });
+        },
+        getData: function () {
+            if (dataTable.table == null)
+                dataTable.initializeDataTable();
+            else
+                dataTable.table.ajax.reload();
+        }
+    }
+
+    dataTable.getData();
+
+
+    $(".btn-add").click(function () {
+        var userid = $("#UserID").val();
+        var url = '@Url.Action("ChildEducationDetail", "Benefit")';
+        $.post(url, { userid: userid, id: 0 }, function (data) {
+            $(".div-detail").html(data);
+            $('.modal-detail').modal('show');
+        });
+    });
+
+    $(".btn-save").click(function () {
+        var $valid = $('.form-detail').valid();
+        if (!$valid) {
+
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SaveChildEducation", "Benefit")',
+                data: $(".form-detail").serialize(),
+                success: function (res) {
+                    if (res.MessageCode == null) {
+                        swal({
+                            title: "",
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                            type: "success",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                        }).then(function () {
+                            $('.modal-certificate').modal('hide');
+                            dataTable.getData();
+                        });
+                    }
+                    else {
+                        swal({
+                            title: '',
+                            text: res.MessageText,
+                            type: 'error',
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                            buttonsStyling: false
+                        }).catch(swal.noop)
+                    }
+                }
+            });
+        }
+    });
+
+</script>

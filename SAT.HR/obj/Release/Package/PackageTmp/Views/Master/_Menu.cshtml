@@ -1,0 +1,125 @@
+﻿@model List<SAT.HR.Models.RoleMenuViewModel>
+
+<style>
+    .table thead tr th {
+        font-size: 14px;
+    }
+
+</style>
+<div id="formRoleMenu">
+    <table id="tb-menu" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+        <thead class="text-primary">
+            <tr class="td-font-size">
+                <th style="width:10%" class="text-center">ลำดับ</th>
+                <th style="width:65%" class="text-left">เมนู</th>
+                <th style="width:5%" class="text-center">
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input all-m-view" type="checkbox">แสดง
+                            <span class="form-check-sign" style="top:0px"><span class="check"></span></span>
+                        </label>
+                    </div>
+                </th>
+                <th style="width:5%" class="text-center">
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input all-m-add" type="checkbox">เพิ่ม
+                            <span class="form-check-sign" style="top:0px"><span class="check"></span></span>
+                        </label>
+                    </div>
+                </th>
+                <th style="width:5%" class="text-center">
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input all-m-edit" type="checkbox">แก้ไข
+                            <span class="form-check-sign" style="top:0px"><span class="check"></span></span>
+                        </label>
+                    </div>
+                </th>
+                <th style="width:5%" class="text-center">
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input all-m-del" type="checkbox">ลบ
+                            <span class="form-check-sign" style="top:0px"><span class="check"></span></span>
+                        </label>
+                    </div>
+                </th>
+                @*<th style="width:5%" class="td-font-size">ดาวน์โหลด</th>
+                <th style="width:5%" class="td-font-size">อัพโหลด</th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @{ int index = 1;}
+            @foreach (var item in Model.Where(x => x.ParentID == 0))
+            {
+                string view = @item.R_View == true ? "checked" : "";
+                <tr class="table-warning" data-type-name="M" data-menu-id="@item.MenuID" data-role-id="@item.RoleID" data-parent-id="@item.ParentID">
+                    <td colspan="2">@item.MenuName</td>
+                    <td>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input m-view" type="checkbox" @view>
+                                <span class="form-check-sign"><span class="check"></span></span>
+                            </label>
+                        </div>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                foreach (var item2 in Model.Where(x => x.ParentID == @item.MenuID))
+                {
+                    string _view = @item2.R_View == true ? "checked" : "";
+                    string _add = @item2.R_Add == true ? "checked" : "";
+                    string _edit = @item2.R_Edit == true ? "checked" : "";
+                    string _delete = @item2.R_Delete == true ? "checked" : "";
+
+                    <tr data-type-name="M" data-menu-id="@item2.MenuID" data-role-id="@item2.RoleID" data-parent-id="@item2.ParentID">
+                        <td>@index</td>
+                        <td>@item2.MenuName</td>
+                        <td>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input m-view" type="checkbox" @_view>
+                                    <span class="form-check-sign"><span class="check"></span></span>
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input m-add" type="checkbox" @_add>
+                                    <span class="form-check-sign"><span class="check"></span></span>
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input m-edit" type="checkbox" @_edit>
+                                    <span class="form-check-sign"><span class="check"></span></span>
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input m-del" type="checkbox" @_delete>
+                                    <span class="form-check-sign"><span class="check"></span></span>
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    ++index;
+                }
+                index = 1;
+            }
+        </tbody>
+    </table>
+    <div class="card-footer text-right">
+        <div class="form-check mr-auto"></div>
+        <button type="button" class="btn btn-Back">ย้อนกลับ<div class="ripple-container"></div></button>&nbsp;&nbsp;&nbsp;
+        <button type="button" class="btn btn-primary btn-save-menu">บันทึก<div class="ripple-container"></div></button>
+    </div>
+</div>
