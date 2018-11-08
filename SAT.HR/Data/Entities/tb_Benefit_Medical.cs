@@ -19,7 +19,6 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> BmYear { get; set; }
         public Nullable<int> ClID { get; set; }
         public Nullable<int> RecID { get; set; }
-        public string RecFullName { get; set; }
         public Nullable<decimal> BmCardID { get; set; }
         public Nullable<System.DateTime> BmDate { get; set; }
         public Nullable<decimal> BmAmoutService { get; set; }

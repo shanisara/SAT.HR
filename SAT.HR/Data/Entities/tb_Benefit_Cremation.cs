@@ -19,12 +19,12 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> BcYear { get; set; }
         public Nullable<int> MID { get; set; }
         public string BcMemberNo { get; set; }
-        public Nullable<System.DateTime> BcDate { get; set; }
         public string BcBeneficiary1 { get; set; }
         public string BcBeneficiary2 { get; set; }
         public string BcBeneficiary3 { get; set; }
         public string BcBeneficiary4 { get; set; }
         public string BcBeneficiary5 { get; set; }
+        public Nullable<System.DateTime> BcDate { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }

@@ -199,8 +199,8 @@ namespace SAT.HR.Controllers
             var model = new BenefitRepository().GetHomeRentalByID(userid, id);
             ViewBag.RentType = DropDownList.GetRentType(model.RID);
             ViewBag.PartType = DropDownList.GetPartType(model.PID);
-            ViewBag.BhrLevel = DropDownList.GetSalaryLevel(model.BhrLevel);
-            ViewBag.BhrStep = DropDownList.GetSalaryLevel(model.BhrStep);
+            ViewBag.BhrLevel = DropDownList.GetSalaryLevel(null /*model.BhrLevel*/);
+            ViewBag.BhrStep = DropDownList.GetSalaryLevel(null /*model.BhrStep*/);
             return PartialView("_HomeRentalDetail", model);
         }
 

@@ -17,31 +17,31 @@ namespace SAT.HR.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tb_Recieve_Type()
         {
-            this.tb_User_Family = new HashSet<tb_User_Family>();
             this.tb_Benefit_Death_Replacement = new HashSet<tb_Benefit_Death_Replacement>();
             this.tb_Benefit_Death_Subsidy = new HashSet<tb_Benefit_Death_Subsidy>();
+            this.tb_Benefit_Medical = new HashSet<tb_Benefit_Medical>();
             this.tb_Benefit_Other_Welfare = new HashSet<tb_Benefit_Other_Welfare>();
             this.tb_Benefit_Other_Welfare1 = new HashSet<tb_Benefit_Other_Welfare>();
-            this.tb_Benefit_Medical = new HashSet<tb_Benefit_Medical>();
             this.tb_Benefit_Remuneration = new HashSet<tb_Benefit_Remuneration>();
+            this.tb_User_Family = new HashSet<tb_User_Family>();
         }
     
         public int RecID { get; set; }
         public string RecName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_User_Family> tb_User_Family { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Benefit_Death_Replacement> tb_Benefit_Death_Replacement { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Benefit_Death_Subsidy> tb_Benefit_Death_Subsidy { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Benefit_Medical> tb_Benefit_Medical { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Benefit_Other_Welfare> tb_Benefit_Other_Welfare { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Benefit_Other_Welfare> tb_Benefit_Other_Welfare1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Benefit_Medical> tb_Benefit_Medical { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Benefit_Remuneration> tb_Benefit_Remuneration { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_User_Family> tb_User_Family { get; set; }
     }
 }
