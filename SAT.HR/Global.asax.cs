@@ -1,5 +1,5 @@
 ﻿using SAT.HR.Helpers;
-using log4net;
+//using log4net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +19,7 @@ namespace SAT.HR
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            log4net.Config.XmlConfigurator.Configure();
+            //log4net.Config.XmlConfigurator.Configure();
             //var binder = new DateTimeModelBinder();
             //ModelBinders.Binders.Add(typeof(DateTime), binder);
             //ModelBinders.Binders.Add(typeof(DateTime?), binder);
@@ -30,8 +30,8 @@ namespace SAT.HR
 
             if (exception != null)
             {
-                ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-                log.Error(exception);
+                //ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+                //log.Error(exception);
             }
 
         }
