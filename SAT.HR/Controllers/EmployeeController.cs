@@ -146,6 +146,12 @@ namespace SAT.HR.Controllers
             return PartialView("_Family");
         }
 
+        public JsonResult GetUserFamilyByRec(int userid, int recid)
+        {
+            var result = new EmployeeRepository().GetUserFamilyByRec(recid, userid);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult FamilyDetail(int userid, int recid, int ufid, int? usertype)
         {
             var model = new EmployeeRepository().GetFamilyByID(userid, recid, ufid);

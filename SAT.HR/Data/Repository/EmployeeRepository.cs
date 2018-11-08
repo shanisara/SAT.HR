@@ -638,6 +638,29 @@ namespace SAT.HR.Data.Repository
             return data;
         }
 
+        public List<UserFamilyViewModel> GetUserFamilyByRec(int id, int? recid)
+        {
+            List<UserFamilyViewModel> list = new List<UserFamilyViewModel>();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var family = db.tb_User_Family.Where(w => w.UserID == id && w.RecID == recid).ToList();
+                    foreach (var s in family)
+                    {
+                        UserFamilyViewModel model = new UserFamilyViewModel();
+                        model.UfName = s.UfName;
+                        list.Add(model);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return list;
+        }
+
         public UserFamilyViewModel GetFamilyByID(int userid, int recid, int ufid)
         {
             UserFamilyViewModel data = new UserFamilyViewModel();

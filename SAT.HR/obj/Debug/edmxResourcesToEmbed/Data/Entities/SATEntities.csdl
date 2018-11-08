@@ -35,7 +35,6 @@
     <EntitySet Name="tb_Benefit_Medical" EntityType="SAT.HR.tb_Benefit_Medical" />
     <EntitySet Name="tb_Benefit_Other_Welfare" EntityType="SAT.HR.tb_Benefit_Other_Welfare" />
     <EntitySet Name="tb_Benefit_Provident_Fund" EntityType="SAT.HR.tb_Benefit_Provident_Fund" />
-    <EntitySet Name="tb_Benefit_Remuneration" EntityType="SAT.HR.tb_Benefit_Remuneration" />
     <EntitySet Name="tb_Benefit_Type" EntityType="SAT.HR.tb_Benefit_Type" />
     <EntitySet Name="tb_Blood_Type" EntityType="SAT.HR.tb_Blood_Type" />
     <EntitySet Name="tb_Capability" EntityType="SAT.HR.tb_Capability" />
@@ -224,10 +223,6 @@
     <AssociationSet Name="FK_tb_Benefit_Provident_Fund_tb_User" Association="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_User">
       <End Role="tb_User" EntitySet="tb_User" />
       <End Role="tb_Benefit_Provident_Fund" EntitySet="tb_Benefit_Provident_Fund" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Benefit_Remuneration_tb_Recieve_Type" Association="SAT.HR.FK_tb_Benefit_Remuneration_tb_Recieve_Type">
-      <End Role="tb_Recieve_Type" EntitySet="tb_Recieve_Type" />
-      <End Role="tb_Benefit_Remuneration" EntitySet="tb_Benefit_Remuneration" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_Users_tb_Blood_Type" Association="SAT.HR.FK_tb_Users_tb_Blood_Type">
       <End Role="tb_Blood_Type" EntitySet="tb_Blood_Type" />
@@ -420,6 +415,11 @@
     <AssociationSet Name="FK_tb_Users_tb_Working_Type" Association="SAT.HR.FK_tb_Users_tb_Working_Type">
       <End Role="tb_Working_Type" EntitySet="tb_Working_Type" />
       <End Role="tb_User" EntitySet="tb_User" />
+    </AssociationSet>
+    <EntitySet Name="tb_Benefit_Remuneration" EntityType="SAT.HR.tb_Benefit_Remuneration" />
+    <AssociationSet Name="FK_tb_Benefit_Remuneration_tb_Recieve_Type" Association="SAT.HR.FK_tb_Benefit_Remuneration_tb_Recieve_Type">
+      <End Role="tb_Recieve_Type" EntitySet="tb_Recieve_Type" />
+      <End Role="tb_Benefit_Remuneration" EntitySet="tb_Benefit_Remuneration" />
     </AssociationSet>
   </EntityContainer>
   <ComplexType Name="sp_Menu_GetByUser_Result">
@@ -744,23 +744,6 @@
     <NavigationProperty Name="tb_Accumulative_Fund" Relationship="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund" FromRole="tb_Benefit_Provident_Fund" ToRole="tb_Accumulative_Fund" />
     <NavigationProperty Name="tb_Accumulative_Fund1" Relationship="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund1" FromRole="tb_Benefit_Provident_Fund" ToRole="tb_Accumulative_Fund" />
     <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_User" FromRole="tb_Benefit_Provident_Fund" ToRole="tb_User" />
-  </EntityType>
-  <EntityType Name="tb_Benefit_Remuneration">
-    <Key>
-      <PropertyRef Name="BrID" />
-      <PropertyRef Name="UserID" />
-    </Key>
-    <Property Name="BrID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="UserID" Type="Int32" Nullable="false" />
-    <Property Name="BrYear" Type="Int32" />
-    <Property Name="RecID" Type="Int32" Nullable="false" />
-    <Property Name="BrAmout" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="BrRemark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="CreateDate" Type="DateTime" Precision="3" />
-    <Property Name="CreateBy" Type="Int32" />
-    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifyBy" Type="Int32" />
-    <NavigationProperty Name="tb_Recieve_Type" Relationship="SAT.HR.FK_tb_Benefit_Remuneration_tb_Recieve_Type" FromRole="tb_Benefit_Remuneration" ToRole="tb_Recieve_Type" />
   </EntityType>
   <EntityType Name="tb_Benefit_Type">
     <Key>
@@ -1276,8 +1259,8 @@
     <NavigationProperty Name="tb_Benefit_Medical" Relationship="SAT.HR.FK_tb_Benefit_Medical_tb_Recieve_Type" FromRole="tb_Recieve_Type" ToRole="tb_Benefit_Medical" />
     <NavigationProperty Name="tb_Benefit_Other_Welfare" Relationship="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Recieve_Type" FromRole="tb_Recieve_Type" ToRole="tb_Benefit_Other_Welfare" />
     <NavigationProperty Name="tb_Benefit_Other_Welfare1" Relationship="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Recieve_Type1" FromRole="tb_Recieve_Type" ToRole="tb_Benefit_Other_Welfare" />
-    <NavigationProperty Name="tb_Benefit_Remuneration" Relationship="SAT.HR.FK_tb_Benefit_Remuneration_tb_Recieve_Type" FromRole="tb_Recieve_Type" ToRole="tb_Benefit_Remuneration" />
     <NavigationProperty Name="tb_User_Family" Relationship="SAT.HR.FK_tb_User_Family_tb_Recieve_Type" FromRole="tb_Recieve_Type" ToRole="tb_User_Family" />
+    <NavigationProperty Name="tb_Benefit_Remuneration" Relationship="SAT.HR.FK_tb_Benefit_Remuneration_tb_Recieve_Type" FromRole="tb_Recieve_Type" ToRole="tb_Benefit_Remuneration" />
   </EntityType>
   <EntityType Name="tb_Religion">
     <Key>
@@ -2590,18 +2573,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_Benefit_Remuneration_tb_Recieve_Type">
-    <End Type="SAT.HR.tb_Recieve_Type" Role="tb_Recieve_Type" Multiplicity="1" />
-    <End Type="SAT.HR.tb_Benefit_Remuneration" Role="tb_Benefit_Remuneration" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Recieve_Type">
-        <PropertyRef Name="RecID" />
-      </Principal>
-      <Dependent Role="tb_Benefit_Remuneration">
-        <PropertyRef Name="RecID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_tb_Users_tb_Blood_Type">
     <End Type="SAT.HR.tb_Blood_Type" Role="tb_Blood_Type" Multiplicity="0..1" />
     <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="*" />
@@ -3175,6 +3146,36 @@
       </Principal>
       <Dependent Role="tb_User">
         <PropertyRef Name="WorkingTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="tb_Benefit_Remuneration">
+    <Key>
+      <PropertyRef Name="BrID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="BrID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="BrYear" Type="Int32" />
+    <Property Name="BrDate" Type="DateTime" Precision="3" />
+    <Property Name="RecID" Type="Int32" Nullable="false" />
+    <Property Name="BrAmout" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="BrRemark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+    <NavigationProperty Name="tb_Recieve_Type" Relationship="SAT.HR.FK_tb_Benefit_Remuneration_tb_Recieve_Type" FromRole="tb_Benefit_Remuneration" ToRole="tb_Recieve_Type" />
+  </EntityType>
+  <Association Name="FK_tb_Benefit_Remuneration_tb_Recieve_Type">
+    <End Type="SAT.HR.tb_Recieve_Type" Role="tb_Recieve_Type" Multiplicity="1" />
+    <End Type="SAT.HR.tb_Benefit_Remuneration" Role="tb_Benefit_Remuneration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Recieve_Type">
+        <PropertyRef Name="RecID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Remuneration">
+        <PropertyRef Name="RecID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

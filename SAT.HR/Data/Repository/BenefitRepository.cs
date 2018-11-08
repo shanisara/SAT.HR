@@ -63,19 +63,25 @@ namespace SAT.HR.Data.Repository
                 {
                     var item = db.tb_Benefit_Remuneration.Where(x => x.BrID == id).FirstOrDefault();
                     BenefitRemunerationViewModel model = new BenefitRemunerationViewModel();
-                    model.BrID = item.BrID;
-                    model.UserID = item.UserID;
-                    model.BrYear = item.BrYear;
-                    model.RecID = item.RecID;
-                    model.BrAmout = item.BrAmout;
-                    model.BrRemark = item.BrRemark;
-                    model.CreateDate = item.CreateDate;
-                    model.CreateBy = item.CreateBy;
-                    model.ModifyDate = item.ModifyDate;
-                    model.ModifyBy = item.ModifyBy;
-
-                    if (model != null)
-                        data = model;
+                    if (item != null)
+                    {
+                        model.BrID = item.BrID;
+                        model.UserID = item.UserID;
+                        model.BrYear = item.BrYear;
+                        model.BrDate = item.BrDate;
+                        model.RecID = item.RecID;
+                        model.BrAmout = item.BrAmout;
+                        model.BrRemark = item.BrRemark;
+                        model.CreateDate = item.CreateDate;
+                        model.CreateBy = item.CreateBy;
+                        model.ModifyDate = item.ModifyDate;
+                        model.ModifyBy = item.ModifyBy;
+                    }
+                    else
+                    {
+                        model.BrYear = DateTime.Now.Year;
+                    }
+                    data = model;
                 }
             }
             catch (Exception)
@@ -96,6 +102,8 @@ namespace SAT.HR.Data.Repository
                     model.BrID = data.BrID;
                     model.UserID = data.UserID;
                     model.BrYear = data.BrYear;
+                    if (Convert.ToDateTime(data.BrDate) > DateTime.MinValue)
+                        model.BrDate = Convert.ToDateTime(data.BrDate);
                     model.RecID = data.RecID;
                     model.BrAmout = data.BrAmout;
                     model.BrRemark = data.BrRemark;
@@ -126,6 +134,8 @@ namespace SAT.HR.Data.Repository
                     model.BrID = newdata.BrID;
                     model.UserID = newdata.UserID;
                     model.BrYear = newdata.BrYear;
+                    if (Convert.ToDateTime(newdata.BrDate) > DateTime.MinValue)
+                        model.BrDate = Convert.ToDateTime(newdata.BrDate);
                     model.RecID = newdata.RecID;
                     model.BrAmout = newdata.BrAmout;
                     model.BrRemark = newdata.BrRemark;

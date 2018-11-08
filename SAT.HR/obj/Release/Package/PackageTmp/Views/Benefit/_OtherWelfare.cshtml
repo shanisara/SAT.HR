@@ -30,14 +30,14 @@
                             </div>
                             @Html.Label("ประเภท: ", null, new { @class = "col-sm-2 col-form-label" })
                             <div class="col-sm-4">
-                                @Html.TextBox("ProvidentFundDate", null, new { @class = "form-control" })
+                                @Html.DropDownList("BenefitType", new SelectList((IEnumerable<SelectListItem>)ViewBag.BenefitType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="material-datatables">
                             <table class="table table-detail">
-                                <thead>
+                                <thead class="text-primary">
                                     <tr>
                                         <th style="width:5%;" class="text-center">#</th>
                                         <th style="width:10%;" class="text-center">ปีบัญชี</th>
@@ -82,6 +82,8 @@
 <!--  End Modal -->
 
 <script>
+
+    $('.selectpicker').selectpicker();
 
     var dataTable = {
         table: null,
@@ -219,7 +221,7 @@
                             confirmButtonClass: "btn btn-primary",
                             confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
                         }).then(function () {
-                            $('.modal-certificate').modal('hide');
+                            $('.modal-detail').modal('hide');
                             dataTable.getData();
                         });
                     }

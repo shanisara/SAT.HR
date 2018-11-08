@@ -68,7 +68,24 @@
     });
 
     $('select[name=RecID]').change(function () {
+        var recid = $('select[name=RecID]').val();
+        var userid = $("#UserID").val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetUserFamilyByRec", "Employee")',
+            data: { userid: userid, recid: recid },
+            dataType: 'json',
+            success: function (res) {
+                debugger
+                if (recid != '1')
+                    $('select[name=SecID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
 
+                $.each(res, function (key, entry) {
+                    $('select[name=SecID]').append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                });
+                $('select[name=SecID]').selectpicker('refresh');
+            }
+        });
 
     });
 
