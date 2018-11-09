@@ -20,7 +20,7 @@ namespace SAT.HR.Data.Repository
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    var data = db.vw_Move_Man_Power_Head.ToList();
+                    var data = db.vw_Move_Man_Power_Head.Where(x => x.UserTID == userType).ToList();
 
                     int recordsTotal = data.Count();
 
