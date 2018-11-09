@@ -190,7 +190,7 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                level = (level == null) ? 1 : level;
+                level = (level == null || level == 0) ? 1 : level;
                 var list = db.tb_Salary
                             .Where(m => m.SaLevel == level)
                             .GroupBy(g => g.SaStep).Select(group => new { SaStep = group.Key })
