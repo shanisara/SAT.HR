@@ -90,66 +90,66 @@
             initializeTree: function (usertype) {
                 var $tree = $('#organization');
 
-                //jstree.tree = $tree.jstree({
-                //    'core': {
-                //        'strings': { 'Loading ...': 'กรุณารอสักครู่ ...' },
-                //        'data': {
-                //            'url': '/Employee/GetTreeAll/' + usertype,
-                //            'data': function (node) {
-                //                return { 'id': node.id };
-                //            }
-                //        }
-                //    },
-                //    'plugins': ['search', 'wholerow', 'sort']
-                //});
-
-
                 jstree.tree = $tree.jstree({
                     'core': {
                         'strings': { 'Loading ...': 'กรุณารอสักครู่ ...' },
                         'data': {
-                            'url': function (node) {
-                                if (node.id === '#') {
-                                    return '/Employee/GetRoot/' + usertype;
-                                }
-                                else {
-                                    debugger;
-                                    var div = null; var dep = null; var sec = null; var po = null;
-                                    var parenttype = node.original.node_type;
-                                    if (parenttype == 'div') {
-                                        div = node.id;
-                                    }
-                                    else if (parenttype == 'dep') {
-                                        div = (node.parents.length == 2) ? node.parents[0] : null;
-                                        dep = node.id;
-                                    }
-                                    else if (parenttype == 'sec') {
-                                        div = (node.parents.length == 3) ? node.parents[1] : null;
-                                        dep = (node.parents.length == 3) ? node.parents[0] : null;
-                                        sec = node.id;
-                                    }
-                                    else if (parenttype == 'pos') {
-                                        div = (node.parents.length == 4) ? node.parents[2] : null;
-                                        dep = (node.parents.length == 4) ? node.parents[1] : null;
-                                        sec = (node.parents.length == 4) ? node.parents[0] : null;
-                                        po = node.id;
-                                    }
-                                    else if (parenttype == 'user') {
-                                        div = (node.parents.length == 5) ? node.parents[3] : null;
-                                        dep = (node.parents.length == 5) ? node.parents[2] : null;
-                                        sec = (node.parents.length == 5) ? node.parents[1] : null;
-                                        po = (node.parents.length == 5) ? node.parents[0] : null;
-                                    }
-                                    return '/Employee/GetChildren/' + node.id + '?parenttype=' + parenttype + '&usertype=' + usertype + '&div=' + div + '&dep=' + dep + '&sec=' + sec + '&po=' + po;
-                                }
-                            },
-                            'data': function (node, callback) {
+                            'url': '/Employee/GetTreeAll/' + usertype,
+                            'data': function (node) {
                                 return { 'id': node.id };
                             }
                         }
                     },
                     'plugins': ['search', 'wholerow', 'sort']
                 });
+
+
+                //jstree.tree = $tree.jstree({
+                //    'core': {
+                //        'strings': { 'Loading ...': 'กรุณารอสักครู่ ...' },
+                //        'data': {
+                //            'url': function (node) {
+                //                if (node.id === '#') {
+                //                    return '/Employee/GetRoot/' + usertype;
+                //                }
+                //                else {
+                //                    debugger;
+                //                    var div = null; var dep = null; var sec = null; var po = null;
+                //                    var parenttype = node.original.node_type;
+                //                    if (parenttype == 'div') {
+                //                        div = node.id;
+                //                    }
+                //                    else if (parenttype == 'dep') {
+                //                        div = (node.parents.length == 2) ? node.parents[0] : null;
+                //                        dep = node.id;
+                //                    }
+                //                    else if (parenttype == 'sec') {
+                //                        div = (node.parents.length == 3) ? node.parents[1] : null;
+                //                        dep = (node.parents.length == 3) ? node.parents[0] : null;
+                //                        sec = node.id;
+                //                    }
+                //                    else if (parenttype == 'pos') {
+                //                        div = (node.parents.length == 4) ? node.parents[2] : null;
+                //                        dep = (node.parents.length == 4) ? node.parents[1] : null;
+                //                        sec = (node.parents.length == 4) ? node.parents[0] : null;
+                //                        po = node.id;
+                //                    }
+                //                    else if (parenttype == 'user') {
+                //                        div = (node.parents.length == 5) ? node.parents[3] : null;
+                //                        dep = (node.parents.length == 5) ? node.parents[2] : null;
+                //                        sec = (node.parents.length == 5) ? node.parents[1] : null;
+                //                        po = (node.parents.length == 5) ? node.parents[0] : null;
+                //                    }
+                //                    return '/Employee/GetChildren/' + node.id + '?parenttype=' + parenttype + '&usertype=' + usertype + '&div=' + div + '&dep=' + dep + '&sec=' + sec + '&po=' + po;
+                //                }
+                //            },
+                //            'data': function (node, callback) {
+                //                return { 'id': node.id };
+                //            }
+                //        }
+                //    },
+                //    'plugins': ['search', 'wholerow', 'sort']
+                //});
 
                 $tree.on('changed.jstree', function (e, data) {
                     var usertype = $('.usertype').val();

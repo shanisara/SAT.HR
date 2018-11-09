@@ -487,7 +487,7 @@ namespace SAT.HR.Data.Repository
                 text = "การกีฬาแห่งประเทศไทย",
                 state = new TreeStateViewModel() { opened = true },
                 icon = SysConfig.ApplicationRoot + "Content/assets/img/home.png",
-                children = GetDivision(usertype)
+                //children = GetDivision(usertype)
             };
             return model;
         }

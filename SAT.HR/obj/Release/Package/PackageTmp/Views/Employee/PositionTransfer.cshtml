@@ -10,6 +10,12 @@
         margin-left: 13px;
         margin-top: -5px;
     }
+    .card [class*=card-header-] .card-title a {
+        color: #3C4858;
+    }
+    .card [class*=card-header-] .card-title a:hover {
+        color:#fff;
+    }
 </style>
 <div class="content">
     <div class="row">
@@ -167,7 +173,11 @@
                         dataTable.initializeDataTable();
                     else
                         dataTable.table.ajax.reload();
-                }
+                },
+                renewData: function () {
+                    $('#datatables').dataTable().fnDestroy();
+                    dataTable.initializeDataTable();
+                },
             }
 
             dataTable.getData();
@@ -178,6 +188,9 @@
                 window.location.href = url;
             });
 
+            $('#usertype').change(function () {
+                dataTable.renewData();
+            });
 
         });
     </script>
