@@ -38,6 +38,7 @@ namespace SAT.HR.Controllers
         {
             var model = new BenefitRepository().GetRemunerationByID(userid, id);
             ViewBag.RecieveType = DropDownList.GetRecieveType(model.RecID);
+            ViewBag.RecFullName = DropDownList.GetUserFamilyByRec(userid, model.RecID, model.RecFullName);
             return PartialView("_RemunerationDetail", model);
         }
 
@@ -69,9 +70,10 @@ namespace SAT.HR.Controllers
         #region  2. กองทุน
 
         
-        public ActionResult ProvidentFundByUser()
+        public ActionResult ProvidentFundByUser(int id)
         {
-            return PartialView("_ProvidentFund");
+            var model = new BenefitRepository().GetProvidentFund(id);
+            return PartialView("_ProvidentFund", model);
         }
 
         public ActionResult ProvidentFundDetail(int userid, int id)
@@ -98,6 +100,12 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult UpdateProvidentFund(int userid, string fundno, string funddate)
+        {
+            var result = new EmployeeRepository().UpdateProvidentFund(userid, fundno, funddate);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public JsonResult ProvidentFund(int id)
         {
@@ -119,6 +127,7 @@ namespace SAT.HR.Controllers
             var model = new BenefitRepository().GetMedicalTreatmentByID(userid, id);
             ViewBag.ClaimType = DropDownList.GetClaimType(model.ClID);
             ViewBag.RecieveType = DropDownList.GetRecieveType(model.RecID);
+            ViewBag.RecFullName = DropDownList.GetUserFamilyByRec(userid, model.RecID, model.RecFullName);
             return PartialView("_MedicalTreatmentDetail", model);
         }
 
@@ -247,14 +256,6 @@ namespace SAT.HR.Controllers
             ResponseData result = new Models.ResponseData();
             if (data.BcfID != 0)
                 result = new BenefitRepository().UpdateChildFundByEntity(data);
-            else
-                result = new BenefitRepository().AddChildFundByEntity(data);
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult DeleteChildFund(int id)
-        {
-            var result = new BenefitRepository().DeleteChildFundByID(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -285,14 +286,6 @@ namespace SAT.HR.Controllers
             ResponseData result = new Models.ResponseData();
             if (data.BceID != 0)
                 result = new BenefitRepository().UpdateChildEducationByEntity(data);
-            else
-                result = new BenefitRepository().AddChildEducationByEntity(data);
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult DeleteChildEducation(int id)
-        {
-            var result = new BenefitRepository().DeleteChildEducationByID(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -355,7 +348,7 @@ namespace SAT.HR.Controllers
         {
             var model = new BenefitRepository().GetDeathReplacementByID(userid, id);
             ViewBag.RecieveType = DropDownList.GetRecieveType(model.RecID);
-            //ViewBag.BdFullName = DropDownList.GetRecieveType(model.BdFullName);
+            ViewBag.BdFullName = DropDownList.GetUserFamilyByRec(userid, model.RecID, model.BdFullName);
             return PartialView("_DeathReplacementDetail", model);
         }
 
@@ -396,7 +389,7 @@ namespace SAT.HR.Controllers
         {
             var model = new BenefitRepository().GetDeathSubsidyByID(userid, id);
             ViewBag.RecieveType = DropDownList.GetRecieveType(model.RecID);
-            //ViewBag.BdFullName = DropDownList.GetRecieveType(model.BdFullName);
+            ViewBag.BdFullName = DropDownList.GetUserFamilyByRec(userid, model.RecID, model.BdFullName);
             return PartialView("_DeathSubsidyDetail", model);
         }
 
@@ -429,6 +422,8 @@ namespace SAT.HR.Controllers
 
         public ActionResult OtherWelfareByUser()
         {
+            int year = DateTime.Today.Year;
+            ViewBag.YearOtherWelfare = DropDownList.GetYearOtherWelfare(year);
             ViewBag.BenefitType = DropDownList.GetBenefitType(null);
             return PartialView("_OtherWelfare");
         }
@@ -439,6 +434,8 @@ namespace SAT.HR.Controllers
             ViewBag.BenefitType = DropDownList.GetBenefitType(model.BenTID);
             ViewBag.RecieveType = DropDownList.GetRecieveType(model.BoRecID);
             ViewBag.RecieveType = DropDownList.GetRecieveType(model.BoOptRecID);
+            ViewBag.BoRecFullName = DropDownList.GetUserFamilyByRec(userid, model.BoRecID, model.FullNameTh);
+            ViewBag.BoOptFullName = DropDownList.GetUserFamilyByRec(userid, model.BoOptRecID, model.FullNameTh);
             return PartialView("_OtherWelfareDetail", model);
         }
 
@@ -459,9 +456,9 @@ namespace SAT.HR.Controllers
         }
 
         [HttpPost]
-        public JsonResult OtherWelfare(int id)
+        public JsonResult OtherWelfare(int id, int? year, int? type)
         {
-            var list = new BenefitRepository().GetOtherWelfareByUser(id);
+            var list = new BenefitRepository().GetOtherWelfareByUser(id, year, type);
             return Json(new { data = list.ListOtherWelfare }, JsonRequestBehavior.AllowGet);
         }
 

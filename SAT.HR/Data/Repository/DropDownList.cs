@@ -1046,7 +1046,6 @@ namespace SAT.HR.Data.Repository
         public static List<SelectListItem> GetBenefitType(int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
-
             var data = new MasterRepository().GetBenefitType();
 
             foreach (var item in data)
@@ -1055,6 +1054,40 @@ namespace SAT.HR.Data.Repository
                 select.Value = item.BenTID.ToString();
                 select.Text = item.BenTName;
                 select.Selected = defaultValue.HasValue ? (item.BenTID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetUserFamilyByRec(int userid, int? recid, string defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new EmployeeRepository().GetUserFamilyByRec(recid, userid);
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.UfName.ToString();
+                select.Text = item.UfName;
+                select.Selected = !string.IsNullOrEmpty(defaultValue) ? (item.UfName == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetYearOtherWelfare(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new BenefitRepository().GetYearOtherWelfare();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.Year.ToString();
+                select.Text = item.Year.ToString();
+                select.Selected = defaultValue.HasValue ? (item.Year == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;

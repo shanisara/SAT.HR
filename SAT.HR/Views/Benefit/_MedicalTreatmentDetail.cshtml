@@ -11,13 +11,13 @@
             @Html.Label("ปีบัญชี", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-3">
                 <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.BmYear, new { @class = "form-control", type = "number" })
+                    @Html.TextBoxFor(m => m.BmYear, new { @class = "form-control", type = "number", required = "true" })
                 </div>
             </div>
             @Html.Label("ประเภทสิทธิ", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-5">
                 <div class="dropdown bootstrap-select dropup">
-                    @Html.DropDownListFor(x => x.ClID, new SelectList((IEnumerable<SelectListItem>)ViewBag.ClaimType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+                    @Html.DropDownListFor(x => x.ClID, new SelectList((IEnumerable<SelectListItem>)ViewBag.ClaimType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
                 </div>
             </div>
         </div>
@@ -25,13 +25,13 @@
             @Html.Label("ผู้รับ", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-3">
                 <div class="dropdown bootstrap-select dropup">
-                    @Html.DropDownListFor(x => x.RecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.RecieveType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+                    @Html.DropDownListFor(x => x.RecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.RecieveType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
                 </div>
             </div>
             @Html.Label("ชื่อ-สกุล", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-5">
                 <div class="dropdown bootstrap-select dropup">
-                    @Html.DropDownListFor(x => x.RecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.RecieveType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+                    @Html.DropDownListFor(x => x.RecFullName, new SelectList((IEnumerable<SelectListItem>)ViewBag.RecFullName, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
                 </div>
             </div>
         </div>
@@ -74,6 +74,11 @@
     </div>
 }
 <script>
+    if ('@Model.RecFullName' != '') {
+        $('select[name=RecFullName]').val('@Model.RecFullName');
+        $('select[name=RecFullName]').selectpicker('refresh');
+    }
+
     $('.selectpicker').selectpicker();
 
     $('.datepicker').datetimepicker({
@@ -90,4 +95,29 @@
             close: 'fa fa-remove'
         }
     });
+
+    $('select[name=RecID]').change(function () {
+        var recid = $('select[name=RecID]').val();
+        var userid = $("#UserID").val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetUserFamilyByRec", "Employee")',
+            data: { recid: recid, userid: userid },
+            dataType: 'json',
+            success: function (res) {
+                if (recid == '1' || recid == '2' || recid == '3') {
+                    $('select[name=RecFullName]').empty().append('<option value=' + res[0].UfName + '>' + res[0].UfName + '</option>');
+                }
+                else {
+                    $('select[name=RecFullName]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                    $.each(res, function (key, entry) {
+                        $('select[name=RecFullName]').append($('<option>', { value: entry.UfName, text: entry.UfName }));
+                    });
+                }
+                $('select[name=RecFullName]').selectpicker('refresh');
+            }
+        });
+    });
+
+
 </script>

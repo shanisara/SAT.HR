@@ -12,26 +12,26 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_Benefit_Cremation
+    public partial class vw_Benefit_Loan
     {
-        public int BcID { get; set; }
+        public int BlID { get; set; }
         public int UserID { get; set; }
-        public Nullable<int> BcYear { get; set; }
-        public Nullable<int> MID { get; set; }
-        public string BcMemberNo { get; set; }
-        public Nullable<System.DateTime> BcDate { get; set; }
-        public string BcBeneficiary1 { get; set; }
-        public string BcBeneficiary2 { get; set; }
-        public string BcBeneficiary3 { get; set; }
-        public string BcBeneficiary4 { get; set; }
-        public string BcBeneficiary5 { get; set; }
-        public string BcRecFullName { get; set; }
+        public Nullable<int> BlYear { get; set; }
+        public Nullable<int> BID { get; set; }
+        public string BName { get; set; }
+        public string LtName { get; set; }
+        public Nullable<int> LtID { get; set; }
+        public Nullable<decimal> BlAccountNo { get; set; }
+        public Nullable<System.DateTime> BlStartDate { get; set; }
+        public Nullable<System.DateTime> BlEndDate { get; set; }
+        public Nullable<System.DateTime> BlCloseDate { get; set; }
+        public Nullable<decimal> BlPeriod { get; set; }
+        public Nullable<decimal> BlPeriodPay { get; set; }
+        public Nullable<decimal> BISummaryAmout { get; set; }
+        public string BlRemark { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
-    
-        public virtual tb_Member_Type tb_Member_Type { get; set; }
-        public virtual tb_User tb_User { get; set; }
     }
 }

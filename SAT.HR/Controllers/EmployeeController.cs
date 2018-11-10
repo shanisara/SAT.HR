@@ -134,6 +134,12 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult UpdateProvidentFund(int userid, string fundno, string funddate)
+        {
+            var result = new EmployeeRepository().UpdateProvidentFund(userid, fundno, funddate);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         #region 1.2 Tab: User-Family

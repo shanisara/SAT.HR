@@ -12,26 +12,24 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_Benefit_Cremation
+    public partial class vw_Benefit_Home_Rental
     {
-        public int BcID { get; set; }
+        public int BhrID { get; set; }
         public int UserID { get; set; }
-        public Nullable<int> BcYear { get; set; }
-        public Nullable<int> MID { get; set; }
-        public string BcMemberNo { get; set; }
-        public Nullable<System.DateTime> BcDate { get; set; }
-        public string BcBeneficiary1 { get; set; }
-        public string BcBeneficiary2 { get; set; }
-        public string BcBeneficiary3 { get; set; }
-        public string BcBeneficiary4 { get; set; }
-        public string BcBeneficiary5 { get; set; }
-        public string BcRecFullName { get; set; }
+        public Nullable<int> BhrYear { get; set; }
+        public Nullable<int> RID { get; set; }
+        public string PName { get; set; }
+        public Nullable<int> PID { get; set; }
+        public string RName { get; set; }
+        public Nullable<int> BhrLevel { get; set; }
+        public Nullable<int> BhrStep { get; set; }
+        public Nullable<System.DateTime> BhrStartDate { get; set; }
+        public Nullable<System.DateTime> BhrEndDate { get; set; }
+        public Nullable<decimal> BhrAmout { get; set; }
+        public string BhrRemark { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
-    
-        public virtual tb_Member_Type tb_Member_Type { get; set; }
-        public virtual tb_User tb_User { get; set; }
     }
 }

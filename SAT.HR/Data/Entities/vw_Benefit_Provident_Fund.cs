@@ -12,20 +12,24 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_Benefit_Child_Education
+    public partial class vw_Benefit_Provident_Fund
     {
-        public int BceID { get; set; }
-        public Nullable<int> UserID { get; set; }
-        public string BceName { get; set; }
-        public Nullable<decimal> BceIDCard { get; set; }
-        public Nullable<System.DateTime> BcdBirthDate { get; set; }
-        public Nullable<System.DateTime> BcdExpireDate { get; set; }
-        public Nullable<decimal> BcdAmout { get; set; }
+        public int BpID { get; set; }
+        public int UserID { get; set; }
+        public Nullable<int> BpYear { get; set; }
+        public Nullable<System.DateTime> BpDateChangeFund { get; set; }
+        public Nullable<int> BpAccumFundCuID { get; set; }
+        public string BpAccumFundCuName { get; set; }
+        public Nullable<int> BpAssoFundCuID { get; set; }
+        public string BpAssoFundCuName { get; set; }
+        public string BpBeneficiary1 { get; set; }
+        public string BpBeneficiary2 { get; set; }
+        public string BpBeneficiary3 { get; set; }
+        public string BpBeneficiary4 { get; set; }
+        public string BpBeneficiary5 { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
-    
-        public virtual tb_User tb_User { get; set; }
     }
 }

@@ -26,12 +26,12 @@
                                 <thead class="text-primary">
                                     <tr>
                                         <th style="width:5%;" class="text-center">#</th>
-                                        <th style="width:10%;" class="text-center">ปีบัญชี</th>
-                                        <th style="width:15%;" class="text-center">ประเภท</th>
-                                        <th style="width:30%;" class="text-center">ผู้รับผลประโยชน์</th>
-                                        <th style="width:15%;" class="text-center">วันที่</th>
-                                        <th style="width:15%;" class="text-center">จำนวนเงิน</th>
-                                        <th style="width:10%;" class="text-center">ปฏิบัติการ</th>
+                                        <th style="width:10%;" class="text-left">ปีบัญชี</th>
+                                        <th style="width:15%;" class="text-left">ประเภท</th>
+                                        <th style="width:30%;" class="text-left">ผู้รับผลประโยชน์</th>
+                                        <th style="width:15%;" class="text-left">วันที่</th>
+                                        <th style="width:15%;" class="text-right">จำนวนเงิน</th>
+                                        <th style="width:10%;" class="text-right">ปฏิบัติการ</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -96,6 +96,11 @@
                     { "data": "BdAmout", "orderable": true },
                 ],
                 "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return '<div class="text-right">' + accounting.formatNumber(data, 2) + '</div>';
+                        }, "targets": [5]
+                    },
                     {
                         "render": function (data, type, row) {
                             var inner = '<div class="td-actions pull-right">' +
@@ -191,7 +196,7 @@
         else {
             $.ajax({
                 type: 'POST',
-                url: '@Url.Action("SaveDeathRemuneration", "Benefit")',
+                url: '@Url.Action("SaveDeathReplacement", "Benefit")',
                 data: $(".form-detail").serialize(),
                 success: function (res) {
                     if (res.MessageCode == null) {

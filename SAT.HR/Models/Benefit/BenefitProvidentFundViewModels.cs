@@ -27,6 +27,10 @@ namespace SAT.HR.Models
         public string BpDateChangeFundText { get; set; }
         public string BpAccumFundCuName { get; set; }
         public string BpAssoFundCuName { get; set; }
+        public string BpBeneficiary { get; set; }
+
+        public string ProvidentFundNo { get; set; }
+        public Nullable<System.DateTime> ProvidentFundDate { get; set; }
 
         public List<BenefitProvidentFundViewModel> ListProvidentFund { get; set; }
     }

@@ -11,13 +11,13 @@
             @Html.Label("ปีบัญชี", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-3">
                 <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.BoYear, new { @class = "form-control", type = "number" })
+                    @Html.TextBoxFor(m => m.BoYear, new { @class = "form-control", type = "number", required = "true" })
                 </div>
             </div>
             @Html.Label("ประเภทสวัสดิการ", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-5">
                 <div class="dropdown bootstrap-select dropup">
-                    @Html.DropDownListFor(x => x.BenTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.BenefitType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+                    @Html.DropDownListFor(x => x.BenTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.BenefitType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
                 </div>
             </div>
         </div>
@@ -25,13 +25,13 @@
             @Html.Label("ผู้รับผลประโยชน์", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-3">
                 <div class="dropdown bootstrap-select dropup">
-                    @Html.DropDownListFor(x => x.BoRecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.RecieveType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+                    @Html.DropDownListFor(x => x.BoRecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.RecieveType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
                 </div>
             </div>
             @Html.Label("ชื่อ-สกุล", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-5">
                 <div class="dropdown bootstrap-select dropup">
-                    @Html.DropDownListFor(x => x.BoRecFullName, new SelectList((IEnumerable<SelectListItem>)ViewBag.RecieveType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+                    @Html.DropDownListFor(x => x.BoRecFullName, new SelectList((IEnumerable<SelectListItem>)ViewBag.BoRecFullName, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
                 </div>
             </div>
         </div>
@@ -39,13 +39,13 @@
             @Html.Label("ขอรับสวัสดิการ", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-3">
                 <div class="dropdown bootstrap-select dropup">
-                    @Html.DropDownListFor(x => x.BoOptRecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.RecieveType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+                    @Html.DropDownListFor(x => x.BoOptRecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.RecieveType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
                 </div>
             </div>
             @Html.Label("ชื่อ-สกุล", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-5">
                 <div class="dropdown bootstrap-select dropup">
-                    @Html.DropDownListFor(x => x.BoOptFullName, new SelectList((IEnumerable<SelectListItem>)ViewBag.RecieveType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+                    @Html.DropDownListFor(x => x.BoOptFullName, new SelectList((IEnumerable<SelectListItem>)ViewBag.BoOptFullName, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
                 </div>
             </div>
         </div>
@@ -67,13 +67,13 @@
             @Html.Label("จำนวนเงิน", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-3">
                 <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.BoAmout, new { @class = "form-control", type = "number" })
+                    @Html.TextBoxFor(m => m.BoAmout, new { @class = "form-control", type = "number", required = "true" })
                 </div>
             </div>
             @Html.Label("วันที่", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-5">
                 <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.BoDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
+                    @Html.TextBoxFor(m => m.BoDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
                 </div>
             </div>
         </div>
@@ -88,6 +88,16 @@
     </div>
 }
 <script>
+    if ('@Model.BoRecFullName' != '') {
+        $('select[name=BoRecFullName]').val('@Model.BoRecFullName');
+        $('select[name=BoRecFullName]').selectpicker('refresh');
+    }
+
+    if ('@Model.BoOptFullName' != '') {
+        $('select[name=BoOptFullName]').val('@Model.BoOptFullName');
+        $('select[name=BoOptFullName]').selectpicker('refresh');
+    }
+
     $('.selectpicker').selectpicker();
 
     $('.datepicker').datetimepicker({
@@ -103,5 +113,51 @@
             clear: 'fa fa-trash',
             close: 'fa fa-remove'
         }
+    });
+
+    $('select[name=BoRecID]').change(function () {
+        var recid = $('select[name=BoRecID]').val();
+        var userid = $("#UserID").val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetUserFamilyByRec", "Employee")',
+            data: { recid: recid, userid: userid },
+            dataType: 'json',
+            success: function (res) {
+                if (recid == '1' || recid == '2' || recid == '3') {
+                    $('select[name=BoRecFullName]').empty().append('<option value=' + res[0].UfName + '>' + res[0].UfName + '</option>');
+                }
+                else {
+                    $('select[name=BoRecFullName]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                    $.each(res, function (key, entry) {
+                        $('select[name=BoRecFullName]').append($('<option>', { value: entry.UfName, text: entry.UfName }));
+                    });
+                }
+                $('select[name=BoRecFullName]').selectpicker('refresh');
+            }
+        });
+    });
+
+    $('select[name=BoOptRecID]').change(function () {
+        var recid = $('select[name=BoOptRecID]').val();
+        var userid = $("#UserID").val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetUserFamilyByRec", "Employee")',
+            data: { recid: recid, userid: userid },
+            dataType: 'json',
+            success: function (res) {
+                if (recid == '1' || recid == '2' || recid == '3') {
+                    $('select[name=BoOptFullName]').empty().append('<option value=' + res[0].UfName + '>' + res[0].UfName + '</option>');
+                }
+                else {
+                    $('select[name=BoOptFullName]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                    $.each(res, function (key, entry) {
+                        $('select[name=BoOptFullName]').append($('<option>', { value: entry.UfName, text: entry.UfName }));
+                    });
+                }
+                $('select[name=BoOptFullName]').selectpicker('refresh');
+            }
+        });
     });
 </script>

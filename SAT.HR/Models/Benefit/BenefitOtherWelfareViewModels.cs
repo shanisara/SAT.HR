@@ -33,4 +33,10 @@ namespace SAT.HR.Models
 
         public List<BenefitOtherWelfareViewModel> ListOtherWelfare { get; set; }
     }
+
+    public class YearOtherWelfareViewModel
+    {
+        public int Year { get; set; }
+
+    }
 }

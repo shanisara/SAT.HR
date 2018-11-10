@@ -99,6 +99,16 @@ namespace SAT.HR.Helpers
         //    }
         //}
 
+        public static DateTime ConvertDateThai(DateTime? date)
+        {
+            DateTime dateThai = Convert.ToDateTime(date.Value.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("th-TH")));
+            return dateThai;
+        }
+        public static DateTime ConvertDateThai2Eng(DateTime? date)
+        {
+            DateTime dateEng = Convert.ToDateTime(date.Value.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("en-GB")));
+            return dateEng;
+        }
     }
 
     public class SysConfig

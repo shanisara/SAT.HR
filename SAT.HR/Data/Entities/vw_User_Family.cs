@@ -38,6 +38,8 @@ namespace SAT.HR.Data.Entities
         public string RecName { get; set; }
         public Nullable<int> MaritalStatusID { get; set; }
         public string MaritalName { get; set; }
+        public Nullable<decimal> ChildEducationAmout { get; set; }
+        public Nullable<decimal> ChildFundAmout { get; set; }
         public string Age { get; set; }
     }
 }

@@ -12,26 +12,27 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_Benefit_Cremation
+    public partial class vw_Benefit_Other_Welfare
     {
-        public int BcID { get; set; }
+        public int BoID { get; set; }
         public int UserID { get; set; }
-        public Nullable<int> BcYear { get; set; }
-        public Nullable<int> MID { get; set; }
-        public string BcMemberNo { get; set; }
-        public Nullable<System.DateTime> BcDate { get; set; }
-        public string BcBeneficiary1 { get; set; }
-        public string BcBeneficiary2 { get; set; }
-        public string BcBeneficiary3 { get; set; }
-        public string BcBeneficiary4 { get; set; }
-        public string BcBeneficiary5 { get; set; }
-        public string BcRecFullName { get; set; }
+        public Nullable<int> BoYear { get; set; }
+        public Nullable<int> BenTID { get; set; }
+        public string BenTName { get; set; }
+        public Nullable<int> BoRecID { get; set; }
+        public string BoRecName { get; set; }
+        public string BoRecFullName { get; set; }
+        public Nullable<int> BoOptRecID { get; set; }
+        public string BoOptRecName { get; set; }
+        public string BoOptFullName { get; set; }
+        public string BoTime { get; set; }
+        public Nullable<decimal> BoPer { get; set; }
+        public Nullable<decimal> BoAmout { get; set; }
+        public Nullable<System.DateTime> BoDate { get; set; }
+        public string BoRemark { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
-    
-        public virtual tb_Member_Type tb_Member_Type { get; set; }
-        public virtual tb_User tb_User { get; set; }
     }
 }

@@ -26,13 +26,13 @@
                                 <thead class="text-primary">
                                     <tr>
                                         <th style="width:5%;" class="text-center">#</th>
-                                        <th style="width:15%;" class="text-center">ปีบัญชี</th>
-                                        <th style="width:12%;" class="text-right">ระดับ</th>
-                                        <th style="width:12%;" class="text-right">ขั้น</th>
-                                        <th style="width:15%;" class="text-center">วันที่เริ่ม</th>
-                                        <th style="width:15%;" class="text-center">วันที่สิ้นสุด</th>
-                                        <th style="width:16%;" class="text-right">จำนวนเงิน</th>
-                                        <th style="width:10%;" class="text-center">ปฏิบัติการ</th>
+                                        <th style="width:8%;" class="text-left">ปีบัญชี</th>
+                                        <th style="width:20%;" class="text-right">ระดับ</th>
+                                        <th style="width:15%;" class="text-right">ขั้น</th>
+                                        <th style="width:17%;" class="text-center">วันที่เริ่ม</th>
+                                        <th style="width:12%;" class="text-center">วันที่สิ้นสุด</th>
+                                        <th style="width:13%;" class="text-right">จำนวนเงิน</th>
+                                        <th style="width:10%;" class="text-right">ปฏิบัติการ</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -98,6 +98,16 @@
                     { "data": "BhrAmout", "orderable": true },
                 ],
                 "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return '<div class="text-right">' + accounting.formatNumber(data, 2) + '</div>';
+                        }, "targets": [2,3,6]
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<div class="text-center">' + data + '</div>';
+                        }, "targets": [4,5]
+                    },
                     {
                         "render": function (data, type, row) {
                             var inner = '<div class="td-actions pull-right">' +
