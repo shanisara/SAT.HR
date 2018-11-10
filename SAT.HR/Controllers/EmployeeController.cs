@@ -548,10 +548,8 @@ namespace SAT.HR.Controllers
                     icon = SysConfig.ApplicationRoot + "Content/assets/img/home.png",
                     children = new PositionRateRepository().GetTree(id)
                 }
-            }
-            .ToList();
+            }.ToList();
 
-            //var items = new PositionRateRepository().GetTree(id);
             return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
@@ -611,13 +609,6 @@ namespace SAT.HR.Controllers
             var model = new LevelTransferRepository().GetByID(id);
             return View(model);
         }
-
-        //[HttpPost]
-        //public JsonResult LevelTransferDetailPage(int? id)
-        //{
-        //    var list = new LevelTransferRepository().GetDetail(id);
-        //    return Json(new { data = list }, JsonRequestBehavior.AllowGet);
-        //}
 
         public ActionResult LevelTransferDetailByID(int? id)
         {
@@ -681,13 +672,6 @@ namespace SAT.HR.Controllers
             ViewBag.MoveType = DropDownList.GetMoveType(model != null ? model.MtID : null);
             return View(model);
         }
-
-        //[HttpPost]
-        //public JsonResult PositionTransferDetail(int? id)
-        //{
-        //    var list = new PositionTransferRepository().GetDetail(id);
-        //    return Json(new { data = list }, JsonRequestBehavior.AllowGet);
-        //}
 
         public ActionResult PositionTransferDetailByID(int? id, int? type)
         {

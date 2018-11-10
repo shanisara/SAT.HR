@@ -26,10 +26,10 @@
                         <div class="row">
                             @Html.Label("ปีบัญชี: ", null, new { @class = "col-sm-3 col-form-label" })
                             <div class="col-sm-2">
-                                @Html.TextBox("ProvidentFundNo", null, new { @class = "form-control " })
+                                @Html.DropDownList("YearOtherWelfare", new SelectList((IEnumerable<SelectListItem>)ViewBag.YearOtherWelfare, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
                             </div>
                             @Html.Label("ประเภท: ", null, new { @class = "col-sm-2 col-form-label" })
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 @Html.DropDownList("BenefitType", new SelectList((IEnumerable<SelectListItem>)ViewBag.BenefitType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
                             </div>
                         </div>
@@ -40,13 +40,13 @@
                                 <thead class="text-primary">
                                     <tr>
                                         <th style="width:5%;" class="text-center">#</th>
-                                        <th style="width:10%;" class="text-center">ปีบัญชี</th>
-                                        <th style="width:15%;" class="text-center">ประเภท</th>
-                                        <th style="width:20%;" class="text-center">ขอรับสวัสดิการ</th>
-                                        <th style="width:20%;" class="text-center">ผู้รับผลประโยชน์</th>
-                                        <th style="width:10%;" class="text-center">วันที่</th>
-                                        <th style="width:10%;" class="text-center">จำนวนเงิน</th>
-                                        <th style="width:10%;" class="text-center">ปฏิบัติการ</th>
+                                        <th style="width:10%;" class="text-left">ปีบัญชี</th>
+                                        <th style="width:15%;" class="text-left">ประเภท</th>
+                                        <th style="width:20%;" class="text-left">ขอรับสวัสดิการ</th>
+                                        <th style="width:20%;" class="text-left">ผู้รับผลประโยชน์</th>
+                                        <th style="width:10%;" class="text-left">วันที่</th>
+                                        <th style="width:10%;" class="text-right">จำนวนเงิน</th>
+                                        <th style="width:10%;" class="text-right">ปฏิบัติการ</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -89,6 +89,8 @@
         table: null,
         initializeDataTable: function () {
             var id = $("#UserID").val();
+            var year = $('#YearOtherWelfare').val();
+            var type = $('#BenefitType').val();
 
             $table = $('.table-detail');
             dataTable.table = $table.DataTable({
@@ -101,19 +103,24 @@
                 language: { zeroRecords: "ไม่พบข้อมูล" },
                 dom: 't',
                 ajax: {
-                    url: '@Url.Action("OtherWelfare", "Benefit")/' + id,
+                    url: '@Url.Action("OtherWelfare", "Benefit")/' + id + "?year=" + year + "&type=" + type,
                     type: "POST",
                 },
                 "columns": [
                     { "data": "RowNumber", "orderable": false, "searchable": false },
-                    { "data": "BenYear", "orderable": true },
+                    { "data": "BoYear", "orderable": true },
                     { "data": "BenTName", "orderable": true },
-                    { "data": "BoRecName", "orderable": true },
-                    { "data": "BoOptRecName", "orderable": true },
+                    { "data": "BoRecFullName", "orderable": true },
+                    { "data": "BoOptFullName", "orderable": true },
                     { "data": "BoDateText", "orderable": true },
                     { "data": "BoAmout", "orderable": true },
                 ],
                 "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return '<div class="text-right">' + accounting.formatNumber(data, 2) + '</div>';
+                        }, "targets": [6]
+                    },
                     {
                         "render": function (data, type, row) {
                             var inner = '<div class="td-actions pull-right">' +
@@ -185,11 +192,14 @@
                 dataTable.initializeDataTable();
             else
                 dataTable.table.ajax.reload();
-        }
+        },
+        renewData: function () {
+            $('.table-detail').dataTable().fnDestroy();
+            dataTable.initializeDataTable();
+        },
     }
 
     dataTable.getData();
-
 
     $(".btn-add").click(function () {
         var userid = $("#UserID").val();
@@ -239,5 +249,15 @@
             });
         }
     });
+
+    $('#YearOtherWelfare').change(function () {
+        dataTable.renewData();
+    });
+
+    $('#BenefitType').change(function () {
+        dataTable.renewData();
+    });
+    
+    
 
 </script>

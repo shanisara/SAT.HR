@@ -31,7 +31,7 @@ namespace SAT.HR
                         "~/Content/assets/js/plugins/bootstrap-tagsinput.js",
                         "~/Content/assets/js/plugins/jasny-bootstrap.min.js",
                         "~/Content/assets/js/plugins/bootstrap-select.min.js",
-
+                        "~/Content/assets/js/jstree/jstree.js",
                         "~/Content/assets/js/plugins/nouislider.min.js",
                         "~/Content/assets/js/plugins/arrive.min.js",
                         "~/Content/assets/js/plugins/chartist.min.js",
@@ -42,7 +42,8 @@ namespace SAT.HR
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/assets/css/material-dashboard.css",
-                      "~/Content/assets/demo/demo.css",
+                      "~/Content/assets/js/jstree/themes/default/style.css",
+                      //"~/Content/assets/demo/demo.css",
                       "~/fonts/font-awesome/css/font-awesome.min.css",
                       "~/Content/assets/js/nprogress/nprogress.css",
                       "~/fonts/font-materialicons/fonts/material-icons.css",

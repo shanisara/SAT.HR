@@ -42,38 +42,6 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primar
     <Property Name="BID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="BName" Type="nvarchar" MaxLength="200" />
   </EntityType>
-  <EntityType Name="tb_Benefit_Child_Education">
-    <Key>
-      <PropertyRef Name="BceID" />
-    </Key>
-    <Property Name="BceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="UserID" Type="int" />
-    <Property Name="BceName" Type="nvarchar" MaxLength="200" />
-    <Property Name="BceIDCard" Type="numeric" Precision="18" Scale="0" />
-    <Property Name="BcdBirthDate" Type="date" />
-    <Property Name="BcdExpireDate" Type="date" />
-    <Property Name="BcdAmout" Type="decimal" Precision="18" Scale="2" />
-    <Property Name="CreateDate" Type="datetime" />
-    <Property Name="CreateBy" Type="int" />
-    <Property Name="ModifyDate" Type="datetime" />
-    <Property Name="ModifyBy" Type="int" />
-  </EntityType>
-  <EntityType Name="tb_Benefit_Child_Fund">
-    <Key>
-      <PropertyRef Name="BcfID" />
-    </Key>
-    <Property Name="BcfID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="UserID" Type="int" />
-    <Property Name="BcfName" Type="nvarchar" MaxLength="200" />
-    <Property Name="BcfIDCard" Type="numeric" Precision="18" Scale="0" />
-    <Property Name="BcfBirthDate" Type="date" />
-    <Property Name="BcfExpireDate" Type="date" />
-    <Property Name="BcfAmout" Type="decimal" Precision="18" Scale="2" />
-    <Property Name="CreateDate" Type="datetime" />
-    <Property Name="CreateBy" Type="int" />
-    <Property Name="ModifyDate" Type="datetime" />
-    <Property Name="ModifyBy" Type="int" />
-  </EntityType>
   <EntityType Name="tb_Benefit_Cremation">
     <Key>
       <PropertyRef Name="BcID" />
@@ -84,12 +52,13 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primar
     <Property Name="BcYear" Type="int" />
     <Property Name="MID" Type="int" />
     <Property Name="BcMemberNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="BcDate" Type="datetime" />
     <Property Name="BcBeneficiary1" Type="nvarchar" MaxLength="200" />
     <Property Name="BcBeneficiary2" Type="nvarchar" MaxLength="200" />
     <Property Name="BcBeneficiary3" Type="nvarchar" MaxLength="200" />
     <Property Name="BcBeneficiary4" Type="nvarchar" MaxLength="200" />
     <Property Name="BcBeneficiary5" Type="nvarchar" MaxLength="200" />
-    <Property Name="BcDate" Type="datetime" />
+    <Property Name="BcRecFullName" Type="nvarchar" MaxLength="200" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -145,8 +114,8 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primar
     <Property Name="BhrYear" Type="int" />
     <Property Name="RID" Type="int" />
     <Property Name="PID" Type="int" />
-    <Property Name="BhrLevel" Type="numeric" Precision="18" Scale="0" />
-    <Property Name="BhrStep" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="BhrLevel" Type="int" />
+    <Property Name="BhrStep" Type="int" />
     <Property Name="BhrStartDate" Type="date" />
     <Property Name="BhrEndDate" Type="date" />
     <Property Name="BhrAmout" Type="decimal" Precision="18" Scale="2" />
@@ -161,8 +130,9 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primar
       <PropertyRef Name="BlID" />
       <PropertyRef Name="UserID" />
     </Key>
-    <Property Name="BlID" Type="int" Nullable="false" />
+    <Property Name="BlID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="BlYear" Type="int" />
     <Property Name="BID" Type="int" />
     <Property Name="LtID" Type="int" />
     <Property Name="BlAccountNo" Type="numeric" Precision="18" Scale="0" />
@@ -188,6 +158,7 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primar
     <Property Name="BmYear" Type="int" />
     <Property Name="ClID" Type="int" />
     <Property Name="RecID" Type="int" />
+    <Property Name="RecFullName" Type="nvarchar" MaxLength="200" />
     <Property Name="BmCardID" Type="numeric" Precision="18" Scale="0" />
     <Property Name="BmDate" Type="date" />
     <Property Name="BmAmoutService" Type="decimal" Precision="18" Scale="2" />
@@ -226,7 +197,7 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primar
       <PropertyRef Name="BpID" />
       <PropertyRef Name="UserID" />
     </Key>
-    <Property Name="BpID" Type="int" Nullable="false" />
+    <Property Name="BpID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="BpYear" Type="int" />
     <Property Name="BpDateChangeFund" Type="date" />
@@ -250,9 +221,10 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primar
     <Property Name="BrID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="BrYear" Type="int" />
-    <Property Name="BrDate" Type="datetime" />
     <Property Name="RecID" Type="int" Nullable="false" />
+    <Property Name="RecFullName" Type="nvarchar" MaxLength="200" />
     <Property Name="BrAmout" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="BrDate" Type="datetime" />
     <Property Name="BrRemark" Type="nvarchar(max)" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
@@ -906,6 +878,8 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primar
     <Property Name="ModifyBy" Type="int" />
     <Property Name="UserTID" Type="int" />
     <Property Name="AgentPoAID" Type="int" />
+    <Property Name="ProvidentFundNo" Type="nvarchar" MaxLength="20" />
+    <Property Name="ProvidentFundDate" Type="date" />
   </EntityType>
   <EntityType Name="tb_User_Certificate">
     <Key>
@@ -977,6 +951,8 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primar
     <Property Name="UfStudyStatus" Type="bit" />
     <Property Name="RecID" Type="int" />
     <Property Name="MaritalStatusID" Type="int" />
+    <Property Name="ChildEducationAmout" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="ChildFundAmout" Type="decimal" Precision="18" Scale="2" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -1114,6 +1090,206 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Agent_Position' does not have a
     <Property Name="PoName" Type="nvarchar" MaxLength="200" />
     <Property Name="FullSectionName" Type="nvarchar" MaxLength="606" />
     <Property Name="PoID" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Benefit_Cremation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Benefit_Cremation">
+    <Key>
+      <PropertyRef Name="BcID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="BcID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="BcYear" Type="int" />
+    <Property Name="MID" Type="int" />
+    <Property Name="MName" Type="nvarchar" MaxLength="200" />
+    <Property Name="BcMemberNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="BcDate" Type="datetime" />
+    <Property Name="BcBeneficiary1" Type="nvarchar" MaxLength="200" />
+    <Property Name="BcBeneficiary2" Type="nvarchar" MaxLength="200" />
+    <Property Name="BcBeneficiary3" Type="nvarchar" MaxLength="200" />
+    <Property Name="BcBeneficiary4" Type="nvarchar" MaxLength="200" />
+    <Property Name="BcBeneficiary5" Type="nvarchar" MaxLength="200" />
+    <Property Name="BcRecFullName" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Benefit_Death_Replacement' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Benefit_Death_Replacement">
+    <Key>
+      <PropertyRef Name="BdID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="BdID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="BdYear" Type="int" />
+    <Property Name="RecID" Type="int" />
+    <Property Name="RecName" Type="nvarchar" MaxLength="50" />
+    <Property Name="BdFullName" Type="nvarchar" MaxLength="200" />
+    <Property Name="BdTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="BdPer" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BdAmout" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BdDate" Type="date" />
+    <Property Name="BdRemark" Type="nvarchar(max)" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Benefit_Death_Subsidy' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Benefit_Death_Subsidy">
+    <Key>
+      <PropertyRef Name="BdID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="BdID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="BdYear" Type="int" />
+    <Property Name="RecID" Type="int" />
+    <Property Name="RecName" Type="nvarchar" MaxLength="50" />
+    <Property Name="BdFullName" Type="nvarchar" MaxLength="200" />
+    <Property Name="BdTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="BdPer" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BdAmout" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BdDate" Type="date" />
+    <Property Name="BdRemark" Type="nvarchar(max)" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Benefit_Home_Rental' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Benefit_Home_Rental">
+    <Key>
+      <PropertyRef Name="BhrID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="BhrID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="BhrYear" Type="int" />
+    <Property Name="RID" Type="int" />
+    <Property Name="PName" Type="nvarchar" MaxLength="200" />
+    <Property Name="PID" Type="int" />
+    <Property Name="RName" Type="nvarchar" MaxLength="200" />
+    <Property Name="BhrLevel" Type="int" />
+    <Property Name="BhrStep" Type="int" />
+    <Property Name="BhrStartDate" Type="date" />
+    <Property Name="BhrEndDate" Type="date" />
+    <Property Name="BhrAmout" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BhrRemark" Type="nvarchar(max)" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Benefit_Loan' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Benefit_Loan">
+    <Key>
+      <PropertyRef Name="BlID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="BlID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="BlYear" Type="int" />
+    <Property Name="BID" Type="int" />
+    <Property Name="BName" Type="nvarchar" MaxLength="200" />
+    <Property Name="LtName" Type="nvarchar" MaxLength="200" />
+    <Property Name="LtID" Type="int" />
+    <Property Name="BlAccountNo" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="BlStartDate" Type="date" />
+    <Property Name="BlEndDate" Type="date" />
+    <Property Name="BlCloseDate" Type="date" />
+    <Property Name="BlPeriod" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="BlPeriodPay" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BISummaryAmout" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BlRemark" Type="nvarchar(max)" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Benefit_Medical' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Benefit_Medical">
+    <Key>
+      <PropertyRef Name="BmID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="BmID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="BmYear" Type="int" />
+    <Property Name="ClID" Type="int" />
+    <Property Name="ClName" Type="nvarchar" MaxLength="50" />
+    <Property Name="RecID" Type="int" />
+    <Property Name="RecFullName" Type="nvarchar" MaxLength="200" />
+    <Property Name="BmCardID" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="BmDate" Type="date" />
+    <Property Name="BmAmoutService" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BmAmoutCare" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BmRemark" Type="nvarchar(max)" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Benefit_Other_Welfare' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Benefit_Other_Welfare">
+    <Key>
+      <PropertyRef Name="BoID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="BoID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="BoYear" Type="int" />
+    <Property Name="BenTID" Type="int" />
+    <Property Name="BenTName" Type="nvarchar" MaxLength="200" />
+    <Property Name="BoRecID" Type="int" />
+    <Property Name="BoRecName" Type="nvarchar" MaxLength="50" />
+    <Property Name="BoRecFullName" Type="nvarchar" MaxLength="200" />
+    <Property Name="BoOptRecID" Type="int" />
+    <Property Name="BoOptRecName" Type="nvarchar" MaxLength="50" />
+    <Property Name="BoOptFullName" Type="nvarchar" MaxLength="200" />
+    <Property Name="BoTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="BoPer" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BoAmout" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BoDate" Type="date" />
+    <Property Name="BoRemark" Type="nvarchar(max)" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Benefit_Provident_Fund' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Benefit_Provident_Fund">
+    <Key>
+      <PropertyRef Name="BpID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="BpID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="BpYear" Type="int" />
+    <Property Name="BpDateChangeFund" Type="date" />
+    <Property Name="BpAccumFundCuID" Type="int" />
+    <Property Name="BpAccumFundCuName" Type="nvarchar" MaxLength="50" />
+    <Property Name="BpAssoFundCuID" Type="int" />
+    <Property Name="BpAssoFundCuName" Type="nvarchar" MaxLength="50" />
+    <Property Name="BpBeneficiary1" Type="nvarchar" MaxLength="200" />
+    <Property Name="BpBeneficiary2" Type="nvarchar" MaxLength="200" />
+    <Property Name="BpBeneficiary3" Type="nvarchar" MaxLength="200" />
+    <Property Name="BpBeneficiary4" Type="nvarchar" MaxLength="200" />
+    <Property Name="BpBeneficiary5" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Capability' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1312,6 +1488,16 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Man_Power_Head' does not h
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Level' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Level">
+          <Property Name="Level" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Step' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Step">
+          <Property Name="Step" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Section">
@@ -1535,6 +1721,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Family' does not have a pr
     <Property Name="RecName" Type="nvarchar" MaxLength="50" />
     <Property Name="MaritalStatusID" Type="int" />
     <Property Name="MaritalName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ChildEducationAmout" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="ChildFundAmout" Type="decimal" Precision="18" Scale="2" />
     <Property Name="Age" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--Errors Found During Generation:
@@ -1714,30 +1902,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
-  <Association Name="FK_tb_Benefit_Child_Education_tb_User">
-    <End Role="tb_User" Type="Self.tb_User" Multiplicity="0..1" />
-    <End Role="tb_Benefit_Child_Education" Type="Self.tb_Benefit_Child_Education" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_User">
-        <PropertyRef Name="UserID" />
-      </Principal>
-      <Dependent Role="tb_Benefit_Child_Education">
-        <PropertyRef Name="UserID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_Benefit_Child_Fund_tb_User">
-    <End Role="tb_User" Type="Self.tb_User" Multiplicity="0..1" />
-    <End Role="tb_Benefit_Child_Fund" Type="Self.tb_Benefit_Child_Fund" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_User">
-        <PropertyRef Name="UserID" />
-      </Principal>
-      <Dependent Role="tb_Benefit_Child_Fund">
-        <PropertyRef Name="UserID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_tb_Benefit_Cremation_tb_Member_Type">
     <End Role="tb_Member_Type" Type="Self.tb_Member_Type" Multiplicity="0..1" />
     <End Role="tb_Benefit_Cremation" Type="Self.tb_Benefit_Cremation" Multiplicity="*" />
@@ -2637,8 +2801,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_Action_Type" EntityType="Self.tb_Action_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Agent_Type" EntityType="Self.tb_Agent_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Bank_Loan" EntityType="Self.tb_Bank_Loan" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="tb_Benefit_Child_Education" EntityType="Self.tb_Benefit_Child_Education" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="tb_Benefit_Child_Fund" EntityType="Self.tb_Benefit_Child_Fund" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Benefit_Cremation" EntityType="Self.tb_Benefit_Cremation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Benefit_Death_Replacement" EntityType="Self.tb_Benefit_Death_Replacement" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Benefit_Death_Subsidy" EntityType="Self.tb_Benefit_Death_Subsidy" Schema="dbo" store:Type="Tables" />
@@ -2721,6 +2883,174 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Agent_Position].[FullSectionName] AS [FullSectionName], 
     [vw_Agent_Position].[PoID] AS [PoID]
     FROM [dbo].[vw_Agent_Position] AS [vw_Agent_Position]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Benefit_Cremation" EntityType="Self.vw_Benefit_Cremation" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Benefit_Cremation].[BcID] AS [BcID], 
+    [vw_Benefit_Cremation].[UserID] AS [UserID], 
+    [vw_Benefit_Cremation].[BcYear] AS [BcYear], 
+    [vw_Benefit_Cremation].[MID] AS [MID], 
+    [vw_Benefit_Cremation].[MName] AS [MName], 
+    [vw_Benefit_Cremation].[BcMemberNo] AS [BcMemberNo], 
+    [vw_Benefit_Cremation].[BcDate] AS [BcDate], 
+    [vw_Benefit_Cremation].[BcBeneficiary1] AS [BcBeneficiary1], 
+    [vw_Benefit_Cremation].[BcBeneficiary2] AS [BcBeneficiary2], 
+    [vw_Benefit_Cremation].[BcBeneficiary3] AS [BcBeneficiary3], 
+    [vw_Benefit_Cremation].[BcBeneficiary4] AS [BcBeneficiary4], 
+    [vw_Benefit_Cremation].[BcBeneficiary5] AS [BcBeneficiary5], 
+    [vw_Benefit_Cremation].[BcRecFullName] AS [BcRecFullName], 
+    [vw_Benefit_Cremation].[CreateDate] AS [CreateDate], 
+    [vw_Benefit_Cremation].[CreateBy] AS [CreateBy], 
+    [vw_Benefit_Cremation].[ModifyDate] AS [ModifyDate], 
+    [vw_Benefit_Cremation].[ModifyBy] AS [ModifyBy]
+    FROM [dbo].[vw_Benefit_Cremation] AS [vw_Benefit_Cremation]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Benefit_Death_Replacement" EntityType="Self.vw_Benefit_Death_Replacement" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Benefit_Death_Replacement].[BdID] AS [BdID], 
+    [vw_Benefit_Death_Replacement].[UserID] AS [UserID], 
+    [vw_Benefit_Death_Replacement].[BdYear] AS [BdYear], 
+    [vw_Benefit_Death_Replacement].[RecID] AS [RecID], 
+    [vw_Benefit_Death_Replacement].[RecName] AS [RecName], 
+    [vw_Benefit_Death_Replacement].[BdFullName] AS [BdFullName], 
+    [vw_Benefit_Death_Replacement].[BdTime] AS [BdTime], 
+    [vw_Benefit_Death_Replacement].[BdPer] AS [BdPer], 
+    [vw_Benefit_Death_Replacement].[BdAmout] AS [BdAmout], 
+    [vw_Benefit_Death_Replacement].[BdDate] AS [BdDate], 
+    [vw_Benefit_Death_Replacement].[BdRemark] AS [BdRemark], 
+    [vw_Benefit_Death_Replacement].[CreateDate] AS [CreateDate], 
+    [vw_Benefit_Death_Replacement].[CreateBy] AS [CreateBy], 
+    [vw_Benefit_Death_Replacement].[ModifyDate] AS [ModifyDate], 
+    [vw_Benefit_Death_Replacement].[ModifyBy] AS [ModifyBy]
+    FROM [dbo].[vw_Benefit_Death_Replacement] AS [vw_Benefit_Death_Replacement]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Benefit_Death_Subsidy" EntityType="Self.vw_Benefit_Death_Subsidy" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Benefit_Death_Subsidy].[BdID] AS [BdID], 
+    [vw_Benefit_Death_Subsidy].[UserID] AS [UserID], 
+    [vw_Benefit_Death_Subsidy].[BdYear] AS [BdYear], 
+    [vw_Benefit_Death_Subsidy].[RecID] AS [RecID], 
+    [vw_Benefit_Death_Subsidy].[RecName] AS [RecName], 
+    [vw_Benefit_Death_Subsidy].[BdFullName] AS [BdFullName], 
+    [vw_Benefit_Death_Subsidy].[BdTime] AS [BdTime], 
+    [vw_Benefit_Death_Subsidy].[BdPer] AS [BdPer], 
+    [vw_Benefit_Death_Subsidy].[BdAmout] AS [BdAmout], 
+    [vw_Benefit_Death_Subsidy].[BdDate] AS [BdDate], 
+    [vw_Benefit_Death_Subsidy].[BdRemark] AS [BdRemark], 
+    [vw_Benefit_Death_Subsidy].[CreateDate] AS [CreateDate], 
+    [vw_Benefit_Death_Subsidy].[CreateBy] AS [CreateBy], 
+    [vw_Benefit_Death_Subsidy].[ModifyDate] AS [ModifyDate], 
+    [vw_Benefit_Death_Subsidy].[ModifyBy] AS [ModifyBy]
+    FROM [dbo].[vw_Benefit_Death_Subsidy] AS [vw_Benefit_Death_Subsidy]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Benefit_Home_Rental" EntityType="Self.vw_Benefit_Home_Rental" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Benefit_Home_Rental].[BhrID] AS [BhrID], 
+    [vw_Benefit_Home_Rental].[UserID] AS [UserID], 
+    [vw_Benefit_Home_Rental].[BhrYear] AS [BhrYear], 
+    [vw_Benefit_Home_Rental].[RID] AS [RID], 
+    [vw_Benefit_Home_Rental].[PName] AS [PName], 
+    [vw_Benefit_Home_Rental].[PID] AS [PID], 
+    [vw_Benefit_Home_Rental].[RName] AS [RName], 
+    [vw_Benefit_Home_Rental].[BhrLevel] AS [BhrLevel], 
+    [vw_Benefit_Home_Rental].[BhrStep] AS [BhrStep], 
+    [vw_Benefit_Home_Rental].[BhrStartDate] AS [BhrStartDate], 
+    [vw_Benefit_Home_Rental].[BhrEndDate] AS [BhrEndDate], 
+    [vw_Benefit_Home_Rental].[BhrAmout] AS [BhrAmout], 
+    [vw_Benefit_Home_Rental].[BhrRemark] AS [BhrRemark], 
+    [vw_Benefit_Home_Rental].[CreateDate] AS [CreateDate], 
+    [vw_Benefit_Home_Rental].[CreateBy] AS [CreateBy], 
+    [vw_Benefit_Home_Rental].[ModifyDate] AS [ModifyDate], 
+    [vw_Benefit_Home_Rental].[ModifyBy] AS [ModifyBy]
+    FROM [dbo].[vw_Benefit_Home_Rental] AS [vw_Benefit_Home_Rental]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Benefit_Loan" EntityType="Self.vw_Benefit_Loan" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Benefit_Loan].[BlID] AS [BlID], 
+    [vw_Benefit_Loan].[UserID] AS [UserID], 
+    [vw_Benefit_Loan].[BlYear] AS [BlYear], 
+    [vw_Benefit_Loan].[BID] AS [BID], 
+    [vw_Benefit_Loan].[BName] AS [BName], 
+    [vw_Benefit_Loan].[LtName] AS [LtName], 
+    [vw_Benefit_Loan].[LtID] AS [LtID], 
+    [vw_Benefit_Loan].[BlAccountNo] AS [BlAccountNo], 
+    [vw_Benefit_Loan].[BlStartDate] AS [BlStartDate], 
+    [vw_Benefit_Loan].[BlEndDate] AS [BlEndDate], 
+    [vw_Benefit_Loan].[BlCloseDate] AS [BlCloseDate], 
+    [vw_Benefit_Loan].[BlPeriod] AS [BlPeriod], 
+    [vw_Benefit_Loan].[BlPeriodPay] AS [BlPeriodPay], 
+    [vw_Benefit_Loan].[BISummaryAmout] AS [BISummaryAmout], 
+    [vw_Benefit_Loan].[BlRemark] AS [BlRemark], 
+    [vw_Benefit_Loan].[CreateDate] AS [CreateDate], 
+    [vw_Benefit_Loan].[CreateBy] AS [CreateBy], 
+    [vw_Benefit_Loan].[ModifyDate] AS [ModifyDate], 
+    [vw_Benefit_Loan].[ModifyBy] AS [ModifyBy]
+    FROM [dbo].[vw_Benefit_Loan] AS [vw_Benefit_Loan]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Benefit_Medical" EntityType="Self.vw_Benefit_Medical" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Benefit_Medical].[BmID] AS [BmID], 
+    [vw_Benefit_Medical].[UserID] AS [UserID], 
+    [vw_Benefit_Medical].[BmYear] AS [BmYear], 
+    [vw_Benefit_Medical].[ClID] AS [ClID], 
+    [vw_Benefit_Medical].[ClName] AS [ClName], 
+    [vw_Benefit_Medical].[RecID] AS [RecID], 
+    [vw_Benefit_Medical].[RecFullName] AS [RecFullName], 
+    [vw_Benefit_Medical].[BmCardID] AS [BmCardID], 
+    [vw_Benefit_Medical].[BmDate] AS [BmDate], 
+    [vw_Benefit_Medical].[BmAmoutService] AS [BmAmoutService], 
+    [vw_Benefit_Medical].[BmAmoutCare] AS [BmAmoutCare], 
+    [vw_Benefit_Medical].[BmRemark] AS [BmRemark], 
+    [vw_Benefit_Medical].[CreateDate] AS [CreateDate], 
+    [vw_Benefit_Medical].[CreateBy] AS [CreateBy], 
+    [vw_Benefit_Medical].[ModifyDate] AS [ModifyDate], 
+    [vw_Benefit_Medical].[ModifyBy] AS [ModifyBy]
+    FROM [dbo].[vw_Benefit_Medical] AS [vw_Benefit_Medical]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Benefit_Other_Welfare" EntityType="Self.vw_Benefit_Other_Welfare" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Benefit_Other_Welfare].[BoID] AS [BoID], 
+    [vw_Benefit_Other_Welfare].[UserID] AS [UserID], 
+    [vw_Benefit_Other_Welfare].[BoYear] AS [BoYear], 
+    [vw_Benefit_Other_Welfare].[BenTID] AS [BenTID], 
+    [vw_Benefit_Other_Welfare].[BenTName] AS [BenTName], 
+    [vw_Benefit_Other_Welfare].[BoRecID] AS [BoRecID], 
+    [vw_Benefit_Other_Welfare].[BoRecName] AS [BoRecName], 
+    [vw_Benefit_Other_Welfare].[BoRecFullName] AS [BoRecFullName], 
+    [vw_Benefit_Other_Welfare].[BoOptRecID] AS [BoOptRecID], 
+    [vw_Benefit_Other_Welfare].[BoOptRecName] AS [BoOptRecName], 
+    [vw_Benefit_Other_Welfare].[BoOptFullName] AS [BoOptFullName], 
+    [vw_Benefit_Other_Welfare].[BoTime] AS [BoTime], 
+    [vw_Benefit_Other_Welfare].[BoPer] AS [BoPer], 
+    [vw_Benefit_Other_Welfare].[BoAmout] AS [BoAmout], 
+    [vw_Benefit_Other_Welfare].[BoDate] AS [BoDate], 
+    [vw_Benefit_Other_Welfare].[BoRemark] AS [BoRemark], 
+    [vw_Benefit_Other_Welfare].[CreateDate] AS [CreateDate], 
+    [vw_Benefit_Other_Welfare].[CreateBy] AS [CreateBy], 
+    [vw_Benefit_Other_Welfare].[ModifyDate] AS [ModifyDate], 
+    [vw_Benefit_Other_Welfare].[ModifyBy] AS [ModifyBy]
+    FROM [dbo].[vw_Benefit_Other_Welfare] AS [vw_Benefit_Other_Welfare]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Benefit_Provident_Fund" EntityType="Self.vw_Benefit_Provident_Fund" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Benefit_Provident_Fund].[BpID] AS [BpID], 
+    [vw_Benefit_Provident_Fund].[UserID] AS [UserID], 
+    [vw_Benefit_Provident_Fund].[BpYear] AS [BpYear], 
+    [vw_Benefit_Provident_Fund].[BpDateChangeFund] AS [BpDateChangeFund], 
+    [vw_Benefit_Provident_Fund].[BpAccumFundCuID] AS [BpAccumFundCuID], 
+    [vw_Benefit_Provident_Fund].[BpAccumFundCuName] AS [BpAccumFundCuName], 
+    [vw_Benefit_Provident_Fund].[BpAssoFundCuID] AS [BpAssoFundCuID], 
+    [vw_Benefit_Provident_Fund].[BpAssoFundCuName] AS [BpAssoFundCuName], 
+    [vw_Benefit_Provident_Fund].[BpBeneficiary1] AS [BpBeneficiary1], 
+    [vw_Benefit_Provident_Fund].[BpBeneficiary2] AS [BpBeneficiary2], 
+    [vw_Benefit_Provident_Fund].[BpBeneficiary3] AS [BpBeneficiary3], 
+    [vw_Benefit_Provident_Fund].[BpBeneficiary4] AS [BpBeneficiary4], 
+    [vw_Benefit_Provident_Fund].[BpBeneficiary5] AS [BpBeneficiary5], 
+    [vw_Benefit_Provident_Fund].[CreateDate] AS [CreateDate], 
+    [vw_Benefit_Provident_Fund].[CreateBy] AS [CreateBy], 
+    [vw_Benefit_Provident_Fund].[ModifyDate] AS [ModifyDate], 
+    [vw_Benefit_Provident_Fund].[ModifyBy] AS [ModifyBy]
+    FROM [dbo].[vw_Benefit_Provident_Fund] AS [vw_Benefit_Provident_Fund]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vw_Capability" EntityType="Self.vw_Capability" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
@@ -3083,6 +3413,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_User_Family].[RecName] AS [RecName], 
     [vw_User_Family].[MaritalStatusID] AS [MaritalStatusID], 
     [vw_User_Family].[MaritalName] AS [MaritalName], 
+    [vw_User_Family].[ChildEducationAmout] AS [ChildEducationAmout], 
+    [vw_User_Family].[ChildFundAmout] AS [ChildFundAmout], 
     [vw_User_Family].[Age] AS [Age]
     FROM [dbo].[vw_User_Family] AS [vw_User_Family]</DefiningQuery>
     </EntitySet>
@@ -3241,14 +3573,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_User_Training].[ModifyBy] AS [ModifyBy]
     FROM [dbo].[vw_User_Training] AS [vw_User_Training]</DefiningQuery>
     </EntitySet>
-    <AssociationSet Name="FK_tb_Benefit_Child_Education_tb_User" Association="Self.FK_tb_Benefit_Child_Education_tb_User">
-      <End Role="tb_User" EntitySet="tb_User" />
-      <End Role="tb_Benefit_Child_Education" EntitySet="tb_Benefit_Child_Education" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Benefit_Child_Fund_tb_User" Association="Self.FK_tb_Benefit_Child_Fund_tb_User">
-      <End Role="tb_User" EntitySet="tb_User" />
-      <End Role="tb_Benefit_Child_Fund" EntitySet="tb_Benefit_Child_Fund" />
-    </AssociationSet>
     <AssociationSet Name="FK_tb_Benefit_Cremation_tb_Member_Type" Association="Self.FK_tb_Benefit_Cremation_tb_Member_Type">
       <End Role="tb_Member_Type" EntitySet="tb_Member_Type" />
       <End Role="tb_Benefit_Cremation" EntitySet="tb_Benefit_Cremation" />

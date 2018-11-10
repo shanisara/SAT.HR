@@ -255,13 +255,11 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        //public JsonResult PositionBySec(int divid, int depid, int secid)
-        //{
-        //    var result = DropDownList.GetPosition(divid, depid, secid, null, true);
-        //    return Json(result, JsonRequestBehavior.AllowGet);
-        //}
-
-        
+        public JsonResult PositionByType(int type,int poid)
+        {
+            var result = DropDownList.GetPosition(poid, type, true);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
 

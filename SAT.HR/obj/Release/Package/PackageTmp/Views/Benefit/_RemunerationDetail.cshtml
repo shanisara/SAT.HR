@@ -11,31 +11,31 @@
             @Html.Label("ปีบัญชี", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-3">
                 <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.BrYear, new { @class = "form-control", type = "number" })
+                    @Html.TextBoxFor(m => m.BrYear, new { @class = "form-control", type = "number", required = "true" })
                 </div>
             </div>
             @Html.Label("วันที่", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-5">
                 <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.BrDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
+                    @Html.TextBoxFor(m => m.BrDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
                 </div>
             </div>
         </div>
         <div class="row">
             @Html.Label("ผู้รับ", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-3">
-                @Html.DropDownListFor(x => x.RecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.RecieveType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+                @Html.DropDownListFor(x => x.RecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.RecieveType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
             </div>
             @Html.Label("ชื่อ-สกุล", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-5">
-                @Html.DropDownListFor(x => x.RecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.RecieveType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+                @Html.DropDownListFor(x => x.RecFullName, new SelectList((IEnumerable<SelectListItem>)ViewBag.RecFullName, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
             </div>
         </div>
         <div class="row m-t-5">
             @Html.Label("จำนวนเงิน", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-10">
                 <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.BrAmout, new { @class = "form-control", type = "number" })
+                    @Html.TextBoxFor(m => m.BrAmout, new { @class = "form-control", type = "number", required = "true" })
                 </div>
             </div>
         </div>
@@ -50,6 +50,12 @@
     </div>
 }
 <script>
+
+    if ('@Model.RecFullName' != '') {
+        $('select[name=RecFullName]').val('@Model.RecFullName');
+        $('select[name=RecFullName]').selectpicker('refresh');
+    }
+
     $('.selectpicker').selectpicker();
 
     $('.datepicker').datetimepicker({
@@ -73,20 +79,21 @@
         $.ajax({
             type: 'POST',
             url: '@Url.Action("GetUserFamilyByRec", "Employee")',
-            data: { userid: userid, recid: recid },
+            data: { recid: recid, userid: userid },
             dataType: 'json',
             success: function (res) {
-                debugger
-                if (recid != '1')
-                    $('select[name=SecID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
-
-                $.each(res, function (key, entry) {
-                    $('select[name=SecID]').append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
-                });
-                $('select[name=SecID]').selectpicker('refresh');
+                if (recid == '1' || recid == '2' || recid == '3') {
+                    $('select[name=RecFullName]').empty().append('<option value=' + res[0].UfName + '>' + res[0].UfName + '</option>');
+                }
+                else {
+                    $('select[name=RecFullName]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                    $.each(res, function (key, entry) {
+                        $('select[name=RecFullName]').append($('<option>', { value: entry.UfName, text: entry.UfName }));
+                    });
+                }
+                $('select[name=RecFullName]').selectpicker('refresh');
             }
         });
-
     });
 
 </script>

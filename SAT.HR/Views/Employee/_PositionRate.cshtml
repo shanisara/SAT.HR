@@ -5,7 +5,6 @@
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.MpID)
-    @Html.HiddenFor(m => m.TypeID, new { Value = @ViewBag.TypeID })
     @Html.HiddenFor(m => m.UserID)
     
 
@@ -67,11 +66,12 @@
     $('.selectpicker').selectpicker();
 
     $('select[name=DivID]').change(function () {
-        var type = $("#TypeID").val();
+        debugger;
+        var type = $('#usertype').val();
         var divid = $('select[name=DivID]').val();
         $.ajax({
             type: 'POST',
-            url: '@Url.Action("GeDepartmentManPower", "Master")',
+            url: '@Url.Action("DepartmentByDiv", "Master")', //GeDepartmentManPower
             data: { divid: divid, type: type },
             dataType: 'json',
             success: function (res) {
@@ -83,19 +83,20 @@
 
                 $('select[name=SecID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
                 $('select[name=SecID]').selectpicker('refresh');
-                $('select[name=PoID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
-                $('select[name=PoID]').selectpicker('refresh');
+
+                //$('select[name=PoID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                //$('select[name=PoID]').selectpicker('refresh');
             }
         });
     });
 
     $('select[name=DepID]').change(function () {
-        var type = $("#TypeID").val();
+        var type = $('#usertype').val();
         var divid = $('select[name=DivID]').val();
         var depid = $('select[name=DepID]').val();
         $.ajax({
             type: 'POST',
-            url: '@Url.Action("GetSectionManPower", "Master")',
+            url: '@Url.Action("SectionByDep", "Master")', //GetSectionManPower
             data: { divid: divid, depid: depid, type: type },
             dataType: 'json',
             success: function (res) {
@@ -105,14 +106,14 @@
                 });
                 $('select[name=SecID]').selectpicker('refresh');
 
-                $('select[name=PoID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
-                $('select[name=PoID]').selectpicker('refresh');
+                //$('select[name=PoID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                //$('select[name=PoID]').selectpicker('refresh');
             }
         });
     });
 
-    $('select[name=SecID]').change(function () {
-        var type = $("#TypeID").val();
+    @*$('select[name=SecID]').change(function () {
+        var type = $('#usertype').val();
         var divid = $('select[name=DivID]').val();
         var depid = $('select[name=DepID]').val();
         var secid = $('select[name=SecID]').val();
@@ -129,7 +130,7 @@
                 $('select[name=PoID]').selectpicker('refresh');
             }
         });
-    });
+    });*@
 
 
 

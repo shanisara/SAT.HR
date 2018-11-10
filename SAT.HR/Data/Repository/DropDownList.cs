@@ -104,7 +104,7 @@ namespace SAT.HR.Data.Repository
             {
                 SelectListItem select = new SelectListItem();
                 select.Value = item.PoID.ToString();
-                select.Text = " (" + item.PoCode +") "+ item.PoName;
+                select.Text = " (" + item.PoCode.ToString().PadLeft(3, '0') + ") "+ item.PoName;
                 select.Selected = defaultValue.HasValue ? (item.PoID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
