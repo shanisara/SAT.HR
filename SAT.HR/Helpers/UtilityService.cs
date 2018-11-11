@@ -201,6 +201,14 @@ namespace SAT.HR.Helpers
             }
         }
 
+        public static string PathUploadCourse
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathUploadCourse");
+            }
+        }
+
         public static string PathDownloadUserAvatar
         {
             get
@@ -238,6 +246,14 @@ namespace SAT.HR.Helpers
             get
             {
                 return SysConfigRepository.GetKeyValue("PathDownloadUserPosition");
+            }
+        }
+
+        public static string PathDownloadCourse
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathDownloadCourse");
             }
         }
 

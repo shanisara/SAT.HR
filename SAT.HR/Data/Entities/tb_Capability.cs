@@ -27,5 +27,6 @@ namespace SAT.HR.Data.Entities
     
         public virtual tb_Capability_Type tb_Capability_Type { get; set; }
         public virtual tb_Menu tb_Menu { get; set; }
+        public virtual tb_Capability_Group tb_Capability_Group { get; set; }
     }
 }

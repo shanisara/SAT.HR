@@ -104,7 +104,6 @@
 <!--  End Modal -->
 
 
-
 @section Scripts {
     <script>
         $(document).ready(function () {
@@ -278,16 +277,11 @@
             dataTable.getData();
 
             $("#btnSaveDetail").click(function () {
-
-                debugger;
-
                 var postData = [];
-                var $tableList = $('#datatables tbody tr');
 
+                var $tableList = $('#datatables tbody tr');
                 if ($tableList.length > 0) {
                     var $table = $('.roll-bind tr');
-                    //console.log($table.find('tr').length)
-                    debugger;
                     $table.find('tr').each(function (i) {
                         if ($table.find('td').eq(0).text() != 'This field required.') {
                             var capname = $table.find('td').eq(2).text();
@@ -295,22 +289,20 @@
                             var score2 = $table.find('td').eq(4).text();
                             var capdesc = $table.find('td').eq(5).text();
                             var capid = $table.find("#cap_id").val();
-
                             postData.push({ "CapDName": capname, "Score1": score1, "Score2": score2, "CapDDesc": capdesc, "CapDID": capid });
                         }
                     });
                 }
-                    var $tredit = $('.roll-edit tr');
-                    
-                    if ($tredit.length > 0) {
-                        var capname = $("#cap_name").text();
-                        var score1 = $("#score1").text();
-                        var score2 = $('#score2').text
-                        var capdesc = $('#cap_desc').text();
-                        var capid = $('#cap_id').val();
 
-                        postData.push({ "CapDName": capname, "Score1": score1, "Score2": score2, "CapDDesc": capdesc, "CapDID": capid });
-                    }
+                var $tredit = $('.roll-edit tr');
+                if ($tredit.length > 0) {
+                    var capname = $("#cap_name").text();
+                    var score1 = $("#score1").text();
+                    var score2 = $('#score2').text
+                    var capdesc = $('#cap_desc').text();
+                    var capid = $('#cap_id').val();
+                    postData.push({ "CapDName": capname, "Score1": score1, "Score2": score2, "CapDDesc": capdesc, "CapDID": capid });
+                }
                 
 
                 $.ajax({

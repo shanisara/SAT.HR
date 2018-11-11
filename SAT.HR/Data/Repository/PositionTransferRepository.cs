@@ -64,8 +64,8 @@ namespace SAT.HR.Data.Repository
                         model.MtName = item.MtName;
                         model.MopBookCmd = item.MopBookCmd;
                         model.MopTotal = item.MopTotal;
-                        model.MopDateCmdText = (item.MopDateCmd.HasValue) ? item.MopDateCmd.Value.ToString("dd/MM/yyy") : string.Empty;
-                        model.CreateDateText = item.CreateDate.Value.ToString("dd/MM/yyy");
+                        model.MopDateCmdText = (item.MopDateCmd.HasValue) ? item.MopDateCmd.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        model.CreateDateText = item.CreateDate.Value.ToString("dd/MM/yyyy");
                         model.MopStatusName = (item.MopStatus.HasValue) ? "ยืนยันแล้ว" : "";
                         model.recordsTotal = recordsTotal;
                         model.recordsFiltered = recordsFiltered;

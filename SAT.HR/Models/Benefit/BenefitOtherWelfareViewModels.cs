@@ -37,6 +37,5 @@ namespace SAT.HR.Models
     public class YearOtherWelfareViewModel
     {
         public int Year { get; set; }
-
     }
 }

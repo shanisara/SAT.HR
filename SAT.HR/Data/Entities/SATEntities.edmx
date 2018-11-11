@@ -5,14 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="SAT.HR.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="AALocation">
-          <Property Name="province" Type="nvarchar" MaxLength="255" />
-          <Property Name="district" Type="nvarchar" MaxLength="255" />
-          <Property Name="subdistrict" Type="nvarchar" MaxLength="255" />
-          <Property Name="zipcode" Type="float" />
-        </EntityType>-->
         <EntityType Name="tb_Accumulative_Fund">
           <Key>
             <PropertyRef Name="CuID" />
@@ -319,6 +311,36 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primar
           </Key>
           <Property Name="CountryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CountryName" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="tb_Course">
+          <Key>
+            <PropertyRef Name="CourseID" />
+          </Key>
+          <Property Name="CourseID" Type="int" Nullable="false" />
+          <Property Name="CourseNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="CourseTID" Type="int" />
+          <Property Name="CourseName" Type="nvarchar" MaxLength="200" />
+          <Property Name="DateFrom" Type="date" />
+          <Property Name="EndDate" Type="date" />
+          <Property Name="DateTo" Type="int" />
+          <Property Name="CountryID" Type="int" />
+          <Property Name="TrainerName" Type="nvarchar" MaxLength="200" />
+          <Property Name="Location" Type="nvarchar" MaxLength="200" />
+          <Property Name="Certificate" Type="nvarchar" MaxLength="200" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+          <Property Name="PathFile" Type="nvarchar" MaxLength="500" />
+          <Property Name="Status" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="int" />
+        </EntityType>
+        <EntityType Name="tb_Course_Type">
+          <Key>
+            <PropertyRef Name="CourseTID" />
+          </Key>
+          <Property Name="CourseTID" Type="int" Nullable="false" />
+          <Property Name="CourseTName" Type="nvarchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="tb_Degree">
           <Key>
@@ -803,6 +825,18 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primar
           <Property Name="TiShortName" Type="nvarchar" MaxLength="100" />
           <Property Name="TiStatus" Type="bit" />
           <Property Name="SexID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="int" />
+        </EntityType>
+        <EntityType Name="tb_Training">
+          <Key>
+            <PropertyRef Name="CourseID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="CourseID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="int" />
           <Property Name="ModifyDate" Type="datetime" />
@@ -1313,6 +1347,36 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Capability' does not have a pri
           <Property Name="CapGTName" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Course' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_Course">
+          <Key>
+            <PropertyRef Name="CourseID" />
+            <PropertyRef Name="StatusName" />
+          </Key>
+          <Property Name="CourseID" Type="int" Nullable="false" />
+          <Property Name="CourseNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="CourseTID" Type="int" />
+          <Property Name="CourseTName" Type="nvarchar" MaxLength="10" />
+          <Property Name="CourseName" Type="nvarchar" MaxLength="200" />
+          <Property Name="DateFrom" Type="date" />
+          <Property Name="EndDate" Type="date" />
+          <Property Name="DateTo" Type="int" />
+          <Property Name="CountryID" Type="int" />
+          <Property Name="CountryName" Type="nvarchar" MaxLength="200" />
+          <Property Name="TrainerName" Type="nvarchar" MaxLength="200" />
+          <Property Name="Location" Type="nvarchar" MaxLength="200" />
+          <Property Name="Certificate" Type="nvarchar" MaxLength="200" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+          <Property Name="PathFile" Type="nvarchar" MaxLength="500" />
+          <Property Name="Status" Type="int" />
+          <Property Name="StatusName" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="Total" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Department' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Department">
           <Key>
@@ -1494,16 +1558,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Man_Power_Head' does not h
           <Property Name="ModifyBy" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Level' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vw_Salary_Level">
-          <Property Name="Level" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>-->
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Step' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vw_Salary_Step">
-          <Property Name="Step" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>-->
-        <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Section">
           <Key>
@@ -1531,6 +1585,22 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
           <Property Name="TiStatus" Type="bit" />
           <Property Name="SexID" Type="int" />
           <Property Name="SexName" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Trainning' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_Trainning">
+          <Key>
+            <PropertyRef Name="CourseID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="CourseID" Type="int" Nullable="false" />
+          <Property Name="CourseNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="CourseName" Type="nvarchar" MaxLength="200" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="401" />
+          <Property Name="PoID" Type="int" />
+          <Property Name="PoCode" Type="nvarchar" MaxLength="200" />
+          <Property Name="PoName" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2195,6 +2265,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tb_Capability_tb_Capability_Group">
+          <End Role="tb_Capability_Group" Type="Self.tb_Capability_Group" Multiplicity="0..1" />
+          <End Role="tb_Capability" Type="Self.tb_Capability" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Capability_Group">
+              <PropertyRef Name="CapGID" />
+            </Principal>
+            <Dependent Role="tb_Capability">
+              <PropertyRef Name="CapGID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tb_Capability_tb_Menu">
           <End Role="tb_Menu" Type="Self.tb_Menu" Multiplicity="0..1" />
           <End Role="tb_Capability" Type="Self.tb_Capability" Multiplicity="*" />
@@ -2204,6 +2286,30 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Principal>
             <Dependent Role="tb_Capability">
               <PropertyRef Name="MenuID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Course_tb_Country">
+          <End Role="tb_Country" Type="Self.tb_Country" Multiplicity="1" />
+          <End Role="tb_Course" Type="Self.tb_Course" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Country">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="tb_Course">
+              <PropertyRef Name="CourseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Course_tb_Course_Type">
+          <End Role="tb_Course_Type" Type="Self.tb_Course_Type" Multiplicity="1" />
+          <End Role="tb_Course" Type="Self.tb_Course" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Course_Type">
+              <PropertyRef Name="CourseTID" />
+            </Principal>
+            <Dependent Role="tb_Course">
+              <PropertyRef Name="CourseID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2348,6 +2454,30 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Principal>
             <Dependent Role="tb_Title">
               <PropertyRef Name="SexID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Training_tb_Course">
+          <End Role="tb_Course" Type="Self.tb_Course" Multiplicity="1" />
+          <End Role="tb_Training" Type="Self.tb_Training" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Course">
+              <PropertyRef Name="CourseID" />
+            </Principal>
+            <Dependent Role="tb_Training">
+              <PropertyRef Name="CourseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Training_tb_User">
+          <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
+          <End Role="tb_Training" Type="Self.tb_Training" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tb_Training">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2790,6 +2920,19 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Parameter Name="UserStatus" Type="nvarchar" Mode="In" />
           <Parameter Name="Keyword" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="sp_Evaluation_GetByUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="CapID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_Evaluation_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PageSize" Type="nvarchar" Mode="In" />
+          <Parameter Name="InitialPage" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortBy" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortrDir" Type="nvarchar" Mode="In" />
+          <Parameter Name="UserType" Type="nvarchar" Mode="In" />
+          <Parameter Name="CapID" Type="nvarchar" Mode="In" />
+          <Parameter Name="Keyword" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="sp_Menu_GetByRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RoleID" Type="int" Mode="In" />
           <Parameter Name="MenuType" Type="nvarchar" Mode="In" />
@@ -2824,6 +2967,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_Certificate" EntityType="Self.tb_Certificate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Claim_Type" EntityType="Self.tb_Claim_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Country" EntityType="Self.tb_Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Course" EntityType="Self.tb_Course" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Course_Type" EntityType="Self.tb_Course_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Degree" EntityType="Self.tb_Degree" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Department" EntityType="Self.tb_Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Discipline" EntityType="Self.tb_Discipline" Schema="dbo" store:Type="Tables" />
@@ -2866,6 +3011,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_SubDistrict" EntityType="Self.tb_SubDistrict" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_SysConfig" EntityType="Self.tb_SysConfig" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Title" EntityType="Self.tb_Title" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Training" EntityType="Self.tb_Training" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Training_Type" EntityType="Self.tb_Training_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Transfer_Type" EntityType="Self.tb_Transfer_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_User" EntityType="Self.tb_User" Schema="dbo" store:Type="Tables" />
@@ -3070,6 +3216,32 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Capability].[CapGTName] AS [CapGTName]
     FROM [dbo].[vw_Capability] AS [vw_Capability]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_Course" EntityType="Self.vw_Course" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_Course].[CourseID] AS [CourseID], 
+    [vw_Course].[CourseNo] AS [CourseNo], 
+    [vw_Course].[CourseTID] AS [CourseTID], 
+    [vw_Course].[CourseTName] AS [CourseTName], 
+    [vw_Course].[CourseName] AS [CourseName], 
+    [vw_Course].[DateFrom] AS [DateFrom], 
+    [vw_Course].[EndDate] AS [EndDate], 
+    [vw_Course].[DateTo] AS [DateTo], 
+    [vw_Course].[CountryID] AS [CountryID], 
+    [vw_Course].[CountryName] AS [CountryName], 
+    [vw_Course].[TrainerName] AS [TrainerName], 
+    [vw_Course].[Location] AS [Location], 
+    [vw_Course].[Certificate] AS [Certificate], 
+    [vw_Course].[Remark] AS [Remark], 
+    [vw_Course].[PathFile] AS [PathFile], 
+    [vw_Course].[Status] AS [Status], 
+    [vw_Course].[StatusName] AS [StatusName], 
+    [vw_Course].[Total] AS [Total], 
+    [vw_Course].[CreateDate] AS [CreateDate], 
+    [vw_Course].[CreateBy] AS [CreateBy], 
+    [vw_Course].[ModifyDate] AS [ModifyDate], 
+    [vw_Course].[ModifyBy] AS [ModifyBy]
+    FROM [dbo].[vw_Course] AS [vw_Course]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_Department" EntityType="Self.vw_Department" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_Department].[DepID] AS [DepID], 
@@ -3246,6 +3418,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Title].[SexID] AS [SexID], 
     [vw_Title].[SexName] AS [SexName]
     FROM [dbo].[vw_Title] AS [vw_Title]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_Trainning" EntityType="Self.vw_Trainning" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_Trainning].[CourseID] AS [CourseID], 
+    [vw_Trainning].[CourseNo] AS [CourseNo], 
+    [vw_Trainning].[CourseName] AS [CourseName], 
+    [vw_Trainning].[UserID] AS [UserID], 
+    [vw_Trainning].[FullName] AS [FullName], 
+    [vw_Trainning].[PoID] AS [PoID], 
+    [vw_Trainning].[PoCode] AS [PoCode], 
+    [vw_Trainning].[PoName] AS [PoName]
+    FROM [dbo].[vw_Trainning] AS [vw_Trainning]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_User" EntityType="Self.vw_User" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -3674,9 +3858,21 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <End Role="tb_Capability_Type" EntitySet="tb_Capability_Type" />
             <End Role="tb_Capability" EntitySet="tb_Capability" />
           </AssociationSet>
+          <AssociationSet Name="FK_tb_Capability_tb_Capability_Group" Association="Self.FK_tb_Capability_tb_Capability_Group">
+            <End Role="tb_Capability_Group" EntitySet="tb_Capability_Group" />
+            <End Role="tb_Capability" EntitySet="tb_Capability" />
+          </AssociationSet>
           <AssociationSet Name="FK_tb_Capability_tb_Menu" Association="Self.FK_tb_Capability_tb_Menu">
             <End Role="tb_Menu" EntitySet="tb_Menu" />
             <End Role="tb_Capability" EntitySet="tb_Capability" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Course_tb_Country" Association="Self.FK_tb_Course_tb_Country">
+            <End Role="tb_Country" EntitySet="tb_Country" />
+            <End Role="tb_Course" EntitySet="tb_Course" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Course_tb_Course_Type" Association="Self.FK_tb_Course_tb_Course_Type">
+            <End Role="tb_Course_Type" EntitySet="tb_Course_Type" />
+            <End Role="tb_Course" EntitySet="tb_Course" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_Department_tb_Division" Association="Self.FK_tb_Department_tb_Division">
             <End Role="tb_Division" EntitySet="tb_Division" />
@@ -3725,6 +3921,14 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <AssociationSet Name="FK_tb_Title_tb_Sex" Association="Self.FK_tb_Title_tb_Sex">
             <End Role="tb_Sex" EntitySet="tb_Sex" />
             <End Role="tb_Title" EntitySet="tb_Title" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Training_tb_Course" Association="Self.FK_tb_Training_tb_Course">
+            <End Role="tb_Course" EntitySet="tb_Course" />
+            <End Role="tb_Training" EntitySet="tb_Training" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Training_tb_User" Association="Self.FK_tb_Training_tb_User">
+            <End Role="tb_User" EntitySet="tb_User" />
+            <End Role="tb_Training" EntitySet="tb_Training" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_User_Certificate_tb_Certificate" Association="Self.FK_tb_User_Certificate_tb_Certificate">
             <End Role="tb_Certificate" EntitySet="tb_Certificate" />
@@ -4290,6 +4494,44 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="vw_Benefit_Cremation" EntityType="SAT.HR.vw_Benefit_Cremation" />
           <EntitySet Name="vw_Benefit_Death_Replacement" EntityType="SAT.HR.vw_Benefit_Death_Replacement" />
           <EntitySet Name="vw_Benefit_Death_Subsidy" EntityType="SAT.HR.vw_Benefit_Death_Subsidy" />
+          <EntitySet Name="tb_Course" EntityType="SAT.HR.tb_Course" />
+          <EntitySet Name="tb_Course_Type" EntityType="SAT.HR.tb_Course_Type" />
+          <EntitySet Name="tb_Training" EntityType="SAT.HR.tb_Training" />
+          <EntitySet Name="vw_Course" EntityType="SAT.HR.vw_Course" />
+          <AssociationSet Name="FK_tb_Course_tb_Country" Association="SAT.HR.FK_tb_Course_tb_Country">
+            <End Role="tb_Country" EntitySet="tb_Country" />
+            <End Role="tb_Course" EntitySet="tb_Course" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Course_tb_Course_Type" Association="SAT.HR.FK_tb_Course_tb_Course_Type">
+            <End Role="tb_Course_Type" EntitySet="tb_Course_Type" />
+            <End Role="tb_Course" EntitySet="tb_Course" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Training_tb_Course" Association="SAT.HR.FK_tb_Training_tb_Course">
+            <End Role="tb_Course" EntitySet="tb_Course" />
+            <End Role="tb_Training" EntitySet="tb_Training" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Training_tb_User" Association="SAT.HR.FK_tb_Training_tb_User">
+            <End Role="tb_User" EntitySet="tb_User" />
+            <End Role="tb_Training" EntitySet="tb_Training" />
+          </AssociationSet>
+          <EntitySet Name="vw_Trainning" EntityType="SAT.HR.vw_Trainning" />
+          <FunctionImport Name="sp_Evaluation_List" ReturnType="Collection(SAT.HR.sp_Evaluation_List_Result1)">
+            <Parameter Name="PageSize" Mode="In" Type="String" />
+            <Parameter Name="InitialPage" Mode="In" Type="String" />
+            <Parameter Name="SortBy" Mode="In" Type="String" />
+            <Parameter Name="SortrDir" Mode="In" Type="String" />
+            <Parameter Name="UserType" Mode="In" Type="String" />
+            <Parameter Name="CapID" Mode="In" Type="String" />
+            <Parameter Name="Keyword" Mode="In" Type="String" />
+          </FunctionImport>
+          <AssociationSet Name="FK_tb_Capability_tb_Capability_Group" Association="SAT.HR.FK_tb_Capability_tb_Capability_Group">
+            <End Role="tb_Capability_Group" EntitySet="tb_Capability_Group" />
+            <End Role="tb_Capability" EntitySet="tb_Capability" />
+          </AssociationSet>
+          <FunctionImport Name="sp_Evaluation_GetByUser" ReturnType="Collection(SAT.HR.sp_Evaluation_GetByUser_Result)">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="CapID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="sp_Menu_GetByUser_Result">
           <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -4541,6 +4783,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="ModifyBy" Type="Int32" />
           <NavigationProperty Name="tb_Capability_Type" Relationship="SAT.HR.FK_tb_Capability_tb_Capability" FromRole="tb_Capability" ToRole="tb_Capability_Type" />
           <NavigationProperty Name="tb_Menu" Relationship="SAT.HR.FK_tb_Capability_tb_Menu" FromRole="tb_Capability" ToRole="tb_Menu" />
+          <NavigationProperty Name="tb_Capability_Group" Relationship="SAT.HR.FK_tb_Capability_tb_Capability_Group" FromRole="tb_Capability" ToRole="tb_Capability_Group" />
         </EntityType>
         <EntityType Name="tb_Capability_Detail">
           <Key>
@@ -4564,6 +4807,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="CapGID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CapGName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="TableName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tb_Capability" Relationship="SAT.HR.FK_tb_Capability_tb_Capability_Group" FromRole="tb_Capability_Group" ToRole="tb_Capability" />
         </EntityType>
         <EntityType Name="tb_Capability_Type">
           <Key>
@@ -4601,6 +4845,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="CountryName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tb_User_Education" Relationship="SAT.HR.FK_tb_User_Education_tb_Country" FromRole="tb_Country" ToRole="tb_User_Education" />
           <NavigationProperty Name="tb_User_Training" Relationship="SAT.HR.FK_tb_User_Training_tb_Country" FromRole="tb_Country" ToRole="tb_User_Training" />
+          <NavigationProperty Name="tb_Course" Relationship="SAT.HR.FK_tb_Course_tb_Country" FromRole="tb_Country" ToRole="tb_Course" />
         </EntityType>
         <EntityType Name="tb_Degree">
           <Key>
@@ -6472,6 +6717,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <NavigationProperty Name="tb_Benefit_Home_Rental" Relationship="SAT.HR.FK_tb_Benefit_Home_Rental_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Home_Rental" />
           <NavigationProperty Name="tb_User_Family" Relationship="SAT.HR.FK_tb_User_Family_tb_User" FromRole="tb_User" ToRole="tb_User_Family" />
           <NavigationProperty Name="tb_Benefit_Cremation" Relationship="SAT.HR.FK_tb_Benefit_Cremation_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Cremation" />
+          <NavigationProperty Name="tb_Training" Relationship="SAT.HR.FK_tb_Training_tb_User" FromRole="tb_User" ToRole="tb_Training" />
         </EntityType>
         <Association Name="FK_tb_Benefit_Death_Replacement_tb_User">
           <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
@@ -7182,6 +7428,180 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="Int32" />
         </EntityType>
+        <EntityType Name="tb_Course">
+          <Key>
+            <PropertyRef Name="CourseID" />
+          </Key>
+          <Property Name="CourseID" Type="Int32" Nullable="false" />
+          <Property Name="CourseNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CourseTID" Type="Int32" />
+          <Property Name="CourseName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DateFrom" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="DateTo" Type="Int32" />
+          <Property Name="CountryID" Type="Int32" />
+          <Property Name="TrainerName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Certificate" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PathFile" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+          <NavigationProperty Name="tb_Country" Relationship="SAT.HR.FK_tb_Course_tb_Country" FromRole="tb_Course" ToRole="tb_Country" />
+          <NavigationProperty Name="tb_Course_Type" Relationship="SAT.HR.FK_tb_Course_tb_Course_Type" FromRole="tb_Course" ToRole="tb_Course_Type" />
+          <NavigationProperty Name="tb_Training" Relationship="SAT.HR.FK_tb_Training_tb_Course" FromRole="tb_Course" ToRole="tb_Training" />
+        </EntityType>
+        <EntityType Name="tb_Course_Type">
+          <Key>
+            <PropertyRef Name="CourseTID" />
+          </Key>
+          <Property Name="CourseTID" Type="Int32" Nullable="false" />
+          <Property Name="CourseTName" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tb_Course" Relationship="SAT.HR.FK_tb_Course_tb_Course_Type" FromRole="tb_Course_Type" ToRole="tb_Course" />
+        </EntityType>
+        <EntityType Name="tb_Training">
+          <Key>
+            <PropertyRef Name="CourseID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="CourseID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+          <NavigationProperty Name="tb_Course" Relationship="SAT.HR.FK_tb_Training_tb_Course" FromRole="tb_Training" ToRole="tb_Course" />
+          <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Training_tb_User" FromRole="tb_Training" ToRole="tb_User" />
+        </EntityType>
+        <EntityType Name="vw_Course">
+          <Key>
+            <PropertyRef Name="CourseID" />
+            <PropertyRef Name="StatusName" />
+          </Key>
+          <Property Name="CourseID" Type="Int32" Nullable="false" />
+          <Property Name="CourseNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CourseTID" Type="Int32" />
+          <Property Name="CourseTName" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CourseName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DateFrom" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="DateTo" Type="Int32" />
+          <Property Name="CountryID" Type="Int32" />
+          <Property Name="CountryName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TrainerName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Certificate" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PathFile" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="Total" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+          <Property Name="StatusName" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_tb_Course_tb_Country">
+          <End Type="SAT.HR.tb_Country" Role="tb_Country" Multiplicity="1" />
+          <End Type="SAT.HR.tb_Course" Role="tb_Course" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Country">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="tb_Course">
+              <PropertyRef Name="CourseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Course_tb_Course_Type">
+          <End Type="SAT.HR.tb_Course_Type" Role="tb_Course_Type" Multiplicity="1" />
+          <End Type="SAT.HR.tb_Course" Role="tb_Course" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Course_Type">
+              <PropertyRef Name="CourseTID" />
+            </Principal>
+            <Dependent Role="tb_Course">
+              <PropertyRef Name="CourseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Training_tb_Course">
+          <End Type="SAT.HR.tb_Course" Role="tb_Course" Multiplicity="1" />
+          <End Type="SAT.HR.tb_Training" Role="tb_Training" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Course">
+              <PropertyRef Name="CourseID" />
+            </Principal>
+            <Dependent Role="tb_Training">
+              <PropertyRef Name="CourseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Training_tb_User">
+          <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
+          <End Type="SAT.HR.tb_Training" Role="tb_Training" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tb_Training">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="vw_Trainning">
+          <Key>
+            <PropertyRef Name="CourseID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="CourseID" Type="Int32" Nullable="false" />
+          <Property Name="CourseNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CourseName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+          <Property Name="PoID" Type="Int32" />
+          <Property Name="PoCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <ComplexType Name="sp_Evaluation_List_Result">
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="Decimal" Name="IDCard" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="FullNameTh" Nullable="true" MaxLength="401" />
+          <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="recordsTotal" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_Evaluation_List_Result1">
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="Decimal" Name="IDCard" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="FullNameTh" Nullable="true" MaxLength="401" />
+          <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="recordsTotal" Nullable="true" />
+          <Property Type="Int32" Name="recordsFiltered" Nullable="false" />
+        </ComplexType>
+        <Association Name="FK_tb_Capability_tb_Capability_Group">
+          <End Type="SAT.HR.tb_Capability_Group" Role="tb_Capability_Group" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Capability" Role="tb_Capability" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Capability_Group">
+              <PropertyRef Name="CapGID" />
+            </Principal>
+            <Dependent Role="tb_Capability">
+              <PropertyRef Name="CapGID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="sp_Evaluation_GetByUser_Result">
+          <Property Type="Int32" Name="CapDID" Nullable="false" />
+          <Property Type="String" Name="CapDName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="CapDDesc" Nullable="true" MaxLength="1000" />
+          <Property Type="Int32" Name="Score1" Nullable="true" />
+          <Property Type="Int32" Name="Score2" Nullable="true" />
+          <Property Type="Int32" Name="UserScore1" Nullable="false" />
+          <Property Type="Int32" Name="UserScore2" Nullable="false" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9152,6 +9572,117 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tb_Course">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Course">
+              <MappingFragment StoreEntitySet="tb_Course">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="PathFile" ColumnName="PathFile" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Certificate" ColumnName="Certificate" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="TrainerName" ColumnName="TrainerName" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="DateTo" ColumnName="DateTo" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="DateFrom" ColumnName="DateFrom" />
+                <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+                <ScalarProperty Name="CourseTID" ColumnName="CourseTID" />
+                <ScalarProperty Name="CourseNo" ColumnName="CourseNo" />
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Course_Type">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Course_Type">
+              <MappingFragment StoreEntitySet="tb_Course_Type">
+                <ScalarProperty Name="CourseTName" ColumnName="CourseTName" />
+                <ScalarProperty Name="CourseTID" ColumnName="CourseTID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Training">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Training">
+              <MappingFragment StoreEntitySet="tb_Training">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_Course">
+            <EntityTypeMapping TypeName="SAT.HR.vw_Course">
+              <MappingFragment StoreEntitySet="vw_Course">
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="PathFile" ColumnName="PathFile" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Certificate" ColumnName="Certificate" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="TrainerName" ColumnName="TrainerName" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="DateTo" ColumnName="DateTo" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="DateFrom" ColumnName="DateFrom" />
+                <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+                <ScalarProperty Name="CourseTName" ColumnName="CourseTName" />
+                <ScalarProperty Name="CourseTID" ColumnName="CourseTID" />
+                <ScalarProperty Name="CourseNo" ColumnName="CourseNo" />
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_Trainning">
+            <EntityTypeMapping TypeName="SAT.HR.vw_Trainning">
+              <MappingFragment StoreEntitySet="vw_Trainning">
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="PoCode" ColumnName="PoCode" />
+                <ScalarProperty Name="PoID" ColumnName="PoID" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+                <ScalarProperty Name="CourseNo" ColumnName="CourseNo" />
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_Evaluation_List" FunctionName="SAT.HR.Store.sp_Evaluation_List">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_Evaluation_List_Result1">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="IDCard" ColumnName="IDCard" />
+                <ScalarProperty Name="FullNameTh" ColumnName="FullNameTh" />
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="recordsTotal" ColumnName="recordsTotal" />
+                <ScalarProperty Name="recordsFiltered" ColumnName="recordsFiltered" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Evaluation_GetByUser" FunctionName="SAT.HR.Store.sp_Evaluation_GetByUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_Evaluation_GetByUser_Result">
+                <ScalarProperty Name="CapDID" ColumnName="CapDID" />
+                <ScalarProperty Name="CapDName" ColumnName="CapDName" />
+                <ScalarProperty Name="CapDDesc" ColumnName="CapDDesc" />
+                <ScalarProperty Name="Score1" ColumnName="Score1" />
+                <ScalarProperty Name="Score2" ColumnName="Score2" />
+                <ScalarProperty Name="UserScore1" ColumnName="UserScore1" />
+                <ScalarProperty Name="UserScore2" ColumnName="UserScore2" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -1941,7 +1941,7 @@ namespace SAT.HR.Data.Repository
                             {
                                 Year = (int)s.BoYear
                             })
-                            .OrderBy(x => x.Year).ToList();
+                            .OrderByDescending(x => x.Year).ToList();
                 return lists;
             }
         }

@@ -388,7 +388,7 @@ namespace SAT.HR.Data.Repository
             else if (table == "tb_Section")
                 list = GetSectionFull(null, null, defaultValue, false);
             else if (table == "tb_Position")
-                list = GetPosition(defaultValue, null, false);
+                list = GetPosition(defaultValue, 1, false);
             else if (table == "tb_Level")
                 list = GetLevel(defaultValue);
             else if (table == "tb_Discipline")
@@ -657,6 +657,23 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
+        public static List<SelectListItem> GetCourseType(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new TrainningRepository().GetCourseType();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.CourseTID.ToString();
+                select.Text = item.CourseTName;
+                select.Selected = defaultValue.HasValue ? (item.CourseTID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
         public static List<SelectListItem> GetPositionType(int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
@@ -712,7 +729,7 @@ namespace SAT.HR.Data.Repository
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new TrainingRepository().GetTrainingType();
+            var data = new TrainningRepository().GetTrainingType();
 
             foreach (var item in data)
             {
@@ -1093,7 +1110,40 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
-        
+        public static List<SelectListItem> GetYearCapability(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new CapabilityRepository().GetYearCapability();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.Year.ToString();
+                select.Text = item.Year.ToString();
+                select.Selected = defaultValue.HasValue ? (item.Year == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetCapability(int? year, int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new CapabilityRepository().GetCapability(year);
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.CapID.ToString();
+                select.Text = item.CapName.ToString();
+                select.Selected = defaultValue.HasValue ? (item.CapID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
     }
 
 }

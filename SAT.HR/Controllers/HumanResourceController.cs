@@ -6,35 +6,17 @@ using System.Web.Mvc;
 using SAT.HR.Models;
 using SAT.HR.Data.Repository;
 using SAT.HR.Helpers;
+using System.IO;
 
 namespace SAT.HR.Controllers
 {
     public class HumanResourceController : BaseController
     {
-        #region สมรรถนะ - Capability
+        #region สมรรถนะ
 
         public ActionResult Capability()
         {
             return View();
-        }
-
-        public ActionResult CapabilityHeader(int? id)
-        {
-            CapabilityViewModel model = new CapabilityViewModel();
-            if (id.HasValue)
-            {
-                model = new CapabilityRepository().GetByID((int)id);
-            }
-            ViewBag.CapabilityType = DropDownList.GetCapabilityType(model.CapTID);
-            ViewBag.CapabilityGroup = DropDownList.GetCapabilityGroup(model.CapGID);
-            ViewBag.CapabilityGroupType = DropDownList.GetCapabilityGroupType(model.CapGID, model.CapGTID);
-            return PartialView("_Capability", model);
-        }
-
-        public JsonResult CapabilityGroupType(int capgid)
-        {
-            var result = DropDownList.GetCapabilityGroupType(capgid, null);
-            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -62,6 +44,17 @@ namespace SAT.HR.Controllers
         {
             var result = new CapabilityRepository().RemoveByID(id);
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CapabilityHeader(int? id)
+        {
+            CapabilityViewModel model = new CapabilityViewModel();
+            if (id.HasValue)
+                model = new CapabilityRepository().GetByID((int)id);
+            ViewBag.CapabilityType = DropDownList.GetCapabilityType(model.CapTID);
+            ViewBag.CapabilityGroup = DropDownList.GetCapabilityGroup(model.CapGID);
+            ViewBag.CapabilityGroupType = DropDownList.GetCapabilityGroupType(model.CapGID, model.CapGTID);
+            return PartialView("_Capability", model);
         }
 
         public ActionResult CapabilityDetail(int? id)
@@ -94,21 +87,50 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-
         public JsonResult DeleteCapabilityDetail(int id)
         {
             var result = new CapabilityDetailRepository().RemoveByID(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult CapabilityGroupType(int capgid)
+        {
+            var result = DropDownList.GetCapabilityGroupType(capgid, null);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetCapability(int? year)
+        {
+            var result = DropDownList.GetCapability(year, null);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
-        
+
         #region  บันทึกข้อมูลสมรรถนะ
 
-        public ActionResult Evaluation()
+        public ActionResult Evaluation(int? year, int? usertype)
         {
+            ViewBag.YearCapability = DropDownList.GetYearCapability(null);
+            ViewBag.Capability = DropDownList.GetCapability(year, null);
+            ViewBag.UserType = DropDownList.GetUserType(usertype);
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult Evaluation(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns,string usertype, string capid)
+        {
+            var search = Request["search[value]"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
+            var dataTableData = new EvaluationRepository().GetPage(search, draw, start, length, dir, column, usertype, capid);
+            return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult EvaluationDetail(int id, int capid)
+        {
+            var model = new EvaluationRepository().EvaluationByUser(id, capid);
+            return View(model);
         }
 
         #endregion
@@ -120,6 +142,49 @@ namespace SAT.HR.Controllers
             return View();
         }
 
+        [HttpPost]
+        public JsonResult Trainning(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        {
+            var search = Request["search[value]"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
+            var dataTableData = new TrainningRepository().GetPage(search, draw, start, length, dir, column);
+            return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CourseTrainningDetail(int? id)
+        {
+            var model = new TrainningRepository().GetByID(id);
+            ViewBag.Country = DropDownList.GetCountry(model.CountryID);
+            ViewBag.CourseType = DropDownList.GetCourseType(model.CourseTID);
+            return View(model);
+        }
+
+        public ActionResult CourseTrainningDetailByID(int? id)
+        {
+            var model = new TrainningRepository().GetByID(id);
+            return PartialView("_TrainningDetail", model);
+        }
+
+        public JsonResult SaveCourseTrainning(CourseViewModel data)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (data.CourseID != 0)
+                result = new TrainningRepository().UpdateByEntity(data);
+            else
+                result = new TrainningRepository().AddByEntity(data);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public FileResult DownloadFileCourseTrainning(int id)
+        {
+            var result = new TrainningRepository().DownloadFileCourse(id);
+            string fileName = result.FileName;
+            string filePath = result.FilePath;
+            string contentType = result.ContentType;
+            return new FilePathResult(Path.Combine(filePath, fileName), contentType);
+        }
+
         #endregion
 
         #region  การวางแผนพัฒนารายบุคคล
@@ -129,7 +194,17 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        #endregion
+        //[HttpPost]
+        //public JsonResult IndividualPlan(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        //{
+        //    var search = Request["search[value]"];
+        //    var dir = order[0]["dir"].ToLower();
+        //    var column = columns[int.Parse(order[0]["column"])]["data"];
+        //    var dataTableData = new IndividualPlanRepository().GetPage(search, draw, start, length, dir, column);
+        //    return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        //}
 
+
+        #endregion
     }
 }

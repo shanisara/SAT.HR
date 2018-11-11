@@ -531,6 +531,7 @@ namespace SAT.HR.Controllers
             ViewBag.Department = DropDownList.GetDepartment(model != null ? model.DivID : null, model != null ? model.DepID: null, false);
             ViewBag.Section = DropDownList.GetSection(model != null ? model.DivID : null, model != null ? model.DepID: null, model != null ? model.SecID: null, false);
             ViewBag.Position = DropDownList.GetPosition(model != null ? model.PoID : null, type, false);
+            ViewBag.Discipline = DropDownList.GetDiscipline(model != null ? model.DisID : null, true);
             ViewBag.Education = DropDownList.GetEducation(model != null ? model.EduID : null, true);
             ViewBag.TypeID = type;
             return PartialView("_PositionRate", model);

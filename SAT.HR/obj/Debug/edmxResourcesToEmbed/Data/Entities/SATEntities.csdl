@@ -419,6 +419,44 @@
     <EntitySet Name="vw_Benefit_Cremation" EntityType="SAT.HR.vw_Benefit_Cremation" />
     <EntitySet Name="vw_Benefit_Death_Replacement" EntityType="SAT.HR.vw_Benefit_Death_Replacement" />
     <EntitySet Name="vw_Benefit_Death_Subsidy" EntityType="SAT.HR.vw_Benefit_Death_Subsidy" />
+    <EntitySet Name="tb_Course" EntityType="SAT.HR.tb_Course" />
+    <EntitySet Name="tb_Course_Type" EntityType="SAT.HR.tb_Course_Type" />
+    <EntitySet Name="tb_Training" EntityType="SAT.HR.tb_Training" />
+    <EntitySet Name="vw_Course" EntityType="SAT.HR.vw_Course" />
+    <AssociationSet Name="FK_tb_Course_tb_Country" Association="SAT.HR.FK_tb_Course_tb_Country">
+      <End Role="tb_Country" EntitySet="tb_Country" />
+      <End Role="tb_Course" EntitySet="tb_Course" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Course_tb_Course_Type" Association="SAT.HR.FK_tb_Course_tb_Course_Type">
+      <End Role="tb_Course_Type" EntitySet="tb_Course_Type" />
+      <End Role="tb_Course" EntitySet="tb_Course" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Training_tb_Course" Association="SAT.HR.FK_tb_Training_tb_Course">
+      <End Role="tb_Course" EntitySet="tb_Course" />
+      <End Role="tb_Training" EntitySet="tb_Training" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Training_tb_User" Association="SAT.HR.FK_tb_Training_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_Training" EntitySet="tb_Training" />
+    </AssociationSet>
+    <EntitySet Name="vw_Trainning" EntityType="SAT.HR.vw_Trainning" />
+    <FunctionImport Name="sp_Evaluation_List" ReturnType="Collection(SAT.HR.sp_Evaluation_List_Result1)">
+      <Parameter Name="PageSize" Mode="In" Type="String" />
+      <Parameter Name="InitialPage" Mode="In" Type="String" />
+      <Parameter Name="SortBy" Mode="In" Type="String" />
+      <Parameter Name="SortrDir" Mode="In" Type="String" />
+      <Parameter Name="UserType" Mode="In" Type="String" />
+      <Parameter Name="CapID" Mode="In" Type="String" />
+      <Parameter Name="Keyword" Mode="In" Type="String" />
+    </FunctionImport>
+    <AssociationSet Name="FK_tb_Capability_tb_Capability_Group" Association="SAT.HR.FK_tb_Capability_tb_Capability_Group">
+      <End Role="tb_Capability_Group" EntitySet="tb_Capability_Group" />
+      <End Role="tb_Capability" EntitySet="tb_Capability" />
+    </AssociationSet>
+    <FunctionImport Name="sp_Evaluation_GetByUser" ReturnType="Collection(SAT.HR.sp_Evaluation_GetByUser_Result)">
+      <Parameter Name="UserID" Mode="In" Type="Int32" />
+      <Parameter Name="CapID" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_Menu_GetByUser_Result">
     <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -670,6 +708,7 @@
     <Property Name="ModifyBy" Type="Int32" />
     <NavigationProperty Name="tb_Capability_Type" Relationship="SAT.HR.FK_tb_Capability_tb_Capability" FromRole="tb_Capability" ToRole="tb_Capability_Type" />
     <NavigationProperty Name="tb_Menu" Relationship="SAT.HR.FK_tb_Capability_tb_Menu" FromRole="tb_Capability" ToRole="tb_Menu" />
+    <NavigationProperty Name="tb_Capability_Group" Relationship="SAT.HR.FK_tb_Capability_tb_Capability_Group" FromRole="tb_Capability" ToRole="tb_Capability_Group" />
   </EntityType>
   <EntityType Name="tb_Capability_Detail">
     <Key>
@@ -693,6 +732,7 @@
     <Property Name="CapGID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="CapGName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="TableName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tb_Capability" Relationship="SAT.HR.FK_tb_Capability_tb_Capability_Group" FromRole="tb_Capability_Group" ToRole="tb_Capability" />
   </EntityType>
   <EntityType Name="tb_Capability_Type">
     <Key>
@@ -730,6 +770,7 @@
     <Property Name="CountryName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="tb_User_Education" Relationship="SAT.HR.FK_tb_User_Education_tb_Country" FromRole="tb_Country" ToRole="tb_User_Education" />
     <NavigationProperty Name="tb_User_Training" Relationship="SAT.HR.FK_tb_User_Training_tb_Country" FromRole="tb_Country" ToRole="tb_User_Training" />
+    <NavigationProperty Name="tb_Course" Relationship="SAT.HR.FK_tb_Course_tb_Country" FromRole="tb_Country" ToRole="tb_Course" />
   </EntityType>
   <EntityType Name="tb_Degree">
     <Key>
@@ -2601,6 +2642,7 @@
     <NavigationProperty Name="tb_Benefit_Home_Rental" Relationship="SAT.HR.FK_tb_Benefit_Home_Rental_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Home_Rental" />
     <NavigationProperty Name="tb_User_Family" Relationship="SAT.HR.FK_tb_User_Family_tb_User" FromRole="tb_User" ToRole="tb_User_Family" />
     <NavigationProperty Name="tb_Benefit_Cremation" Relationship="SAT.HR.FK_tb_Benefit_Cremation_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Cremation" />
+    <NavigationProperty Name="tb_Training" Relationship="SAT.HR.FK_tb_Training_tb_User" FromRole="tb_User" ToRole="tb_Training" />
   </EntityType>
   <Association Name="FK_tb_Benefit_Death_Replacement_tb_User">
     <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
@@ -3311,4 +3353,178 @@
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
   </EntityType>
+  <EntityType Name="tb_Course">
+    <Key>
+      <PropertyRef Name="CourseID" />
+    </Key>
+    <Property Name="CourseID" Type="Int32" Nullable="false" />
+    <Property Name="CourseNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CourseTID" Type="Int32" />
+    <Property Name="CourseName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DateFrom" Type="DateTime" Precision="0" />
+    <Property Name="EndDate" Type="DateTime" Precision="0" />
+    <Property Name="DateTo" Type="Int32" />
+    <Property Name="CountryID" Type="Int32" />
+    <Property Name="TrainerName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Location" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Certificate" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="PathFile" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+    <NavigationProperty Name="tb_Country" Relationship="SAT.HR.FK_tb_Course_tb_Country" FromRole="tb_Course" ToRole="tb_Country" />
+    <NavigationProperty Name="tb_Course_Type" Relationship="SAT.HR.FK_tb_Course_tb_Course_Type" FromRole="tb_Course" ToRole="tb_Course_Type" />
+    <NavigationProperty Name="tb_Training" Relationship="SAT.HR.FK_tb_Training_tb_Course" FromRole="tb_Course" ToRole="tb_Training" />
+  </EntityType>
+  <EntityType Name="tb_Course_Type">
+    <Key>
+      <PropertyRef Name="CourseTID" />
+    </Key>
+    <Property Name="CourseTID" Type="Int32" Nullable="false" />
+    <Property Name="CourseTName" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tb_Course" Relationship="SAT.HR.FK_tb_Course_tb_Course_Type" FromRole="tb_Course_Type" ToRole="tb_Course" />
+  </EntityType>
+  <EntityType Name="tb_Training">
+    <Key>
+      <PropertyRef Name="CourseID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="CourseID" Type="Int32" Nullable="false" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+    <NavigationProperty Name="tb_Course" Relationship="SAT.HR.FK_tb_Training_tb_Course" FromRole="tb_Training" ToRole="tb_Course" />
+    <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Training_tb_User" FromRole="tb_Training" ToRole="tb_User" />
+  </EntityType>
+  <EntityType Name="vw_Course">
+    <Key>
+      <PropertyRef Name="CourseID" />
+      <PropertyRef Name="StatusName" />
+    </Key>
+    <Property Name="CourseID" Type="Int32" Nullable="false" />
+    <Property Name="CourseNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CourseTID" Type="Int32" />
+    <Property Name="CourseTName" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="CourseName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DateFrom" Type="DateTime" Precision="0" />
+    <Property Name="EndDate" Type="DateTime" Precision="0" />
+    <Property Name="DateTo" Type="Int32" />
+    <Property Name="CountryID" Type="Int32" />
+    <Property Name="CountryName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="TrainerName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Location" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Certificate" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="PathFile" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="Total" Type="Int32" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+    <Property Name="StatusName" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_tb_Course_tb_Country">
+    <End Type="SAT.HR.tb_Country" Role="tb_Country" Multiplicity="1" />
+    <End Type="SAT.HR.tb_Course" Role="tb_Course" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Country">
+        <PropertyRef Name="CountryID" />
+      </Principal>
+      <Dependent Role="tb_Course">
+        <PropertyRef Name="CourseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Course_tb_Course_Type">
+    <End Type="SAT.HR.tb_Course_Type" Role="tb_Course_Type" Multiplicity="1" />
+    <End Type="SAT.HR.tb_Course" Role="tb_Course" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Course_Type">
+        <PropertyRef Name="CourseTID" />
+      </Principal>
+      <Dependent Role="tb_Course">
+        <PropertyRef Name="CourseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Training_tb_Course">
+    <End Type="SAT.HR.tb_Course" Role="tb_Course" Multiplicity="1" />
+    <End Type="SAT.HR.tb_Training" Role="tb_Training" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Course">
+        <PropertyRef Name="CourseID" />
+      </Principal>
+      <Dependent Role="tb_Training">
+        <PropertyRef Name="CourseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Training_tb_User">
+    <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
+    <End Type="SAT.HR.tb_Training" Role="tb_Training" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_Training">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="vw_Trainning">
+    <Key>
+      <PropertyRef Name="CourseID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="CourseID" Type="Int32" Nullable="false" />
+    <Property Name="CourseNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CourseName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="FullName" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+    <Property Name="PoID" Type="Int32" />
+    <Property Name="PoCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <ComplexType Name="sp_Evaluation_List_Result">
+    <Property Type="Int32" Name="UserID" Nullable="false" />
+    <Property Type="Decimal" Name="IDCard" Nullable="true" Precision="18" Scale="0" />
+    <Property Type="String" Name="FullNameTh" Nullable="true" MaxLength="401" />
+    <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="recordsTotal" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_Evaluation_List_Result1">
+    <Property Type="Int32" Name="UserID" Nullable="false" />
+    <Property Type="Decimal" Name="IDCard" Nullable="true" Precision="18" Scale="0" />
+    <Property Type="String" Name="FullNameTh" Nullable="true" MaxLength="401" />
+    <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="recordsTotal" Nullable="true" />
+    <Property Type="Int32" Name="recordsFiltered" Nullable="false" />
+  </ComplexType>
+  <Association Name="FK_tb_Capability_tb_Capability_Group">
+    <End Type="SAT.HR.tb_Capability_Group" Role="tb_Capability_Group" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_Capability" Role="tb_Capability" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Capability_Group">
+        <PropertyRef Name="CapGID" />
+      </Principal>
+      <Dependent Role="tb_Capability">
+        <PropertyRef Name="CapGID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="sp_Evaluation_GetByUser_Result">
+    <Property Type="Int32" Name="CapDID" Nullable="false" />
+    <Property Type="String" Name="CapDName" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="CapDDesc" Nullable="true" MaxLength="1000" />
+    <Property Type="Int32" Name="Score1" Nullable="true" />
+    <Property Type="Int32" Name="Score2" Nullable="true" />
+    <Property Type="Int32" Name="UserScore1" Nullable="false" />
+    <Property Type="Int32" Name="UserScore2" Nullable="false" />
+  </ComplexType>
 </Schema>
