@@ -1,13 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="SAT.HR.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="AALocation">
-          <Property Name="province" Type="nvarchar" MaxLength="255" />
-          <Property Name="district" Type="nvarchar" MaxLength="255" />
-          <Property Name="subdistrict" Type="nvarchar" MaxLength="255" />
-          <Property Name="zipcode" Type="float" />
-        </EntityType>-->
   <EntityType Name="tb_Accumulative_Fund">
     <Key>
       <PropertyRef Name="CuID" />
@@ -314,6 +306,36 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primar
     </Key>
     <Property Name="CountryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="CountryName" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="tb_Course">
+    <Key>
+      <PropertyRef Name="CourseID" />
+    </Key>
+    <Property Name="CourseID" Type="int" Nullable="false" />
+    <Property Name="CourseNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="CourseTID" Type="int" />
+    <Property Name="CourseName" Type="nvarchar" MaxLength="200" />
+    <Property Name="DateFrom" Type="date" />
+    <Property Name="EndDate" Type="date" />
+    <Property Name="DateTo" Type="int" />
+    <Property Name="CountryID" Type="int" />
+    <Property Name="TrainerName" Type="nvarchar" MaxLength="200" />
+    <Property Name="Location" Type="nvarchar" MaxLength="200" />
+    <Property Name="Certificate" Type="nvarchar" MaxLength="200" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+    <Property Name="PathFile" Type="nvarchar" MaxLength="500" />
+    <Property Name="Status" Type="int" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Course_Type">
+    <Key>
+      <PropertyRef Name="CourseTID" />
+    </Key>
+    <Property Name="CourseTID" Type="int" Nullable="false" />
+    <Property Name="CourseTName" Type="nvarchar" MaxLength="10" />
   </EntityType>
   <EntityType Name="tb_Degree">
     <Key>
@@ -798,6 +820,18 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primar
     <Property Name="TiShortName" Type="nvarchar" MaxLength="100" />
     <Property Name="TiStatus" Type="bit" />
     <Property Name="SexID" Type="int" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Training">
+    <Key>
+      <PropertyRef Name="CourseID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="CourseID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -1308,6 +1342,36 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Capability' does not have a pri
     <Property Name="CapGTName" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Course' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Course">
+    <Key>
+      <PropertyRef Name="CourseID" />
+      <PropertyRef Name="StatusName" />
+    </Key>
+    <Property Name="CourseID" Type="int" Nullable="false" />
+    <Property Name="CourseNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="CourseTID" Type="int" />
+    <Property Name="CourseTName" Type="nvarchar" MaxLength="10" />
+    <Property Name="CourseName" Type="nvarchar" MaxLength="200" />
+    <Property Name="DateFrom" Type="date" />
+    <Property Name="EndDate" Type="date" />
+    <Property Name="DateTo" Type="int" />
+    <Property Name="CountryID" Type="int" />
+    <Property Name="CountryName" Type="nvarchar" MaxLength="200" />
+    <Property Name="TrainerName" Type="nvarchar" MaxLength="200" />
+    <Property Name="Location" Type="nvarchar" MaxLength="200" />
+    <Property Name="Certificate" Type="nvarchar" MaxLength="200" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+    <Property Name="PathFile" Type="nvarchar" MaxLength="500" />
+    <Property Name="Status" Type="int" />
+    <Property Name="StatusName" Type="varchar" MaxLength="1" Nullable="false" />
+    <Property Name="Total" Type="int" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Department' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Department">
     <Key>
@@ -1489,16 +1553,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Man_Power_Head' does not h
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Level' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vw_Salary_Level">
-          <Property Name="Level" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>-->
-  <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Step' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vw_Salary_Step">
-          <Property Name="Step" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>-->
-  <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Section">
     <Key>
@@ -1526,6 +1580,22 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
     <Property Name="TiStatus" Type="bit" />
     <Property Name="SexID" Type="int" />
     <Property Name="SexName" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Trainning' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Trainning">
+    <Key>
+      <PropertyRef Name="CourseID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="CourseID" Type="int" Nullable="false" />
+    <Property Name="CourseNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="CourseName" Type="nvarchar" MaxLength="200" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="FullName" Type="nvarchar" MaxLength="401" />
+    <Property Name="PoID" Type="int" />
+    <Property Name="PoCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="PoName" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2190,6 +2260,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tb_Capability_tb_Capability_Group">
+    <End Role="tb_Capability_Group" Type="Self.tb_Capability_Group" Multiplicity="0..1" />
+    <End Role="tb_Capability" Type="Self.tb_Capability" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Capability_Group">
+        <PropertyRef Name="CapGID" />
+      </Principal>
+      <Dependent Role="tb_Capability">
+        <PropertyRef Name="CapGID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tb_Capability_tb_Menu">
     <End Role="tb_Menu" Type="Self.tb_Menu" Multiplicity="0..1" />
     <End Role="tb_Capability" Type="Self.tb_Capability" Multiplicity="*" />
@@ -2199,6 +2281,30 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Principal>
       <Dependent Role="tb_Capability">
         <PropertyRef Name="MenuID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Course_tb_Country">
+    <End Role="tb_Country" Type="Self.tb_Country" Multiplicity="1" />
+    <End Role="tb_Course" Type="Self.tb_Course" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Country">
+        <PropertyRef Name="CountryID" />
+      </Principal>
+      <Dependent Role="tb_Course">
+        <PropertyRef Name="CourseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Course_tb_Course_Type">
+    <End Role="tb_Course_Type" Type="Self.tb_Course_Type" Multiplicity="1" />
+    <End Role="tb_Course" Type="Self.tb_Course" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Course_Type">
+        <PropertyRef Name="CourseTID" />
+      </Principal>
+      <Dependent Role="tb_Course">
+        <PropertyRef Name="CourseID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2343,6 +2449,30 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Principal>
       <Dependent Role="tb_Title">
         <PropertyRef Name="SexID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Training_tb_Course">
+    <End Role="tb_Course" Type="Self.tb_Course" Multiplicity="1" />
+    <End Role="tb_Training" Type="Self.tb_Training" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Course">
+        <PropertyRef Name="CourseID" />
+      </Principal>
+      <Dependent Role="tb_Training">
+        <PropertyRef Name="CourseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Training_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
+    <End Role="tb_Training" Type="Self.tb_Training" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_Training">
+        <PropertyRef Name="UserID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2785,6 +2915,19 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <Parameter Name="UserStatus" Type="nvarchar" Mode="In" />
     <Parameter Name="Keyword" Type="nvarchar" Mode="In" />
   </Function>
+  <Function Name="sp_Evaluation_GetByUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserID" Type="int" Mode="In" />
+    <Parameter Name="CapID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_Evaluation_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PageSize" Type="nvarchar" Mode="In" />
+    <Parameter Name="InitialPage" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortBy" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortrDir" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserType" Type="nvarchar" Mode="In" />
+    <Parameter Name="CapID" Type="nvarchar" Mode="In" />
+    <Parameter Name="Keyword" Type="nvarchar" Mode="In" />
+  </Function>
   <Function Name="sp_Menu_GetByRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="RoleID" Type="int" Mode="In" />
     <Parameter Name="MenuType" Type="nvarchar" Mode="In" />
@@ -2819,6 +2962,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_Certificate" EntityType="Self.tb_Certificate" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Claim_Type" EntityType="Self.tb_Claim_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Country" EntityType="Self.tb_Country" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Course" EntityType="Self.tb_Course" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Course_Type" EntityType="Self.tb_Course_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Degree" EntityType="Self.tb_Degree" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Department" EntityType="Self.tb_Department" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Discipline" EntityType="Self.tb_Discipline" Schema="dbo" store:Type="Tables" />
@@ -2861,6 +3006,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_SubDistrict" EntityType="Self.tb_SubDistrict" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_SysConfig" EntityType="Self.tb_SysConfig" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Title" EntityType="Self.tb_Title" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Training" EntityType="Self.tb_Training" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Training_Type" EntityType="Self.tb_Training_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Transfer_Type" EntityType="Self.tb_Transfer_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_User" EntityType="Self.tb_User" Schema="dbo" store:Type="Tables" />
@@ -3065,6 +3211,32 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Capability].[CapGTName] AS [CapGTName]
     FROM [dbo].[vw_Capability] AS [vw_Capability]</DefiningQuery>
     </EntitySet>
+    <EntitySet Name="vw_Course" EntityType="Self.vw_Course" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Course].[CourseID] AS [CourseID], 
+    [vw_Course].[CourseNo] AS [CourseNo], 
+    [vw_Course].[CourseTID] AS [CourseTID], 
+    [vw_Course].[CourseTName] AS [CourseTName], 
+    [vw_Course].[CourseName] AS [CourseName], 
+    [vw_Course].[DateFrom] AS [DateFrom], 
+    [vw_Course].[EndDate] AS [EndDate], 
+    [vw_Course].[DateTo] AS [DateTo], 
+    [vw_Course].[CountryID] AS [CountryID], 
+    [vw_Course].[CountryName] AS [CountryName], 
+    [vw_Course].[TrainerName] AS [TrainerName], 
+    [vw_Course].[Location] AS [Location], 
+    [vw_Course].[Certificate] AS [Certificate], 
+    [vw_Course].[Remark] AS [Remark], 
+    [vw_Course].[PathFile] AS [PathFile], 
+    [vw_Course].[Status] AS [Status], 
+    [vw_Course].[StatusName] AS [StatusName], 
+    [vw_Course].[Total] AS [Total], 
+    [vw_Course].[CreateDate] AS [CreateDate], 
+    [vw_Course].[CreateBy] AS [CreateBy], 
+    [vw_Course].[ModifyDate] AS [ModifyDate], 
+    [vw_Course].[ModifyBy] AS [ModifyBy]
+    FROM [dbo].[vw_Course] AS [vw_Course]</DefiningQuery>
+    </EntitySet>
     <EntitySet Name="vw_Department" EntityType="Self.vw_Department" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [vw_Department].[DepID] AS [DepID], 
@@ -3241,6 +3413,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Title].[SexID] AS [SexID], 
     [vw_Title].[SexName] AS [SexName]
     FROM [dbo].[vw_Title] AS [vw_Title]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Trainning" EntityType="Self.vw_Trainning" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Trainning].[CourseID] AS [CourseID], 
+    [vw_Trainning].[CourseNo] AS [CourseNo], 
+    [vw_Trainning].[CourseName] AS [CourseName], 
+    [vw_Trainning].[UserID] AS [UserID], 
+    [vw_Trainning].[FullName] AS [FullName], 
+    [vw_Trainning].[PoID] AS [PoID], 
+    [vw_Trainning].[PoCode] AS [PoCode], 
+    [vw_Trainning].[PoName] AS [PoName]
+    FROM [dbo].[vw_Trainning] AS [vw_Trainning]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vw_User" EntityType="Self.vw_User" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
@@ -3669,9 +3853,21 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       <End Role="tb_Capability_Type" EntitySet="tb_Capability_Type" />
       <End Role="tb_Capability" EntitySet="tb_Capability" />
     </AssociationSet>
+    <AssociationSet Name="FK_tb_Capability_tb_Capability_Group" Association="Self.FK_tb_Capability_tb_Capability_Group">
+      <End Role="tb_Capability_Group" EntitySet="tb_Capability_Group" />
+      <End Role="tb_Capability" EntitySet="tb_Capability" />
+    </AssociationSet>
     <AssociationSet Name="FK_tb_Capability_tb_Menu" Association="Self.FK_tb_Capability_tb_Menu">
       <End Role="tb_Menu" EntitySet="tb_Menu" />
       <End Role="tb_Capability" EntitySet="tb_Capability" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Course_tb_Country" Association="Self.FK_tb_Course_tb_Country">
+      <End Role="tb_Country" EntitySet="tb_Country" />
+      <End Role="tb_Course" EntitySet="tb_Course" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Course_tb_Course_Type" Association="Self.FK_tb_Course_tb_Course_Type">
+      <End Role="tb_Course_Type" EntitySet="tb_Course_Type" />
+      <End Role="tb_Course" EntitySet="tb_Course" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_Department_tb_Division" Association="Self.FK_tb_Department_tb_Division">
       <End Role="tb_Division" EntitySet="tb_Division" />
@@ -3720,6 +3916,14 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <AssociationSet Name="FK_tb_Title_tb_Sex" Association="Self.FK_tb_Title_tb_Sex">
       <End Role="tb_Sex" EntitySet="tb_Sex" />
       <End Role="tb_Title" EntitySet="tb_Title" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Training_tb_Course" Association="Self.FK_tb_Training_tb_Course">
+      <End Role="tb_Course" EntitySet="tb_Course" />
+      <End Role="tb_Training" EntitySet="tb_Training" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Training_tb_User" Association="Self.FK_tb_Training_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_Training" EntitySet="tb_Training" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_User_Certificate_tb_Certificate" Association="Self.FK_tb_User_Certificate_tb_Certificate">
       <End Role="tb_Certificate" EntitySet="tb_Certificate" />

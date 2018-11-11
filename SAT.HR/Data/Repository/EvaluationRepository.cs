@@ -1,4 +1,5 @@
 ﻿using SAT.HR.Data.Entities;
+using SAT.HR.Helpers;
 using SAT.HR.Models;
 using System;
 using System.Collections.Generic;
@@ -66,29 +67,79 @@ namespace SAT.HR.Data.Repository
                     model.CapTName = cap.CapTName;
                     model.CapGName = cap.CapGName;
                     model.CapGTName = cap.CapGTName;
-                    model.EvaluationName = cap.CapTName + "/" + cap.CapGName + "/" + cap.CapGTName;
+                    model.EvaluationName = cap.CapTName + " / " + cap.CapGName + " / " + cap.CapGTName;
 
-                    var evaluation = db.sp_Evaluation_GetByUser(userid, capid).Select(s => new EvaluationDetailViewModel
+                    List<EvaluationDetailViewModel> lists = new List<EvaluationDetailViewModel>();
+                    var evaluation = db.sp_Evaluation_GetByUser(userid, capid).ToList();
+                    foreach (var item in evaluation)
                     {
-                        CapDID = s.CapDID,
-                        CapDName = s.CapDName,
-                        CapDDesc = s.CapDDesc,
-                        CapScore1 = s.Score1,
-                        CapScore2 = s.Score2,
-                        UserScore1 = s.UserScore1,
-                        UserScore2 = s.UserScore2
-                    })
-                    .ToList();
-                    model.ListEvaluation = evaluation;
+                        EvaluationDetailViewModel eval = new EvaluationDetailViewModel();
+                        eval.UserID = userid;
+                        eval.CapDID = item.CapDID;
+                        eval.CapDName = item.CapDName;
+                        eval.CapDDesc = item.CapDDesc;
+                        eval.CapScore1 = item.Score1;
+                        eval.CapScore2 = item.Score2;
+                        eval.UserScore1 = item.UserScore1;
+                        eval.UserScore2 = item.UserScore2;
+                        lists.Add(eval);
+                    }
+                    model.ListEvaluation = lists;
 
                     return model;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }
         }
+
+        public ResponseData UpdateEntity(List<EvaluationDetailViewModel> newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    foreach (var item in newdata)
+                    {
+                        var objUpdate = db.tb_Evaluation.Where(x => x.UserID == item.UserID && x.CapDID == item.CapDID).FirstOrDefault();
+                        if (objUpdate != null)
+                        {
+                            objUpdate.Score1 = item.UserScore1;
+                            objUpdate.Score2 = item.UserScore2;
+                            objUpdate.CreateBy = UtilityService.User.UserID;
+                            objUpdate.CreateDate = DateTime.Now;
+                            objUpdate.ModifyBy = UtilityService.User.UserID;
+                            objUpdate.ModifyDate = DateTime.Now;
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            tb_Evaluation objInsert = new tb_Evaluation();
+                            objInsert.UserID = (int)item.UserID;
+                            objInsert.CapDID = item.CapDID;
+                            objInsert.Score1 = item.UserScore1;
+                            objInsert.Score2 = item.UserScore2;
+                            objInsert.CreateBy = UtilityService.User.UserID;
+                            objInsert.CreateDate = DateTime.Now;
+                            objInsert.ModifyBy = UtilityService.User.UserID;
+                            objInsert.ModifyDate = DateTime.Now;
+                            db.tb_Evaluation.Add(objInsert);
+                            db.SaveChanges();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
+
 
     }
 }

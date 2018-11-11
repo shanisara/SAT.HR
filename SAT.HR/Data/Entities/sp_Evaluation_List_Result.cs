@@ -18,5 +18,6 @@ namespace SAT.HR.Data.Entities
         public string FullNameTh { get; set; }
         public string PoName { get; set; }
         public Nullable<int> recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
     }
 }

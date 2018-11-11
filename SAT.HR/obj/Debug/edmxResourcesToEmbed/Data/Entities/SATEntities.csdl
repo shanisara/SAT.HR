@@ -440,15 +440,6 @@
       <End Role="tb_Training" EntitySet="tb_Training" />
     </AssociationSet>
     <EntitySet Name="vw_Trainning" EntityType="SAT.HR.vw_Trainning" />
-    <FunctionImport Name="sp_Evaluation_List" ReturnType="Collection(SAT.HR.sp_Evaluation_List_Result1)">
-      <Parameter Name="PageSize" Mode="In" Type="String" />
-      <Parameter Name="InitialPage" Mode="In" Type="String" />
-      <Parameter Name="SortBy" Mode="In" Type="String" />
-      <Parameter Name="SortrDir" Mode="In" Type="String" />
-      <Parameter Name="UserType" Mode="In" Type="String" />
-      <Parameter Name="CapID" Mode="In" Type="String" />
-      <Parameter Name="Keyword" Mode="In" Type="String" />
-    </FunctionImport>
     <AssociationSet Name="FK_tb_Capability_tb_Capability_Group" Association="SAT.HR.FK_tb_Capability_tb_Capability_Group">
       <End Role="tb_Capability_Group" EntitySet="tb_Capability_Group" />
       <End Role="tb_Capability" EntitySet="tb_Capability" />
@@ -456,6 +447,24 @@
     <FunctionImport Name="sp_Evaluation_GetByUser" ReturnType="Collection(SAT.HR.sp_Evaluation_GetByUser_Result)">
       <Parameter Name="UserID" Mode="In" Type="Int32" />
       <Parameter Name="CapID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="tb_Evaluation" EntityType="SAT.HR.tb_Evaluation" />
+    <AssociationSet Name="FK_tb_Evaluation_tb_Capability_Detail" Association="SAT.HR.FK_tb_Evaluation_tb_Capability_Detail">
+      <End Role="tb_Capability_Detail" EntitySet="tb_Capability_Detail" />
+      <End Role="tb_Evaluation" EntitySet="tb_Evaluation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Evaluation_tb_User" Association="SAT.HR.FK_tb_Evaluation_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_Evaluation" EntitySet="tb_Evaluation" />
+    </AssociationSet>
+    <FunctionImport Name="sp_Evaluation_List" ReturnType="Collection(SAT.HR.sp_Evaluation_List_Result)">
+      <Parameter Name="PageSize" Mode="In" Type="String" />
+      <Parameter Name="InitialPage" Mode="In" Type="String" />
+      <Parameter Name="SortBy" Mode="In" Type="String" />
+      <Parameter Name="SortrDir" Mode="In" Type="String" />
+      <Parameter Name="UserType" Mode="In" Type="String" />
+      <Parameter Name="CapID" Mode="In" Type="String" />
+      <Parameter Name="Keyword" Mode="In" Type="String" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_Menu_GetByUser_Result">
@@ -724,6 +733,7 @@
     <Property Name="CreateBy" Type="Int32" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
+    <NavigationProperty Name="tb_Evaluation" Relationship="SAT.HR.FK_tb_Evaluation_tb_Capability_Detail" FromRole="tb_Capability_Detail" ToRole="tb_Evaluation" />
   </EntityType>
   <EntityType Name="tb_Capability_Group">
     <Key>
@@ -2643,6 +2653,7 @@
     <NavigationProperty Name="tb_User_Family" Relationship="SAT.HR.FK_tb_User_Family_tb_User" FromRole="tb_User" ToRole="tb_User_Family" />
     <NavigationProperty Name="tb_Benefit_Cremation" Relationship="SAT.HR.FK_tb_Benefit_Cremation_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Cremation" />
     <NavigationProperty Name="tb_Training" Relationship="SAT.HR.FK_tb_Training_tb_User" FromRole="tb_User" ToRole="tb_Training" />
+    <NavigationProperty Name="tb_Evaluation" Relationship="SAT.HR.FK_tb_Evaluation_tb_User" FromRole="tb_User" ToRole="tb_Evaluation" />
   </EntityType>
   <Association Name="FK_tb_Benefit_Death_Replacement_tb_User">
     <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
@@ -3491,21 +3502,6 @@
     <Property Name="PoCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
   </EntityType>
-  <ComplexType Name="sp_Evaluation_List_Result">
-    <Property Type="Int32" Name="UserID" Nullable="false" />
-    <Property Type="Decimal" Name="IDCard" Nullable="true" Precision="18" Scale="0" />
-    <Property Type="String" Name="FullNameTh" Nullable="true" MaxLength="401" />
-    <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
-    <Property Type="Int32" Name="recordsTotal" Nullable="true" />
-  </ComplexType>
-  <ComplexType Name="sp_Evaluation_List_Result1">
-    <Property Type="Int32" Name="UserID" Nullable="false" />
-    <Property Type="Decimal" Name="IDCard" Nullable="true" Precision="18" Scale="0" />
-    <Property Type="String" Name="FullNameTh" Nullable="true" MaxLength="401" />
-    <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
-    <Property Type="Int32" Name="recordsTotal" Nullable="true" />
-    <Property Type="Int32" Name="recordsFiltered" Nullable="false" />
-  </ComplexType>
   <Association Name="FK_tb_Capability_tb_Capability_Group">
     <End Type="SAT.HR.tb_Capability_Group" Role="tb_Capability_Group" Multiplicity="0..1" />
     <End Type="SAT.HR.tb_Capability" Role="tb_Capability" Multiplicity="*" />
@@ -3524,7 +3520,55 @@
     <Property Type="String" Name="CapDDesc" Nullable="true" MaxLength="1000" />
     <Property Type="Int32" Name="Score1" Nullable="true" />
     <Property Type="Int32" Name="Score2" Nullable="true" />
-    <Property Type="Int32" Name="UserScore1" Nullable="false" />
-    <Property Type="Int32" Name="UserScore2" Nullable="false" />
+    <Property Type="Int32" Name="UserScore1" Nullable="true" />
+    <Property Type="Int32" Name="UserScore2" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="tb_Evaluation">
+    <Key>
+      <PropertyRef Name="UserID" />
+      <PropertyRef Name="CapDID" />
+    </Key>
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="CapDID" Type="Int32" Nullable="false" />
+    <Property Name="Score1" Type="Int32" />
+    <Property Name="Score2" Type="Int32" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+    <NavigationProperty Name="tb_Capability_Detail" Relationship="SAT.HR.FK_tb_Evaluation_tb_Capability_Detail" FromRole="tb_Evaluation" ToRole="tb_Capability_Detail" />
+    <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Evaluation_tb_User" FromRole="tb_Evaluation" ToRole="tb_User" />
+  </EntityType>
+  <Association Name="FK_tb_Evaluation_tb_Capability_Detail">
+    <End Type="SAT.HR.tb_Capability_Detail" Role="tb_Capability_Detail" Multiplicity="1" />
+    <End Type="SAT.HR.tb_Evaluation" Role="tb_Evaluation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Capability_Detail">
+        <PropertyRef Name="CapDID" />
+      </Principal>
+      <Dependent Role="tb_Evaluation">
+        <PropertyRef Name="CapDID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Evaluation_tb_User">
+    <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
+    <End Type="SAT.HR.tb_Evaluation" Role="tb_Evaluation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_Evaluation">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="sp_Evaluation_List_Result">
+    <Property Type="Int32" Name="UserID" Nullable="false" />
+    <Property Type="Decimal" Name="IDCard" Nullable="true" Precision="18" Scale="0" />
+    <Property Type="String" Name="FullNameTh" Nullable="true" MaxLength="401" />
+    <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="recordsTotal" Nullable="true" />
+    <Property Type="Int32" Name="recordsFiltered" Nullable="false" />
   </ComplexType>
 </Schema>

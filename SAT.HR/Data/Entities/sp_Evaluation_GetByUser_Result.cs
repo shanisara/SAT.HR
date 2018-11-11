@@ -18,7 +18,7 @@ namespace SAT.HR.Data.Entities
         public string CapDDesc { get; set; }
         public Nullable<int> Score1 { get; set; }
         public Nullable<int> Score2 { get; set; }
-        public int UserScore1 { get; set; }
-        public int UserScore2 { get; set; }
+        public Nullable<int> UserScore1 { get; set; }
+        public Nullable<int> UserScore2 { get; set; }
     }
 }

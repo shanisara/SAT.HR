@@ -33,6 +33,7 @@ namespace SAT.HR.Data.Entities
             this.tb_User_Family = new HashSet<tb_User_Family>();
             this.tb_Benefit_Cremation = new HashSet<tb_Benefit_Cremation>();
             this.tb_Training = new HashSet<tb_Training>();
+            this.tb_Evaluation = new HashSet<tb_Evaluation>();
         }
     
         public int UserID { get; set; }
@@ -138,5 +139,7 @@ namespace SAT.HR.Data.Entities
         public virtual ICollection<tb_Benefit_Cremation> tb_Benefit_Cremation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Training> tb_Training { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Evaluation> tb_Evaluation { get; set; }
     }
 }

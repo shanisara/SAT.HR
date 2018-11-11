@@ -59,22 +59,23 @@ namespace SAT.HR.Controllers
 
         public ActionResult CapabilityDetail(int? id)
         {
-            List<CapabilityDetailViewModel> model = new List<CapabilityDetailViewModel>();
+            var model = new List<CapabilityDetailViewModel>();
             if (id.HasValue)
-            {
                 model = new CapabilityDetailRepository().GetByCap((int)id);
-            }
-
-            return PartialView("_CapabilityDetail", model);
+            CapabilityViewModel result = new CapabilityViewModel();
+            result.CapID = (int)id;
+            result.ListCapability = model;
+            return View(result);
+            //return PartialView("_CapabilityDetail", model);
         }
 
-        public JsonResult SaveCapabilityDetail(CapabilityDetailViewModel model)
+        public JsonResult SaveCapabilityDetail(CapabilityViewModel model)
         {
             ResponseData result = new Models.ResponseData();
-            if (model.CapID != 0)
-                result = new CapabilityDetailRepository().UpdateByEntity(model);
-            else
-                result = new CapabilityDetailRepository().AddByEntity(model);
+            //if (model.CapID != 0)
+            //    result = new CapabilityDetailRepository().UpdateByEntity(model);
+            //else
+            //    result = new CapabilityDetailRepository().AddByEntity(model);
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -83,7 +84,6 @@ namespace SAT.HR.Controllers
         {
             ResponseData result = new Models.ResponseData();
             result = new CapabilityDetailRepository().SubmitByEntity(model);
-
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -131,6 +131,12 @@ namespace SAT.HR.Controllers
         {
             var model = new EvaluationRepository().EvaluationByUser(id, capid);
             return View(model);
+        }
+
+        public JsonResult SaveEvaluation(EvaluationViewModel model)
+        {
+            ResponseData result = new EvaluationRepository().UpdateEntity(model.ListEvaluation);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -190,6 +196,11 @@ namespace SAT.HR.Controllers
         #region  การวางแผนพัฒนารายบุคคล
 
         public ActionResult IndividualPlan()
+        {
+            return View();
+        }
+
+        public ActionResult IndividualPlanDetail()
         {
             return View();
         }

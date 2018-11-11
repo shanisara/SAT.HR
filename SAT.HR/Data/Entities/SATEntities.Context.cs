@@ -142,6 +142,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Training> tb_Training { get; set; }
         public virtual DbSet<vw_Course> vw_Course { get; set; }
         public virtual DbSet<vw_Trainning> vw_Trainning { get; set; }
+        public virtual DbSet<tb_Evaluation> tb_Evaluation { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {
@@ -211,7 +212,20 @@ namespace SAT.HR.Data.Entities
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Employee_List_Result>("sp_Employee_List", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, userTypeParameter, userStatusParameter, keywordParameter);
         }
     
-        public virtual ObjectResult<sp_Evaluation_List_Result1> sp_Evaluation_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string capID, string keyword)
+        public virtual ObjectResult<sp_Evaluation_GetByUser_Result> sp_Evaluation_GetByUser(Nullable<int> userID, Nullable<int> capID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var capIDParameter = capID.HasValue ?
+                new ObjectParameter("CapID", capID) :
+                new ObjectParameter("CapID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Evaluation_GetByUser_Result>("sp_Evaluation_GetByUser", userIDParameter, capIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_Evaluation_List_Result> sp_Evaluation_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string capID, string keyword)
         {
             var pageSizeParameter = pageSize != null ?
                 new ObjectParameter("PageSize", pageSize) :
@@ -241,20 +255,7 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("Keyword", keyword) :
                 new ObjectParameter("Keyword", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Evaluation_List_Result1>("sp_Evaluation_List", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, userTypeParameter, capIDParameter, keywordParameter);
-        }
-    
-        public virtual ObjectResult<sp_Evaluation_GetByUser_Result> sp_Evaluation_GetByUser(Nullable<int> userID, Nullable<int> capID)
-        {
-            var userIDParameter = userID.HasValue ?
-                new ObjectParameter("UserID", userID) :
-                new ObjectParameter("UserID", typeof(int));
-    
-            var capIDParameter = capID.HasValue ?
-                new ObjectParameter("CapID", capID) :
-                new ObjectParameter("CapID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Evaluation_GetByUser_Result>("sp_Evaluation_GetByUser", userIDParameter, capIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Evaluation_List_Result>("sp_Evaluation_List", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, userTypeParameter, capIDParameter, keywordParameter);
         }
     }
 }

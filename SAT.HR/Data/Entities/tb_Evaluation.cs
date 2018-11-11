@@ -12,18 +12,10 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_Capability_Detail
+    public partial class tb_Evaluation
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tb_Capability_Detail()
-        {
-            this.tb_Evaluation = new HashSet<tb_Evaluation>();
-        }
-    
+        public int UserID { get; set; }
         public int CapDID { get; set; }
-        public string CapDName { get; set; }
-        public Nullable<int> CapID { get; set; }
-        public string CapDDesc { get; set; }
         public Nullable<int> Score1 { get; set; }
         public Nullable<int> Score2 { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
@@ -31,7 +23,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Evaluation> tb_Evaluation { get; set; }
+        public virtual tb_Capability_Detail tb_Capability_Detail { get; set; }
+        public virtual tb_User tb_User { get; set; }
     }
 }

@@ -47,11 +47,8 @@
                         </table>
                     </div>
                 </div>
-                <!-- end content -->
             </div>
-            <!--  end card  -->
         </div>
-        <!-- end col-md-12 -->
     </div>
 </div>
 
@@ -170,10 +167,11 @@
                     dataTable.table.on('click', '.add', function () {
                         var id = $(this)[0].dataset["id"];
                         var url = '@Url.Action("CapabilityDetail", "HumanResource")/' + id;
-                        $.post(url, function (data) {
-                            $("#detailCapability").html(data);
-                            $('#modalDetail').modal('show');
-                        });
+                        window.location.href = url;
+                        //$.post(url, function (data) {
+                        //    $("#detailCapability").html(data);
+                        //    $('#modalDetail').modal('show');
+                        //});
                     });
 
                     dataTable.table.on('click', '.delete', function () {
@@ -304,7 +302,6 @@
                     postData.push({ "CapDName": capname, "Score1": score1, "Score2": score2, "CapDDesc": capdesc, "CapDID": capid });
                 }
                 
-
                 $.ajax({
                     type: 'POST',
                     url: '@Url.Action("SaveCapabilityDetail", "HumanResource")',

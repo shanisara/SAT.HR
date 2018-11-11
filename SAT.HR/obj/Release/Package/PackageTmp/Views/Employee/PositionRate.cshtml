@@ -31,7 +31,7 @@
                     </div>
                     <h4 class="card-title">
                         <span> อัตรากำลังพล > <small> </small></span>
-                        <div class="pull-right">
+                        <div class="col-md-1 pull-right">
                             @Html.DropDownList("usertype", new SelectList((IEnumerable<SelectListItem>)ViewBag.UserType, "Value", "Text"), new { @class = "selectpicker", data_style = "select-with-transition" })
                         </div>
                     </h4>
@@ -83,8 +83,8 @@
 <!--  End Modal -->
 
 @section Scripts {
-    <link href="@Url.Content("~/Content/assets/js/jstree/themes/default/style.css")" rel="stylesheet" />
-    <script src="@Url.Content("~/Content/assets/js/jstree/jstree.js")"></script>
+    @*<link href="@Url.Content("~/Content/assets/js/jstree/themes/default/style.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Content/assets/js/jstree/jstree.js")"></script>*@
     <script>
 
     $(document).ready(function () {
@@ -140,16 +140,7 @@
                             }
                         }
                     },
-                    'types': {
-                        "root": {
-                            "icon": "glyphicon glyphicon-plus"
-                        },
-                        "child": {
-                            "icon": "glyphicon glyphicon-leaf"
-                        },
-                        "default": {
-                        }
-                    },
+                    "animation": 0,
                     'plugins': ['search', 'wholerow', 'sort', "types"]
                 });
 
@@ -164,10 +155,15 @@
                     }
                 });
 
+                $tree.on('search.jstree', function (e, data) {
+                    if (data.nodes.length) {
+                        //$tree.jstree(true).get_node(nodeId, true).children('#organization').focus();
+                        $tree.jstree(true)._open_to(data.nodes[0]).focus();
+                    }
+                })
 
             },
             destroyTree: function (usertype) {
-                debugger;
                 if (jstree.tree != null) {
                     jstree.tree.jstree("destroy");
                 }
@@ -177,16 +173,15 @@
 
         jstree.initializeTree(1);
 
+        $('#usertype').change(function () {
+            var usertype = $('#usertype').val();
+            jstree.destroyTree(usertype);
+        });
+
 
         $(".btn-search").click(function (e) {
             e.preventDefault();
             $("#organization").jstree(true).search($(".search-tree").val());
-        });
-
-
-        $('.usertype').change(function () {
-            var usertype = $('#usertype').val();
-            jstree.destroyTree(usertype);
         });
 
 
