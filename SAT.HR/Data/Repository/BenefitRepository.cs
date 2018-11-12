@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Globalization;
 
 namespace SAT.HR.Data.Repository
 {
@@ -31,6 +32,7 @@ namespace SAT.HR.Data.Repository
                         model.UserID = item.UserID;
                         model.BrYear = item.BrYear;
                         model.RecID = item.RecID;
+                        model.RecFullName = item.RecFullName;
                         model.BrAmout = item.BrAmout;
                         model.BrRemark = item.BrRemark;
                         model.CreateDate = item.CreateDate;
@@ -70,6 +72,7 @@ namespace SAT.HR.Data.Repository
                         model.BrYear = item.BrYear;
                         model.BrDate = item.BrDate;
                         model.RecID = item.RecID;
+                        model.RecFullName = item.RecFullName;
                         model.BrAmout = item.BrAmout;
                         model.BrRemark = item.BrRemark;
                         model.CreateDate = item.CreateDate;
@@ -105,6 +108,7 @@ namespace SAT.HR.Data.Repository
                     if (Convert.ToDateTime(data.BrDate) > DateTime.MinValue)
                         model.BrDate = Convert.ToDateTime(data.BrDate);
                     model.RecID = data.RecID;
+                    model.RecFullName = data.RecFullName;
                     model.BrAmout = data.BrAmout;
                     model.BrRemark = data.BrRemark;
                     model.CreateBy = UtilityService.User.UserID;
@@ -137,6 +141,7 @@ namespace SAT.HR.Data.Repository
                     if (Convert.ToDateTime(newdata.BrDate) > DateTime.MinValue)
                         model.BrDate = Convert.ToDateTime(newdata.BrDate);
                     model.RecID = newdata.RecID;
+                    model.RecFullName = newdata.RecFullName;
                     model.BrAmout = newdata.BrAmout;
                     model.BrRemark = newdata.BrRemark;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -187,8 +192,12 @@ namespace SAT.HR.Data.Repository
             {
                 using (SATEntities db = new SATEntities())
                 {
+                    var user = db.tb_User.SingleOrDefault(c => c.UserID == userid);
+                    data.ProvidentFundDate = user.ProvidentFundDate;
+                    data.ProvidentFundNo = user.ProvidentFundNo;
+
                     int index = 1;
-                    var providentFund = db.tb_Benefit_Provident_Fund.Where(x => x.UserID == userid).OrderByDescending(o => o.BpID).ToList();
+                    var providentFund = db.vw_Benefit_Provident_Fund.Where(x => x.UserID == userid).OrderByDescending(o => o.BpID).ToList();
 
                     foreach (var item in providentFund)
                     {
@@ -205,13 +214,14 @@ namespace SAT.HR.Data.Repository
                         model.BpBeneficiary3 = item.BpBeneficiary3;
                         model.BpBeneficiary4 = item.BpBeneficiary4;
                         model.BpBeneficiary5 = item.BpBeneficiary5;
+                        model.BpBeneficiary = GetAllBpBeneficiary(item.BpBeneficiary1, item.BpBeneficiary2, item.BpBeneficiary3, item.BpBeneficiary4, item.BpBeneficiary5);
                         model.CreateDate = item.CreateDate;
                         model.CreateBy = item.CreateBy;
                         model.ModifyDate = item.ModifyDate;
                         model.ModifyBy = item.ModifyBy;
-                        model.BpDateChangeFundText = (item.BpDateChangeFund.HasValue) ? item.BpDateChangeFund.Value.ToString("dd/MM/yyyy") : string.Empty;
-                        model.BpAccumFundCuName = "";
-                        model.BpAssoFundCuName = "";
+                        model.BpDateChangeFundText = (item.BpDateChangeFund.HasValue) ? UtilityService.ConvertDateThai(item.BpDateChangeFund.Value).ToString("dd/MM/yyyy") : string.Empty;
+                        model.BpAccumFundCuName = item.BpAccumFundCuName;
+                        model.BpAssoFundCuName = item.BpAssoFundCuName;
                         list.Add(model);
                     }
                 }
@@ -332,6 +342,26 @@ namespace SAT.HR.Data.Repository
                 return result;
             }
         }
+        
+        public BenefitProvidentFundViewModel GetProvidentFund(int userid)
+        {
+            var data = new BenefitProvidentFundViewModel();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var user = db.tb_User.SingleOrDefault(c => c.UserID == userid);
+                    data.UserID = user.UserID;
+                    data.ProvidentFundDate = user.ProvidentFundDate;
+                    data.ProvidentFundNo = user.ProvidentFundNo;
+                }
+                return data;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         public ResponseData DeleteProvidentFundByID(int id)
         {
@@ -356,6 +386,30 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public string GetAllBpBeneficiary(string data1, string data2, string data3, string data4, string data5)
+        {
+            string Beneficiary = "<div style='list-style:decimal; text-align:left; font-size:12px; color:blue'>";
+
+            if (!string.IsNullOrEmpty(data1))
+                Beneficiary = Beneficiary + "<li>" + data1 + "</li>";
+
+            if (!string.IsNullOrEmpty(data2))
+                Beneficiary = Beneficiary + "<li>" + data2 + "</li>";
+
+            if (!string.IsNullOrEmpty(data3))
+                Beneficiary = Beneficiary + "<li>" + data3 + "</li>";
+
+            if (!string.IsNullOrEmpty(data4))
+                Beneficiary = Beneficiary + "<li>" + data4 + "</li>";
+
+            if (!string.IsNullOrEmpty(data5))
+                Beneficiary = Beneficiary + "<li>" + data5 + "</li>";
+
+            Beneficiary = Beneficiary + "</div>";
+
+            return Beneficiary;
+        }
+
         #endregion
 
         #region  3. รักษาพยาบาล
@@ -369,7 +423,7 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
                     int index = 1;
-                    var medical = db.tb_Benefit_Medical.Where(x => x.UserID == userid).OrderByDescending(o => o.BmID).ToList();
+                    var medical = db.vw_Benefit_Medical.Where(x => x.UserID == userid).OrderByDescending(o => o.BmID).ToList();
 
                     foreach (var item in medical)
                     {
@@ -379,7 +433,10 @@ namespace SAT.HR.Data.Repository
                         model.UserID = item.UserID;
                         model.BmYear = item.BmYear;
                         model.ClID = item.ClID;
+                        model.ClName = item.ClName;
                         model.RecID = item.RecID;
+                        model.RecFullName = item.RecFullName;
+                        model.BmCardName = item.RecFullName;
                         model.BmCardID = item.BmCardID;
                         model.BmDate = item.BmDate;
                         model.BmAmoutService = item.BmAmoutService;
@@ -389,9 +446,8 @@ namespace SAT.HR.Data.Repository
                         model.CreateBy = item.CreateBy;
                         model.ModifyDate = item.ModifyDate;
                         model.ModifyBy = item.ModifyBy;
-                        model.BmDateText = (item.BmDate.HasValue) ? item.BmDate.Value.ToString("dd/MM/yyyy") : string.Empty;
-                        model.RecName = "";
-                        model.BmCardName = "";
+                        model.BmDateText = (item.BmDate.HasValue) ? UtilityService.ConvertDateThai(item.BmDate.Value).ToString("dd/MM/yyyy") : string.Empty;
+                        
                         list.Add(model);
                     }
                 }
@@ -457,6 +513,7 @@ namespace SAT.HR.Data.Repository
                     model.BmYear = data.BmYear;
                     model.ClID = data.ClID;
                     model.RecID = data.RecID;
+                    model.RecFullName = data.RecFullName;
                     model.BmCardID = data.BmCardID;
                     model.BmDate = data.BmDate;
                     model.BmAmoutService = data.BmAmoutService;
@@ -493,6 +550,7 @@ namespace SAT.HR.Data.Repository
                     model.BmYear = newdata.BmYear;
                     model.ClID = newdata.ClID;
                     model.RecID = newdata.RecID;
+                    model.RecFullName = newdata.RecFullName;
                     model.BmCardID = newdata.BmCardID;
                     model.BmDate = newdata.BmDate;
                     model.BmAmoutService = newdata.BmAmoutService;
@@ -549,7 +607,7 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
                     int index = 1;
-                    var loan = db.tb_Benefit_Loan.Where(x => x.UserID == userid).OrderByDescending(o => o.BlID).ToList();
+                    var loan = db.vw_Benefit_Loan.Where(x => x.UserID == userid).OrderByDescending(o => o.BlID).ToList();
 
                     foreach (var item in loan)
                     {
@@ -557,7 +615,7 @@ namespace SAT.HR.Data.Repository
                         model.RowNumber = index++;
                         model.BlID = item.BlID;
                         model.UserID = item.UserID;
-                        //model.BlYear = item.BlYear;
+                        model.BlYear = item.BlYear;
                         model.BID = item.BID;
                         model.LtID = item.LtID;
                         model.BlAccountNo = item.BlAccountNo;
@@ -572,8 +630,8 @@ namespace SAT.HR.Data.Repository
                         model.CreateBy = item.CreateBy;
                         model.ModifyDate = item.ModifyDate;
                         model.ModifyBy = item.ModifyBy;
-                        model.BName = "";
-                        model.LtName = "";
+                        model.BName = item.BName;
+                        model.LtName = item.LtName;
                         list.Add(model);
                     }
                 }
@@ -601,7 +659,7 @@ namespace SAT.HR.Data.Repository
                     BenefitLoanViewModel model = new BenefitLoanViewModel();
                     model.BlID = item.BlID;
                     model.UserID = item.UserID;
-                    //model.BlYear = item.BlYear;
+                    model.BlYear = item.BlYear;
                     model.BID = item.BID;
                     model.LtID = item.LtID;
                     model.BlAccountNo = item.BlAccountNo;
@@ -638,7 +696,7 @@ namespace SAT.HR.Data.Repository
                     tb_Benefit_Loan model = new tb_Benefit_Loan();
                     model.BlID = data.BlID;
                     model.UserID = data.UserID;
-                    //model.BlYear = item.BlYear;
+                    model.BlYear = data.BlYear;
                     model.BID = data.BID;
                     model.LtID = data.LtID;
                     model.BlAccountNo = data.BlAccountNo;
@@ -678,7 +736,7 @@ namespace SAT.HR.Data.Repository
                     var model = db.tb_Benefit_Loan.Single(x => x.UserID == newdata.UserID && x.BlID == newdata.BlID);
                     model.BlID = newdata.BlID;
                     model.UserID = newdata.UserID;
-                    //model.BlYear = item.BlYear;
+                    model.BlYear = newdata.BlYear;
                     model.BID = newdata.BID;
                     model.LtID = newdata.LtID;
                     model.BlAccountNo = newdata.BlAccountNo;
@@ -762,10 +820,8 @@ namespace SAT.HR.Data.Repository
                         model.CreateBy = item.CreateBy;
                         model.ModifyDate = item.ModifyDate;
                         model.ModifyBy = item.ModifyBy;
-                        model.RName = "";
-                        model.PName = "";
-                        model.BhrStartDateText = (item.BhrStartDate.HasValue) ? item.BhrStartDate.Value.ToString("dd/MM/yyyy") : string.Empty;
-                        model.BhrEndDateText = (item.BhrEndDate.HasValue) ? item.BhrEndDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        model.BhrStartDateText = (item.BhrStartDate.HasValue) ? UtilityService.ConvertDateThai(item.BhrStartDate.Value).ToString("dd/MM/yyyy") : string.Empty;
+                        model.BhrEndDateText = (item.BhrEndDate.HasValue) ? UtilityService.ConvertDateThai(item.BhrEndDate.Value).ToString("dd/MM/yyyy") : string.Empty;
                         list.Add(model);
                     }
                 }
@@ -930,35 +986,21 @@ namespace SAT.HR.Data.Repository
                 {
                     BenefitChildFundViewModel model = new BenefitChildFundViewModel();
                     int index = 1;
-                    var childFund = db.tb_Benefit_Child_Fund.Where(x => x.UserID == userid).OrderByDescending(o => o.BcfID).ToList();
+                    var childFund = db.tb_User_Family.Where(x => x.UserID == userid && x.RecID == 5).OrderByDescending(o => o.UfName).ToList();
                     if (childFund.Count > 0)
                     {
                         foreach (var item in childFund)
                         {
                             model.RowNumber = index++;
-                            model.BcfID = item.BcfID;
-                            model.UserID = item.UserID;
-                            model.BcfName = item.BcfName;
-                            model.BcfIDCard = item.BcfIDCard;
-                            model.BcfBirthDate = item.BcfBirthDate;
-                            model.BcfExpireDate = item.BcfExpireDate;
-                            model.BcfAmout = item.BcfAmout;
-                            model.BcfBirthDateText = (item.BcfBirthDate.HasValue) ? item.BcfBirthDate.Value.ToString("dd/MM/yyyy") : string.Empty;
-                            model.BcfExpireDateText = (item.BcfExpireDate.HasValue) ? item.BcfExpireDate.Value.ToString("dd/MM/yyyy") : string.Empty;
-                            list.Add(model);
-                        }
-                    }
-                    else
-                    {
-                        var childFamily = db.tb_User_Family.Where(x => x.UserID == userid && x.RecID == 5).ToList();
-                        foreach (var item in childFamily)
-                        {
-                            model.RowNumber = index++;
+                            model.BcfID = item.UfID;
                             model.UserID = item.UserID;
                             model.BcfName = item.UfName;
                             model.BcfIDCard = item.UfCardID;
                             model.BcfBirthDate = item.UfDOB;
-                            model.BcfBirthDateText = (item.UfDOB.HasValue) ? item.UfDOB.Value.ToString("dd/MM/yyyy") : string.Empty;
+                            model.BcfExpireDate = item.UfDOB ?? item.UfDOB.Value.AddYears(18);
+                            model.BcfAmout = item.ChildFundAmout;
+                            model.BcfBirthDateText = (item.UfDOB.HasValue) ? item.UfDOB.Value.ToString("dd/MM/yyyy", new CultureInfo("th-TH")) : string.Empty;
+                            model.BcfExpireDateText = (item.UfDOB.HasValue) ? item.UfDOB.Value.AddYears(18).ToString("dd/MM/yyyy", new CultureInfo("th-TH")) : string.Empty;
                             list.Add(model);
                         }
                     }
@@ -983,24 +1025,24 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
                     int index = 1;
-                    var item = db.tb_Benefit_Child_Fund.Where(x => x.BcfID == id).FirstOrDefault();
+                    var item = db.tb_User_Family.Where(x => x.UfID == id).FirstOrDefault();
                     if (item != null)
                     {
                         BenefitChildFundViewModel model = new BenefitChildFundViewModel();
                         model.RowNumber = index++;
-                        model.BcfID = item.BcfID;
+                        model.BcfID = item.UfID;
                         model.UserID = item.UserID;
-                        model.BcfName = item.BcfName;
-                        model.BcfIDCard = item.BcfIDCard;
-                        model.BcfBirthDate = item.BcfBirthDate;
-                        model.BcfExpireDate = item.BcfExpireDate;
-                        model.BcfAmout = item.BcfAmout;
+                        model.BcfName = item.UfName;
+                        model.BcfIDCard = item.UfCardID;
+                        model.BcfBirthDate = item.UfDOB;
+                        model.BcfExpireDate = item.UfDOB.Value.AddYears(18);
+                        model.BcfAmout = item.ChildFundAmout;
                         model.CreateDate = item.CreateDate;
                         model.CreateBy = item.CreateBy;
                         model.ModifyDate = item.ModifyDate;
                         model.ModifyBy = item.ModifyBy;
-                        model.BcfBirthDateText = (item.BcfBirthDate.HasValue) ? item.BcfBirthDate.Value.ToString("dd/MM/yyyy") : string.Empty;
-                        model.BcfExpireDateText = (item.BcfExpireDate.HasValue) ? item.BcfExpireDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        model.BcfBirthDateText = (item.UfDOB.HasValue) ? item.UfDOB.Value.ToString("dd/MM/yyyy", new CultureInfo("th-TH")) : string.Empty;
+                        model.BcfExpireDateText = (item.UfDOB.HasValue) ? item.UfDOB.Value.AddYears(18).ToString("dd/MM/yyyy", new CultureInfo("th-TH")) : string.Empty;
                         data = model;
                     }
                 }
@@ -1012,39 +1054,6 @@ namespace SAT.HR.Data.Repository
             return data;
         }
 
-        public ResponseData AddChildFundByEntity(BenefitChildFundViewModel data)
-        {
-            using (SATEntities db = new SATEntities())
-            {
-                ResponseData result = new Models.ResponseData();
-                try
-                {
-                    tb_Benefit_Child_Fund model = new tb_Benefit_Child_Fund();
-                    model.BcfID = data.BcfID;
-                    model.UserID = data.UserID;
-                    model.BcfName = data.BcfName;
-                    model.BcfIDCard = data.BcfIDCard;
-                    model.BcfAmout = data.BcfAmout;
-                    if (Convert.ToDateTime(data.BcfBirthDate) > DateTime.MinValue)
-                        model.BcfBirthDate = Convert.ToDateTime(data.BcfBirthDate);
-                    if (Convert.ToDateTime(data.BcfExpireDate) > DateTime.MinValue)
-                        model.BcfExpireDate = Convert.ToDateTime(data.BcfExpireDate);
-                    model.CreateBy = UtilityService.User.UserID;
-                    model.CreateDate = DateTime.Now;
-                    model.ModifyBy = UtilityService.User.UserID;
-                    model.ModifyDate = DateTime.Now;
-                    db.tb_Benefit_Child_Fund.Add(model);
-                    db.SaveChanges();
-                }
-                catch (Exception ex)
-                {
-                    result.MessageCode = "";
-                    result.MessageText = ex.Message;
-                }
-                return result;
-            }
-        }
-
         public ResponseData UpdateChildFundByEntity(BenefitChildFundViewModel newdata)
         {
             using (SATEntities db = new SATEntities())
@@ -1052,42 +1061,11 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    var model = db.tb_Benefit_Child_Fund.Single(x => x.UserID == newdata.UserID && x.BcfID == newdata.BcfID);
-                    model.BcfID = newdata.BcfID;
-                    model.UserID = newdata.UserID;
-                    model.BcfName = newdata.BcfName;
-                    model.BcfIDCard = newdata.BcfIDCard;
-                    model.BcfAmout = newdata.BcfAmout;
-                    if (Convert.ToDateTime(newdata.BcfBirthDate) > DateTime.MinValue)
-                        model.BcfBirthDate = Convert.ToDateTime(newdata.BcfBirthDate);
-                    if (Convert.ToDateTime(newdata.BcfExpireDate) > DateTime.MinValue)
-                        model.BcfExpireDate = Convert.ToDateTime(newdata.BcfExpireDate);
+                    var model = db.tb_User_Family.Single(x => x.UserID == newdata.UserID && x.UfID == newdata.BcfID);
+                    model.ChildFundAmout = newdata.BcfAmout;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
-                }
-                catch (Exception ex)
-                {
-                    result.MessageCode = "";
-                    result.MessageText = ex.Message;
-                }
-                return result;
-            }
-        }
-
-        public ResponseData DeleteChildFundByID(int id)
-        {
-            ResponseData result = new Models.ResponseData();
-            using (SATEntities db = new SATEntities())
-            {
-                try
-                {
-                    var model = db.tb_Benefit_Child_Fund.SingleOrDefault(x => x.BcfID == id);
-                    if (model != null)
-                    {
-                        db.tb_Benefit_Child_Fund.Remove(model);
-                        db.SaveChanges();
-                    }
                 }
                 catch (Exception ex)
                 {
@@ -1112,39 +1090,25 @@ namespace SAT.HR.Data.Repository
                 {
                     BenefitChildEducationViewModel model = new BenefitChildEducationViewModel();
                     int index = 1;
-                    var childEducation = db.tb_Benefit_Child_Education.Where(x => x.UserID == userid).OrderByDescending(o => o.BceID).ToList();
+                    var childEducation = db.tb_User_Family.Where(x => x.UserID == userid && x.RecID == 5).OrderByDescending(o => o.UfName).ToList();
                     if (childEducation.Count > 0)
                     {
                         foreach (var item in childEducation)
                         {
                             model.RowNumber = index++;
-                            model.BceID = item.BceID;
-                            model.UserID = item.UserID;
-                            model.BceName = item.BceName;
-                            model.BceIDCard = item.BceIDCard;
-                            model.BcdBirthDate = item.BcdBirthDate;
-                            model.BcdExpireDate = item.BcdExpireDate;
-                            model.BcdAmout = item.BcdAmout;
-                            model.CreateDate = item.CreateDate;
-                            model.CreateBy = item.CreateBy;
-                            model.ModifyDate = item.ModifyDate;
-                            model.ModifyBy = item.ModifyBy;
-                            model.BcdBirthDateText = (item.BcdBirthDate.HasValue) ? item.BcdBirthDate.Value.ToString("dd/MM/yyyy") : string.Empty;
-                            model.BcdExpireDateText = (item.BcdExpireDate.HasValue) ? item.BcdExpireDate.Value.ToString("dd/MM/yyyy") : string.Empty;
-                            list.Add(model);
-                        }
-                    }
-                    else
-                    {
-                        var childFamily = db.tb_User_Family.Where(x => x.UserID == userid && x.RecID == 5).ToList();
-                        foreach (var item in childFamily)
-                        {
-                            model.RowNumber = index++;
+                            model.BceID = item.UfID;
                             model.UserID = item.UserID;
                             model.BceName = item.UfName;
                             model.BceIDCard = item.UfCardID;
                             model.BcdBirthDate = item.UfDOB;
-                            model.BcdBirthDateText = (item.UfDOB.HasValue) ? item.UfDOB.Value.ToString("dd/MM/yyyy") : string.Empty;
+                            model.BcdExpireDate = item.UfDOB ?? item.UfDOB.Value.AddYears(18);
+                            model.BcdAmout = item.ChildEducationAmout;
+                            model.CreateDate = item.CreateDate;
+                            model.CreateBy = item.CreateBy;
+                            model.ModifyDate = item.ModifyDate;
+                            model.ModifyBy = item.ModifyBy;
+                            model.BcdBirthDateText = (item.UfDOB.HasValue) ? item.UfDOB.Value.ToString("dd/MM/yyyy", new CultureInfo("th-TH")) : string.Empty;
+                            model.BcdExpireDateText = (item.UfDOB.HasValue) ? item.UfDOB.Value.AddYears(18).ToString("dd/MM/yyyy", new CultureInfo("th-TH")) : string.Empty;
                             list.Add(model);
                         }
                     }
@@ -1169,23 +1133,23 @@ namespace SAT.HR.Data.Repository
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    var item = db.tb_Benefit_Child_Education.Where(x => x.BceID == id).FirstOrDefault();
+                    var item = db.tb_User_Family.Where(x => x.UfID == id).FirstOrDefault();
                     if (item != null)
                     {
                         BenefitChildEducationViewModel model = new BenefitChildEducationViewModel();
-                        model.BceID = item.BceID;
+                        model.BceID = item.UfID;
                         model.UserID = item.UserID;
-                        model.BceName = item.BceName;
-                        model.BceIDCard = item.BceIDCard;
-                        model.BcdBirthDate = item.BcdBirthDate;
-                        model.BcdExpireDate = item.BcdExpireDate;
-                        model.BcdAmout = item.BcdAmout;
+                        model.BceName = item.UfName;
+                        model.BceIDCard = item.UfCardID;
+                        model.BcdBirthDate = item.UfDOB;
+                        model.BcdExpireDate = item.UfDOB.Value.AddYears(18);
+                        model.BcdAmout = item.ChildEducationAmout;
                         model.CreateDate = item.CreateDate;
                         model.CreateBy = item.CreateBy;
                         model.ModifyDate = item.ModifyDate;
                         model.ModifyBy = item.ModifyBy;
-                        model.BcdBirthDateText = (item.BcdBirthDate.HasValue) ? item.BcdBirthDate.Value.ToString("dd/MM/yyyy") : string.Empty;
-                        model.BcdExpireDateText = (item.BcdExpireDate.HasValue) ? item.BcdExpireDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        model.BcdBirthDateText = (item.UfDOB.HasValue) ? item.UfDOB.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        model.BcdExpireDateText = (item.UfDOB.HasValue) ? item.UfDOB.Value.AddYears(18).ToString("dd/MM/yyyy") : string.Empty;
                         data = model;
                     }
                 }
@@ -1197,39 +1161,6 @@ namespace SAT.HR.Data.Repository
             return data;
         }
 
-        public ResponseData AddChildEducationByEntity(BenefitChildEducationViewModel data)
-        {
-            using (SATEntities db = new SATEntities())
-            {
-                ResponseData result = new Models.ResponseData();
-                try
-                {
-                    tb_Benefit_Child_Education model = new tb_Benefit_Child_Education();
-                    model.BceID = data.BceID;
-                    model.UserID = data.UserID;
-                    model.BceName = data.BceName;
-                    model.BceIDCard = data.BceIDCard;
-                    model.BcdAmout = data.BcdAmout;
-                    if (Convert.ToDateTime(data.BcdBirthDate) > DateTime.MinValue)
-                        model.BcdBirthDate = Convert.ToDateTime(data.BcdBirthDate);
-                    if (Convert.ToDateTime(data.BcdExpireDate) > DateTime.MinValue)
-                        model.BcdExpireDate = Convert.ToDateTime(data.BcdExpireDate);
-                    model.CreateBy = UtilityService.User.UserID;
-                    model.CreateDate = DateTime.Now;
-                    model.ModifyBy = UtilityService.User.UserID;
-                    model.ModifyDate = DateTime.Now;
-                    db.tb_Benefit_Child_Education.Add(model);
-                    db.SaveChanges();
-                }
-                catch (Exception ex)
-                {
-                    result.MessageCode = "";
-                    result.MessageText = ex.Message;
-                }
-                return result;
-            }
-        }
-
         public ResponseData UpdateChildEducationByEntity(BenefitChildEducationViewModel newdata)
         {
             using (SATEntities db = new SATEntities())
@@ -1237,16 +1168,8 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    var model = db.tb_Benefit_Child_Education.Single(x => x.UserID == newdata.UserID && x.BceID == newdata.BceID);
-                    model.BceID = newdata.BceID;
-                    model.UserID = newdata.UserID;
-                    model.BceName = newdata.BceName;
-                    model.BceIDCard = newdata.BceIDCard;
-                    model.BcdAmout = newdata.BcdAmout;
-                    if (Convert.ToDateTime(newdata.BcdBirthDate) > DateTime.MinValue)
-                        model.BcdBirthDate = Convert.ToDateTime(newdata.BcdBirthDate);
-                    if (Convert.ToDateTime(newdata.BcdExpireDate) > DateTime.MinValue)
-                        model.BcdExpireDate = Convert.ToDateTime(newdata.BcdExpireDate);
+                    var model = db.tb_User_Family.Single(x => x.UserID == newdata.UserID && x.UfID == newdata.BceID);
+                    model.ChildEducationAmout = newdata.BcdAmout;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
@@ -1260,28 +1183,6 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public ResponseData DeleteChildEducationByID(int id)
-        {
-            ResponseData result = new Models.ResponseData();
-            using (SATEntities db = new SATEntities())
-            {
-                try
-                {
-                    var model = db.tb_Benefit_Child_Education.SingleOrDefault(x => x.BceID == id);
-                    if (model != null)
-                    {
-                        db.tb_Benefit_Child_Education.Remove(model);
-                        db.SaveChanges();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    result.MessageCode = "";
-                    result.MessageText = ex.Message;
-                }
-                return result;
-            }
-        }
 
         #endregion
 
@@ -1296,7 +1197,7 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
                     int index = 1;
-                    var cremation = db.tb_Benefit_Cremation.Where(x => x.UserID == userid).OrderByDescending(o => o.BcID).ToList();
+                    var cremation = db.vw_Benefit_Cremation.Where(x => x.UserID == userid).OrderByDescending(o => o.BcID).ToList();
 
                     foreach (var item in cremation)
                     {
@@ -1306,19 +1207,21 @@ namespace SAT.HR.Data.Repository
                         model.UserID = item.UserID;
                         model.BcYear = item.BcYear;
                         model.MID = item.MID;
-                        model.MName = "";
+                        model.MName = item.MName;
                         model.BcMemberNo = item.BcMemberNo;
                         model.BcBeneficiary1 = item.BcBeneficiary1;
                         model.BcBeneficiary2 = item.BcBeneficiary2;
                         model.BcBeneficiary3 = item.BcBeneficiary3;
                         model.BcBeneficiary4 = item.BcBeneficiary4;
                         model.BcBeneficiary5 = item.BcBeneficiary5;
+                        model.BcRecFullName = item.BcRecFullName;
+                        model.BcBeneficiary = GetAllBpBeneficiary(item.BcBeneficiary1, item.BcBeneficiary2, item.BcBeneficiary3, item.BcBeneficiary4, item.BcBeneficiary5);
                         model.BcDate = item.BcDate;
                         model.CreateDate = item.CreateDate;
                         model.CreateBy = item.CreateBy;
                         model.ModifyDate = item.ModifyDate;
                         model.ModifyBy = item.ModifyBy;
-                        model.BcDateText = (item.BcDate.HasValue) ? item.BcDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        model.BcDateText = (item.BcDate.HasValue) ? item.BcDate.Value.ToString("dd/MM/yyyy", new CultureInfo("th-TH")) : string.Empty;
                         list.Add(model);
                     }
                 }
@@ -1348,13 +1251,13 @@ namespace SAT.HR.Data.Repository
                     model.UserID = item.UserID;
                     model.BcYear = item.BcYear;
                     model.MID = item.MID;
-                    model.MName = "";
                     model.BcMemberNo = item.BcMemberNo;
                     model.BcBeneficiary1 = item.BcBeneficiary1;
                     model.BcBeneficiary2 = item.BcBeneficiary2;
                     model.BcBeneficiary3 = item.BcBeneficiary3;
                     model.BcBeneficiary4 = item.BcBeneficiary4;
                     model.BcBeneficiary5 = item.BcBeneficiary5;
+                    model.BcRecFullName = item.BcRecFullName;
                     model.BcDate = item.BcDate;
                     model.CreateDate = item.CreateDate;
                     model.CreateBy = item.CreateBy;
@@ -1391,6 +1294,7 @@ namespace SAT.HR.Data.Repository
                     model.BcBeneficiary3 = data.BcBeneficiary3;
                     model.BcBeneficiary4 = data.BcBeneficiary4;
                     model.BcBeneficiary5 = data.BcBeneficiary5;
+                    model.BcRecFullName = data.BcRecFullName;
                     if (Convert.ToDateTime(data.BcDate) > DateTime.MinValue)
                         model.BcDate = Convert.ToDateTime(data.BcDate);
                     model.CreateBy = UtilityService.User.UserID;
@@ -1427,6 +1331,7 @@ namespace SAT.HR.Data.Repository
                     model.BcBeneficiary3 = newdata.BcBeneficiary3;
                     model.BcBeneficiary4 = newdata.BcBeneficiary4;
                     model.BcBeneficiary5 = newdata.BcBeneficiary5;
+                    model.BcRecFullName = newdata.BcRecFullName;
                     if (Convert.ToDateTime(newdata.BcDate) > DateTime.MinValue)
                         model.BcDate = Convert.ToDateTime(newdata.BcDate);
                     model.ModifyBy = UtilityService.User.UserID;
@@ -1478,7 +1383,7 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
                     int index = 1;
-                    var replacement = db.tb_Benefit_Death_Replacement.Where(x => x.UserID == userid).OrderByDescending(o => o.BdID).ToList();
+                    var replacement = db.vw_Benefit_Death_Replacement.Where(x => x.UserID == userid).OrderByDescending(o => o.BdID).ToList();
 
                     foreach (var item in replacement)
                     {
@@ -1487,7 +1392,7 @@ namespace SAT.HR.Data.Repository
                         model.BdID = item.BdID;
                         model.UserID = item.UserID;
                         model.RecID = item.RecID;
-                        model.RecName = "";
+                        model.RecName = item.RecName;
                         model.BdYear = item.BdYear;
                         model.BdFullName = item.BdFullName;
                         model.BdTime = item.BdTime;
@@ -1499,7 +1404,7 @@ namespace SAT.HR.Data.Repository
                         model.CreateBy = item.CreateBy;
                         model.ModifyDate = item.ModifyDate;
                         model.ModifyBy = item.ModifyBy;
-                        model.BdDateText = (item.BdDate.HasValue) ? item.BdDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        model.BdDateText = (item.BdDate.HasValue) ? item.BdDate.Value.ToString("dd/MM/yyyy", new CultureInfo("th-TH")) : string.Empty;
                         list.Add(model);
                     }
                 }
@@ -1528,7 +1433,7 @@ namespace SAT.HR.Data.Repository
                     model.BdID = item.BdID;
                     model.UserID = item.UserID;
                     model.RecID = item.RecID;
-                    model.RecName = "";
+                    model.BdYear = item.BdYear;
                     model.BdFullName = item.BdFullName;
                     model.BdTime = item.BdTime;
                     model.BdPer = item.BdPer;
@@ -1562,6 +1467,7 @@ namespace SAT.HR.Data.Repository
                     tb_Benefit_Death_Replacement model = new tb_Benefit_Death_Replacement();
                     model.BdID = data.BdID;
                     model.UserID = data.UserID;
+                    model.BdYear = data.BdYear;
                     model.RecID = data.RecID;
                     model.BdFullName = data.BdFullName;
                     model.BdTime = data.BdTime;
@@ -1597,6 +1503,7 @@ namespace SAT.HR.Data.Repository
                     var model = db.tb_Benefit_Death_Replacement.Single(x => x.UserID == newdata.UserID && x.BdID == newdata.BdID);
                     model.BdID = newdata.BdID;
                     model.UserID = newdata.UserID;
+                    model.BdYear = newdata.BdYear;
                     model.RecID = newdata.RecID;
                     model.BdFullName = newdata.BdFullName;
                     model.BdTime = newdata.BdTime;
@@ -1655,7 +1562,7 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
                     int index = 1;
-                    var deathSubsidy = db.tb_Benefit_Death_Subsidy.Where(x => x.UserID == userid).OrderByDescending(o => o.BdID).ToList();
+                    var deathSubsidy = db.vw_Benefit_Death_Subsidy.Where(x => x.UserID == userid).OrderByDescending(o => o.BdID).ToList();
 
                     foreach (var item in deathSubsidy)
                     {
@@ -1664,7 +1571,7 @@ namespace SAT.HR.Data.Repository
                         model.BdID = item.BdID;
                         model.UserID = item.UserID;
                         model.RecID = item.RecID;
-                        model.RecName = "";// item.RecName;
+                        model.RecName = item.RecName;
                         model.BdYear = item.BdYear;
                         model.BdFullName = item.BdFullName;
                         model.BdTime = item.BdTime;
@@ -1676,7 +1583,7 @@ namespace SAT.HR.Data.Repository
                         model.CreateBy = item.CreateBy;
                         model.ModifyDate = item.ModifyDate;
                         model.ModifyBy = item.ModifyBy;
-                        model.BdDateText = (item.BdDate.HasValue) ? item.BdDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        model.BdDateText = (item.BdDate.HasValue) ? item.BdDate.Value.ToString("dd/MM/yyyy", new CultureInfo("th-TH")) : string.Empty;
                         list.Add(model);
                     }
                 }
@@ -1704,8 +1611,8 @@ namespace SAT.HR.Data.Repository
                     BenefitDeathSubsidyViewModel model = new BenefitDeathSubsidyViewModel();
                     model.BdID = item.BdID;
                     model.UserID = item.UserID;
+                    model.BdYear = item.BdYear;
                     model.RecID = item.RecID;
-                    model.RecName = "";// item.RecName;
                     model.BdFullName = item.BdFullName;
                     model.BdTime = item.BdTime;
                     model.BdPer = item.BdPer;
@@ -1739,6 +1646,7 @@ namespace SAT.HR.Data.Repository
                     tb_Benefit_Death_Subsidy model = new tb_Benefit_Death_Subsidy();
                     model.BdID = data.BdID;
                     model.UserID = data.UserID;
+                    model.BdYear = data.BdYear;
                     model.RecID = data.RecID;
                     model.BdFullName = data.BdFullName;
                     model.BdTime = data.BdTime;
@@ -1774,6 +1682,7 @@ namespace SAT.HR.Data.Repository
                     var model = db.tb_Benefit_Death_Subsidy.Single(x => x.UserID == newdata.UserID && x.BdID == newdata.BdID);
                     model.BdID = newdata.BdID;
                     model.UserID = newdata.UserID;
+                    model.BdYear = newdata.BdYear;
                     model.RecID = newdata.RecID;
                     model.BdFullName = newdata.BdFullName;
                     model.BdTime = newdata.BdTime;
@@ -1823,7 +1732,7 @@ namespace SAT.HR.Data.Repository
 
         #region 11.สวัสดิการอื่นๆ
 
-        public BenefitOtherWelfareViewModel GetOtherWelfareByUser(int userid)
+        public BenefitOtherWelfareViewModel GetOtherWelfareByUser(int userid, int? year, int? type)
         {
             var data = new BenefitOtherWelfareViewModel();
             var list = new List<BenefitOtherWelfareViewModel>();
@@ -1832,7 +1741,13 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
                     int index = 1;
-                    var otherWelfare = db.tb_Benefit_Other_Welfare.Where(x => x.UserID == userid).OrderByDescending(o => o.BoID).ToList();
+                    var otherWelfare = db.vw_Benefit_Other_Welfare.Where(x => x.UserID == userid).OrderByDescending(o => o.BoID).ToList();
+
+                    if(year.HasValue)
+                        otherWelfare = otherWelfare.Where(x => x.BoYear == year).ToList();
+
+                    if (type.HasValue)
+                        otherWelfare = otherWelfare.Where(x => x.BenTID == type).ToList();
 
                     foreach (var item in otherWelfare)
                     {
@@ -1840,6 +1755,7 @@ namespace SAT.HR.Data.Repository
                         model.RowNumber = index++;
                         model.BoID = item.BoID;
                         model.UserID = item.UserID;
+                        model.BoYear = item.BoYear;
                         model.BenTID = item.BenTID;
                         model.BoRecID = item.BoRecID;
                         model.BoRecFullName = item.BoRecFullName;
@@ -1854,10 +1770,10 @@ namespace SAT.HR.Data.Repository
                         model.CreateBy = item.CreateBy;
                         model.ModifyDate = item.ModifyDate;
                         model.ModifyBy = item.ModifyBy;
-                        model.BoDateText = (item.BoDate.HasValue) ? item.BoDate.Value.ToString("dd/MM/yyyy") : string.Empty;
-                        model.BenTName = "";
-                        model.BoRecName = "";
-                        model.BoOptRecName = "";
+                        model.BoDateText = (item.BoDate.HasValue) ? item.BoDate.Value.ToString("dd/MM/yyyy", new CultureInfo("th-TH")) : string.Empty;
+                        model.BenTName = item.BenTName;
+                        model.BoRecName = item.BoRecName;
+                        model.BoOptRecName = item.BoOptRecName;
                         model.BoYear = item.BoYear;
                         list.Add(model);
                     }
@@ -1886,6 +1802,7 @@ namespace SAT.HR.Data.Repository
                     BenefitOtherWelfareViewModel model = new BenefitOtherWelfareViewModel();
                     model.BoID = item.BoID;
                     model.UserID = item.UserID;
+                    model.BoYear = item.BoYear;
                     model.BenTID = item.BenTID;
                     model.BoRecID = item.BoRecID;
                     model.BoRecFullName = item.BoRecFullName;
@@ -1926,6 +1843,7 @@ namespace SAT.HR.Data.Repository
                     tb_Benefit_Other_Welfare model = new tb_Benefit_Other_Welfare();
                     model.BoID = data.BoID;
                     model.UserID = data.UserID;
+                    model.BoYear = data.BoYear;
                     model.BenTID = data.BenTID;
                     model.BoRecID = data.BoRecID;
                     model.BoRecFullName = data.BoRecFullName;
@@ -1964,6 +1882,7 @@ namespace SAT.HR.Data.Repository
                     var model = db.tb_Benefit_Other_Welfare.Single(x => x.UserID == newdata.UserID && x.BoID == newdata.BoID);
                     model.BoID = newdata.BoID;
                     model.UserID = newdata.UserID;
+                    model.BoYear = newdata.BoYear;
                     model.BenTID = newdata.BenTID;
                     model.BoRecID = newdata.BoRecID;
                     model.BoRecFullName = newdata.BoRecFullName;
@@ -2011,6 +1930,22 @@ namespace SAT.HR.Data.Repository
                 return result;
             }
         }
+
+        public List<YearOtherWelfareViewModel> GetYearOtherWelfare()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var lists = new List<YearOtherWelfareViewModel>();
+                lists = db.tb_Benefit_Other_Welfare.GroupBy(g => g.BoYear).Select(group => new { BoYear = group.Key })
+                            .Select(s => new YearOtherWelfareViewModel()
+                            {
+                                Year = (int)s.BoYear
+                            })
+                            .OrderByDescending(x => x.Year).ToList();
+                return lists;
+            }
+        }
+
 
         #endregion
     }

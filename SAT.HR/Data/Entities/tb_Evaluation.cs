@@ -12,20 +12,18 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_Benefit_Child_Education
+    public partial class tb_Evaluation
     {
-        public int BceID { get; set; }
-        public Nullable<int> UserID { get; set; }
-        public string BceName { get; set; }
-        public Nullable<decimal> BceIDCard { get; set; }
-        public Nullable<System.DateTime> BcdBirthDate { get; set; }
-        public Nullable<System.DateTime> BcdExpireDate { get; set; }
-        public Nullable<decimal> BcdAmout { get; set; }
+        public int UserID { get; set; }
+        public int CapDID { get; set; }
+        public Nullable<int> Score1 { get; set; }
+        public Nullable<int> Score2 { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
     
+        public virtual tb_Capability_Detail tb_Capability_Detail { get; set; }
         public virtual tb_User tb_User { get; set; }
     }
 }

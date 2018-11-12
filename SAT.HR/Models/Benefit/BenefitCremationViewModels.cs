@@ -18,6 +18,7 @@ namespace SAT.HR.Models
         public string BcBeneficiary3 { get; set; }
         public string BcBeneficiary4 { get; set; }
         public string BcBeneficiary5 { get; set; }
+        public string BcRecFullName { get; set; }
         public Nullable<System.DateTime> BcDate { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
@@ -25,6 +26,7 @@ namespace SAT.HR.Models
         public Nullable<int> ModifyBy { get; set; }
         public string MName { get; set; }
         public string BcDateText { get; set; }
+        public string BcBeneficiary { get; set; }
         public List<BenefitCremationViewModel> ListCremation { get; set; }
     }
 }

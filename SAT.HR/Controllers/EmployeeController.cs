@@ -134,6 +134,12 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult UpdateProvidentFund(int userid, string fundno, string funddate)
+        {
+            var result = new EmployeeRepository().UpdateProvidentFund(userid, fundno, funddate);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         #region 1.2 Tab: User-Family
@@ -525,6 +531,7 @@ namespace SAT.HR.Controllers
             ViewBag.Department = DropDownList.GetDepartment(model != null ? model.DivID : null, model != null ? model.DepID: null, false);
             ViewBag.Section = DropDownList.GetSection(model != null ? model.DivID : null, model != null ? model.DepID: null, model != null ? model.SecID: null, false);
             ViewBag.Position = DropDownList.GetPosition(model != null ? model.PoID : null, type, false);
+            ViewBag.Discipline = DropDownList.GetDiscipline(model != null ? model.DisID : null, true);
             ViewBag.Education = DropDownList.GetEducation(model != null ? model.EduID : null, true);
             ViewBag.TypeID = type;
             return PartialView("_PositionRate", model);
@@ -532,20 +539,18 @@ namespace SAT.HR.Controllers
 
         public JsonResult GetRoot(int id)
         {
-            //var items = new[]
-            //{
-            //    new
-            //    {
-            //        id = "0",
-            //        text = "การกีฬาแห่งประเทศไทย",
-            //        state = new { opened = true },
-            //        icon = SysConfig.ApplicationRoot + "Content/assets/img/home.png",
-            //        children = new PositionRateRepository().GetTree(id)
-            //    }
-            //}
-            //.ToList();
+            var items = new[]
+            {
+                new
+                {
+                    id = "0",
+                    text = "การกีฬาแห่งประเทศไทย",
+                    state = new { opened = true },
+                    icon = SysConfig.ApplicationRoot + "Content/assets/img/home.png",
+                    children = new PositionRateRepository().GetTree(id)
+                }
+            }.ToList();
 
-            var items = new PositionRateRepository().GetTree(id);
             return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
@@ -605,13 +610,6 @@ namespace SAT.HR.Controllers
             var model = new LevelTransferRepository().GetByID(id);
             return View(model);
         }
-
-        //[HttpPost]
-        //public JsonResult LevelTransferDetailPage(int? id)
-        //{
-        //    var list = new LevelTransferRepository().GetDetail(id);
-        //    return Json(new { data = list }, JsonRequestBehavior.AllowGet);
-        //}
 
         public ActionResult LevelTransferDetailByID(int? id)
         {
@@ -675,13 +673,6 @@ namespace SAT.HR.Controllers
             ViewBag.MoveType = DropDownList.GetMoveType(model != null ? model.MtID : null);
             return View(model);
         }
-
-        //[HttpPost]
-        //public JsonResult PositionTransferDetail(int? id)
-        //{
-        //    var list = new PositionTransferRepository().GetDetail(id);
-        //    return Json(new { data = list }, JsonRequestBehavior.AllowGet);
-        //}
 
         public ActionResult PositionTransferDetailByID(int? id, int? type)
         {

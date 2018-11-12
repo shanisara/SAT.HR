@@ -567,6 +567,32 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public ResponseData UpdateProvidentFund(int id, string fundno, string funddate)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var model = db.tb_User.SingleOrDefault(c => c.UserID == id);
+                    if (model != null)
+                    {
+                        model.ProvidentFundNo = fundno;
+                        if (Convert.ToDateTime(funddate) > DateTime.MinValue)
+                            model.ProvidentFundDate = Convert.ToDateTime(funddate);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
+        
+
         #endregion
 
         #region 1.2 Tab: User-Family
@@ -638,19 +664,29 @@ namespace SAT.HR.Data.Repository
             return data;
         }
 
-        public List<UserFamilyViewModel> GetUserFamilyByRec(int id, int? recid)
+        public List<UserFamilyViewModel> GetUserFamilyByRec(int? recid, int? id)
         {
             List<UserFamilyViewModel> list = new List<UserFamilyViewModel>();
             try
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    var family = db.tb_User_Family.Where(w => w.UserID == id && w.RecID == recid).ToList();
-                    foreach (var s in family)
+                    if (recid == 1)
                     {
+                        var user = db.tb_User.Where(w => w.UserID == id).FirstOrDefault();
                         UserFamilyViewModel model = new UserFamilyViewModel();
-                        model.UfName = s.UfName;
+                        model.UfName = user.FirstNameTh + " " + user.LastNameTh;
                         list.Add(model);
+                    }
+                    else
+                    {
+                        var family = db.tb_User_Family.Where(w => w.UserID == id && w.RecID == recid).ToList();
+                        foreach (var s in family)
+                        {
+                            UserFamilyViewModel model = new UserFamilyViewModel();
+                            model.UfName = s.UfName;
+                            list.Add(model);
+                        }
                     }
                 }
             }
@@ -1002,6 +1038,7 @@ namespace SAT.HR.Data.Repository
                         model.UpForceDateText = (item.UpForceDate.HasValue) ? item.UpForceDate.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.UpRemark = item.UpRemark;
                         model.UpPathFile = item.UpPathFile;
+                        model.FullPosition = "";
                         list.Add(model);
                     }
                 }
@@ -1645,6 +1682,8 @@ namespace SAT.HR.Data.Repository
                         model.ExTName = item.ExTName;
                         model.UeProjectName = item.UeProjectName;
                         model.UeRecDateText = (item.UeRecDate.HasValue) ? item.UeRecDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        model.PoName = "";
+                        model.FullPosition = "";
                         list.Add(model);
                     }
                 }

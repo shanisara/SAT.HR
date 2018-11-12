@@ -14,8 +14,17 @@ namespace SAT.HR.Data.Entities
     
     public partial class tb_Capability_Group
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tb_Capability_Group()
+        {
+            this.tb_Capability = new HashSet<tb_Capability>();
+        }
+    
         public int CapGID { get; set; }
         public string CapGName { get; set; }
         public string TableName { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Capability> tb_Capability { get; set; }
     }
 }

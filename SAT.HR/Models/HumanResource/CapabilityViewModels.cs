@@ -31,6 +31,8 @@ namespace SAT.HR.Models
         public DateTime? ModifyDate { get; set; }
 
         public Nullable<int> ModifyBy { get; set; }
+
+        public List<CapabilityDetailViewModel> ListCapability { get; set; }
     }
 
     public class CapabilityDetailViewModel
@@ -47,9 +49,8 @@ namespace SAT.HR.Models
 
         public int? Score2 { get; set; }
 
-        public List<CapabilityDetailViewModel> _ListCapabilityDetail { get; set; }
+        //public List<CapabilityDetailViewModel> _ListCapabilityDetail { get; set; }
     }
-    
 
     public class CapabilityTypeViewModel
     {
@@ -80,5 +81,17 @@ namespace SAT.HR.Models
         public int recordsTotal { get; set; }
         public int recordsFiltered { get; set; }
         public List<CapabilityViewModel> data { get; set; }
+    }
+
+    public class YearCapabilityViewModel
+    {
+        public int Year { get; set; }
+    }
+
+    public partial class CapabilityModel
+    {
+        public int CapID { get; set; }
+        public int CapYear { get; set; }
+        public string CapName { get; set; }
     }
 }

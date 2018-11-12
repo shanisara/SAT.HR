@@ -22,8 +22,8 @@ namespace SAT.HR.Models
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
-        public string FullNameTh { get; set; }
-        public string RecName { get; set; }
+        public string RecFullName { get; set; }
+        public string ClName { get; set; }
         public string BmCardName { get; set; }
         public string BmDateText { get; set; }
 

@@ -5,11 +5,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<link href="@Url.Content("~/Content/assets/js/jstree/themes/default/style.css")" rel="stylesheet" />
 <style>
-    select.form-control:focus {
-        font-size: 13px;
+    /*.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+        width: 100px;
+        margin-left: 13px;
+        margin-top: -5px;
+    }*/
+
+    .card [class*=card-header-] .card-title a {
+        color: #3C4858;
     }
+
+        .card [class*=card-header-] .card-title a:hover {
+            color: #fff;
+        }
 </style>
 
 <div class="content">
@@ -21,9 +30,8 @@
                         <i class="material-icons">group</i>
                     </div>
                     <h4 class="card-title">
-                        <span> อัตรากำลังพล  > </span><small>พนักงาน</small>
-                        <div class="pull-right">
-                            @*@Html.Label("ประเภทบุคลากร: ", null, new { @class = "col-form-label" })*@
+                        <span> อัตรากำลังพล > <small> </small></span>
+                        <div class="col-md-2 pull-right">
                             @Html.DropDownList("usertype", new SelectList((IEnumerable<SelectListItem>)ViewBag.UserType, "Value", "Text"), new { @class = "selectpicker", data_style = "select-with-transition" })
                         </div>
                     </h4>
@@ -74,9 +82,9 @@
 </div>
 <!--  End Modal -->
 
-
 @section Scripts {
-    <script src="@Url.Content("~/Content/assets/js/jstree/jstree.js")"></script>
+    @*<link href="@Url.Content("~/Content/assets/js/jstree/themes/default/style.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Content/assets/js/jstree/jstree.js")"></script>*@
     <script>
 
     $(document).ready(function () {
@@ -89,58 +97,42 @@
             tree: null,
             initializeTree: function (usertype) {
                 var $tree = $('#organization');
-
-                //jstree.tree = $tree.jstree({
-                //    'core': {
-                //        'strings': { 'Loading ...': 'กรุณารอสักครู่ ...' },
-                //        'data': {
-                //            'url': '/Employee/GetTreeAll/' + usertype,
-                //            'data': function (node) {
-                //                return { 'id': node.id };
-                //            }
-                //        }
-                //    },
-                //    'plugins': ['search', 'wholerow', 'sort']
-                //});
-
-
                 jstree.tree = $tree.jstree({
                     'core': {
                         'strings': { 'Loading ...': 'กรุณารอสักครู่ ...' },
                         'data': {
                             'url': function (node) {
                                 if (node.id === '#') {
-                                    return '/Employee/GetRoot/' + usertype;
+                                    return 'GetRoot/' + usertype;
                                 }
                                 else {
-                                    debugger;
                                     var div = null; var dep = null; var sec = null; var po = null;
                                     var parenttype = node.original.node_type;
                                     if (parenttype == 'div') {
                                         div = node.id;
                                     }
                                     else if (parenttype == 'dep') {
-                                        div = (node.parents.length == 2) ? node.parents[0] : null;
+                                        div = (node.parents.length == 3) ? node.parents[0] : null;
                                         dep = node.id;
                                     }
                                     else if (parenttype == 'sec') {
-                                        div = (node.parents.length == 3) ? node.parents[1] : null;
-                                        dep = (node.parents.length == 3) ? node.parents[0] : null;
+                                        div = (node.parents.length == 4) ? node.parents[1] : null;
+                                        dep = (node.parents.length == 4) ? node.parents[0] : null;
                                         sec = node.id;
                                     }
                                     else if (parenttype == 'pos') {
-                                        div = (node.parents.length == 4) ? node.parents[2] : null;
-                                        dep = (node.parents.length == 4) ? node.parents[1] : null;
-                                        sec = (node.parents.length == 4) ? node.parents[0] : null;
+                                        div = (node.parents.length == 5) ? node.parents[2] : null;
+                                        dep = (node.parents.length == 5) ? node.parents[1] : null;
+                                        sec = (node.parents.length == 5) ? node.parents[0] : null;
                                         po = node.id;
                                     }
                                     else if (parenttype == 'user') {
-                                        div = (node.parents.length == 5) ? node.parents[3] : null;
-                                        dep = (node.parents.length == 5) ? node.parents[2] : null;
-                                        sec = (node.parents.length == 5) ? node.parents[1] : null;
-                                        po = (node.parents.length == 5) ? node.parents[0] : null;
+                                        div = (node.parents.length == 6) ? node.parents[3] : null;
+                                        dep = (node.parents.length == 6) ? node.parents[2] : null;
+                                        sec = (node.parents.length == 6) ? node.parents[1] : null;
+                                        po = (node.parents.length == 6) ? node.parents[0] : null;
                                     }
-                                    return '/Employee/GetChildren/' + node.id + '?parenttype=' + parenttype + '&usertype=' + usertype + '&div=' + div + '&dep=' + dep + '&sec=' + sec + '&po=' + po;
+                                    return 'GetChildren/' + node.id + '?parenttype=' + parenttype + '&usertype=' + usertype + '&div=' + div + '&dep=' + dep + '&sec=' + sec + '&po=' + po;
                                 }
                             },
                             'data': function (node, callback) {
@@ -148,11 +140,12 @@
                             }
                         }
                     },
-                    'plugins': ['search', 'wholerow', 'sort']
+                    "animation": 0,
+                    'plugins': ['search', 'wholerow', 'sort', "types"]
                 });
 
                 $tree.on('changed.jstree', function (e, data) {
-                    var usertype = $('.usertype').val();
+                    var usertype = $('#usertype').val();
                     if (data.node.original.node_type == 'user') {
                         var url = '@Url.Action("PositionRateDetail", "Employee")/' + data.node.id + "?type=" + usertype;
                         $.post(url, function (data) {
@@ -162,10 +155,15 @@
                     }
                 });
 
+                $tree.on('search.jstree', function (e, data) {
+                    if (data.nodes.length) {
+                        //$tree.jstree(true).get_node(nodeId, true).children('#organization').focus();
+                        $tree.jstree(true)._open_to(data.nodes[0]).focus();
+                    }
+                })
 
             },
             destroyTree: function (usertype) {
-                debugger;
                 if (jstree.tree != null) {
                     jstree.tree.jstree("destroy");
                 }
@@ -175,6 +173,11 @@
 
         jstree.initializeTree(1);
 
+        $('#usertype').change(function () {
+            var usertype = $('#usertype').val();
+            jstree.destroyTree(usertype);
+        });
+
 
         $(".btn-search").click(function (e) {
             e.preventDefault();
@@ -182,14 +185,8 @@
         });
 
 
-        $('.usertype').change(function () {
-            var usertype = $('.usertype').val();
-            jstree.destroyTree(usertype);
-        });
-
-
         $(".add-position").click(function () {
-            var usertype = $('.usertype').val();
+            var usertype = $('#usertype').val();
             var url = '@Url.Action("PositionRateDetail", "Employee")/0' + "?type=" + usertype;
             $.post(url, function (data) {
                 $(".detail-position").html(data);
@@ -237,7 +234,7 @@
                                 buttonsStyling: false
                             }).then(function () {
                                 if (res.ID != 0) {
-                                    var usertype = $('.usertype').val();
+                                    var usertype = $('#usertype').val();
                                     jstree.destroyTree(usertype);
                                 }
                                 $('.modal-position').modal('hide');

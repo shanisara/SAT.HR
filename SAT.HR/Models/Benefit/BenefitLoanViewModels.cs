@@ -8,7 +8,7 @@ namespace SAT.HR.Models
     public class BenefitLoanViewModel
     {
         public int RowNumber { get; set; }
-        public int BlYear { get; set; }
+        public int? BlYear { get; set; }
         public int BlID { get; set; }
         public int UserID { get; set; }
         public Nullable<int> BID { get; set; }

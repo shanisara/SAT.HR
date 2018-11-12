@@ -99,6 +99,16 @@ namespace SAT.HR.Helpers
         //    }
         //}
 
+        public static DateTime ConvertDateThai(DateTime? date)
+        {
+            DateTime dateThai = Convert.ToDateTime(date.Value.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("th-TH")));
+            return dateThai;
+        }
+        public static DateTime ConvertDateThai2Eng(DateTime? date)
+        {
+            DateTime dateEng = Convert.ToDateTime(date.Value.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("en-GB")));
+            return dateEng;
+        }
     }
 
     public class SysConfig
@@ -191,6 +201,14 @@ namespace SAT.HR.Helpers
             }
         }
 
+        public static string PathUploadCourse
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathUploadCourse");
+            }
+        }
+
         public static string PathDownloadUserAvatar
         {
             get
@@ -228,6 +246,14 @@ namespace SAT.HR.Helpers
             get
             {
                 return SysConfigRepository.GetKeyValue("PathDownloadUserPosition");
+            }
+        }
+
+        public static string PathDownloadCourse
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathDownloadCourse");
             }
         }
 

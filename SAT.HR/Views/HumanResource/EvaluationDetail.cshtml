@@ -1,0 +1,153 @@
+﻿@model SAT.HR.Models.EvaluationViewModel
+
+@{
+    ViewBag.Title = "EvaluationDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        vertical-align: top;
+    }
+</style>
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-evaluation" }))
+                 {
+                    <div class="card-header card-header-primary card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">accessibility</i>
+                        </div>
+                        <h4 class="card-title">
+                            @Html.HiddenFor(m => m.UserID)
+                            <span>  บันทึกข้อมูลสมรรถนะ </span>
+                            <span class="text-primary">@Model.FullNameTh (@Model.IDCard)</span>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" style="margin-left: 8px;">
+                            <span>ปีบัญชี: </span>
+                            <span style="width: 50px;"> @Model.CapYear</span>
+                            <span>แบบประเมิน: @Model.EvaluationName</span>
+                        </div>
+                        <div class="toolbar pull-right">
+                            <button class="btn btn-primary btn-sm export" data-toggle="modal"><i class="material-icons"></i>Export</button>
+                        </div>
+                        <div class="material-datatables">
+                            <table id="datatables" data-url="@Url.Content("~/HumanResource/Evaluation")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                                <thead class="text-primary">
+                                    <tr>
+                                        <th style="width:5%" class="disabled-sorting">ลำดับ</th>
+                                        <th style="width:15%">ชื่อสมรรถนะ</th>
+                                        <th style="width:40%">รายละเอียด</th>
+                                        <th style="width:10%; text-align:right">คะแนนครั้งที่ 1</th>
+                                        <th style="width:10%; text-align:right">คะแนนครั้งที่ 2</th>
+                                        <th style="width:10%; text-align:right">ผลวัดครั้งที่ 1</th>
+                                        <th style="width:10%; text-align:right">ผลวัดครั้งที่ 2</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null && Model.ListEvaluation != null)
+                                {
+                                    int index = 1;
+                                    for (int i = 0; i < Model.ListEvaluation.Count; i++)
+                                    {
+                                        <tr data-userid="@Model.ListEvaluation[i].UserID" data-capdid="@Model.ListEvaluation[i].CapDID">
+                                            @Html.HiddenFor(model => Model.ListEvaluation[i].UserID)
+                                            @Html.HiddenFor(model => Model.ListEvaluation[i].CapDID)
+                                            <td>@index</td>
+                                            <td>@Model.ListEvaluation[i].CapDName</td>
+                                            <td>@Model.ListEvaluation[i].CapDDesc</td>
+                                            <td class="text-center">@Model.ListEvaluation[i].CapScore1</td>
+                                            <td class="text-center">@Model.ListEvaluation[i].CapScore2</td>
+                                            <td>@Html.TextBoxFor(model => Model.ListEvaluation[i].UserScore1, new { @class = "form-control text-right", @style= "margin-top: -7px;", type = "number" })</td>
+                                            <td>@Html.TextBoxFor(model => Model.ListEvaluation[i].UserScore2, new { @class = "form-control text-right", @style = "margin-top: -7px;", type = "number" })</td>
+                                        </tr>
+                                        index++;
+                                    }
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="ml-auto mr-auto">
+                                <button type="button" class="btn btn-back">ย้อนกลับ</button>
+                                <button type="button" class="btn btn-primary btn-save">บันทึก</button>
+                            </div>
+                        </div>
+                    </div>
+                    }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            $('.selectpicker').selectpicker();
+
+            $('select[name=year]').change(function () {
+                var year = $('select[name=year]').val();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetCapability", "HumanResource")',
+                    data: { year: year },
+                    dataType: 'json',
+                    success: function (res) {
+                        $('select[name=capability]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                        $.each(res, function (key, entry) {
+                            $('select[name=capability]').append($('<option>', { value: entry.Value, text: entry.Text }));
+                        });
+                        $('select[name=capability]').selectpicker('refresh');
+                    }
+                });
+            });
+
+
+            $(".btn-back").click(function () {
+                var url = '@Url.Action("Evaluation", "HumanResource")';
+                window.location.href = url;
+            });
+
+            $(".btn-save").click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SaveEvaluation", "HumanResource")',
+                    data: $(".form-evaluation").serialize(),
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.MessageCode == null) {
+                            swal({
+                                title: "",
+                                text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                                type: "success",
+                                confirmButtonClass: "btn btn-primary",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                buttonsStyling: false,
+                            }).then(function () {
+
+                            });
+                        }
+                        else {
+                            swal({
+                                title: '',
+                                text: res.MessageText,
+                                type: 'error',
+                                confirmButtonClass: "btn btn-primary",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                buttonsStyling: false
+                            }).catch(swal.noop);
+                        }
+                    }
+                });
+            });
+
+        });
+
+    </script>
+}

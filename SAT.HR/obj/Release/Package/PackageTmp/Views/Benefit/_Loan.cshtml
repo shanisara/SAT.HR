@@ -26,13 +26,13 @@
                                 <thead class="text-primary">
                                     <tr>
                                         <th style="width:5%;" class="text-center">#</th>
-                                        <th style="width:14%;" class="text-center">แหล่งเงินกู้</th>
-                                        <th style="width:15%;" class="text-center">ประเภทเงินกู้</th>
-                                        <th style="width:20%;" class="text-center">หมายเลขบัญชีเงินกู้</th>
-                                        <th style="width:12%;" class="text-right">จำนวนงวด</th>
-                                        <th style="width:12%;" class="text-right">ชำระต่องวด</th>
-                                        <th style="width:12%;" class="text-right">ยอดเงินกู้</th>
-                                        <th style="width:10%;" class="text-center">ปฏิบัติการ</th>
+                                        <th style="width:20%;" class="text-left">แหล่งเงินกู้</th>
+                                        <th style="width:15%;" class="text-lg-left">ประเภทเงินกู้</th>
+                                        <th style="width:15%;" class="text-left">หมายเลขบัญชีเงินกู้</th>
+                                        <th style="width:10%;" class="text-right">จำนวนงวด</th>
+                                        <th style="width:10%;" class="text-right">ชำระต่องวด</th>
+                                        <th style="width:15%;" class="text-right">ยอดเงินกู้</th>
+                                        <th style="width:10%;" class="text-right">ปฏิบัติการ</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -98,6 +98,16 @@
                     { "data": "BISummaryAmout", "orderable": true },
                 ],
                 "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return '<div class="text-right">' + data + '</div>';
+                        }, "targets": [4]
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<div class="text-right">' + accounting.formatNumber(data, 2) + '</div>';
+                        }, "targets": [5,6]
+                    },
                     {
                         "render": function (data, type, row) {
                             var inner = '<div class="td-actions pull-right">' +

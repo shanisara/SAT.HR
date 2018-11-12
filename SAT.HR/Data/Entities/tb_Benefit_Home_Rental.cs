@@ -19,8 +19,8 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> BhrYear { get; set; }
         public Nullable<int> RID { get; set; }
         public Nullable<int> PID { get; set; }
-        public Nullable<decimal> BhrLevel { get; set; }
-        public Nullable<decimal> BhrStep { get; set; }
+        public Nullable<int> BhrLevel { get; set; }
+        public Nullable<int> BhrStep { get; set; }
         public Nullable<System.DateTime> BhrStartDate { get; set; }
         public Nullable<System.DateTime> BhrEndDate { get; set; }
         public Nullable<decimal> BhrAmout { get; set; }

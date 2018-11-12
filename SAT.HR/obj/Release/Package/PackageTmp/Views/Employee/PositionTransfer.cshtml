@@ -10,6 +10,12 @@
         margin-left: 13px;
         margin-top: -5px;
     }
+    .card [class*=card-header-] .card-title a {
+        color: #3C4858;
+    }
+    .card [class*=card-header-] .card-title a:hover {
+        color:#fff;
+    }
 </style>
 <div class="content">
     <div class="row">
@@ -20,9 +26,8 @@
                         <i class="material-icons">group</i>
                     </div>
                     <h4 class="card-title">
-                        <span> โยกย้ายอัตรากำลังพล > <small>พนักงาน </small></span>
+                        <span> โยกย้ายอัตรากำลังพล > <small> </small></span>
                         <div class="pull-right">
-                            @*@Html.Label("ประเภทบุคลากร: ", null, new { @class = "col-sm-3 col-form-label" })*@
                             @Html.DropDownList("usertype", new SelectList((IEnumerable<SelectListItem>)ViewBag.UserType, "Value", "Text"), new { @class = "selectpicker", data_style = "select-with-transition" })
                         </div>
                     </h4>
@@ -167,7 +172,11 @@
                         dataTable.initializeDataTable();
                     else
                         dataTable.table.ajax.reload();
-                }
+                },
+                renewData: function () {
+                    $('#datatables').dataTable().fnDestroy();
+                    dataTable.initializeDataTable();
+                },
             }
 
             dataTable.getData();
@@ -178,6 +187,9 @@
                 window.location.href = url;
             });
 
+            $('#usertype').change(function () {
+                dataTable.renewData();
+            });
 
         });
     </script>

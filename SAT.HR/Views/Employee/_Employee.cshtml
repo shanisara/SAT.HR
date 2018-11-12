@@ -77,13 +77,13 @@
                                     <div class="col-md-3">
                                         <div class="form-group bmd-form-group">
                                             @Html.Label("ชื่อ (อังกฤษ)", null, new { @class = "bmd-label-floating" })
-                                            @Html.TextBoxFor(m => m.FirstNameEn, new { @class = "form-control" })
+                                            @Html.TextBoxFor(m => m.FirstNameEn, new { @class = "form-control", required = "true" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group bmd-form-group">
                                             @Html.Label("นามสกุล (อังกฤษ)", null, new { @class = "bmd-label-floating" })
-                                            @Html.TextBoxFor(m => m.LastNameEn, new { @class = "form-control" })
+                                            @Html.TextBoxFor(m => m.LastNameEn, new { @class = "form-control", required = "true" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -201,6 +201,30 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("ประเภทพิการ", null, new { @class = "bmd-label-fixed" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("ประเภทความพิการ", null, new { @class = "bmd-label-floating" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("จัดจ้างกรณีพิเศษ", null, new { @class = "bmd-label-floating" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group bmd-form-group">
+                                            @Html.Label("", null, new { @class = "bmd-label-floating" })
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -217,7 +241,7 @@
                             </div>
                             <div class="card-body m-b-20">
                                 <div class="row">
-                                    
+
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             @Html.Label("ระดับ", null, new { @class = "bmd-label-fixed" })
@@ -515,11 +539,10 @@
             </div>
         </div>
     </div>
-}
+                                            }
 
 <script>
 
-    debugger;
     if ('@Model.SalaryLevel' != '') {
         $('select[name=SalaryLevel]').val('@Model.SalaryLevel');
         $('select[name=SalaryLevel]').selectpicker('refresh');
@@ -753,6 +776,8 @@
     });
 
     $("#SalaryStep").change(function () {
+        debugger;
+
         DropDownList.getSalary($("#SalaryLevel").val(), $('#SalaryStep').val());
     });
 

@@ -31,13 +31,8 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Action_Type> tb_Action_Type { get; set; }
         public virtual DbSet<tb_Agent_Type> tb_Agent_Type { get; set; }
         public virtual DbSet<tb_Bank_Loan> tb_Bank_Loan { get; set; }
-        public virtual DbSet<tb_Benefit_Child_Education> tb_Benefit_Child_Education { get; set; }
-        public virtual DbSet<tb_Benefit_Child_Fund> tb_Benefit_Child_Fund { get; set; }
-        public virtual DbSet<tb_Benefit_Cremation> tb_Benefit_Cremation { get; set; }
         public virtual DbSet<tb_Benefit_Death_Replacement> tb_Benefit_Death_Replacement { get; set; }
         public virtual DbSet<tb_Benefit_Death_Subsidy> tb_Benefit_Death_Subsidy { get; set; }
-        public virtual DbSet<tb_Benefit_Home_Rental> tb_Benefit_Home_Rental { get; set; }
-        public virtual DbSet<tb_Benefit_Loan> tb_Benefit_Loan { get; set; }
         public virtual DbSet<tb_Benefit_Medical> tb_Benefit_Medical { get; set; }
         public virtual DbSet<tb_Benefit_Other_Welfare> tb_Benefit_Other_Welfare { get; set; }
         public virtual DbSet<tb_Benefit_Provident_Fund> tb_Benefit_Provident_Fund { get; set; }
@@ -94,11 +89,9 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Title> tb_Title { get; set; }
         public virtual DbSet<tb_Training_Type> tb_Training_Type { get; set; }
         public virtual DbSet<tb_Transfer_Type> tb_Transfer_Type { get; set; }
-        public virtual DbSet<tb_User> tb_User { get; set; }
         public virtual DbSet<tb_User_Certificate> tb_User_Certificate { get; set; }
         public virtual DbSet<tb_User_Education> tb_User_Education { get; set; }
         public virtual DbSet<tb_User_Excellent> tb_User_Excellent { get; set; }
-        public virtual DbSet<tb_User_Family> tb_User_Family { get; set; }
         public virtual DbSet<tb_User_History> tb_User_History { get; set; }
         public virtual DbSet<tb_User_Insignia> tb_User_Insignia { get; set; }
         public virtual DbSet<tb_User_Position> tb_User_Position { get; set; }
@@ -123,7 +116,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Certificate> vw_User_Certificate { get; set; }
         public virtual DbSet<vw_User_Education> vw_User_Education { get; set; }
         public virtual DbSet<vw_User_Excellent> vw_User_Excellent { get; set; }
-        public virtual DbSet<vw_User_Family> vw_User_Family { get; set; }
         public virtual DbSet<vw_User_History> vw_User_History { get; set; }
         public virtual DbSet<vw_User_Insignia> vw_User_Insignia { get; set; }
         public virtual DbSet<vw_User_NotRole> vw_User_NotRole { get; set; }
@@ -131,6 +123,26 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Role> vw_User_Role { get; set; }
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
         public virtual DbSet<tb_Benefit_Remuneration> tb_Benefit_Remuneration { get; set; }
+        public virtual DbSet<vw_Benefit_Provident_Fund> vw_Benefit_Provident_Fund { get; set; }
+        public virtual DbSet<tb_User> tb_User { get; set; }
+        public virtual DbSet<vw_Benefit_Medical> vw_Benefit_Medical { get; set; }
+        public virtual DbSet<vw_Benefit_Loan> vw_Benefit_Loan { get; set; }
+        public virtual DbSet<tb_Benefit_Loan> tb_Benefit_Loan { get; set; }
+        public virtual DbSet<tb_Benefit_Home_Rental> tb_Benefit_Home_Rental { get; set; }
+        public virtual DbSet<vw_Benefit_Home_Rental> vw_Benefit_Home_Rental { get; set; }
+        public virtual DbSet<tb_User_Family> tb_User_Family { get; set; }
+        public virtual DbSet<vw_User_Family> vw_User_Family { get; set; }
+        public virtual DbSet<vw_Benefit_Other_Welfare> vw_Benefit_Other_Welfare { get; set; }
+        public virtual DbSet<tb_Benefit_Cremation> tb_Benefit_Cremation { get; set; }
+        public virtual DbSet<vw_Benefit_Cremation> vw_Benefit_Cremation { get; set; }
+        public virtual DbSet<vw_Benefit_Death_Replacement> vw_Benefit_Death_Replacement { get; set; }
+        public virtual DbSet<vw_Benefit_Death_Subsidy> vw_Benefit_Death_Subsidy { get; set; }
+        public virtual DbSet<tb_Course> tb_Course { get; set; }
+        public virtual DbSet<tb_Course_Type> tb_Course_Type { get; set; }
+        public virtual DbSet<tb_Training> tb_Training { get; set; }
+        public virtual DbSet<vw_Course> vw_Course { get; set; }
+        public virtual DbSet<vw_Trainning> vw_Trainning { get; set; }
+        public virtual DbSet<tb_Evaluation> tb_Evaluation { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {
@@ -198,6 +210,52 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("Keyword", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Employee_List_Result>("sp_Employee_List", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, userTypeParameter, userStatusParameter, keywordParameter);
+        }
+    
+        public virtual ObjectResult<sp_Evaluation_GetByUser_Result> sp_Evaluation_GetByUser(Nullable<int> userID, Nullable<int> capID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var capIDParameter = capID.HasValue ?
+                new ObjectParameter("CapID", capID) :
+                new ObjectParameter("CapID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Evaluation_GetByUser_Result>("sp_Evaluation_GetByUser", userIDParameter, capIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_Evaluation_List_Result> sp_Evaluation_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string capID, string keyword)
+        {
+            var pageSizeParameter = pageSize != null ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(string));
+    
+            var initialPageParameter = initialPage != null ?
+                new ObjectParameter("InitialPage", initialPage) :
+                new ObjectParameter("InitialPage", typeof(string));
+    
+            var sortByParameter = sortBy != null ?
+                new ObjectParameter("SortBy", sortBy) :
+                new ObjectParameter("SortBy", typeof(string));
+    
+            var sortrDirParameter = sortrDir != null ?
+                new ObjectParameter("SortrDir", sortrDir) :
+                new ObjectParameter("SortrDir", typeof(string));
+    
+            var userTypeParameter = userType != null ?
+                new ObjectParameter("UserType", userType) :
+                new ObjectParameter("UserType", typeof(string));
+    
+            var capIDParameter = capID != null ?
+                new ObjectParameter("CapID", capID) :
+                new ObjectParameter("CapID", typeof(string));
+    
+            var keywordParameter = keyword != null ?
+                new ObjectParameter("Keyword", keyword) :
+                new ObjectParameter("Keyword", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Evaluation_List_Result>("sp_Evaluation_List", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, userTypeParameter, capIDParameter, keywordParameter);
         }
     }
 }

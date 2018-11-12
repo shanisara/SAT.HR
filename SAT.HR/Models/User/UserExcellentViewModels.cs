@@ -21,7 +21,8 @@ namespace SAT.HR.Models
         public string UeRecYear { get; set; }
         public Nullable<System.DateTime> UeRecDate { get; set; }
         public string UeRecDateText { get; set; }
-
+        public string PoName { get; set; }
+        public string FullPosition { get; set; }
         public List<UserExcellentViewModel> ListExcellent { get; set; }
     }
 

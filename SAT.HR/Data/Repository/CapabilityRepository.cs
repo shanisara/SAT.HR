@@ -199,6 +199,39 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<YearCapabilityViewModel> GetYearCapability()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var lists = new List<YearCapabilityViewModel>();
+                lists = db.tb_Capability.GroupBy(g => g.CapYear).Select(group => new { CapYear = group.Key })
+                            .Select(s => new YearCapabilityViewModel()
+                            {
+                                Year = (int)s.CapYear
+                            })
+                            .OrderByDescending(x => x.Year).ToList();
+                return lists;
+            }
+        }
+
+        public List<CapabilityModel> GetCapability(int? year)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.vw_Capability.Select(s => new CapabilityModel()
+                {
+                    CapID = s.CapID,
+                    CapYear = (int)s.CapYear,
+                    CapName = s.CapYear + "/" + s.CapGName + "/" + s.CapGTName,
+                })
+                .OrderBy(x => x.CapName).ToList();
+
+                if(year.HasValue)
+                    list = list.Where(x => x.CapYear == year).ToList();
+
+                return list;
+            }
+        }
 
     }
 }

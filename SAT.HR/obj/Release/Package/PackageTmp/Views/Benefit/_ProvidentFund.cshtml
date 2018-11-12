@@ -22,16 +22,15 @@
                     </div>
                     <div class="form-horizontal">
                         <div class="row">
-                            @Html.Label("เลขสมาชิกกองทุน: ", null, new { @class = "col-sm-4 col-form-label" })
+                            @Html.Label("เลขสมาชิกกองทุน: ", null, new { @class = "col-sm-3 col-form-label" })
                             <div class="col-sm-2">
-                                @*@Html.TextBoxFor(m => m.ProvidentFundNo, new { @class = "form-control" })*@
-                                @Html.TextBox("ProvidentFundNo", null, new { @class = "form-control " })
+                                @Html.TextBoxFor(m => m.ProvidentFundNo, new { @class = "form-control" })
                             </div>
                             @Html.Label("วันที่เป็นสมาชิก: ", null, new { @class = "col-sm-2 col-form-label" })
                             <div class="col-sm-2">
-                                @*@Html.TextBoxFor(m => m.ProvidentFundDate, new { @class = "form-control datepicker" })*@
-                                @Html.TextBox("ProvidentFundDate", null, new { @class = "form-control datepicker" })
+                                @Html.TextBoxFor(m => m.ProvidentFundDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
                             </div>
+                            <button class="btn btn-success btn-sm pull-right btn-update-providentfund" data-toggle="modal">บันทึก</button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -41,7 +40,7 @@
                                     <tr>
                                         <th style="width:5%;" class="text-center">#</th>
                                         <th style="width:10%;" class="text-left">ปีบัญชี</th>
-                                        <th style="width:12%;" class="text-left">เงินสะสม %</th>
+                                        <th style="width:12%;" class="text-right">เงินสะสม %</th>
                                         <th style="width:15%;" class="text-right">เงินสมทบ %</th>
                                         <th style="width:23%;" class="text-center">วันที่เปลี่ยนแปลงเงินสะสม</th>
                                         <th style="width:25%;" class="text-left">ผู้รับผลประโยชน์</th>
@@ -81,12 +80,6 @@
 <!--  End Modal -->
 
 <script>
-
-    //<ul style="list-style: decimal; text-align: left; font-size: 12px; color: blue">
-    //    <li>นางจรวจพร  ไผ่งาม</li>
-    //    <li>นางสาวศิริลักษณ์  เวชสุมังคะโล</li>
-    //</ul>
-
     $('.datepicker').datetimepicker({
         format: 'DD/MM/YYYY',
         icons: {
@@ -124,12 +117,22 @@
                 "columns": [
                     { "data": "RowNumber", "orderable": false, "searchable": false },
                     { "data": "BpYear", "orderable": true },
-                    { "data": "BceIDCard", "orderable": true },
                     { "data": "BpAccumFundCuName", "orderable": true },
                     { "data": "BpAssoFundCuName", "orderable": true },
-                    { "data": "BpBeneficiary1", "orderable": true },
+                    { "data": "BpDateChangeFundText", "orderable": true },
+                    { "data": "BpBeneficiary", "orderable": true },
                 ],
                 "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return '<div class="text-right">' + data + '</div>';
+                        }, "targets": [2,3]
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<div class="text-center">' + data + '</div>';
+                        }, "targets": 4
+                    },
                     {
                         "render": function (data, type, row) {
                             var inner = '<div class="td-actions pull-right">' +
@@ -254,6 +257,60 @@
                 }
             });
         }
+    });
+
+    $(".btn-update-providentfund").click(function () {
+        var userid = $("#UserID").val();
+        var fundno = $("#ProvidentFundNo").val();
+        var funddate = $("#ProvidentFundDate").val();
+        swal({
+            title: '',
+            text: "ยืนยันบันทึกข้อมูล",
+            type: 'question',
+            showCancelButton: true,
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger',
+            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+            cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+            buttonsStyling: false
+        }).then(function () {
+            if (fundno == "") {
+                $("#ProvidentFundNo").focus();
+            }
+            else if (fundno == "") {
+                $("#ProvidentFundDate").focus();
+            }
+            else {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("UpdateProvidentFund", "Benefit")',
+                    data: { userid: userid, fundno: fundno, funddate: funddate },
+                    success: function (res) {
+                        if (res.MessageCode == null) {
+                            swal({
+                                title: "",
+                                text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                                type: "success",
+                                confirmButtonClass: "btn btn-primary",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                buttonsStyling: false
+                            }).then(function () {
+                            });
+                        }
+                        else {
+                            swal({
+                                title: '',
+                                text: res.MessageText,
+                                type: 'error',
+                                confirmButtonClass: "btn btn-primary",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                buttonsStyling: false
+                            }).catch(swal.noop);
+                        }
+                    }
+                });
+            }
+        }).catch(swal.noop)
     });
 
 </script>
