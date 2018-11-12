@@ -26,7 +26,7 @@ namespace SAT.HR.Data.Repository
                         UserID = s.UserID,
                         UserName = s.UserName,
                         FullNameTh = s.FullNameTh,
-                        Avatar = SysConfig.ApplicationRoot + (!string.IsNullOrEmpty(s.Avatar) ? SysConfig.PathDownloadUserAvatar +"/"+ s.Avatar : "Content/assets/img/default-avatar.png"),
+                        Avatar = SysConfig.ApplicationRoot + (!string.IsNullOrEmpty(s.Avatar) ? SysConfig.PathDownloadUserAvatar + "/" + s.Avatar : "Content/assets/img/default-avatar.png"),
                         Email = s.Email,
                         DivID = s.DivID,
                         DivName = s.DivName,
@@ -230,6 +230,8 @@ namespace SAT.HR.Data.Repository
                     model.RetireDate = data.RetireDate;
                     model.StartWorkDate = data.StartWorkDate;
                     model.ProbationDate = data.ProbationDate;
+                    model.Experience = data.Experience;
+                    model.RetireDate = data.RetireDate;
                     model.Remuneration = data.Remuneration;
                     model.WorkingTypeID = data.WorkingTypeID;
                     model.FingerScan = data.FingerScan;
@@ -239,6 +241,8 @@ namespace SAT.HR.Data.Repository
                     model.UserType = data.UserTID;
                     model.Age = data.Age;
                     model.FullNameTh = data.FirstNameTh + " " + data.LastNameTh;
+                    model.CrpID = data.CrpID;
+                    model.CrpTID = data.CrpTID;
 
                     model.DivID = data.DivID;
                     model.DepID = data.DepID;
@@ -281,7 +285,6 @@ namespace SAT.HR.Data.Repository
                     model.ContactName = data.ContactName;
                     model.ContactPhone = data.ContactPhone;
 
-                    //model.Experience = data.Experience;
                     //model.CreateDate = data.CreateDate;
                     //model.CreateBy = data.CreateBy;
                     //model.ModifyDate = data.ModifyDate;
@@ -360,7 +363,9 @@ namespace SAT.HR.Data.Repository
                     model.WorkingTypeID = data.WorkingTypeID;
                     model.FingerScan = data.FingerScan;
                     model.CardScan = data.CardScan;
-                    
+                    model.CrpID = data.CrpID;
+                    model.CrpTID = data.CrpTID;
+
                     model.HomeAddr = data.HomeAddr;
                     model.HomeSubDistrictID = data.HomeSubDistrictID;
                     model.HomeDistrictID = data.HomeDistrictID;
@@ -453,6 +458,8 @@ namespace SAT.HR.Data.Repository
                         model.WorkingTypeID = newdata.WorkingTypeID;
                         model.FingerScan = newdata.FingerScan;
                         model.CardScan = newdata.CardScan;
+                        model.CrpID = newdata.CrpID;
+                        model.CrpTID = newdata.CrpTID;
 
                         model.SalaryLevel = newdata.SalaryLevel;
                         model.SalaryStep = newdata.SalaryStep;
@@ -591,7 +598,7 @@ namespace SAT.HR.Data.Repository
                 return result;
             }
         }
-        
+
 
         #endregion
 
@@ -713,7 +720,7 @@ namespace SAT.HR.Data.Repository
                     model.UserID = obj.UserID;
                     model.UfName = obj.UfName;
                     model.UfCardID = obj.UfCardID;
-                    if(obj.UfDOB != null)
+                    if (obj.UfDOB != null)
                         model.UfDOBText = Convert.ToDateTime(obj.UfDOB).ToString("dd/MM/yyyy");
                     model.UfLifeStatus = obj.UfLifeStatus;
                     model.TdStatus = obj.TdStatus;
@@ -1038,7 +1045,7 @@ namespace SAT.HR.Data.Repository
                         model.UpForceDateText = (item.UpForceDate.HasValue) ? item.UpForceDate.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.UpRemark = item.UpRemark;
                         model.UpPathFile = item.UpPathFile;
-                        model.FullPosition = "";
+                        model.FullPosition = item.DivName + "/" + item.DepName + "/" + item.SecName;
                         list.Add(model);
                     }
                 }
@@ -1682,8 +1689,8 @@ namespace SAT.HR.Data.Repository
                         model.ExTName = item.ExTName;
                         model.UeProjectName = item.UeProjectName;
                         model.UeRecDateText = (item.UeRecDate.HasValue) ? item.UeRecDate.Value.ToString("dd/MM/yyyy") : string.Empty;
-                        model.PoName = "";
-                        model.FullPosition = "";
+                        model.PoName = item.PoName;
+                        model.FullPosition = item.DivName +"/"+ item.DepName+"/"+ item.PoName;
                         list.Add(model);
                     }
                 }
@@ -2159,6 +2166,180 @@ namespace SAT.HR.Data.Repository
         }
 
         #endregion
+
+        //#region 2.0 Tab: Language
+
+        //public UserHistoryViewModel GetLanguageByUser(int userid)
+        //{
+        //    var data = new UserHistoryViewModel();
+        //    var list = new List<UserHistoryViewModel>();
+        //    try
+        //    {
+        //        using (SATEntities db = new SATEntities())
+        //        {
+        //            int index = 1;
+        //            //var history = db.vw_User_Language.Where(x => x.UserID == userid).OrderByDescending(o => o.UhEditDate).ToList();
+
+        //            //foreach (var item in history)
+        //            //{
+        //            //    UserHistoryViewModel model = new UserHistoryViewModel();
+        //            //    model.RowNumber = index++;
+        //            //    model.UhID = item.UhID;
+        //            //    model.UserID = item.UserID;
+        //            //    model.UhEditDateText = (item.UhEditDate.HasValue) ? item.UhEditDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+        //            //    model.OldFirstNameTh = item.OldFirstNameTh;
+        //            //    model.OldLastNameTh = item.OldLastNameTh;
+        //            //    model.OldFirstNameEn = item.OldFirstNameEn;
+        //            //    model.OldLastNameEn = item.NewLastNameEn;
+        //            //    model.NewFirstNameTh = item.NewFirstNameTh;
+        //            //    model.NewLastNameTh = item.NewLastNameTh;
+        //            //    model.NewFirstNameEn = item.NewFirstNameEn;
+        //            //    model.NewLastNameEn = item.NewLastNameEn;
+        //            //    model.Remark = item.Remark;
+        //            //    model.UhStatus = item.UhStatus;
+        //            //    model.OldFullNameTh = item.OldFirstNameTh + " " + item.OldLastNameTh;
+        //            //    model.OldFullNameEn = item.OldFirstNameEn + " " + item.OldLastNameEn;
+        //            //    model.NewFullNameTh = item.NewFirstNameTh + " " + item.NewLastNameTh;
+        //            //    model.NewFullNameEn = item.NewFirstNameEn + " " + item.NewLastNameEn;
+        //            //    list.Add(model);
+        //            //}
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //    data.UserID = userid;
+        //    data.ListHistory = list;
+        //    return data;
+        //}
+
+        //public UserHistoryViewModel GetLanguageByID(int userid, int id)
+        //{
+        //    UserHistoryViewModel data = new UserHistoryViewModel();
+        //    data.UserID = userid;
+
+        //    try
+        //    {
+        //        using (SATEntities db = new SATEntities())
+        //        {
+        //            //var obj = db.vw_User_Language.Where(x => x.UhID == id).FirstOrDefault();
+
+        //            //UserHistoryViewModel model = new UserHistoryViewModel();
+        //            //model.UhID = obj.UhID;
+        //            //model.UserID = obj.UserID;
+        //            //model.UhEditDate = obj.UhEditDate;
+        //            //model.UhEditDateText = Convert.ToDateTime(obj.UhEditDate).ToString("dd/MM/yyyy");
+        //            //model.OldTiID = obj.OldTiID;
+        //            //model.OldFirstNameTh = obj.OldFirstNameTh;
+        //            //model.OldLastNameTh = obj.OldLastNameTh;
+        //            //model.OldFirstNameEn = obj.OldFirstNameEn;
+        //            //model.OldLastNameEn = obj.NewLastNameEn;
+        //            //model.NewTiID = obj.NewTiID;
+        //            //model.NewFirstNameTh = obj.NewFirstNameTh;
+        //            //model.NewLastNameTh = obj.NewLastNameTh;
+        //            //model.NewFirstNameEn = obj.NewFirstNameEn;
+        //            //model.NewLastNameEn = obj.NewLastNameEn;
+        //            //model.Remark = obj.Remark;
+        //            //model.UhStatus = obj.UhStatus;
+
+        //            if (model != null)
+        //                data = model;
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //    }
+        //    return data;
+        //}
+
+        //public ResponseData AddLanguageByEntity(UserHistoryViewModel data)
+        //{
+        //    using (SATEntities db = new SATEntities())
+        //    {
+        //        ResponseData result = new Models.ResponseData();
+        //        try
+        //        {
+        //            //tb_User_Language model = new tb_User_Language();
+        //            //model.UserID = data.UserID;
+        //            //model.OldTiID = OldTi;
+        //            //model.OldFirstNameTh = OldFTh;
+        //            //model.OldLastNameTh = OldLTh;
+        //            //model.OldFirstNameEn = OldFEn;
+        //            //model.OldLastNameEn = OldLEn;
+        //            //model.NewTiID = data.NewTiID;
+        //            //model.NewFirstNameTh = data.NewFirstNameTh;
+        //            //model.NewLastNameTh = data.NewLastNameTh;
+        //            //model.NewFirstNameEn = data.NewFirstNameEn;
+        //            //model.NewLastNameEn = data.NewLastNameEn;
+        //            //db.tb_User_Language.Add(model);
+        //            //db.SaveChanges();
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            result.MessageCode = "";
+        //            result.MessageText = ex.Message;
+        //        }
+        //        return result;
+        //    }
+        //}
+
+        //public ResponseData UpdateLanguageByEntity(UserHistoryViewModel newdata)
+        //{
+        //    using (SATEntities db = new SATEntities())
+        //    {
+        //        ResponseData result = new Models.ResponseData();
+        //        try
+        //        {
+        //            //var model = db.tb_User_Language.Single(x => x.UserID == newdata.UserID && x.UhID == newdata.UhID);
+        //            //if (Convert.ToDateTime(newdata.UhEditDateText) > DateTime.MinValue)
+        //            //    model.UhEditDate = Convert.ToDateTime(newdata.UhEditDateText);
+        //            //model.NewTiID = newdata.NewTiID;
+        //            //model.NewFirstNameTh = newdata.NewFirstNameTh;
+        //            //model.NewLastNameTh = newdata.NewLastNameTh;
+        //            //model.NewFirstNameEn = newdata.NewFirstNameEn;
+        //            //model.NewLastNameEn = newdata.NewLastNameEn;
+        //            //model.Remark = newdata.Remark;
+        //            //model.UhStatus = newdata.UhStatus;
+        //            //model.ModifyBy = UtilityService.User.UserID;
+        //            //model.ModifyDate = DateTime.Now;
+        //            //db.SaveChanges();
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            result.MessageCode = "";
+        //            result.MessageText = ex.Message;
+        //        }
+        //        return result;
+        //    }
+        //}
+
+        //public ResponseData DeleteLanguageByID(int id)
+        //{
+        //    ResponseData result = new Models.ResponseData();
+        //    using (SATEntities db = new SATEntities())
+        //    {
+        //        try
+        //        {
+        //            var model = db.tb_User_Language.SingleOrDefault(x => x.UhID == id);
+        //            if (model != null)
+        //            {
+        //                db.tb_User_Language.Remove(model);
+        //                db.SaveChanges();
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            result.MessageCode = "";
+        //            result.MessageText = ex.Message;
+        //        }
+        //        return result;
+        //    }
+        //}
+
+        //#endregion
 
     }
 }

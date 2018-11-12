@@ -14,6 +14,7 @@ namespace SAT.HR.Data.Entities
     
     public partial class vw_User
     {
+        public Nullable<int> DivSeq { get; set; }
         public int UserID { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
@@ -106,5 +107,9 @@ namespace SAT.HR.Data.Entities
         public string UserTName { get; set; }
         public Nullable<int> RoleID { get; set; }
         public string Experience { get; set; }
+        public Nullable<int> CrpID { get; set; }
+        public string CrpName { get; set; }
+        public Nullable<int> CrpTID { get; set; }
+        public string CrpTypeName { get; set; }
     }
 }

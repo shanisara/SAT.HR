@@ -1144,6 +1144,39 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
+        public static List<SelectListItem> GetCripple(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            var data = new MasterRepository().GetCripple();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.CrpID.ToString();
+                select.Text = item.CrpName;
+                select.Selected = defaultValue.HasValue ? (item.CrpID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetCrippleType(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            var data = new MasterRepository().GetCrippleType();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.CrpTID.ToString();
+                select.Text = item.CrpTName;
+                select.Selected = defaultValue.HasValue ? (item.CrpTID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+
     }
 
 }

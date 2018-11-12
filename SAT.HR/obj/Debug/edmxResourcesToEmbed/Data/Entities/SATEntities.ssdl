@@ -50,11 +50,11 @@
     <Property Name="BcBeneficiary3" Type="nvarchar" MaxLength="200" />
     <Property Name="BcBeneficiary4" Type="nvarchar" MaxLength="200" />
     <Property Name="BcBeneficiary5" Type="nvarchar" MaxLength="200" />
-    <Property Name="BcRecFullName" Type="nvarchar" MaxLength="200" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
+    <Property Name="BcRecFullName" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <EntityType Name="tb_Benefit_Death_Replacement">
     <Key>
@@ -337,6 +337,20 @@
     <Property Name="CourseTID" Type="int" Nullable="false" />
     <Property Name="CourseTName" Type="nvarchar" MaxLength="10" />
   </EntityType>
+  <EntityType Name="tb_Cripple">
+    <Key>
+      <PropertyRef Name="CrpID" />
+    </Key>
+    <Property Name="CrpID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CrpName" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="tb_Cripple_Type">
+    <Key>
+      <PropertyRef Name="CrpTID" />
+    </Key>
+    <Property Name="CrpTID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CrpTypeName" Type="nvarchar" MaxLength="200" />
+  </EntityType>
   <EntityType Name="tb_Degree">
     <Key>
       <PropertyRef Name="DegID" />
@@ -389,6 +403,7 @@
     <Property Name="DivID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="DivName" Type="nvarchar" MaxLength="200" />
     <Property Name="DivStatus" Type="bit" />
+    <Property Name="DivSeq" Type="int" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -718,6 +733,25 @@
     <Property Name="PoTID" Type="int" Nullable="false" />
     <Property Name="PoTName" Type="nvarchar" MaxLength="50" />
   </EntityType>
+  <EntityType Name="tb_Process_History">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="Process_Year" Type="int" />
+    <Property Name="Process_Old_Level" Type="int" />
+    <Property Name="Process_Old_Step" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Process_Old_Salary" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Process_New_Level" Type="int" />
+    <Property Name="Process_New_Step" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Process_New_Salary" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Process_Level_Increase" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
   <EntityType Name="tb_Province">
     <Key>
       <PropertyRef Name="ProvinceID" />
@@ -895,7 +929,8 @@
     <Property Name="FingerScan" Type="nvarchar" MaxLength="20" />
     <Property Name="CardScan" Type="nvarchar" MaxLength="20" />
     <Property Name="SalaryLevel" Type="int" />
-    <Property Name="SalaryStep" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="SalaryStep" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Salary" Type="decimal" Precision="18" Scale="2" />
     <Property Name="EmpowerID" Type="int" />
     <Property Name="EmpowerDivID" Type="int" />
     <Property Name="EmpowerDepID" Type="int" />
@@ -928,6 +963,8 @@
     <Property Name="AgentPoAID" Type="int" />
     <Property Name="ProvidentFundNo" Type="nvarchar" MaxLength="20" />
     <Property Name="ProvidentFundDate" Type="date" />
+    <Property Name="CrpID" Type="int" />
+    <Property Name="CrpTID" Type="int" />
   </EntityType>
   <EntityType Name="tb_User_Certificate">
     <Key>
@@ -999,12 +1036,12 @@
     <Property Name="UfStudyStatus" Type="bit" />
     <Property Name="RecID" Type="int" />
     <Property Name="MaritalStatusID" Type="int" />
-    <Property Name="ChildEducationAmout" Type="decimal" Precision="18" Scale="2" />
-    <Property Name="ChildFundAmout" Type="decimal" Precision="18" Scale="2" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
+    <Property Name="ChildEducationAmout" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="ChildFundAmout" Type="decimal" Precision="18" Scale="2" />
   </EntityType>
   <EntityType Name="tb_User_History">
     <Key>
@@ -1617,6 +1654,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     <Key>
       <PropertyRef Name="UserID" />
     </Key>
+    <Property Name="DivSeq" Type="int" />
     <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="UserName" Type="nvarchar" MaxLength="50" />
     <Property Name="Password" Type="nvarchar" MaxLength="50" />
@@ -1653,7 +1691,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     <Property Name="FingerScan" Type="nvarchar" MaxLength="20" />
     <Property Name="CardScan" Type="nvarchar" MaxLength="20" />
     <Property Name="SalaryLevel" Type="int" />
-    <Property Name="SalaryStep" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="SalaryStep" Type="decimal" Precision="18" Scale="2" />
     <Property Name="Salary" Type="decimal" Precision="18" Scale="2" />
     <Property Name="DivID" Type="int" />
     <Property Name="DivName" Type="nvarchar" MaxLength="200" />
@@ -1709,6 +1747,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     <Property Name="UserTName" Type="nvarchar" MaxLength="50" />
     <Property Name="RoleID" Type="int" />
     <Property Name="Experience" Type="nvarchar" MaxLength="50" />
+    <Property Name="CrpID" Type="int" />
+    <Property Name="CrpName" Type="nvarchar" MaxLength="200" />
+    <Property Name="CrpTID" Type="int" />
+    <Property Name="CrpTypeName" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Certificate' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1770,6 +1812,14 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Excellent' does not have a
     <Property Name="UeProjectName" Type="nvarchar" MaxLength="200" />
     <Property Name="UeRecYear" Type="int" />
     <Property Name="UeRecDate" Type="date" />
+    <Property Name="DivID" Type="int" />
+    <Property Name="DivName" Type="nvarchar" MaxLength="200" />
+    <Property Name="DepID" Type="int" />
+    <Property Name="DepName" Type="nvarchar" MaxLength="200" />
+    <Property Name="SecID" Type="int" />
+    <Property Name="SecName" Type="nvarchar" MaxLength="200" />
+    <Property Name="PoID" Type="int" />
+    <Property Name="PoName" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Family' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2430,6 +2480,30 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tb_Position_tb_User_Type">
+    <End Role="tb_User_Type" Type="Self.tb_User_Type" Multiplicity="0..1" />
+    <End Role="tb_Position" Type="Self.tb_Position" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User_Type">
+        <PropertyRef Name="TypeID" />
+      </Principal>
+      <Dependent Role="tb_Position">
+        <PropertyRef Name="TypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Process_History_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="0..1" />
+    <End Role="tb_Process_History" Type="Self.tb_Process_History" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_Process_History">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tb_RoleMenu_tb_Menu">
     <End Role="tb_Menu" Type="Self.tb_Menu" Multiplicity="1" />
     <End Role="tb_Menu_Role" Type="Self.tb_Menu_Role" Multiplicity="*" />
@@ -2766,6 +2840,30 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tb_User_tb_Cripple">
+    <End Role="tb_Cripple" Type="Self.tb_Cripple" Multiplicity="0..1" />
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Cripple">
+        <PropertyRef Name="CrpID" />
+      </Principal>
+      <Dependent Role="tb_User">
+        <PropertyRef Name="CrpID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_tb_Cripple_Type">
+    <End Role="tb_Cripple_Type" Type="Self.tb_Cripple_Type" Multiplicity="0..1" />
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Cripple_Type">
+        <PropertyRef Name="CrpTID" />
+      </Principal>
+      <Dependent Role="tb_User">
+        <PropertyRef Name="CrpTID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tb_User_tb_User_Type">
     <End Role="tb_User_Type" Type="Self.tb_User_Type" Multiplicity="0..1" />
     <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
@@ -3002,6 +3100,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_Country" EntityType="Self.tb_Country" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Course" EntityType="Self.tb_Course" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Course_Type" EntityType="Self.tb_Course_Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Cripple" EntityType="Self.tb_Cripple" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Cripple_Type" EntityType="Self.tb_Cripple_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Degree" EntityType="Self.tb_Degree" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Department" EntityType="Self.tb_Department" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Discipline" EntityType="Self.tb_Discipline" Schema="dbo" store:Type="Tables" />
@@ -3034,6 +3134,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_Position" EntityType="Self.tb_Position" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Position_Agent" EntityType="Self.tb_Position_Agent" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Position_Type" EntityType="Self.tb_Position_Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Process_History" EntityType="Self.tb_Process_History" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Province" EntityType="Self.tb_Province" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Recieve_Type" EntityType="Self.tb_Recieve_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Religion" EntityType="Self.tb_Religion" Schema="dbo" store:Type="Tables" />
@@ -3467,6 +3568,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     </EntitySet>
     <EntitySet Name="vw_User" EntityType="Self.vw_User" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
+    [vw_User].[DivSeq] AS [DivSeq], 
     [vw_User].[UserID] AS [UserID], 
     [vw_User].[UserName] AS [UserName], 
     [vw_User].[Password] AS [Password], 
@@ -3558,7 +3660,11 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_User].[UserTID] AS [UserTID], 
     [vw_User].[UserTName] AS [UserTName], 
     [vw_User].[RoleID] AS [RoleID], 
-    [vw_User].[Experience] AS [Experience]
+    [vw_User].[Experience] AS [Experience], 
+    [vw_User].[CrpID] AS [CrpID], 
+    [vw_User].[CrpName] AS [CrpName], 
+    [vw_User].[CrpTID] AS [CrpTID], 
+    [vw_User].[CrpTypeName] AS [CrpTypeName]
     FROM [dbo].[vw_User] AS [vw_User]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vw_User_Certificate" EntityType="Self.vw_User_Certificate" store:Type="Views" store:Schema="dbo">
@@ -3607,7 +3713,15 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_User_Excellent].[ExTName] AS [ExTName], 
     [vw_User_Excellent].[UeProjectName] AS [UeProjectName], 
     [vw_User_Excellent].[UeRecYear] AS [UeRecYear], 
-    [vw_User_Excellent].[UeRecDate] AS [UeRecDate]
+    [vw_User_Excellent].[UeRecDate] AS [UeRecDate], 
+    [vw_User_Excellent].[DivID] AS [DivID], 
+    [vw_User_Excellent].[DivName] AS [DivName], 
+    [vw_User_Excellent].[DepID] AS [DepID], 
+    [vw_User_Excellent].[DepName] AS [DepName], 
+    [vw_User_Excellent].[SecID] AS [SecID], 
+    [vw_User_Excellent].[SecName] AS [SecName], 
+    [vw_User_Excellent].[PoID] AS [PoID], 
+    [vw_User_Excellent].[PoName] AS [PoName]
     FROM [dbo].[vw_User_Excellent] AS [vw_User_Excellent]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vw_User_Family" EntityType="Self.vw_User_Family" store:Type="Views" store:Schema="dbo">
@@ -3944,6 +4058,14 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       <End Role="tb_Move_Man_Power_Head" EntitySet="tb_Move_Man_Power_Head" />
       <End Role="tb_Move_Man_Power_Detail" EntitySet="tb_Move_Man_Power_Detail" />
     </AssociationSet>
+    <AssociationSet Name="FK_tb_Position_tb_User_Type" Association="Self.FK_tb_Position_tb_User_Type">
+      <End Role="tb_User_Type" EntitySet="tb_User_Type" />
+      <End Role="tb_Position" EntitySet="tb_Position" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Process_History_tb_User" Association="Self.FK_tb_Process_History_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_Process_History" EntitySet="tb_Process_History" />
+    </AssociationSet>
     <AssociationSet Name="FK_tb_RoleMenu_tb_Menu" Association="Self.FK_tb_RoleMenu_tb_Menu">
       <End Role="tb_Menu" EntitySet="tb_Menu" />
       <End Role="tb_Menu_Role" EntitySet="tb_Menu_Role" />
@@ -4055,6 +4177,14 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <AssociationSet Name="FK_tb_User_Position_tb_User" Association="Self.FK_tb_User_Position_tb_User">
       <End Role="tb_User" EntitySet="tb_User" />
       <End Role="tb_User_Position" EntitySet="tb_User_Position" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_tb_Cripple" Association="Self.FK_tb_User_tb_Cripple">
+      <End Role="tb_Cripple" EntitySet="tb_Cripple" />
+      <End Role="tb_User" EntitySet="tb_User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_tb_Cripple_Type" Association="Self.FK_tb_User_tb_Cripple_Type">
+      <End Role="tb_Cripple_Type" EntitySet="tb_Cripple_Type" />
+      <End Role="tb_User" EntitySet="tb_User" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_User_tb_User_Type" Association="Self.FK_tb_User_tb_User_Type">
       <End Role="tb_User_Type" EntitySet="tb_User_Type" />

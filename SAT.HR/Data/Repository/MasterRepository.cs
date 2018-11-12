@@ -9,8 +9,6 @@ namespace SAT.HR.Data.Repository
 {
     public class MasterRepository
     {
-        #region DropDownList
-
         public List<WorkingTypeViewModel> GetWorkingType()
         {
             using (SATEntities db = new SATEntities())
@@ -245,7 +243,31 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        #endregion
+        public List<CrippleViewModel> GetCripple()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Cripple.Select(s => new CrippleViewModel()
+                {
+                    CrpID = s.CrpID,
+                    CrpName = s.CrpName
+                }).ToList();
+                return list;
+            }
+        }
+
+        public List<CrippleTypeViewModel> GetCrippleType()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Cripple_Type.Select(s => new CrippleTypeViewModel()
+                {
+                    CrpTID = s.CrpTID,
+                    CrpTName = s.CrpTypeName
+                }).ToList();
+                return list;
+            }
+        }
 
     }
 }

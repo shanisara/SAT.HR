@@ -112,26 +112,21 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Move_Man_Power_Head> vw_Move_Man_Power_Head { get; set; }
         public virtual DbSet<vw_Section> vw_Section { get; set; }
         public virtual DbSet<vw_Title> vw_Title { get; set; }
-        public virtual DbSet<vw_User> vw_User { get; set; }
         public virtual DbSet<vw_User_Certificate> vw_User_Certificate { get; set; }
         public virtual DbSet<vw_User_Education> vw_User_Education { get; set; }
-        public virtual DbSet<vw_User_Excellent> vw_User_Excellent { get; set; }
         public virtual DbSet<vw_User_History> vw_User_History { get; set; }
         public virtual DbSet<vw_User_Insignia> vw_User_Insignia { get; set; }
         public virtual DbSet<vw_User_NotRole> vw_User_NotRole { get; set; }
-        public virtual DbSet<vw_User_Position> vw_User_Position { get; set; }
         public virtual DbSet<vw_User_Role> vw_User_Role { get; set; }
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
         public virtual DbSet<tb_Benefit_Remuneration> tb_Benefit_Remuneration { get; set; }
         public virtual DbSet<vw_Benefit_Provident_Fund> vw_Benefit_Provident_Fund { get; set; }
-        public virtual DbSet<tb_User> tb_User { get; set; }
         public virtual DbSet<vw_Benefit_Medical> vw_Benefit_Medical { get; set; }
         public virtual DbSet<vw_Benefit_Loan> vw_Benefit_Loan { get; set; }
         public virtual DbSet<tb_Benefit_Loan> tb_Benefit_Loan { get; set; }
         public virtual DbSet<tb_Benefit_Home_Rental> tb_Benefit_Home_Rental { get; set; }
         public virtual DbSet<vw_Benefit_Home_Rental> vw_Benefit_Home_Rental { get; set; }
         public virtual DbSet<tb_User_Family> tb_User_Family { get; set; }
-        public virtual DbSet<vw_User_Family> vw_User_Family { get; set; }
         public virtual DbSet<vw_Benefit_Other_Welfare> vw_Benefit_Other_Welfare { get; set; }
         public virtual DbSet<tb_Benefit_Cremation> tb_Benefit_Cremation { get; set; }
         public virtual DbSet<vw_Benefit_Cremation> vw_Benefit_Cremation { get; set; }
@@ -143,6 +138,14 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Course> vw_Course { get; set; }
         public virtual DbSet<vw_Trainning> vw_Trainning { get; set; }
         public virtual DbSet<tb_Evaluation> tb_Evaluation { get; set; }
+        public virtual DbSet<tb_User> tb_User { get; set; }
+        public virtual DbSet<vw_User_Family> vw_User_Family { get; set; }
+        public virtual DbSet<vw_User_Position> vw_User_Position { get; set; }
+        public virtual DbSet<tb_Cripple> tb_Cripple { get; set; }
+        public virtual DbSet<tb_Cripple_Type> tb_Cripple_Type { get; set; }
+        public virtual DbSet<tb_Process_History> tb_Process_History { get; set; }
+        public virtual DbSet<vw_User_Excellent> vw_User_Excellent { get; set; }
+        public virtual DbSet<vw_User> vw_User { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {

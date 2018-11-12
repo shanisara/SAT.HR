@@ -12,20 +12,17 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_Marital_Status
+    public partial class tb_Cripple
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tb_Marital_Status()
+        public tb_Cripple()
         {
-            this.tb_User_Family = new HashSet<tb_User_Family>();
             this.tb_User = new HashSet<tb_User>();
         }
     
-        public int MaritalID { get; set; }
-        public string MaritalName { get; set; }
+        public int CrpID { get; set; }
+        public string CrpName { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_User_Family> tb_User_Family { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User> tb_User { get; set; }
     }

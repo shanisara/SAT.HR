@@ -106,6 +106,9 @@ namespace SAT.HR.Controllers
             ViewBag.UserStatus = DropDownList.GetUserStatus(model.StatusID);
             ViewBag.WorkingType = DropDownList.GetWorkingType(model.StatusID);
 
+            ViewBag.Cripple = DropDownList.GetCripple(model.CrpID);
+            ViewBag.CrippleType = DropDownList.GetCrippleType(model.CrpTID);
+
             ViewBag.UserTypeID = model.UserType;
             return PartialView("_Employee", model);
         }
@@ -515,6 +518,45 @@ namespace SAT.HR.Controllers
         }
 
         #endregion 
+
+        #region 2.0 Tab: User-Language
+
+        //public ActionResult LanguageByUser()
+        //{
+        //    return PartialView("_Language");
+        //}
+
+        //public ActionResult LanguageDetail(int userid, int id)
+        //{
+        //    var model = new EmployeeRepository().GetLanguageByID(userid, id);
+        //    //ViewBag.LanguageType = DropDownList.GetLanguageType(model.LanTID);
+        //    return PartialView("_LanguageDetail", model);
+        //}
+
+        //public JsonResult SaveLanguage(UserLanguageViewModel data)
+        //{
+        //    ResponseData result = new Models.ResponseData();
+        //    if (data.UeID != 0)
+        //        result = new EmployeeRepository().UpdateLanguageByEntity(data);
+        //    else
+        //        result = new EmployeeRepository().AddLanguageByEntity(data);
+        //    return Json(result, JsonRequestBehavior.AllowGet);
+        //}
+
+        //public JsonResult DeleteLanguage(int id)
+        //{
+        //    var result = new EmployeeRepository().DeleteLanguageByID(id);
+        //    return Json(result, JsonRequestBehavior.AllowGet);
+        //}
+
+        //[HttpPost]
+        //public JsonResult Language(int id)
+        //{
+        //    var list = new EmployeeRepository().GetExcellentByUser(id);
+        //    return Json(new { data = list.ListExcellent }, JsonRequestBehavior.AllowGet);
+        //}
+
+        #endregion
 
         #region 2. อัตรากำลังพล
 

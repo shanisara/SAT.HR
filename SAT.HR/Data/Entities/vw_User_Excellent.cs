@@ -23,5 +23,13 @@ namespace SAT.HR.Data.Entities
         public string UeProjectName { get; set; }
         public Nullable<int> UeRecYear { get; set; }
         public Nullable<System.DateTime> UeRecDate { get; set; }
+        public Nullable<int> DivID { get; set; }
+        public string DivName { get; set; }
+        public Nullable<int> DepID { get; set; }
+        public string DepName { get; set; }
+        public Nullable<int> SecID { get; set; }
+        public string SecName { get; set; }
+        public Nullable<int> PoID { get; set; }
+        public string PoName { get; set; }
     }
 }

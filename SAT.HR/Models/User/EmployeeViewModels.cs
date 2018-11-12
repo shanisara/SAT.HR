@@ -81,6 +81,10 @@ namespace SAT.HR.Models
         public string Experience { get; set; }
         public int recordsTotal { get; set; }
         public int recordsFiltered { get; set; }
+        public Nullable<int> CrpID { get; set; }
+        public Nullable<int> CrpTID { get; set; }
+        public string CrpName { get; set; }
+        public string CrpTypeName { get; set; }
     }
 
     public class EmployeePageResult
