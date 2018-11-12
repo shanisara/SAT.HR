@@ -1038,6 +1038,7 @@ namespace SAT.HR.Data.Repository
                         model.UpForceDateText = (item.UpForceDate.HasValue) ? item.UpForceDate.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.UpRemark = item.UpRemark;
                         model.UpPathFile = item.UpPathFile;
+                        model.FullPosition = "";
                         list.Add(model);
                     }
                 }
@@ -1681,6 +1682,8 @@ namespace SAT.HR.Data.Repository
                         model.ExTName = item.ExTName;
                         model.UeProjectName = item.UeProjectName;
                         model.UeRecDateText = (item.UeRecDate.HasValue) ? item.UeRecDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        model.PoName = "";
+                        model.FullPosition = "";
                         list.Add(model);
                     }
                 }

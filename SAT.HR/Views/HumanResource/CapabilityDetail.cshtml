@@ -1,5 +1,4 @@
-﻿@*@model List<SAT.HR.Models.CapabilityViewModel>*@
-@model SAT.HR.Models.CapabilityViewModel
+﻿@model SAT.HR.Models.CapabilityViewModel
 
 @{
     ViewBag.Title = "CapabilityDetail";
@@ -29,22 +28,20 @@
                                     <tr>
                                         <th style="width:5%" class="disabled-sorting">ลำดับ</th>
                                         <th style="width:20%">ชื่อสมรรถนะ</th>
-                                        <th style="width:47%">รายละเอียด</th>
-                                        <th class="text-right" style="width:10%; text-align:right">คะแนนครั้งที่ 1</th>
-                                        <th class="text-right" style="width:10%; text-align:right">คะแนนครั้งที่ 2</th>
+                                        <th style="width:51%">รายละเอียด</th>
+                                        <th class="text-right" style="width:8%; text-align:center">คะแนน(1)</th>
+                                        <th class="text-right" style="width:8%; text-align:center">คะแนน(2)</th>
                                         <th class="text-right" style="width:8%">ปฏิบัติการ</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (Model != null && Model != null)
+                                    @if (Model.ListCapability != null)
                                     {
                                         int index = 1;
                                         for (int i = 0; i < Model.ListCapability.Count; i++)
                                         {
                                             <tr>
-                                                @Html.HiddenFor(model => Model.ListCapability[i].CapID)
-                                                @Html.HiddenFor(model => Model.ListCapability[i].CapDID)
-                                                <td style="text-align:center;vertical-align:top;" class="countnumber">@index</td>
+                                                <td style="text-align:center;vertical-align:top;" class="countnumber">@Html.HiddenFor(model => Model.ListCapability[i].CapDID)@index</td>
                                                 <td>@Html.TextAreaFor(model => Model.ListCapability[i].CapDName, 3, 40, new { @class = "form-control" })</td>
                                                 <td>@Html.TextAreaFor(model => Model.ListCapability[i].CapDDesc, 3, 40, new { @class = "form-control" })</td>
                                                 <td style="vertical-align: bottom;">@Html.TextBoxFor(model => Model.ListCapability[i].Score1, new { @class = "form-control text-right", @style = "margin-top: -7px;", type = "number" })</td>
@@ -77,133 +74,113 @@
 
 @section Scripts {
     <script>
-    $(document).ready(function () {
+        $(document).ready(function () {
 
-        var runningIndex = function () {
-            var index = 1;
-            $('#datatables tbody tr').each(function () {
-                $(this).find('td').eq(0).html(index);
-                index++;
-            });
-        }
-
-        $("#datatables").on('click', ".deleteRow", function () {
-            deleteRow($(this));
-        });
-
-        $(".btn-back").click(function () {
-            var url = '@Url.Action("Capability", "HumanResource")';
-            window.location.href = url;
-        });
-
-        $(".btn-add").click(function () {
-            var capdid = $('#CapID').val();
-            var index = $('#datatables tbody tr').length + 1;
-            var newrow = '<tr>'
-                + '<input name="ListCapability[' + index + '].CapID" type="hidden" value="' + capdid +'">'
-                + '<input name="ListCapability[' + index + '].CapDID" type="hidden" value="0">'
-                + '<td style="text-align:center;vertical-align:top;">' + index + '</td>'
-                + '<td><textarea class="form-control" cols="40" name="ListCapability[' + index + '].CapDName" rows="3"></textarea></td>'
-                + '<td><textarea class="form-control" cols="40" name="ListCapability[' + index + '].CapDDesc" rows="3"></textarea></td>'
-                + '<td style="vertical-align: bottom;"><input class="form-control text-right" name="ListCapability[' + index + '].Score1" style="margin-top: -7px;" type="number"></td>'
-                + '<td style="vertical-align: bottom;"><input class="form-control text-right" name="ListCapability[' + index + '].Score2" style="margin-top: -7px;" type="number"></td>'
-                + '<td><div class="td-actions text-center"><button type="button" class="btn btn-round btn-danger deleteRow" data-id="' + capdid + '"><i class="material-icons">close</i></button></div></td>'
-                + '</tr>';
-            $('#datatables tbody').append(newrow);
-        });
-
-        $(".btn-save").click(function () {
-            //var customers = new Array();
-            //$("#tblCustomers TBODY TR").each(function () {
-            //    var row = $(this);
-            //    var customer = {};
-            //    customer.Name = row.find("TD").eq(0).html();
-            //    customer.Country = row.find("TD").eq(1).html();
-            //    customers.push(customer);
-            //});
-
-            var postData = [];
-
-            var $tableList = $('#datatables tbody tr');
-            if ($tableList.length > 0) {
-                $tableList.find('tr').each(function (i) {
-                    if ($table.find('td').eq(0).text() != 'This field required.') {
-                        var capname = $table.find('td').eq(2).text();
-                        var score1 = $table.find('td').eq(3).text();
-                        var score2 = $table.find('td').eq(4).text();
-                        var capdesc = $table.find('td').eq(5).text();
-                        var capid = $table.find("#cap_id").val();
-                        postData.push({ "CapDName": capname, "Score1": score1, "Score2": score2, "CapDDesc": capdesc, "CapDID": capid });
-                    }
+            var runningIndex = function () {
+                var index = 1;
+                $('#datatables tbody tr').each(function () {
+                    $(this).find('td').eq(0).html(index);
+                    index++;
                 });
             }
 
-            $.ajax({
-                type: "POST",
-                url: "/Home/InsertCustomers",
-                data: JSON.stringify(postData),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (r) {
-                    alert(r + " record(s) inserted.");
-                }
+            $("#datatables").on('click', ".deleteRow", function () {
+                deleteRow($(this));
             });
 
-            @*$.ajax({
-                type: 'POST',
-                url: '@Url.Action("SaveCapabilityDetail", "HumanResource")',
-                data: $(".form-capability").serialize(),
-                dataType: 'json',
-                success: function (res) {
-                    if (res.MessageCode == null) {
-                        swal({
-                            title: "",
-                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
-                            type: "success",
-                            confirmButtonClass: "btn btn-primary",
-                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                            buttonsStyling: false,
-                        }).then(function () {
+            $(".btn-back").click(function () {
+                var url = '@Url.Action("Capability", "HumanResource")';
+                window.location.href = url;
+            });
 
-                        });
-                    }
-                    else {
-                        swal({
-                            title: '',
-                            text: res.MessageText,
-                            type: 'error',
-                            confirmButtonClass: "btn btn-primary",
-                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                            buttonsStyling: false
-                        }).catch(swal.noop);
-                    }
+            $(".btn-add").click(function () {
+                var capdid = $('#CapID').val();
+                var index = $('#datatables tbody tr').length + 1;
+                var newrow = '<tr>'
+                    + '<input name="ListCapability[' + index + '].CapID" type="hidden" value="' + capdid + '">'
+                    + '<input name="ListCapability[' + index + '].CapDID" type="hidden" value="0">'
+                    + '<td style="text-align:center;vertical-align:top;"><input name="ListCapability[' + index + '].CapDID" type="hidden" value="0">' + index + '</td>'
+                    + '<td><textarea class="form-control CapDName_' + index + '" cols="40" name="ListCapability[' + index + '].CapDName" rows="3"></textarea></td>'
+                    + '<td><textarea class="form-control" cols="40" name="ListCapability[' + index + '].CapDDesc" rows="3"></textarea></td>'
+                    + '<td style="vertical-align: bottom;"><input class="form-control text-right" name="ListCapability[' + index + '].Score1" style="margin-top: -7px;" type="number"></td>'
+                    + '<td style="vertical-align: bottom;"><input class="form-control text-right" name="ListCapability[' + index + '].Score2" style="margin-top: -7px;" type="number"></td>'
+                    + '<td><div class="td-actions text-center"><button type="button" class="btn btn-round btn-danger deleteRow" data-id="' + capdid + '"><i class="material-icons">close</i></button></div></td>'
+                    + '</tr>';
+                $('#datatables tbody').append(newrow);
+                //$('.CapDName_' + index).parent().firstChild.addClass("is-foused");
+                $('.CapDName_' + index).focus();
+            });
+
+            $(".btn-save").click(function () {
+                var postData = [];
+                var $tableList = $('#datatables tbody tr');
+                if ($tableList.length > 0) {
+                    $('#datatables tbody').find('tr').each(function (i) {
+                        debugger;
+                        var capdid = $(this).find('td').eq(0).find('input[type="hidden"]').val();
+                        var capname = $(this).find('td').eq(1).find('textarea').val();
+                        var capdesc = $(this).find('td').eq(2).find('textarea').val();
+                        var score1 = $(this).find('td').eq(3).find('input[type="number"]').val();
+                        var score2 = $(this).find('td').eq(4).find('input[type="number"]').val();
+                        var capid = $("#CapID").val();
+                        postData.push({ "CapDID": capdid, "CapDName": capname, "CapDDesc": capdesc, "Score1": score1, "Score2": score2, "CapID": capid });
+                    });
                 }
-            });*@
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SubmitCapabilityDetail", "HumanResource")',
+                    data: JSON.stringify(postData),
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.MessageCode == null) {
+                            swal({
+                                title: "",
+                                text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                                type: "success",
+                                confirmButtonClass: "btn btn-primary",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                buttonsStyling: false,
+                            }).then(function () {
+
+                            });
+                        }
+                        else {
+                            swal({
+                                title: '',
+                                text: res.MessageText,
+                                type: 'error',
+                                confirmButtonClass: "btn btn-primary",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                buttonsStyling: false
+                            }).catch(swal.noop);
+                        }
+                    }
+                });
+            });
+
+            $(".btn-delete").click(function () {
+                deleteRow($(this));
+            });
+
+            function deleteRow(itemDelete) {
+                swal({
+                    title: '',
+                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                    buttonsStyling: false
+                }).then(function () {
+                    itemDelete.parent().parent().parent().remove();
+                    runningIndex();
+                }).catch(swal.noop);
+            }
+
         });
-
-
-        $(".btn-delete").click(function () {
-            deleteRow($(this));
-        });
-
-        function deleteRow(itemDelete) {
-            swal({
-                title: '',
-                text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
-                type: 'question',
-                showCancelButton: true,
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger',
-                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
-                buttonsStyling: false
-            }).then(function () {
-                itemDelete.parent().parent().parent().remove();
-                runningIndex();
-            }).catch(swal.noop);
-        }
-
-    });
 
     </script>
 }

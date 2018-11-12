@@ -20,7 +20,6 @@ namespace SAT.HR.Models
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
         public string UcRecDateText { get; set; }
-
         public List<UserCertificateViewModel> ListCertificate { get; set; }
     }
 

@@ -62,6 +62,7 @@ namespace SAT.HR.Controllers
             var model = new List<CapabilityDetailViewModel>();
             if (id.HasValue)
                 model = new CapabilityDetailRepository().GetByCap((int)id);
+
             CapabilityViewModel result = new CapabilityViewModel();
             result.CapID = (int)id;
             result.ListCapability = model;

@@ -35,7 +35,7 @@ namespace SAT.HR.Models
         public string UpPathFile { get; set; }
         public string UpCmdDateText { get; set; }
         public string UpForceDateText { get; set; }
-
+        public string FullPosition { get; set; }
 
         public List<UserPositionViewModel> ListPosition { get; set; }
     }
