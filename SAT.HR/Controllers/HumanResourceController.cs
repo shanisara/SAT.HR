@@ -81,10 +81,9 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult SubmitCapabilityDetail(List<CapabilityDetailViewModel> model)
+        public JsonResult SubmitCapabilityDetail(int id, List<CapabilityDetailViewModel> model)
         {
-            ResponseData result = new Models.ResponseData();
-            result = new CapabilityDetailRepository().SubmitByEntity(model);
+            ResponseData result = new CapabilityDetailRepository().SubmitByEntity(id, model);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -119,7 +118,7 @@ namespace SAT.HR.Controllers
         }
 
         [HttpPost]
-        public JsonResult Evaluation(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns,string usertype, string capid)
+        public JsonResult Evaluation(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns, string usertype, string capid)
         {
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
@@ -148,6 +147,12 @@ namespace SAT.HR.Controllers
         {
             return View();
         }
+
+        public ActionResult TrainningDetail()
+        {
+            return View();
+        }
+
 
         [HttpPost]
         public JsonResult Trainning(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)

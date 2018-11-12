@@ -82,13 +82,28 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public ResponseData SubmitByEntity(List<CapabilityDetailViewModel> newdata)
+        public ResponseData SubmitByEntity(int capid, List<CapabilityDetailViewModel> newdata)
         {
             using (SATEntities db = new SATEntities())
             {
                 ResponseData result = new Models.ResponseData();
                 try
                 {
+                    var listDelete = db.tb_Capability_Detail.Where(x => x.CapID == capid).ToList();
+                    if (newdata == null)
+                    {
+                        db.tb_Capability_Detail.RemoveRange(listDelete);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        var itemDelete = listDelete.Where(p => !newdata.Any(p2 => p2.CapDID == p.CapDID));
+                        foreach (var del in itemDelete)
+                        {
+                            RemoveByID(del.CapDID);
+                        }
+                    }
+
                     foreach (var item in newdata)
                     {
                         if (item.CapDID != 0)

@@ -112,26 +112,27 @@
             });
 
             $(".btn-save").click(function () {
-                var postData = [];
+                var capid = $("#CapID").val();
+                var Capability = [];
                 var $tableList = $('#datatables tbody tr');
                 if ($tableList.length > 0) {
                     $('#datatables tbody').find('tr').each(function (i) {
-                        debugger;
                         var capdid = $(this).find('td').eq(0).find('input[type="hidden"]').val();
                         var capname = $(this).find('td').eq(1).find('textarea').val();
                         var capdesc = $(this).find('td').eq(2).find('textarea').val();
                         var score1 = $(this).find('td').eq(3).find('input[type="number"]').val();
                         var score2 = $(this).find('td').eq(4).find('input[type="number"]').val();
-                        var capid = $("#CapID").val();
-                        postData.push({ "CapDID": capdid, "CapDName": capname, "CapDDesc": capdesc, "Score1": score1, "Score2": score2, "CapID": capid });
+
+                        Capability.push({ "CapDID": capdid, "CapDName": capname, "CapDDesc": capdesc, "Score1": score1, "Score2": score2, "CapID": capid });
                     });
                 }
-
+                var postData = { "id": capid, "model": Capability }
                 $.ajax({
                     type: 'POST',
                     url: '@Url.Action("SubmitCapabilityDetail", "HumanResource")',
                     data: JSON.stringify(postData),
                     dataType: 'json',
+                    contentType: 'application/json',
                     success: function (res) {
                         if (res.MessageCode == null) {
                             swal({
