@@ -34,8 +34,8 @@ namespace SAT.HR.Data.Entities
             this.tb_User_Family = new HashSet<tb_User_Family>();
             this.tb_User_History = new HashSet<tb_User_History>();
             this.tb_User_Position = new HashSet<tb_User_Position>();
-            this.tb_User_Skill = new HashSet<tb_User_Skill>();
             this.tb_User_Training = new HashSet<tb_User_Training>();
+            this.tb_User_Skill = new HashSet<tb_User_Skill>();
         }
     
         public int UserID { get; set; }
@@ -145,12 +145,12 @@ namespace SAT.HR.Data.Entities
         public virtual ICollection<tb_User_History> tb_User_History { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User_Position> tb_User_Position { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_User_Skill> tb_User_Skill { get; set; }
         public virtual tb_User_Type tb_User_Type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User_Training> tb_User_Training { get; set; }
         public virtual tb_User_Status tb_User_Status { get; set; }
         public virtual tb_Working_Type tb_Working_Type { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_User_Skill> tb_User_Skill { get; set; }
     }
 }

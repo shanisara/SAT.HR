@@ -2190,6 +2190,7 @@ namespace SAT.HR.Data.Repository
                         model.Language = item.Language;
                         model.LkName = item.LkName;
                         model.LkTName = item.LkTName;
+                        model.Score = item.Score;
                         list.Add(model);
                     }
                 }
@@ -2222,6 +2223,7 @@ namespace SAT.HR.Data.Repository
                     model.LIOther = obj.LIOther;
                     model.LkID = obj.LkID;
                     model.LkTID = obj.LkTID;
+                    model.Score = obj.Score;
 
                     if (model != null)
                         data = model;
@@ -2247,6 +2249,7 @@ namespace SAT.HR.Data.Repository
                     model.LID = data.LID;
                     model.LkID = data.LkID;
                     model.LkTID = data.LkTID;
+                    model.Score = data.Score;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -2275,6 +2278,7 @@ namespace SAT.HR.Data.Repository
                     model.LID = newdata.LID;
                     model.LkID = newdata.LkID;
                     model.LkTID = newdata.LkTID;
+                    model.Score = newdata.Score;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();

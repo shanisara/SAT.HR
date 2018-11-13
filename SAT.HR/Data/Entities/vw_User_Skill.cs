@@ -25,5 +25,6 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> LkTID { get; set; }
         public string LkTName { get; set; }
         public string LIOther { get; set; }
+        public Nullable<decimal> Score { get; set; }
     }
 }

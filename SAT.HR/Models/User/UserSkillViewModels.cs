@@ -19,7 +19,7 @@ namespace SAT.HR.Models
         public Nullable<int> LkTID { get; set; }
         public string LkTName { get; set; }
         public string LIOther { get; set; }
-
+        public decimal? Score { get; set; }
         public List<UserSkillViewModel> ListSkill { get; set; }
 
     }

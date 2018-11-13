@@ -8,32 +8,30 @@
 
     <div class="form-horizontal">
         <div class="row occupation">
-            <label class="col-sm-3 col-form-label" for="NewLastNameTh">ภาษา:<span class="text-danger"> *</span> </label>
-            <div class="col-sm-9 m-t-10">
-                @Html.DropDownListFor(n => n.LID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Language, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+            <label class="col-sm-2 col-form-label" for="NewLastNameTh">ภาษา:<span class="text-danger"> *</span> </label>
+            <div class="col-sm-4">
+                @Html.DropDownListFor(n => n.LID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Language, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
             </div>
-        </div>
-        <div class="row">
-            <label class="col-sm-3 col-form-label">ระบุ<span class="text-danger"> *</span></label>
-            <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.Score, new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="row occupation">
-            <label class="col-sm-3 col-form-label" for="NewLastNameTh">ประเภท:<span class="text-danger"> *</span> </label>
-            <div class="col-sm-9 m-t-10">
-                @Html.DropDownListFor(n => n.LkID, new SelectList((IEnumerable<SelectListItem>)ViewBag.LanguageSkill, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+            <label class="col-sm-1 col-form-label">ระบุ</label>
+            <div class="col-sm-4">
+                @Html.TextBoxFor(m => m.LIOther, new { @class = "form-control" })
             </div>
         </div>
         <div class="row occupation">
-            <label class="col-sm-3 col-form-label" for="NewLastNameTh">ระดับ:<span class="text-danger"> *</span> </label>
+            <label class="col-sm-2 col-form-label" for="NewLastNameTh">ประเภท:</label>
             <div class="col-sm-9 m-t-10">
-                @Html.DropDownListFor(n => n.LkTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.LanguageSkillType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
+                @Html.DropDownListFor(n => n.LkTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.LanguageSkillType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+            </div>
+        </div>
+        <div class="row occupation">
+            <label class="col-sm-2 col-form-label" for="NewLastNameTh">ระดับ:<span class="text-danger"> *</span> </label>
+            <div class="col-sm-9 m-t-10">
+                @Html.DropDownListFor(n => n.LkID, new SelectList((IEnumerable<SelectListItem>)ViewBag.LanguageSkill, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
             </div>
         </div>
         <div class="row">
-            <label class="col-sm-3 col-form-label">คะแนน<span class="text-danger"> *</span></label>
-            <div class="col-sm-9">
+            <label class="col-sm-2 col-form-label">คะแนน</label>
+            <div class="col-sm-9 m-t-10">
                 @Html.TextBoxFor(m => m.Score, new { @class = "form-control", type = "number"})
             </div>
         </div>
@@ -45,7 +43,27 @@
     //    errorPlacement: $.noop
     //});
 
+    if ('@Model.UskID' == '0') {
+        $('#LIOther').prop("disabled", true);
+    }
+    else {
+        if ('@Model.LID' != '99') {
+            $('#LIOther').prop("disabled", true);
+        }
+    }
+
     $('.selectpicker').selectpicker();
+
+    $('#LID').change(function () {
+        debugger;
+        if ($('#LID').val() != '99') {
+            $('#LIOther').val('');
+            $('#LIOther').prop("disabled", true);
+        }
+        else {
+            $('#LIOther').prop("disabled", false);
+        }
+    });
 
 
 </script>

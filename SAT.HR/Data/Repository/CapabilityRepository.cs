@@ -71,13 +71,16 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.tb_Capability.Where(x => x.CapID == id).FirstOrDefault();
+                var data = db.vw_Capability.Where(x => x.CapID == id).FirstOrDefault();
                 CapabilityViewModel model = new Models.CapabilityViewModel();
                 model.CapID = data.CapID;
                 model.CapYear = data.CapYear;
                 model.CapTID = data.CapTID;
                 model.CapGID = data.CapGID;
                 model.CapGTID = data.CapGTID;
+                model.CapTName = data.CapTName;
+                model.CapGName = data.CapGName;
+                model.CapGTName = data.CapGTName;
                 return model;
             }
         }

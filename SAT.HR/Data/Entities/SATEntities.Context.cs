@@ -112,7 +112,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_User_Insignia> tb_User_Insignia { get; set; }
         public virtual DbSet<tb_User_Position> tb_User_Position { get; set; }
         public virtual DbSet<tb_User_Role> tb_User_Role { get; set; }
-        public virtual DbSet<tb_User_Skill> tb_User_Skill { get; set; }
         public virtual DbSet<tb_User_Status> tb_User_Status { get; set; }
         public virtual DbSet<tb_User_Training> tb_User_Training { get; set; }
         public virtual DbSet<tb_User_Type> tb_User_Type { get; set; }
@@ -149,8 +148,9 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_NotRole> vw_User_NotRole { get; set; }
         public virtual DbSet<vw_User_Position> vw_User_Position { get; set; }
         public virtual DbSet<vw_User_Role> vw_User_Role { get; set; }
-        public virtual DbSet<vw_User_Skill> vw_User_Skill { get; set; }
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
+        public virtual DbSet<tb_User_Skill> tb_User_Skill { get; set; }
+        public virtual DbSet<vw_User_Skill> vw_User_Skill { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {

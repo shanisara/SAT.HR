@@ -54,15 +54,16 @@ namespace SAT.HR.Data.Repository
                     {
                         CourseViewModel model = new CourseViewModel();
                         model.RowNumber = ++i;
-                        model.CountryID = item.CountryID;
+                        model.CourseID = item.CourseID;
                         model.CourseNo = item.CourseNo;
-                        model.CountryName = item.CountryName;
+                        model.CourseTName = item.CourseTName;
+                        model.CourseName = item.CourseName;
                         model.DateFrom = item.DateFrom;
                         model.DateTo = item.DateTo;
                         model.Total = item.Total;
                         model.DateFromText = (item.DateFrom.HasValue) ? item.DateFrom.Value.ToString("dd/MM/yyyy") : string.Empty;
-                        model.DateFromText = (item.DateTo.HasValue) ? item.DateTo.Value.ToString("dd/MM/yyyy") : string.Empty;
-                        model.StatusName = "";
+                        model.DateToText = (item.DateTo.HasValue) ? item.DateTo.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        model.StatusName = item.StatusName;
                         model.recordsTotal = recordsTotal;
                         model.recordsFiltered = recordsFiltered;
                         list.Add(model);

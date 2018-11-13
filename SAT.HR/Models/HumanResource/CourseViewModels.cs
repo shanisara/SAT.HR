@@ -29,7 +29,7 @@ namespace SAT.HR.Models
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
         public string DateFromText { get; set; }
-        public string EndDateText { get; set; }
+        public string DateToText { get; set; }
         public int recordsTotal { get; set; }
         public int recordsFiltered { get; set; }
         public string StatusName { get; set; }

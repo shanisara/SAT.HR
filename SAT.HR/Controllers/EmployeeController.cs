@@ -554,8 +554,8 @@ namespace SAT.HR.Controllers
         [HttpPost]
         public JsonResult Skill(int id)
         {
-            var list = new EmployeeRepository().GetExcellentByUser(id);
-            return Json(new { data = list.ListExcellent }, JsonRequestBehavior.AllowGet);
+            var list = new EmployeeRepository().GetSkillByUser(id);
+            return Json(new { data = list.ListSkill }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion

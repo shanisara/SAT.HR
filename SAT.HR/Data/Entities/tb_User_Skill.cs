@@ -17,6 +17,7 @@ namespace SAT.HR.Data.Entities
         public int UskID { get; set; }
         public Nullable<int> UserID { get; set; }
         public Nullable<int> LID { get; set; }
+        public string LIOther { get; set; }
         public Nullable<int> LkID { get; set; }
         public Nullable<int> LkTID { get; set; }
         public Nullable<decimal> Score { get; set; }
@@ -24,7 +25,6 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
-        public string LIOther { get; set; }
     
         public virtual tb_Language tb_Language { get; set; }
         public virtual tb_Language_Skill tb_Language_Skill { get; set; }

@@ -59,13 +59,16 @@ namespace SAT.HR.Controllers
 
         public ActionResult CapabilityDetail(int? id)
         {
-            var model = new List<CapabilityDetailViewModel>();
-            if (id.HasValue)
-                model = new CapabilityDetailRepository().GetByCap((int)id);
+            var head = new CapabilityRepository().GetByID((int)id);
+            var detail = new CapabilityDetailRepository().GetByCap((int)id);
 
             CapabilityViewModel result = new CapabilityViewModel();
             result.CapID = (int)id;
-            result.ListCapability = model;
+            result.CapTName = head.CapTName;
+            result.CapGName = head.CapGName;
+            result.CapGTName = head.CapGTName;
+            result.ListCapability = detail;
+
             return View(result);
             //return PartialView("_CapabilityDetail", model);
         }
