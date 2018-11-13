@@ -80,7 +80,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Recieve_Type> tb_Recieve_Type { get; set; }
         public virtual DbSet<tb_Religion> tb_Religion { get; set; }
         public virtual DbSet<tb_Rent_Type> tb_Rent_Type { get; set; }
-        public virtual DbSet<tb_Role> tb_Role { get; set; }
         public virtual DbSet<tb_Salary> tb_Salary { get; set; }
         public virtual DbSet<tb_Section> tb_Section { get; set; }
         public virtual DbSet<tb_Sex> tb_Sex { get; set; }
@@ -146,6 +145,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Process_History> tb_Process_History { get; set; }
         public virtual DbSet<vw_User_Excellent> vw_User_Excellent { get; set; }
         public virtual DbSet<vw_User> vw_User { get; set; }
+        public virtual DbSet<tb_Role> tb_Role { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {

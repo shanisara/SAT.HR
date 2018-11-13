@@ -5,6 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="SAT.HR.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="AALocation">
+          <Property Name="province" Type="nvarchar" MaxLength="255" />
+          <Property Name="district" Type="nvarchar" MaxLength="255" />
+          <Property Name="subdistrict" Type="nvarchar" MaxLength="255" />
+          <Property Name="zipcode" Type="float" />
+        </EntityType>-->
         <EntityType Name="tb_Accumulative_Fund">
           <Key>
             <PropertyRef Name="CuID" />
@@ -4326,7 +4334,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_Recieve_Type" EntityType="SAT.HR.tb_Recieve_Type" />
           <EntitySet Name="tb_Religion" EntityType="SAT.HR.tb_Religion" />
           <EntitySet Name="tb_Rent_Type" EntityType="SAT.HR.tb_Rent_Type" />
-          <EntitySet Name="tb_Role" EntityType="SAT.HR.tb_Role" />
           <EntitySet Name="tb_Salary" EntityType="SAT.HR.tb_Salary" />
           <EntitySet Name="tb_Section" EntityType="SAT.HR.tb_Section" />
           <EntitySet Name="tb_Sex" EntityType="SAT.HR.tb_Sex" />
@@ -4483,10 +4490,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           </AssociationSet>
           <AssociationSet Name="FK_tb_RoleMenu_tb_Menu" Association="SAT.HR.FK_tb_RoleMenu_tb_Menu">
             <End Role="tb_Menu" EntitySet="tb_Menu" />
-            <End Role="tb_Menu_Role" EntitySet="tb_Menu_Role" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tb_RoleMenu_tb_Role" Association="SAT.HR.FK_tb_RoleMenu_tb_Role">
-            <End Role="tb_Role" EntitySet="tb_Role" />
             <End Role="tb_Menu_Role" EntitySet="tb_Menu_Role" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_Move_Man_Power_Detail_MopID" Association="SAT.HR.FK_tb_Move_Man_Power_Detail_MopID">
@@ -4737,6 +4740,11 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           </AssociationSet>
           <EntitySet Name="vw_User_Excellent" EntityType="SAT.HR.vw_User_Excellent" />
           <EntitySet Name="vw_User" EntityType="SAT.HR.vw_User" />
+          <EntitySet Name="tb_Role" EntityType="SAT.HR.tb_Role" />
+          <AssociationSet Name="FK_tb_RoleMenu_tb_Role" Association="SAT.HR.FK_tb_RoleMenu_tb_Role">
+            <End Role="tb_Role" EntitySet="tb_Role" />
+            <End Role="tb_Menu_Role" EntitySet="tb_Menu_Role" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_Menu_GetByUser_Result">
           <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -5499,20 +5507,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="RID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tb_Benefit_Home_Rental" Relationship="SAT.HR.FK_tb_Benefit_Home_Rental_tb_Rent_Type" FromRole="tb_Rent_Type" ToRole="tb_Benefit_Home_Rental" />
-        </EntityType>
-        <EntityType Name="tb_Role">
-          <Key>
-            <PropertyRef Name="RoleID" />
-          </Key>
-          <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="RoleDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="RoleStatus" Type="Boolean" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="Int32" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="Int32" />
-          <NavigationProperty Name="tb_Menu_Role" Relationship="SAT.HR.FK_tb_RoleMenu_tb_Role" FromRole="tb_Role" ToRole="tb_Menu_Role" />
         </EntityType>
         <EntityType Name="tb_Salary">
           <Key>
@@ -6553,18 +6547,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Principal>
             <Dependent Role="tb_Menu_Role">
               <PropertyRef Name="MenuID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tb_RoleMenu_tb_Role">
-          <End Type="SAT.HR.tb_Role" Role="tb_Role" Multiplicity="1" />
-          <End Type="SAT.HR.tb_Menu_Role" Role="tb_Menu_Role" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="tb_Menu_Role">
-              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -7948,6 +7930,32 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="CrpTID" Type="Int32" />
           <Property Name="CrpTypeName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="tb_Role">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RoleDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="RoleStatus" Type="Boolean" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+          <NavigationProperty Name="tb_Menu_Role" Relationship="SAT.HR.FK_tb_RoleMenu_tb_Role" FromRole="tb_Role" ToRole="tb_Menu_Role" />
+        </EntityType>
+        <Association Name="FK_tb_RoleMenu_tb_Role">
+          <End Type="SAT.HR.tb_Role" Role="tb_Role" Multiplicity="1" />
+          <End Type="SAT.HR.tb_Menu_Role" Role="tb_Menu_Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="tb_Menu_Role">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8695,20 +8703,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               <MappingFragment StoreEntitySet="tb_Rent_Type">
                 <ScalarProperty Name="RName" ColumnName="RName" />
                 <ScalarProperty Name="RID" ColumnName="RID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tb_Role">
-            <EntityTypeMapping TypeName="SAT.HR.tb_Role">
-              <MappingFragment StoreEntitySet="tb_Role">
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="RoleStatus" ColumnName="RoleStatus" />
-                <ScalarProperty Name="RoleDesc" ColumnName="RoleDesc" />
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -10093,6 +10087,20 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="DivSeq" ColumnName="DivSeq" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Role">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Role">
+              <MappingFragment StoreEntitySet="tb_Role">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="RoleStatus" ColumnName="RoleStatus" />
+                <ScalarProperty Name="RoleDesc" ColumnName="RoleDesc" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
