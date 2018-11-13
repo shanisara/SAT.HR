@@ -156,9 +156,8 @@ namespace SAT.HR.Controllers
             var model = new TrainningRepository().GetByID(id);
             ViewBag.Country = DropDownList.GetCountry(model.CountryID);
             ViewBag.TrainingType = DropDownList.GetTrainingType(model.CourseTID);
-            return View();
+            return View(model);
         }
-
 
         [HttpPost]
         public JsonResult Trainning(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
@@ -199,6 +198,12 @@ namespace SAT.HR.Controllers
             string filePath = result.FilePath;
             string contentType = result.ContentType;
             return new FilePathResult(Path.Combine(filePath, fileName), contentType);
+        }
+
+        public ActionResult GetEmployee()
+        {
+            ViewBag.Employee = DropDownList.GetEmployee(null, 1);
+            return PartialView("_TrainningDetail");
         }
 
         #endregion

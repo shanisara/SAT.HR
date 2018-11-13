@@ -93,18 +93,17 @@ namespace SAT.HR.Data.Repository
                     if (id != null)
                     {
                         var data = db.tb_Course.Where(x => x.CourseID == id).FirstOrDefault();
-                        CourseViewModel head = new CourseViewModel();
-                        head.CourseID = data.CourseID;
-                        head.CourseNo = data.CourseNo;
-                        head.CourseTID = data.CourseTID;
-                        head.CourseName = data.CourseName;
-                        head.DateFrom = data.DateFrom;
-                        head.DateTo = data.DateTo;
-                        head.CountryID = data.CountryID;
-                        head.TrainerName = data.TrainerName;
-                        head.Location = data.Location;
-                        head.Certificate = data.Certificate;
-                        head.Remark = data.Remark;
+                        model.CourseID = data.CourseID;
+                        model.CourseNo = data.CourseNo;
+                        model.CourseTID = data.CourseTID;
+                        model.CourseName = data.CourseName;
+                        model.DateFrom = data.DateFrom;
+                        model.DateTo = data.DateTo;
+                        model.CountryID = data.CountryID;
+                        model.TrainerName = data.TrainerName;
+                        model.Location = data.Location;
+                        model.Certificate = data.Certificate;
+                        model.Remark = data.Remark;
 
                         //var detail = GetDetail(model.CourseID);
                         //model.ListTrainning = detail;

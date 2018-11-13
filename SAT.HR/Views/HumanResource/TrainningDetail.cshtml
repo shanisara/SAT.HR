@@ -4,6 +4,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .col-form-label {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .label-text {
+        font-size:14px;
+    }
+</style>
 <div class="content">
     <div class="row">
         <div class="col-md-12">
@@ -52,7 +62,7 @@
                                 <label class="col-sm-2 col-form-label">รายละเอียด</label>
                                 <div class="col-sm-10">
                                     <div class="form-group">
-                                        @Html.TextAreaFor(m => m.Remark, 2, 100, new { @class = "form-control" })
+                                        @Html.TextBoxFor(m => m.Remark, new { @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
@@ -90,17 +100,55 @@
                             </div>
                         </form>
                     </div>
-                    <div class="toolbar pull-right">
-                        <button class="btn btn-primary btn-sm add-training" data-toggle="modal"><i class="material-icons">add</i> เพิ่มผู้เข้าอบรม</button>
+                    <div class="toolbar pull-right m-t-10">
+                        <button class="btn btn-primary btn-sm btn-add" data-toggle="modal"><i class="material-icons">add</i> เพิ่มผู้เข้าอบรม</button>
                     </div>
                     <div>
-
+                        <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                            <thead class="text-primary">
+                                <tr>
+                                    <th style="width:5%" class="disabled-sorting">ลำดับ</th>
+                                    <th style="width:30%">ชื่อ-นามสกุล</th>
+                                    <th style="width:55%">ตำแหน่ง</th>
+                                    <th style="width:10%; text-align:right">ปฏิบัติการ</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row m-b-30">
+                    <div class="ml-auto mr-auto">
+                        <button type="button" class="btn btn-back">ย้อนกลับ</button>
+                        <button type="button" class="btn btn-primary btn-save">บันทึก</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Classic Modal -->
+<div class="modal fade modal-large modal-detail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span>เพิ่มพนักงานเข้าหลักสูตร</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div class="div-detail"></div>
+                </div>
+            </div>
+            <div class="modal-footer pull-right">
+                <button type="button" class="btn btn-default btn-close" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary btn-insert">เพิ่มลงรายการ</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  End Modal -->
 
 @section Scripts {
     <script>
@@ -126,6 +174,18 @@
             $(".btn-back").click(function () {
                 var url = '@Url.Action("Trainning", "HumanResource")';
                 window.location.href = url;
+            });
+
+            $(".btn-add").click(function () {
+                var url = '@Url.Action("GetEmployee", "HumanResource")';
+                $.post(url, {}, function (data) {
+                    $(".div-detail").html(data);
+                    $('.modal-detail').modal('show');
+                });
+            });
+
+            $(".btn-insert").click(function () {
+                
             });
 
         });

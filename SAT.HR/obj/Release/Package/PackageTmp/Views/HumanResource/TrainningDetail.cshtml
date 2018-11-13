@@ -1,4 +1,4 @@
-﻿
+﻿@model SAT.HR.Models.CourseViewModel
 @{
     ViewBag.Title = "TrainningDetail";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -19,7 +19,76 @@
                 </div>
                 <div class="card-body">
                     <div>
-                        xxxx
+                        <form class="form-horizontal">
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label">ชื่อหลักสูตร</label>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.CourseName, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">ประเภท</label>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        @Html.DropDownListFor(n => n.CourseTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.TrainingType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label">สถานที่</label>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">ประเทศ</label>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        @Html.DropDownListFor(n => n.CountryID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Country, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label">รายละเอียด</label>
+                                <div class="col-sm-10">
+                                    <div class="form-group">
+                                        @Html.TextAreaFor(m => m.Remark, 2, 100, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label">วันที่เริ่ม</label>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.DateFrom, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">วันที่สิ้นสุด</label>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.DateTo, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 col-form-label">วุฒิการฝึกอบรม</label>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.Certificate, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label">ผู้จัดการฝึกอบรม</label>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.TrainerName, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">ไฟล์แนบ</label>
+                                <div class="col-sm-6 m-t-10">
+                                    @Html.TextBoxFor(m => m.Location, new { @class = "form-control", @type = "file" })
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     <div class="toolbar pull-right">
                         <button class="btn btn-primary btn-sm add-training" data-toggle="modal"><i class="material-icons">add</i> เพิ่มผู้เข้าอบรม</button>
@@ -37,6 +106,22 @@
     <script>
         $(document).ready(function () {
 
+            $('.selectpicker').selectpicker();
+
+            $('.datepicker').datetimepicker({
+                format: 'DD/MM/YYYY',
+                icons: {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-chevron-up",
+                    down: "fa fa-chevron-down",
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-screenshot',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-remove'
+                }
+            });
 
             $(".btn-back").click(function () {
                 var url = '@Url.Action("Trainning", "HumanResource")';
