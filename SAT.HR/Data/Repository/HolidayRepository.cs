@@ -27,6 +27,9 @@ namespace SAT.HR.Data.Repository
 
                 switch (sortBy)
                 {
+                    case "HolYear":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.HolDate.Value.Year).ToList() : data.OrderByDescending(x => x.HolDate.Value.Year).ToList();
+                    break;
                     case "HolDescription":
                         data = (sortDir == "asc") ? data.OrderBy(x => x.HolDescription).ToList() : data.OrderByDescending(x => x.HolDescription).ToList();
                         break;
