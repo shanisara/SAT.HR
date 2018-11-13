@@ -1,7 +1,7 @@
 ﻿@model SAT.HR.Models.UserRoleMenuViewModel
 
 <!-- Tip 1: You can change the color of the sidebar using: data-color="rose | azure | green | orange | danger" / Tip 2: you can also add an image using data-image tag -->
-<div class="sidebar" data-color="purple" data-background-color="black" data-image="@Url.Content("~/Content/assets/img/sidebar-1.jpg")">
+<div class="sidebar" data-color="purple" data-background-color="black" data-image="@Url.Content("~/Content/assets/img/sidebar-0.jpg")">
     <div class="logo">
         <a href="javascript:void(0)" class="simple-text logo-mini"> HR </a>
         <a href="#javascript:void(0)" class="simple-text logo-normal"> ระบบบริหารงานบุคคล </a>
@@ -54,7 +54,14 @@
                 }
                 else if (controllerName == "HumanResource")
                 {
-                    if (actionName == "EvaluationDetail") { actionName = "Evaluation"; }
+                    if (actionName == "CapabilityDetail") { actionName = "Capability"; }
+                    else if (actionName == "TrainningDetail") { actionName = "Trainning"; }
+                    else if (actionName == "IndividualPlanDetail") { actionName = "IndividualPlan"; }
+                    else if(actionName == "EvaluationDetail") { actionName = "Evaluation"; }
+                }
+                else if (controllerName == "Master")
+                {
+                    if (actionName == "RoleUser" || actionName == "RoleMenu") { actionName = "Permission"; }
                 }
                 string activeDashboard = (actionName == "Dashboard") ? "active" : string.Empty;
             }

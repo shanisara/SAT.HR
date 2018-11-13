@@ -5,30 +5,10 @@
 }
 
 <style>
-
     .fileinput .thumbnail {
         max-width: 250px;
         max-height: 250px;
     }
-
-    .card-contact {
-        border: 0;
-        margin-bottom: 30px;
-        margin-top: 0px;
-        border-radius: 6px;
-        color: #333;
-        background: #fff;
-        width: 100%;
-    }
-
-    .nav-pills .nav-item .nav-link {
-        font-size: 14px;
-        padding: 10px 5px;
-    }
-
-        .nav-pills .nav-item .nav-link.active {
-            font-size: 14px;
-        }
 
     form .form-group select.form-control {
         position: static;
@@ -68,6 +48,7 @@
         pointer-events: none;
         transition: .3s ease all;
     }
+
     .bmd-label-Selected {
         color: #AAA;
         top: -1rem;
@@ -96,6 +77,7 @@
         float: left;
         font-size: 5px;
     }
+
     .w-title {
         width: 60px;
         margin-left: 10px;
@@ -110,7 +92,6 @@
         top: -1rem;
         font-size: .6875rem;
     }*/
-
 </style>
 
 <div class="content">
@@ -132,31 +113,34 @@
                 <div class="card-body" id="tabs">
                     <ul class="nav nav-pills nav-pills-warning" role="tablist">
                         <li class="nav-item" id="employee">
-                            <a class="nav-link text-link active" data-id="employee" href="#" data-toggle="tab" role="tablist"> ประวัติส่วนตัว </a>
+                            <a class="nav-link active" data-id="employee" href="#" data-toggle="tab" role="tablist"> ประวัติส่วนตัว </a>
                         </li>
                         <li class="nav-item" id="family">
-                            <a class="nav-link text-link" data-toggle="tab" role="tablist" href="#"> ครอบครัว </a>
+                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> ครอบครัว </a>
                         </li>
                         <li class="nav-item" id="education">
-                            <a class="nav-link text-link" data-toggle="tab" role="tablist" href="#"> การศึกษา </a>
+                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> การศึกษา </a>
                         </li>
                         <li class="nav-item" id="position">
-                            <a class="nav-link text-link" data-toggle="tab" role="tablist" href="#"> การดำรงตำแหน่ง </a>
+                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> การดำรงตำแหน่ง </a>
                         </li>
                         <li class="nav-item" id="trainning">
-                            <a class="nav-link text-link" data-toggle="tab" role="tablist" href="#"> อบรม/ดูงาน </a>
+                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> อบรม/ดูงาน </a>
                         </li>
                         <li class="nav-item" id="insignia">
-                            <a class="nav-link text-link" data-toggle="tab" role="tablist" href="#"> เครื่องราชฯ/วิริยะ </a>
+                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> เครื่องราชฯ/วิริยะ </a>
                         </li>
                         <li class="nav-item" id="excellent">
-                            <a class="nav-link text-link" data-toggle="tab" role="tablist" href="#"> พนักงานดีเด่น </a>
+                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> พนักงานดีเด่น </a>
                         </li>
                         <li class="nav-item" id="certificate">
-                            <a class="nav-link text-link" data-toggle="tab" role="tablist" href="#"> ใบประกอบวิชาชีพ </a>
+                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> ใบประกอบวิชาชีพ </a>
                         </li>
                         <li class="nav-item" id="history">
-                            <a class="nav-link text-link" data-toggle="tab" role="tablist" href="#"> ประวัติแก้ไขชื่อ </a>
+                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> ประวัติแก้ไขชื่อ </a>
+                        </li>
+                        <li class="nav-item" id="language">
+                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> ทักษะพิเศษ </a>
                         </li>
                     </ul>
                     <div class="tab-content tab-space">
@@ -172,98 +156,105 @@
 
 @section Scripts {
     <script>
-    $(document).ready(function () {
+        $(document).ready(function () {
 
-        $('.datepicker').datetimepicker({
-            format: 'DD/MM/YYYY',
-            icons: {
-                time: "fa fa-clock-o",
-                date: "fa fa-calendar",
-                up: "fa fa-chevron-up",
-                down: "fa fa-chevron-down",
-                previous: 'fa fa-chevron-left',
-                next: 'fa fa-chevron-right',
-                today: 'fa fa-screenshot',
-                clear: 'fa fa-trash',
-                close: 'fa fa-remove'
-            }
-        });
-
-        var ref_this = $("#tabs li").find(".active");
-        if (ref_this.data("id") == "employee") {
-            var userid = $("#UserID").val();
-            var type = $("#UserType").val();
-            var url = '@Url.Action("Employee", "Employee")/' + userid;
-            $.post(url, function (data) {
-                $("#div-detail").html(data);
+            $('.datepicker').datetimepicker({
+                format: 'DD/MM/YYYY',
+                icons: {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-chevron-up",
+                    down: "fa fa-chevron-down",
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-screenshot',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-remove'
+                }
             });
-        }
 
-        $("#tabs li").click(function () {
-            var userid = $("#UserID").val();
-            var type = $("#UserType").val();
-            if (this.id == "employee") {
+            var ref_this = $("#tabs li").find(".active");
+            if (ref_this.data("id") == "employee") {
+                var userid = $("#UserID").val();
+                var type = $("#UserType").val();
                 var url = '@Url.Action("Employee", "Employee")/' + userid;
                 $.post(url, function (data) {
                     $("#div-detail").html(data);
                 });
             }
-            else if (this.id == "family") {
-                var url = '@Url.Action("FamilyByUser", "Employee")/' + userid;
-                $.post(url, function (data) {
-                    $("#div-detail").html(data);
-                });
-            }
-            else if (this.id == "education") {
-                var url = '@Url.Action("EducationByUser", "Employee")/' + userid;
-                $.post(url, function (data) {
-                    $("#div-detail").html(data);
-                });
-            }
-            else if (this.id == "position") {
-                var url = '@Url.Action("PositionByUser", "Employee")/' + userid;
-                $.post(url, function (data) {
-                    $("#div-detail").html(data);
-                });
-            }
-            else if (this.id == "trainning") {
-                var url = '@Url.Action("TrainningByUser", "Employee")/' + userid;
-                $.post(url, function (data) {
-                    $("#div-detail").html(data);
-                });
-            }
-            else if (this.id == "insignia") {
-                var url = '@Url.Action("InsigniaByUser", "Employee")/' + userid;
-                $.post(url, function (data) {
-                    $("#div-detail").html(data);
-                });
-            }
-            else if (this.id == "excellent") {
-                var url = '@Url.Action("ExcellentByUser", "Employee")/' + userid;
-                $.post(url, function (data) {
-                    $("#div-detail").html(data);
-                });
-            }
-            else if (this.id == "certificate") {
-                var url = '@Url.Action("CertificateByUser", "Employee")/' + userid;
-                $.post(url, function (data) {
-                    $("#div-detail").html(data);
-                });
-            }
-            else if (this.id == "history") {
-                var url = '@Url.Action("HistoryByUser", "Employee")/' + userid;
-                $.post(url, function (data) {
-                    $("#div-detail").html(data);
-                });
-            }
+
+            $("#tabs li").click(function () {
+                debugger;
+                var userid = $("#UserID").val();
+                var type = $("#UserType").val();
+                if (this.id == "employee") {
+                    var url = '@Url.Action("Employee", "Employee")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "family") {
+                    var url = '@Url.Action("FamilyByUser", "Employee")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "education") {
+                    var url = '@Url.Action("EducationByUser", "Employee")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "position") {
+                    var url = '@Url.Action("PositionByUser", "Employee")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "trainning") {
+                    var url = '@Url.Action("TrainningByUser", "Employee")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "insignia") {
+                    var url = '@Url.Action("InsigniaByUser", "Employee")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "excellent") {
+                    var url = '@Url.Action("ExcellentByUser", "Employee")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "certificate") {
+                    var url = '@Url.Action("CertificateByUser", "Employee")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "history") {
+                    var url = '@Url.Action("HistoryByUser", "Employee")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "language") {
+                    var url = '@Url.Action("SkillByUser", "Employee")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+            });
+
+            $(".btn-back").click(function () {
+                var url = '@Url.Action("Index", "Employee")';
+                window.location.href = url;
+            });
+
+
         });
-
-        $(".btn-back").click(function () {
-            var url = '@Url.Action("Index", "Employee")';
-            window.location.href = url;
-        });
-
-
-    });
     </script>
 }

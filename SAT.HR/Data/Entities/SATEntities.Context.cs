@@ -64,7 +64,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Evaluation> tb_Evaluation { get; set; }
         public virtual DbSet<tb_Excellent_Type> tb_Excellent_Type { get; set; }
         public virtual DbSet<tb_Holiday> tb_Holiday { get; set; }
-        public virtual DbSet<tb_IndividualPlan> tb_IndividualPlan { get; set; }
         public virtual DbSet<tb_Insignia> tb_Insignia { get; set; }
         public virtual DbSet<tb_Language> tb_Language { get; set; }
         public virtual DbSet<tb_Language_Skill> tb_Language_Skill { get; set; }
@@ -151,6 +150,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
         public virtual DbSet<tb_User_Skill> tb_User_Skill { get; set; }
         public virtual DbSet<vw_User_Skill> vw_User_Skill { get; set; }
+        public virtual DbSet<tb_IndividualPlan> tb_IndividualPlan { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {

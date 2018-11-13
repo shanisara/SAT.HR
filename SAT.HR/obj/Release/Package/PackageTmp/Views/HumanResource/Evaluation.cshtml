@@ -5,11 +5,11 @@
 }
 
 <style>
-    .label-detail-70 {
-        width: 70px;
+    .label-detail-45 {
+        width: 46px;
     }
-    .label-detail-80 {
-        width: 80px;
+    .label-detail-90 {
+        width: 90px;
     }
     .label-detail-100 {
         width: 100px;
@@ -29,15 +29,15 @@
                     <h4 class="card-title"><span>  บันทึกข้อมูลสมรรถนะ </span></h4>
                     <div class="form-horizontal">
                         <div class="row">
-                            @Html.Label("ปีบัญชี: ", null, new { @class = "label-detail-70 col-form-label text-right" })
+                            @Html.Label("ปีบัญชี: ", null, new { @class = "label-detail-45 col-form-label text-right" })
                             <div class="col-sm-2">
                                 @Html.DropDownList("year", new SelectList((IEnumerable<SelectListItem>)ViewBag.YearCapability, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
                             </div>
-                            @Html.Label("แบบประเมิน: ", null, new { @class = "label-detail-80 col-form-label" })
+                            @Html.Label("แบบประเมิน: ", null, new { @class = "label-detail-90 col-form-label  text-right" })
                             <div class="col-sm-5">
                                 @Html.DropDownList("capability", new SelectList((IEnumerable<SelectListItem>)ViewBag.Capability, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true" })
                             </div>
-                            @Html.Label("ประเภทบุคลากร: ", null, new { @class = "label-detail-100 col-form-label" })
+                            @Html.Label("ประเภทบุคลากร: ", null, new { @class = "label-detail-100 col-form-label  text-right" })
                             <div class="col-sm-2">
                                 @Html.DropDownList("usertype", new SelectList((IEnumerable<SelectListItem>)ViewBag.UserType, "Value", "Text"), new { @class = "selectpicker", data_style = "select-with-transition" })
                             </div>
@@ -157,14 +157,18 @@
                 var year = $('select[name=year]').val();
                 var capid = $('select[name=capability]').val();
                 var usertype = $('select[name=usertype]').val();
-                dataTable.renewData(year, capid, usertype);
+                if (capid != '') {
+                    dataTable.renewData(year, capid, usertype);
+                }
             });
 
             $('select[name=usertype]').change(function () {
                 var year = $('select[name=year]').val();
                 var capid = $('select[name=capability]').val();
                 var usertype = $('select[name=usertype]').val();
-                dataTable.renewData(year, capid, usertype);
+                if (capid != '') {
+                    dataTable.renewData(year, capid, usertype);
+                }
             });
 
         });

@@ -153,7 +153,9 @@ namespace SAT.HR.Controllers
 
         public ActionResult TrainningDetail(int? id)
         {
-            //var model = new TrainningRepository().GetByID(id);
+            var model = new TrainningRepository().GetByID(id);
+            ViewBag.Country = DropDownList.GetCountry(model.CountryID);
+            ViewBag.TrainingType = DropDownList.GetTrainingType(model.CourseTID);
             return View();
         }
 
@@ -171,8 +173,6 @@ namespace SAT.HR.Controllers
         public ActionResult CourseTrainningDetail(int? id)
         {
             var model = new TrainningRepository().GetByID(id);
-            ViewBag.Country = DropDownList.GetCountry(model.CountryID);
-            ViewBag.TrainingType = DropDownList.GetTrainingType(model.CourseTID);
             return View(model);
         }
 
@@ -210,22 +210,41 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult IndividualPlanDetail(int? id)
+        public ActionResult IndividualPlanDetail(int id)
         {
-            var model = new IndividualPlanRepository().IndividualPlanByUser(id);
+            var model = new IndividualPlanRepository().GetIndividualPlanByID(id);
             return View(model);
         }
 
-        //[HttpPost]
-        //public JsonResult IndividualPlan(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
-        //{
-        //    var search = Request["search[value]"];
-        //    var dir = order[0]["dir"].ToLower();
-        //    var column = columns[int.Parse(order[0]["column"])]["data"];
-        //    var dataTableData = new IndividualPlanRepository().GetPage(search, draw, start, length, dir, column);
-        //    return Json(dataTableData, JsonRequestBehavior.AllowGet);
-        //}
+        public ActionResult IndividualPlanDetailByID(int? id, int userid)
+        {
+            var model = new IndividualPlanRepository().IndividualPlanDetailByID(id, userid);
+            return PartialView("_IndividualPlanDetail", model);
+        }
 
+        public JsonResult DeleteIndividualPlanDetail(int id)
+        {
+            var result = new IndividualPlanRepository().DeleteIndividualPlanDetail(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SaveIndividualPlanDetail(IndividualPlanViewModel data)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (data.PlanID != 0)
+                result = new IndividualPlanRepository().UpdateIndividualPlanDetail(data);
+            else
+                result = new IndividualPlanRepository().AddIndividualPlanDetail(data);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpPost]
+        public JsonResult IndividualPlanByUser(int id)
+        {
+            var list = new IndividualPlanRepository().IndividualPlanByUser(id);
+            return Json(new { data = list.ListIndividualPlan }, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
     }

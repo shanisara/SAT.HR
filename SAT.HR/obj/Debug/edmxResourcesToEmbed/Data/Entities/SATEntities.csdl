@@ -74,7 +74,6 @@
     <EntitySet Name="tb_Evaluation" EntityType="SAT.HR.tb_Evaluation" />
     <EntitySet Name="tb_Excellent_Type" EntityType="SAT.HR.tb_Excellent_Type" />
     <EntitySet Name="tb_Holiday" EntityType="SAT.HR.tb_Holiday" />
-    <EntitySet Name="tb_IndividualPlan" EntityType="SAT.HR.tb_IndividualPlan" />
     <EntitySet Name="tb_Insignia" EntityType="SAT.HR.tb_Insignia" />
     <EntitySet Name="tb_Language" EntityType="SAT.HR.tb_Language" />
     <EntitySet Name="tb_Language_Skill" EntityType="SAT.HR.tb_Language_Skill" />
@@ -505,6 +504,7 @@
       <End Role="tb_User" EntitySet="tb_User" />
       <End Role="tb_User_Skill" EntitySet="tb_User_Skill" />
     </AssociationSet>
+    <EntitySet Name="tb_IndividualPlan" EntityType="SAT.HR.tb_IndividualPlan" />
   </EntityContainer>
   <ComplexType Name="sp_Menu_GetByUser_Result">
     <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -1133,17 +1133,6 @@
     <Property Name="CreateBy" Type="Int32" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
-  </EntityType>
-  <EntityType Name="tb_IndividualPlan">
-    <Key>
-      <PropertyRef Name="PlanID" />
-    </Key>
-    <Property Name="PlanID" Type="Int32" Nullable="false" />
-    <Property Name="StartDate" Type="DateTime" Precision="0" />
-    <Property Name="EndDate" Type="DateTime" Precision="0" />
-    <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="PlanName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="PlanDesc" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="tb_Insignia">
     <Key>
@@ -3827,4 +3816,20 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="tb_IndividualPlan">
+    <Key>
+      <PropertyRef Name="PlanID" />
+    </Key>
+    <Property Name="PlanID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="PlanName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PlanDesc" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="StartDate" Type="DateTime" Precision="0" />
+    <Property Name="EndDate" Type="DateTime" Precision="0" />
+    <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+  </EntityType>
 </Schema>

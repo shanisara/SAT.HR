@@ -15,10 +15,15 @@ namespace SAT.HR.Data.Entities
     public partial class tb_IndividualPlan
     {
         public int PlanID { get; set; }
+        public int UserID { get; set; }
+        public string PlanName { get; set; }
+        public string PlanDesc { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
         public Nullable<System.DateTime> EndDate { get; set; }
         public Nullable<decimal> Amount { get; set; }
-        public string PlanName { get; set; }
-        public string PlanDesc { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<int> CreateBy { get; set; }
+        public Nullable<System.DateTime> ModifyDate { get; set; }
+        public Nullable<int> ModifyBy { get; set; }
     }
 }

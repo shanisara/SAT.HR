@@ -85,10 +85,9 @@ namespace SAT.HR.Data.Repository
 
         public CourseViewModel GetByID(int? id)
         {
-            CourseViewModel model = new CourseViewModel();
-
             try
             {
+                CourseViewModel model = new CourseViewModel();
                 using (SATEntities db = new SATEntities())
                 {
                     if (id != null)
@@ -107,17 +106,16 @@ namespace SAT.HR.Data.Repository
                         head.Certificate = data.Certificate;
                         head.Remark = data.Remark;
 
-                        var detail = GetDetail(model.CourseID);
-                        model.ListTrainning = detail;
+                        //var detail = GetDetail(model.CourseID);
+                        //model.ListTrainning = detail;
                     }
                 }
+                return model;
             }
             catch (Exception)
             {
                 throw;
             }
-
-            return model;
         }
 
         public List<TrainingViewModel> GetDetail(int? id)
