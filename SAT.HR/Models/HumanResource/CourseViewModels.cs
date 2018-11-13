@@ -14,8 +14,7 @@ namespace SAT.HR.Models
         public string CourseTName { get; set; }
         public string CourseName { get; set; }
         public Nullable<System.DateTime> DateFrom { get; set; }
-        public Nullable<System.DateTime> EndDate { get; set; }
-        public Nullable<int> DateTo { get; set; }
+        public Nullable<DateTime> DateTo { get; set; }
         public Nullable<int> CountryID { get; set; }
         public string CountryName { get; set; }
         public string TrainerName { get; set; }
@@ -33,6 +32,7 @@ namespace SAT.HR.Models
         public string EndDateText { get; set; }
         public int recordsTotal { get; set; }
         public int recordsFiltered { get; set; }
+        public string StatusName { get; set; }
         public HttpPostedFileBase fileUpload { get; set; }
         public List<TrainingViewModel> ListTrainning { get; set; }
 

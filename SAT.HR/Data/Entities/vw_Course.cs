@@ -20,8 +20,7 @@ namespace SAT.HR.Data.Entities
         public string CourseTName { get; set; }
         public string CourseName { get; set; }
         public Nullable<System.DateTime> DateFrom { get; set; }
-        public Nullable<System.DateTime> EndDate { get; set; }
-        public Nullable<int> DateTo { get; set; }
+        public Nullable<System.DateTime> DateTo { get; set; }
         public Nullable<int> CountryID { get; set; }
         public string CountryName { get; set; }
         public string TrainerName { get; set; }
@@ -30,11 +29,11 @@ namespace SAT.HR.Data.Entities
         public string Remark { get; set; }
         public string PathFile { get; set; }
         public Nullable<int> Status { get; set; }
+        public string StatusName { get; set; }
         public Nullable<int> Total { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
-        public string StatusName { get; set; }
     }
 }

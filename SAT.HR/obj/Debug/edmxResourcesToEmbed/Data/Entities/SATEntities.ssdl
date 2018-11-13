@@ -1,5 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="SAT.HR.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="AALocation">
+          <Property Name="province" Type="nvarchar" MaxLength="255" />
+          <Property Name="district" Type="nvarchar" MaxLength="255" />
+          <Property Name="subdistrict" Type="nvarchar" MaxLength="255" />
+          <Property Name="zipcode" Type="float" />
+        </EntityType>-->
   <EntityType Name="tb_Accumulative_Fund">
     <Key>
       <PropertyRef Name="CuID" />
@@ -316,8 +324,7 @@
     <Property Name="CourseTID" Type="int" />
     <Property Name="CourseName" Type="nvarchar" MaxLength="200" />
     <Property Name="DateFrom" Type="date" />
-    <Property Name="EndDate" Type="date" />
-    <Property Name="DateTo" Type="int" />
+    <Property Name="DateTo" Type="date" />
     <Property Name="CountryID" Type="int" />
     <Property Name="TrainerName" Type="nvarchar" MaxLength="200" />
     <Property Name="Location" Type="nvarchar" MaxLength="200" />
@@ -329,13 +336,6 @@
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
-  </EntityType>
-  <EntityType Name="tb_Course_Type">
-    <Key>
-      <PropertyRef Name="CourseTID" />
-    </Key>
-    <Property Name="CourseTID" Type="int" Nullable="false" />
-    <Property Name="CourseTName" Type="nvarchar" MaxLength="10" />
   </EntityType>
   <EntityType Name="tb_Cripple">
     <Key>
@@ -486,6 +486,17 @@
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
+  <EntityType Name="tb_IndividualPlan">
+    <Key>
+      <PropertyRef Name="PlanID" />
+    </Key>
+    <Property Name="PlanID" Type="int" Nullable="false" />
+    <Property Name="StartDate" Type="date" />
+    <Property Name="EndDate" Type="date" />
+    <Property Name="Amount" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="PlanName" Type="nvarchar" MaxLength="200" />
+    <Property Name="PlanDesc" Type="nvarchar" MaxLength="1000" />
+  </EntityType>
   <EntityType Name="tb_Insignia">
     <Key>
       <PropertyRef Name="InsID" />
@@ -498,6 +509,27 @@
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Language">
+    <Key>
+      <PropertyRef Name="LID" />
+    </Key>
+    <Property Name="LID" Type="int" Nullable="false" />
+    <Property Name="Language" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="tb_Language_Skill">
+    <Key>
+      <PropertyRef Name="LkID" />
+    </Key>
+    <Property Name="LkID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LkName" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="tb_Language_Skill_Type">
+    <Key>
+      <PropertyRef Name="LkTID" />
+    </Key>
+    <Property Name="LkTID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LkTName" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <EntityType Name="tb_Leave_Type">
     <Key>
@@ -873,7 +905,7 @@
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
-  <EntityType Name="tb_Training">
+  <EntityType Name="tb_Training_Course">
     <Key>
       <PropertyRef Name="CourseID" />
       <PropertyRef Name="UserID" />
@@ -1126,6 +1158,22 @@
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_User_Skill">
+    <Key>
+      <PropertyRef Name="UskID" />
+    </Key>
+    <Property Name="UskID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="LID" Type="int" />
+    <Property Name="LkID" Type="int" />
+    <Property Name="LkTID" Type="int" />
+    <Property Name="Score" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+    <Property Name="LIOther" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <EntityType Name="tb_User_Status">
     <Key>
@@ -1402,11 +1450,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Course' does not have a primary
     <Property Name="CourseID" Type="int" Nullable="false" />
     <Property Name="CourseNo" Type="nvarchar" MaxLength="50" />
     <Property Name="CourseTID" Type="int" />
-    <Property Name="CourseTName" Type="nvarchar" MaxLength="10" />
+    <Property Name="CourseTName" Type="nvarchar" MaxLength="200" />
     <Property Name="CourseName" Type="nvarchar" MaxLength="200" />
     <Property Name="DateFrom" Type="date" />
-    <Property Name="EndDate" Type="date" />
-    <Property Name="DateTo" Type="int" />
+    <Property Name="DateTo" Type="date" />
     <Property Name="CountryID" Type="int" />
     <Property Name="CountryName" Type="nvarchar" MaxLength="200" />
     <Property Name="TrainerName" Type="nvarchar" MaxLength="200" />
@@ -1604,6 +1651,16 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Man_Power_Head' does not h
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Level' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Level">
+          <Property Name="Level" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Step' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Step">
+          <Property Name="Step" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Section">
     <Key>
@@ -1633,8 +1690,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Title' does not have a primary 
     <Property Name="SexName" Type="nchar" MaxLength="10" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Trainning' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-  <EntityType Name="vw_Trainning">
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Trainning_Course' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Trainning_Course">
     <Key>
       <PropertyRef Name="CourseID" />
       <PropertyRef Name="UserID" />
@@ -2014,6 +2071,24 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Role' does not have a prim
     <Property Name="Avatar" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Skill' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_User_Skill">
+    <Key>
+      <PropertyRef Name="UskID" />
+    </Key>
+    <Property Name="UskID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+    <Property Name="FullNameTh" Type="nvarchar" MaxLength="401" />
+    <Property Name="LID" Type="int" />
+    <Property Name="Language" Type="nvarchar" MaxLength="200" />
+    <Property Name="LkID" Type="int" />
+    <Property Name="LkName" Type="nvarchar" MaxLength="200" />
+    <Property Name="LkTID" Type="int" />
+    <Property Name="LkTName" Type="nvarchar" MaxLength="200" />
+    <Property Name="LIOther" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_User_Training">
     <Key>
@@ -2360,18 +2435,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_Course_tb_Course_Type">
-    <End Role="tb_Course_Type" Type="Self.tb_Course_Type" Multiplicity="1" />
-    <End Role="tb_Course" Type="Self.tb_Course" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Course_Type">
-        <PropertyRef Name="CourseTID" />
-      </Principal>
-      <Dependent Role="tb_Course">
-        <PropertyRef Name="CourseID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_tb_Department_tb_Division">
     <End Role="tb_Division" Type="Self.tb_Division" Multiplicity="0..1" />
     <End Role="tb_Department" Type="Self.tb_Department" Multiplicity="*" />
@@ -2564,26 +2627,26 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_Training_tb_Course">
+  <Association Name="FK_tb_Training_Course_tb_Course">
     <End Role="tb_Course" Type="Self.tb_Course" Multiplicity="1" />
-    <End Role="tb_Training" Type="Self.tb_Training" Multiplicity="*" />
+    <End Role="tb_Training_Course" Type="Self.tb_Training_Course" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="tb_Course">
         <PropertyRef Name="CourseID" />
       </Principal>
-      <Dependent Role="tb_Training">
+      <Dependent Role="tb_Training_Course">
         <PropertyRef Name="CourseID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_Training_tb_User">
+  <Association Name="FK_tb_Training_Course_tb_User">
     <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
-    <End Role="tb_Training" Type="Self.tb_Training" Multiplicity="*" />
+    <End Role="tb_Training_Course" Type="Self.tb_Training_Course" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="tb_User">
         <PropertyRef Name="UserID" />
       </Principal>
-      <Dependent Role="tb_Training">
+      <Dependent Role="tb_Training_Course">
         <PropertyRef Name="UserID" />
       </Dependent>
     </ReferentialConstraint>
@@ -2840,6 +2903,54 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tb_User_Skill_tb_Language">
+    <End Role="tb_Language" Type="Self.tb_Language" Multiplicity="0..1" />
+    <End Role="tb_User_Skill" Type="Self.tb_User_Skill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Language">
+        <PropertyRef Name="LID" />
+      </Principal>
+      <Dependent Role="tb_User_Skill">
+        <PropertyRef Name="LID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Skill_tb_Language_Skill">
+    <End Role="tb_Language_Skill" Type="Self.tb_Language_Skill" Multiplicity="0..1" />
+    <End Role="tb_User_Skill" Type="Self.tb_User_Skill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Language_Skill">
+        <PropertyRef Name="LkID" />
+      </Principal>
+      <Dependent Role="tb_User_Skill">
+        <PropertyRef Name="LkID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Skill_tb_Language_Skill_Type">
+    <End Role="tb_Language_Skill_Type" Type="Self.tb_Language_Skill_Type" Multiplicity="0..1" />
+    <End Role="tb_User_Skill" Type="Self.tb_User_Skill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Language_Skill_Type">
+        <PropertyRef Name="LkTID" />
+      </Principal>
+      <Dependent Role="tb_User_Skill">
+        <PropertyRef Name="LkTID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Skill_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="0..1" />
+    <End Role="tb_User_Skill" Type="Self.tb_User_Skill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_User_Skill">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tb_User_tb_Cripple">
     <End Role="tb_Cripple" Type="Self.tb_Cripple" Multiplicity="0..1" />
     <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
@@ -3075,6 +3186,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <Parameter Name="UserID" Type="int" Mode="In" />
     <Parameter Name="ParentID" Type="int" Mode="In" />
   </Function>
+  <Function Name="sp_Report_Education" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userID" Type="int" Mode="In" />
+  </Function>
   <EntityContainer Name="SATHRStoreContainer">
     <EntitySet Name="tb_Accumulative_Fund" EntityType="Self.tb_Accumulative_Fund" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Action_Type" EntityType="Self.tb_Action_Type" Schema="dbo" store:Type="Tables" />
@@ -3099,7 +3213,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_Claim_Type" EntityType="Self.tb_Claim_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Country" EntityType="Self.tb_Country" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Course" EntityType="Self.tb_Course" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="tb_Course_Type" EntityType="Self.tb_Course_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Cripple" EntityType="Self.tb_Cripple" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Cripple_Type" EntityType="Self.tb_Cripple_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Degree" EntityType="Self.tb_Degree" Schema="dbo" store:Type="Tables" />
@@ -3114,7 +3227,11 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_Evaluation" EntityType="Self.tb_Evaluation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Excellent_Type" EntityType="Self.tb_Excellent_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Holiday" EntityType="Self.tb_Holiday" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_IndividualPlan" EntityType="Self.tb_IndividualPlan" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Insignia" EntityType="Self.tb_Insignia" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Language" EntityType="Self.tb_Language" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Language_Skill" EntityType="Self.tb_Language_Skill" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Language_Skill_Type" EntityType="Self.tb_Language_Skill_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Leave_Type" EntityType="Self.tb_Leave_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Loan_Type" EntityType="Self.tb_Loan_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Major" EntityType="Self.tb_Major" Schema="dbo" store:Type="Tables" />
@@ -3146,7 +3263,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_SubDistrict" EntityType="Self.tb_SubDistrict" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_SysConfig" EntityType="Self.tb_SysConfig" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Title" EntityType="Self.tb_Title" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="tb_Training" EntityType="Self.tb_Training" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Training_Course" EntityType="Self.tb_Training_Course" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Training_Type" EntityType="Self.tb_Training_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Transfer_Type" EntityType="Self.tb_Transfer_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_User" EntityType="Self.tb_User" Schema="dbo" store:Type="Tables" />
@@ -3158,6 +3275,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_User_Insignia" EntityType="Self.tb_User_Insignia" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_User_Position" EntityType="Self.tb_User_Position" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_User_Role" EntityType="Self.tb_User_Role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_User_Skill" EntityType="Self.tb_User_Skill" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_User_Status" EntityType="Self.tb_User_Status" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_User_Training" EntityType="Self.tb_User_Training" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_User_Type" EntityType="Self.tb_User_Type" Schema="dbo" store:Type="Tables" />
@@ -3359,7 +3477,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Course].[CourseTName] AS [CourseTName], 
     [vw_Course].[CourseName] AS [CourseName], 
     [vw_Course].[DateFrom] AS [DateFrom], 
-    [vw_Course].[EndDate] AS [EndDate], 
     [vw_Course].[DateTo] AS [DateTo], 
     [vw_Course].[CountryID] AS [CountryID], 
     [vw_Course].[CountryName] AS [CountryName], 
@@ -3554,17 +3671,17 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Title].[SexName] AS [SexName]
     FROM [dbo].[vw_Title] AS [vw_Title]</DefiningQuery>
     </EntitySet>
-    <EntitySet Name="vw_Trainning" EntityType="Self.vw_Trainning" store:Type="Views" store:Schema="dbo">
+    <EntitySet Name="vw_Trainning_Course" EntityType="Self.vw_Trainning_Course" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
-    [vw_Trainning].[CourseID] AS [CourseID], 
-    [vw_Trainning].[CourseNo] AS [CourseNo], 
-    [vw_Trainning].[CourseName] AS [CourseName], 
-    [vw_Trainning].[UserID] AS [UserID], 
-    [vw_Trainning].[FullName] AS [FullName], 
-    [vw_Trainning].[PoID] AS [PoID], 
-    [vw_Trainning].[PoCode] AS [PoCode], 
-    [vw_Trainning].[PoName] AS [PoName]
-    FROM [dbo].[vw_Trainning] AS [vw_Trainning]</DefiningQuery>
+    [vw_Trainning_Course].[CourseID] AS [CourseID], 
+    [vw_Trainning_Course].[CourseNo] AS [CourseNo], 
+    [vw_Trainning_Course].[CourseName] AS [CourseName], 
+    [vw_Trainning_Course].[UserID] AS [UserID], 
+    [vw_Trainning_Course].[FullName] AS [FullName], 
+    [vw_Trainning_Course].[PoID] AS [PoID], 
+    [vw_Trainning_Course].[PoCode] AS [PoCode], 
+    [vw_Trainning_Course].[PoName] AS [PoName]
+    FROM [dbo].[vw_Trainning_Course] AS [vw_Trainning_Course]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vw_User" EntityType="Self.vw_User" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
@@ -3891,6 +4008,21 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_User_Role].[Avatar] AS [Avatar]
     FROM [dbo].[vw_User_Role] AS [vw_User_Role]</DefiningQuery>
     </EntitySet>
+    <EntitySet Name="vw_User_Skill" EntityType="Self.vw_User_Skill" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_User_Skill].[UskID] AS [UskID], 
+    [vw_User_Skill].[UserID] AS [UserID], 
+    [vw_User_Skill].[UserName] AS [UserName], 
+    [vw_User_Skill].[FullNameTh] AS [FullNameTh], 
+    [vw_User_Skill].[LID] AS [LID], 
+    [vw_User_Skill].[Language] AS [Language], 
+    [vw_User_Skill].[LkID] AS [LkID], 
+    [vw_User_Skill].[LkName] AS [LkName], 
+    [vw_User_Skill].[LkTID] AS [LkTID], 
+    [vw_User_Skill].[LkTName] AS [LkTName], 
+    [vw_User_Skill].[LIOther] AS [LIOther]
+    FROM [dbo].[vw_User_Skill] AS [vw_User_Skill]</DefiningQuery>
+    </EntitySet>
     <EntitySet Name="vw_User_Training" EntityType="Self.vw_User_Training" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [vw_User_Training].[UtID] AS [UtID], 
@@ -4018,10 +4150,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       <End Role="tb_Country" EntitySet="tb_Country" />
       <End Role="tb_Course" EntitySet="tb_Course" />
     </AssociationSet>
-    <AssociationSet Name="FK_tb_Course_tb_Course_Type" Association="Self.FK_tb_Course_tb_Course_Type">
-      <End Role="tb_Course_Type" EntitySet="tb_Course_Type" />
-      <End Role="tb_Course" EntitySet="tb_Course" />
-    </AssociationSet>
     <AssociationSet Name="FK_tb_Department_tb_Division" Association="Self.FK_tb_Department_tb_Division">
       <End Role="tb_Division" EntitySet="tb_Division" />
       <End Role="tb_Department" EntitySet="tb_Department" />
@@ -4086,13 +4214,13 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       <End Role="tb_Sex" EntitySet="tb_Sex" />
       <End Role="tb_Title" EntitySet="tb_Title" />
     </AssociationSet>
-    <AssociationSet Name="FK_tb_Training_tb_Course" Association="Self.FK_tb_Training_tb_Course">
+    <AssociationSet Name="FK_tb_Training_Course_tb_Course" Association="Self.FK_tb_Training_Course_tb_Course">
       <End Role="tb_Course" EntitySet="tb_Course" />
-      <End Role="tb_Training" EntitySet="tb_Training" />
+      <End Role="tb_Training_Course" EntitySet="tb_Training_Course" />
     </AssociationSet>
-    <AssociationSet Name="FK_tb_Training_tb_User" Association="Self.FK_tb_Training_tb_User">
+    <AssociationSet Name="FK_tb_Training_Course_tb_User" Association="Self.FK_tb_Training_Course_tb_User">
       <End Role="tb_User" EntitySet="tb_User" />
-      <End Role="tb_Training" EntitySet="tb_Training" />
+      <End Role="tb_Training_Course" EntitySet="tb_Training_Course" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_User_Certificate_tb_Certificate" Association="Self.FK_tb_User_Certificate_tb_Certificate">
       <End Role="tb_Certificate" EntitySet="tb_Certificate" />
@@ -4177,6 +4305,22 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <AssociationSet Name="FK_tb_User_Position_tb_User" Association="Self.FK_tb_User_Position_tb_User">
       <End Role="tb_User" EntitySet="tb_User" />
       <End Role="tb_User_Position" EntitySet="tb_User_Position" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Skill_tb_Language" Association="Self.FK_tb_User_Skill_tb_Language">
+      <End Role="tb_Language" EntitySet="tb_Language" />
+      <End Role="tb_User_Skill" EntitySet="tb_User_Skill" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Skill_tb_Language_Skill" Association="Self.FK_tb_User_Skill_tb_Language_Skill">
+      <End Role="tb_Language_Skill" EntitySet="tb_Language_Skill" />
+      <End Role="tb_User_Skill" EntitySet="tb_User_Skill" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Skill_tb_Language_Skill_Type" Association="Self.FK_tb_User_Skill_tb_Language_Skill_Type">
+      <End Role="tb_Language_Skill_Type" EntitySet="tb_Language_Skill_Type" />
+      <End Role="tb_User_Skill" EntitySet="tb_User_Skill" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Skill_tb_User" Association="Self.FK_tb_User_Skill_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_User_Skill" EntitySet="tb_User_Skill" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_User_tb_Cripple" Association="Self.FK_tb_User_tb_Cripple">
       <End Role="tb_Cripple" EntitySet="tb_Cripple" />

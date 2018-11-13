@@ -26,11 +26,11 @@ namespace SAT.HR.Data.Entities
         public int DivID { get; set; }
         public string DivName { get; set; }
         public Nullable<bool> DivStatus { get; set; }
+        public Nullable<int> DivSeq { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
-        public Nullable<int> DivSeq { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Department> tb_Department { get; set; }

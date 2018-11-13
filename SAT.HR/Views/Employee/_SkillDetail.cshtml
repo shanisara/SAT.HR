@@ -1,0 +1,51 @@
+﻿@model SAT.HR.Models.UserSkillViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-skill" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.UserID)
+    @Html.HiddenFor(m => m.UskID)
+
+    <div class="form-horizontal">
+        <div class="row occupation">
+            <label class="col-sm-3 col-form-label" for="NewLastNameTh">ภาษา:<span class="text-danger"> *</span> </label>
+            <div class="col-sm-9 m-t-10">
+                @Html.DropDownListFor(n => n.LID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Language, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-sm-3 col-form-label">ระบุ<span class="text-danger"> *</span></label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.Score, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row occupation">
+            <label class="col-sm-3 col-form-label" for="NewLastNameTh">ประเภท:<span class="text-danger"> *</span> </label>
+            <div class="col-sm-9 m-t-10">
+                @Html.DropDownListFor(n => n.LkID, new SelectList((IEnumerable<SelectListItem>)ViewBag.LanguageSkill, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+            </div>
+        </div>
+        <div class="row occupation">
+            <label class="col-sm-3 col-form-label" for="NewLastNameTh">ระดับ:<span class="text-danger"> *</span> </label>
+            <div class="col-sm-9 m-t-10">
+                @Html.DropDownListFor(n => n.LkTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.LanguageSkillType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-sm-3 col-form-label">คะแนน<span class="text-danger"> *</span></label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.Score, new { @class = "form-control", type = "number"})
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    //$(".form-certificate").validate({
+    //    errorPlacement: $.noop
+    //});
+
+    $('.selectpicker').selectpicker();
+
+
+</script>

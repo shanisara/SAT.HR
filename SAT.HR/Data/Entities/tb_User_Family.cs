@@ -28,12 +28,12 @@ namespace SAT.HR.Data.Entities
         public Nullable<bool> UfStudyStatus { get; set; }
         public Nullable<int> RecID { get; set; }
         public Nullable<int> MaritalStatusID { get; set; }
-        public Nullable<decimal> ChildEducationAmout { get; set; }
-        public Nullable<decimal> ChildFundAmout { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
+        public Nullable<decimal> ChildEducationAmout { get; set; }
+        public Nullable<decimal> ChildFundAmout { get; set; }
     
         public virtual tb_Marital_Status tb_Marital_Status { get; set; }
         public virtual tb_Occupation tb_Occupation { get; set; }

@@ -25,11 +25,11 @@ namespace SAT.HR.Data.Entities
         public string BcBeneficiary3 { get; set; }
         public string BcBeneficiary4 { get; set; }
         public string BcBeneficiary5 { get; set; }
-        public string BcRecFullName { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
+        public string BcRecFullName { get; set; }
     
         public virtual tb_Member_Type tb_Member_Type { get; set; }
         public virtual tb_User tb_User { get; set; }

@@ -165,13 +165,13 @@
                 var $row = $(this).closest('tr');
                 swal({
                     title: '',
-                    text: "ยืนยันการลบข้อมูล?!",
-                    type: 'warning',
+                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
+                    type: 'question',
                     showCancelButton: true,
                     confirmButtonClass: 'btn btn-success',
                     cancelButtonClass: 'btn btn-danger',
-                    confirmButtonText: 'ใช่',
-                    cancelButtonText: 'ไม่',
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
                     buttonsStyling: false
                 }).then(function () {
                     $.ajax({
@@ -181,10 +181,11 @@
                         success: function (res) {
                             if (res.MessageCode == null) {
                                 swal({
-                                    title: 'Deleted!',
-                                    text: 'Your file has been deleted.',
+                                    title: '',
+                                    text: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.DeleteSucceed)',
                                     type: 'success',
                                     confirmButtonClass: "btn btn-success",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
                                     buttonsStyling: false
                                 }).then(function () {
                                     $row.remove();

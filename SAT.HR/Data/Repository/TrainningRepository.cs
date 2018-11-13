@@ -62,6 +62,7 @@ namespace SAT.HR.Data.Repository
                         model.Total = item.Total;
                         model.DateFromText = (item.DateFrom.HasValue) ? item.DateFrom.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.DateFromText = (item.DateTo.HasValue) ? item.DateTo.Value.ToString("dd/MM/yyyy") : string.Empty;
+                        model.StatusName = "";
                         model.recordsTotal = recordsTotal;
                         model.recordsFiltered = recordsFiltered;
                         list.Add(model);
@@ -127,7 +128,7 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
                     int index = 1;
-                    var detail = db.vw_Trainning.Where(x => x.CourseID == id).ToList();
+                    var detail = db.vw_Trainning_Course.Where(x => x.CourseID == id).ToList();
 
                     foreach (var item in detail)
                     {
@@ -202,14 +203,14 @@ namespace SAT.HR.Data.Repository
 
                         foreach (var item in data.ListTrainning)
                         {
-                            tb_Training detail = new tb_Training();
+                            tb_Training_Course detail = new tb_Training_Course();
                             detail.CourseID = head.CourseID;
                             detail.UserID = item.UserID;
                             detail.CreateBy = UtilityService.User.UserID;
                             detail.CreateDate = DateTime.Now;
                             detail.ModifyBy = UtilityService.User.UserID;
                             detail.ModifyDate = DateTime.Now;
-                            db.tb_Training.Add(detail);
+                            db.tb_Training_Course.Add(detail);
                             db.SaveChanges();
                         }
                         transection.Commit();
@@ -272,20 +273,20 @@ namespace SAT.HR.Data.Repository
                         head.ModifyDate = DateTime.Now;
                         db.SaveChanges();
 
-                        var listdelete = db.tb_Training.Where(x => x.CourseID == newdata.CourseID).ToList();
-                        db.tb_Training.RemoveRange(listdelete);
+                        var listdelete = db.tb_Training_Course.Where(x => x.CourseID == newdata.CourseID).ToList();
+                        db.tb_Training_Course.RemoveRange(listdelete);
                         db.SaveChanges();
 
                         if (newdata.ListTrainning != null)
                         {
                             foreach (var item in newdata.ListTrainning)
                             {
-                                tb_Training detail = new tb_Training();
+                                tb_Training_Course detail = new tb_Training_Course();
                                 detail.CourseID = head.CourseID;
                                 detail.UserID = item.UserID;
                                 detail.ModifyBy = UtilityService.User.UserID;
                                 detail.ModifyDate = DateTime.Now;
-                                db.tb_Training.Add(detail);
+                                db.tb_Training_Course.Add(detail);
                                 db.SaveChanges();
                             }
                         }
@@ -311,8 +312,8 @@ namespace SAT.HR.Data.Repository
                 {
                     try
                     {
-                        var listdelete = db.tb_Training.Where(x => x.CourseID == id).ToList();
-                        db.tb_Training.RemoveRange(listdelete);
+                        var listdelete = db.tb_Training_Course.Where(x => x.CourseID == id).ToList();
+                        db.tb_Training_Course.RemoveRange(listdelete);
                         db.SaveChanges();
 
                         var itemdelete = db.tb_Course.Where(x => x.CourseID == id).FirstOrDefault();
@@ -363,20 +364,20 @@ namespace SAT.HR.Data.Repository
             return model;
         }
 
-        public List<CourseViewModel> GetCourseType()
-        {
-            using (SATEntities db = new SATEntities())
-            {
-                var list = db.tb_Course_Type.Select(s => new CourseViewModel()
-                {
-                    CountryID = s.CourseTID,
-                    CountryName = s.CourseTName,
-                })
-                .OrderBy(o => o.CountryName)
-                .ToList();
-                return list;
-            }
-        }
+        //public List<CourseViewModel> GetCourseType()
+        //{
+        //    using (SATEntities db = new SATEntities())
+        //    {
+        //        var list = db.tb_Course_Type.Select(s => new CourseViewModel()
+        //        {
+        //            CountryID = s.CourseTID,
+        //            CountryName = s.CourseTName,
+        //        })
+        //        .OrderBy(o => o.CountryName)
+        //        .ToList();
+        //        return list;
+        //    }
+        //}
 
         public List<TrainingTypeViewModel> GetTrainingType()
         {

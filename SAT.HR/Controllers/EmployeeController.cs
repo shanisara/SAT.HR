@@ -519,42 +519,44 @@ namespace SAT.HR.Controllers
 
         #endregion 
 
-        #region 2.0 Tab: User-Language
+        #region 2.0 Tab: User-Skill
 
-        //public ActionResult LanguageByUser()
-        //{
-        //    return PartialView("_Language");
-        //}
+        public ActionResult SkillByUser()
+        {
+            return PartialView("_Skill");
+        }
 
-        //public ActionResult LanguageDetail(int userid, int id)
-        //{
-        //    var model = new EmployeeRepository().GetLanguageByID(userid, id);
-        //    //ViewBag.LanguageType = DropDownList.GetLanguageType(model.LanTID);
-        //    return PartialView("_LanguageDetail", model);
-        //}
+        public ActionResult SkillDetail(int userid, int id)
+        {
+            var model = new EmployeeRepository().GetSkillByID(userid, id);
+            ViewBag.Language = DropDownList.GetLanguage(model.LID);
+            ViewBag.LanguageSkill = DropDownList.GetLanguageSkill(model.LkID);
+            ViewBag.LanguageSkillType = DropDownList.GetLanguageSkillType(model.LkTID);
+            return PartialView("_SkillDetail", model);
+        }
 
-        //public JsonResult SaveLanguage(UserLanguageViewModel data)
-        //{
-        //    ResponseData result = new Models.ResponseData();
-        //    if (data.UeID != 0)
-        //        result = new EmployeeRepository().UpdateLanguageByEntity(data);
-        //    else
-        //        result = new EmployeeRepository().AddLanguageByEntity(data);
-        //    return Json(result, JsonRequestBehavior.AllowGet);
-        //}
+        public JsonResult SaveSkill(UserSkillViewModel data)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (data.UskID != 0)
+                result = new EmployeeRepository().UpdateSkillByEntity(data);
+            else
+                result = new EmployeeRepository().AddSkillByEntity(data);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
-        //public JsonResult DeleteLanguage(int id)
-        //{
-        //    var result = new EmployeeRepository().DeleteLanguageByID(id);
-        //    return Json(result, JsonRequestBehavior.AllowGet);
-        //}
+        public JsonResult DeleteSkill(int id)
+        {
+            var result = new EmployeeRepository().DeleteSkillByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
-        //[HttpPost]
-        //public JsonResult Language(int id)
-        //{
-        //    var list = new EmployeeRepository().GetExcellentByUser(id);
-        //    return Json(new { data = list.ListExcellent }, JsonRequestBehavior.AllowGet);
-        //}
+        [HttpPost]
+        public JsonResult Skill(int id)
+        {
+            var list = new EmployeeRepository().GetExcellentByUser(id);
+            return Json(new { data = list.ListExcellent }, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
 

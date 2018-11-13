@@ -24,6 +24,7 @@ namespace SAT.HR.Data.Repository
                     RoleName = s.RoleName,
                     RoleDesc = s.RoleDesc,
                     RoleStatus = s.RoleStatus,
+                    RoleStatusName = Convert.ToBoolean(s.RoleStatus) == true ? "ใช้งาน" : "ไม่ใช้งาน"
                 })
                 .OrderBy(x => x.RoleName).ToList();
 
@@ -102,6 +103,10 @@ namespace SAT.HR.Data.Repository
             {
                 try
                 {
+                    var listDelete = db.tb_Menu_Role.Where(m => m.RoleID == id).ToList();
+                    db.tb_Menu_Role.RemoveRange(listDelete);
+                    db.SaveChanges();
+
                     var obj = db.tb_Role.SingleOrDefault(c => c.RoleID == id);
                     if (obj != null)
                     {

@@ -24,12 +24,12 @@
                             <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th style="width:10%">ลำดับ</th>
-                                        <th style="width:15%">กลุ่ม</th>
-                                        <th style="width:25%">รายละเอียด</th>
+                                        <th style="width:5%">ลำดับ</th>
+                                        <th style="width:27%">กลุ่ม</th>
+                                        <th style="width:28%">รายละเอียด</th>
                                         <th style="width:10%">สถานะ</th>
-                                        <th style="width:15%" class="disabled-sorting text-left">กำหนดผู้ใช้งาน</th>
-                                        <th style="width:15%" class="disabled-sorting text-left">กำหนดสิทธิ์</th>
+                                        <th style="width:12%" class="disabled-sorting text-left">กำหนดผู้ใช้งาน</th>
+                                        <th style="width:9%" class="disabled-sorting text-left">กำหนดสิทธิ์</th>
                                         <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
                                     </tr>
                                 </thead>
@@ -41,7 +41,7 @@
                                             <td>@index</td>
                                             <td>@item.RoleName</td>
                                             <td>@item.RoleDesc</td>
-                                            <td>@item.RoleStatus</td>
+                                            <td>@item.RoleStatusName</td>
                                             <td>
                                                 <button class="btn btn-facebook btn-sm manage-user" type="button">กำหนดผู้ใช้งาน</button>
                                             </td>
@@ -49,7 +49,7 @@
                                                 <button class="btn btn-facebook btn-sm manage-menu" type="button">กำหนดสิทธิ์</button>
                                             </td>
                                             <td class="td-actions text-right">
-                                                <button type="button" rel="tooltip" class="btn btn-round btn-success edit"><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;
+                                                <button type="button" rel="tooltip" class="btn btn-round btn-success edit"><i class="material-icons">edit</i></button>&nbsp;
                                                 <button type="button" rel="tooltip" class="btn btn-round btn-danger delete"><i class="material-icons">close</i></button>
                                             </td>
                                         </tr>
@@ -125,34 +125,6 @@
                         window.location.href = '@Url.Action("Permission", "Master")';
                     }).catch(swal.noop)
                 },
-                confirmDeleteMessage: function (id) {
-                    swal({
-                        title: '',
-                        text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
-                        type: 'question',
-                        showCancelButton: true,
-                        confirmButtonClass: 'btn btn-success',
-                        cancelButtonClass: 'btn btn-danger',
-                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                        cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
-                        buttonsStyling: false
-                    }).then(function () {
-                        var url = '@Url.Action("DeleteNationality", "Master")/' + id;
-                        $.ajax({
-                            type: 'POST',
-                            url: url,
-                            success: function (res) {
-                                if (res.MessageCode == null) {
-                                    showSwal.deleteMessage();
-                                    window.location.href = '@Url.Action("Permission", "Master")';
-                                }
-                                else {
-                                    alert(res.MessageText);
-                                }
-                            }
-                        });
-                    }).catch(swal.noop)
-                }
             }
 
             $table = $('#datatables');
@@ -173,7 +145,7 @@
                 swal({
                     title: '',
                     text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
-                    type: 'warning',
+                    type: 'question',
                     showCancelButton: true,
                     confirmButtonClass: 'btn btn-success',
                     cancelButtonClass: 'btn btn-danger',

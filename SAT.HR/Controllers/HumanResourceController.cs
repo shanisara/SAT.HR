@@ -148,8 +148,9 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult TrainningDetail()
+        public ActionResult TrainningDetail(int? id)
         {
+            //var model = new TrainningRepository().GetByID(id);
             return View();
         }
 
@@ -168,7 +169,7 @@ namespace SAT.HR.Controllers
         {
             var model = new TrainningRepository().GetByID(id);
             ViewBag.Country = DropDownList.GetCountry(model.CountryID);
-            ViewBag.CourseType = DropDownList.GetCourseType(model.CourseTID);
+            ViewBag.TrainingType = DropDownList.GetTrainingType(model.CourseTID);
             return View(model);
         }
 
@@ -206,9 +207,10 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult IndividualPlanDetail()
+        public ActionResult IndividualPlanDetail(int? id)
         {
-            return View();
+            var model = new IndividualPlanRepository().IndividualPlanByUser(id);
+            return View(model);
         }
 
         //[HttpPost]

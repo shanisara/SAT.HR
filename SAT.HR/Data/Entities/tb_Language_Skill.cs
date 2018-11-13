@@ -12,21 +12,18 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_User_Type
+    public partial class tb_Language_Skill
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tb_User_Type()
+        public tb_Language_Skill()
         {
-            this.tb_Position = new HashSet<tb_Position>();
-            this.tb_User = new HashSet<tb_User>();
+            this.tb_User_Skill = new HashSet<tb_User_Skill>();
         }
     
-        public int TypeID { get; set; }
-        public string TypeName { get; set; }
+        public int LkID { get; set; }
+        public string LkName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Position> tb_Position { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_User> tb_User { get; set; }
+        public virtual ICollection<tb_User_Skill> tb_User_Skill { get; set; }
     }
 }

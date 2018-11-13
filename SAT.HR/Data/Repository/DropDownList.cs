@@ -657,23 +657,6 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
-        public static List<SelectListItem> GetCourseType(int? defaultValue)
-        {
-            List<SelectListItem> list = new List<SelectListItem>();
-
-            var data = new TrainningRepository().GetCourseType();
-
-            foreach (var item in data)
-            {
-                SelectListItem select = new SelectListItem();
-                select.Value = item.CourseTID.ToString();
-                select.Text = item.CourseTName;
-                select.Selected = defaultValue.HasValue ? (item.CourseTID == defaultValue ? true : false) : false;
-                list.Add(select);
-            }
-            return list;
-        }
-
         public static List<SelectListItem> GetPositionType(int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
@@ -1176,6 +1159,53 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
+        public static List<SelectListItem> GetLanguage(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            var data = new MasterRepository().GetLanguage();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.LID.ToString();
+                select.Text = item.Language;
+                select.Selected = defaultValue.HasValue ? (item.LID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetLanguageSkill(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            var data = new MasterRepository().GetLanguageSkill();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.LkID.ToString();
+                select.Text = item.LkName;
+                select.Selected = defaultValue.HasValue ? (item.LkID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetLanguageSkillType(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            var data = new MasterRepository().GetLanguageSkillType();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.LkTID.ToString();
+                select.Text = item.LkTName;
+                select.Selected = defaultValue.HasValue ? (item.LkTID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
 
     }
 

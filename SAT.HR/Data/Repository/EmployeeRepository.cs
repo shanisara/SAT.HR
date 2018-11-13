@@ -2168,179 +2168,150 @@ namespace SAT.HR.Data.Repository
 
         #endregion
 
-        //#region 2.0 Tab: Language
+        #region 2.0 Tab: Skill
 
-        //public UserHistoryViewModel GetLanguageByUser(int userid)
-        //{
-        //    var data = new UserHistoryViewModel();
-        //    var list = new List<UserHistoryViewModel>();
-        //    try
-        //    {
-        //        using (SATEntities db = new SATEntities())
-        //        {
-        //            int index = 1;
-        //            //var history = db.vw_User_Language.Where(x => x.UserID == userid).OrderByDescending(o => o.UhEditDate).ToList();
+        public UserSkillViewModel GetSkillByUser(int userid)
+        {
+            var data = new UserSkillViewModel();
+            var list = new List<UserSkillViewModel>();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    int index = 1;
+                    var skill = db.vw_User_Skill.Where(x => x.UserID == userid).ToList();
 
-        //            //foreach (var item in history)
-        //            //{
-        //            //    UserHistoryViewModel model = new UserHistoryViewModel();
-        //            //    model.RowNumber = index++;
-        //            //    model.UhID = item.UhID;
-        //            //    model.UserID = item.UserID;
-        //            //    model.UhEditDateText = (item.UhEditDate.HasValue) ? item.UhEditDate.Value.ToString("dd/MM/yyyy") : string.Empty;
-        //            //    model.OldFirstNameTh = item.OldFirstNameTh;
-        //            //    model.OldLastNameTh = item.OldLastNameTh;
-        //            //    model.OldFirstNameEn = item.OldFirstNameEn;
-        //            //    model.OldLastNameEn = item.NewLastNameEn;
-        //            //    model.NewFirstNameTh = item.NewFirstNameTh;
-        //            //    model.NewLastNameTh = item.NewLastNameTh;
-        //            //    model.NewFirstNameEn = item.NewFirstNameEn;
-        //            //    model.NewLastNameEn = item.NewLastNameEn;
-        //            //    model.Remark = item.Remark;
-        //            //    model.UhStatus = item.UhStatus;
-        //            //    model.OldFullNameTh = item.OldFirstNameTh + " " + item.OldLastNameTh;
-        //            //    model.OldFullNameEn = item.OldFirstNameEn + " " + item.OldLastNameEn;
-        //            //    model.NewFullNameTh = item.NewFirstNameTh + " " + item.NewLastNameTh;
-        //            //    model.NewFullNameEn = item.NewFirstNameEn + " " + item.NewLastNameEn;
-        //            //    list.Add(model);
-        //            //}
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
+                    foreach (var item in skill)
+                    {
+                        UserSkillViewModel model = new UserSkillViewModel();
+                        model.RowNumber = index++;
+                        model.UskID = item.UskID;
+                        model.UserID = item.UserID;
+                        model.Language = item.Language;
+                        model.LkName = item.LkName;
+                        model.LkTName = item.LkTName;
+                        list.Add(model);
+                    }
+                }
+            }
+            catch (Exception)
+            {
 
-        //        throw;
-        //    }
-        //    data.UserID = userid;
-        //    data.ListHistory = list;
-        //    return data;
-        //}
+                throw;
+            }
+            data.UserID = userid;
+            data.ListSkill = list;
+            return data;
+        }
 
-        //public UserHistoryViewModel GetLanguageByID(int userid, int id)
-        //{
-        //    UserHistoryViewModel data = new UserHistoryViewModel();
-        //    data.UserID = userid;
+        public UserSkillViewModel GetSkillByID(int userid, int id)
+        {
+            UserSkillViewModel data = new UserSkillViewModel();
+            data.UserID = userid;
 
-        //    try
-        //    {
-        //        using (SATEntities db = new SATEntities())
-        //        {
-        //            //var obj = db.vw_User_Language.Where(x => x.UhID == id).FirstOrDefault();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var obj = db.tb_User_Skill.Where(x => x.UskID == id).FirstOrDefault();
 
-        //            //UserHistoryViewModel model = new UserHistoryViewModel();
-        //            //model.UhID = obj.UhID;
-        //            //model.UserID = obj.UserID;
-        //            //model.UhEditDate = obj.UhEditDate;
-        //            //model.UhEditDateText = Convert.ToDateTime(obj.UhEditDate).ToString("dd/MM/yyyy");
-        //            //model.OldTiID = obj.OldTiID;
-        //            //model.OldFirstNameTh = obj.OldFirstNameTh;
-        //            //model.OldLastNameTh = obj.OldLastNameTh;
-        //            //model.OldFirstNameEn = obj.OldFirstNameEn;
-        //            //model.OldLastNameEn = obj.NewLastNameEn;
-        //            //model.NewTiID = obj.NewTiID;
-        //            //model.NewFirstNameTh = obj.NewFirstNameTh;
-        //            //model.NewLastNameTh = obj.NewLastNameTh;
-        //            //model.NewFirstNameEn = obj.NewFirstNameEn;
-        //            //model.NewLastNameEn = obj.NewLastNameEn;
-        //            //model.Remark = obj.Remark;
-        //            //model.UhStatus = obj.UhStatus;
+                    UserSkillViewModel model = new UserSkillViewModel();
+                    model.UskID = obj.UskID;
+                    model.UserID = obj.UserID;
+                    model.LID = obj.LID;
+                    model.LIOther = obj.LIOther;
+                    model.LkID = obj.LkID;
+                    model.LkTID = obj.LkTID;
 
-        //            if (model != null)
-        //                data = model;
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
+                    if (model != null)
+                        data = model;
+                }
+            }
+            catch (Exception)
+            {
 
-        //    }
-        //    return data;
-        //}
+            }
+            return data;
+        }
 
-        //public ResponseData AddLanguageByEntity(UserHistoryViewModel data)
-        //{
-        //    using (SATEntities db = new SATEntities())
-        //    {
-        //        ResponseData result = new Models.ResponseData();
-        //        try
-        //        {
-        //            //tb_User_Language model = new tb_User_Language();
-        //            //model.UserID = data.UserID;
-        //            //model.OldTiID = OldTi;
-        //            //model.OldFirstNameTh = OldFTh;
-        //            //model.OldLastNameTh = OldLTh;
-        //            //model.OldFirstNameEn = OldFEn;
-        //            //model.OldLastNameEn = OldLEn;
-        //            //model.NewTiID = data.NewTiID;
-        //            //model.NewFirstNameTh = data.NewFirstNameTh;
-        //            //model.NewLastNameTh = data.NewLastNameTh;
-        //            //model.NewFirstNameEn = data.NewFirstNameEn;
-        //            //model.NewLastNameEn = data.NewLastNameEn;
-        //            //db.tb_User_Language.Add(model);
-        //            //db.SaveChanges();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            result.MessageCode = "";
-        //            result.MessageText = ex.Message;
-        //        }
-        //        return result;
-        //    }
-        //}
+        public ResponseData AddSkillByEntity(UserSkillViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_User_Skill model = new tb_User_Skill();
+                    model.UskID = data.UskID;
+                    model.UserID = data.UserID;
+                    model.LID = data.LID;
+                    model.LkID = data.LkID;
+                    model.LkTID = data.LkTID;
+                    model.CreateBy = UtilityService.User.UserID;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_User_Skill.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
 
-        //public ResponseData UpdateLanguageByEntity(UserHistoryViewModel newdata)
-        //{
-        //    using (SATEntities db = new SATEntities())
-        //    {
-        //        ResponseData result = new Models.ResponseData();
-        //        try
-        //        {
-        //            //var model = db.tb_User_Language.Single(x => x.UserID == newdata.UserID && x.UhID == newdata.UhID);
-        //            //if (Convert.ToDateTime(newdata.UhEditDateText) > DateTime.MinValue)
-        //            //    model.UhEditDate = Convert.ToDateTime(newdata.UhEditDateText);
-        //            //model.NewTiID = newdata.NewTiID;
-        //            //model.NewFirstNameTh = newdata.NewFirstNameTh;
-        //            //model.NewLastNameTh = newdata.NewLastNameTh;
-        //            //model.NewFirstNameEn = newdata.NewFirstNameEn;
-        //            //model.NewLastNameEn = newdata.NewLastNameEn;
-        //            //model.Remark = newdata.Remark;
-        //            //model.UhStatus = newdata.UhStatus;
-        //            //model.ModifyBy = UtilityService.User.UserID;
-        //            //model.ModifyDate = DateTime.Now;
-        //            //db.SaveChanges();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            result.MessageCode = "";
-        //            result.MessageText = ex.Message;
-        //        }
-        //        return result;
-        //    }
-        //}
+        public ResponseData UpdateSkillByEntity(UserSkillViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var model = db.tb_User_Skill.Single(x => x.UserID == newdata.UserID && x.UskID == newdata.UskID);
+                    model.UserID = newdata.UserID;
+                    model.LID = newdata.LID;
+                    model.LkID = newdata.LkID;
+                    model.LkTID = newdata.LkTID;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
 
-        //public ResponseData DeleteLanguageByID(int id)
-        //{
-        //    ResponseData result = new Models.ResponseData();
-        //    using (SATEntities db = new SATEntities())
-        //    {
-        //        try
-        //        {
-        //            var model = db.tb_User_Language.SingleOrDefault(x => x.UhID == id);
-        //            if (model != null)
-        //            {
-        //                db.tb_User_Language.Remove(model);
-        //                db.SaveChanges();
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            result.MessageCode = "";
-        //            result.MessageText = ex.Message;
-        //        }
-        //        return result;
-        //    }
-        //}
+        public ResponseData DeleteSkillByID(int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var model = db.tb_User_Skill.SingleOrDefault(x => x.UskID == id);
+                    if (model != null)
+                    {
+                        db.tb_User_Skill.Remove(model);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
 
-        //#endregion
+        #endregion
 
     }
 }

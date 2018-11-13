@@ -17,7 +17,7 @@ namespace SAT.HR.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tb_Course()
         {
-            this.tb_Training = new HashSet<tb_Training>();
+            this.tb_Training_Course = new HashSet<tb_Training_Course>();
         }
     
         public int CourseID { get; set; }
@@ -25,8 +25,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> CourseTID { get; set; }
         public string CourseName { get; set; }
         public Nullable<System.DateTime> DateFrom { get; set; }
-        public Nullable<System.DateTime> EndDate { get; set; }
-        public Nullable<int> DateTo { get; set; }
+        public Nullable<System.DateTime> DateTo { get; set; }
         public Nullable<int> CountryID { get; set; }
         public string TrainerName { get; set; }
         public string Location { get; set; }
@@ -40,8 +39,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> ModifyBy { get; set; }
     
         public virtual tb_Country tb_Country { get; set; }
-        public virtual tb_Course_Type tb_Course_Type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Training> tb_Training { get; set; }
+        public virtual ICollection<tb_Training_Course> tb_Training_Course { get; set; }
     }
 }

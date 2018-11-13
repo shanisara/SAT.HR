@@ -269,5 +269,44 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<LanguageViewModel> GetLanguage()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Language.Select(s => new LanguageViewModel()
+                {
+                    LID = s.LID,
+                    Language = s.Language
+                }).ToList();
+                return list;
+            }
+        }
+
+        public List<LanguageSkillViewModel> GetLanguageSkill()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Language_Skill.Select(s => new LanguageSkillViewModel()
+                {
+                    LkID = s.LkID,
+                    LkName = s.LkName
+                }).ToList();
+                return list;
+            }
+        }
+
+        public List<LanguageSkillTypeViewModel> GetLanguageSkillType()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Language_Skill_Type.Select(s => new LanguageSkillTypeViewModel()
+                {
+                    LkTID = s.LkTID,
+                    LkTName = s.LkTName
+                }).ToList();
+                return list;
+            }
+        }
+
     }
 }

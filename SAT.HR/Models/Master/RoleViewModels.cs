@@ -15,6 +15,7 @@ namespace SAT.HR.Models
         public string RoleDesc { get; set; }
 
         public bool? RoleStatus { get; set; }
+        public string RoleStatusName { get; set; }
 
         public DateTime? CreateDate { get; set; }
 

@@ -12,11 +12,15 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_Course_Type
+    public partial class vw_Trainning_Course
     {
-        public int CourseTID { get; set; }
-        public string CourseTName { get; set; }
-    
-        public virtual tb_Course tb_Course { get; set; }
+        public int CourseID { get; set; }
+        public string CourseNo { get; set; }
+        public string CourseName { get; set; }
+        public int UserID { get; set; }
+        public string FullName { get; set; }
+        public Nullable<int> PoID { get; set; }
+        public string PoCode { get; set; }
+        public string PoName { get; set; }
     }
 }
