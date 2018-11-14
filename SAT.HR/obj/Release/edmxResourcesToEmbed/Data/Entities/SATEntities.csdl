@@ -94,7 +94,6 @@
     <EntitySet Name="tb_Nationality" EntityType="SAT.HR.tb_Nationality" />
     <EntitySet Name="tb_Occupation" EntityType="SAT.HR.tb_Occupation" />
     <EntitySet Name="tb_Part_Type" EntityType="SAT.HR.tb_Part_Type" />
-    <EntitySet Name="tb_Position" EntityType="SAT.HR.tb_Position" />
     <EntitySet Name="tb_Position_Agent" EntityType="SAT.HR.tb_Position_Agent" />
     <EntitySet Name="tb_Position_Type" EntityType="SAT.HR.tb_Position_Type" />
     <EntitySet Name="tb_Process_History" EntityType="SAT.HR.tb_Process_History" />
@@ -147,7 +146,6 @@
     <EntitySet Name="vw_Section" EntityType="SAT.HR.vw_Section" />
     <EntitySet Name="vw_Title" EntityType="SAT.HR.vw_Title" />
     <EntitySet Name="vw_Trainning_Course" EntityType="SAT.HR.vw_Trainning_Course" />
-    <EntitySet Name="vw_User" EntityType="SAT.HR.vw_User" />
     <EntitySet Name="vw_User_Certificate" EntityType="SAT.HR.vw_User_Certificate" />
     <EntitySet Name="vw_User_Education" EntityType="SAT.HR.vw_User_Education" />
     <EntitySet Name="vw_User_Excellent" EntityType="SAT.HR.vw_User_Excellent" />
@@ -398,10 +396,6 @@
       <End Role="tb_Occupation" EntitySet="tb_Occupation" />
       <End Role="tb_User_Family" EntitySet="tb_User_Family" />
     </AssociationSet>
-    <AssociationSet Name="FK_tb_Position_tb_User_Type" Association="SAT.HR.FK_tb_Position_tb_User_Type">
-      <End Role="tb_User_Type" EntitySet="tb_User_Type" />
-      <End Role="tb_Position" EntitySet="tb_Position" />
-    </AssociationSet>
     <AssociationSet Name="FK_tb_User_Position_tb_Position_Type" Association="SAT.HR.FK_tb_User_Position_tb_Position_Type">
       <End Role="tb_Position_Type" EntitySet="tb_Position_Type" />
       <End Role="tb_User_Position" EntitySet="tb_User_Position" />
@@ -505,6 +499,12 @@
       <End Role="tb_User_Skill" EntitySet="tb_User_Skill" />
     </AssociationSet>
     <EntitySet Name="tb_IndividualPlan" EntityType="SAT.HR.tb_IndividualPlan" />
+    <EntitySet Name="tb_Position" EntityType="SAT.HR.tb_Position" />
+    <EntitySet Name="vw_User" EntityType="SAT.HR.vw_User" />
+    <AssociationSet Name="FK_tb_Position_tb_User_Type" Association="SAT.HR.FK_tb_Position_tb_User_Type">
+      <End Role="tb_User_Type" EntitySet="tb_User_Type" />
+      <End Role="tb_Position" EntitySet="tb_Position" />
+    </AssociationSet>
   </EntityContainer>
   <ComplexType Name="sp_Menu_GetByUser_Result">
     <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -1393,21 +1393,6 @@
     <Property Name="PName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="tb_Benefit_Home_Rental" Relationship="SAT.HR.FK_tb_Benefit_Home_Rental_tb_Part_Type" FromRole="tb_Part_Type" ToRole="tb_Benefit_Home_Rental" />
   </EntityType>
-  <EntityType Name="tb_Position">
-    <Key>
-      <PropertyRef Name="PoID" />
-    </Key>
-    <Property Name="PoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="PoCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="PoStatus" Type="Boolean" />
-    <Property Name="TypeID" Type="Int32" />
-    <Property Name="CreateDate" Type="DateTime" Precision="3" />
-    <Property Name="CreateBy" Type="Int32" />
-    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifyBy" Type="Int32" />
-    <NavigationProperty Name="tb_User_Type" Relationship="SAT.HR.FK_tb_Position_tb_User_Type" FromRole="tb_Position" ToRole="tb_User_Type" />
-  </EntityType>
   <EntityType Name="tb_Position_Agent">
     <Key>
       <PropertyRef Name="PoAID" />
@@ -1932,8 +1917,8 @@
     </Key>
     <Property Name="TypeID" Type="Int32" Nullable="false" />
     <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="tb_Position" Relationship="SAT.HR.FK_tb_Position_tb_User_Type" FromRole="tb_User_Type" ToRole="tb_Position" />
     <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_User_tb_User_Type" FromRole="tb_User_Type" ToRole="tb_User" />
+    <NavigationProperty Name="tb_Position" Relationship="SAT.HR.FK_tb_Position_tb_User_Type" FromRole="tb_User_Type" ToRole="tb_Position" />
   </EntityType>
   <EntityType Name="tb_Working_Type">
     <Key>
@@ -2380,108 +2365,6 @@
     <Property Name="PoID" Type="Int32" />
     <Property Name="PoCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-  </EntityType>
-  <EntityType Name="vw_User">
-    <Key>
-      <PropertyRef Name="UserID" />
-    </Key>
-    <Property Name="DivSeq" Type="Int32" />
-    <Property Name="UserID" Type="Int32" Nullable="false" />
-    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="TitleID" Type="Int32" />
-    <Property Name="TiFullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="TiShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="FirstNameTh" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="LastNameTh" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="FirstNameEn" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="LastNameEn" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="StatusID" Type="Int32" />
-    <Property Name="StatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="IDCard" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="TIN" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="SexID" Type="Int32" />
-    <Property Name="SexName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-    <Property Name="BloodID" Type="Int32" />
-    <Property Name="BloodName" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-    <Property Name="ReligionID" Type="Int32" />
-    <Property Name="RelName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="EthnicityID" Type="Int32" />
-    <Property Name="EthnicityName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="NationalityID" Type="Int32" />
-    <Property Name="NationalityName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="MaritalStatusID" Type="Int32" />
-    <Property Name="MaritalName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Birthday" Type="DateTime" Precision="0" />
-    <Property Name="RetireDate" Type="DateTime" Precision="0" />
-    <Property Name="StartWorkDate" Type="DateTime" Precision="0" />
-    <Property Name="ProbationDate" Type="DateTime" Precision="0" />
-    <Property Name="Remuneration" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="WorkingTypeID" Type="Int32" />
-    <Property Name="WorkingTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="FingerScan" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-    <Property Name="CardScan" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-    <Property Name="SalaryLevel" Type="Int32" />
-    <Property Name="SalaryStep" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="Salary" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="DivID" Type="Int32" />
-    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="DepID" Type="Int32" />
-    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="SecID" Type="Int32" />
-    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="PoID" Type="Int32" />
-    <Property Name="PoCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="EmpowerID" Type="Int32" />
-    <Property Name="EmpowerName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="EmpowerDivID" Type="Int32" />
-    <Property Name="EmpowerDivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="EmpowerDepID" Type="Int32" />
-    <Property Name="EmpowerDepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="EmpowerSecID" Type="Int32" />
-    <Property Name="EmpowerSecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="AgentPoAID" Type="Int32" />
-    <Property Name="AgentPoAName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="AgentDivID" Type="Int32" />
-    <Property Name="AgentDivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="AgentDepID" Type="Int32" />
-    <Property Name="AgentDepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="AgentSecID" Type="Int32" />
-    <Property Name="AgentSecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="AgentPoID" Type="Int32" />
-    <Property Name="PoAName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="HomeAddr" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="HomeSubDistrictID" Type="Int32" />
-    <Property Name="HomeSubDistrictName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="HomeDistrictID" Type="Int32" />
-    <Property Name="HomeDistrictName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="HomeProvinceID" Type="Int32" />
-    <Property Name="HomeProvinceName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="HomeZipCode" Type="Int32" />
-    <Property Name="CurrAddr" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="CurrSubDistrictID" Type="Int32" />
-    <Property Name="CurrSubDistrictName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="CurrDistrictID" Type="Int32" />
-    <Property Name="CurrDistrictName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="CurrProvinceID" Type="Int32" />
-    <Property Name="CurrProvinceName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="CurrZipCode" Type="Int32" />
-    <Property Name="Telephone" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="ContactName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="ContactPhone" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="Avatar" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="IsActive" Type="Boolean" />
-    <Property Name="Age" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="UserTID" Type="Int32" />
-    <Property Name="UserTName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="RoleID" Type="Int32" />
-    <Property Name="Experience" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="CrpID" Type="Int32" />
-    <Property Name="CrpName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="CrpTID" Type="Int32" />
-    <Property Name="CrpTypeName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="vw_User_Certificate">
     <Key>
@@ -3467,18 +3350,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_Position_tb_User_Type">
-    <End Type="SAT.HR.tb_User_Type" Role="tb_User_Type" Multiplicity="0..1" />
-    <End Type="SAT.HR.tb_Position" Role="tb_Position" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_User_Type">
-        <PropertyRef Name="TypeID" />
-      </Principal>
-      <Dependent Role="tb_Position">
-        <PropertyRef Name="TypeID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_tb_User_Position_tb_Position_Type">
     <End Type="SAT.HR.tb_Position_Type" Role="tb_Position_Type" Multiplicity="0..1" />
     <End Type="SAT.HR.tb_User_Position" Role="tb_User_Position" Multiplicity="*" />
@@ -3832,4 +3703,137 @@
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
   </EntityType>
+  <EntityType Name="tb_Position">
+    <Key>
+      <PropertyRef Name="PoID" />
+    </Key>
+    <Property Name="PoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PoCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PoStatus" Type="Boolean" />
+    <Property Name="TypeID" Type="Int32" />
+    <Property Name="ProjectNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ProjectName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+    <NavigationProperty Name="tb_User_Type" Relationship="SAT.HR.FK_tb_Position_tb_User_Type" FromRole="tb_Position" ToRole="tb_User_Type" />
+  </EntityType>
+  <EntityType Name="vw_User">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="DivSeq" Type="Int32" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TitleID" Type="Int32" />
+    <Property Name="TiFullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="TiShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="FirstNameTh" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="LastNameTh" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="FirstNameEn" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="LastNameEn" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="StatusID" Type="Int32" />
+    <Property Name="StatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IDCard" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="TIN" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="SexID" Type="Int32" />
+    <Property Name="SexName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="BloodID" Type="Int32" />
+    <Property Name="BloodName" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="ReligionID" Type="Int32" />
+    <Property Name="RelName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="EthnicityID" Type="Int32" />
+    <Property Name="EthnicityName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="NationalityID" Type="Int32" />
+    <Property Name="NationalityName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="MaritalStatusID" Type="Int32" />
+    <Property Name="MaritalName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Birthday" Type="DateTime" Precision="0" />
+    <Property Name="RetireDate" Type="DateTime" Precision="0" />
+    <Property Name="StartWorkDate" Type="DateTime" Precision="0" />
+    <Property Name="ProbationDate" Type="DateTime" Precision="0" />
+    <Property Name="Remuneration" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="WorkingTypeID" Type="Int32" />
+    <Property Name="WorkingTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="FingerScan" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="CardScan" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="SalaryLevel" Type="Int32" />
+    <Property Name="SalaryStep" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Salary" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="DivID" Type="Int32" />
+    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DepID" Type="Int32" />
+    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SecID" Type="Int32" />
+    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PoID" Type="Int32" />
+    <Property Name="PoCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ProjectNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ProjectName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="EmpowerID" Type="Int32" />
+    <Property Name="EmpowerName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="EmpowerDivID" Type="Int32" />
+    <Property Name="EmpowerDivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="EmpowerDepID" Type="Int32" />
+    <Property Name="EmpowerDepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="EmpowerSecID" Type="Int32" />
+    <Property Name="EmpowerSecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="AgentPoAID" Type="Int32" />
+    <Property Name="AgentPoAName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="AgentDivID" Type="Int32" />
+    <Property Name="AgentDivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="AgentDepID" Type="Int32" />
+    <Property Name="AgentDepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="AgentSecID" Type="Int32" />
+    <Property Name="AgentSecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="AgentPoID" Type="Int32" />
+    <Property Name="PoAName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="HomeAddr" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="HomeSubDistrictID" Type="Int32" />
+    <Property Name="HomeSubDistrictName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="HomeDistrictID" Type="Int32" />
+    <Property Name="HomeDistrictName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="HomeProvinceID" Type="Int32" />
+    <Property Name="HomeProvinceName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="HomeZipCode" Type="Int32" />
+    <Property Name="CurrAddr" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CurrSubDistrictID" Type="Int32" />
+    <Property Name="CurrSubDistrictName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CurrDistrictID" Type="Int32" />
+    <Property Name="CurrDistrictName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CurrProvinceID" Type="Int32" />
+    <Property Name="CurrProvinceName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CurrZipCode" Type="Int32" />
+    <Property Name="Telephone" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ContactName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ContactPhone" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Avatar" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="Age" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserTID" Type="Int32" />
+    <Property Name="UserTName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RoleID" Type="Int32" />
+    <Property Name="Experience" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CrpID" Type="Int32" />
+    <Property Name="CrpName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="CrpTID" Type="Int32" />
+    <Property Name="CrpTypeName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_tb_Position_tb_User_Type">
+    <End Type="SAT.HR.tb_User_Type" Role="tb_User_Type" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_Position" Role="tb_Position" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User_Type">
+        <PropertyRef Name="TypeID" />
+      </Principal>
+      <Dependent Role="tb_Position">
+        <PropertyRef Name="TypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

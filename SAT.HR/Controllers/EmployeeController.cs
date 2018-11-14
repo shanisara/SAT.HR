@@ -106,8 +106,8 @@ namespace SAT.HR.Controllers
             ViewBag.UserStatus = DropDownList.GetUserStatus(model.StatusID);
             ViewBag.WorkingType = DropDownList.GetWorkingType(model.StatusID);
 
-            //ViewBag.Cripple = DropDownList.GetCripple(model.CrpID);
-            //ViewBag.CrippleType = DropDownList.GetCrippleType(model.CrpTID);
+            ViewBag.Cripple = DropDownList.GetCripple(model.CrpID);
+            ViewBag.CrippleType = DropDownList.GetCrippleType(model.CrpTID);
 
             ViewBag.UserTypeID = model.UserType;
             return PartialView("_Employee", model);
@@ -526,24 +526,24 @@ namespace SAT.HR.Controllers
             return PartialView("_Skill");
         }
 
-        //public ActionResult SkillDetail(int userid, int id)
-        //{
-        //    var model = new EmployeeRepository().GetSkillByID(userid, id);
-        //    ViewBag.Language = DropDownList.GetLanguage(model.LID);
-        //    ViewBag.LanguageSkill = DropDownList.GetLanguageSkill(model.LkID);
-        //    ViewBag.LanguageSkillType = DropDownList.GetLanguageSkillType(model.LkTID);
-        //    return PartialView("_SkillDetail", model);
-        //}
+        public ActionResult SkillDetail(int userid, int id)
+        {
+            var model = new EmployeeRepository().GetSkillByID(userid, id);
+            ViewBag.Language = DropDownList.GetLanguage(model.LID);
+            ViewBag.LanguageSkill = DropDownList.GetLanguageSkill(model.LkID);
+            ViewBag.LanguageSkillType = DropDownList.GetLanguageSkillType(model.LkTID);
+            return PartialView("_SkillDetail", model);
+        }
 
-        //public JsonResult SaveSkill(UserSkillViewModel data)
-        //{
-        //    ResponseData result = new Models.ResponseData();
-        //    if (data.UskID != 0)
-        //        result = new EmployeeRepository().UpdateSkillByEntity(data);
-        //    else
-        //        result = new EmployeeRepository().AddSkillByEntity(data);
-        //    return Json(result, JsonRequestBehavior.AllowGet);
-        //}
+        public JsonResult SaveSkill(UserSkillViewModel data)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (data.UskID != 0)
+                result = new EmployeeRepository().UpdateSkillByEntity(data);
+            else
+                result = new EmployeeRepository().AddSkillByEntity(data);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
         public JsonResult DeleteSkill(int id)
         {
@@ -551,12 +551,12 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        //[HttpPost]
-        //public JsonResult Skill(int id)
-        //{
-        //    var list = new EmployeeRepository().GetSkillByUser(id);
-        //    return Json(new { data = list.ListSkill }, JsonRequestBehavior.AllowGet);
-        //}
+        [HttpPost]
+        public JsonResult Skill(int id)
+        {
+            var list = new EmployeeRepository().GetSkillByUser(id);
+            return Json(new { data = list.ListSkill }, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
 

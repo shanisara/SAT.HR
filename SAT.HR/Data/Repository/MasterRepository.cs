@@ -243,31 +243,31 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        //public List<CrippleViewModel> GetCripple()
-        //{
-        //    using (SATEntities db = new SATEntities())
-        //    {
-        //        var list = db.tb_Cripple.Select(s => new CrippleViewModel()
-        //        {
-        //            CrpID = s.CrpID,
-        //            CrpName = s.CrpName
-        //        }).ToList();
-        //        return list;
-        //    }
-        //}
+        public List<CrippleViewModel> GetCripple()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Cripple.Select(s => new CrippleViewModel()
+                {
+                    CrpID = s.CrpID,
+                    CrpName = s.CrpName
+                }).ToList();
+                return list;
+            }
+        }
 
-        //public List<CrippleTypeViewModel> GetCrippleType()
-        //{
-        //    using (SATEntities db = new SATEntities())
-        //    {
-        //        var list = db.tb_Cripple_Type.Select(s => new CrippleTypeViewModel()
-        //        {
-        //            CrpTID = s.CrpTID,
-        //            CrpTName = s.CrpTypeName
-        //        }).ToList();
-        //        return list;
-        //    }
-        //}
+        public List<CrippleTypeViewModel> GetCrippleType()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Cripple_Type.Select(s => new CrippleTypeViewModel()
+                {
+                    CrpTID = s.CrpTID,
+                    CrpTName = s.CrpTypeName
+                }).ToList();
+                return list;
+            }
+        }
 
         public List<LanguageViewModel> GetLanguage()
         {

@@ -216,15 +216,15 @@
                                         </div>
                                     </div>
                                     @*<div class="col-md-3">
-                                        <div class="form-group bmd-form-group">
-                                            @Html.Label("จัดจ้างกรณีพิเศษ", null, new { @class = "bmd-label-floating" })
+                                            <div class="form-group bmd-form-group">
+                                                @Html.Label("จัดจ้างกรณีพิเศษ", null, new { @class = "bmd-label-floating" })
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group bmd-form-group">
-                                            @Html.Label("", null, new { @class = "bmd-label-floating" })
-                                        </div>
-                                    </div>*@
+                                        <div class="col-md-3">
+                                            <div class="form-group bmd-form-group">
+                                                @Html.Label("", null, new { @class = "bmd-label-floating" })
+                                            </div>
+                                        </div>*@
                                 </div>
 
                             </div>
@@ -243,19 +243,21 @@
                             </div>
                             <div class="card-body m-b-20">
                                 <div class="row">
-
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            @Html.Label("ระดับ", null, new { @class = "bmd-label-fixed" })
-                                            @Html.DropDownListFor(n => n.SalaryLevel, new SelectList((IEnumerable<SelectListItem>)ViewBag.SalaryLevel, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true" })
+                                    @if (Model.UserType == 1)
+                                    {
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                @Html.Label("ระดับ", null, new { @class = "bmd-label-fixed" })
+                                                @Html.DropDownListFor(n => n.SalaryLevel, new SelectList((IEnumerable<SelectListItem>)ViewBag.SalaryLevel, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true" })
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            @Html.Label("ขั้นเงินเดือน", null, new { @class = "bmd-label-fixed" })
-                                            @Html.DropDownListFor(n => n.SalaryStep, new SelectList((IEnumerable<SelectListItem>)ViewBag.SalaryStep, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true" })
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                @Html.Label("ขั้นเงินเดือน", null, new { @class = "bmd-label-fixed" })
+                                                @Html.DropDownListFor(n => n.SalaryStep, new SelectList((IEnumerable<SelectListItem>)ViewBag.SalaryStep, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true" })
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
                                     <div class="col-md-4">
                                         <div class="form-group bmd-form-group">
                                             @Html.Label("เงินเดือน", null, new { @class = "bmd-label-fixed" })
@@ -284,12 +286,27 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             @Html.Label("ตำแหน่ง", null, new { @class = "bmd-label-fixed" })
                                             @Html.DropDownListFor(n => n.PoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true" })
                                         </div>
                                     </div>
+                                    @if (Model.UserType != 1)
+                                    {
+                                        <div class="col-md-4">
+                                            <div class="form-group bmd-form-group">
+                                                @Html.Label("รายการที่", null, new { @class = "bmd-label-fixed" })
+                                                @Html.TextBoxFor(m => m.ProjectNo, new { @class = "form-control", @disabled = true })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group bmd-form-group">
+                                                @Html.Label("โครงการ", null, new { @class = "bmd-label-fixed" })
+                                                @Html.TextBoxFor(m => m.ProjectName, new { @class = "form-control", @disabled = true })
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -303,13 +320,14 @@
                                 <div class="card-icon">
                                     <i class="material-icons">event_seat</i>
                                 </div>
-                                <h4 class="card-title"><span>ตำแหน่ง / สังกัด (ช่วยราชการ)</span></h4>
+                                @{ string labelagent = Model.UserType == 1 ? "ช่วยราชการ" : "ช่วยปฏิบัติงาน"; }
+                                <h4 class="card-title"><span>ตำแหน่ง / สังกัด (@labelagent)</span></h4>
                             </div>
-                            <div class="card-body  m-b-20">
+                            <div class="card-body m-b-30">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            @Html.Label("ช่วยราชการ", null, new { @class = "label-select" })
+                                            @Html.Label(@labelagent, null, new { @class = "label-select" })
                                             @Html.DropDownListFor(n => n.EmpowerID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Empower, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
                                         </div>
                                     </div>
@@ -339,57 +357,59 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card ">
-                            <div class="card-header card-header-primary card-header-icon">
-                                <div class="card-icon">
-                                    <i class="material-icons">event_seat</i>
+                @if (Model.UserType == 1)
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card ">
+                                <div class="card-header card-header-primary card-header-icon">
+                                    <div class="card-icon">
+                                        <i class="material-icons">event_seat</i>
+                                    </div>
+                                    <h4 class="card-title"><span>ตำแหน่ง / สังกัด (รักษาการ)</span></h4>
                                 </div>
-                                <h4 class="card-title"><span>ตำแหน่ง / สังกัด (รักษาการ)</span></h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            @Html.Label("รักษาการแทน", null, new { @class = "label-select" })
-                                            @Html.DropDownListFor(n => n.AgentPoAID, new SelectList((IEnumerable<SelectListItem>)ViewBag.PositionType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                @Html.Label("รักษาการแทน", null, new { @class = "label-select" })
+                                                @Html.DropDownListFor(n => n.AgentPoAID, new SelectList((IEnumerable<SelectListItem>)ViewBag.PositionType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            @Html.Label("ฝ่าย", null, new { @class = "bmd-label-fixed" })
-                                            @Html.DropDownListFor(n => n.AgentDivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.AgentDivision, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true" })
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                @Html.Label("ฝ่าย", null, new { @class = "bmd-label-fixed" })
+                                                @Html.DropDownListFor(n => n.AgentDivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.AgentDivision, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                @Html.Label("กอง", null, new { @class = "bmd-label-fixed" })
+                                                @Html.DropDownListFor(n => n.AgentDepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.AgentDepartment, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                @Html.Label("งาน", null, new { @class = "bmd-label-fixed" })
+                                                @Html.DropDownListFor(n => n.AgentSecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.AgentSection, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true" })
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            @Html.Label("กอง", null, new { @class = "bmd-label-fixed" })
-                                            @Html.DropDownListFor(n => n.AgentDepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.AgentDepartment, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true" })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            @Html.Label("งาน", null, new { @class = "bmd-label-fixed" })
-                                            @Html.DropDownListFor(n => n.AgentSecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.AgentSection, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <div class="form-group">
-                                            @Html.Label("ตำแหน่ง", null, new { @class = "bmd-label-fixed" })
-                                            @Html.DropDownListFor(n => n.AgentPoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.AgentPosition, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true" })
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                @Html.Label("ตำแหน่ง", null, new { @class = "bmd-label-fixed" })
+                                                @Html.DropDownListFor(n => n.AgentPoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.AgentPosition, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true" })
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
+                }
                 <div class="row">
                     <div class="col-md-6">
                         <div class="card ">
@@ -541,7 +561,7 @@
             </div>
         </div>
     </div>
-                                            }
+                                    }
 
 <script>
 

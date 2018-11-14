@@ -9,25 +9,44 @@
 
     <div class="col-md-12">
         <div class="row">
-            @Html.Label("รหัส", null, new { @class = "col-sm-2 col-form-label" })   
-            <div class="col-sm-9">
+            @Html.Label("ประเภท", null, new { @class = "col-sm-2 label-select" })
+            <div class="col-sm-9 m-b-5">
+                @Html.DropDownListFor(m => m.TypeID, new SelectList((IEnumerable<SelectListItem>)ViewBag.UserType, "Value", "Text"), new { @class = "selectpicker", data_style = "select-with-transition" })
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("รหัส", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-3">
                 <div class="form-group bmd-form-group">
                     <label class="bmd-label-floating">ใส่ข้อมูลรหัส</label>
                     @Html.TextBoxFor(m => m.PoCode, new { @class = "form-control", required = "true" })
-                    @Html.ValidationMessageFor(m => m.PoCode)
                 </div>
-            </div> 
-        </div>
-        <div class="row">
-            @Html.Label("ตำแหน่ง", null, new { @class = "col-sm-2 col-form-label" })
-            <div class="col-sm-9">
+            </div>
+            @Html.Label("ตำแหน่ง", null, new { @class = "col-sm-1 col-form-label" })
+            <div class="col-sm-6">
                 <div class="form-group bmd-form-group">
                     <label class="bmd-label-floating">ใส่ข้อมูลตำแหน่ง</label>
                     @Html.TextBoxFor(m => m.PoName, new { @class = "form-control", required = "true" })
-                    @Html.ValidationMessageFor(m => m.PoName)
                 </div>
             </div>
         </div>
+        <div class="row">
+            @Html.Label("รายการที่", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-3">
+                <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating">ใส่ข้อมูลรายการที่</label>
+                    @Html.TextBoxFor(m => m.ProjectNo, new { @class = "form-control", required = "true" })
+                </div>
+            </div>
+            @Html.Label("โครงการ", null, new { @class = "col-sm-1 col-form-label" })
+            <div class="col-sm-6">
+                <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating">ใส่ข้อมูลโครงการ</label>
+                    @Html.TextBoxFor(m => m.ProjectName, new { @class = "form-control", required = "true" })
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             @Html.Label("สถานะ", null, new { @class = "col-sm-2 col-form-label label-checkbox" })
             <div class="col-sm-10">
@@ -43,6 +62,9 @@
 }
 <script>
     $(document).ready(function () {
+
+        $('.selectpicker').selectpicker();
+
 
         if ('@Model.PoStatus' == 'True') {
             $(".checkbox").prop("checked", true);
