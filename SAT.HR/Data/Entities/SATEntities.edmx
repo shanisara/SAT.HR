@@ -3080,6 +3080,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="ParentID" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_Report_Education" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userID" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="SATHRStoreContainer">
           <EntitySet Name="tb_Accumulative_Fund" EntityType="Self.tb_Accumulative_Fund" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Action_Type" EntityType="Self.tb_Action_Type" Schema="dbo" store:Type="Tables" />
@@ -4737,6 +4740,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           </AssociationSet>
           <EntitySet Name="vw_User_Excellent" EntityType="SAT.HR.vw_User_Excellent" />
           <EntitySet Name="vw_User" EntityType="SAT.HR.vw_User" />
+          <FunctionImport Name="sp_Report_Education" ReturnType="Collection(SAT.HR.sp_Report_Education_Result)">
+            <Parameter Name="userID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="sp_Menu_GetByUser_Result">
           <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -7948,6 +7954,19 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="CrpTID" Type="Int32" />
           <Property Name="CrpTypeName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
+        <ComplexType Name="sp_Report_Education_Result">
+          <Property Type="Int32" Name="UserID" Nullable="true" />
+          <Property Type="String" Name="FirstNameTh" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="LastNameTh" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="EduID" Nullable="true" />
+          <Property Type="String" Name="EduName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="DegID" Nullable="true" />
+          <Property Type="String" Name="DegName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="MajID" Nullable="true" />
+          <Property Type="String" Name="MajName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="CountryID" Nullable="true" />
+          <Property Type="String" Name="CountryName" Nullable="true" MaxLength="200" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10096,6 +10115,23 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_Report_Education" FunctionName="SAT.HR.Store.sp_Report_Education">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_Report_Education_Result">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="FirstNameTh" ColumnName="FirstNameTh" />
+                <ScalarProperty Name="LastNameTh" ColumnName="LastNameTh" />
+                <ScalarProperty Name="EduID" ColumnName="EduID" />
+                <ScalarProperty Name="EduName" ColumnName="EduName" />
+                <ScalarProperty Name="DegID" ColumnName="DegID" />
+                <ScalarProperty Name="DegName" ColumnName="DegName" />
+                <ScalarProperty Name="MajID" ColumnName="MajID" />
+                <ScalarProperty Name="MajName" ColumnName="MajName" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

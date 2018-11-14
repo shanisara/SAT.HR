@@ -260,5 +260,14 @@ namespace SAT.HR.Data.Entities
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Evaluation_List_Result>("sp_Evaluation_List", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, userTypeParameter, capIDParameter, keywordParameter);
         }
+    
+        public virtual ObjectResult<sp_Report_Education_Result> sp_Report_Education(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("userID", userID) :
+                new ObjectParameter("userID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Education_Result>("sp_Report_Education", userIDParameter);
+        }
     }
 }
