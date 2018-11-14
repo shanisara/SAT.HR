@@ -308,5 +308,24 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<YearViewModel> GetYearHoliday()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var lists = new List<YearViewModel>();
+                lists = db.tb_Holiday.GroupBy(g => g.HolDate.Value.Year).Select(group => new { Year = group.Key })
+                            .Select(s => new YearViewModel()
+                            {
+                                Year = s.Year
+                            })
+                            .OrderByDescending(x => x.Year).ToList();
+                return lists;
+            }
+        }
+    }
+
+    public class YearViewModel
+    {
+        public int Year { get; set; }
     }
 }

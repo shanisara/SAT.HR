@@ -10,11 +10,11 @@ namespace SAT.HR.Data.Repository
 {
     public class HolidayRepository
     {
-        public HolidayResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
+        public HolidayResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy, int year)
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.tb_Holiday.ToList();
+                var data = db.tb_Holiday.Where(m => m.HolDate.Value.Year == year).ToList();
 
                 int recordsTotal = data.Count();
 

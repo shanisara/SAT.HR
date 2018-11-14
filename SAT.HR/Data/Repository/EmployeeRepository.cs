@@ -249,6 +249,8 @@ namespace SAT.HR.Data.Repository
                     model.DepID = data.DepID;
                     model.SecID = data.SecID;
                     model.PoID = data.PoID;
+                    model.ProjectNo = data.ProjectNo;
+                    model.ProjectName = data.ProjectName;
                     model.SalaryLevel = data.SalaryLevel;
                     model.SalaryStep = data.SalaryStep;
                     model.Salary = data.Salary.HasValue ? (decimal)data.Salary : 0;
@@ -721,8 +723,8 @@ namespace SAT.HR.Data.Repository
                     model.UserID = obj.UserID;
                     model.UfName = obj.UfName;
                     model.UfCardID = obj.UfCardID;
-                    if (obj.UfDOB != null)
-                        model.UfDOBText = Convert.ToDateTime(obj.UfDOB).ToString("dd/MM/yyyy");
+                    model.UfDOB = obj.UfDOB;
+                    model.UfDOBText = (obj.UfDOB != null) ? Convert.ToDateTime(obj.UfDOB).ToString("dd/MM/yyyy") : string.Empty;
                     model.UfLifeStatus = obj.UfLifeStatus;
                     model.TdStatus = obj.TdStatus;
                     model.PoID = obj.PoID;
@@ -758,15 +760,20 @@ namespace SAT.HR.Data.Repository
                     model.UserID = data.UserID;
                     model.UfName = data.UfName;
                     model.UfCardID = data.UfCardID;
-                    if (Convert.ToDateTime(data.UfDOBText) > DateTime.MinValue)
-                        model.UfDOB = Convert.ToDateTime(data.UfDOBText);
+
+                    if (Convert.ToDateTime(data.UfDOB) > DateTime.MinValue)
+                        model.UfDOB = Convert.ToDateTime(data.UfDOB);
+
                     model.UfLifeStatus = data.UfLifeStatus;
                     model.TdStatus = data.TdStatus;
                     model.PoID = data.PoID;
-                    if (Convert.ToDateTime(data.UfWeddingDateText) > DateTime.MinValue)
-                        model.UfWeddingDate = Convert.ToDateTime(data.UfWeddingDateText);
-                    if (Convert.ToDateTime(data.DivorceDateText) > DateTime.MinValue)
-                        model.DivorceDate = Convert.ToDateTime(data.DivorceDateText);
+
+                    if (Convert.ToDateTime(data.UfWeddingDate) > DateTime.MinValue)
+                        model.UfWeddingDate = Convert.ToDateTime(data.UfWeddingDate);
+
+                    if (Convert.ToDateTime(data.DivorceDate) > DateTime.MinValue)
+                        model.DivorceDate = Convert.ToDateTime(data.DivorceDate);
+
                     model.MaritalStatusID = data.MaritalStatusID;
                     model.UfStudyStatus = data.UfStudyStatus;
                     model.OcID = data.OcID;
@@ -797,15 +804,20 @@ namespace SAT.HR.Data.Repository
                     var model = db.tb_User_Family.Single(x => x.UserID == newdata.UserID && x.UfID == newdata.UfID);
                     model.UfName = newdata.UfName;
                     model.UfCardID = newdata.UfCardID;
+
                     if (Convert.ToDateTime(newdata.UfDOB) > DateTime.MinValue)
-                        model.UfDOB = Convert.ToDateTime(newdata.UfDOBText);
+                        model.UfDOB = Convert.ToDateTime(newdata.UfDOB);
+
                     model.UfLifeStatus = newdata.UfLifeStatus;
                     model.TdStatus = newdata.TdStatus;
                     model.PoID = newdata.PoID;
-                    if (Convert.ToDateTime(newdata.UfWeddingDateText) > DateTime.MinValue)
-                        model.UfWeddingDate = Convert.ToDateTime(newdata.UfWeddingDateText);
-                    if (Convert.ToDateTime(newdata.DivorceDateText) > DateTime.MinValue)
-                        model.DivorceDate = Convert.ToDateTime(newdata.DivorceDateText);
+
+                    if (Convert.ToDateTime(newdata.UfWeddingDate) > DateTime.MinValue)
+                        model.UfWeddingDate = Convert.ToDateTime(newdata.UfWeddingDate);
+
+                    if (Convert.ToDateTime(newdata.DivorceDate) > DateTime.MinValue)
+                        model.DivorceDate = Convert.ToDateTime(newdata.DivorceDate);
+
                     model.MaritalStatusID = newdata.MaritalStatusID;
                     model.UfStudyStatus = newdata.UfStudyStatus;
                     model.OcID = newdata.OcID;

@@ -84,7 +84,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Nationality> tb_Nationality { get; set; }
         public virtual DbSet<tb_Occupation> tb_Occupation { get; set; }
         public virtual DbSet<tb_Part_Type> tb_Part_Type { get; set; }
-        public virtual DbSet<tb_Position> tb_Position { get; set; }
         public virtual DbSet<tb_Position_Agent> tb_Position_Agent { get; set; }
         public virtual DbSet<tb_Position_Type> tb_Position_Type { get; set; }
         public virtual DbSet<tb_Process_History> tb_Process_History { get; set; }
@@ -137,7 +136,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Section> vw_Section { get; set; }
         public virtual DbSet<vw_Title> vw_Title { get; set; }
         public virtual DbSet<vw_Trainning_Course> vw_Trainning_Course { get; set; }
-        public virtual DbSet<vw_User> vw_User { get; set; }
         public virtual DbSet<vw_User_Certificate> vw_User_Certificate { get; set; }
         public virtual DbSet<vw_User_Education> vw_User_Education { get; set; }
         public virtual DbSet<vw_User_Excellent> vw_User_Excellent { get; set; }
@@ -151,6 +149,8 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_User_Skill> tb_User_Skill { get; set; }
         public virtual DbSet<vw_User_Skill> vw_User_Skill { get; set; }
         public virtual DbSet<tb_IndividualPlan> tb_IndividualPlan { get; set; }
+        public virtual DbSet<tb_Position> tb_Position { get; set; }
+        public virtual DbSet<vw_User> vw_User { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {

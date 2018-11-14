@@ -62,6 +62,8 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> PoID { get; set; }
         public string PoCode { get; set; }
         public string PoName { get; set; }
+        public string ProjectNo { get; set; }
+        public string ProjectName { get; set; }
         public Nullable<int> EmpowerID { get; set; }
         public string EmpowerName { get; set; }
         public Nullable<int> EmpowerDivID { get; set; }

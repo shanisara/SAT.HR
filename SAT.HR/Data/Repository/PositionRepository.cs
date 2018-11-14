@@ -12,11 +12,11 @@ namespace SAT.HR.Data.Repository
 {
     public class PositionRepository
     {
-        public PositionResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
+        public PositionResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy, int? type)
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.tb_Position.ToList();
+                var data = db.tb_Position.Where(m => m.TypeID == type).ToList();
 
                 int recordsTotal = data.Count();
 
@@ -51,6 +51,8 @@ namespace SAT.HR.Data.Repository
                     PoName = s.PoName,
                     PoStatus = s.PoStatus,
                     TypeID = s.TypeID,
+                    ProjectNo = s.ProjectNo,
+                    ProjectName = s.ProjectName,
                     Status = s.PoStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive
                 }).Skip(start * length).Take(length).ToList();
 
@@ -74,7 +76,9 @@ namespace SAT.HR.Data.Repository
                     PoCode = s.PoCode,
                     PoName = s.PoName,
                     PoStatus = s.PoStatus,
-                    TypeID = s.TypeID
+                    TypeID = s.TypeID,
+                    ProjectNo = s.ProjectNo,
+                    ProjectName = s.ProjectName
                 }).OrderBy(x => x.PoCode).ToList();
                 return list;
             }
@@ -90,13 +94,15 @@ namespace SAT.HR.Data.Repository
                     PoCode = s.PoCode,
                     PoName = s.PoName,
                     PoStatus = s.PoStatus,
-                    TypeID = s.TypeID
+                    TypeID = s.TypeID,
+                    ProjectNo = s.ProjectNo,
+                    ProjectName = s.ProjectName
                 }).OrderBy(x => x.PoCode).ToList();
                 return list;
             }
         }
 
-        public PositionViewModel GetByID(int id)
+        public PositionViewModel GetByID(int? id, int? type)
         {
             using (SATEntities db = new SATEntities())
             {
@@ -107,6 +113,9 @@ namespace SAT.HR.Data.Repository
                 model.PoName = data.PoName;
                 model.PoStatus = data.PoStatus;
                 model.Status = data.PoStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive;
+                model.TypeID = data.TypeID;
+                model.ProjectNo = data.ProjectNo;
+                model.ProjectName = data.ProjectName;
                 return model;
             }
         }
@@ -124,6 +133,8 @@ namespace SAT.HR.Data.Repository
                     model.PoName = data.PoName;
                     model.PoStatus = (data.Status == "1") ? true : false;
                     model.TypeID = data.TypeID;
+                    model.ProjectNo = data.ProjectNo;
+                    model.ProjectName = data.ProjectName;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -151,6 +162,8 @@ namespace SAT.HR.Data.Repository
                     model.PoName = newdata.PoName;
                     model.PoStatus = (newdata.Status == "1") ? true : false;
                     model.TypeID = newdata.TypeID;
+                    model.ProjectNo = newdata.ProjectNo;
+                    model.ProjectName = newdata.ProjectName;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();

@@ -19,6 +19,10 @@ namespace SAT.HR.Models
 
         public int? TypeID { get; set; }
 
+        public string ProjectNo { get; set; }
+
+        public string ProjectName { get; set; }
+
         public DateTime? CreateDate { get; set; }
 
         public Nullable<int> CreateBy { get; set; }

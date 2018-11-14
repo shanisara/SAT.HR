@@ -85,7 +85,10 @@ namespace SAT.HR.Models
         public Nullable<int> CrpTID { get; set; }
         public string CrpName { get; set; }
         public string CrpTypeName { get; set; }
+        public string ProjectNo { get; set; }
+        public string ProjectName { get; set; }
     }
+    
 
     public class EmployeePageResult
     {

@@ -215,26 +215,26 @@ namespace SAT.HR.Controllers
 
         public ActionResult Position()
         {
+            ViewBag.UserType = DropDownList.GetUserType(1);
             return View();
         }
 
-        public ActionResult PositionDetail(int? id)
+        public ActionResult PositionDetail(int? id, int? type)
         {
             PositionViewModel model = new PositionViewModel();
             if (id.HasValue)
-            {
-                model = new PositionRepository().GetByID((int)id);
-            }
+                model = new PositionRepository().GetByID(id, type);
+            ViewBag.UserType = DropDownList.GetUserType(model.TypeID);
             return PartialView("_Position", model);
         }
 
         [HttpPost]
-        public JsonResult Position(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        public JsonResult Position(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns, int? type)
         {
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new PositionRepository().GetPage(search, draw, start, length, dir, column);
+            var dataTableData = new PositionRepository().GetPage(search, draw, start, length, dir, column, type);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
 
@@ -739,6 +739,7 @@ namespace SAT.HR.Controllers
 
         public ActionResult Holiday()
         {
+            ViewBag.YearHoliday = DropDownList.GetYearHoliday(null);
             return View();
         }
 
@@ -753,12 +754,12 @@ namespace SAT.HR.Controllers
         }
 
         [HttpPost]
-        public JsonResult Holiday(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        public JsonResult Holiday(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns, int year)
         {
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new HolidayRepository().GetPage(search, draw, start, length, dir, column);
+            var dataTableData = new HolidayRepository().GetPage(search, draw, start, length, dir, column, year);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
 
