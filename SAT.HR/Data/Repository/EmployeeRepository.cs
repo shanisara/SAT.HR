@@ -2170,127 +2170,127 @@ namespace SAT.HR.Data.Repository
 
         #region 2.0 Tab: Skill
 
-        public UserSkillViewModel GetSkillByUser(int userid)
-        {
-            var data = new UserSkillViewModel();
-            var list = new List<UserSkillViewModel>();
-            try
-            {
-                using (SATEntities db = new SATEntities())
-                {
-                    int index = 1;
-                    var skill = db.vw_User_Skill.Where(x => x.UserID == userid).ToList();
+        //public UserSkillViewModel GetSkillByUser(int userid)
+        //{
+        //    var data = new UserSkillViewModel();
+        //    var list = new List<UserSkillViewModel>();
+        //    try
+        //    {
+        //        using (SATEntities db = new SATEntities())
+        //        {
+        //            int index = 1;
+        //            var skill = db.vw_User_Skill.Where(x => x.UserID == userid).ToList();
 
-                    foreach (var item in skill)
-                    {
-                        UserSkillViewModel model = new UserSkillViewModel();
-                        model.RowNumber = index++;
-                        model.UskID = item.UskID;
-                        model.UserID = item.UserID;
-                        model.Language = item.Language;
-                        model.LkName = item.LkName;
-                        model.LkTName = item.LkTName;
-                        model.Score = item.Score;
-                        list.Add(model);
-                    }
-                }
-            }
-            catch (Exception)
-            {
+        //            foreach (var item in skill)
+        //            {
+        //                UserSkillViewModel model = new UserSkillViewModel();
+        //                model.RowNumber = index++;
+        //                model.UskID = item.UskID;
+        //                model.UserID = item.UserID;
+        //                model.Language = item.Language;
+        //                model.LkName = item.LkName;
+        //                model.LkTName = item.LkTName;
+        //                model.Score = item.Score;
+        //                list.Add(model);
+        //            }
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
 
-                throw;
-            }
-            data.UserID = userid;
-            data.ListSkill = list;
-            return data;
-        }
+        //        throw;
+        //    }
+        //    data.UserID = userid;
+        //    data.ListSkill = list;
+        //    return data;
+        //}
 
-        public UserSkillViewModel GetSkillByID(int userid, int id)
-        {
-            UserSkillViewModel data = new UserSkillViewModel();
-            data.UserID = userid;
+        //public UserSkillViewModel GetSkillByID(int userid, int id)
+        //{
+        //    UserSkillViewModel data = new UserSkillViewModel();
+        //    data.UserID = userid;
 
-            try
-            {
-                using (SATEntities db = new SATEntities())
-                {
-                    var obj = db.tb_User_Skill.Where(x => x.UskID == id).FirstOrDefault();
+        //    try
+        //    {
+        //        using (SATEntities db = new SATEntities())
+        //        {
+        //            var obj = db.tb_User_Skill.Where(x => x.UskID == id).FirstOrDefault();
 
-                    UserSkillViewModel model = new UserSkillViewModel();
-                    model.UskID = obj.UskID;
-                    model.UserID = obj.UserID;
-                    model.LID = obj.LID;
-                    model.LIOther = obj.LIOther;
-                    model.LkID = obj.LkID;
-                    model.LkTID = obj.LkTID;
-                    model.Score = obj.Score;
+        //            UserSkillViewModel model = new UserSkillViewModel();
+        //            model.UskID = obj.UskID;
+        //            model.UserID = obj.UserID;
+        //            model.LID = obj.LID;
+        //            model.LIOther = obj.LIOther;
+        //            model.LkID = obj.LkID;
+        //            model.LkTID = obj.LkTID;
+        //            model.Score = obj.Score;
 
-                    if (model != null)
-                        data = model;
-                }
-            }
-            catch (Exception)
-            {
+        //            if (model != null)
+        //                data = model;
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
 
-            }
-            return data;
-        }
+        //    }
+        //    return data;
+        //}
 
-        public ResponseData AddSkillByEntity(UserSkillViewModel data)
-        {
-            using (SATEntities db = new SATEntities())
-            {
-                ResponseData result = new Models.ResponseData();
-                try
-                {
-                    tb_User_Skill model = new tb_User_Skill();
-                    model.UskID = data.UskID;
-                    model.UserID = data.UserID;
-                    model.LID = data.LID;
-                    model.LkID = data.LkID;
-                    model.LkTID = data.LkTID;
-                    model.Score = data.Score;
-                    model.CreateBy = UtilityService.User.UserID;
-                    model.CreateDate = DateTime.Now;
-                    model.ModifyBy = UtilityService.User.UserID;
-                    model.ModifyDate = DateTime.Now;
-                    db.tb_User_Skill.Add(model);
-                    db.SaveChanges();
-                }
-                catch (Exception ex)
-                {
-                    result.MessageCode = "";
-                    result.MessageText = ex.Message;
-                }
-                return result;
-            }
-        }
+        //public ResponseData AddSkillByEntity(UserSkillViewModel data)
+        //{
+        //    using (SATEntities db = new SATEntities())
+        //    {
+        //        ResponseData result = new Models.ResponseData();
+        //        try
+        //        {
+        //            tb_User_Skill model = new tb_User_Skill();
+        //            model.UskID = data.UskID;
+        //            model.UserID = data.UserID;
+        //            model.LID = data.LID;
+        //            model.LkID = data.LkID;
+        //            model.LkTID = data.LkTID;
+        //            model.Score = data.Score;
+        //            model.CreateBy = UtilityService.User.UserID;
+        //            model.CreateDate = DateTime.Now;
+        //            model.ModifyBy = UtilityService.User.UserID;
+        //            model.ModifyDate = DateTime.Now;
+        //            db.tb_User_Skill.Add(model);
+        //            db.SaveChanges();
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            result.MessageCode = "";
+        //            result.MessageText = ex.Message;
+        //        }
+        //        return result;
+        //    }
+        //}
 
-        public ResponseData UpdateSkillByEntity(UserSkillViewModel newdata)
-        {
-            using (SATEntities db = new SATEntities())
-            {
-                ResponseData result = new Models.ResponseData();
-                try
-                {
-                    var model = db.tb_User_Skill.Single(x => x.UserID == newdata.UserID && x.UskID == newdata.UskID);
-                    model.UserID = newdata.UserID;
-                    model.LID = newdata.LID;
-                    model.LkID = newdata.LkID;
-                    model.LkTID = newdata.LkTID;
-                    model.Score = newdata.Score;
-                    model.ModifyBy = UtilityService.User.UserID;
-                    model.ModifyDate = DateTime.Now;
-                    db.SaveChanges();
-                }
-                catch (Exception ex)
-                {
-                    result.MessageCode = "";
-                    result.MessageText = ex.Message;
-                }
-                return result;
-            }
-        }
+        //public ResponseData UpdateSkillByEntity(UserSkillViewModel newdata)
+        //{
+        //    using (SATEntities db = new SATEntities())
+        //    {
+        //        ResponseData result = new Models.ResponseData();
+        //        try
+        //        {
+        //            var model = db.tb_User_Skill.Single(x => x.UserID == newdata.UserID && x.UskID == newdata.UskID);
+        //            model.UserID = newdata.UserID;
+        //            model.LID = newdata.LID;
+        //            model.LkID = newdata.LkID;
+        //            model.LkTID = newdata.LkTID;
+        //            model.Score = newdata.Score;
+        //            model.ModifyBy = UtilityService.User.UserID;
+        //            model.ModifyDate = DateTime.Now;
+        //            db.SaveChanges();
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            result.MessageCode = "";
+        //            result.MessageText = ex.Message;
+        //        }
+        //        return result;
+        //    }
+        //}
 
         public ResponseData DeleteSkillByID(int id)
         {
