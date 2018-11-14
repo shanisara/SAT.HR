@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -687,7 +690,6 @@
     <Compile Include="Models\HumanResource\CapabilityViewModels.cs" />
     <Compile Include="Models\Master\CertificateViewModels.cs" />
     <Compile Include="Models\Master\ClaimTypeViewModels.cs" />
-    <Compile Include="Models\Master\CrippleViewModels.cs" />
     <Compile Include="Models\Master\DegreeViewModels.cs" />
     <Compile Include="Models\Master\DepartmentViewModels.cs" />
     <Compile Include="Models\Master\DisciplineViewModels.cs" />
@@ -728,12 +730,22 @@
     <Compile Include="Models\User\UserFamilyViewModels.cs" />
     <Compile Include="Models\User\UserHistoryViewModels.cs" />
     <Compile Include="Models\User\UserInsigniaViewModels.cs" />
-    <Compile Include="Models\User\UserSkillViewModels.cs" />
     <Compile Include="Models\User\UserPositionViewModels.cs" />
     <Compile Include="Models\User\UserTrainningViewModels.cs" />
     <Compile Include="Models\User\UserViewModels.cs" />
     <Compile Include="Models\Master\WorkingTypeViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Report\Master\Dataset\ReportDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReportDS.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Report\Master\Report_Education.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Report_Education.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Resources\ResourceSAT.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -879,6 +891,17 @@
     <Content Include="fonts\font-prompt\fonts\Prompt-Thin.ttf" />
     <Content Include="fonts\font-prompt\fonts\Prompt-ThinItalic.ttf" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="Report\Master\Dataset\ReportDS.xsc">
+      <DependentUpon>ReportDS.xsd</DependentUpon>
+    </Content>
+    <None Include="Report\Master\Dataset\ReportDS.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ReportDS.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Report\Master\Dataset\ReportDS.xss">
+      <DependentUpon>ReportDS.xsd</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -895,7 +918,9 @@
     <Content Include="Scripts\_references.js" />
     <Content Include="Upload\Avatar\admin.jpg" />
     <Content Include="Upload\Avatar\avatar.png" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -1001,6 +1026,7 @@
     <Content Include="Views\Employee\_Employee.cshtml" />
     <Content Include="Views\Benefit\Detail.cshtml" />
     <Content Include="Views\Benefit\_Cremation.cshtml" />
+    <Content Include="Views\HumanResource\_CapabilityDetail.cshtml" />
     <Content Include="Views\Employee\_FamilyDetail.cshtml" />
     <Content Include="Views\Employee\_EducationDetail.cshtml" />
     <Content Include="Views\Employee\_PositionDetail.cshtml" />
@@ -1030,11 +1056,10 @@
     <Content Include="Views\HumanResource\IndividualPlanDetail.cshtml" />
     <Content Include="Views\HumanResource\CapabilityDetail.cshtml" />
     <Content Include="Views\Employee\_Skill.cshtml" />
-    <Content Include="Views\Employee\LanguageDetail.cshtml" />
-    <Content Include="Views\HumanResource\TrainningDetail.cshtml" />
     <Content Include="Views\Employee\_SkillDetail.cshtml" />
     <Content Include="Views\HumanResource\_IndividualPlanDetail.cshtml" />
     <Content Include="Views\HumanResource\_TrainningDetail.cshtml" />
+    <Content Include="Views\Report\_Report_Education.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1050,8 +1075,13 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Report\Master\Report_Education.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Report_Education.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\ResourceSAT.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ResourceSAT.Designer.cs</LastGenOutput>

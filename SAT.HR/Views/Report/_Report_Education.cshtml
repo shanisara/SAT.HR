@@ -1,0 +1,21 @@
+﻿@model SAT.HR.Models.EducationViewModel
+
+<style>
+    .bootstrap-select .dropdown-toggle[title="-- กรุณาเลือก --"] .filter-option-inner-inner  {
+        color: red;
+    }
+</style>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-certificate" }))
+{
+
+
+    <div class="form-horizontal">
+        <div class="row occupation">
+            <label class="col-sm-3 col-form-label" for="NewLastNameTh">รายงานวุฒิ:<span class="text-danger"> *</span> </label>
+            <div class="col-sm-9 m-t-10">
+                @Html.DropDownListFor(n => n.CerId, new SelectList((IEnumerable<SelectListItem>)ViewBag.Certificate, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true", required = "true" })
+            </div>
+        </div>
+    </div>
+}
