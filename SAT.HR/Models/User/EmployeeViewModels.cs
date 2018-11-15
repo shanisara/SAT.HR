@@ -87,6 +87,9 @@ namespace SAT.HR.Models
         public string CrpTypeName { get; set; }
         public string ProjectNo { get; set; }
         public string ProjectName { get; set; }
+        public int? ResignID { get; set; }
+        public Nullable<System.DateTime> ResignDate { get; set; }
+        public string ResignRemark { get; set; }
     }
     
 

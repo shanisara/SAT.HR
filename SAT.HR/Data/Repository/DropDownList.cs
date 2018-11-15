@@ -1224,6 +1224,22 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
+        public static List<SelectListItem> GetResignType(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            var data = new MasterRepository().GetResignType();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.ResignID.ToString();
+                select.Text = item.ResignName;
+                select.Selected = defaultValue.HasValue ? (item.ResignID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
     }
 
 }

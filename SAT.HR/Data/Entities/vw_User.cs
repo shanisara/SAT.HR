@@ -113,5 +113,8 @@ namespace SAT.HR.Data.Entities
         public string CrpName { get; set; }
         public Nullable<int> CrpTID { get; set; }
         public string CrpTypeName { get; set; }
+        public Nullable<int> ResignID { get; set; }
+        public string ResignRemark { get; set; }
+        public Nullable<System.DateTime> ResignDate { get; set; }
     }
 }

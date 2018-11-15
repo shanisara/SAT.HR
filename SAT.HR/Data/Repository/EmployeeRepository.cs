@@ -244,6 +244,9 @@ namespace SAT.HR.Data.Repository
                     model.FullNameTh = data.FirstNameTh + " " + data.LastNameTh;
                     model.CrpID = data.CrpID;
                     model.CrpTID = data.CrpTID;
+                    model.ResignID = data.ResignID;
+                    model.ResignDate = data.ResignDate;
+                    model.ResignRemark = data.ResignRemark;
 
                     model.DivID = data.DivID;
                     model.DepID = data.DepID;
@@ -368,6 +371,9 @@ namespace SAT.HR.Data.Repository
                     model.CardScan = data.CardScan;
                     model.CrpID = data.CrpID;
                     model.CrpTID = data.CrpTID;
+                    model.ResignID = data.ResignID;
+                    model.ResignDate = data.ResignDate;
+                    model.ResignRemark = data.ResignRemark;
 
                     model.HomeAddr = data.HomeAddr;
                     model.HomeSubDistrictID = data.HomeSubDistrictID;
@@ -463,6 +469,9 @@ namespace SAT.HR.Data.Repository
                         model.CardScan = newdata.CardScan;
                         model.CrpID = newdata.CrpID;
                         model.CrpTID = newdata.CrpTID;
+                        model.ResignID = newdata.ResignID;
+                        model.ResignDate = newdata.ResignDate;
+                        model.ResignRemark = newdata.ResignRemark;
 
                         model.SalaryLevel = newdata.SalaryLevel;
                         model.SalaryStep = newdata.SalaryStep;

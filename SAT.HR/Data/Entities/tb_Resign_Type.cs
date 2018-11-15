@@ -12,20 +12,17 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_User_Type
+    public partial class tb_Resign_Type
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tb_User_Type()
+        public tb_Resign_Type()
         {
-            this.tb_Position = new HashSet<tb_Position>();
             this.tb_User = new HashSet<tb_User>();
         }
     
-        public int TypeID { get; set; }
-        public string TypeName { get; set; }
+        public int ResignID { get; set; }
+        public string ResignName { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Position> tb_Position { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User> tb_User { get; set; }
     }

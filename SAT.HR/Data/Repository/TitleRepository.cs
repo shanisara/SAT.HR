@@ -191,5 +191,24 @@ namespace SAT.HR.Data.Repository
                 return list;
             }
         }
+
+        public List<SelectListItem> GetTitleBySex(int sexid)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.tb_Title.Where(c => c.SexID == sexid).ToList();
+                foreach (var item in data)
+                {
+                    SelectListItem select = new SelectListItem();
+                    select.Value = item.TiID.ToString();
+                    select.Text = item.TiShortName;
+                    list.Add(select);
+                }
+                return list;
+            }
+        }
+
     }
 }

@@ -450,6 +450,12 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult TitleBySex(int sexid)
+        {
+            var result = new TitleRepository().GetTitleBySex(sexid);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult SexByTitle(int titleid)
         {
             var result = new TitleRepository().GetSexByTitle(titleid);
@@ -1034,5 +1040,7 @@ namespace SAT.HR.Controllers
         }
 
         #endregion 
+
+
     }
 }

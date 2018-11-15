@@ -108,6 +108,7 @@ namespace SAT.HR.Controllers
 
             ViewBag.Cripple = DropDownList.GetCripple(model.CrpID);
             ViewBag.CrippleType = DropDownList.GetCrippleType(model.CrpTID);
+            ViewBag.ResignType = DropDownList.GetResignType(model.ResignID);
 
             ViewBag.UserTypeID = model.UserType;
             return PartialView("_Employee", model);

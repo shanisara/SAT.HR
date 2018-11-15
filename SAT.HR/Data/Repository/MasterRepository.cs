@@ -322,10 +322,25 @@ namespace SAT.HR.Data.Repository
                 return lists;
             }
         }
+
+        public List<ResignViewModel> GetResignType()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Resign_Type.Select(s => new ResignViewModel()
+                {
+                    ResignID = s.ResignID,
+                    ResignName = s.ResignName
+                }).ToList();
+                return list;
+            }
+        }
+
     }
 
     public class YearViewModel
     {
         public int Year { get; set; }
     }
+
 }
