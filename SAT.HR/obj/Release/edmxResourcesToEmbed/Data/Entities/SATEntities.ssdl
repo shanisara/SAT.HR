@@ -816,6 +816,13 @@
     <Property Name="RID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="RName" Type="nvarchar" MaxLength="200" />
   </EntityType>
+  <EntityType Name="tb_Resign_Type">
+    <Key>
+      <PropertyRef Name="ResignID" />
+    </Key>
+    <Property Name="ResignID" Type="int" Nullable="false" />
+    <Property Name="ResignName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
   <EntityType Name="tb_Role">
     <Key>
       <PropertyRef Name="RoleID" />
@@ -996,6 +1003,9 @@
     <Property Name="ProvidentFundDate" Type="date" />
     <Property Name="CrpID" Type="int" />
     <Property Name="CrpTID" Type="int" />
+    <Property Name="ResignID" Type="int" />
+    <Property Name="ResignRemark" Type="nvarchar" MaxLength="400" />
+    <Property Name="ResignDate" Type="date" />
   </EntityType>
   <EntityType Name="tb_User_Certificate">
     <Key>
@@ -1650,6 +1660,16 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Man_Power_Head' does not h
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Level' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Level">
+          <Property Name="Level" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Step' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Step">
+          <Property Name="Step" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Section">
     <Key>
@@ -1799,6 +1819,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
     <Property Name="CrpName" Type="nvarchar" MaxLength="200" />
     <Property Name="CrpTID" Type="int" />
     <Property Name="CrpTypeName" Type="nvarchar" MaxLength="200" />
+    <Property Name="ResignID" Type="int" />
+    <Property Name="ResignRemark" Type="nvarchar" MaxLength="400" />
+    <Property Name="ResignDate" Type="date" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Certificate' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2967,6 +2990,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tb_User_tb_Resign_Type">
+    <End Role="tb_Resign_Type" Type="Self.tb_Resign_Type" Multiplicity="0..1" />
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Resign_Type">
+        <PropertyRef Name="ResignID" />
+      </Principal>
+      <Dependent Role="tb_User">
+        <PropertyRef Name="ResignID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tb_User_tb_User_Type">
     <End Role="tb_User_Type" Type="Self.tb_User_Type" Multiplicity="0..1" />
     <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
@@ -3248,6 +3283,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_Recieve_Type" EntityType="Self.tb_Recieve_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Religion" EntityType="Self.tb_Religion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Rent_Type" EntityType="Self.tb_Rent_Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Resign_Type" EntityType="Self.tb_Resign_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Role" EntityType="Self.tb_Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Salary" EntityType="Self.tb_Salary" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Section" EntityType="Self.tb_Section" Schema="dbo" store:Type="Tables" />
@@ -3775,7 +3811,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_User].[CrpID] AS [CrpID], 
     [vw_User].[CrpName] AS [CrpName], 
     [vw_User].[CrpTID] AS [CrpTID], 
-    [vw_User].[CrpTypeName] AS [CrpTypeName]
+    [vw_User].[CrpTypeName] AS [CrpTypeName], 
+    [vw_User].[ResignID] AS [ResignID], 
+    [vw_User].[ResignRemark] AS [ResignRemark], 
+    [vw_User].[ResignDate] AS [ResignDate]
     FROM [dbo].[vw_User] AS [vw_User]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vw_User_Certificate" EntityType="Self.vw_User_Certificate" store:Type="Views" store:Schema="dbo">
@@ -4323,6 +4362,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     </AssociationSet>
     <AssociationSet Name="FK_tb_User_tb_Cripple_Type" Association="Self.FK_tb_User_tb_Cripple_Type">
       <End Role="tb_Cripple_Type" EntitySet="tb_Cripple_Type" />
+      <End Role="tb_User" EntitySet="tb_User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_User_tb_Resign_Type" Association="Self.FK_tb_User_tb_Resign_Type">
+      <End Role="tb_Resign_Type" EntitySet="tb_Resign_Type" />
       <End Role="tb_User" EntitySet="tb_User" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_User_tb_User_Type" Association="Self.FK_tb_User_tb_User_Type">
