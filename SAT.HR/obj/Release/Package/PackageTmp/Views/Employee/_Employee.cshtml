@@ -6,6 +6,9 @@
     @Html.HiddenFor(m => m.UserID)
     @Html.HiddenFor(m => m.Avatar)
     @Html.HiddenFor(m => m.UserType, new { Value = @ViewBag.UserTypeID })
+    @Html.HiddenFor(m => m.IsGPALower250)
+    @Html.HiddenFor(m => m.IsToeicLower300)
+    @Html.HiddenFor(m => m.IsAgeOver35)
 
     <div class="content">
         <div class="row">
@@ -35,6 +38,44 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if (Model.UserType == 2)
+                                {
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group bmd-form-group">
+                                                @Html.Label("จัดจ้างกรณีพิเศษ", null, new { @class = "bmd-label-floating" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row m-t-10">
+                                        <div class="col-sm-12 col-sm-offset-1 checkbox-radios">
+                                            <div class="form-check">
+                                                <label class="form-check-label label-employ">
+                                                    <input class="form-check-input is_gpalower250" type="checkbox"> เกรดเฉลี่ยต่ำกว่า 2.50
+                                                    <span class="form-check-sign">
+                                                        <span class="check"></span>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label label-employ">
+                                                    <input class="form-check-input is_toeiclower300" type="checkbox"> ผลคะแนน TOEIC ไม่ถึง 300 คะแนน
+                                                    <span class="form-check-sign">
+                                                        <span class="check"></span>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label label-employ">
+                                                    <input class="form-check-input is_ageover35" type="checkbox"> อายุเกิน 35 ปีบริบูรณ์ 
+                                                    <span class="form-check-sign">
+                                                        <span class="check"></span>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                             </div>
 
                             <div class="col-sm-9">
@@ -236,16 +277,7 @@
                                             @Html.TextBoxFor(m => m.CardScan, new { @class = "form-control" })
                                         </div>
                                     </div>
-                                    @*<div class="col-md-3">
-                                            <div class="form-group bmd-form-group">
-                                                @Html.Label("จัดจ้างกรณีพิเศษ", null, new { @class = "bmd-label-floating" })
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group bmd-form-group">
-                                                @Html.Label("", null, new { @class = "bmd-label-floating" })
-                                            </div>
-                                        </div>*@
+                                    
                                 </div>
 
                             </div>
@@ -582,7 +614,7 @@
             </div>
         </div>
     </div>
-                                    }
+}
 
 <script>
 
@@ -602,6 +634,48 @@
     } else {
         $('.div-resign').show();
     }
+
+    if ('@Model.IsGPALower250' == 'True') {
+        $(".is_gpalower250").prop("checked", true);
+    }
+
+    if ('@Model.IsToeicLower300' == 'True') {
+        $(".is_toeiclower300").prop("checked", true);
+    }
+
+    if ('@Model.IsAgeOver35' == 'True') {
+        $(".is_ageover35").prop("checked", true);
+    }
+
+    $(".is_gpalower250").click(function () {
+        var checked = $(this).is(':checked');
+        if (checked) {
+            $('#IsGPALower250').val(true);
+        }
+        else {
+            $('#IsGPALower250').val(false);
+        }
+    });
+
+    $(".is_toeiclower300").click(function () {
+        var checked = $(this).is(':checked');
+        if (checked) {
+            $('#IsToeicLower300').val(true);
+        }
+        else {
+            $('#IsToeicLower300').val(false);
+        }
+    });
+
+    $(".is_ageover35").click(function () {
+        var checked = $(this).is(':checked');
+        if (checked) {
+            $('#IsAgeOver35').val(true);
+        }
+        else {
+            $('#IsAgeOver35').val(false);
+        }
+    });
 
     $('.selectpicker').selectpicker();
 

@@ -291,6 +291,10 @@ namespace SAT.HR.Data.Repository
                     model.ContactName = data.ContactName;
                     model.ContactPhone = data.ContactPhone;
 
+                    model.IsGPALower250 = data.IsGPALower250;
+                    model.IsToeicLower300 = data.IsToeicLower300;
+                    model.IsAgeOver35 = data.IsAgeOver35;
+
                     //model.CreateDate = data.CreateDate;
                     //model.CreateBy = data.CreateBy;
                     //model.ModifyDate = data.ModifyDate;
@@ -394,6 +398,11 @@ namespace SAT.HR.Data.Repository
 
                     model.Avatar = data.Avatar;
                     model.IsActive = data.IsActive;
+
+                    model.IsGPALower250 = data.IsGPALower250;
+                    model.IsToeicLower300 = data.IsToeicLower300;
+                    model.IsAgeOver35 = data.IsAgeOver35;
+
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -504,8 +513,10 @@ namespace SAT.HR.Data.Repository
                         model.ContactName = newdata.ContactName;
                         model.ContactPhone = newdata.ContactPhone;
 
-                        //model.Avatar = newdata.Avatar;
-                        //model.IsActive = newdata.IsActive;
+                        model.IsGPALower250 = newdata.IsGPALower250;
+                        model.IsToeicLower300 = newdata.IsToeicLower300;
+                        model.IsAgeOver35 = newdata.IsAgeOver35;
+
                         model.ModifyBy = UtilityService.User.UserID;
                         model.ModifyDate = DateTime.Now;
                         db.SaveChanges();

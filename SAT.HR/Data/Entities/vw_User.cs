@@ -116,5 +116,8 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> ResignID { get; set; }
         public string ResignRemark { get; set; }
         public Nullable<System.DateTime> ResignDate { get; set; }
+        public Nullable<bool> IsGPALower250 { get; set; }
+        public Nullable<bool> IsToeicLower300 { get; set; }
+        public Nullable<bool> IsAgeOver35 { get; set; }
     }
 }
