@@ -49,7 +49,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Certificate> tb_Certificate { get; set; }
         public virtual DbSet<tb_Claim_Type> tb_Claim_Type { get; set; }
         public virtual DbSet<tb_Country> tb_Country { get; set; }
-        public virtual DbSet<tb_Course> tb_Course { get; set; }
         public virtual DbSet<tb_Cripple> tb_Cripple { get; set; }
         public virtual DbSet<tb_Cripple_Type> tb_Cripple_Type { get; set; }
         public virtual DbSet<tb_Degree> tb_Degree { get; set; }
@@ -64,6 +63,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Evaluation> tb_Evaluation { get; set; }
         public virtual DbSet<tb_Excellent_Type> tb_Excellent_Type { get; set; }
         public virtual DbSet<tb_Holiday> tb_Holiday { get; set; }
+        public virtual DbSet<tb_IndividualPlan> tb_IndividualPlan { get; set; }
         public virtual DbSet<tb_Insignia> tb_Insignia { get; set; }
         public virtual DbSet<tb_Language> tb_Language { get; set; }
         public virtual DbSet<tb_Language_Skill> tb_Language_Skill { get; set; }
@@ -84,6 +84,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Nationality> tb_Nationality { get; set; }
         public virtual DbSet<tb_Occupation> tb_Occupation { get; set; }
         public virtual DbSet<tb_Part_Type> tb_Part_Type { get; set; }
+        public virtual DbSet<tb_Position> tb_Position { get; set; }
         public virtual DbSet<tb_Position_Agent> tb_Position_Agent { get; set; }
         public virtual DbSet<tb_Position_Type> tb_Position_Type { get; set; }
         public virtual DbSet<tb_Process_History> tb_Process_History { get; set; }
@@ -91,6 +92,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Recieve_Type> tb_Recieve_Type { get; set; }
         public virtual DbSet<tb_Religion> tb_Religion { get; set; }
         public virtual DbSet<tb_Rent_Type> tb_Rent_Type { get; set; }
+        public virtual DbSet<tb_Resign_Type> tb_Resign_Type { get; set; }
         public virtual DbSet<tb_Role> tb_Role { get; set; }
         public virtual DbSet<tb_Salary> tb_Salary { get; set; }
         public virtual DbSet<tb_Section> tb_Section { get; set; }
@@ -101,6 +103,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Training_Course> tb_Training_Course { get; set; }
         public virtual DbSet<tb_Training_Type> tb_Training_Type { get; set; }
         public virtual DbSet<tb_Transfer_Type> tb_Transfer_Type { get; set; }
+        public virtual DbSet<tb_User> tb_User { get; set; }
         public virtual DbSet<tb_User_Certificate> tb_User_Certificate { get; set; }
         public virtual DbSet<tb_User_Education> tb_User_Education { get; set; }
         public virtual DbSet<tb_User_Excellent> tb_User_Excellent { get; set; }
@@ -109,6 +112,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_User_Insignia> tb_User_Insignia { get; set; }
         public virtual DbSet<tb_User_Position> tb_User_Position { get; set; }
         public virtual DbSet<tb_User_Role> tb_User_Role { get; set; }
+        public virtual DbSet<tb_User_Skill> tb_User_Skill { get; set; }
         public virtual DbSet<tb_User_Status> tb_User_Status { get; set; }
         public virtual DbSet<tb_User_Training> tb_User_Training { get; set; }
         public virtual DbSet<tb_User_Type> tb_User_Type { get; set; }
@@ -135,6 +139,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Section> vw_Section { get; set; }
         public virtual DbSet<vw_Title> vw_Title { get; set; }
         public virtual DbSet<vw_Trainning_Course> vw_Trainning_Course { get; set; }
+        public virtual DbSet<vw_User> vw_User { get; set; }
         public virtual DbSet<vw_User_Certificate> vw_User_Certificate { get; set; }
         public virtual DbSet<vw_User_Education> vw_User_Education { get; set; }
         public virtual DbSet<vw_User_Excellent> vw_User_Excellent { get; set; }
@@ -144,14 +149,9 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_NotRole> vw_User_NotRole { get; set; }
         public virtual DbSet<vw_User_Position> vw_User_Position { get; set; }
         public virtual DbSet<vw_User_Role> vw_User_Role { get; set; }
-        public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
-        public virtual DbSet<tb_User_Skill> tb_User_Skill { get; set; }
         public virtual DbSet<vw_User_Skill> vw_User_Skill { get; set; }
-        public virtual DbSet<tb_IndividualPlan> tb_IndividualPlan { get; set; }
-        public virtual DbSet<tb_Position> tb_Position { get; set; }
-        public virtual DbSet<tb_Resign_Type> tb_Resign_Type { get; set; }
-        public virtual DbSet<tb_User> tb_User { get; set; }
-        public virtual DbSet<vw_User> vw_User { get; set; }
+        public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
+        public virtual DbSet<tb_Course> tb_Course { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {

@@ -897,15 +897,15 @@ namespace SAT.HR.Controllers
 
         #region User
 
-        [HttpPost]
-        public JsonResult Employee(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
-        {
-            var search = Request["search[value]"];
-            var dir = order[0]["dir"].ToLower();
-            var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new EmployeeRepository().GetUserNotInRole(search, draw, start, length, dir, column);
-            return Json(dataTableData, JsonRequestBehavior.AllowGet);
-        }
+        //[HttpPost]
+        //public JsonResult Employee(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        //{
+        //    var search = Request["search[value]"];
+        //    var dir = order[0]["dir"].ToLower();
+        //    var column = columns[int.Parse(order[0]["column"])]["data"];
+        //    var dataTableData = new EmployeeRepository().GetUserNotInRole(search, draw, start, length, dir, column);
+        //    return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        //}
 
         #endregion
 
@@ -917,9 +917,9 @@ namespace SAT.HR.Controllers
             return View(data);
         }
 
-        public JsonResult SaveRoleUser(int roleid, string users)
+        public JsonResult SaveRoleUser(int roleid, int userid)
         {
-            var result = new PermissionRepository().SaveRoleUser(roleid, users);
+            var result = new PermissionRepository().SaveRoleUser(roleid, userid);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -929,6 +929,11 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult GetUserNotInRole(string user)
+        {
+            ViewBag.Employee = DropDownList.GetEmployeeNotSelected(null, 1, user);
+            return PartialView("_RoleUser");
+        }
 
         #endregion
 

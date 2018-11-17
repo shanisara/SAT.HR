@@ -51,7 +51,7 @@
                     {
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.MlID)
-                        @Html.HiddenFor(m => m.MlStatus)
+                        @Html.HiddenFor(m => m.MlApproveStatus)
                         @Html.HiddenFor(m => m.MIPathFile)
 
                         <div class="form-horizontal">
@@ -344,7 +344,7 @@
                                 confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
                                 buttonsStyling: false,
                             }).then(function () {
-                                //window.location.reload();
+                                $("#MlID").val(res.ID);
                                 if ($("#MIPathFile").val() != '') {
                                     $(".file-name").text($("#MIPathFile").val());
                                     $(".file-upload").hide();

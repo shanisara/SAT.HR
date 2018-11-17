@@ -24,10 +24,10 @@ namespace SAT.HR.Data.Entities
         public int CountryID { get; set; }
         public string CountryName { get; set; }
     
-        public virtual tb_Course tb_Course { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User_Education> tb_User_Education { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User_Training> tb_User_Training { get; set; }
+        public virtual tb_Course tb_Course { get; set; }
     }
 }

@@ -26,7 +26,7 @@ namespace SAT.HR.Data.Entities
         public string TrainerName { get; set; }
         public string Location { get; set; }
         public string Certificate { get; set; }
-        public string Remark { get; set; }
+        public string CourseDesc { get; set; }
         public string PathFile { get; set; }
         public Nullable<int> Status { get; set; }
         public string StatusName { get; set; }

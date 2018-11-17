@@ -747,7 +747,15 @@ namespace SAT.HR.Controllers
             return new FilePathResult(Path.Combine(filePath, fileName), contentType);
         }
 
+        public JsonResult DeletePositionTransfer(int id)
+        {
+            var result = new PositionTransferRepository().DeletePositionTransfer(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
+
+
 
     }
 }

@@ -147,6 +147,32 @@ namespace SAT.HR.Data.Repository
             return result;
         }
 
+        public List<UserProfile> GetUserNotInRole(int? userType, string userSelected)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                string[] badCodes = userSelected.Split(',');
+
+                var result = db.vw_Employee.Where(x => x.StatusID == 1 && x.IsActive == true)
+                            .Select(s => new UserProfile()
+                            {
+                                UserID = s.UserID,
+                                UserName = s.TiShortName + "" + s.FullNameTh
+                            }).ToList();
+
+                if(userType != null)
+                    result = result.Where(x => x.UserTypeID == userType).ToList();
+
+                if (badCodes.Length > 0 && !string.IsNullOrEmpty(badCodes[0]))
+                {
+                    var blackList = result.Where(s => badCodes.Contains(s.UserID.ToString()));
+                    result = result.Except(blackList).ToList();
+                }
+
+                return result;
+            }
+        }
+
         #endregion
 
         #region 1.1 Tab: User-Employee
@@ -161,7 +187,7 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
                     sortBy = (sortBy == "RowNumber") ? "DivSeq" : sortBy;
-                    string perPage = initialPage.HasValue ? Convert.ToInt32(initialPage) == 0 ? "1" : (Convert.ToInt32(initialPage.ToString().Substring(0, initialPage.ToString().Length-1))+1).ToString() : "1";
+                    string perPage = initialPage.HasValue ? Convert.ToInt32(initialPage) == 0 ? "1" : (Convert.ToInt32(initialPage.ToString().Substring(0, initialPage.ToString().Length - 1)) + 1).ToString() : "1";
                     var data = db.sp_Employee_List(pageSize.ToString(), perPage, sortBy, sortDir, userType, userStatus, filter).ToList();
 
                     int i = 0;
@@ -1723,7 +1749,7 @@ namespace SAT.HR.Data.Repository
                         model.UeProjectName = item.UeProjectName;
                         model.UeRecDateText = (item.UeRecDate.HasValue) ? item.UeRecDate.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.PoName = item.PoName;
-                        model.FullPosition = item.DivName +"/"+ item.DepName+"/"+ item.PoName;
+                        model.FullPosition = item.DivName + "/" + item.DepName + "/" + item.PoName;
                         list.Add(model);
                     }
                 }

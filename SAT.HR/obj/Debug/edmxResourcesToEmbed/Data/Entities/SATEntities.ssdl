@@ -311,19 +311,19 @@
     <Key>
       <PropertyRef Name="CourseID" />
     </Key>
-    <Property Name="CourseID" Type="int" Nullable="false" />
+    <Property Name="CourseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="CourseNo" Type="nvarchar" MaxLength="50" />
     <Property Name="CourseTID" Type="int" />
     <Property Name="CourseName" Type="nvarchar" MaxLength="200" />
+    <Property Name="CourseDesc" Type="nvarchar" MaxLength="400" />
     <Property Name="DateFrom" Type="date" />
     <Property Name="DateTo" Type="date" />
-    <Property Name="CountryID" Type="int" />
     <Property Name="TrainerName" Type="nvarchar" MaxLength="200" />
-    <Property Name="Location" Type="nvarchar" MaxLength="200" />
     <Property Name="Certificate" Type="nvarchar" MaxLength="200" />
-    <Property Name="Remark" Type="nvarchar" MaxLength="500" />
-    <Property Name="PathFile" Type="nvarchar" MaxLength="500" />
-    <Property Name="Status" Type="int" />
+    <Property Name="Location" Type="nvarchar" MaxLength="400" />
+    <Property Name="CountryID" Type="int" />
+    <Property Name="PathFile" Type="nvarchar" MaxLength="400" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -417,6 +417,7 @@
     <Property Name="ResetYear" Type="bit" />
     <Property Name="LastMonth" Type="int" />
     <Property Name="LastYear" Type="int" />
+    <Property Name="Culture" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="tb_Document_Type">
     <Key>
@@ -1471,7 +1472,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Course' does not have a primary
     <Property Name="TrainerName" Type="nvarchar" MaxLength="200" />
     <Property Name="Location" Type="nvarchar" MaxLength="200" />
     <Property Name="Certificate" Type="nvarchar" MaxLength="200" />
-    <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+    <Property Name="CourseDesc" Type="nvarchar" MaxLength="500" />
     <Property Name="PathFile" Type="nvarchar" MaxLength="500" />
     <Property Name="Status" Type="int" />
     <Property Name="StatusName" Type="varchar" MaxLength="1" Nullable="false" />
@@ -1545,8 +1546,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Man_Power' does not have a prim
     <Property Name="SecID" Type="int" />
     <Property Name="SecName" Type="nvarchar" MaxLength="200" />
     <Property Name="PoID" Type="int" />
-    <Property Name="DisID" Type="int" />
+    <Property Name="PoCode" Type="nvarchar" MaxLength="200" />
     <Property Name="PoName" Type="nvarchar" MaxLength="200" />
+    <Property Name="DisID" Type="int" />
+    <Property Name="DisName" Type="nvarchar" MaxLength="200" />
     <Property Name="EduID" Type="int" />
     <Property Name="EduName" Type="nvarchar" MaxLength="200" />
     <Property Name="IDCard" Type="numeric" Precision="18" Scale="0" />
@@ -1554,7 +1557,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Man_Power' does not have a prim
     <Property Name="FullNameTh" Type="nvarchar" MaxLength="401" />
     <Property Name="FullNameEn" Type="nvarchar" MaxLength="401" />
     <Property Name="SalaryLevel" Type="int" />
-    <Property Name="SalaryStep" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="SalaryStep" Type="decimal" Precision="18" Scale="2" />
     <Property Name="Salary" Type="decimal" Precision="18" Scale="2" />
     <Property Name="TypeID" Type="int" />
   </EntityType>
@@ -1702,10 +1705,14 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Trainning_Course' does not have
     <Property Name="CourseNo" Type="nvarchar" MaxLength="50" />
     <Property Name="CourseName" Type="nvarchar" MaxLength="200" />
     <Property Name="UserID" Type="int" Nullable="false" />
-    <Property Name="FullName" Type="nvarchar" MaxLength="401" />
+    <Property Name="FullName" Type="nvarchar" MaxLength="501" />
+    <Property Name="MpID" Type="int" />
+    <Property Name="DivName" Type="nvarchar" MaxLength="200" />
+    <Property Name="DepName" Type="nvarchar" MaxLength="200" />
+    <Property Name="SecName" Type="nvarchar" MaxLength="200" />
+    <Property Name="PoName" Type="nvarchar" MaxLength="200" />
     <Property Name="PoID" Type="int" />
     <Property Name="PoCode" Type="nvarchar" MaxLength="200" />
-    <Property Name="PoName" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -3507,7 +3514,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Course].[TrainerName] AS [TrainerName], 
     [vw_Course].[Location] AS [Location], 
     [vw_Course].[Certificate] AS [Certificate], 
-    [vw_Course].[Remark] AS [Remark], 
+    [vw_Course].[CourseDesc] AS [CourseDesc], 
     [vw_Course].[PathFile] AS [PathFile], 
     [vw_Course].[Status] AS [Status], 
     [vw_Course].[StatusName] AS [StatusName], 
@@ -3572,8 +3579,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Man_Power].[SecID] AS [SecID], 
     [vw_Man_Power].[SecName] AS [SecName], 
     [vw_Man_Power].[PoID] AS [PoID], 
-    [vw_Man_Power].[DisID] AS [DisID], 
+    [vw_Man_Power].[PoCode] AS [PoCode], 
     [vw_Man_Power].[PoName] AS [PoName], 
+    [vw_Man_Power].[DisID] AS [DisID], 
+    [vw_Man_Power].[DisName] AS [DisName], 
     [vw_Man_Power].[EduID] AS [EduID], 
     [vw_Man_Power].[EduName] AS [EduName], 
     [vw_Man_Power].[IDCard] AS [IDCard], 
@@ -3702,9 +3711,13 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Trainning_Course].[CourseName] AS [CourseName], 
     [vw_Trainning_Course].[UserID] AS [UserID], 
     [vw_Trainning_Course].[FullName] AS [FullName], 
+    [vw_Trainning_Course].[MpID] AS [MpID], 
+    [vw_Trainning_Course].[DivName] AS [DivName], 
+    [vw_Trainning_Course].[DepName] AS [DepName], 
+    [vw_Trainning_Course].[SecName] AS [SecName], 
+    [vw_Trainning_Course].[PoName] AS [PoName], 
     [vw_Trainning_Course].[PoID] AS [PoID], 
-    [vw_Trainning_Course].[PoCode] AS [PoCode], 
-    [vw_Trainning_Course].[PoName] AS [PoName]
+    [vw_Trainning_Course].[PoCode] AS [PoCode]
     FROM [dbo].[vw_Trainning_Course] AS [vw_Trainning_Course]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vw_User" EntityType="Self.vw_User" store:Type="Views" store:Schema="dbo">

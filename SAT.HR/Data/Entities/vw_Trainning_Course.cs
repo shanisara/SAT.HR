@@ -19,8 +19,12 @@ namespace SAT.HR.Data.Entities
         public string CourseName { get; set; }
         public int UserID { get; set; }
         public string FullName { get; set; }
+        public Nullable<int> MpID { get; set; }
+        public string DivName { get; set; }
+        public string DepName { get; set; }
+        public string SecName { get; set; }
+        public string PoName { get; set; }
         public Nullable<int> PoID { get; set; }
         public string PoCode { get; set; }
-        public string PoName { get; set; }
     }
 }

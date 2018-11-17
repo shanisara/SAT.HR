@@ -102,8 +102,8 @@
                             {
                                 "render": function (data, type, row) {
                                     var inner = '<div class="td-actions text-right">' +
-                                                    '<button title="แสดงข้อมูล" type="button" class="btn btn-round btn-warning edit-Transfer" data-id="' + row.MopID +'"><i class="material-icons">search</i></button>&nbsp;&nbsp;' +
-                                                    '<button title="ลบ" type="button" class="btn btn-round btn-danger delete-Transfer" data-id="' + row.MopID + '"><i class="material-icons">close</i></button>' +
+                                                    '<button title="แสดงข้อมูล" type="button" class="btn btn-round btn-warning edit-transfer" data-id="' + row.MopID +'"><i class="material-icons">search</i></button>&nbsp;&nbsp;' +
+                                                    '<button title="ลบ" type="button" class="btn btn-round btn-danger delete-transfer" data-id="' + row.MopID + '"><i class="material-icons">close</i></button>' +
                                                 '</div>';
                                     return inner;
                                 }, "targets": 8
@@ -114,16 +114,15 @@
                         "pagingType": "full_numbers",
                     });
 
-                    dataTable.table.on('click', '.edit-Transfer', function () {
+                    dataTable.table.on('click', '.edit-transfer', function () {
                         var id = $(this).data("id");
                         var type = $('#usertype').val();
                         var url = '@Url.Action("PositionTransferDetail", "Employee")/' + id + '?type=' + type;
                         window.location.href = url;
                     });
 
-                    dataTable.table.on('click', '.delete-position', function () {
+                    dataTable.table.on('click', '.delete-transfer', function () {
                         var id = $(this).data("id");
-                        var type = $('#usertype').val();
                         swal({
                             title: '',
                             text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
@@ -135,7 +134,7 @@
                             cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
                             buttonsStyling: false
                         }).then(function () {
-                            var url = '@Url.Action("DeleteLevelTransfer", "Employee")/' + id + '?type=' + type;
+                            var url = '@Url.Action("DeletePositionTransfer", "Employee")/' + id;
                             $.ajax({
                                 type: 'POST',
                                 url: url,

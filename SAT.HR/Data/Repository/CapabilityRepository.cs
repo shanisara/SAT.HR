@@ -227,7 +227,8 @@ namespace SAT.HR.Data.Repository
                     CapYear = (int)s.CapYear,
                     CapName = s.CapYear + "/" + s.CapGName + "/" + s.CapGTName,
                 })
-                .OrderBy(x => x.CapName).ToList();
+                .OrderByDescending(m => new { m.CapYear, m.CapName })
+                .ToList();
 
                 if(year.HasValue)
                     list = list.Where(x => x.CapYear == year).ToList();

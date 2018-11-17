@@ -793,6 +793,23 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
+        public static List<SelectListItem> GetEmployeeNotSelected(int? defaultValue, int? userType, string userSelected)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new EmployeeRepository().GetUserNotInRole(userType, userSelected);
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.UserID.ToString();
+                select.Text = item.UserName;
+                select.Selected = defaultValue.HasValue ? (item.UserID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
         public static List<SelectListItem> GetDivisionManPower(int? type, int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
