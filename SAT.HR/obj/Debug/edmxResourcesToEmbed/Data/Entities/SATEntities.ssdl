@@ -1,5 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="SAT.HR.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="AALocation">
+          <Property Name="province" Type="nvarchar" MaxLength="255" />
+          <Property Name="district" Type="nvarchar" MaxLength="255" />
+          <Property Name="subdistrict" Type="nvarchar" MaxLength="255" />
+          <Property Name="zipcode" Type="float" />
+        </EntityType>-->
   <EntityType Name="tb_Accumulative_Fund">
     <Key>
       <PropertyRef Name="CuID" />
@@ -312,7 +320,7 @@
       <PropertyRef Name="CourseID" />
     </Key>
     <Property Name="CourseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="CourseNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="CourseNo" Type="nvarchar" MaxLength="100" />
     <Property Name="CourseTID" Type="int" />
     <Property Name="CourseName" Type="nvarchar" MaxLength="200" />
     <Property Name="CourseDesc" Type="nvarchar" MaxLength="400" />
@@ -919,9 +927,9 @@
     </Key>
     <Property Name="CourseID" Type="int" Nullable="false" />
     <Property Name="UserID" Type="int" Nullable="false" />
-    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateDate" Type="date" />
     <Property Name="CreateBy" Type="int" />
-    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyDate" Type="date" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
   <EntityType Name="tb_Training_Type">
@@ -1461,7 +1469,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Course' does not have a primary
       <PropertyRef Name="StatusName" />
     </Key>
     <Property Name="CourseID" Type="int" Nullable="false" />
-    <Property Name="CourseNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="CourseNo" Type="nvarchar" MaxLength="100" />
     <Property Name="CourseTID" Type="int" />
     <Property Name="CourseTName" Type="nvarchar" MaxLength="200" />
     <Property Name="CourseName" Type="nvarchar" MaxLength="200" />
@@ -1470,12 +1478,12 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Course' does not have a primary
     <Property Name="CountryID" Type="int" />
     <Property Name="CountryName" Type="nvarchar" MaxLength="200" />
     <Property Name="TrainerName" Type="nvarchar" MaxLength="200" />
-    <Property Name="Location" Type="nvarchar" MaxLength="200" />
+    <Property Name="Location" Type="nvarchar" MaxLength="400" />
     <Property Name="Certificate" Type="nvarchar" MaxLength="200" />
-    <Property Name="CourseDesc" Type="nvarchar" MaxLength="500" />
-    <Property Name="PathFile" Type="nvarchar" MaxLength="500" />
-    <Property Name="Status" Type="int" />
-    <Property Name="StatusName" Type="varchar" MaxLength="1" Nullable="false" />
+    <Property Name="CourseDesc" Type="nvarchar" MaxLength="400" />
+    <Property Name="PathFile" Type="nvarchar" MaxLength="400" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" />
+    <Property Name="StatusName" Type="varchar" MaxLength="11" Nullable="false" />
     <Property Name="Total" Type="int" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
@@ -1541,6 +1549,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Man_Power' does not have a prim
     <Property Name="DivID" Type="int" />
     <Property Name="UserID" Type="int" />
     <Property Name="DivName" Type="nvarchar" MaxLength="200" />
+    <Property Name="DivSeq" Type="int" />
     <Property Name="DepID" Type="int" />
     <Property Name="DepName" Type="nvarchar" MaxLength="200" />
     <Property Name="SecID" Type="int" />
@@ -1665,6 +1674,16 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Man_Power_Head' does not h
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Level' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Level">
+          <Property Name="Level" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Step' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Step">
+          <Property Name="Step" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Section">
@@ -2442,14 +2461,14 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_tb_Course_tb_Country">
-    <End Role="tb_Country" Type="Self.tb_Country" Multiplicity="1" />
-    <End Role="tb_Course" Type="Self.tb_Course" Multiplicity="0..1" />
+    <End Role="tb_Country" Type="Self.tb_Country" Multiplicity="0..1" />
+    <End Role="tb_Course" Type="Self.tb_Course" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="tb_Country">
         <PropertyRef Name="CountryID" />
       </Principal>
       <Dependent Role="tb_Course">
-        <PropertyRef Name="CourseID" />
+        <PropertyRef Name="CountryID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3574,6 +3593,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Man_Power].[DivID] AS [DivID], 
     [vw_Man_Power].[UserID] AS [UserID], 
     [vw_Man_Power].[DivName] AS [DivName], 
+    [vw_Man_Power].[DivSeq] AS [DivSeq], 
     [vw_Man_Power].[DepID] AS [DepID], 
     [vw_Man_Power].[DepName] AS [DepName], 
     [vw_Man_Power].[SecID] AS [SecID], 

@@ -241,10 +241,10 @@ namespace SAT.HR.Data.Repository
                         head.MtID = data.MtID;
                         head.MopYear = data.MopYear;
                         head.MopBookCmd = data.MopBookCmd;
-                        if (!string.IsNullOrEmpty(data.MopDateCmdText))
-                            head.MopDateCmd = Convert.ToDateTime(data.MopDateCmdText);
-                        if (!string.IsNullOrEmpty(data.MopDateEffText))
-                            head.MopDateEff = Convert.ToDateTime(data.MopDateEffText);
+                        if (data.MopDateCmd.HasValue)
+                            head.MopDateCmd = UtilityService.ConvertDate2Save(data.MopDateCmd);
+                        if (data.MopDateEff.HasValue)
+                            head.MopDateEff = UtilityService.ConvertDate2Save(data.MopDateEff);
                         head.MopSignatory = data.MopSignatory;
                         //head.MopStatus = data.MopStatus;
                         head.CreateBy = UtilityService.User.UserID;
@@ -325,10 +325,10 @@ namespace SAT.HR.Data.Repository
                         head.MtID = newdata.MtID;
                         head.MopYear = newdata.MopYear;
                         head.MopBookCmd = newdata.MopBookCmd;
-                        if (!string.IsNullOrEmpty(newdata.MopDateCmdText))
-                            head.MopDateCmd = Convert.ToDateTime(newdata.MopDateCmdText);
-                        if (!string.IsNullOrEmpty(newdata.MopDateEffText))
-                            head.MopDateEff = Convert.ToDateTime(newdata.MopDateEffText);
+                        if (newdata.MopDateCmd.HasValue)
+                            head.MopDateCmd = UtilityService.ConvertDate2Save(newdata.MopDateCmd);
+                        if (newdata.MopDateEff.HasValue)
+                            head.MopDateEff = UtilityService.ConvertDate2Save(newdata.MopDateEff);
                         head.MopSignatory = newdata.MopSignatory;
                         //head.MopStatus = newdata.MopStatus;
                         head.ModifyBy = UtilityService.User.UserID;

@@ -60,9 +60,9 @@
                                 <div class="col-sm-1 form-group">
                                     @Html.TextBoxFor(m => m.MlYear, new { @class = "form-control", required = "true" })
                                 </div>
-                                <label class="col-sm-1 col-form-label" for="MlDateCmdText">วันที่ลงคำสั่ง<span class="text-danger"> *</span> </label>
+                                <label class="col-sm-1 col-form-label" for="MlDateCmd">วันที่ลงคำสั่ง<span class="text-danger"> *</span> </label>
                                 <div class="col-sm-2 form-group">
-                                    @Html.TextBoxFor(m => m.MlDateCmdText, new { @class = "form-control datepicker", required = "true" })
+                                    @Html.TextBoxFor(m => m.MlDateCmd, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
                                 </div>
                                 <label class="col-sm-2 col-form-label" for="MlBookCmd">เลขที่หนังสือคำสั่ง<span class="text-danger"> *</span> </label>
                                 <div class="col-sm-5 form-group">
@@ -204,7 +204,7 @@
                     required: true,
                     minlength: 3,
                 },
-                MlDateCmdText: {
+                MlDateCmd: {
                     required: true,
                 }
             },
@@ -312,16 +312,15 @@
                     var newstep = $(this).data("newstep");
                     var oldlevel = $(this).data("oldlevel");
                     var remark = $(this).data("remark");
-                    $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].UserID' value= '" + userid + "' > ");
-                    $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlLevelOld' value= '" + oldlevel + "' > ");
-                    $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlStepOld' value= '" + oldstep + "' > ");
-                    $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlLevelNew' value= '" + newlevel + "' > ");
-                    $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlStepNew' value= '" + newstep + "' > ");
-                    $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MlRemark' value= '" + remark + "' > ");
+                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].UserID' value= '" + userid + "' > ");
+                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].MlLevelOld' value= '" + oldlevel + "' > ");
+                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].MlStepOld' value= '" + oldstep + "' > ");
+                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].MlLevelNew' value= '" + newlevel + "' > ");
+                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].MlStepNew' value= '" + newstep + "' > ");
+                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].MlRemark' value= '" + remark + "' > ");
                     qtd += 1;
                 });
 
-                debugger;
                 var form = $('.formDetail')[0];
                 var data = new FormData(form);
                 data.append(".fileUpload", fileUpload);
@@ -344,7 +343,8 @@
                                 confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
                                 buttonsStyling: false,
                             }).then(function () {
-                                $("#MlID").val(res.ID);
+                                if ($("#MlID").val() == 0)
+                                    $("#MlID").val(res.ID);
                                 if ($("#MIPathFile").val() != '') {
                                     $(".file-name").text($("#MIPathFile").val());
                                     $(".file-upload").hide();

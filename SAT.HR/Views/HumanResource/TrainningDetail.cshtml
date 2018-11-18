@@ -264,7 +264,7 @@
                                     '<td>' + fullname + '</td>' +
                                     '<td>' + poname + '</td>' +
                                     '<td>' + devname + '</td>' +
-                                    '<td><div class="td-actions text-right"><button type="button" class="btn btn-round btn-danger deleteRow" data-id="' + userid + '"><i class="material-icons">close</i></button></div></td>' +
+                                    '<td class="td-actions text-right"><button type="button" class="btn btn-round btn-danger deleteRow" data-id="' + userid + '"><i class="material-icons">close</i></button></td>' +
                                 '</tr>';
                     $('#datatables tbody').append(newrow);
 
@@ -365,7 +365,10 @@
                                     confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
                                     buttonsStyling: false,
                                 }).then(function () {
-
+                                    if ($('#CourseID').val() == 0) {
+                                        var url = '@Url.Action("TrainningDetail", "HumanResource")/' + res.ID;
+                                        window.location.href = url;
+                                    }
                                 });
                             }
                             else {

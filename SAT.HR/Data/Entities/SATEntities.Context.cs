@@ -49,6 +49,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Certificate> tb_Certificate { get; set; }
         public virtual DbSet<tb_Claim_Type> tb_Claim_Type { get; set; }
         public virtual DbSet<tb_Country> tb_Country { get; set; }
+        public virtual DbSet<tb_Course> tb_Course { get; set; }
         public virtual DbSet<tb_Cripple> tb_Cripple { get; set; }
         public virtual DbSet<tb_Cripple_Type> tb_Cripple_Type { get; set; }
         public virtual DbSet<tb_Degree> tb_Degree { get; set; }
@@ -151,7 +152,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Role> vw_User_Role { get; set; }
         public virtual DbSet<vw_User_Skill> vw_User_Skill { get; set; }
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
-        public virtual DbSet<tb_Course> tb_Course { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {

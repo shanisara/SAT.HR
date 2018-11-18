@@ -49,7 +49,7 @@ namespace SAT.HR.Data.Repository
                     int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
                     int length = pageSize ?? 10;
 
-                    int i = 1;
+                    int i = 0;
                     foreach (var item in data)
                     {
                         CourseViewModel model = new CourseViewModel();
@@ -185,36 +185,39 @@ namespace SAT.HR.Data.Repository
                             }
                         }
 
-                        //head.CourseNo = DocumentNumberRepository.GetNextNumber("COURSE");
-                        //head.CourseTID = data.CourseTID;
+                        head.CourseNo = DocumentNumberRepository.GetNextNumber("COURSE");
+                        head.CourseTID = data.CourseTID;
                         head.CourseName = data.CourseName;
-                        //head.CourseDesc = data.CourseDesc;
-                        //head.DateFrom = data.DateFrom;
-                        //head.DateTo = data.DateTo;
-                        //head.CountryID = data.CountryID;
-                        //head.TrainerName = data.TrainerName;
-                        //head.Location = data.Location;
-                        //head.Certificate = data.Certificate;
-                        //head.CreateBy = UtilityService.User.UserID;
-                        //head.CreateDate = DateTime.Now;
-                        //head.ModifyBy = UtilityService.User.UserID;
-                        //head.ModifyDate = DateTime.Now;
+                        head.CourseDesc = data.CourseDesc;
+                        head.DateFrom = data.DateFrom;
+                        head.DateTo = data.DateTo;
+                        head.CountryID = data.CountryID;
+                        head.TrainerName = data.TrainerName;
+                        head.Location = data.Location;
+                        head.Certificate = data.Certificate;
+                        head.CreateBy = UtilityService.User.UserID;
+                        head.CreateDate = DateTime.Now;
+                        head.ModifyBy = UtilityService.User.UserID;
+                        head.ModifyDate = DateTime.Now;
                         db.tb_Course.Add(head);
                         db.SaveChanges();
 
                         result.ID = head.CourseID;
 
-                        foreach (var item in data.ListTrainning)
+                        if (data.ListTrainning != null)
                         {
-                            tb_Training_Course detail = new tb_Training_Course();
-                            detail.CourseID = head.CourseID;
-                            detail.UserID = item.UserID;
-                            detail.CreateBy = UtilityService.User.UserID;
-                            detail.CreateDate = DateTime.Now;
-                            detail.ModifyBy = UtilityService.User.UserID;
-                            detail.ModifyDate = DateTime.Now;
-                            db.tb_Training_Course.Add(detail);
-                            db.SaveChanges();
+                            foreach (var item in data.ListTrainning)
+                            {
+                                tb_Training_Course detail = new tb_Training_Course();
+                                detail.CourseID = head.CourseID;
+                                detail.UserID = item.UserID;
+                                detail.CreateBy = UtilityService.User.UserID;
+                                detail.CreateDate = DateTime.Now;
+                                detail.ModifyBy = UtilityService.User.UserID;
+                                detail.ModifyDate = DateTime.Now;
+                                db.tb_Training_Course.Add(detail);
+                                db.SaveChanges();
+                            }
                         }
                         transection.Commit();
                     }
@@ -261,7 +264,7 @@ namespace SAT.HR.Data.Repository
                                 head.PathFile = newFileName;
                             }
                         }
-                        
+
                         head.CourseID = newdata.CourseID;
                         head.CourseTID = newdata.CourseTID;
                         head.CourseName = newdata.CourseName;

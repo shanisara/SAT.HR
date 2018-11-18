@@ -104,10 +104,20 @@ namespace SAT.HR.Helpers
             DateTime dateThai = Convert.ToDateTime(date.Value.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("th-TH")));
             return dateThai;
         }
+
         public static DateTime ConvertDateThai2Eng(DateTime? date)
         {
             DateTime dateEng = Convert.ToDateTime(date.Value.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("en-GB")));
             return dateEng;
+        }
+
+        public static DateTime ConvertDate2Save(DateTime? date)
+        {
+            int dd = date.Value.Day;
+            int mm = date.Value.Month;
+            int yy = date.Value.Year;
+            DateTime newDate = Convert.ToDateTime(yy + "/" + mm + "/" + dd, new System.Globalization.CultureInfo("en-GB"));
+            return newDate;
         }
     }
 

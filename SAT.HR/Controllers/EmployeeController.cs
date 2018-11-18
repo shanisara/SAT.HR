@@ -571,7 +571,7 @@ namespace SAT.HR.Controllers
 
         public ActionResult PositionRateDetail(int? id, int? type)
         {
-            var model = new PositionRateRepository().GetByID(id);
+            var model = new PositionRateRepository().GetByID(id, type);
             ViewBag.Division = DropDownList.GetDivision(model != null ? model.DivID : null, false);
             ViewBag.Department = DropDownList.GetDepartment(model != null ? model.DivID : null, model != null ? model.DepID: null, false);
             ViewBag.Section = DropDownList.GetSection(model != null ? model.DivID : null, model != null ? model.DepID: null, model != null ? model.SecID: null, false);

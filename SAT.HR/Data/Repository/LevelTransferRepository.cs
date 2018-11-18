@@ -212,8 +212,8 @@ namespace SAT.HR.Data.Repository
                         
                         head.MlYear = data.MlYear;
                         head.MlBookCmd = data.MlBookCmd;
-                        if (!string.IsNullOrEmpty(data.MlDateCmdText))
-                            head.MlDateCmd = Convert.ToDateTime(data.MlDateCmdText);
+                        if (data.MlDateCmd.HasValue)
+                            head.MlDateCmd = UtilityService.ConvertDate2Save(data.MlDateCmd);
                         head.MlSignatory = data.MlSignatory;
                         head.MlApproveStatus = data.MlApproveStatus;
                         head.CreateBy = UtilityService.User.UserID;
@@ -294,8 +294,8 @@ namespace SAT.HR.Data.Repository
                         head.MlID = newdata.MlID;
                         head.MlYear = newdata.MlYear;
                         head.MlBookCmd = newdata.MlBookCmd;
-                        if (!string.IsNullOrEmpty(newdata.MlDateCmdText))
-                            head.MlDateCmd = Convert.ToDateTime(newdata.MlDateCmdText);
+                        if (newdata.MlDateCmd.HasValue)
+                            head.MlDateCmd = UtilityService.ConvertDate2Save(newdata.MlDateCmd);
                         head.MlSignatory = newdata.MlSignatory;
                         //head.MlApproveStatus = newdata.MlApproveStatus;
                         head.ModifyBy = UtilityService.User.UserID;

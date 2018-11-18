@@ -807,18 +807,18 @@ namespace SAT.HR.Data.Repository
                     model.UfName = data.UfName;
                     model.UfCardID = data.UfCardID;
 
-                    if (Convert.ToDateTime(data.UfDOB) > DateTime.MinValue)
-                        model.UfDOB = Convert.ToDateTime(data.UfDOB);
+                    if (data.UfDOB.HasValue)
+                        model.UfDOB = UtilityService.ConvertDate2Save(data.UfDOB);
 
                     model.UfLifeStatus = data.UfLifeStatus;
                     model.TdStatus = data.TdStatus;
                     model.PoID = data.PoID;
 
-                    if (Convert.ToDateTime(data.UfWeddingDate) > DateTime.MinValue)
-                        model.UfWeddingDate = Convert.ToDateTime(data.UfWeddingDate);
+                    if (data.UfWeddingDate.HasValue)
+                        model.UfWeddingDate = UtilityService.ConvertDate2Save(data.UfWeddingDate);
 
-                    if (Convert.ToDateTime(data.DivorceDate) > DateTime.MinValue)
-                        model.DivorceDate = Convert.ToDateTime(data.DivorceDate);
+                    if (data.DivorceDate.HasValue)
+                        model.DivorceDate = UtilityService.ConvertDate2Save(data.DivorceDate);
 
                     model.MaritalStatusID = data.MaritalStatusID;
                     model.UfStudyStatus = data.UfStudyStatus;
@@ -851,18 +851,18 @@ namespace SAT.HR.Data.Repository
                     model.UfName = newdata.UfName;
                     model.UfCardID = newdata.UfCardID;
 
-                    if (Convert.ToDateTime(newdata.UfDOB) > DateTime.MinValue)
-                        model.UfDOB = Convert.ToDateTime(newdata.UfDOB);
+                    if (newdata.UfDOB.HasValue)
+                        model.UfDOB = UtilityService.ConvertDate2Save(newdata.UfDOB);
 
                     model.UfLifeStatus = newdata.UfLifeStatus;
                     model.TdStatus = newdata.TdStatus;
                     model.PoID = newdata.PoID;
 
-                    if (Convert.ToDateTime(newdata.UfWeddingDate) > DateTime.MinValue)
-                        model.UfWeddingDate = Convert.ToDateTime(newdata.UfWeddingDate);
+                    if (newdata.UfWeddingDate.HasValue)
+                        model.UfWeddingDate = UtilityService.ConvertDate2Save(newdata.UfWeddingDate);
 
-                    if (Convert.ToDateTime(newdata.DivorceDate) > DateTime.MinValue)
-                        model.DivorceDate = Convert.ToDateTime(newdata.DivorceDate);
+                    if (newdata.DivorceDate.HasValue)
+                        model.DivorceDate = UtilityService.ConvertDate2Save(newdata.DivorceDate);
 
                     model.MaritalStatusID = newdata.MaritalStatusID;
                     model.UfStudyStatus = newdata.UfStudyStatus;
@@ -999,8 +999,8 @@ namespace SAT.HR.Data.Repository
                     model.MajID = data.MajID;
                     model.UeInstituteName = data.UeInstituteName;
                     model.CountryID = data.CountryID;
-                    if (Convert.ToDateTime(data.UeGraduationDateText) > DateTime.MinValue)
-                        model.UeGraduationDate = Convert.ToDateTime(data.UeGraduationDateText);
+                    if (data.UeGraduationDate.HasValue)
+                        model.UeGraduationDate = UtilityService.ConvertDate2Save(data.UeGraduationDate);
                     model.UeGPA = data.UeGPA;
                     model.UeEduOfficial = data.UeEduOfficial;
                     model.UeEduOfficialLevel = data.UeEduOfficialLevel;
@@ -1033,8 +1033,8 @@ namespace SAT.HR.Data.Repository
                     model.MajID = newdata.MajID;
                     model.UeInstituteName = newdata.UeInstituteName;
                     model.CountryID = newdata.CountryID;
-                    if (Convert.ToDateTime(newdata.UeGraduationDateText) > DateTime.MinValue)
-                        model.UeGraduationDate = Convert.ToDateTime(newdata.UeGraduationDateText);
+                    if (newdata.UeGraduationDate.HasValue)
+                        model.UeGraduationDate = UtilityService.ConvertDate2Save(newdata.UeGraduationDate);
                     model.UeGPA = newdata.UeGPA;
                     model.UeEduOfficial = newdata.UeEduOfficial;
                     model.UeEduOfficialLevel = newdata.UeEduOfficialLevel;
@@ -1167,6 +1167,8 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
+                    tb_User_Position model = new tb_User_Position();
+
                     if (fileUpload != null && fileUpload.ContentLength > 0)
                     {
                         var fileName = Path.GetFileName(fileUpload.FileName);
@@ -1182,10 +1184,9 @@ namespace SAT.HR.Data.Repository
 
                         fileUpload.SaveAs(fileLocation);
 
-                        data.UpPathFile = newFileName;
+                        model.UpPathFile = newFileName;
                     }
-
-                    tb_User_Position model = new tb_User_Position();
+                    
                     model.UserID = data.UserID;
                     model.ActID = data.ActID;
                     model.UpCmd = data.UpCmd;
@@ -1197,12 +1198,12 @@ namespace SAT.HR.Data.Repository
                     model.PoAID = data.PoAID;
                     model.UpLevel = data.UpLevel;
                     model.UpSalary = data.UpSalary;
-                    if (Convert.ToDateTime(data.UpCmdDateText) > DateTime.MinValue)
-                        model.UpCmdDate = Convert.ToDateTime(data.UpCmdDateText);
-                    if (Convert.ToDateTime(data.UpForceDateText) > DateTime.MinValue)
-                        model.UpForceDate = Convert.ToDateTime(data.UpForceDateText);
+                    if(data.UpCmdDate.HasValue)
+                        model.UpCmdDate = UtilityService.ConvertDate2Save(data.UpCmdDate);
+                    if (data.UpForceDate.HasValue)
+                        model.UpForceDate = UtilityService.ConvertDate2Save(data.UpForceDate);
                     model.UpRemark = data.UpRemark;
-                    model.UpPathFile = data.UpPathFile;
+                    //model.UpPathFile = data.UpPathFile;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -1226,6 +1227,8 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
+                    var model = db.tb_User_Position.Single(x => x.UserID == newdata.UserID && x.UpID == newdata.UpID);
+
                     if (fileUpload != null && fileUpload.ContentLength > 0)
                     {
                         var fileName = Path.GetFileName(fileUpload.FileName);
@@ -1241,10 +1244,9 @@ namespace SAT.HR.Data.Repository
 
                         fileUpload.SaveAs(fileLocation);
 
-                        newdata.UpPathFile = newFileName;
+                        model.UpPathFile = newFileName;
                     }
-
-                    var model = db.tb_User_Position.Single(x => x.UserID == newdata.UserID && x.UpID == newdata.UpID);
+                    
                     model.ActID = newdata.ActID;
                     model.UpCmd = newdata.UpCmd;
                     model.PoTID = newdata.PoTID;
@@ -1255,12 +1257,12 @@ namespace SAT.HR.Data.Repository
                     model.PoAID = newdata.PoAID;
                     model.UpLevel = newdata.UpLevel;
                     model.UpSalary = newdata.UpSalary;
-                    if (Convert.ToDateTime(newdata.UpCmdDateText) > DateTime.MinValue)
-                        model.UpCmdDate = Convert.ToDateTime(newdata.UpCmdDateText);
-                    if (Convert.ToDateTime(newdata.UpForceDateText) > DateTime.MinValue)
-                        model.UpForceDate = Convert.ToDateTime(newdata.UpForceDateText);
+                    if (newdata.UpCmdDate.HasValue)
+                        model.UpCmdDate = UtilityService.ConvertDate2Save(newdata.UpCmdDate);
+                    if (newdata.UpForceDate.HasValue)
+                        model.UpForceDate = UtilityService.ConvertDate2Save(newdata.UpForceDate);
                     model.UpRemark = newdata.UpRemark;
-                    model.UpPathFile = newdata.UpPathFile;
+                    //model.UpPathFile = newdata.UpPathFile;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
@@ -1415,10 +1417,10 @@ namespace SAT.HR.Data.Repository
                     model.TtID = data.TtID;
                     model.CountryID = data.CountryID;
                     model.UtCourse = data.UtCourse;
-                    if (Convert.ToDateTime(data.UtStartDateText) > DateTime.MinValue)
-                        model.UtStartDate = Convert.ToDateTime(data.UtStartDateText);
-                    if (Convert.ToDateTime(data.UtEndDateText) > DateTime.MinValue)
-                        model.UtEndDate = Convert.ToDateTime(data.UtEndDateText);
+                    if (data.UtStartDate.HasValue)
+                        model.UtStartDate = UtilityService.ConvertDate2Save(data.UtStartDate);
+                    if (data.UtEndDate.HasValue)
+                        model.UtEndDate = UtilityService.ConvertDate2Save(data.UtEndDate);
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -1446,10 +1448,10 @@ namespace SAT.HR.Data.Repository
                     model.TtID = newdata.TtID;
                     model.CountryID = newdata.CountryID;
                     model.UtCourse = newdata.UtCourse;
-                    if (Convert.ToDateTime(newdata.UtStartDateText) > DateTime.MinValue)
-                        model.UtStartDate = Convert.ToDateTime(newdata.UtStartDateText);
-                    if (Convert.ToDateTime(newdata.UtEndDateText) > DateTime.MinValue)
-                        model.UtEndDate = Convert.ToDateTime(newdata.UtEndDateText);
+                    if (newdata.UtStartDate.HasValue)
+                        model.UtStartDate = UtilityService.ConvertDate2Save(newdata.UtStartDate);
+                    if (newdata.UtEndDate.HasValue)
+                        model.UtEndDate = UtilityService.ConvertDate2Save(newdata.UtEndDate);
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
@@ -1572,6 +1574,8 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
+                    tb_User_Insignia model = new tb_User_Insignia();
+
                     if (fileUpload != null && fileUpload.ContentLength > 0)
                     {
                         var fileName = Path.GetFileName(fileUpload.FileName);
@@ -1587,10 +1591,9 @@ namespace SAT.HR.Data.Repository
 
                         fileUpload.SaveAs(fileLocation);
 
-                        data.UiPartFile = newFileName;
+                        model.UiPartFile = newFileName;
                     }
-
-                    tb_User_Insignia model = new tb_User_Insignia();
+                    
                     model.UiID = data.UiID;
                     model.UserID = data.UserID;
                     model.InsID = data.InsID;
@@ -1598,12 +1601,12 @@ namespace SAT.HR.Data.Repository
                     model.UiBook = data.UiBook;
                     model.UiPart = data.UiPart;
                     model.UiPage = data.UiPage;
-                    if (Convert.ToDateTime(data.UiRecDateText) > DateTime.MinValue)
-                        model.UiRecDate = Convert.ToDateTime(data.UiRecDateText);
-                    if (Convert.ToDateTime(data.UiRetDateText) > DateTime.MinValue)
-                        model.UiRetDate = Convert.ToDateTime(data.UiRetDateText);
+                    if (data.UiRecDate.HasValue)
+                        model.UiRecDate = UtilityService.ConvertDate2Save(data.UiRecDate);
+                    if (data.UiRetDate.HasValue)
+                        model.UiRetDate = UtilityService.ConvertDate2Save(data.UiRetDate);
                     model.UiCmd = data.UiCmd;
-                    model.UiPartFile = data.UiPartFile;
+                    //model.UiPartFile = data.UiPartFile;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -1626,6 +1629,8 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
+                    var model = db.tb_User_Insignia.Single(x => x.UserID == newdata.UserID && x.UiID == newdata.UiID);
+
                     if (fileUpload != null && fileUpload.ContentLength > 0)
                     {
                         var fileName = Path.GetFileName(fileUpload.FileName);
@@ -1644,18 +1649,17 @@ namespace SAT.HR.Data.Repository
                         newdata.UiPartFile = newFileName;
                     }
 
-                    var model = db.tb_User_Insignia.Single(x => x.UserID == newdata.UserID && x.UiID == newdata.UiID);
                     model.InsID = newdata.InsID;
                     model.UiYear = newdata.UiYear;
                     model.UiBook = newdata.UiBook;
                     model.UiPart = newdata.UiPart;
                     model.UiPage = newdata.UiPage;
-                    if (Convert.ToDateTime(newdata.UiRecDateText) > DateTime.MinValue)
-                        model.UiRecDate = Convert.ToDateTime(newdata.UiRecDateText);
-                    if (Convert.ToDateTime(newdata.UiRetDateText) > DateTime.MinValue)
-                        model.UiRetDate = Convert.ToDateTime(newdata.UiRetDateText);
+                    if (newdata.UiRecDate.HasValue)
+                        model.UiRecDate = UtilityService.ConvertDate2Save(newdata.UiRecDate);
+                    if (newdata.UiRetDate.HasValue)
+                        model.UiRetDate = UtilityService.ConvertDate2Save(newdata.UiRetDate);
                     model.UiCmd = newdata.UiCmd;
-                    model.UiPartFile = newdata.UiPartFile;
+                    //model.UiPartFile = newdata.UiPartFile;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
@@ -1806,8 +1810,8 @@ namespace SAT.HR.Data.Repository
                     model.UserID = data.UserID;
                     model.ExTID = data.ExTID;
                     model.UeProjectName = data.UeProjectName;
-                    if (Convert.ToDateTime(data.UeRecDateText) > DateTime.MinValue)
-                        model.UeRecDate = Convert.ToDateTime(data.UeRecDateText);
+                    if (data.UeRecDate.HasValue)
+                        model.UeRecDate = UtilityService.ConvertDate2Save(data.UeRecDate);
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -1835,8 +1839,8 @@ namespace SAT.HR.Data.Repository
                     model.UeID = newdata.UeID;
                     model.ExTID = newdata.ExTID;
                     model.UeProjectName = newdata.UeProjectName;
-                    if (Convert.ToDateTime(newdata.UeRecDateText) > DateTime.MinValue)
-                        model.UeRecDate = Convert.ToDateTime(newdata.UeRecDateText);
+                    if (newdata.UeRecDate.HasValue)
+                        model.UeRecDate = UtilityService.ConvertDate2Save(newdata.UeRecDate);
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
@@ -1949,8 +1953,8 @@ namespace SAT.HR.Data.Repository
                     model.UcID = data.UcID;
                     model.UserID = data.UserID;
                     model.CerId = data.CerId;
-                    if (Convert.ToDateTime(data.UcRecDateText) > DateTime.MinValue)
-                        model.UcRecDate = Convert.ToDateTime(data.UcRecDateText);
+                    if (data.UcRecDate.HasValue)
+                        model.UcRecDate = UtilityService.ConvertDate2Save(data.UcRecDate);
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -1976,8 +1980,8 @@ namespace SAT.HR.Data.Repository
                 {
                     var model = db.tb_User_Certificate.Single(x => x.UserID == newdata.UserID && x.UcID == newdata.UcID);
                     model.CerId = newdata.CerId;
-                    if (Convert.ToDateTime(newdata.UcRecDateText) > DateTime.MinValue)
-                        model.UcRecDate = Convert.ToDateTime(newdata.UcRecDateText);
+                    if (newdata.UcRecDate.HasValue)
+                        model.UcRecDate = UtilityService.ConvertDate2Save(newdata.UcRecDate);
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
@@ -2130,8 +2134,8 @@ namespace SAT.HR.Data.Repository
                     model.NewLastNameTh = data.NewLastNameTh;
                     model.NewFirstNameEn = data.NewFirstNameEn;
                     model.NewLastNameEn = data.NewLastNameEn;
-                    if (Convert.ToDateTime(data.UhEditDateText) > DateTime.MinValue)
-                        model.UhEditDate = Convert.ToDateTime(data.UhEditDateText);
+                    if (data.UhEditDate.HasValue)
+                        model.UhEditDate = UtilityService.ConvertDate2Save(data.UhEditDate);
                     model.Remark = data.Remark;
                     model.UhStatus = data.UhStatus;
                     model.CreateBy = UtilityService.User.UserID;
@@ -2168,8 +2172,8 @@ namespace SAT.HR.Data.Repository
                 try
                 {
                     var model = db.tb_User_History.Single(x => x.UserID == newdata.UserID && x.UhID == newdata.UhID);
-                    if (Convert.ToDateTime(newdata.UhEditDateText) > DateTime.MinValue)
-                        model.UhEditDate = Convert.ToDateTime(newdata.UhEditDateText);
+                    if (newdata.UhEditDate.HasValue)
+                        model.UhEditDate = UtilityService.ConvertDate2Save(newdata.UhEditDate);
                     model.NewTiID = newdata.NewTiID;
                     model.NewFirstNameTh = newdata.NewFirstNameTh;
                     model.NewLastNameTh = newdata.NewLastNameTh;

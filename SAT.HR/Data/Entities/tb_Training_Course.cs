@@ -21,7 +21,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
     
-        public virtual tb_User tb_User { get; set; }
         public virtual tb_Course tb_Course { get; set; }
+        public virtual tb_User tb_User { get; set; }
     }
 }

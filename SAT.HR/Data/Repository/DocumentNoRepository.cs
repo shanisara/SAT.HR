@@ -122,6 +122,7 @@ namespace SAT.HR.Data.Repository
             intCurrentNum++;
 
             DocumentNumberViewModel model = new DocumentNumberViewModel();
+            model.DocCode = code;
             model.CurrentNum = intCurrentNum;
             model.LastYear = LastYear;
             model.LastMonth = LastMonth;

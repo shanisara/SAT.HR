@@ -83,11 +83,11 @@
                                 </div>
                                 <label class="col-sm-2 col-form-label" for="MlDateCmdText">วันที่ลงคำสั่ง<span class="text-danger"> *</span> </label>
                                 <div class="col-sm-2">
-                                    @Html.TextBoxFor(m => m.MopDateCmdText, new { @class = "form-control datepicker", required = "true" })
+                                    @Html.TextBoxFor(m => m.MopDateCmd, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
                                 </div>
                                 @Html.Label("วันที่มีผล: ", null, new { @class = "col-sm-2 col-form-label" })
                                 <div class="col-sm-2">
-                                    @Html.TextBoxFor(m => m.MopDateEffText, new { @class = "form-control datepicker" })
+                                    @Html.TextBoxFor(m => m.MopDateEff, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
                                 </div>
                             </div>
                             <div class="row m-t-10">
@@ -375,7 +375,8 @@
                                 confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
                                 buttonsStyling: false,
                             }).then(function () {
-                                $('#MopID').val(res.ID);
+                                if ($("#MopID").val() == 0)
+                                    $("#MopID").val(res.ID);
                                 if ($("#MopPathFile").val() != '') {
                                     $(".file-name").text($("#MopPathFile").val());
                                     $(".file-upload").hide();
