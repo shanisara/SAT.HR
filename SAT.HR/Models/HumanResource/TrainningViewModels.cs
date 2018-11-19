@@ -10,8 +10,11 @@ namespace SAT.HR.Models
         public int RowNumber { get; set; }
         public int CourseID { get; set; }
         public int UserID { get; set; }
-        public int FullName { get; set; }
-        public int PositionName { get; set; }
+        public string FullName { get; set; }
+        public string DivName { get; set; }
+        public string DepName { get; set; }
+        public string SecName { get; set; }
+        public string PoName { get; set; }
     }
 
     public class TrainingTypeViewModel

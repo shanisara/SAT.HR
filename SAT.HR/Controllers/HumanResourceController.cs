@@ -169,16 +169,17 @@ namespace SAT.HR.Controllers
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult DeleteTraining(int id)
+        {
+            var result = new TrainningRepository().DeleteCourseTrainning(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
         public ActionResult CourseTrainningDetail(int? id)
         {
             var model = new TrainningRepository().GetByID(id);
             return View(model);
-        }
-
-        public ActionResult CourseTrainningDetailByID(int? id)
-        {
-            var model = new TrainningRepository().GetByID(id);
-            return PartialView("_TrainningDetail", model);
         }
 
         public JsonResult SaveCourseTrainning(CourseViewModel data)
@@ -200,9 +201,9 @@ namespace SAT.HR.Controllers
             return new FilePathResult(Path.Combine(filePath, fileName), contentType);
         }
 
-        public ActionResult GetEmployee()
+        public ActionResult GetUserTrainning(string user)
         {
-            ViewBag.Employee = DropDownList.GetEmployee(null, 1);
+            ViewBag.Employee = DropDownList.GetEmployeeNotSelected(null, null, user);
             return PartialView("_TrainningDetail");
         }
 

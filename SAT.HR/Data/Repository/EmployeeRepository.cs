@@ -147,6 +147,32 @@ namespace SAT.HR.Data.Repository
             return result;
         }
 
+        public List<UserProfile> GetUserNotInRole(int? userType, string userSelected)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                string[] badCodes = userSelected.Split(',');
+
+                var result = db.vw_Employee.Where(x => x.StatusID == 1 && x.IsActive == true)
+                            .Select(s => new UserProfile()
+                            {
+                                UserID = s.UserID,
+                                UserName = s.TiShortName + "" + s.FullNameTh
+                            }).ToList();
+
+                if(userType != null)
+                    result = result.Where(x => x.UserTypeID == userType).ToList();
+
+                if (badCodes.Length > 0 && !string.IsNullOrEmpty(badCodes[0]))
+                {
+                    var blackList = result.Where(s => badCodes.Contains(s.UserID.ToString()));
+                    result = result.Except(blackList).ToList();
+                }
+
+                return result;
+            }
+        }
+
         #endregion
 
         #region 1.1 Tab: User-Employee
@@ -161,7 +187,7 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
                     sortBy = (sortBy == "RowNumber") ? "DivSeq" : sortBy;
-                    string perPage = initialPage.HasValue ? Convert.ToInt32(initialPage) == 0 ? "1" : initialPage.ToString() : "1";
+                    string perPage = initialPage.HasValue ? Convert.ToInt32(initialPage) == 0 ? "1" : (Convert.ToInt32(initialPage.ToString().Substring(0, initialPage.ToString().Length - 1)) + 1).ToString() : "1";
                     var data = db.sp_Employee_List(pageSize.ToString(), perPage, sortBy, sortDir, userType, userStatus, filter).ToList();
 
                     int i = 0;
@@ -244,11 +270,16 @@ namespace SAT.HR.Data.Repository
                     model.FullNameTh = data.FirstNameTh + " " + data.LastNameTh;
                     model.CrpID = data.CrpID;
                     model.CrpTID = data.CrpTID;
+                    model.ResignID = data.ResignID;
+                    model.ResignDate = data.ResignDate;
+                    model.ResignRemark = data.ResignRemark;
 
                     model.DivID = data.DivID;
                     model.DepID = data.DepID;
                     model.SecID = data.SecID;
                     model.PoID = data.PoID;
+                    model.ProjectNo = data.ProjectNo;
+                    model.ProjectName = data.ProjectName;
                     model.SalaryLevel = data.SalaryLevel;
                     model.SalaryStep = data.SalaryStep;
                     model.Salary = data.Salary.HasValue ? (decimal)data.Salary : 0;
@@ -285,6 +316,10 @@ namespace SAT.HR.Data.Repository
                     model.Email = data.Email;
                     model.ContactName = data.ContactName;
                     model.ContactPhone = data.ContactPhone;
+
+                    model.IsGPALower250 = data.IsGPALower250;
+                    model.IsToeicLower300 = data.IsToeicLower300;
+                    model.IsAgeOver35 = data.IsAgeOver35;
 
                     //model.CreateDate = data.CreateDate;
                     //model.CreateBy = data.CreateBy;
@@ -366,6 +401,9 @@ namespace SAT.HR.Data.Repository
                     model.CardScan = data.CardScan;
                     model.CrpID = data.CrpID;
                     model.CrpTID = data.CrpTID;
+                    model.ResignID = data.ResignID;
+                    model.ResignDate = data.ResignDate;
+                    model.ResignRemark = data.ResignRemark;
 
                     model.HomeAddr = data.HomeAddr;
                     model.HomeSubDistrictID = data.HomeSubDistrictID;
@@ -386,6 +424,11 @@ namespace SAT.HR.Data.Repository
 
                     model.Avatar = data.Avatar;
                     model.IsActive = data.IsActive;
+
+                    model.IsGPALower250 = data.IsGPALower250;
+                    model.IsToeicLower300 = data.IsToeicLower300;
+                    model.IsAgeOver35 = data.IsAgeOver35;
+
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -461,6 +504,9 @@ namespace SAT.HR.Data.Repository
                         model.CardScan = newdata.CardScan;
                         model.CrpID = newdata.CrpID;
                         model.CrpTID = newdata.CrpTID;
+                        model.ResignID = newdata.ResignID;
+                        model.ResignDate = newdata.ResignDate;
+                        model.ResignRemark = newdata.ResignRemark;
 
                         model.SalaryLevel = newdata.SalaryLevel;
                         model.SalaryStep = newdata.SalaryStep;
@@ -493,8 +539,10 @@ namespace SAT.HR.Data.Repository
                         model.ContactName = newdata.ContactName;
                         model.ContactPhone = newdata.ContactPhone;
 
-                        //model.Avatar = newdata.Avatar;
-                        //model.IsActive = newdata.IsActive;
+                        model.IsGPALower250 = newdata.IsGPALower250;
+                        model.IsToeicLower300 = newdata.IsToeicLower300;
+                        model.IsAgeOver35 = newdata.IsAgeOver35;
+
                         model.ModifyBy = UtilityService.User.UserID;
                         model.ModifyDate = DateTime.Now;
                         db.SaveChanges();
@@ -721,8 +769,8 @@ namespace SAT.HR.Data.Repository
                     model.UserID = obj.UserID;
                     model.UfName = obj.UfName;
                     model.UfCardID = obj.UfCardID;
-                    if (obj.UfDOB != null)
-                        model.UfDOBText = Convert.ToDateTime(obj.UfDOB).ToString("dd/MM/yyyy");
+                    model.UfDOB = obj.UfDOB;
+                    model.UfDOBText = (obj.UfDOB != null) ? Convert.ToDateTime(obj.UfDOB).ToString("dd/MM/yyyy") : string.Empty;
                     model.UfLifeStatus = obj.UfLifeStatus;
                     model.TdStatus = obj.TdStatus;
                     model.PoID = obj.PoID;
@@ -758,15 +806,20 @@ namespace SAT.HR.Data.Repository
                     model.UserID = data.UserID;
                     model.UfName = data.UfName;
                     model.UfCardID = data.UfCardID;
-                    if (Convert.ToDateTime(data.UfDOBText) > DateTime.MinValue)
-                        model.UfDOB = Convert.ToDateTime(data.UfDOBText);
+
+                    if (data.UfDOB.HasValue)
+                        model.UfDOB = UtilityService.ConvertDate2Save(data.UfDOB);
+
                     model.UfLifeStatus = data.UfLifeStatus;
                     model.TdStatus = data.TdStatus;
                     model.PoID = data.PoID;
-                    if (Convert.ToDateTime(data.UfWeddingDateText) > DateTime.MinValue)
-                        model.UfWeddingDate = Convert.ToDateTime(data.UfWeddingDateText);
-                    if (Convert.ToDateTime(data.DivorceDateText) > DateTime.MinValue)
-                        model.DivorceDate = Convert.ToDateTime(data.DivorceDateText);
+
+                    if (data.UfWeddingDate.HasValue)
+                        model.UfWeddingDate = UtilityService.ConvertDate2Save(data.UfWeddingDate);
+
+                    if (data.DivorceDate.HasValue)
+                        model.DivorceDate = UtilityService.ConvertDate2Save(data.DivorceDate);
+
                     model.MaritalStatusID = data.MaritalStatusID;
                     model.UfStudyStatus = data.UfStudyStatus;
                     model.OcID = data.OcID;
@@ -797,15 +850,20 @@ namespace SAT.HR.Data.Repository
                     var model = db.tb_User_Family.Single(x => x.UserID == newdata.UserID && x.UfID == newdata.UfID);
                     model.UfName = newdata.UfName;
                     model.UfCardID = newdata.UfCardID;
-                    if (Convert.ToDateTime(newdata.UfDOB) > DateTime.MinValue)
-                        model.UfDOB = Convert.ToDateTime(newdata.UfDOBText);
+
+                    if (newdata.UfDOB.HasValue)
+                        model.UfDOB = UtilityService.ConvertDate2Save(newdata.UfDOB);
+
                     model.UfLifeStatus = newdata.UfLifeStatus;
                     model.TdStatus = newdata.TdStatus;
                     model.PoID = newdata.PoID;
-                    if (Convert.ToDateTime(newdata.UfWeddingDateText) > DateTime.MinValue)
-                        model.UfWeddingDate = Convert.ToDateTime(newdata.UfWeddingDateText);
-                    if (Convert.ToDateTime(newdata.DivorceDateText) > DateTime.MinValue)
-                        model.DivorceDate = Convert.ToDateTime(newdata.DivorceDateText);
+
+                    if (newdata.UfWeddingDate.HasValue)
+                        model.UfWeddingDate = UtilityService.ConvertDate2Save(newdata.UfWeddingDate);
+
+                    if (newdata.DivorceDate.HasValue)
+                        model.DivorceDate = UtilityService.ConvertDate2Save(newdata.DivorceDate);
+
                     model.MaritalStatusID = newdata.MaritalStatusID;
                     model.UfStudyStatus = newdata.UfStudyStatus;
                     model.OcID = newdata.OcID;
@@ -941,8 +999,8 @@ namespace SAT.HR.Data.Repository
                     model.MajID = data.MajID;
                     model.UeInstituteName = data.UeInstituteName;
                     model.CountryID = data.CountryID;
-                    if (Convert.ToDateTime(data.UeGraduationDateText) > DateTime.MinValue)
-                        model.UeGraduationDate = Convert.ToDateTime(data.UeGraduationDateText);
+                    if (data.UeGraduationDate.HasValue)
+                        model.UeGraduationDate = UtilityService.ConvertDate2Save(data.UeGraduationDate);
                     model.UeGPA = data.UeGPA;
                     model.UeEduOfficial = data.UeEduOfficial;
                     model.UeEduOfficialLevel = data.UeEduOfficialLevel;
@@ -975,8 +1033,8 @@ namespace SAT.HR.Data.Repository
                     model.MajID = newdata.MajID;
                     model.UeInstituteName = newdata.UeInstituteName;
                     model.CountryID = newdata.CountryID;
-                    if (Convert.ToDateTime(newdata.UeGraduationDateText) > DateTime.MinValue)
-                        model.UeGraduationDate = Convert.ToDateTime(newdata.UeGraduationDateText);
+                    if (newdata.UeGraduationDate.HasValue)
+                        model.UeGraduationDate = UtilityService.ConvertDate2Save(newdata.UeGraduationDate);
                     model.UeGPA = newdata.UeGPA;
                     model.UeEduOfficial = newdata.UeEduOfficial;
                     model.UeEduOfficialLevel = newdata.UeEduOfficialLevel;
@@ -1109,6 +1167,8 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
+                    tb_User_Position model = new tb_User_Position();
+
                     if (fileUpload != null && fileUpload.ContentLength > 0)
                     {
                         var fileName = Path.GetFileName(fileUpload.FileName);
@@ -1124,10 +1184,9 @@ namespace SAT.HR.Data.Repository
 
                         fileUpload.SaveAs(fileLocation);
 
-                        data.UpPathFile = newFileName;
+                        model.UpPathFile = newFileName;
                     }
-
-                    tb_User_Position model = new tb_User_Position();
+                    
                     model.UserID = data.UserID;
                     model.ActID = data.ActID;
                     model.UpCmd = data.UpCmd;
@@ -1139,12 +1198,12 @@ namespace SAT.HR.Data.Repository
                     model.PoAID = data.PoAID;
                     model.UpLevel = data.UpLevel;
                     model.UpSalary = data.UpSalary;
-                    if (Convert.ToDateTime(data.UpCmdDateText) > DateTime.MinValue)
-                        model.UpCmdDate = Convert.ToDateTime(data.UpCmdDateText);
-                    if (Convert.ToDateTime(data.UpForceDateText) > DateTime.MinValue)
-                        model.UpForceDate = Convert.ToDateTime(data.UpForceDateText);
+                    if(data.UpCmdDate.HasValue)
+                        model.UpCmdDate = UtilityService.ConvertDate2Save(data.UpCmdDate);
+                    if (data.UpForceDate.HasValue)
+                        model.UpForceDate = UtilityService.ConvertDate2Save(data.UpForceDate);
                     model.UpRemark = data.UpRemark;
-                    model.UpPathFile = data.UpPathFile;
+                    //model.UpPathFile = data.UpPathFile;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -1168,6 +1227,8 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
+                    var model = db.tb_User_Position.Single(x => x.UserID == newdata.UserID && x.UpID == newdata.UpID);
+
                     if (fileUpload != null && fileUpload.ContentLength > 0)
                     {
                         var fileName = Path.GetFileName(fileUpload.FileName);
@@ -1183,10 +1244,9 @@ namespace SAT.HR.Data.Repository
 
                         fileUpload.SaveAs(fileLocation);
 
-                        newdata.UpPathFile = newFileName;
+                        model.UpPathFile = newFileName;
                     }
-
-                    var model = db.tb_User_Position.Single(x => x.UserID == newdata.UserID && x.UpID == newdata.UpID);
+                    
                     model.ActID = newdata.ActID;
                     model.UpCmd = newdata.UpCmd;
                     model.PoTID = newdata.PoTID;
@@ -1197,12 +1257,12 @@ namespace SAT.HR.Data.Repository
                     model.PoAID = newdata.PoAID;
                     model.UpLevel = newdata.UpLevel;
                     model.UpSalary = newdata.UpSalary;
-                    if (Convert.ToDateTime(newdata.UpCmdDateText) > DateTime.MinValue)
-                        model.UpCmdDate = Convert.ToDateTime(newdata.UpCmdDateText);
-                    if (Convert.ToDateTime(newdata.UpForceDateText) > DateTime.MinValue)
-                        model.UpForceDate = Convert.ToDateTime(newdata.UpForceDateText);
+                    if (newdata.UpCmdDate.HasValue)
+                        model.UpCmdDate = UtilityService.ConvertDate2Save(newdata.UpCmdDate);
+                    if (newdata.UpForceDate.HasValue)
+                        model.UpForceDate = UtilityService.ConvertDate2Save(newdata.UpForceDate);
                     model.UpRemark = newdata.UpRemark;
-                    model.UpPathFile = newdata.UpPathFile;
+                    //model.UpPathFile = newdata.UpPathFile;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
@@ -1357,10 +1417,10 @@ namespace SAT.HR.Data.Repository
                     model.TtID = data.TtID;
                     model.CountryID = data.CountryID;
                     model.UtCourse = data.UtCourse;
-                    if (Convert.ToDateTime(data.UtStartDateText) > DateTime.MinValue)
-                        model.UtStartDate = Convert.ToDateTime(data.UtStartDateText);
-                    if (Convert.ToDateTime(data.UtEndDateText) > DateTime.MinValue)
-                        model.UtEndDate = Convert.ToDateTime(data.UtEndDateText);
+                    if (data.UtStartDate.HasValue)
+                        model.UtStartDate = UtilityService.ConvertDate2Save(data.UtStartDate);
+                    if (data.UtEndDate.HasValue)
+                        model.UtEndDate = UtilityService.ConvertDate2Save(data.UtEndDate);
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -1388,10 +1448,10 @@ namespace SAT.HR.Data.Repository
                     model.TtID = newdata.TtID;
                     model.CountryID = newdata.CountryID;
                     model.UtCourse = newdata.UtCourse;
-                    if (Convert.ToDateTime(newdata.UtStartDateText) > DateTime.MinValue)
-                        model.UtStartDate = Convert.ToDateTime(newdata.UtStartDateText);
-                    if (Convert.ToDateTime(newdata.UtEndDateText) > DateTime.MinValue)
-                        model.UtEndDate = Convert.ToDateTime(newdata.UtEndDateText);
+                    if (newdata.UtStartDate.HasValue)
+                        model.UtStartDate = UtilityService.ConvertDate2Save(newdata.UtStartDate);
+                    if (newdata.UtEndDate.HasValue)
+                        model.UtEndDate = UtilityService.ConvertDate2Save(newdata.UtEndDate);
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
@@ -1514,6 +1574,8 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
+                    tb_User_Insignia model = new tb_User_Insignia();
+
                     if (fileUpload != null && fileUpload.ContentLength > 0)
                     {
                         var fileName = Path.GetFileName(fileUpload.FileName);
@@ -1529,10 +1591,9 @@ namespace SAT.HR.Data.Repository
 
                         fileUpload.SaveAs(fileLocation);
 
-                        data.UiPartFile = newFileName;
+                        model.UiPartFile = newFileName;
                     }
-
-                    tb_User_Insignia model = new tb_User_Insignia();
+                    
                     model.UiID = data.UiID;
                     model.UserID = data.UserID;
                     model.InsID = data.InsID;
@@ -1540,12 +1601,12 @@ namespace SAT.HR.Data.Repository
                     model.UiBook = data.UiBook;
                     model.UiPart = data.UiPart;
                     model.UiPage = data.UiPage;
-                    if (Convert.ToDateTime(data.UiRecDateText) > DateTime.MinValue)
-                        model.UiRecDate = Convert.ToDateTime(data.UiRecDateText);
-                    if (Convert.ToDateTime(data.UiRetDateText) > DateTime.MinValue)
-                        model.UiRetDate = Convert.ToDateTime(data.UiRetDateText);
+                    if (data.UiRecDate.HasValue)
+                        model.UiRecDate = UtilityService.ConvertDate2Save(data.UiRecDate);
+                    if (data.UiRetDate.HasValue)
+                        model.UiRetDate = UtilityService.ConvertDate2Save(data.UiRetDate);
                     model.UiCmd = data.UiCmd;
-                    model.UiPartFile = data.UiPartFile;
+                    //model.UiPartFile = data.UiPartFile;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -1568,6 +1629,8 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
+                    var model = db.tb_User_Insignia.Single(x => x.UserID == newdata.UserID && x.UiID == newdata.UiID);
+
                     if (fileUpload != null && fileUpload.ContentLength > 0)
                     {
                         var fileName = Path.GetFileName(fileUpload.FileName);
@@ -1586,18 +1649,17 @@ namespace SAT.HR.Data.Repository
                         newdata.UiPartFile = newFileName;
                     }
 
-                    var model = db.tb_User_Insignia.Single(x => x.UserID == newdata.UserID && x.UiID == newdata.UiID);
                     model.InsID = newdata.InsID;
                     model.UiYear = newdata.UiYear;
                     model.UiBook = newdata.UiBook;
                     model.UiPart = newdata.UiPart;
                     model.UiPage = newdata.UiPage;
-                    if (Convert.ToDateTime(newdata.UiRecDateText) > DateTime.MinValue)
-                        model.UiRecDate = Convert.ToDateTime(newdata.UiRecDateText);
-                    if (Convert.ToDateTime(newdata.UiRetDateText) > DateTime.MinValue)
-                        model.UiRetDate = Convert.ToDateTime(newdata.UiRetDateText);
+                    if (newdata.UiRecDate.HasValue)
+                        model.UiRecDate = UtilityService.ConvertDate2Save(newdata.UiRecDate);
+                    if (newdata.UiRetDate.HasValue)
+                        model.UiRetDate = UtilityService.ConvertDate2Save(newdata.UiRetDate);
                     model.UiCmd = newdata.UiCmd;
-                    model.UiPartFile = newdata.UiPartFile;
+                    //model.UiPartFile = newdata.UiPartFile;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
@@ -1691,7 +1753,7 @@ namespace SAT.HR.Data.Repository
                         model.UeProjectName = item.UeProjectName;
                         model.UeRecDateText = (item.UeRecDate.HasValue) ? item.UeRecDate.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.PoName = item.PoName;
-                        model.FullPosition = item.DivName +"/"+ item.DepName+"/"+ item.PoName;
+                        model.FullPosition = item.DivName + "/" + item.DepName + "/" + item.PoName;
                         list.Add(model);
                     }
                 }
@@ -1748,8 +1810,8 @@ namespace SAT.HR.Data.Repository
                     model.UserID = data.UserID;
                     model.ExTID = data.ExTID;
                     model.UeProjectName = data.UeProjectName;
-                    if (Convert.ToDateTime(data.UeRecDateText) > DateTime.MinValue)
-                        model.UeRecDate = Convert.ToDateTime(data.UeRecDateText);
+                    if (data.UeRecDate.HasValue)
+                        model.UeRecDate = UtilityService.ConvertDate2Save(data.UeRecDate);
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -1777,8 +1839,8 @@ namespace SAT.HR.Data.Repository
                     model.UeID = newdata.UeID;
                     model.ExTID = newdata.ExTID;
                     model.UeProjectName = newdata.UeProjectName;
-                    if (Convert.ToDateTime(newdata.UeRecDateText) > DateTime.MinValue)
-                        model.UeRecDate = Convert.ToDateTime(newdata.UeRecDateText);
+                    if (newdata.UeRecDate.HasValue)
+                        model.UeRecDate = UtilityService.ConvertDate2Save(newdata.UeRecDate);
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
@@ -1891,8 +1953,8 @@ namespace SAT.HR.Data.Repository
                     model.UcID = data.UcID;
                     model.UserID = data.UserID;
                     model.CerId = data.CerId;
-                    if (Convert.ToDateTime(data.UcRecDateText) > DateTime.MinValue)
-                        model.UcRecDate = Convert.ToDateTime(data.UcRecDateText);
+                    if (data.UcRecDate.HasValue)
+                        model.UcRecDate = UtilityService.ConvertDate2Save(data.UcRecDate);
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -1918,8 +1980,8 @@ namespace SAT.HR.Data.Repository
                 {
                     var model = db.tb_User_Certificate.Single(x => x.UserID == newdata.UserID && x.UcID == newdata.UcID);
                     model.CerId = newdata.CerId;
-                    if (Convert.ToDateTime(newdata.UcRecDateText) > DateTime.MinValue)
-                        model.UcRecDate = Convert.ToDateTime(newdata.UcRecDateText);
+                    if (newdata.UcRecDate.HasValue)
+                        model.UcRecDate = UtilityService.ConvertDate2Save(newdata.UcRecDate);
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
@@ -2072,8 +2134,8 @@ namespace SAT.HR.Data.Repository
                     model.NewLastNameTh = data.NewLastNameTh;
                     model.NewFirstNameEn = data.NewFirstNameEn;
                     model.NewLastNameEn = data.NewLastNameEn;
-                    if (Convert.ToDateTime(data.UhEditDateText) > DateTime.MinValue)
-                        model.UhEditDate = Convert.ToDateTime(data.UhEditDateText);
+                    if (data.UhEditDate.HasValue)
+                        model.UhEditDate = UtilityService.ConvertDate2Save(data.UhEditDate);
                     model.Remark = data.Remark;
                     model.UhStatus = data.UhStatus;
                     model.CreateBy = UtilityService.User.UserID;
@@ -2110,8 +2172,8 @@ namespace SAT.HR.Data.Repository
                 try
                 {
                     var model = db.tb_User_History.Single(x => x.UserID == newdata.UserID && x.UhID == newdata.UhID);
-                    if (Convert.ToDateTime(newdata.UhEditDateText) > DateTime.MinValue)
-                        model.UhEditDate = Convert.ToDateTime(newdata.UhEditDateText);
+                    if (newdata.UhEditDate.HasValue)
+                        model.UhEditDate = UtilityService.ConvertDate2Save(newdata.UhEditDate);
                     model.NewTiID = newdata.NewTiID;
                     model.NewFirstNameTh = newdata.NewFirstNameTh;
                     model.NewLastNameTh = newdata.NewLastNameTh;
@@ -2170,127 +2232,127 @@ namespace SAT.HR.Data.Repository
 
         #region 2.0 Tab: Skill
 
-        //public UserSkillViewModel GetSkillByUser(int userid)
-        //{
-        //    var data = new UserSkillViewModel();
-        //    var list = new List<UserSkillViewModel>();
-        //    try
-        //    {
-        //        using (SATEntities db = new SATEntities())
-        //        {
-        //            int index = 1;
-        //            var skill = db.vw_User_Skill.Where(x => x.UserID == userid).ToList();
+        public UserSkillViewModel GetSkillByUser(int userid)
+        {
+            var data = new UserSkillViewModel();
+            var list = new List<UserSkillViewModel>();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    int index = 1;
+                    var skill = db.vw_User_Skill.Where(x => x.UserID == userid).ToList();
 
-        //            foreach (var item in skill)
-        //            {
-        //                UserSkillViewModel model = new UserSkillViewModel();
-        //                model.RowNumber = index++;
-        //                model.UskID = item.UskID;
-        //                model.UserID = item.UserID;
-        //                model.Language = item.Language;
-        //                model.LkName = item.LkName;
-        //                model.LkTName = item.LkTName;
-        //                model.Score = item.Score;
-        //                list.Add(model);
-        //            }
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
+                    foreach (var item in skill)
+                    {
+                        UserSkillViewModel model = new UserSkillViewModel();
+                        model.RowNumber = index++;
+                        model.UskID = item.UskID;
+                        model.UserID = item.UserID;
+                        model.Language = item.Language;
+                        model.LkName = item.LkName;
+                        model.LkTName = item.LkTName;
+                        model.Score = item.Score;
+                        list.Add(model);
+                    }
+                }
+            }
+            catch (Exception)
+            {
 
-        //        throw;
-        //    }
-        //    data.UserID = userid;
-        //    data.ListSkill = list;
-        //    return data;
-        //}
+                throw;
+            }
+            data.UserID = userid;
+            data.ListSkill = list;
+            return data;
+        }
 
-        //public UserSkillViewModel GetSkillByID(int userid, int id)
-        //{
-        //    UserSkillViewModel data = new UserSkillViewModel();
-        //    data.UserID = userid;
+        public UserSkillViewModel GetSkillByID(int userid, int id)
+        {
+            UserSkillViewModel data = new UserSkillViewModel();
+            data.UserID = userid;
 
-        //    try
-        //    {
-        //        using (SATEntities db = new SATEntities())
-        //        {
-        //            var obj = db.tb_User_Skill.Where(x => x.UskID == id).FirstOrDefault();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var obj = db.tb_User_Skill.Where(x => x.UskID == id).FirstOrDefault();
 
-        //            UserSkillViewModel model = new UserSkillViewModel();
-        //            model.UskID = obj.UskID;
-        //            model.UserID = obj.UserID;
-        //            model.LID = obj.LID;
-        //            model.LIOther = obj.LIOther;
-        //            model.LkID = obj.LkID;
-        //            model.LkTID = obj.LkTID;
-        //            model.Score = obj.Score;
+                    UserSkillViewModel model = new UserSkillViewModel();
+                    model.UskID = obj.UskID;
+                    model.UserID = obj.UserID;
+                    model.LID = obj.LID;
+                    model.LIOther = obj.LIOther;
+                    model.LkID = obj.LkID;
+                    model.LkTID = obj.LkTID;
+                    model.Score = obj.Score;
 
-        //            if (model != null)
-        //                data = model;
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
+                    if (model != null)
+                        data = model;
+                }
+            }
+            catch (Exception)
+            {
 
-        //    }
-        //    return data;
-        //}
+            }
+            return data;
+        }
 
-        //public ResponseData AddSkillByEntity(UserSkillViewModel data)
-        //{
-        //    using (SATEntities db = new SATEntities())
-        //    {
-        //        ResponseData result = new Models.ResponseData();
-        //        try
-        //        {
-        //            tb_User_Skill model = new tb_User_Skill();
-        //            model.UskID = data.UskID;
-        //            model.UserID = data.UserID;
-        //            model.LID = data.LID;
-        //            model.LkID = data.LkID;
-        //            model.LkTID = data.LkTID;
-        //            model.Score = data.Score;
-        //            model.CreateBy = UtilityService.User.UserID;
-        //            model.CreateDate = DateTime.Now;
-        //            model.ModifyBy = UtilityService.User.UserID;
-        //            model.ModifyDate = DateTime.Now;
-        //            db.tb_User_Skill.Add(model);
-        //            db.SaveChanges();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            result.MessageCode = "";
-        //            result.MessageText = ex.Message;
-        //        }
-        //        return result;
-        //    }
-        //}
+        public ResponseData AddSkillByEntity(UserSkillViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_User_Skill model = new tb_User_Skill();
+                    model.UskID = data.UskID;
+                    model.UserID = data.UserID;
+                    model.LID = data.LID;
+                    model.LkID = data.LkID;
+                    model.LkTID = data.LkTID;
+                    model.Score = data.Score;
+                    model.CreateBy = UtilityService.User.UserID;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_User_Skill.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
 
-        //public ResponseData UpdateSkillByEntity(UserSkillViewModel newdata)
-        //{
-        //    using (SATEntities db = new SATEntities())
-        //    {
-        //        ResponseData result = new Models.ResponseData();
-        //        try
-        //        {
-        //            var model = db.tb_User_Skill.Single(x => x.UserID == newdata.UserID && x.UskID == newdata.UskID);
-        //            model.UserID = newdata.UserID;
-        //            model.LID = newdata.LID;
-        //            model.LkID = newdata.LkID;
-        //            model.LkTID = newdata.LkTID;
-        //            model.Score = newdata.Score;
-        //            model.ModifyBy = UtilityService.User.UserID;
-        //            model.ModifyDate = DateTime.Now;
-        //            db.SaveChanges();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            result.MessageCode = "";
-        //            result.MessageText = ex.Message;
-        //        }
-        //        return result;
-        //    }
-        //}
+        public ResponseData UpdateSkillByEntity(UserSkillViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var model = db.tb_User_Skill.Single(x => x.UserID == newdata.UserID && x.UskID == newdata.UskID);
+                    model.UserID = newdata.UserID;
+                    model.LID = newdata.LID;
+                    model.LkID = newdata.LkID;
+                    model.LkTID = newdata.LkTID;
+                    model.Score = newdata.Score;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
 
         public ResponseData DeleteSkillByID(int id)
         {

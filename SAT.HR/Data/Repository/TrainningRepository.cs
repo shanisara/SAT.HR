@@ -49,7 +49,7 @@ namespace SAT.HR.Data.Repository
                     int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
                     int length = pageSize ?? 10;
 
-                    int i = 1;
+                    int i = 0;
                     foreach (var item in data)
                     {
                         CourseViewModel model = new CourseViewModel();
@@ -103,10 +103,11 @@ namespace SAT.HR.Data.Repository
                         model.TrainerName = data.TrainerName;
                         model.Location = data.Location;
                         model.Certificate = data.Certificate;
-                        //model.Remark = data.Remark;
+                        model.CourseDesc = data.CourseDesc;
+                        model.PathFile = data.PathFile;
 
-                        //var detail = GetDetail(model.CourseID);
-                        //model.ListTrainning = detail;
+                        var detail = GetDetail(model.CourseID);
+                        model.ListTrainning = detail;
                     }
                 }
                 return model;
@@ -132,10 +133,13 @@ namespace SAT.HR.Data.Repository
                     {
                         TrainingViewModel model = new TrainingViewModel();
                         model.RowNumber = index++;
-                        model.CourseID = model.CourseID;
-                        model.UserID = model.UserID;
-                        model.FullName = model.FullName;
-                        model.PositionName = model.PositionName;
+                        model.CourseID = item.CourseID;
+                        model.UserID = item.UserID;
+                        model.FullName = item.FullName;
+                        model.DivName = item.DivName;
+                        model.DepName = item.DepName;
+                        model.SecName = item.SecName;
+                        model.PoName = item.PoName;
                         list.Add(model);
                     }
                 }
@@ -157,6 +161,8 @@ namespace SAT.HR.Data.Repository
                     ResponseData result = new Models.ResponseData();
                     try
                     {
+                        tb_Course head = new tb_Course();
+
                         if (data.fileUpload != null)
                         {
                             HttpPostedFileBase fileUpload = data.fileUpload;
@@ -175,41 +181,43 @@ namespace SAT.HR.Data.Repository
 
                                 fileUpload.SaveAs(fileLocation);
 
-                                data.PathFile = newFileName;
+                                head.PathFile = newFileName;
                             }
                         }
 
-                        tb_Course head = new tb_Course();
-                        head.CourseID = data.CourseID;
-                        head.CourseNo = data.CourseNo;
+                        head.CourseNo = DocumentNumberRepository.GetNextNumber("COURSE");
                         head.CourseTID = data.CourseTID;
                         head.CourseName = data.CourseName;
+                        head.CourseDesc = data.CourseDesc;
                         head.DateFrom = data.DateFrom;
                         head.DateTo = data.DateTo;
                         head.CountryID = data.CountryID;
                         head.TrainerName = data.TrainerName;
                         head.Location = data.Location;
                         head.Certificate = data.Certificate;
-                        //head.Remark = data.Remark;
                         head.CreateBy = UtilityService.User.UserID;
                         head.CreateDate = DateTime.Now;
                         head.ModifyBy = UtilityService.User.UserID;
                         head.ModifyDate = DateTime.Now;
                         db.tb_Course.Add(head);
                         db.SaveChanges();
+
                         result.ID = head.CourseID;
 
-                        foreach (var item in data.ListTrainning)
+                        if (data.ListTrainning != null)
                         {
-                            tb_Training_Course detail = new tb_Training_Course();
-                            detail.CourseID = head.CourseID;
-                            detail.UserID = item.UserID;
-                            detail.CreateBy = UtilityService.User.UserID;
-                            detail.CreateDate = DateTime.Now;
-                            detail.ModifyBy = UtilityService.User.UserID;
-                            detail.ModifyDate = DateTime.Now;
-                            db.tb_Training_Course.Add(detail);
-                            db.SaveChanges();
+                            foreach (var item in data.ListTrainning)
+                            {
+                                tb_Training_Course detail = new tb_Training_Course();
+                                detail.CourseID = head.CourseID;
+                                detail.UserID = item.UserID;
+                                detail.CreateBy = UtilityService.User.UserID;
+                                detail.CreateDate = DateTime.Now;
+                                detail.ModifyBy = UtilityService.User.UserID;
+                                detail.ModifyDate = DateTime.Now;
+                                db.tb_Training_Course.Add(detail);
+                                db.SaveChanges();
+                            }
                         }
                         transection.Commit();
                     }
@@ -233,6 +241,8 @@ namespace SAT.HR.Data.Repository
                     ResponseData result = new Models.ResponseData();
                     try
                     {
+                        var head = db.tb_Course.Single(x => x.CourseID == newdata.CourseID);
+
                         if (newdata.fileUpload != null)
                         {
                             HttpPostedFileBase fileUpload = newdata.fileUpload;
@@ -251,13 +261,11 @@ namespace SAT.HR.Data.Repository
 
                                 fileUpload.SaveAs(fileLocation);
 
-                                newdata.PathFile = newFileName;
+                                head.PathFile = newFileName;
                             }
                         }
 
-                        var head = db.tb_Course.Single(x => x.CourseID == newdata.CourseID);
                         head.CourseID = newdata.CourseID;
-                        head.CourseNo = newdata.CourseNo;
                         head.CourseTID = newdata.CourseTID;
                         head.CourseName = newdata.CourseName;
                         head.DateFrom = newdata.DateFrom;
@@ -266,7 +274,7 @@ namespace SAT.HR.Data.Repository
                         head.TrainerName = newdata.TrainerName;
                         head.Location = newdata.Location;
                         head.Certificate = newdata.Certificate;
-                        //head.Remark = newdata.Remark;
+                        head.CourseDesc = newdata.CourseDesc;
                         head.ModifyBy = UtilityService.User.UserID;
                         head.ModifyDate = DateTime.Now;
                         db.SaveChanges();
@@ -286,8 +294,22 @@ namespace SAT.HR.Data.Repository
                                 detail.ModifyDate = DateTime.Now;
                                 db.tb_Training_Course.Add(detail);
                                 db.SaveChanges();
+
+                                var usertraining = db.tb_User_Training.Where(x => x.UserID == item.UserID && x.UtCourse == head.CourseName).FirstOrDefault();
+                                if (usertraining != null)
+                                {
+                                    UserTrainningViewModel ut = new UserTrainningViewModel();
+                                    ut.UserID = item.UserID;
+                                    ut.TtID = head.CourseTID;
+                                    ut.CountryID = head.CountryID;
+                                    ut.UtCourse = head.CourseName;
+                                    ut.UtStartDate = head.DateFrom;
+                                    ut.UtEndDate = head.DateTo;
+                                    new EmployeeRepository().AddTrainingByEntity(ut);
+                                }
                             }
                         }
+
                         transection.Commit();
                     }
                     catch (Exception ex)

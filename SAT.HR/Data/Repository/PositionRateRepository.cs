@@ -10,7 +10,7 @@ namespace SAT.HR.Data.Repository
 {
     public class PositionRateRepository
     {
-        public PositionRateViewModel GetByID(int? id)
+        public PositionRateViewModel GetByID(int? id, int? type)
         {
             PositionRateViewModel model = new PositionRateViewModel();
 
@@ -32,6 +32,10 @@ namespace SAT.HR.Data.Repository
                         model.FullNameTh = data.TiShortName + data.FullNameTh;
                         model.EduID = data.EduID;
                         model.TypeID = data.TypeID;
+                    }
+                    else
+                    {
+                        model.TypeID = type;
                     }
                 }
             }
@@ -142,8 +146,9 @@ namespace SAT.HR.Data.Repository
                                  {
                                      DivID = key,
                                      DivName = group.FirstOrDefault().DivName,
-                                     MpID = group.FirstOrDefault().MpID
-                                 }).OrderBy(o => o.DivName).ToList();
+                                     MpID = group.FirstOrDefault().MpID,
+                                     DivSeq = group.FirstOrDefault().DivSeq
+                                 }).OrderBy(o => o.DivSeq).ToList();
 
                 foreach (var item in deivision)
                 {
@@ -299,10 +304,10 @@ namespace SAT.HR.Data.Repository
 
             using (SATEntities db = new SATEntities())
             {
-                int divid = div != "null" ? Convert.ToInt32(div.Substring(3)) : 0;
-                int depid = dep != "null" ? Convert.ToInt32(dep.Substring(3)) : 0;
-                int secid = sec != "null" ? Convert.ToInt32(sec.Substring(3)) : 0;
-                int poid = po != "null" ? Convert.ToInt32(po.Substring(3)) : 0;
+                int divid = div != "null" ? Convert.ToInt32(div.Split('_')[1]) : 0;
+                int depid = dep != "null" ? Convert.ToInt32(dep.Split('_')[1]) : 0;
+                int secid = sec != "null" ? Convert.ToInt32(sec.Split('_')[1]) : 0;
+                int poid = po != "null" ? Convert.ToInt32(po.Split('_')[1]) : 0;
 
                 switch (parenttype)
                 {
@@ -336,7 +341,7 @@ namespace SAT.HR.Data.Repository
                                         .GroupBy(g => g.DepID).Select(group => new { DepID = group.Key }).Count();
 
                         var model = new TreeViewModel();
-                        model.id = "Div" + item.DivID.ToString();
+                        model.id = item.MpID +"_" + item.DivID.ToString();
                         model.text = item.DivName + " (" + countChild + ")";
                         model.children = (countChild > 0) ? true : false;
                         model.state = new TreeStateViewModel() { opened = true };
@@ -368,7 +373,7 @@ namespace SAT.HR.Data.Repository
                         .GroupBy(g => g.SecID).Select(group => new { SecID = group.Key }).Count();
 
                     var model = new TreeViewModel();
-                    model.id = "Dep" + item.DepID.ToString();
+                    model.id = item.MpID + "_" + item.DepID.ToString();
                     model.text = item.DepName + " (" + countChild + ")";
                     model.children = (countChild > 0) ? true : false;
                     model.state = new TreeStateViewModel() { opened = true };
@@ -395,7 +400,7 @@ namespace SAT.HR.Data.Repository
                         .GroupBy(g => g.PoID).Select(group => new { PoID = group.Key }).Count();
 
                     var model = new TreeViewModel();
-                    model.id = "Sec" + item.SecID.ToString();
+                    model.id = item.MpID + "_" + item.SecID.ToString();
                     model.text = item.SecName + " (" + countChild + ")";
                     model.children = (countChild > 0) ? true : false;
                     model.state = new TreeStateViewModel() { opened = true };
@@ -423,7 +428,7 @@ namespace SAT.HR.Data.Repository
                         .GroupBy(g => g.UserID).Select(group => new { UserID = group.Key }).Count();
 
                     var model = new TreeViewModel();
-                    model.id = "Pos" + item.PoID.ToString();
+                    model.id = item.MpID + "_" + item.PoID.ToString();
                     model.text = item.PoName + " (" + countChild + ")";
                     model.children = (countChild > 0) ? true : false;
                     model.state = new TreeStateViewModel() { opened = true };

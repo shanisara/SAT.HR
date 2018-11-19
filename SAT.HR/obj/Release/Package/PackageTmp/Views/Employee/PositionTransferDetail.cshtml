@@ -83,11 +83,11 @@
                                 </div>
                                 <label class="col-sm-2 col-form-label" for="MlDateCmdText">วันที่ลงคำสั่ง<span class="text-danger"> *</span> </label>
                                 <div class="col-sm-2">
-                                    @Html.TextBoxFor(m => m.MopDateCmdText, new { @class = "form-control datepicker", required = "true" })
+                                    @Html.TextBoxFor(m => m.MopDateCmd, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
                                 </div>
                                 @Html.Label("วันที่มีผล: ", null, new { @class = "col-sm-2 col-form-label" })
                                 <div class="col-sm-2">
-                                    @Html.TextBoxFor(m => m.MopDateEffText, new { @class = "form-control datepicker" })
+                                    @Html.TextBoxFor(m => m.MopDateEff, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
                                 </div>
                             </div>
                             <div class="row m-t-10">
@@ -335,7 +335,6 @@
                 return false;
             }
             else {
-                var listName = "ListDetail";
                 var qtd = 0;
                 $("#tb-detail tbody tr").each(function () {
                     var userid = $(this).data("userid");
@@ -344,12 +343,12 @@
                     var agentpotid = $(this).data("agentpotid");
                     var agentmpid = $(this).data("agentmpid");
                     var remark = $(this).data("remark");
-                    $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].UserID' value= '" + userid + "' > ");
-                    $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].CurMpID' value= '" + curmpid + "' > ");
-                    $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MovMpID' value= '" + movmpid + "' > ");
-                    $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].AgentPoTID' value= '" + agentpotid + "' > ");
-                    $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].AgentMpID' value= '" + agentmpid + "' > ");
-                    $(".formDetail").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].MovRemark' value= '" + remark + "' > ");
+                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].UserID' value= '" + userid + "' > ");
+                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].CurMpID' value= '" + curmpid + "' > ");
+                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].MovMpID' value= '" + movmpid + "' > ");
+                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].AgentPoTID' value= '" + agentpotid + "' > ");
+                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].AgentMpID' value= '" + agentmpid + "' > ");
+                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].MovRemark' value= '" + remark + "' > ");
                     qtd += 1;
                 });
 
@@ -366,6 +365,7 @@
                     processData: false,
                     contentType: false,
                     success: function (res) {
+                        debugger;
                         if (res.MessageCode == null) {
                             swal({
                                 title: "",
@@ -375,6 +375,8 @@
                                 confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
                                 buttonsStyling: false,
                             }).then(function () {
+                                if ($("#MopID").val() == 0)
+                                    $("#MopID").val(res.ID);
                                 if ($("#MopPathFile").val() != '') {
                                     $(".file-name").text($("#MopPathFile").val());
                                     $(".file-upload").hide();

@@ -34,6 +34,9 @@
       <Parameter Name="CapID" Mode="In" Type="String" />
       <Parameter Name="Keyword" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="sp_Report_Education" ReturnType="Collection(SAT.HR.sp_Report_Education_Result)">
+      <Parameter Name="userID" Mode="In" Type="Int32" />
+    </FunctionImport>
     <EntitySet Name="tb_Accumulative_Fund" EntityType="SAT.HR.tb_Accumulative_Fund" />
     <EntitySet Name="tb_Action_Type" EntityType="SAT.HR.tb_Action_Type" />
     <EntitySet Name="tb_Agent_Type" EntityType="SAT.HR.tb_Agent_Type" />
@@ -507,9 +510,6 @@
       <End Role="tb_Working_Type" EntitySet="tb_Working_Type" />
       <End Role="tb_User" EntitySet="tb_User" />
     </AssociationSet>
-    <FunctionImport Name="sp_Report_Education" ReturnType="Collection(SAT.HR.sp_Report_Education_Result)">
-      <Parameter Name="eduID" Mode="In" Type="String" />
-    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_Menu_GetByUser_Result">
     <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -588,6 +588,19 @@
     <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
     <Property Type="Int32" Name="recordsTotal" Nullable="true" />
     <Property Type="Int32" Name="recordsFiltered" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sp_Report_Education_Result">
+    <Property Type="Int32" Name="UserID" Nullable="true" />
+    <Property Type="String" Name="FirstNameTh" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="LastNameTh" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="EduID" Nullable="true" />
+    <Property Type="String" Name="EduName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="DegID" Nullable="true" />
+    <Property Type="String" Name="DegName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="MajID" Nullable="true" />
+    <Property Type="String" Name="MajName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="CountryID" Nullable="true" />
+    <Property Type="String" Name="CountryName" Nullable="true" MaxLength="200" />
   </ComplexType>
   <EntityType Name="tb_Accumulative_Fund">
     <Key>
@@ -3869,17 +3882,4 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <ComplexType Name="sp_Report_Education_Result">
-    <Property Type="String" Name="TiFullName" Nullable="true" MaxLength="100" />
-    <Property Type="String" Name="TiShortName" Nullable="true" MaxLength="100" />
-    <Property Type="String" Name="FirstNameTh" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="LastNameTh" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="FullNameTh" Nullable="true" MaxLength="502" />
-    <Property Type="String" Name="EduName" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="DegName" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="MajName" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="CountryName" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
-    <Property Type="Int32" Name="SalaryLevel" Nullable="true" />
-  </ComplexType>
 </Schema>

@@ -463,6 +463,36 @@
 
 
         var DropDownList = {
+            getTitle: function (el, titleid) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("TitleBySex", "Master")',
+                    data: { titleid: titleid },
+                    dataType: 'json',
+                    success: function (res) {
+                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                        $.each(res, function (key, entry) {
+                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                        });
+                        el.selectpicker('refresh');
+                    }
+                });
+            },
+            getSex: function (el, sexid) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SexByTitle", "Master")',
+                    data: { sexid: sexid },
+                    dataType: 'json',
+                    success: function (res) {
+                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                        $.each(res, function (key, entry) {
+                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                        });
+                        el.selectpicker('refresh');
+                    }
+                });
+            },
             getProvince: function (el, proid) {
                 $.ajax({
                     type: 'POST',
@@ -507,26 +537,15 @@
                         el.selectpicker('refresh');
                     }
                 });
-            },
-            getSex: function (el, titleid) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("SexByTitle", "Master")',
-                    data: { titleid: titleid },
-                    dataType: 'json',
-                    success: function (res) {
-                        el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
-                        $.each(res, function (key, entry) {
-                            el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
-                        })
-                        el.selectpicker('refresh');
-                    }
-                });
             }
         }
 
         $("#TitleID").change(function () {
             DropDownList.getSex($("#SexID"), $('#TitleID').val());
+        });
+
+        $("#SexID").change(function () {
+            DropDownList.getTitle($("#TitleID"), $('#SexID').val());
         });
 
         $("#HomeProvinceID").change(function () {

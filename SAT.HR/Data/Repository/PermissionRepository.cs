@@ -163,18 +163,18 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public ResponseData SaveRoleUser(int roleid, string users)
+        public ResponseData SaveRoleUser(int roleid, int userid)
         {
             ResponseData result = new Models.ResponseData();
             using (SATEntities db = new SATEntities())
             {
                 try
                 {
-                    if (!string.IsNullOrEmpty(users))
-                    {
-                        string[] user = users.Split(',');
-                        foreach (var userid in user)
-                        {
+                    //if (!string.IsNullOrEmpty(users))
+                    //{
+                        //string[] user = users.Split(',');
+                        //foreach (var userid in user)
+                        //{
                             tb_User_Role model = new tb_User_Role();
                             model.RoleID = roleid;
                             model.UserID = Convert.ToInt32(userid);
@@ -184,8 +184,8 @@ namespace SAT.HR.Data.Repository
                             model.ModifyDate = DateTime.Now;
                             db.tb_User_Role.Add(model);
                             db.SaveChanges();
-                        }
-                    }
+                        //}
+                    //}
                 }
                 catch (Exception ex)
                 {

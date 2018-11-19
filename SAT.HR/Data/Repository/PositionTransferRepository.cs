@@ -213,6 +213,8 @@ namespace SAT.HR.Data.Repository
                     ResponseData result = new Models.ResponseData();
                     try
                     {
+                        tb_Move_Man_Power_Head head = new tb_Move_Man_Power_Head();
+
                         if (data.fileUpload != null)
                         {
                             HttpPostedFileBase fileUpload = data.fileUpload;
@@ -231,21 +233,19 @@ namespace SAT.HR.Data.Repository
 
                                 fileUpload.SaveAs(fileLocation);
 
-                                data.MopPathFile = newFileName;
+                                head.MopPathFile = newFileName;
                             }
                         }
-
-                        tb_Move_Man_Power_Head head = new tb_Move_Man_Power_Head();
+                        
                         head.UserTID = data.UserTID;
                         head.MtID = data.MtID;
                         head.MopYear = data.MopYear;
                         head.MopBookCmd = data.MopBookCmd;
-                        if (!string.IsNullOrEmpty(data.MopDateCmdText))
-                            head.MopDateCmd = Convert.ToDateTime(data.MopDateCmdText);
-                        if (!string.IsNullOrEmpty(data.MopDateEffText))
-                            head.MopDateEff = Convert.ToDateTime(data.MopDateEffText);
+                        if (data.MopDateCmd.HasValue)
+                            head.MopDateCmd = UtilityService.ConvertDate2Save(data.MopDateCmd);
+                        if (data.MopDateEff.HasValue)
+                            head.MopDateEff = UtilityService.ConvertDate2Save(data.MopDateEff);
                         head.MopSignatory = data.MopSignatory;
-                        head.MopPathFile = data.MopPathFile;
                         //head.MopStatus = data.MopStatus;
                         head.CreateBy = UtilityService.User.UserID;
                         head.CreateDate = DateTime.Now;
@@ -255,22 +255,25 @@ namespace SAT.HR.Data.Repository
                         db.SaveChanges();
                         result.ID = head.MopID;
 
-                        foreach (var item in data.ListDetail)
+                        if (data.ListDetail != null)
                         {
-                            tb_Move_Man_Power_Detail detail = new tb_Move_Man_Power_Detail();
-                            detail.MopID = head.MopID;
-                            detail.UserID = item.UserID;
-                            detail.MopOldPoID = item.CurMpID;
-                            detail.MopNewPoID = item.MovMpID;
-                            detail.PoTAgentID = item.AgentPoTID;
-                            detail.AgentMpID = item.AgentMpID;
-                            detail.MovRemark = item.MovRemark;
-                            detail.CreateBy = UtilityService.User.UserID;
-                            detail.CreateDate = DateTime.Now;
-                            detail.ModifyBy = UtilityService.User.UserID;
-                            detail.ModifyDate = DateTime.Now;
-                            db.tb_Move_Man_Power_Detail.Add(detail);
-                            db.SaveChanges();
+                            foreach (var item in data.ListDetail)
+                            {
+                                tb_Move_Man_Power_Detail detail = new tb_Move_Man_Power_Detail();
+                                detail.MopID = head.MopID;
+                                detail.UserID = item.UserID;
+                                detail.MopOldPoID = item.CurMpID;
+                                detail.MopNewPoID = item.MovMpID;
+                                detail.PoTAgentID = item.AgentPoTID;
+                                detail.AgentMpID = item.AgentMpID;
+                                detail.MovRemark = item.MovRemark;
+                                detail.CreateBy = UtilityService.User.UserID;
+                                detail.CreateDate = DateTime.Now;
+                                detail.ModifyBy = UtilityService.User.UserID;
+                                detail.ModifyDate = DateTime.Now;
+                                db.tb_Move_Man_Power_Detail.Add(detail);
+                                db.SaveChanges();
+                            }
                         }
                         transection.Commit();
                     }
@@ -294,6 +297,8 @@ namespace SAT.HR.Data.Repository
                     ResponseData result = new Models.ResponseData();
                     try
                     {
+                        var head = db.tb_Move_Man_Power_Head.Single(x => x.MopID == newdata.MopID);
+
                         if (newdata.fileUpload != null)
                         {
                             HttpPostedFileBase fileUpload = newdata.fileUpload;
@@ -312,21 +317,19 @@ namespace SAT.HR.Data.Repository
 
                                 fileUpload.SaveAs(fileLocation);
 
-                                newdata.MopPathFile = newFileName;
+                                head.MopPathFile = newFileName;
                             }
                         }
-
-                        var head = db.tb_Move_Man_Power_Head.Single(x => x.MopID == newdata.MopID);
+                        
                         head.UserTID = newdata.UserTID;
                         head.MtID = newdata.MtID;
                         head.MopYear = newdata.MopYear;
                         head.MopBookCmd = newdata.MopBookCmd;
-                        if (!string.IsNullOrEmpty(newdata.MopDateCmdText))
-                            head.MopDateCmd = Convert.ToDateTime(newdata.MopDateCmdText);
-                        if (!string.IsNullOrEmpty(newdata.MopDateEffText))
-                            head.MopDateEff = Convert.ToDateTime(newdata.MopDateEffText);
+                        if (newdata.MopDateCmd.HasValue)
+                            head.MopDateCmd = UtilityService.ConvertDate2Save(newdata.MopDateCmd);
+                        if (newdata.MopDateEff.HasValue)
+                            head.MopDateEff = UtilityService.ConvertDate2Save(newdata.MopDateEff);
                         head.MopSignatory = newdata.MopSignatory;
-                        head.MopPathFile = newdata.MopPathFile;
                         //head.MopStatus = newdata.MopStatus;
                         head.ModifyBy = UtilityService.User.UserID;
                         head.ModifyDate = DateTime.Now;

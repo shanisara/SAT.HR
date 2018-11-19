@@ -793,6 +793,23 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
+        public static List<SelectListItem> GetEmployeeNotSelected(int? defaultValue, int? userType, string userSelected)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new EmployeeRepository().GetUserNotInRole(userType, userSelected);
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.UserID.ToString();
+                select.Text = item.UserName;
+                select.Selected = defaultValue.HasValue ? (item.UserID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
         public static List<SelectListItem> GetDivisionManPower(int? type, int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
@@ -1110,6 +1127,23 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
+        public static List<SelectListItem> GetYearHoliday(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new MasterRepository().GetYearHoliday();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.Year.ToString();
+                select.Text = item.Year.ToString();
+                select.Selected = defaultValue.HasValue ? (item.Year == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
         public static List<SelectListItem> GetCapability(int? year, int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
@@ -1202,6 +1236,22 @@ namespace SAT.HR.Data.Repository
                 select.Value = item.LkTID.ToString();
                 select.Text = item.LkTName;
                 select.Selected = defaultValue.HasValue ? (item.LkTID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetResignType(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            var data = new MasterRepository().GetResignType();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.ResignID.ToString();
+                select.Text = item.ResignName;
+                select.Selected = defaultValue.HasValue ? (item.ResignID == defaultValue ? true : false) : false;
                 list.Add(select);
             }
             return list;

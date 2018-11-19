@@ -6,7 +6,17 @@
 }
 
 <style>
-    .modal-dialog {
+
+    .col-form-label {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .label-text {
+        font-size: 14px;
+    }
+
+    /*.modal-dialog {
         max-width: 1100px;
         margin: 1.75rem auto;
     }
@@ -25,7 +35,7 @@
 
     .pagination > .page-item > .page-link, .pagination > .page-item > span {
         font-size: 13px;
-    }
+    }*/
 
 </style>
 
@@ -72,13 +82,13 @@
                 </div>
                 <div class="card-body">
                     <div class="tab-content">
-                        <table class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                        <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
                             <thead class="text-primary">
                                 <tr class="td-font-size">
-                                    <th style="width:10%">ลำดับ</th>
-                                    <th style="width:20%">ชื่อ-นามสกุล</th>
-                                    <th style="width:20%">ตำแหน่ง</th>
-                                    <th style="width:30%">ฝ่าย/ฝ่าย/งาน</th>
+                                    <th style="width:5%">ลำดับ</th>
+                                    <th style="width:15%">ชื่อ-นามสกุล</th>
+                                    <th style="width:25%">ตำแหน่ง</th>
+                                    <th style="width:35%">ฝ่าย/ฝ่าย/งาน</th>
                                     <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
                                 </tr>
                             </thead>
@@ -86,7 +96,7 @@
                                 @{ int index = 1; }
                                 @foreach (var item in Model.ListUserRole)
                                 {
-                                    <tr>
+                                    <tr data-userid="@item.UserID">
                                         <td>@index</td>
                                         <td>@item.FullName</td>
                                         <td>@item.PoName</td>
@@ -108,7 +118,7 @@
 </div>
 
 <!-- Classic Modal -->
-<div class="modal fade modal-large" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
+<div class="modal fade modal-large modal-detail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -119,9 +129,10 @@
             </div>
             <div class="modal-body">
                 <div class="content">
-                    <div class="container-fluid">
+                    <div class="div-detail"></div>
+                    @*<div class="container-fluid">
                         @{ Html.RenderPartial("_RoleUser"); }
-                    </div>
+                    </div>*@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
@@ -134,80 +145,107 @@
 </div>
 
 @section Scripts {
-    <script>
-        $(document).ready(function () {
+<script>
+    $(document).ready(function () {
 
-            $(".btnBack").click(function () {
-                var url = '@Url.Action("Permission", "Master")';
-                window.location.href = url;
-
-                @*swal({
-                    title: '',
-                    text: "ท่านต้องการกลับไปยังรายการก่อนหน้า?!",
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonClass: 'btn btn-success',
-                    cancelButtonClass: 'btn btn-danger',
-                    confirmButtonText: 'ใช่',
-                    cancelButtonText: 'ไม่',
-                    buttonsStyling: false
-                }).then(function () {
-                    var url = '@Url.Action("Permission", "Master")';
-                    window.location.href = url;
-                }).catch(swal.noop)*@
-            });
-
-
-            // Delete User
-            $(".btnDelete").click(function () {
-                var userid = $(this).val();
-                var roleid = $('#RoleID').val();
-                var $row = $(this).closest('tr');
-                swal({
-                    title: '',
-                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
-                    type: 'question',
-                    showCancelButton: true,
-                    confirmButtonClass: 'btn btn-success',
-                    cancelButtonClass: 'btn btn-danger',
-                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
-                    buttonsStyling: false
-                }).then(function () {
-                    $.ajax({
-                        url: '@Url.Action("DeleteRoleUser", "Master")',
-                        data: { userid: userid, roleid: roleid },
-                        type: 'POST',
-                        success: function (res) {
-                            if (res.MessageCode == null) {
-                                swal({
-                                    title: '',
-                                    text: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.DeleteSucceed)',
-                                    type: 'success',
-                                    confirmButtonClass: "btn btn-success",
-                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                                    buttonsStyling: false
-                                }).then(function () {
-                                    $row.remove();
-                                }).catch(swal.noop)
-                            }
-                            else {
-                                alert(res.MessageText);
-                            }
-                        }
-                    });
-                }).catch(swal.noop)
-            });
-
-
+        $(".btnBack").click(function () {
+            var url = '@Url.Action("Permission", "Master")';
+            window.location.href = url;
         });
-    </script>
+
+        // Delete User
+        $(".btnDelete").click(function () {
+            var userid = $(this).val();
+            var roleid = $('#RoleID').val();
+            var $row = $(this).closest('tr');
+            swal({
+                title: '',
+                text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                buttonsStyling: false
+            }).then(function () {
+                $.ajax({
+                    url: '@Url.Action("DeleteRoleUser", "Master")',
+                    data: { userid: userid, roleid: roleid },
+                    type: 'POST',
+                    success: function (res) {
+                        if (res.MessageCode == null) {
+                            swal({
+                                title: '',
+                                text: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.DeleteSucceed)',
+                                type: 'success',
+                                confirmButtonClass: "btn btn-success",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                buttonsStyling: false
+                            }).then(function () {
+                                $row.remove();
+                            }).catch(swal.noop)
+                        }
+                        else {
+                            alert(res.MessageText);
+                        }
+                    }
+                });
+            }).catch(swal.noop)
+        });
+
+    });
+</script>
 
 <script>
 
     $(document).ready(function () {
 
-        var dataTable = {
+        // Add User
+        $(".btnAdd").click(function () {
+            var selected = '';
+            $("#datatables tbody tr").each(function () {
+                var userid = $(this).data("userid");
+                selected += (selected == '') ? userid : "," + userid;
+            });
+
+            var url = '@Url.Action("GetUserNotInRole", "Master")';
+            $.post(url, { user: selected }, function (data) {
+                $(".div-detail").html(data);
+                $('.modal-detail').modal('show');
+            });
+        });
+
+        $("#btnSave").click(function () {
+            var roleid = $('#RoleID').val();
+            var userid = $('#UserID').val();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SaveRoleUser", "Master")',
+                data: { roleid: roleid, userid: userid },
+                dataType: 'json',
+                success: function (res) {
+                    if (res.MessageCode == null) {
+                        swal({
+                            title: "",
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                            type: "success",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-success",
+                        }).then(function () {
+                            window.location.reload();
+                            $('.modal-detail').modal('hide');
+                        }).catch(swal.noop)
+                    }
+                    else {
+                        alert(res.MessageText);
+                    }
+                }
+            });
+        });
+
+        @*var dataTable = {
             table: null,
             initializeDataTable: function () {
 
@@ -265,18 +303,17 @@
                 else
                     dataTable.table.ajax.reload();
             }
-        }
+        }*@
 
 
         // Add User
-        $(".btnAdd").click(function () {
-            $('#modalDetail').modal('show');
-            dataTable.getData();
-        });
-
+        //$(".btnAdd").click(function () {
+        //    $('#modalDetail').modal('show');
+        //    dataTable.getData();
+        //});
 
         // Select User
-        $("#btnSave").click(function () {
+        @*$("#btnSave").click(function () {
             var roleid = $('#RoleID').val();
             var selected = '';
             $('#datatables').find('input[type="checkbox"]:checked').each(function () {
@@ -306,9 +343,8 @@
                     }
                 }
             });
-        });
+        });*@
     });
 
 </script>
-
 }

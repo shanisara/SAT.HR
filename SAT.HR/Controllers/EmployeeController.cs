@@ -108,6 +108,7 @@ namespace SAT.HR.Controllers
 
             ViewBag.Cripple = DropDownList.GetCripple(model.CrpID);
             ViewBag.CrippleType = DropDownList.GetCrippleType(model.CrpTID);
+            ViewBag.ResignType = DropDownList.GetResignType(model.ResignID);
 
             ViewBag.UserTypeID = model.UserType;
             return PartialView("_Employee", model);
@@ -526,24 +527,24 @@ namespace SAT.HR.Controllers
             return PartialView("_Skill");
         }
 
-        //public ActionResult SkillDetail(int userid, int id)
-        //{
-        //    var model = new EmployeeRepository().GetSkillByID(userid, id);
-        //    ViewBag.Language = DropDownList.GetLanguage(model.LID);
-        //    ViewBag.LanguageSkill = DropDownList.GetLanguageSkill(model.LkID);
-        //    ViewBag.LanguageSkillType = DropDownList.GetLanguageSkillType(model.LkTID);
-        //    return PartialView("_SkillDetail", model);
-        //}
+        public ActionResult SkillDetail(int userid, int id)
+        {
+            var model = new EmployeeRepository().GetSkillByID(userid, id);
+            ViewBag.Language = DropDownList.GetLanguage(model.LID);
+            ViewBag.LanguageSkill = DropDownList.GetLanguageSkill(model.LkID);
+            ViewBag.LanguageSkillType = DropDownList.GetLanguageSkillType(model.LkTID);
+            return PartialView("_SkillDetail", model);
+        }
 
-        //public JsonResult SaveSkill(UserSkillViewModel data)
-        //{
-        //    ResponseData result = new Models.ResponseData();
-        //    if (data.UskID != 0)
-        //        result = new EmployeeRepository().UpdateSkillByEntity(data);
-        //    else
-        //        result = new EmployeeRepository().AddSkillByEntity(data);
-        //    return Json(result, JsonRequestBehavior.AllowGet);
-        //}
+        public JsonResult SaveSkill(UserSkillViewModel data)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (data.UskID != 0)
+                result = new EmployeeRepository().UpdateSkillByEntity(data);
+            else
+                result = new EmployeeRepository().AddSkillByEntity(data);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
         public JsonResult DeleteSkill(int id)
         {
@@ -551,12 +552,12 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        //[HttpPost]
-        //public JsonResult Skill(int id)
-        //{
-        //    var list = new EmployeeRepository().GetSkillByUser(id);
-        //    return Json(new { data = list.ListSkill }, JsonRequestBehavior.AllowGet);
-        //}
+        [HttpPost]
+        public JsonResult Skill(int id)
+        {
+            var list = new EmployeeRepository().GetSkillByUser(id);
+            return Json(new { data = list.ListSkill }, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
 
@@ -570,7 +571,7 @@ namespace SAT.HR.Controllers
 
         public ActionResult PositionRateDetail(int? id, int? type)
         {
-            var model = new PositionRateRepository().GetByID(id);
+            var model = new PositionRateRepository().GetByID(id, type);
             ViewBag.Division = DropDownList.GetDivision(model != null ? model.DivID : null, false);
             ViewBag.Department = DropDownList.GetDepartment(model != null ? model.DivID : null, model != null ? model.DepID: null, false);
             ViewBag.Section = DropDownList.GetSection(model != null ? model.DivID : null, model != null ? model.DepID: null, model != null ? model.SecID: null, false);
@@ -746,7 +747,15 @@ namespace SAT.HR.Controllers
             return new FilePathResult(Path.Combine(filePath, fileName), contentType);
         }
 
+        public JsonResult DeletePositionTransfer(int id)
+        {
+            var result = new PositionTransferRepository().DeletePositionTransfer(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
+
+
 
     }
 }

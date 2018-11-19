@@ -19,6 +19,10 @@ namespace SAT.HR.Models
 
         public int? TypeID { get; set; }
 
+        public string ProjectNo { get; set; }
+
+        public string ProjectName { get; set; }
+
         public DateTime? CreateDate { get; set; }
 
         public Nullable<int> CreateBy { get; set; }
@@ -138,6 +142,7 @@ namespace SAT.HR.Models
         public string DepName { get; set; }
         public string SecName { get; set; }
         public string PoName { get; set; }
+        public int DivSeq { get; set; }
     }
 
     public class ManPowerViewModel

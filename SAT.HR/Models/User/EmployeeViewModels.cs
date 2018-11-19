@@ -85,7 +85,17 @@ namespace SAT.HR.Models
         public Nullable<int> CrpTID { get; set; }
         public string CrpName { get; set; }
         public string CrpTypeName { get; set; }
+        public string ProjectNo { get; set; }
+        public string ProjectName { get; set; }
+        public int? ResignID { get; set; }
+        public Nullable<System.DateTime> ResignDate { get; set; }
+        public string ResignRemark { get; set; }
+
+        public Nullable<bool> IsGPALower250 { get; set; }
+        public Nullable<bool> IsToeicLower300 { get; set; }
+        public Nullable<bool> IsAgeOver35 { get; set; }
     }
+    
 
     public class EmployeePageResult
     {

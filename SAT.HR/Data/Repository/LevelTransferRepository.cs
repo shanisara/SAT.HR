@@ -95,14 +95,14 @@ namespace SAT.HR.Data.Repository
                         model.MlDateCmdText = data.MlDateCmd.HasValue ? data.MlDateCmd.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.MlSignatory = data.MlSignatory;
                         model.MIPathFile = data.MIPathFile;
-                        //model.MlStatus = data.MlStatus;
+                        model.MlApproveStatus = data.MlApproveStatus;
 
                         var detail = GetDetail(id);
                         model.ListDetail = detail;
                     }
                     else
                     {
-                        //model.MlYear = DateTime.Now.ToString("yyyy", new System.Globalization.CultureInfo("th-TH")).ToString();
+                        model.MlYear = Convert.ToInt32(DateTime.Now.ToString("yyyy", new System.Globalization.CultureInfo("th-TH")));
                     }
                 }
             }
@@ -186,6 +186,8 @@ namespace SAT.HR.Data.Repository
                     ResponseData result = new Models.ResponseData();
                     try
                     {
+                        tb_Move_Level_Head head = new tb_Move_Level_Head();
+
                         if (data.fileUpload != null)
                         {
                             HttpPostedFileBase fileUpload = data.fileUpload;
@@ -204,18 +206,16 @@ namespace SAT.HR.Data.Repository
 
                                 fileUpload.SaveAs(fileLocation);
 
-                                data.MIPathFile = newFileName;
+                                head.MIPathFile = newFileName;
                             }
                         }
-
-                        tb_Move_Level_Head head = new tb_Move_Level_Head();
+                        
                         head.MlYear = data.MlYear;
                         head.MlBookCmd = data.MlBookCmd;
-                        if (!string.IsNullOrEmpty(data.MlDateCmdText))
-                            head.MlDateCmd = Convert.ToDateTime(data.MlDateCmdText);
+                        if (data.MlDateCmd.HasValue)
+                            head.MlDateCmd = UtilityService.ConvertDate2Save(data.MlDateCmd);
                         head.MlSignatory = data.MlSignatory;
-                        head.MIPathFile = data.MIPathFile;
-                        //head.MlStatus = data.MlStatus;
+                        head.MlApproveStatus = data.MlApproveStatus;
                         head.CreateBy = UtilityService.User.UserID;
                         head.CreateDate = DateTime.Now;
                         head.ModifyBy = UtilityService.User.UserID;
@@ -224,21 +224,24 @@ namespace SAT.HR.Data.Repository
                         db.SaveChanges();
                         result.ID = head.MlID;
 
-                        foreach (var item in data.ListDetail)
+                        if (data.ListDetail != null)
                         {
-                            tb_Move_Level_Detail detail = new tb_Move_Level_Detail();
-                            detail.MlID = head.MlID;
-                            detail.UserID = item.UserID;
-                            detail.MlLevelOld = item.MlLevelOld;
-                            detail.MlStepOld = item.MlStepOld;
-                            detail.MlLevelNew = item.MlLevelNew;
-                            detail.MlStepNew = item.MlStepNew;
-                            detail.CreateBy = UtilityService.User.UserID;
-                            detail.CreateDate = DateTime.Now;
-                            detail.ModifyBy = UtilityService.User.UserID;
-                            detail.ModifyDate = DateTime.Now;
-                            db.tb_Move_Level_Detail.Add(detail);
-                            db.SaveChanges();
+                            foreach (var item in data.ListDetail)
+                            {
+                                tb_Move_Level_Detail detail = new tb_Move_Level_Detail();
+                                detail.MlID = head.MlID;
+                                detail.UserID = item.UserID;
+                                detail.MlLevelOld = item.MlLevelOld;
+                                detail.MlStepOld = item.MlStepOld;
+                                detail.MlLevelNew = item.MlLevelNew;
+                                detail.MlStepNew = item.MlStepNew;
+                                detail.CreateBy = UtilityService.User.UserID;
+                                detail.CreateDate = DateTime.Now;
+                                detail.ModifyBy = UtilityService.User.UserID;
+                                detail.ModifyDate = DateTime.Now;
+                                db.tb_Move_Level_Detail.Add(detail);
+                                db.SaveChanges();
+                            }
                         }
 
                         transection.Commit();
@@ -264,6 +267,8 @@ namespace SAT.HR.Data.Repository
                     ResponseData result = new Models.ResponseData();
                     try
                     {
+                        var head = db.tb_Move_Level_Head.Single(x => x.MlID == newdata.MlID);
+
                         if (newdata.fileUpload != null)
                         {
                             HttpPostedFileBase fileUpload = newdata.fileUpload;
@@ -282,19 +287,17 @@ namespace SAT.HR.Data.Repository
 
                                 fileUpload.SaveAs(fileLocation);
 
-                                newdata.MIPathFile = newFileName;
+                                head.MIPathFile = newFileName;
                             }
                         }
-
-                        var head = db.tb_Move_Level_Head.Single(x => x.MlID == newdata.MlID);
+                        
                         head.MlID = newdata.MlID;
                         head.MlYear = newdata.MlYear;
                         head.MlBookCmd = newdata.MlBookCmd;
-                        if (!string.IsNullOrEmpty(newdata.MlDateCmdText))
-                            head.MlDateCmd = Convert.ToDateTime(newdata.MlDateCmdText);
+                        if (newdata.MlDateCmd.HasValue)
+                            head.MlDateCmd = UtilityService.ConvertDate2Save(newdata.MlDateCmd);
                         head.MlSignatory = newdata.MlSignatory;
-                        head.MIPathFile = newdata.MIPathFile;
-                        //head.MlStatus = newdata.MlStatus;
+                        //head.MlApproveStatus = newdata.MlApproveStatus;
                         head.ModifyBy = UtilityService.User.UserID;
                         head.ModifyDate = DateTime.Now;
                         db.SaveChanges();
@@ -303,21 +306,24 @@ namespace SAT.HR.Data.Repository
                         db.tb_Move_Level_Detail.RemoveRange(listdelete);
                         db.SaveChanges();
 
-                        foreach (var item in newdata.ListDetail)
+                        if (newdata.ListDetail != null)
                         {
-                            tb_Move_Level_Detail detail = new tb_Move_Level_Detail();
-                            detail.MlID = head.MlID;
-                            detail.UserID = item.UserID;
-                            detail.MlLevelOld = item.MlLevelOld;
-                            detail.MlStepOld = item.MlStepOld;
-                            detail.MlLevelNew = item.MlLevelNew;
-                            detail.MlStepNew = item.MlStepNew;
-                            detail.CreateBy = UtilityService.User.UserID;
-                            detail.CreateDate = DateTime.Now;
-                            detail.ModifyBy = UtilityService.User.UserID;
-                            detail.ModifyDate = DateTime.Now;
-                            db.tb_Move_Level_Detail.Add(detail);
-                            db.SaveChanges();
+                            foreach (var item in newdata.ListDetail)
+                            {
+                                tb_Move_Level_Detail detail = new tb_Move_Level_Detail();
+                                detail.MlID = head.MlID;
+                                detail.UserID = item.UserID;
+                                detail.MlLevelOld = item.MlLevelOld;
+                                detail.MlStepOld = item.MlStepOld;
+                                detail.MlLevelNew = item.MlLevelNew;
+                                detail.MlStepNew = item.MlStepNew;
+                                detail.CreateBy = UtilityService.User.UserID;
+                                detail.CreateDate = DateTime.Now;
+                                detail.ModifyBy = UtilityService.User.UserID;
+                                detail.ModifyDate = DateTime.Now;
+                                db.tb_Move_Level_Detail.Add(detail);
+                                db.SaveChanges();
+                            }
                         }
 
                         transection.Commit();
