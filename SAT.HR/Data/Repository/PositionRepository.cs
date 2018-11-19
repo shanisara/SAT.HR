@@ -124,10 +124,10 @@ namespace SAT.HR.Data.Repository
                     model.PoName = data.PoName;
                     model.PoStatus = (data.Status == "1") ? true : false;
                     model.TypeID = data.TypeID;
-                    model.CreateBy = UtilityService.User.UserID;
-                    model.CreateDate = DateTime.Now;
-                    model.ModifyBy = UtilityService.User.UserID;
-                    model.ModifyDate = DateTime.Now;
+                    //model.CreateBy = UtilityService.User.UserID;
+                    //model.CreateDate = DateTime.Now;
+                    //model.ModifyBy = UtilityService.User.UserID;
+                    //model.ModifyDate = DateTime.Now;
                     db.tb_Position.Add(model);
                     db.SaveChanges();
                 }
@@ -151,8 +151,8 @@ namespace SAT.HR.Data.Repository
                     model.PoName = newdata.PoName;
                     model.PoStatus = (newdata.Status == "1") ? true : false;
                     model.TypeID = newdata.TypeID;
-                    model.ModifyBy = UtilityService.User.UserID;
-                    model.ModifyDate = DateTime.Now;
+                    //model.ModifyBy = UtilityService.User.UserID;
+                    //model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
                 }
                 catch (Exception)

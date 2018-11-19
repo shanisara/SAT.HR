@@ -64,6 +64,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Evaluation> tb_Evaluation { get; set; }
         public virtual DbSet<tb_Excellent_Type> tb_Excellent_Type { get; set; }
         public virtual DbSet<tb_Holiday> tb_Holiday { get; set; }
+        public virtual DbSet<tb_IndividualPlan> tb_IndividualPlan { get; set; }
         public virtual DbSet<tb_Insignia> tb_Insignia { get; set; }
         public virtual DbSet<tb_Language> tb_Language { get; set; }
         public virtual DbSet<tb_Language_Skill> tb_Language_Skill { get; set; }
@@ -92,6 +93,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Recieve_Type> tb_Recieve_Type { get; set; }
         public virtual DbSet<tb_Religion> tb_Religion { get; set; }
         public virtual DbSet<tb_Rent_Type> tb_Rent_Type { get; set; }
+        public virtual DbSet<tb_Resign_Type> tb_Resign_Type { get; set; }
         public virtual DbSet<tb_Role> tb_Role { get; set; }
         public virtual DbSet<tb_Salary> tb_Salary { get; set; }
         public virtual DbSet<tb_Section> tb_Section { get; set; }
@@ -111,6 +113,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_User_Insignia> tb_User_Insignia { get; set; }
         public virtual DbSet<tb_User_Position> tb_User_Position { get; set; }
         public virtual DbSet<tb_User_Role> tb_User_Role { get; set; }
+        public virtual DbSet<tb_User_Skill> tb_User_Skill { get; set; }
         public virtual DbSet<tb_User_Status> tb_User_Status { get; set; }
         public virtual DbSet<tb_User_Training> tb_User_Training { get; set; }
         public virtual DbSet<tb_User_Type> tb_User_Type { get; set; }
@@ -147,10 +150,8 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_NotRole> vw_User_NotRole { get; set; }
         public virtual DbSet<vw_User_Position> vw_User_Position { get; set; }
         public virtual DbSet<vw_User_Role> vw_User_Role { get; set; }
-        public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
-        public virtual DbSet<tb_User_Skill> tb_User_Skill { get; set; }
         public virtual DbSet<vw_User_Skill> vw_User_Skill { get; set; }
-        public virtual DbSet<tb_IndividualPlan> tb_IndividualPlan { get; set; }
+        public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {
@@ -266,13 +267,13 @@ namespace SAT.HR.Data.Entities
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Evaluation_List_Result>("sp_Evaluation_List", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, userTypeParameter, capIDParameter, keywordParameter);
         }
     
-        public virtual ObjectResult<sp_Report_Education_Result> sp_Report_Education(Nullable<int> userID)
+        public virtual ObjectResult<sp_Report_Education_Result> sp_Report_Education(string eduID)
         {
-            var userIDParameter = userID.HasValue ?
-                new ObjectParameter("userID", userID) :
-                new ObjectParameter("userID", typeof(int));
+            var eduIDParameter = eduID != null ?
+                new ObjectParameter("eduID", eduID) :
+                new ObjectParameter("eduID", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Education_Result>("sp_Report_Education", userIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Education_Result>("sp_Report_Education", eduIDParameter);
         }
     }
 }

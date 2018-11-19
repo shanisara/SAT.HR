@@ -26,5 +26,6 @@ namespace SAT.HR.Data.Entities
         public Nullable<bool> ResetYear { get; set; }
         public Nullable<int> LastMonth { get; set; }
         public Nullable<int> LastYear { get; set; }
+        public string Culture { get; set; }
     }
 }

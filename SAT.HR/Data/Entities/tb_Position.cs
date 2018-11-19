@@ -19,6 +19,8 @@ namespace SAT.HR.Data.Entities
         public string PoName { get; set; }
         public Nullable<bool> PoStatus { get; set; }
         public Nullable<int> TypeID { get; set; }
+        public string ProjectNo { get; set; }
+        public string ProjectName { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }

@@ -62,6 +62,8 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> PoID { get; set; }
         public string PoCode { get; set; }
         public string PoName { get; set; }
+        public string ProjectNo { get; set; }
+        public string ProjectName { get; set; }
         public Nullable<int> EmpowerID { get; set; }
         public string EmpowerName { get; set; }
         public Nullable<int> EmpowerDivID { get; set; }
@@ -111,5 +113,11 @@ namespace SAT.HR.Data.Entities
         public string CrpName { get; set; }
         public Nullable<int> CrpTID { get; set; }
         public string CrpTypeName { get; set; }
+        public Nullable<int> ResignID { get; set; }
+        public string ResignRemark { get; set; }
+        public Nullable<System.DateTime> ResignDate { get; set; }
+        public Nullable<bool> IsGPALower250 { get; set; }
+        public Nullable<bool> IsToeicLower300 { get; set; }
+        public Nullable<bool> IsAgeOver35 { get; set; }
     }
 }

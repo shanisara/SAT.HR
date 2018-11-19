@@ -279,8 +279,6 @@ namespace SAT.HR.Report.Master.Dataset {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class sp_Report_EducationDataTable : global::System.Data.TypedTableBase<sp_Report_EducationRow> {
             
-            private global::System.Data.DataColumn columnUserID;
-            
             private global::System.Data.DataColumn columnTiFullName;
             
             private global::System.Data.DataColumn columnTiShortName;
@@ -299,9 +297,9 @@ namespace SAT.HR.Report.Master.Dataset {
             
             private global::System.Data.DataColumn columnCountryName;
             
-            private global::System.Data.DataColumn columnSalaryLevel;
-            
             private global::System.Data.DataColumn columnPoName;
+            
+            private global::System.Data.DataColumn columnSalaryLevel;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -334,14 +332,6 @@ namespace SAT.HR.Report.Master.Dataset {
             protected sp_Report_EducationDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn UserIDColumn {
-                get {
-                    return this.columnUserID;
-                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -418,17 +408,17 @@ namespace SAT.HR.Report.Master.Dataset {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn SalaryLevelColumn {
+            public global::System.Data.DataColumn PoNameColumn {
                 get {
-                    return this.columnSalaryLevel;
+                    return this.columnPoName;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn PoNameColumn {
+            public global::System.Data.DataColumn SalaryLevelColumn {
                 get {
-                    return this.columnPoName;
+                    return this.columnSalaryLevel;
                 }
             }
             
@@ -469,10 +459,9 @@ namespace SAT.HR.Report.Master.Dataset {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public sp_Report_EducationRow Addsp_Report_EducationRow(string TiFullName, string TiShortName, string FirstNameTh, string LastNameTh, string FullNameTh, string EduName, string DegName, string MajName, string CountryName, int SalaryLevel, string PoName) {
+            public sp_Report_EducationRow Addsp_Report_EducationRow(string TiFullName, string TiShortName, string FirstNameTh, string LastNameTh, string FullNameTh, string EduName, string DegName, string MajName, string CountryName, string PoName, int SalaryLevel) {
                 sp_Report_EducationRow rowsp_Report_EducationRow = ((sp_Report_EducationRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        null,
                         TiFullName,
                         TiShortName,
                         FirstNameTh,
@@ -482,8 +471,8 @@ namespace SAT.HR.Report.Master.Dataset {
                         DegName,
                         MajName,
                         CountryName,
-                        SalaryLevel,
-                        PoName};
+                        PoName,
+                        SalaryLevel};
                 rowsp_Report_EducationRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowsp_Report_EducationRow);
                 return rowsp_Report_EducationRow;
@@ -506,7 +495,6 @@ namespace SAT.HR.Report.Master.Dataset {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             internal void InitVars() {
-                this.columnUserID = base.Columns["UserID"];
                 this.columnTiFullName = base.Columns["TiFullName"];
                 this.columnTiShortName = base.Columns["TiShortName"];
                 this.columnFirstNameTh = base.Columns["FirstNameTh"];
@@ -516,15 +504,13 @@ namespace SAT.HR.Report.Master.Dataset {
                 this.columnDegName = base.Columns["DegName"];
                 this.columnMajName = base.Columns["MajName"];
                 this.columnCountryName = base.Columns["CountryName"];
-                this.columnSalaryLevel = base.Columns["SalaryLevel"];
                 this.columnPoName = base.Columns["PoName"];
+                this.columnSalaryLevel = base.Columns["SalaryLevel"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             private void InitClass() {
-                this.columnUserID = new global::System.Data.DataColumn("UserID", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnUserID);
                 this.columnTiFullName = new global::System.Data.DataColumn("TiFullName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTiFullName);
                 this.columnTiShortName = new global::System.Data.DataColumn("TiShortName", typeof(string), null, global::System.Data.MappingType.Element);
@@ -543,15 +529,10 @@ namespace SAT.HR.Report.Master.Dataset {
                 base.Columns.Add(this.columnMajName);
                 this.columnCountryName = new global::System.Data.DataColumn("CountryName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCountryName);
-                this.columnSalaryLevel = new global::System.Data.DataColumn("SalaryLevel", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnSalaryLevel);
                 this.columnPoName = new global::System.Data.DataColumn("PoName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPoName);
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnUserID}, false));
-                this.columnUserID.AutoIncrement = true;
-                this.columnUserID.ReadOnly = true;
-                this.columnUserID.Unique = true;
+                this.columnSalaryLevel = new global::System.Data.DataColumn("SalaryLevel", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSalaryLevel);
                 this.columnTiFullName.MaxLength = 100;
                 this.columnTiShortName.MaxLength = 100;
                 this.columnFirstNameTh.MaxLength = 200;
@@ -705,22 +686,6 @@ namespace SAT.HR.Report.Master.Dataset {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int UserID {
-                get {
-                    try {
-                        return ((int)(this[this.tablesp_Report_Education.UserIDColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'UserID\' in table \'sp_Report_Education\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablesp_Report_Education.UserIDColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string TiFullName {
                 get {
                     try {
@@ -865,22 +830,6 @@ namespace SAT.HR.Report.Master.Dataset {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int SalaryLevel {
-                get {
-                    try {
-                        return ((int)(this[this.tablesp_Report_Education.SalaryLevelColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'SalaryLevel\' in table \'sp_Report_Education\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablesp_Report_Education.SalaryLevelColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string PoName {
                 get {
                     try {
@@ -897,14 +846,18 @@ namespace SAT.HR.Report.Master.Dataset {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsUserIDNull() {
-                return this.IsNull(this.tablesp_Report_Education.UserIDColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetUserIDNull() {
-                this[this.tablesp_Report_Education.UserIDColumn] = global::System.Convert.DBNull;
+            public int SalaryLevel {
+                get {
+                    try {
+                        return ((int)(this[this.tablesp_Report_Education.SalaryLevelColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'SalaryLevel\' in table \'sp_Report_Education\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablesp_Report_Education.SalaryLevelColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1017,18 +970,6 @@ namespace SAT.HR.Report.Master.Dataset {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsSalaryLevelNull() {
-                return this.IsNull(this.tablesp_Report_Education.SalaryLevelColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetSalaryLevelNull() {
-                this[this.tablesp_Report_Education.SalaryLevelColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsPoNameNull() {
                 return this.IsNull(this.tablesp_Report_Education.PoNameColumn);
             }
@@ -1037,6 +978,18 @@ namespace SAT.HR.Report.Master.Dataset {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetPoNameNull() {
                 this[this.tablesp_Report_Education.PoNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsSalaryLevelNull() {
+                return this.IsNull(this.tablesp_Report_Education.SalaryLevelColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetSalaryLevelNull() {
+                this[this.tablesp_Report_Education.SalaryLevelColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -1199,7 +1152,6 @@ namespace SAT.HR.Report.Master.Dataset.ReportDSTableAdapters {
             global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
             tableMapping.SourceTable = "Table";
             tableMapping.DataSetTable = "sp_Report_Education";
-            tableMapping.ColumnMappings.Add("UserID", "UserID");
             tableMapping.ColumnMappings.Add("TiFullName", "TiFullName");
             tableMapping.ColumnMappings.Add("TiShortName", "TiShortName");
             tableMapping.ColumnMappings.Add("FirstNameTh", "FirstNameTh");
@@ -1209,8 +1161,8 @@ namespace SAT.HR.Report.Master.Dataset.ReportDSTableAdapters {
             tableMapping.ColumnMappings.Add("DegName", "DegName");
             tableMapping.ColumnMappings.Add("MajName", "MajName");
             tableMapping.ColumnMappings.Add("CountryName", "CountryName");
-            tableMapping.ColumnMappings.Add("SalaryLevel", "SalaryLevel");
             tableMapping.ColumnMappings.Add("PoName", "PoName");
+            tableMapping.ColumnMappings.Add("SalaryLevel", "SalaryLevel");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
@@ -1230,27 +1182,20 @@ namespace SAT.HR.Report.Master.Dataset.ReportDSTableAdapters {
             this._commandCollection[0].CommandText = "dbo.sp_Report_Education";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.StoredProcedure;
             this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@RETURN_VALUE", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.ReturnValue, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@userID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@eduID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@eduID", global::System.Data.SqlDbType.VarChar, 20, global::System.Data.ParameterDirection.Input, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(ReportDS.sp_Report_EducationDataTable dataTable, global::System.Nullable<int> userID, global::System.Nullable<int> eduID) {
+        public virtual int Fill(ReportDS.sp_Report_EducationDataTable dataTable, string eduID) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            if ((userID.HasValue == true)) {
-                this.Adapter.SelectCommand.Parameters[1].Value = ((int)(userID.Value));
-            }
-            else {
+            if ((eduID == null)) {
                 this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
             }
-            if ((eduID.HasValue == true)) {
-                this.Adapter.SelectCommand.Parameters[2].Value = ((int)(eduID.Value));
-            }
             else {
-                this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
+                this.Adapter.SelectCommand.Parameters[1].Value = ((string)(eduID));
             }
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
@@ -1263,19 +1208,13 @@ namespace SAT.HR.Report.Master.Dataset.ReportDSTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual ReportDS.sp_Report_EducationDataTable GetData(global::System.Nullable<int> userID, global::System.Nullable<int> eduID) {
+        public virtual ReportDS.sp_Report_EducationDataTable GetData(string eduID) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            if ((userID.HasValue == true)) {
-                this.Adapter.SelectCommand.Parameters[1].Value = ((int)(userID.Value));
-            }
-            else {
+            if ((eduID == null)) {
                 this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
             }
-            if ((eduID.HasValue == true)) {
-                this.Adapter.SelectCommand.Parameters[2].Value = ((int)(eduID.Value));
-            }
             else {
-                this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
+                this.Adapter.SelectCommand.Parameters[1].Value = ((string)(eduID));
             }
             ReportDS.sp_Report_EducationDataTable dataTable = new ReportDS.sp_Report_EducationDataTable();
             this.Adapter.Fill(dataTable);

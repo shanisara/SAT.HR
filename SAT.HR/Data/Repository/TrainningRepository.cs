@@ -103,7 +103,7 @@ namespace SAT.HR.Data.Repository
                         model.TrainerName = data.TrainerName;
                         model.Location = data.Location;
                         model.Certificate = data.Certificate;
-                        model.Remark = data.Remark;
+                        //model.Remark = data.Remark;
 
                         //var detail = GetDetail(model.CourseID);
                         //model.ListTrainning = detail;
@@ -190,7 +190,7 @@ namespace SAT.HR.Data.Repository
                         head.TrainerName = data.TrainerName;
                         head.Location = data.Location;
                         head.Certificate = data.Certificate;
-                        head.Remark = data.Remark;
+                        //head.Remark = data.Remark;
                         head.CreateBy = UtilityService.User.UserID;
                         head.CreateDate = DateTime.Now;
                         head.ModifyBy = UtilityService.User.UserID;
@@ -266,7 +266,7 @@ namespace SAT.HR.Data.Repository
                         head.TrainerName = newdata.TrainerName;
                         head.Location = newdata.Location;
                         head.Certificate = newdata.Certificate;
-                        head.Remark = newdata.Remark;
+                        //head.Remark = newdata.Remark;
                         head.ModifyBy = UtilityService.User.UserID;
                         head.ModifyDate = DateTime.Now;
                         db.SaveChanges();

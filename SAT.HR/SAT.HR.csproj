@@ -81,6 +81,18 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NPOI">
+      <HintPath>..\..\..\..\Project\HATC\HATC\bin\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>..\..\..\..\Project\HATC\HATC\bin\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>..\..\..\..\Project\HATC\HATC\bin\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>..\..\..\..\Project\HATC\HATC\bin\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -425,6 +437,9 @@
     <Compile Include="Data\Entities\tb_Rent_Type.cs">
       <DependentUpon>SATEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\Entities\tb_Resign_Type.cs">
+      <DependentUpon>SATEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Entities\tb_Role.cs">
       <DependentUpon>SATEntities.tt</DependentUpon>
     </Compile>
@@ -608,6 +623,7 @@
     <Compile Include="Data\Repository\MasterRepository.cs" />
     <Compile Include="Data\Repository\PositionRateRepository.cs" />
     <Compile Include="Data\Repository\PositionTransferRepository.cs" />
+    <Compile Include="Data\Repository\ReportRepository.cs" />
     <Compile Include="Data\Repository\TrainningRepository.cs" />
     <Compile Include="Helpers\AuthorizeUserAttribute.cs" />
     <Compile Include="Helpers\EnumType.cs" />
@@ -690,6 +706,7 @@
     <Compile Include="Models\HumanResource\CapabilityViewModels.cs" />
     <Compile Include="Models\Master\CertificateViewModels.cs" />
     <Compile Include="Models\Master\ClaimTypeViewModels.cs" />
+    <Compile Include="Models\Master\CrippleViewModels.cs" />
     <Compile Include="Models\Master\DegreeViewModels.cs" />
     <Compile Include="Models\Master\DepartmentViewModels.cs" />
     <Compile Include="Models\Master\DisciplineViewModels.cs" />
@@ -1059,7 +1076,7 @@
     <Content Include="Views\Employee\_SkillDetail.cshtml" />
     <Content Include="Views\HumanResource\_IndividualPlanDetail.cshtml" />
     <Content Include="Views\HumanResource\_TrainningDetail.cshtml" />
-    <Content Include="Views\Report\_Report_Education.cshtml" />
+    <Content Include="Views\Report\Report_Education.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1086,6 +1103,35 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ResourceSAT.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>5</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>7</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -1128,4 +1174,8 @@
   </Target>
   <Target Name="AfterBuild">
   </Target> -->
+  <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Web\Microsoft.Web.Publishing.Tasks.dll" />
+  <Target Name="ReportDS_xsd_AfterBuild" AfterTargets="AfterBuild" Condition="Exists('ReportDS.$(Configuration).xsd')">
+    <TransformXml Source="ReportDS.xsd" Destination="$(OutputPath)ReportDS.xsd" Transform="ReportDS.$(Configuration).xsd" />
+  </Target>
 </Project>
