@@ -2,6 +2,7 @@
 using SAT.HR.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.SessionState;
@@ -267,7 +268,46 @@ namespace SAT.HR.Helpers
             }
         }
 
+        public static string ServerName
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["ReportServerName"];
+            }
+        }
+
+        public static string DatabaseName
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["ReportDatabaseName"];
+
+            }
+
+        }
+
+        public static string UserName
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["ReportUserID"];
+            }
+
+        }
+
+        public static string Password
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["ReportPassword"];
+            }
+        }
+        public static string PathReport
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathReportFile");
+            }
+        }
     }
-
-
 }

@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "TimeAttendance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">alarm_on</i>
+                    </div>
+                    <h4 class="card-title"><span> รายงานวุฒิ </span></h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        @Html.Label("วุฒิการศึกษา: ", null, new { @class = "col-sm-2 col-form-label" })
+                        <div class="col-sm-6 m-t-6">
+                            @Html.DropDownList("DegID", new SelectList(ViewBag.Education, "Value", "Text"), "-- เลือกทั้งหมด --", new { @class = "form-control custom-select select-with-transition selectpicker", data_show_subtext = "true", data_live_search = "true" })
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-sm btn-primary" id="btn_export">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnPrint)</button>
+                        </div>
+                    </div>                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+<script>
+    $("#btn_export").click(function () {        
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("ExportReportEducation", "Report")'//,
+            //data: { level: level, step: step Report
+            //dataType: 'json',
+            //success: function (res) {
+            //    var salary = accounting.formatNumber(res.Salary, 2);
+            //    $('.new-salary').text(salary);
+            //}
+        });
+    });
+</script>
+}

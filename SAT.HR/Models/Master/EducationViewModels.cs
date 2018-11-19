@@ -34,4 +34,19 @@ namespace SAT.HR.Models
         public int recordsFiltered { get; set; }
         public List<EducationViewModel> data { get; set; }
     }
+    public class EducationReport
+    {
+       public string UserID { get; set; }
+        public string TiFullName { get; set; }
+        public string TiShortName { get; set; }
+        public string FirstNameTh { get; set; }
+        public string LastNameTh { get; set; }
+        public string FullNameTh { get; set; }
+        public string EduName { get; set; }
+        public string DegName { get; set; }
+        public string MajName { get; set; }
+        public string CountryName { get; set; }
+        public string SalaryLevel { get; set; }
+        public string PoName { get; set; }
+    }
 }
