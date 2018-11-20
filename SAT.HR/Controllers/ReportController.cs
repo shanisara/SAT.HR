@@ -1,5 +1,6 @@
 ﻿using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
+using SAT.HR.Data.Entities;
 using SAT.HR.Data.Repository;
 using SAT.HR.Helpers;
 using System;
@@ -16,7 +17,7 @@ namespace SAT.HR.Controllers
 {
     public class ReportController : BaseController
     {
-        public MemoryStream ReportFile;
+        string FileName = string.Empty;
 
         #region // รายงาน:ส่วนงานทรัพยากรบุคคล
 
@@ -56,30 +57,45 @@ namespace SAT.HR.Controllers
             return View("Report_Education", model); ;
         }
 
-        public ActionResult ExportReportEducation(string UserID, string EduID, string ExtensionFile)
+        [HttpPost]
+        public JsonResult ExportReportEducation(string UserID, string EduID, string ExtensionFile)
         {
             try
             {
-                ExtensionFile = ".pdf";
-                
+                //string[] Header = new string[] { "ลำดับ", "ที่", "ชื่อ-นามสกุล"};
+                //ReportRepository Report = new ReportRepository();
+                //var fileExcel = Report.ReportExcel(Report.testExcel(EduID), Header);
+
                 ReportClass rptH = new ReportClass();
-                var file = Path.Combine(SysConfig.PathReport,"Report_Education_" + DateTime.Now.ToString("yyyyMMddHHmm") + ExtensionFile);         
+                FileName = "Report_Education" + "_" + DateTime.Now.ToString("yyyyMMddHHmm") + ExtensionFile;
                 rptH.FileName = Server.MapPath(@"~/Report/Master/Report_Education.rpt");
-                rptH.Load();                
+                rptH.Load();
                 rptH.SetDatabaseLogon(SysConfig.UserName, SysConfig.Password, SysConfig.ServerName, SysConfig.DatabaseName);
-                rptH.SetParameterValue("@eduID", "004");
-                rptH.ExportToDisk(ExportFormatType.PortableDocFormat, file);
+                rptH.SetParameterValue("@eduID", EduID);
+                rptH.ExportToDisk(ExportFormatType.ExcelWorkbook, Path.Combine(SysConfig.PathReport, FileName));
 
-                var filePath = System.IO.File.ReadAllBytes(file);
-                MemoryStream stream = new MemoryStream(filePath, false);
-
-                return File(stream, "application/pdf","xxx.pdf");
-
+                return Json(FileName, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
+
+        [HttpGet]
+        public FileResult DownloadFile(string fileName)
+        {
+            try
+            {
+                var filePath = System.IO.File.ReadAllBytes(Path.Combine(SysConfig.PathReport, fileName));
+                return File(filePath, "application/vnd.ms-excel", fileName);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+       
+        }
+        
     }
 }

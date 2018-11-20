@@ -16,83 +16,24 @@ using System.Data;
 
 namespace SAT.HR.Data.Repository
 {
-    
     public class ReportRepository
     {
-        public List<EducationReport> ReportEducation(string UserID, string EduID)
+
+        public DataTable testExcel(string eduID)
         {
-            List<EducationReport> model = new List<EducationReport>();
-
-            try
+            DataTable data = new DataTable();
+            using (SATEntities db = new SATEntities())
             {
-                using (SATEntities db = new SATEntities())
-                {
-                    //var data = db.sp_Report_Education(UserID, EduID).ToList();
-
-
-                    var data = db.sp_Report_Education(EduID).Select(x => new EducationReport()
-                    {
-                        //UserID = x.UserID == null ? "" : x.UserID.ToString(),
-                        TiFullName = x.TiFullName == null ? "" : x.TiFullName.ToString(),
-                        TiShortName = x.TiShortName == null ? "" : x.TiShortName.ToString(),
-                        FirstNameTh = x.FirstNameTh == null ? "" : x.FirstNameTh.ToString(),
-                        LastNameTh = x.LastNameTh == null ? "" : x.LastNameTh.ToString(),
-                        FullNameTh = x.FullNameTh == null ? "" : x.FullNameTh.ToString(),
-                        EduName = x.EduName == null ? "" : x.EduName.ToString(),
-                        DegName = x.DegName == null ? "" : x.DegName.ToString(),
-                        MajName = x.MajName == null ? "" : x.MajName.ToString(),
-                        PoName = x.PoName == null ? "" : x.PoName.ToString(),
-                        SalaryLevel = x.SalaryLevel == null ? "" : x.SalaryLevel.ToString()
-                    }).ToList();
-
-                    model = data;
-                }
-            }
-            catch (Exception)
-            {
-                throw;
+                data = UtilityService.ToDataTable(db.tb_Degree.ToList());
             }
 
-            return model;
+            return data;
         }
 
-        public DataTable CallGenerateReport(string userID, string eduID)
-        {
-            DataSet dsReport = new DataSet();
-            DataTable dtReport = null;
-            using (SqlConnection conn = new SqlConnection(new SATEntities().Database.Connection.ConnectionString))
-            {
-                SqlDataAdapter daDetail = new SqlDataAdapter();
-                SqlCommand cmmDetail = new SqlCommand
-                {
-                    CommandText = "sp_Report_Education",
-                    CommandType = CommandType.StoredProcedure,
-                    Connection = conn,
-                    CommandTimeout = 300
-                };
-
-                cmmDetail.Parameters.AddWithValue("@userId", userID);
-                cmmDetail.Parameters.AddWithValue("@eduId", eduID);
-                daDetail.SelectCommand = cmmDetail;
-                daDetail.Fill(dtReport);
-
-                daDetail.SelectCommand = cmmDetail;
-                dtReport = dsReport.Tables[0];                
-            }
-
-            if (dsReport.Tables.Count > 0)
-            {
-                dtReport = dsReport.Tables[0];
-            }
-
-            return dtReport;
-        }
-
-        public MemoryStream ReportEducationExcel(List<EducationReport> data)
+        public MemoryStream ReportExcel(DataTable data, string[] Header, string FileName)
         {
             try
             {
-                string[] Header = new string[] { "ที่", "ชื่อ-นามสกุล", "ตำแหน่ง", "ระดับ", "วุฒิ", "สาขา" };
                 XSSFWorkbook book = new XSSFWorkbook();
                 string SheetName = "Sheet1";
                 XSSFSheet sheet = (XSSFSheet)book.CreateSheet(SheetName);
@@ -105,11 +46,12 @@ namespace SAT.HR.Data.Repository
 
                 XSSFFont Headerfont = (XSSFFont)book.CreateFont();
                 Headerfont.FontHeightInPoints = 9;
+                Headerfont.IsBold = true;
                 Headerfont.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Bold;
 
                 XSSFCellStyle headerCellStyle = (XSSFCellStyle)book.CreateCellStyle();
                 headerCellStyle.SetFont(Headerfont);
-                headerCellStyle.FillPattern = FillPattern.SolidForeground;
+                //headerCellStyle.FillPattern = FillPattern.SolidForeground;
                 headerCellStyle.BorderBottom = BorderStyle.Thin;
                 headerCellStyle.BorderLeft = BorderStyle.Thin;
                 headerCellStyle.BorderRight = BorderStyle.Thin;
@@ -117,33 +59,6 @@ namespace SAT.HR.Data.Repository
                 headerCellStyle.WrapText = true;
                 headerCellStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
 
-                XSSFFont HeaderfontGreen = (XSSFFont)book.CreateFont();
-                HeaderfontGreen.FontHeightInPoints = 9;
-                HeaderfontGreen.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Bold;
-
-                XSSFCellStyle headerGreenCellStyle = (XSSFCellStyle)book.CreateCellStyle();
-                headerGreenCellStyle.SetFont(HeaderfontGreen);
-                headerGreenCellStyle.FillPattern = FillPattern.SolidForeground;
-                headerGreenCellStyle.BorderBottom = BorderStyle.Thin;
-                headerGreenCellStyle.BorderLeft = BorderStyle.Thin;
-                headerGreenCellStyle.BorderRight = BorderStyle.Thin;
-                headerGreenCellStyle.BorderTop = BorderStyle.Thin;
-                headerGreenCellStyle.WrapText = true;
-                headerGreenCellStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
-
-                XSSFFont HeaderfontRed = (XSSFFont)book.CreateFont();
-                HeaderfontRed.FontHeightInPoints = 9;
-                HeaderfontRed.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Bold;
-
-                XSSFCellStyle headerRedCellStyle = (XSSFCellStyle)book.CreateCellStyle();
-                headerRedCellStyle.SetFont(HeaderfontRed);
-                headerRedCellStyle.FillPattern = FillPattern.SolidForeground;
-                headerRedCellStyle.BorderBottom = BorderStyle.Thin;
-                headerRedCellStyle.BorderLeft = BorderStyle.Thin;
-                headerRedCellStyle.BorderRight = BorderStyle.Thin;
-                headerRedCellStyle.BorderTop = BorderStyle.Thin;
-                headerRedCellStyle.WrapText = true;
-                headerRedCellStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
 
                 XSSFFont Datafont = (XSSFFont)book.CreateFont();
                 Datafont.FontHeightInPoints = 9;
@@ -156,67 +71,70 @@ namespace SAT.HR.Data.Repository
                 dataCellStyle.BorderRight = BorderStyle.Thin;
                 dataCellStyle.BorderTop = BorderStyle.Thin;
 
-                XSSFCellStyle dataCellDateStyle = (XSSFCellStyle)book.CreateCellStyle();
-                dataCellDateStyle.SetFont(Datafont);
-                dataCellDateStyle.BorderBottom = BorderStyle.Thin;
-                dataCellDateStyle.BorderLeft = BorderStyle.Thin;
-                dataCellDateStyle.BorderRight = BorderStyle.Thin;
-                dataCellDateStyle.BorderTop = BorderStyle.Thin;
-                dataCellDateStyle.DataFormat = book.CreateDataFormat().GetFormat("dd/MM/yyyy");
+                #region styleCell
+                //XSSFCellStyle dataCellDateStyle = (XSSFCellStyle)book.CreateCellStyle();
+                //dataCellDateStyle.SetFont(Datafont);
+                //dataCellDateStyle.BorderBottom = BorderStyle.Thin;
+                //dataCellDateStyle.BorderLeft = BorderStyle.Thin;
+                //dataCellDateStyle.BorderRight = BorderStyle.Thin;
+                //dataCellDateStyle.BorderTop = BorderStyle.Thin;
+                //dataCellDateStyle.DataFormat = book.CreateDataFormat().GetFormat("dd/MM/yyyy");
 
-                XSSFCellStyle dataCellNumberStyle = (XSSFCellStyle)book.CreateCellStyle();
-                dataCellNumberStyle.SetFont(Datafont);
-                dataCellNumberStyle.BorderBottom = BorderStyle.Thin;
-                dataCellNumberStyle.BorderLeft = BorderStyle.Thin;
-                dataCellNumberStyle.BorderRight = BorderStyle.Thin;
-                dataCellNumberStyle.BorderTop = BorderStyle.Thin;
+                //XSSFCellStyle dataCellNumberStyle = (XSSFCellStyle)book.CreateCellStyle();
+                //dataCellNumberStyle.SetFont(Datafont);
+                //dataCellNumberStyle.BorderBottom = BorderStyle.Thin;
+                //dataCellNumberStyle.BorderLeft = BorderStyle.Thin;
+                //dataCellNumberStyle.BorderRight = BorderStyle.Thin;
+                //dataCellNumberStyle.BorderTop = BorderStyle.Thin;
 
-                XSSFCellStyle dataCellNumberBoldStyle = (XSSFCellStyle)book.CreateCellStyle();
-                dataCellNumberBoldStyle.SetFont(Headerfont);
-                dataCellNumberBoldStyle.BorderBottom = BorderStyle.Thin;
-                dataCellNumberBoldStyle.BorderLeft = BorderStyle.Thin;
-                dataCellNumberBoldStyle.BorderRight = BorderStyle.Thin;
-                dataCellNumberBoldStyle.BorderTop = BorderStyle.Thin;
+                //XSSFCellStyle dataCellNumberBoldStyle = (XSSFCellStyle)book.CreateCellStyle();
+                //dataCellNumberBoldStyle.SetFont(Headerfont);
+                //dataCellNumberBoldStyle.BorderBottom = BorderStyle.Thin;
+                //dataCellNumberBoldStyle.BorderLeft = BorderStyle.Thin;
+                //dataCellNumberBoldStyle.BorderRight = BorderStyle.Thin;
+                //dataCellNumberBoldStyle.BorderTop = BorderStyle.Thin;
 
-                XSSFCellStyle dataCellPercentStyle = (XSSFCellStyle)book.CreateCellStyle();
-                dataCellPercentStyle.SetFont(Datafont);
-                dataCellPercentStyle.BorderBottom = BorderStyle.Thin;
-                dataCellPercentStyle.BorderLeft = BorderStyle.Thin;
-                dataCellPercentStyle.BorderRight = BorderStyle.Thin;
-                dataCellPercentStyle.BorderTop = BorderStyle.Thin;
+                //XSSFCellStyle dataCellPercentStyle = (XSSFCellStyle)book.CreateCellStyle();
+                //dataCellPercentStyle.SetFont(Datafont);
+                //dataCellPercentStyle.BorderBottom = BorderStyle.Thin;
+                //dataCellPercentStyle.BorderLeft = BorderStyle.Thin;
+                //dataCellPercentStyle.BorderRight = BorderStyle.Thin;
+                //dataCellPercentStyle.BorderTop = BorderStyle.Thin;
 
-                XSSFFont DataRedfont = (XSSFFont)book.CreateFont();
-                DataRedfont.FontHeightInPoints = 9;
-                DataRedfont.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Normal;
+                //XSSFFont DataRedfont = (XSSFFont)book.CreateFont();
+                //DataRedfont.FontHeightInPoints = 9;
+                //DataRedfont.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Normal;
 
-                XSSFCellStyle dataCellRedNumberStyle = (XSSFCellStyle)book.CreateCellStyle();
-                dataCellRedNumberStyle.SetFont(DataRedfont);
-                dataCellRedNumberStyle.BorderBottom = BorderStyle.Thin;
-                dataCellRedNumberStyle.BorderLeft = BorderStyle.Thin;
-                dataCellRedNumberStyle.BorderRight = BorderStyle.Thin;
-                dataCellRedNumberStyle.BorderTop = BorderStyle.Thin;
+                //XSSFCellStyle dataCellRedNumberStyle = (XSSFCellStyle)book.CreateCellStyle();
+                //dataCellRedNumberStyle.SetFont(DataRedfont);
+                //dataCellRedNumberStyle.BorderBottom = BorderStyle.Thin;
+                //dataCellRedNumberStyle.BorderLeft = BorderStyle.Thin;
+                //dataCellRedNumberStyle.BorderRight = BorderStyle.Thin;
+                //dataCellRedNumberStyle.BorderTop = BorderStyle.Thin;
 
-                XSSFFont DataGreenfont = (XSSFFont)book.CreateFont();
-                DataGreenfont.FontHeightInPoints = 9;
-                DataGreenfont.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Normal;
+                //XSSFFont DataGreenfont = (XSSFFont)book.CreateFont();
+                //DataGreenfont.FontHeightInPoints = 9;
+                //DataGreenfont.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Normal;
 
-                XSSFCellStyle dataCellGreenNumberStyle = (XSSFCellStyle)book.CreateCellStyle();
-                dataCellGreenNumberStyle.SetFont(DataGreenfont);
-                dataCellGreenNumberStyle.BorderBottom = BorderStyle.Thin;
-                dataCellGreenNumberStyle.BorderLeft = BorderStyle.Thin;
-                dataCellGreenNumberStyle.BorderRight = BorderStyle.Thin;
-                dataCellGreenNumberStyle.BorderTop = BorderStyle.Thin;
+                //XSSFCellStyle dataCellGreenNumberStyle = (XSSFCellStyle)book.CreateCellStyle();
+                //dataCellGreenNumberStyle.SetFont(DataGreenfont);
+                //dataCellGreenNumberStyle.BorderBottom = BorderStyle.Thin;
+                //dataCellGreenNumberStyle.BorderLeft = BorderStyle.Thin;
+                //dataCellGreenNumberStyle.BorderRight = BorderStyle.Thin;
+                //dataCellGreenNumberStyle.BorderTop = BorderStyle.Thin;
 
-                XSSFFont DataBrownfont = (XSSFFont)book.CreateFont();
-                DataBrownfont.FontHeightInPoints = 9;
-                DataBrownfont.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Normal;
+                //XSSFFont DataBrownfont = (XSSFFont)book.CreateFont();
+                //DataBrownfont.FontHeightInPoints = 9;
+                //DataBrownfont.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Normal;
 
-                XSSFCellStyle dataCellBrownNumberStyle = (XSSFCellStyle)book.CreateCellStyle();
-                dataCellBrownNumberStyle.SetFont(DataBrownfont);
-                dataCellBrownNumberStyle.BorderBottom = BorderStyle.Thin;
-                dataCellBrownNumberStyle.BorderLeft = BorderStyle.Thin;
-                dataCellBrownNumberStyle.BorderRight = BorderStyle.Thin;
-                dataCellBrownNumberStyle.BorderTop = BorderStyle.Thin;
+                //XSSFCellStyle dataCellBrownNumberStyle = (XSSFCellStyle)book.CreateCellStyle();
+                //dataCellBrownNumberStyle.SetFont(DataBrownfont);
+                //dataCellBrownNumberStyle.BorderBottom = BorderStyle.Thin;
+                //dataCellBrownNumberStyle.BorderLeft = BorderStyle.Thin;
+                //dataCellBrownNumberStyle.BorderRight = BorderStyle.Thin;
+                //dataCellBrownNumberStyle.BorderTop = BorderStyle.Thin;
+
+                #endregion
 
                 #endregion
 
@@ -233,42 +151,37 @@ namespace SAT.HR.Data.Repository
                 #endregion
 
                 #region Detail
-                int SeqNo = 1;
-                int col;
-                sheet.CreateRow(currentRow);
-                XSSFRow dr = (XSSFRow)sheet.GetRow(currentRow);
-
-                foreach (EducationReport model in data)
+                int SeqNo = 0;
+                int col = 0;
+                foreach (DataRow model in data.Rows)
                 {
+                    sheet.CreateRow(currentRow);
+                    XSSFRow dr = (XSSFRow)sheet.GetRow(currentRow);
+
                     col = 0;
-                    dr.CreateCell(col, CellType.Numeric).SetCellValue(SeqNo);
-                    dr.GetCell(col).CellStyle = dataCellStyle;
                     SeqNo++;
 
-                    col++;
-                    dr.CreateCell(col, CellType.String).SetCellValue(model.FullNameTh.ToString());
-                    dr.GetCell(col).CellStyle = dataCellStyle;
+                    for (col = 0; col < Header.Count(); col++)
+                    {
+                        dr.CreateCell(col, CellType.String).SetCellValue(col == 0 ? SeqNo.ToString() : model[col].ToString());
+                        dr.GetCell(col).CellStyle = dataCellStyle;
+                    }
 
-                    col++;
-                    dr.CreateCell(col, CellType.String).SetCellValue(model.PoName.ToString());
-                    dr.GetCell(col).CellStyle = dataCellStyle;
+                    currentRow++;
 
-                    col++;
-                    dr.CreateCell(col, CellType.String).SetCellValue(model.EduName.ToString());
-                    dr.GetCell(col).CellStyle = dataCellStyle;
-
-                    col++;
-                    dr.CreateCell(col, CellType.String).SetCellValue(model.DegName.ToString());
-                    dr.GetCell(col).CellStyle = dataCellStyle;
-
-                    col++;
-                    dr.CreateCell(col, CellType.String).SetCellValue(model.MajName.ToString());
-                    dr.GetCell(col).CellStyle = dataCellStyle;
-
-                    col++;
                 }
+
+                for (int j = 0; j < sheet.GetRow(0).LastCellNum; j++)
+                {
+                    sheet.AutoSizeColumn(j);
+                }
+
                 #endregion
 
+                //using (FileStream file = new FileStream(Path.Combine(SysConfig.PathReport, FileName + ".xlsx"), FileMode.Create))
+                //{
+                //    book.Write(file);
+                //}
 
                 MemoryStream m = new MemoryStream();
                 book.Write(m);
@@ -276,7 +189,7 @@ namespace SAT.HR.Data.Repository
             }
             catch (Exception ex)
             {
-               throw new NotImplementedException();
+                throw new NotImplementedException();
             }
         }
     }

@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 <div class="content">
     <div class="row">
         <div class="col-md-12">
@@ -20,27 +21,52 @@
                         <div class="col-sm-6 m-t-6">
                             @Html.DropDownList("DegID", new SelectList(ViewBag.Education, "Value", "Text"), "-- เลือกทั้งหมด --", new { @class = "form-control custom-select select-with-transition selectpicker", data_show_subtext = "true", data_live_search = "true" })
                         </div>
-                        <div>
+                        
+                    </div>
+                    
+                    <div class="row">
+                        @Html.Label("เลือกรูปแบบรายงาน: ", null, new { @class = "col-sm-2 col-form-label" })
+                        <div class="col-sm-8 checkbox-radios">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input name="salarylevel" class="form-check-input" type="radio" value="1"> PDF
+                                    <span class="circle">
+                                        <span class="check"></span>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input name="salarylevel" class="form-check-input" type="radio" value="2"> EXCEL
+                                    <span class="circle">
+                                        <span class="check"></span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>                        
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-10 m-t-10">
                             <button type="button" class="btn btn-sm btn-primary" id="btn_export">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnPrint)</button>
                         </div>
-                    </div>                   
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 @section Scripts {
 <script>
-    $("#btn_export").click(function () {        
+    $("#btn_export").click(function () {
         $.ajax({
             type: 'POST',
-            url: '@Url.Action("ExportReportEducation", "Report")'//,
-            //data: { level: level, step: step Report
-            //dataType: 'json',
-            //success: function (res) {
-            //    var salary = accounting.formatNumber(res.Salary, 2);
-            //    $('.new-salary').text(salary);
-            //}
+            url: '@Url.Action("ExportReportEducation", "Report")',
+            success: function (FileName) {
+                alert(window.location = '/Reports/DownloadFile?file=' + FileName);
+                window.location = '/Report/DownloadFile?fileName=' + FileName;
+            }          
         });
     });
 </script>
