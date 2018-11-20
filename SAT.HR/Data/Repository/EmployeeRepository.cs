@@ -329,7 +329,6 @@ namespace SAT.HR.Data.Repository
             }
             catch (Exception)
             {
-
                 throw;
             }
             return model;
@@ -510,6 +509,7 @@ namespace SAT.HR.Data.Repository
 
                         model.SalaryLevel = newdata.SalaryLevel;
                         model.SalaryStep = newdata.SalaryStep;
+                        model.Salary = newdata.Salary;
 
                         model.EmpowerID = newdata.EmpowerID;
                         model.EmpowerDivID = newdata.EmpowerDivID;
@@ -561,7 +561,6 @@ namespace SAT.HR.Data.Repository
                             man.DepID = newdata.DepID;
                             man.SecID = newdata.SecID;
                             man.PoID = newdata.PoID;
-                            man.TypeID = newdata.UserType;
                             db.SaveChanges();
                             //}
                         }
@@ -1087,7 +1086,7 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
                     int index = 1;
-                    var position = db.vw_User_Position.Where(x => x.UserID == userid).OrderByDescending(o => o.UpForceDate).ToList();
+                    var position = db.vw_User_Position.Where(x => x.UserID == userid).OrderBy(o => o.UpForceDate).ToList();
                     foreach (var item in position)
                     {
                         UserPositionViewModel model = new UserPositionViewModel();
