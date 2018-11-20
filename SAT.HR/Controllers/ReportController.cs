@@ -58,7 +58,7 @@ namespace SAT.HR.Controllers
         }
 
         [HttpPost]
-        public JsonResult ExportReportEducation(string UserID, string EduID, string ExtensionFile)
+        public JsonResult ExportReportEducation(string EduID, string ExtensionFile)
         {
             try
             {
@@ -71,8 +71,8 @@ namespace SAT.HR.Controllers
                 rptH.FileName = Server.MapPath(@"~/Report/Master/Report_Education.rpt");
                 rptH.Load();
                 rptH.SetDatabaseLogon(SysConfig.UserName, SysConfig.Password, SysConfig.ServerName, SysConfig.DatabaseName);
-                rptH.SetParameterValue("@eduID", EduID);
-                rptH.ExportToDisk(ExportFormatType.ExcelWorkbook, Path.Combine(SysConfig.PathReport, FileName));
+                rptH.SetParameterValue("@eduID", EduID == "" ? null : EduID);
+                rptH.ExportToDisk(ExtensionFile == ".xlsx" ? ExportFormatType.ExcelWorkbook : ExportFormatType.PortableDocFormat, Path.Combine(SysConfig.PathReport, FileName));
 
                 return Json(FileName, JsonRequestBehavior.AllowGet);
             }
@@ -88,7 +88,7 @@ namespace SAT.HR.Controllers
             try
             {
                 var filePath = System.IO.File.ReadAllBytes(Path.Combine(SysConfig.PathReport, fileName));
-                return File(filePath, "application/vnd.ms-excel", fileName);
+                return File(filePath, "application", fileName);
             }
             catch(Exception ex)
             {

@@ -19,30 +19,31 @@
                     <div class="row">
                         @Html.Label("วุฒิการศึกษา: ", null, new { @class = "col-sm-2 col-form-label" })
                         <div class="col-sm-6 m-t-6">
-                            @Html.DropDownList("DegID", new SelectList(ViewBag.Education, "Value", "Text"), "-- เลือกทั้งหมด --", new { @class = "form-control custom-select select-with-transition selectpicker", data_show_subtext = "true", data_live_search = "true" })
+                            @Html.DropDownList("EduID", new SelectList(ViewBag.Education, "Value", "Text"), "-- เลือกทั้งหมด --", new { @class = "form-control custom-select select-with-transition selectpicker", data_show_subtext = "true", data_live_search = "true" })
                         </div>
                         
                     </div>
                     
                     <div class="row">
                         @Html.Label("เลือกรูปแบบรายงาน: ", null, new { @class = "col-sm-2 col-form-label" })
+                        <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input name="exporttype" class="form-check-input exporttype" type="radio" value=".xlsx"> EXCEL
+                                    <span class="circle">
+                                        <span class="check"></span>
+                                    </span>
+                                </label>
+                            </div>
                         <div class="col-sm-8 checkbox-radios">
                             <div class="form-check form-check-inline">
                                 <label class="form-check-label">
-                                    <input name="salarylevel" class="form-check-input" type="radio" value="1"> PDF
+                                    <input name="exporttype" class="form-check-input exporttype" type="radio" value=".pdf"> PDF
                                     <span class="circle">
                                         <span class="check"></span>
                                     </span>
                                 </label>
                             </div>
-                            <div class="form-check form-check-inline">
-                                <label class="form-check-label">
-                                    <input name="salarylevel" class="form-check-input" type="radio" value="2"> EXCEL
-                                    <span class="circle">
-                                        <span class="check"></span>
-                                    </span>
-                                </label>
-                            </div>
+                            
                         </div>                        
                     </div>
 
@@ -63,11 +64,18 @@
         $.ajax({
             type: 'POST',
             url: '@Url.Action("ExportReportEducation", "Report")',
-            success: function (FileName) {
-                alert(window.location = '/Reports/DownloadFile?file=' + FileName);
+            data: {
+                EduID: $("#EduID").val(),
+                ExtensionFile: $('input[name=exporttype]:checked').val()
+            },
+            success: function (FileName) {               
                 window.location = '/Report/DownloadFile?fileName=' + FileName;
             }          
         });
+    });
+
+    $(function () {
+        $('.exporttype').attr('checked', 'checked');        
     });
 </script>
 }
