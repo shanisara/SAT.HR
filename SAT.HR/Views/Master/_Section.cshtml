@@ -78,15 +78,15 @@
                 url: '@Url.Action("DepartmentByDiv", "Master")',
                 data: { divid: $('#DivID').val() },
                 dataType: 'json',
-                success: function (res) {
+                success: function (res) {                    
                     $('#DepID').empty().append('<option value=""> -- กรุณาเลือก / Please choose -- </option>');
                     $.each(res, function (key, entry) {
 
                         $('#DepID').append($('<option></option>').attr('value', entry.Value).text(entry.Text));
                     })
+                    $('select[id=DepID]').selectpicker('refresh');
                 }
             });
         });
-
     });
 </script>
