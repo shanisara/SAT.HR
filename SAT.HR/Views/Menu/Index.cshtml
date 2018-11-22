@@ -38,7 +38,6 @@
         </div>
 
         <ul class="nav">
-
             @{
                 string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
                 string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
@@ -47,6 +46,13 @@
                     if (actionName == "Detail" || actionName == "Add") { actionName = "Index"; }
                     else if (actionName == "LevelTransferDetail") { actionName = "LevelTransfer"; }
                     else if (actionName == "PositionTransferDetail") { actionName = "PositionTransfer"; }
+                }
+                if (controllerName == "WorkingTime")
+                {
+                    if (actionName == "LeaveRequestDetail") { actionName = "LeaveRequest"; }
+                    else if (actionName == "LeaveBalanceDetail") { actionName = "LeaveBalance"; }
+                    else if (actionName == "LeaveBalanceDetail") { actionName = "LeaveBalance"; }
+                    else if (actionName == "WorkingShiftDetail") { actionName = "WorkingShift"; }
                 }
                 else if (controllerName == "Benefit")
                 {
