@@ -204,8 +204,8 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group bmd-form-group">
-                                            @Html.Label("ตอบแทนเกษียณ (เท่า)", null, new { @class = "bmd-label-floating" })
-                                            @Html.TextBoxFor(m => m.Remuneration, new { @class = "form-control" })
+                                            @Html.Label("อายุงาน (ปี)", null, new { @class = "bmd-label-floating" })
+                                            @Html.TextBoxFor(m => m.Experience, new { @class = "form-control", @disabled = true })
                                         </div>
                                     </div>
                                 </div>
@@ -224,21 +224,6 @@
                                         </div>
                                     </div>
                                     <div class="col-md-3">
-                                        <div class="form-group">
-                                            @Html.Label("ประเภทพิการ", null, new { @class = "label-select" })
-                                            @Html.DropDownListFor(n => n.CrpTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Cripple, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            @Html.Label("ประเภทความพิการ", null, new { @class = "label-select" })
-                                            @Html.DropDownListFor(n => n.CrpTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.CrippleType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-3">
                                         <div class="form-group bmd-form-group">
                                             @Html.Label("วันที่บรรจุ", null, new { @class = "bmd-label-fixed" })
                                             @Html.TextBoxFor(m => m.StartWorkDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
@@ -250,6 +235,9 @@
                                             @Html.TextBoxFor(m => m.ProbationDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group bmd-form-group">
                                             @Html.Label("วันครบเกษียณ", null, new { @class = "bmd-label-floating" })
@@ -258,13 +246,10 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group bmd-form-group">
-                                            @Html.Label("อายุงาน (ปี)", null, new { @class = "bmd-label-floating" })
-                                            @Html.TextBoxFor(m => m.Experience, new { @class = "form-control", @disabled = true })
+                                            @Html.Label("ตอบแทนเกษียณ (เท่า)", null, new { @class = "bmd-label-fixed" })
+                                            @Html.TextBoxFor(m => m.Remuneration, new { @class = "form-control" })
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group bmd-form-group">
                                             @Html.Label("รหัสสแกนนิ้ว", null, new { @class = "bmd-label-floating" })
@@ -277,9 +262,25 @@
                                             @Html.TextBoxFor(m => m.CardScan, new { @class = "form-control" })
                                         </div>
                                     </div>
-                                    
                                 </div>
 
+                                @if (Model.UserType == 2)
+                                {
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                @Html.Label("ประเภทพิการ", null, new { @class = "label-select" })
+                                                @Html.DropDownListFor(n => n.CrpTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Cripple, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                @Html.Label("ประเภทความพิการ", null, new { @class = "label-select" })
+                                                @Html.DropDownListFor(n => n.CrpTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.CrippleType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -314,7 +315,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group bmd-form-group">
                                             @Html.Label("เงินเดือน", null, new { @class = "bmd-label-fixed" })
-                                            @Html.TextBoxFor(m => m.Salary, "{0:N2}", new { @class = "form-control", @disabled = true })
+                                            @Html.TextBoxFor(m => m.Salary, new { @class = "form-control", type = "number" })
                                         </div>
                                     </div>
                                 </div>
