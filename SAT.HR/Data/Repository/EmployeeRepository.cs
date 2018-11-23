@@ -200,6 +200,7 @@ namespace SAT.HR.Data.Repository
                         model.UserName = item.UserName;
                         model.FullNameTh = item.FullNameTh;
                         model.MpID = item.MpID;
+                        model.MpCode = item.UserTypID == 1 ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
                         model.DivID = item.DivID;
                         model.DivName = item.DivName;
                         model.DepID = item.DepID;
