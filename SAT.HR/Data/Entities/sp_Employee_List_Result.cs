@@ -42,5 +42,6 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> recordsTotal { get; set; }
         public Nullable<int> recordsFiltered { get; set; }
         public Nullable<int> DisID { get; set; }
+        public Nullable<int> MpID { get; set; }
     }
 }

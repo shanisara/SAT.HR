@@ -25,12 +25,14 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> DivID { get; set; }
         public string DepName { get; set; }
         public Nullable<bool> DepStatus { get; set; }
+        public Nullable<int> TypeID { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
     
         public virtual tb_Division tb_Division { get; set; }
+        public virtual tb_User_Type tb_User_Type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Man_Power> tb_Man_Power { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

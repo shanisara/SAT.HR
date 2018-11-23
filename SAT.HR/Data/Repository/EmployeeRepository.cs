@@ -199,6 +199,7 @@ namespace SAT.HR.Data.Repository
                         model.IDCard = item.IDCard;
                         model.UserName = item.UserName;
                         model.FullNameTh = item.FullNameTh;
+                        model.MpID = item.MpID;
                         model.DivID = item.DivID;
                         model.DivName = item.DivName;
                         model.DepID = item.DepID;

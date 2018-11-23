@@ -38,6 +38,7 @@ namespace SAT.HR.Models
         public string CardScan { get; set; }
         public Nullable<int> SalaryLevel { get; set; }
         public Nullable<decimal> SalaryStep { get; set; }
+        public Nullable<int> MpID { get; set; }
         public Nullable<int> DivID { get; set; }
         public Nullable<int> DepID { get; set; }
         public Nullable<int> SecID { get; set; }

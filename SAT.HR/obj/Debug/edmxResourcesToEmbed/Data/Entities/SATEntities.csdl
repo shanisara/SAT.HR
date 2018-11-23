@@ -34,6 +34,9 @@
       <Parameter Name="CapID" Mode="In" Type="String" />
       <Parameter Name="Keyword" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="sp_Report_Education" ReturnType="Collection(SAT.HR.sp_Report_Education_Result)">
+      <Parameter Name="eduID" Mode="In" Type="String" />
+    </FunctionImport>
     <EntitySet Name="tb_Accumulative_Fund" EntityType="SAT.HR.tb_Accumulative_Fund" />
     <EntitySet Name="tb_Action_Type" EntityType="SAT.HR.tb_Action_Type" />
     <EntitySet Name="tb_Agent_Type" EntityType="SAT.HR.tb_Agent_Type" />
@@ -311,6 +314,10 @@
       <End Role="tb_Division" EntitySet="tb_Division" />
       <End Role="tb_Department" EntitySet="tb_Department" />
     </AssociationSet>
+    <AssociationSet Name="FK_tb_Department_tb_User_Type" Association="SAT.HR.FK_tb_Department_tb_User_Type">
+      <End Role="tb_User_Type" EntitySet="tb_User_Type" />
+      <End Role="tb_Department" EntitySet="tb_Department" />
+    </AssociationSet>
     <AssociationSet Name="FK_tb_Man_Power_tb_Department" Association="SAT.HR.FK_tb_Man_Power_tb_Department">
       <End Role="tb_Department" EntitySet="tb_Department" />
       <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
@@ -439,6 +446,10 @@
       <End Role="tb_Resign_Type" EntitySet="tb_Resign_Type" />
       <End Role="tb_User" EntitySet="tb_User" />
     </AssociationSet>
+    <AssociationSet Name="FK_tb_Section_tb_User_Type" Association="SAT.HR.FK_tb_Section_tb_User_Type">
+      <End Role="tb_User_Type" EntitySet="tb_User_Type" />
+      <End Role="tb_Section" EntitySet="tb_Section" />
+    </AssociationSet>
     <AssociationSet Name="FK_tb_User_Position_tb_Section" Association="SAT.HR.FK_tb_User_Position_tb_Section">
       <End Role="tb_Section" EntitySet="tb_Section" />
       <End Role="tb_User_Position" EntitySet="tb_User_Position" />
@@ -507,9 +518,6 @@
       <End Role="tb_Working_Type" EntitySet="tb_Working_Type" />
       <End Role="tb_User" EntitySet="tb_User" />
     </AssociationSet>
-    <FunctionImport Name="sp_Report_Education" ReturnType="Collection(SAT.HR.sp_Report_Education_Result)">
-      <Parameter Name="eduID" Mode="In" Type="String" />
-    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_Menu_GetByUser_Result">
     <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -571,6 +579,7 @@
     <Property Type="Int32" Name="recordsTotal" Nullable="true" />
     <Property Type="Int32" Name="recordsFiltered" Nullable="true" />
     <Property Type="Int32" Name="DisID" Nullable="true" />
+    <Property Type="Int32" Name="MpID" Nullable="true" />
   </ComplexType>
   <ComplexType Name="sp_Evaluation_GetByUser_Result">
     <Property Type="Int32" Name="CapDID" Nullable="false" />
@@ -588,6 +597,19 @@
     <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
     <Property Type="Int32" Name="recordsTotal" Nullable="true" />
     <Property Type="Int32" Name="recordsFiltered" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sp_Report_Education_Result">
+    <Property Type="String" Name="TiFullName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="TiShortName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="FirstNameTh" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="LastNameTh" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="FullNameTh" Nullable="true" MaxLength="502" />
+    <Property Type="String" Name="EduName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="DegName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="MajName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="CountryName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="SalaryLevel" Nullable="true" />
   </ComplexType>
   <EntityType Name="tb_Accumulative_Fund">
     <Key>
@@ -997,11 +1019,13 @@
     <Property Name="DivID" Type="Int32" />
     <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="DepStatus" Type="Boolean" />
+    <Property Name="TypeID" Type="Int32" />
     <Property Name="CreateDate" Type="DateTime" Precision="3" />
     <Property Name="CreateBy" Type="Int32" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
     <NavigationProperty Name="tb_Division" Relationship="SAT.HR.FK_tb_Department_tb_Division" FromRole="tb_Department" ToRole="tb_Division" />
+    <NavigationProperty Name="tb_User_Type" Relationship="SAT.HR.FK_tb_Department_tb_User_Type" FromRole="tb_Department" ToRole="tb_User_Type" />
     <NavigationProperty Name="tb_Man_Power" Relationship="SAT.HR.FK_tb_Man_Power_tb_Department" FromRole="tb_Department" ToRole="tb_Man_Power" />
     <NavigationProperty Name="tb_User_Position" Relationship="SAT.HR.FK_tb_User_Position_tb_Department" FromRole="tb_Department" ToRole="tb_User_Position" />
   </EntityType>
@@ -1223,7 +1247,7 @@
     <Key>
       <PropertyRef Name="MpID" />
     </Key>
-    <Property Name="MpID" Type="Int32" Nullable="false" />
+    <Property Name="MpID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="DivID" Type="Int32" />
     <Property Name="DepID" Type="Int32" />
     <Property Name="SecID" Type="Int32" />
@@ -1546,12 +1570,14 @@
     <Property Name="DivID" Type="Int32" />
     <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="SecStatus" Type="Boolean" />
+    <Property Name="TypeID" Type="Int32" />
     <Property Name="CreateDate" Type="DateTime" Precision="3" />
     <Property Name="CreateBy" Type="Int32" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
     <NavigationProperty Name="tb_Division" Relationship="SAT.HR.FK_tb_Section_tb_Division" FromRole="tb_Section" ToRole="tb_Division" />
     <NavigationProperty Name="tb_Man_Power" Relationship="SAT.HR.FK_tb_Man_Power_tb_Section" FromRole="tb_Section" ToRole="tb_Man_Power" />
+    <NavigationProperty Name="tb_User_Type" Relationship="SAT.HR.FK_tb_Section_tb_User_Type" FromRole="tb_Section" ToRole="tb_User_Type" />
     <NavigationProperty Name="tb_User_Position" Relationship="SAT.HR.FK_tb_User_Position_tb_Section" FromRole="tb_Section" ToRole="tb_User_Position" />
   </EntityType>
   <EntityType Name="tb_Sex">
@@ -1978,7 +2004,9 @@
     </Key>
     <Property Name="TypeID" Type="Int32" Nullable="false" />
     <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tb_Department" Relationship="SAT.HR.FK_tb_Department_tb_User_Type" FromRole="tb_User_Type" ToRole="tb_Department" />
     <NavigationProperty Name="tb_Position" Relationship="SAT.HR.FK_tb_Position_tb_User_Type" FromRole="tb_User_Type" ToRole="tb_Position" />
+    <NavigationProperty Name="tb_Section" Relationship="SAT.HR.FK_tb_Section_tb_User_Type" FromRole="tb_User_Type" ToRole="tb_Section" />
     <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_User_tb_User_Type" FromRole="tb_User_Type" ToRole="tb_User" />
   </EntityType>
   <EntityType Name="tb_Working_Type">
@@ -3281,6 +3309,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tb_Department_tb_User_Type">
+    <End Type="SAT.HR.tb_User_Type" Role="tb_User_Type" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_Department" Role="tb_Department" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User_Type">
+        <PropertyRef Name="TypeID" />
+      </Principal>
+      <Dependent Role="tb_Department">
+        <PropertyRef Name="TypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tb_Man_Power_tb_Department">
     <End Type="SAT.HR.tb_Department" Role="tb_Department" Multiplicity="0..1" />
     <End Type="SAT.HR.tb_Man_Power" Role="tb_Man_Power" Multiplicity="*" />
@@ -3665,6 +3705,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tb_Section_tb_User_Type">
+    <End Type="SAT.HR.tb_User_Type" Role="tb_User_Type" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_Section" Role="tb_Section" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User_Type">
+        <PropertyRef Name="TypeID" />
+      </Principal>
+      <Dependent Role="tb_Section">
+        <PropertyRef Name="TypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tb_User_Position_tb_Section">
     <End Type="SAT.HR.tb_Section" Role="tb_Section" Multiplicity="0..1" />
     <End Type="SAT.HR.tb_User_Position" Role="tb_User_Position" Multiplicity="*" />
@@ -3869,17 +3921,4 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <ComplexType Name="sp_Report_Education_Result">
-    <Property Type="String" Name="TiFullName" Nullable="true" MaxLength="100" />
-    <Property Type="String" Name="TiShortName" Nullable="true" MaxLength="100" />
-    <Property Type="String" Name="FirstNameTh" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="LastNameTh" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="FullNameTh" Nullable="true" MaxLength="502" />
-    <Property Type="String" Name="EduName" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="DegName" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="MajName" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="CountryName" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
-    <Property Type="Int32" Name="SalaryLevel" Nullable="true" />
-  </ComplexType>
 </Schema>
