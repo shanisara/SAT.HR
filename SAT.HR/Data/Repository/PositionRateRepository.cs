@@ -10,6 +10,56 @@ namespace SAT.HR.Data.Repository
 {
     public class PositionRateRepository
     {
+        public PositionRatePageResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy, string userType)
+        {
+            PositionRatePageResult result = new PositionRatePageResult();
+            List<PositionRateViewModel> list = new List<PositionRateViewModel>();
+
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    sortBy = (sortBy == "RowNumber") ? "MpID" : sortBy;
+                    string perPage = initialPage.HasValue ? Convert.ToInt32(initialPage) == 0 ? "1" : (Convert.ToInt32(initialPage.ToString().Substring(0, initialPage.ToString().Length - 1)) + 1).ToString() : "1";
+                    var data = db.sp_ManPower_List(pageSize.ToString(), perPage, sortBy, sortDir, userType, filter).ToList();
+
+                    int i = 0;
+                    foreach (var item in data)
+                    {
+                        PositionRateViewModel model = new PositionRateViewModel();
+                        model.RowNumber = ++i;
+                        model.MpID = (int)item.MpID;
+                        model.MpCode = item.UserTypID == 1 ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
+                        model.UserID = item.UserID;
+                        model.FullNameTh = model.UserID != null ? "("+ model.MpCode + ") " + item.FullNameTh : "ตำแหน่งว่าง ✓";
+                        model.DivID = item.DivID;
+                        model.DivName = item.DivName;
+                        model.DepID = item.DepID;
+                        model.DepName = item.DepName;
+                        model.SecID = item.SecID;
+                        model.SecName = item.SecName;
+                        model.PoID = item.PoID;
+                        model.PoCode = item.PoCode;
+                        model.PoName = item.PoName;
+                        model.recordsTotal = (int)item.recordsTotal;
+                        model.recordsFiltered = (int)item.recordsFiltered;
+                        list.Add(model);
+                    }
+
+                    result.draw = draw ?? 0;
+                    result.recordsTotal = list.Count != 0 ? list[0].recordsTotal : 0;
+                    result.recordsFiltered = list.Count != 0 ? list[0].recordsFiltered : 0;
+                    result.data = list;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return result;
+        }
+
         public PositionRateViewModel GetByID(int? id, int? type)
         {
             PositionRateViewModel model = new PositionRateViewModel();

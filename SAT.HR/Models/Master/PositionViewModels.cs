@@ -127,7 +127,9 @@ namespace SAT.HR.Models
 
     public class PositionRateViewModel
     {
+        public int RowNumber { get; set; }
         public int MpID { get; set; }
+        public string MpCode { get; set; }
         public Nullable<int> DivID { get; set; }
         public Nullable<int> DepID { get; set; }
         public Nullable<int> SecID { get; set; }
@@ -143,6 +145,17 @@ namespace SAT.HR.Models
         public string SecName { get; set; }
         public string PoName { get; set; }
         public int DivSeq { get; set; }
+        public string PoCode { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+    }
+
+    public class PositionRatePageResult
+    {
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+        public List<PositionRateViewModel> data { get; set; }
     }
 
     public class ManPowerViewModel

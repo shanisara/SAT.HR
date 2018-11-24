@@ -1,13 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="SAT.HR.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="AALocation">
-          <Property Name="province" Type="nvarchar" MaxLength="255" />
-          <Property Name="district" Type="nvarchar" MaxLength="255" />
-          <Property Name="subdistrict" Type="nvarchar" MaxLength="255" />
-          <Property Name="zipcode" Type="float" />
-        </EntityType>-->
   <EntityType Name="tb_Accumulative_Fund">
     <Key>
       <PropertyRef Name="CuID" />
@@ -579,6 +571,7 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primar
       <PropertyRef Name="MpID" />
     </Key>
     <Property Name="MpID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MpCode" Type="int" />
     <Property Name="DivID" Type="int" />
     <Property Name="DepID" Type="int" />
     <Property Name="SecID" Type="int" />
@@ -1676,16 +1669,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Man_Power_Head' does not h
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Level' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vw_Salary_Level">
-          <Property Name="Level" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>-->
-  <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Step' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vw_Salary_Step">
-          <Property Name="Step" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>-->
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Section">
@@ -3248,6 +3231,14 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <Parameter Name="SortrDir" Type="nvarchar" Mode="In" />
     <Parameter Name="UserType" Type="nvarchar" Mode="In" />
     <Parameter Name="CapID" Type="nvarchar" Mode="In" />
+    <Parameter Name="Keyword" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_ManPower_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PageSize" Type="nvarchar" Mode="In" />
+    <Parameter Name="InitialPage" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortBy" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortrDir" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserType" Type="nvarchar" Mode="In" />
     <Parameter Name="Keyword" Type="nvarchar" Mode="In" />
   </Function>
   <Function Name="sp_Menu_GetByRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">

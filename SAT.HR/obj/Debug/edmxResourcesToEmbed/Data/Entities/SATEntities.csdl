@@ -518,6 +518,14 @@
       <End Role="tb_Working_Type" EntitySet="tb_Working_Type" />
       <End Role="tb_User" EntitySet="tb_User" />
     </AssociationSet>
+    <FunctionImport Name="sp_ManPower_List" ReturnType="Collection(SAT.HR.sp_ManPower_List_Result)">
+      <Parameter Name="PageSize" Mode="In" Type="String" />
+      <Parameter Name="InitialPage" Mode="In" Type="String" />
+      <Parameter Name="SortBy" Mode="In" Type="String" />
+      <Parameter Name="SortrDir" Mode="In" Type="String" />
+      <Parameter Name="UserType" Mode="In" Type="String" />
+      <Parameter Name="Keyword" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_Menu_GetByUser_Result">
     <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -1264,6 +1272,7 @@
     <NavigationProperty Name="tb_Division" Relationship="SAT.HR.FK_tb_Man_Power_tb_Division" FromRole="tb_Man_Power" ToRole="tb_Division" />
     <NavigationProperty Name="tb_Education" Relationship="SAT.HR.FK_tb_Man_Power_tb_Education" FromRole="tb_Man_Power" ToRole="tb_Education" />
     <NavigationProperty Name="tb_Section" Relationship="SAT.HR.FK_tb_Man_Power_tb_Section" FromRole="tb_Man_Power" ToRole="tb_Section" />
+    <Property Name="MpCode" Type="Int32" />
   </EntityType>
   <EntityType Name="tb_Marital_Status">
     <Key>
@@ -3921,4 +3930,28 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <ComplexType Name="sp_ManPower_List_Result">
+    <Property Type="Int32" Name="UserID" Nullable="false" />
+    <Property Type="Decimal" Name="IDCard" Nullable="true" Precision="18" Scale="0" />
+    <Property Type="String" Name="FullNameTh" Nullable="true" MaxLength="401" />
+    <Property Type="String" Name="FullNameEn" Nullable="true" MaxLength="401" />
+    <Property Type="Int32" Name="MpID" Nullable="true" />
+    <Property Type="Int32" Name="DivID" Nullable="true" />
+    <Property Type="String" Name="DivName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="DivSeq" Nullable="true" />
+    <Property Type="Int32" Name="DepID" Nullable="true" />
+    <Property Type="String" Name="DepName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="SecID" Nullable="true" />
+    <Property Type="String" Name="SecName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="PoID" Nullable="true" />
+    <Property Type="String" Name="PoCode" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="SalaryLevel" Nullable="true" />
+    <Property Type="Decimal" Name="SalaryStep" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="UserTypID" Nullable="true" />
+    <Property Type="String" Name="UserTypName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="RoleID" Nullable="true" />
+    <Property Type="Int32" Name="recordsTotal" Nullable="true" />
+    <Property Type="Int32" Name="recordsFiltered" Nullable="true" />
+  </ComplexType>
 </Schema>

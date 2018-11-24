@@ -275,5 +275,34 @@ namespace SAT.HR.Data.Entities
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Education_Result>("sp_Report_Education", eduIDParameter);
         }
+    
+        public virtual ObjectResult<sp_ManPower_List_Result> sp_ManPower_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string keyword)
+        {
+            var pageSizeParameter = pageSize != null ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(string));
+    
+            var initialPageParameter = initialPage != null ?
+                new ObjectParameter("InitialPage", initialPage) :
+                new ObjectParameter("InitialPage", typeof(string));
+    
+            var sortByParameter = sortBy != null ?
+                new ObjectParameter("SortBy", sortBy) :
+                new ObjectParameter("SortBy", typeof(string));
+    
+            var sortrDirParameter = sortrDir != null ?
+                new ObjectParameter("SortrDir", sortrDir) :
+                new ObjectParameter("SortrDir", typeof(string));
+    
+            var userTypeParameter = userType != null ?
+                new ObjectParameter("UserType", userType) :
+                new ObjectParameter("UserType", typeof(string));
+    
+            var keywordParameter = keyword != null ?
+                new ObjectParameter("Keyword", keyword) :
+                new ObjectParameter("Keyword", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ManPower_List_Result>("sp_ManPower_List", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, userTypeParameter, keywordParameter);
+        }
     }
 }

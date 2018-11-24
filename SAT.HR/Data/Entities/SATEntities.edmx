@@ -5,14 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="SAT.HR.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="AALocation">
-          <Property Name="province" Type="nvarchar" MaxLength="255" />
-          <Property Name="district" Type="nvarchar" MaxLength="255" />
-          <Property Name="subdistrict" Type="nvarchar" MaxLength="255" />
-          <Property Name="zipcode" Type="float" />
-        </EntityType>-->
         <EntityType Name="tb_Accumulative_Fund">
           <Key>
             <PropertyRef Name="CuID" />
@@ -584,6 +576,7 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primar
             <PropertyRef Name="MpID" />
           </Key>
           <Property Name="MpID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MpCode" Type="int" />
           <Property Name="DivID" Type="int" />
           <Property Name="DepID" Type="int" />
           <Property Name="SecID" Type="int" />
@@ -1681,16 +1674,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Man_Power_Head' does not h
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Level' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vw_Salary_Level">
-          <Property Name="Level" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>-->
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Step' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vw_Salary_Step">
-          <Property Name="Step" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>-->
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Section">
@@ -3253,6 +3236,14 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Parameter Name="SortrDir" Type="nvarchar" Mode="In" />
           <Parameter Name="UserType" Type="nvarchar" Mode="In" />
           <Parameter Name="CapID" Type="nvarchar" Mode="In" />
+          <Parameter Name="Keyword" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_ManPower_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PageSize" Type="nvarchar" Mode="In" />
+          <Parameter Name="InitialPage" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortBy" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortrDir" Type="nvarchar" Mode="In" />
+          <Parameter Name="UserType" Type="nvarchar" Mode="In" />
           <Parameter Name="Keyword" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="sp_Menu_GetByRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -5018,6 +5009,14 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <End Role="tb_Working_Type" EntitySet="tb_Working_Type" />
             <End Role="tb_User" EntitySet="tb_User" />
           </AssociationSet>
+          <FunctionImport Name="sp_ManPower_List" ReturnType="Collection(SAT.HR.sp_ManPower_List_Result)">
+            <Parameter Name="PageSize" Mode="In" Type="String" />
+            <Parameter Name="InitialPage" Mode="In" Type="String" />
+            <Parameter Name="SortBy" Mode="In" Type="String" />
+            <Parameter Name="SortrDir" Mode="In" Type="String" />
+            <Parameter Name="UserType" Mode="In" Type="String" />
+            <Parameter Name="Keyword" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="sp_Menu_GetByUser_Result">
           <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -5764,6 +5763,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <NavigationProperty Name="tb_Division" Relationship="SAT.HR.FK_tb_Man_Power_tb_Division" FromRole="tb_Man_Power" ToRole="tb_Division" />
           <NavigationProperty Name="tb_Education" Relationship="SAT.HR.FK_tb_Man_Power_tb_Education" FromRole="tb_Man_Power" ToRole="tb_Education" />
           <NavigationProperty Name="tb_Section" Relationship="SAT.HR.FK_tb_Man_Power_tb_Section" FromRole="tb_Man_Power" ToRole="tb_Section" />
+          <Property Name="MpCode" Type="Int32" />
         </EntityType>
         <EntityType Name="tb_Marital_Status">
           <Key>
@@ -8421,6 +8421,30 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="sp_ManPower_List_Result">
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="Decimal" Name="IDCard" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="FullNameTh" Nullable="true" MaxLength="401" />
+          <Property Type="String" Name="FullNameEn" Nullable="true" MaxLength="401" />
+          <Property Type="Int32" Name="MpID" Nullable="true" />
+          <Property Type="Int32" Name="DivID" Nullable="true" />
+          <Property Type="String" Name="DivName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="DivSeq" Nullable="true" />
+          <Property Type="Int32" Name="DepID" Nullable="true" />
+          <Property Type="String" Name="DepName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="SecID" Nullable="true" />
+          <Property Type="String" Name="SecName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="PoID" Nullable="true" />
+          <Property Type="String" Name="PoCode" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="SalaryLevel" Nullable="true" />
+          <Property Type="Decimal" Name="SalaryStep" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="UserTypID" Nullable="true" />
+          <Property Type="String" Name="UserTypName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="RoleID" Nullable="true" />
+          <Property Type="Int32" Name="recordsTotal" Nullable="true" />
+          <Property Type="Int32" Name="recordsFiltered" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9148,6 +9172,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySetMapping Name="tb_Man_Power">
             <EntityTypeMapping TypeName="SAT.HR.tb_Man_Power">
               <MappingFragment StoreEntitySet="tb_Man_Power">
+                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
                 <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
                 <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
@@ -10686,6 +10711,34 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_ManPower_List" FunctionName="SAT.HR.Store.sp_ManPower_List">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_ManPower_List_Result">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="IDCard" ColumnName="IDCard" />
+                <ScalarProperty Name="FullNameTh" ColumnName="FullNameTh" />
+                <ScalarProperty Name="FullNameEn" ColumnName="FullNameEn" />
+                <ScalarProperty Name="MpID" ColumnName="MpID" />
+                <ScalarProperty Name="DivID" ColumnName="DivID" />
+                <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="DivSeq" ColumnName="DivSeq" />
+                <ScalarProperty Name="DepID" ColumnName="DepID" />
+                <ScalarProperty Name="DepName" ColumnName="DepName" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="SecName" ColumnName="SecName" />
+                <ScalarProperty Name="PoID" ColumnName="PoID" />
+                <ScalarProperty Name="PoCode" ColumnName="PoCode" />
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="SalaryLevel" ColumnName="SalaryLevel" />
+                <ScalarProperty Name="SalaryStep" ColumnName="SalaryStep" />
+                <ScalarProperty Name="UserTypID" ColumnName="UserTypID" />
+                <ScalarProperty Name="UserTypName" ColumnName="UserTypName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="recordsTotal" ColumnName="recordsTotal" />
+                <ScalarProperty Name="recordsFiltered" ColumnName="recordsFiltered" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
