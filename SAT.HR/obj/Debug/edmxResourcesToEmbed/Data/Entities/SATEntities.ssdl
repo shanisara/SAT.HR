@@ -1,5 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="SAT.HR.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="AALocation">
+          <Property Name="province" Type="nvarchar" MaxLength="255" />
+          <Property Name="district" Type="nvarchar" MaxLength="255" />
+          <Property Name="subdistrict" Type="nvarchar" MaxLength="255" />
+          <Property Name="zipcode" Type="float" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.AAManPower' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="AAManPower">
+          <Property Name="Div" Type="nvarchar" MaxLength="200" />
+          <Property Name="Dep" Type="nvarchar" MaxLength="200" />
+          <Property Name="Sec" Type="nvarchar" MaxLength="200" />
+          <Property Name="UtID" Type="int" />
+        </EntityType>-->
   <EntityType Name="tb_Accumulative_Fund">
     <Key>
       <PropertyRef Name="CuID" />
@@ -13,12 +29,13 @@
     </Key>
     <Property Name="ActID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ActName" Type="nvarchar" MaxLength="200" />
-    <Property Name="ActType" Type="nvarchar" MaxLength="200" />
-    <Property Name="ActPos" Type="nchar" MaxLength="10" />
+    <Property Name="ActType" Type="bit" />
+    <Property Name="ActPos" Type="bit" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
+    <Property Name="ActMove" Type="bit" />
   </EntityType>
   <EntityType Name="tb_Agent_Type">
     <Key>
@@ -570,7 +587,7 @@
     <Key>
       <PropertyRef Name="MpID" />
     </Key>
-    <Property Name="MpID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="MpID" Type="int" Nullable="false" />
     <Property Name="DivID" Type="int" />
     <Property Name="DepID" Type="int" />
     <Property Name="SecID" Type="int" />
@@ -698,13 +715,6 @@
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
-  </EntityType>
-  <EntityType Name="tb_Move_Type">
-    <Key>
-      <PropertyRef Name="MtID" />
-    </Key>
-    <Property Name="MtID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="MtName" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <EntityType Name="tb_Nationality">
     <Key>
@@ -1697,6 +1707,16 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Man_Power_Head' does not h
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Level' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Level">
+          <Property Name="Level" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Step' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Step">
+          <Property Name="Step" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Section">
     <Key>
@@ -2604,6 +2624,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tb_Move_Man_Power_Head_tb_Action_Type">
+    <End Role="tb_Action_Type" Type="Self.tb_Action_Type" Multiplicity="0..1" />
+    <End Role="tb_Move_Man_Power_Head" Type="Self.tb_Move_Man_Power_Head" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Action_Type">
+        <PropertyRef Name="ActID" />
+      </Principal>
+      <Dependent Role="tb_Move_Man_Power_Head">
+        <PropertyRef Name="MtID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tb_Position_tb_User_Type">
     <End Role="tb_User_Type" Type="Self.tb_User_Type" Multiplicity="0..1" />
     <End Role="tb_Position" Type="Self.tb_Position" Multiplicity="*" />
@@ -3302,6 +3334,12 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <Parameter Name="Level" Type="int" Mode="In" />
     <Parameter Name="Step" Type="decimal" Mode="In" />
   </Function>
+  <Function Name="sp_TimeAttendance_GetByUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserID" Type="int" Mode="In" />
+    <Parameter Name="TaTID" Type="int" Mode="In" />
+    <Parameter Name="DateFrom" Type="int" Mode="In" />
+    <Parameter Name="DateTo" Type="int" Mode="In" />
+  </Function>
   <EntityContainer Name="SATHRStoreContainer">
     <EntitySet Name="tb_Accumulative_Fund" EntityType="Self.tb_Accumulative_Fund" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Action_Type" EntityType="Self.tb_Action_Type" Schema="dbo" store:Type="Tables" />
@@ -3357,7 +3395,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_Move_Level_Head" EntityType="Self.tb_Move_Level_Head" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Move_Man_Power_Detail" EntityType="Self.tb_Move_Man_Power_Detail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Move_Man_Power_Head" EntityType="Self.tb_Move_Man_Power_Head" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="tb_Move_Type" EntityType="Self.tb_Move_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Nationality" EntityType="Self.tb_Nationality" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Occupation" EntityType="Self.tb_Occupation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Part_Type" EntityType="Self.tb_Part_Type" Schema="dbo" store:Type="Tables" />
@@ -4323,6 +4360,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <AssociationSet Name="FK_tb_Move_Man_Power_Detail_MopID" Association="Self.FK_tb_Move_Man_Power_Detail_MopID">
       <End Role="tb_Move_Man_Power_Head" EntitySet="tb_Move_Man_Power_Head" />
       <End Role="tb_Move_Man_Power_Detail" EntitySet="tb_Move_Man_Power_Detail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Move_Man_Power_Head_tb_Action_Type" Association="Self.FK_tb_Move_Man_Power_Head_tb_Action_Type">
+      <End Role="tb_Action_Type" EntitySet="tb_Action_Type" />
+      <End Role="tb_Move_Man_Power_Head" EntitySet="tb_Move_Man_Power_Head" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_Position_tb_User_Type" Association="Self.FK_tb_Position_tb_User_Type">
       <End Role="tb_User_Type" EntitySet="tb_User_Type" />

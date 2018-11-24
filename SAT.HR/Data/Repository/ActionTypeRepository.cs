@@ -64,6 +64,7 @@ namespace SAT.HR.Data.Repository
                 model.ActName = data.ActName;
                 model.ActType = data.ActType;
                 model.ActPos = data.ActPos;
+                model.ActMove = data.ActMove;
                 return model;
             }
         }

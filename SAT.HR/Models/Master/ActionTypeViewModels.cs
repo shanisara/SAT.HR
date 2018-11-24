@@ -12,9 +12,11 @@ namespace SAT.HR.Models
 
         public string ActName { get; set; }
 
-        public string ActType { get; set; }
+        public bool? ActType { get; set; }
 
-        public string ActPos { get; set; }
+        public bool? ActPos { get; set; }
+
+        public bool? ActMove { get; set; }
 
         public Nullable<System.DateTime> CreateDate { get; set; }
 

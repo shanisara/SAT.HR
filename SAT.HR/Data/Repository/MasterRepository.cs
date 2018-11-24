@@ -130,11 +130,13 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var list = db.tb_Move_Type.Select(s => new MoveTypeViewModel()
-                {
-                    MoveTypeID = s.MtID,
-                    MoveTypeName = s.MtName
-                }).ToList();
+                var list = db.tb_Action_Type.Where(m => m.ActMove == true)
+                    .Select(s => new MoveTypeViewModel()
+                    {
+                        MoveTypeID = s.ActID,
+                        MoveTypeName = s.ActName
+                    })
+                    .OrderBy(o => o.MoveTypeName).ToList();
                 return list;
             }
         }

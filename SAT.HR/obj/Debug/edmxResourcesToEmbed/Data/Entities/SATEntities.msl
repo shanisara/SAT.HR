@@ -163,6 +163,28 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_ManPower_Approval" FunctionName="SAT.HR.Store.sp_ManPower_Approval" />
+    <FunctionImportMapping FunctionImportName="sp_TimeAttendance_GetByUser" FunctionName="SAT.HR.Store.sp_TimeAttendance_GetByUser">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SAT.HR.sp_TimeAttendance_GetByUser_Result">
+          <ScalarProperty Name="TaID" ColumnName="TaID" />
+          <ScalarProperty Name="TaTID" ColumnName="TaTID" />
+          <ScalarProperty Name="TaTName" ColumnName="TaTName" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="Std_TimeIn" ColumnName="Std_TimeIn" />
+          <ScalarProperty Name="Act_TimeIn" ColumnName="Act_TimeIn" />
+          <ScalarProperty Name="Std_TimeOut" ColumnName="Std_TimeOut" />
+          <ScalarProperty Name="Act_TimeOut" ColumnName="Act_TimeOut" />
+          <ScalarProperty Name="Adj_TimeIn" ColumnName="Adj_TimeIn" />
+          <ScalarProperty Name="Adj_TimeOut" ColumnName="Adj_TimeOut" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+          <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+          <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <EntitySetMapping Name="tb_Accumulative_Fund">
       <EntityTypeMapping TypeName="SAT.HR.tb_Accumulative_Fund">
         <MappingFragment StoreEntitySet="tb_Accumulative_Fund">
@@ -174,6 +196,7 @@
     <EntitySetMapping Name="tb_Action_Type">
       <EntityTypeMapping TypeName="SAT.HR.tb_Action_Type">
         <MappingFragment StoreEntitySet="tb_Action_Type">
+          <ScalarProperty Name="ActMove" ColumnName="ActMove" />
           <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
           <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
           <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
@@ -902,14 +925,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="tb_Move_Type">
-      <EntityTypeMapping TypeName="SAT.HR.tb_Move_Type">
-        <MappingFragment StoreEntitySet="tb_Move_Type">
-          <ScalarProperty Name="MtName" ColumnName="MtName" />
-          <ScalarProperty Name="MtID" ColumnName="MtID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="tb_Nationality">
       <EntityTypeMapping TypeName="SAT.HR.tb_Nationality">
         <MappingFragment StoreEntitySet="tb_Nationality">
@@ -1139,6 +1154,14 @@
           <ScalarProperty Name="UserID" ColumnName="UserID" />
           <ScalarProperty Name="TaTID" ColumnName="TaTID" />
           <ScalarProperty Name="TaID" ColumnName="TaID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_TimeAttendance_Type">
+      <EntityTypeMapping TypeName="SAT.HR.tb_TimeAttendance_Type">
+        <MappingFragment StoreEntitySet="tb_TimeAttendance_Type">
+          <ScalarProperty Name="TaTName" ColumnName="TaTName" />
+          <ScalarProperty Name="TaTID" ColumnName="TaTID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1475,14 +1498,6 @@
         <MappingFragment StoreEntitySet="tb_Working_Type">
           <ScalarProperty Name="WorkingTypeName" ColumnName="WorkingTypeName" />
           <ScalarProperty Name="WorkingTypeID" ColumnName="WorkingTypeID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="tb_TimeAttendance_Type">
-      <EntityTypeMapping TypeName="SAT.HR.tb_TimeAttendance_Type">
-        <MappingFragment StoreEntitySet="tb_TimeAttendance_Type">
-          <ScalarProperty Name="TaTName" ColumnName="TaTName" />
-          <ScalarProperty Name="TaTID" ColumnName="TaTID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1832,6 +1847,26 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="vw_Move_Level_Head">
+      <EntityTypeMapping TypeName="SAT.HR.vw_Move_Level_Head">
+        <MappingFragment StoreEntitySet="vw_Move_Level_Head">
+          <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+          <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+          <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="MlTotal" ColumnName="MlTotal" />
+          <ScalarProperty Name="MiApproveDate" ColumnName="MiApproveDate" />
+          <ScalarProperty Name="MlStatus" ColumnName="MlStatus" />
+          <ScalarProperty Name="MlApproveStatus" ColumnName="MlApproveStatus" />
+          <ScalarProperty Name="MIPathFile" ColumnName="MIPathFile" />
+          <ScalarProperty Name="MlSignatory" ColumnName="MlSignatory" />
+          <ScalarProperty Name="MlDateCmd" ColumnName="MlDateCmd" />
+          <ScalarProperty Name="MlBookCmd" ColumnName="MlBookCmd" />
+          <ScalarProperty Name="MlYear" ColumnName="MlYear" />
+          <ScalarProperty Name="MlID" ColumnName="MlID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="vw_Move_Man_Power_Detail">
       <EntityTypeMapping TypeName="SAT.HR.vw_Move_Man_Power_Detail">
         <MappingFragment StoreEntitySet="vw_Move_Man_Power_Detail">
@@ -1850,6 +1885,29 @@
           <ScalarProperty Name="CurMpID" ColumnName="CurMpID" />
           <ScalarProperty Name="FullName" ColumnName="FullName" />
           <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="MopID" ColumnName="MopID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_Move_Man_Power_Head">
+      <EntityTypeMapping TypeName="SAT.HR.vw_Move_Man_Power_Head">
+        <MappingFragment StoreEntitySet="vw_Move_Man_Power_Head">
+          <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+          <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+          <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="MopStatus" ColumnName="MopStatus" />
+          <ScalarProperty Name="MopApproveStatus" ColumnName="MopApproveStatus" />
+          <ScalarProperty Name="MopPathFile" ColumnName="MopPathFile" />
+          <ScalarProperty Name="MopSignatory" ColumnName="MopSignatory" />
+          <ScalarProperty Name="MopTotal" ColumnName="MopTotal" />
+          <ScalarProperty Name="MopDateCmd" ColumnName="MopDateCmd" />
+          <ScalarProperty Name="MopBookCmd" ColumnName="MopBookCmd" />
+          <ScalarProperty Name="MopYear" ColumnName="MopYear" />
+          <ScalarProperty Name="EmpTName" ColumnName="EmpTName" />
+          <ScalarProperty Name="UserTID" ColumnName="UserTID" />
+          <ScalarProperty Name="MtName" ColumnName="MtName" />
+          <ScalarProperty Name="MtID" ColumnName="MtID" />
           <ScalarProperty Name="MopID" ColumnName="MopID" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -2288,50 +2346,6 @@
           <ScalarProperty Name="FullNameTH" ColumnName="FullNameTH" />
           <ScalarProperty Name="UserID" ColumnName="UserID" />
           <ScalarProperty Name="UtID" ColumnName="UtID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="sp_ManPower_Approval" FunctionName="SAT.HR.Store.sp_ManPower_Approval" />
-    <EntitySetMapping Name="vw_Move_Level_Head">
-      <EntityTypeMapping TypeName="SAT.HR.vw_Move_Level_Head">
-        <MappingFragment StoreEntitySet="vw_Move_Level_Head">
-          <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-          <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-          <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-          <ScalarProperty Name="MlTotal" ColumnName="MlTotal" />
-          <ScalarProperty Name="MiApproveDate" ColumnName="MiApproveDate" />
-          <ScalarProperty Name="MlStatus" ColumnName="MlStatus" />
-          <ScalarProperty Name="MlApproveStatus" ColumnName="MlApproveStatus" />
-          <ScalarProperty Name="MIPathFile" ColumnName="MIPathFile" />
-          <ScalarProperty Name="MlSignatory" ColumnName="MlSignatory" />
-          <ScalarProperty Name="MlDateCmd" ColumnName="MlDateCmd" />
-          <ScalarProperty Name="MlBookCmd" ColumnName="MlBookCmd" />
-          <ScalarProperty Name="MlYear" ColumnName="MlYear" />
-          <ScalarProperty Name="MlID" ColumnName="MlID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="vw_Move_Man_Power_Head">
-      <EntityTypeMapping TypeName="SAT.HR.vw_Move_Man_Power_Head">
-        <MappingFragment StoreEntitySet="vw_Move_Man_Power_Head">
-          <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-          <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-          <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-          <ScalarProperty Name="MopStatus" ColumnName="MopStatus" />
-          <ScalarProperty Name="MopApproveStatus" ColumnName="MopApproveStatus" />
-          <ScalarProperty Name="MopPathFile" ColumnName="MopPathFile" />
-          <ScalarProperty Name="MopSignatory" ColumnName="MopSignatory" />
-          <ScalarProperty Name="MopTotal" ColumnName="MopTotal" />
-          <ScalarProperty Name="MopDateCmd" ColumnName="MopDateCmd" />
-          <ScalarProperty Name="MopBookCmd" ColumnName="MopBookCmd" />
-          <ScalarProperty Name="MopYear" ColumnName="MopYear" />
-          <ScalarProperty Name="EmpTName" ColumnName="EmpTName" />
-          <ScalarProperty Name="UserTID" ColumnName="UserTID" />
-          <ScalarProperty Name="MtName" ColumnName="MtName" />
-          <ScalarProperty Name="MtID" ColumnName="MtID" />
-          <ScalarProperty Name="MopID" ColumnName="MopID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

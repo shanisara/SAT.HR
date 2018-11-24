@@ -81,7 +81,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Move_Level_Head> tb_Move_Level_Head { get; set; }
         public virtual DbSet<tb_Move_Man_Power_Detail> tb_Move_Man_Power_Detail { get; set; }
         public virtual DbSet<tb_Move_Man_Power_Head> tb_Move_Man_Power_Head { get; set; }
-        public virtual DbSet<tb_Move_Type> tb_Move_Type { get; set; }
         public virtual DbSet<tb_Nationality> tb_Nationality { get; set; }
         public virtual DbSet<tb_Occupation> tb_Occupation { get; set; }
         public virtual DbSet<tb_Part_Type> tb_Part_Type { get; set; }
@@ -101,6 +100,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_SubDistrict> tb_SubDistrict { get; set; }
         public virtual DbSet<tb_SysConfig> tb_SysConfig { get; set; }
         public virtual DbSet<tb_TimeAttendance> tb_TimeAttendance { get; set; }
+        public virtual DbSet<tb_TimeAttendance_Type> tb_TimeAttendance_Type { get; set; }
         public virtual DbSet<tb_Title> tb_Title { get; set; }
         public virtual DbSet<tb_Training_Course> tb_Training_Course { get; set; }
         public virtual DbSet<tb_Training_Type> tb_Training_Type { get; set; }
@@ -119,7 +119,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_User_Training> tb_User_Training { get; set; }
         public virtual DbSet<tb_User_Type> tb_User_Type { get; set; }
         public virtual DbSet<tb_Working_Type> tb_Working_Type { get; set; }
-        public virtual DbSet<tb_TimeAttendance_Type> tb_TimeAttendance_Type { get; set; }
         public virtual DbSet<vw_Agent_Position> vw_Agent_Position { get; set; }
         public virtual DbSet<vw_Benefit_Cremation> vw_Benefit_Cremation { get; set; }
         public virtual DbSet<vw_Benefit_Death_Replacement> vw_Benefit_Death_Replacement { get; set; }
@@ -136,7 +135,9 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Man_Power> vw_Man_Power { get; set; }
         public virtual DbSet<vw_Menu_Role> vw_Menu_Role { get; set; }
         public virtual DbSet<vw_Move_Level_Detail> vw_Move_Level_Detail { get; set; }
+        public virtual DbSet<vw_Move_Level_Head> vw_Move_Level_Head { get; set; }
         public virtual DbSet<vw_Move_Man_Power_Detail> vw_Move_Man_Power_Detail { get; set; }
+        public virtual DbSet<vw_Move_Man_Power_Head> vw_Move_Man_Power_Head { get; set; }
         public virtual DbSet<vw_Section> vw_Section { get; set; }
         public virtual DbSet<vw_Title> vw_Title { get; set; }
         public virtual DbSet<vw_Trainning_Course> vw_Trainning_Course { get; set; }
@@ -152,8 +153,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Role> vw_User_Role { get; set; }
         public virtual DbSet<vw_User_Skill> vw_User_Skill { get; set; }
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
-        public virtual DbSet<vw_Move_Level_Head> vw_Move_Level_Head { get; set; }
-        public virtual DbSet<vw_Move_Man_Power_Head> vw_Move_Man_Power_Head { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {
@@ -331,6 +330,27 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("ActionBy", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_ManPower_Approval", mopIDParameter, actionByParameter);
+        }
+    
+        public virtual ObjectResult<sp_TimeAttendance_GetByUser_Result> sp_TimeAttendance_GetByUser(Nullable<int> userID, Nullable<int> taTID, Nullable<int> dateFrom, Nullable<int> dateTo)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var taTIDParameter = taTID.HasValue ?
+                new ObjectParameter("TaTID", taTID) :
+                new ObjectParameter("TaTID", typeof(int));
+    
+            var dateFromParameter = dateFrom.HasValue ?
+                new ObjectParameter("DateFrom", dateFrom) :
+                new ObjectParameter("DateFrom", typeof(int));
+    
+            var dateToParameter = dateTo.HasValue ?
+                new ObjectParameter("DateTo", dateTo) :
+                new ObjectParameter("DateTo", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_TimeAttendance_GetByUser_Result>("sp_TimeAttendance_GetByUser", userIDParameter, taTIDParameter, dateFromParameter, dateToParameter);
         }
     }
 }

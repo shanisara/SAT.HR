@@ -21,11 +21,30 @@ namespace SAT.HR.Models
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
+
+        public List<TimeAttendanceViewModel> ListTimeAttendance { get; set; }
     }
 
     public class TimeAttendanceTypeViewModel
     {
         public int TaTID { get; set; }
         public string TaTName { get; set; }
+    }
+
+    public class TimeAttendancePageViewModel
+    {
+        public int RowNumber { get; set; }
+        public int TaID { get; set; }
+        public Nullable<int> UserID { get; set; }
+        public string TaTName { get; set; }
+        public string StdTimeIn { get; set; }
+        public string ActTimeIn { get; set; }
+        public string StdTimeOut { get; set; }
+        public string ActTimeOut { get; set; }
+        public string AdjTimeIn { get; set; }
+        public string AdjTimeOut { get; set; }
+        public string Remark { get; set; }
+
+        public List<TimeAttendancePageViewModel> ListTimeAttendance { get; set; }
     }
 }

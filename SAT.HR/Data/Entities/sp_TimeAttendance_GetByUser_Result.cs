@@ -10,23 +10,23 @@
 namespace SAT.HR.Data.Entities
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class tb_Move_Man_Power_Detail
+    public partial class sp_TimeAttendance_GetByUser_Result
     {
-        public int MopDID { get; set; }
-        public int MopID { get; set; }
-        public int UserID { get; set; }
-        public Nullable<int> MopNewPoID { get; set; }
-        public Nullable<int> MopOldPoID { get; set; }
-        public Nullable<int> PoTAgentID { get; set; }
-        public Nullable<int> AgentMpID { get; set; }
-        public string MovRemark { get; set; }
+        public int TaID { get; set; }
+        public Nullable<int> TaTID { get; set; }
+        public string TaTName { get; set; }
+        public Nullable<int> UserID { get; set; }
+        public Nullable<System.DateTime> Std_TimeIn { get; set; }
+        public Nullable<System.DateTime> Act_TimeIn { get; set; }
+        public Nullable<System.DateTime> Std_TimeOut { get; set; }
+        public Nullable<System.DateTime> Act_TimeOut { get; set; }
+        public Nullable<System.DateTime> Adj_TimeIn { get; set; }
+        public Nullable<System.DateTime> Adj_TimeOut { get; set; }
+        public string Remark { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
-    
-        public virtual tb_Move_Man_Power_Head tb_Move_Man_Power_Head { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using SAT.HR.Data.Repository;
+﻿using SAT.HR.Data;
+using SAT.HR.Data.Repository;
 using SAT.HR.Helpers;
 using System;
 using System.Collections.Generic;
@@ -83,15 +84,40 @@ namespace SAT.HR.Controllers
         public ActionResult TimeAttendanceDetail(int id)
         {
             var model = new EmployeeRepository().GetByID(id);
+            
+            DateTime firstDayOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            DateTime lastDayOfMount = firstDayOfMonth.AddMonths(1).AddDays(-1);
+
+            string dateFrom = firstDayOfMonth.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH"));
+            string dateTo = lastDayOfMount.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH"));
+
+            ViewBag.DateFrom = dateFrom;
+            ViewBag.DateTo = dateTo;
             ViewBag.AttendanceType = DropDownList.GetAttendanceType(null);
+
             return View(model);
         }
 
-        public ActionResult TimeAttendanceDetailByID(int? id)
+        public ActionResult TimeAttendanceByID(int? id, int userid)
         {
-            //var model = new WorkingTime().TimeAttendanceDetailByID(id);
-            return PartialView("_TimeAttendanceDetail");
+            var model = new TimeAttendanceRepository().GetTimeAttendanceByID(id, userid);
+            ViewBag.AttendanceType = DropDownList.GetAttendanceType(null);
+            return PartialView("_TimeAttendanceDetail", model);
         }
+
+        public JsonResult DeleteTimeAttendance(int id)
+        {
+            var result = new TimeAttendanceRepository().DeleteByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult TimeAttendanceByUser(int userid, string datefrom, string dateto, int? type)
+        {
+            var list = new TimeAttendanceRepository().GetTimeAttendanceByUser(userid, datefrom, dateto, type);
+            return Json(new { data = list.ListTimeAttendance }, JsonRequestBehavior.AllowGet);
+        }
+
 
         #endregion
     }
