@@ -27,6 +27,8 @@ namespace SAT.HR.Data.Entities
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
     
+        public virtual tb_Man_Power tb_Man_Power { get; set; }
+        public virtual tb_Man_Power tb_Man_Power1 { get; set; }
         public virtual tb_Move_Man_Power_Head tb_Move_Man_Power_Head { get; set; }
     }
 }

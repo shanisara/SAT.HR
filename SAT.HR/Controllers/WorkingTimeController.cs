@@ -83,6 +83,7 @@ namespace SAT.HR.Controllers
         public ActionResult TimeAttendanceDetail(int id)
         {
             var model = new EmployeeRepository().GetByID(id);
+            ViewBag.AttendanceType = DropDownList.GetAttendanceType(null);
             return View(model);
         }
 

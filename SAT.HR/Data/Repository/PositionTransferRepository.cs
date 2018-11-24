@@ -66,7 +66,8 @@ namespace SAT.HR.Data.Repository
                         model.MopTotal = item.MopTotal;
                         model.MopDateCmdText = (item.MopDateCmd.HasValue) ? item.MopDateCmd.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.CreateDateText = item.CreateDate.Value.ToString("dd/MM/yyyy");
-                        model.MopStatusName = (item.MopStatus.HasValue) ? "ยืนยันแล้ว" : "";
+                        model.MopStatus = item.MopStatus.HasValue ? (item.MopStatus == 0 ? false : true) : false;
+                        model.MopStatusName = (item.MopStatus == 0) ? "รอยืนยัน" : "ยืนยันแล้ว";
                         model.recordsTotal = recordsTotal;
                         model.recordsFiltered = recordsFiltered;
                         list.Add(model);
@@ -104,11 +105,12 @@ namespace SAT.HR.Data.Repository
                         model.MopYear = data.MopYear;
                         model.MopBookCmd = data.MopBookCmd;
                         model.MopDateCmd = data.MopDateCmd;
+                        model.MopDateEff = data.MopDateEff;
                         model.MopDateCmdText = data.MopDateCmd.HasValue ? data.MopDateCmd.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.MopDateEffText = data.MopDateEff.HasValue ? data.MopDateEff.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.MopSignatory = data.MopSignatory;
                         model.MopPathFile = data.MopPathFile;
-                        //model.MopStatus = data.MopStatus;
+                        model.MopStatus = data.MopApproveStatus == null ? false : data.MopApproveStatus;
 
                         var detail = GetDetail(model.MopID);
                         model.ListDetail = detail;
@@ -116,6 +118,7 @@ namespace SAT.HR.Data.Repository
                     else
                     {
                         model.MopYear = DateTime.Now.ToString("yyyy", new System.Globalization.CultureInfo("th-TH")).ToString();
+                        model.MopStatus = false;
                     }
                 }
             }
@@ -210,7 +213,7 @@ namespace SAT.HR.Data.Repository
             {
                 using (var transection = db.Database.BeginTransaction())
                 {
-                    ResponseData result = new Models.ResponseData();
+                    ResponseData result = new ResponseData();
                     try
                     {
                         tb_Move_Man_Power_Head head = new tb_Move_Man_Power_Head();
@@ -294,7 +297,7 @@ namespace SAT.HR.Data.Repository
             {
                 using (var transection = db.Database.BeginTransaction())
                 {
-                    ResponseData result = new Models.ResponseData();
+                    ResponseData result = new ResponseData();
                     try
                     {
                         var head = db.tb_Move_Man_Power_Head.Single(x => x.MopID == newdata.MopID);
@@ -431,6 +434,28 @@ namespace SAT.HR.Data.Repository
             return model;
         }
 
-
+        public ResponseData ApprovePositionTransfer(int id)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                using (var transection = db.Database.BeginTransaction())
+                {
+                    ResponseData result = new ResponseData();
+                    try
+                    {
+                        int actionid = UtilityService.User.UserID;
+                        db.sp_ManPower_Approval(id, actionid);
+                        transection.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transection.Rollback();
+                        result.MessageCode = "";
+                        result.MessageText = ex.Message;
+                    }
+                    return result;
+                }
+            }
+        }
     }
 }

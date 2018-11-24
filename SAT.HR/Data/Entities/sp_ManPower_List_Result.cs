@@ -13,7 +13,7 @@ namespace SAT.HR.Data.Entities
     
     public partial class sp_ManPower_List_Result
     {
-        public int UserID { get; set; }
+        public Nullable<int> UserID { get; set; }
         public Nullable<decimal> IDCard { get; set; }
         public string FullNameTh { get; set; }
         public string FullNameEn { get; set; }

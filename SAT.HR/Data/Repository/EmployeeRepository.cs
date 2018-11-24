@@ -1099,7 +1099,7 @@ namespace SAT.HR.Data.Repository
                         model.UpCmd = item.UpCmd;
                         model.PoName = item.PoName;
                         model.PoAName = item.PoAName;
-                        model.UpLevel = item.UpLevel;
+                        model.UpLevel = string.IsNullOrEmpty(item.UpLevel) ? "" : item.UpLevel;
                         model.UpSalary = item.UpSalary;
                         model.UpCmdDateText = (item.UpCmdDate.HasValue) ? item.UpCmdDate.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.UpForceDateText = (item.UpForceDate.HasValue) ? item.UpForceDate.Value.ToString("dd/MM/yyyy") : string.Empty;

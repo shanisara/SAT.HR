@@ -72,7 +72,7 @@ namespace SAT.HR.Data.Repository
                     if (data != null)
                     {
                         model.MpID = data.MpID;
-                        //model.MpCode = data.TypeID == 1 ? data.MpID.ToString().PadLeft(3, '0') : data.MpID.ToString().PadLeft(4, '0');
+                        model.MpCode = data.TypeID == 1 ? data.MpID.ToString().PadLeft(3, '0') : data.MpID.ToString().PadLeft(4, '0');
                         model.DivID = data.DivID;
                         model.DepID = data.DepID;
                         model.SecID = data.SecID;
@@ -169,14 +169,14 @@ namespace SAT.HR.Data.Repository
                 List<PositionRateViewModel> list = new List<PositionRateViewModel>();
 
                 var position = db.vw_Man_Power.Where(m => m.TypeID == type && !string.IsNullOrEmpty(m.PoName))
-                   .GroupBy(item => item.PoID, (key, group) => new { PoID = key, MpID = group.FirstOrDefault().MpID, PoName = group.FirstOrDefault().PoName })
+                   .GroupBy(item => item.MpID, (key, group) => new { MpID = key, PoName = group.FirstOrDefault().PoName })
                    .OrderBy(o => o.MpID)
                    .ToList();
 
                 foreach (var item in position)
                 {
                     PositionRateViewModel model = new PositionRateViewModel();
-                    model.MpID = item.MpID;
+                    model.MpID = (int)item.MpID;
                     //model.MpCode = type == 1 ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
                     model.PoName = item.PoName;
                     list.Add(model);

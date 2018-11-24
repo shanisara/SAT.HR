@@ -1257,6 +1257,21 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
-    }
+        public static List<SelectListItem> GetAttendanceType(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            var data = new MasterRepository().GetAttendanceType();
 
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.TaTID.ToString();
+                select.Text = item.TaTName;
+                select.Selected = defaultValue.HasValue ? (item.TaTID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+    }
 }

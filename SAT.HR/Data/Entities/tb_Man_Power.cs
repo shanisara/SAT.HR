@@ -14,6 +14,13 @@ namespace SAT.HR.Data.Entities
     
     public partial class tb_Man_Power
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tb_Man_Power()
+        {
+            this.tb_Move_Man_Power_Detail = new HashSet<tb_Move_Man_Power_Detail>();
+            this.tb_Move_Man_Power_Detail1 = new HashSet<tb_Move_Man_Power_Detail>();
+        }
+    
         public int MpID { get; set; }
         public Nullable<int> DivID { get; set; }
         public Nullable<int> DepID { get; set; }
@@ -27,11 +34,14 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
-        public Nullable<int> MpCode { get; set; }
     
         public virtual tb_Department tb_Department { get; set; }
         public virtual tb_Division tb_Division { get; set; }
         public virtual tb_Education tb_Education { get; set; }
         public virtual tb_Section tb_Section { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Move_Man_Power_Detail> tb_Move_Man_Power_Detail { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Move_Man_Power_Detail> tb_Move_Man_Power_Detail1 { get; set; }
     }
 }

@@ -336,6 +336,20 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<TimeAttendanceTypeViewModel> GetAttendanceType()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_TimeAttendance_Type.Select(s => new TimeAttendanceTypeViewModel()
+                {
+                    TaTID = s.TaTID,
+                    TaTName = s.TaTName
+                }).ToList();
+                return list;
+            }
+        }
+
+
     }
 
     public class YearViewModel

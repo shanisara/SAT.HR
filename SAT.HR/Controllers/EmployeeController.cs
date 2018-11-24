@@ -749,6 +749,12 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult ApprovePositionTransfer(int id)
+        {
+            ResponseData result = new PositionTransferRepository().ApprovePositionTransfer(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         public FileResult DownloadFilePositionTransfer(int id)
         {
             var result = new PositionTransferRepository().DownloadFilePositionTransfer(id);
