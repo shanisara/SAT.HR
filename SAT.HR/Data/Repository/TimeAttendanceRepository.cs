@@ -19,22 +19,24 @@ namespace SAT.HR.Data
                 using (SATEntities db = new SATEntities())
                 {
                     int index = 1;
-                    int fromdate = Convert.ToInt32(Convert.ToDateTime(datefrom).ToString("yyyyMMdd"), new System.Globalization.CultureInfo("en-GB"));
-                    int todate = Convert.ToInt32(Convert.ToDateTime(datefrom).ToString("yyyyMMdd"), new System.Globalization.CultureInfo("en-GB"));
+
+                    int fromdate = Convert.ToInt32(UtilityService.ConvertDateThai2Eng(Convert.ToDateTime(datefrom)).ToString("yyyyMMdd"));
+                    int todate = Convert.ToInt32(UtilityService.ConvertDateThai2Eng(Convert.ToDateTime(dateto)).ToString("yyyyMMdd"));
                     var timeattendance = db.sp_TimeAttendance_GetByUser(userid, type, fromdate, todate).ToList();
 
                     foreach (var item in timeattendance)
                     {
                         TimeAttendancePageViewModel model = new TimeAttendancePageViewModel();
                         model.RowNumber = index++;
+                        model.TaID = item.TaID;
                         model.UserID = item.UserID;
                         model.TaTName = item.TaTName;
-                        model.ActTimeIn = item.Act_TimeIn.ToString();
-                        model.StdTimeIn = item.Std_TimeIn.ToString();
-                        model.ActTimeOut = item.Act_TimeOut.ToString();
-                        model.StdTimeOut = item.Std_TimeOut.ToString();
-                        model.AdjTimeIn = item.Adj_TimeIn.ToString();
-                        model.AdjTimeOut = item.Adj_TimeOut.ToString();
+                        model.ActTimeIn = item.Act_TimeIn.Value.ToString("dd/MM/yyyy HH:mm");
+                        model.StdTimeIn = item.Std_TimeIn.Value.ToString("dd/MM/yyyy HH:mm");
+                        model.ActTimeOut = item.Act_TimeOut.Value.ToString("dd/MM/yyyy HH:mm");
+                        model.StdTimeOut = item.Std_TimeOut.Value.ToString("dd/MM/yyyy HH:mm");
+                        model.AdjTimeIn = item.Adj_TimeIn.Value.ToString("dd/MM/yyyy HH:mm");
+                        model.AdjTimeOut = item.Adj_TimeOut.Value.ToString("dd/MM/yyyy HH:mm");
                         model.Remark = item.Remark;
                         list.Add(model);
                     }
@@ -59,8 +61,15 @@ namespace SAT.HR.Data
             {
                 using (SATEntities db = new SATEntities())
                 {
+                    var user = db.tb_User.Where(x => x.UserID == userid).FirstOrDefault();
+                    var wtid = user.WorkingTypeID;
+
+                    string currday = DateTime.Now.ToString("dddd"); 
+                    var workingshift = db.tb_Working_Time.Where(x => x.WID == wtid && x.WorkDay == currday).FirstOrDefault();
+
                     var item = db.tb_TimeAttendance.Where(x => x.TaID == id).FirstOrDefault();
                     TimeAttendanceViewModel model = new TimeAttendanceViewModel();
+                    model.UserID = userid;
                     if (item != null)
                     {
                         model.TaID = item.TaID;
@@ -79,8 +88,10 @@ namespace SAT.HR.Data
                     }
                     else
                     {
-                        model.UserID = userid;
+                        model.Std_TimeIn = Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyyy") +" "+ workingshift.StartTime);
+                        model.Std_TimeOut = Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyyy") + " " + workingshift.EndTime);
                     }
+                    
                     data = model;
                 }
             }
@@ -112,6 +123,7 @@ namespace SAT.HR.Data
                     model.CreateBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
+                    db.tb_TimeAttendance.Add(model);
                     db.SaveChanges();
                 }
                 catch (Exception ex)

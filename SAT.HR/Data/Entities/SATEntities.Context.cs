@@ -69,6 +69,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Language> tb_Language { get; set; }
         public virtual DbSet<tb_Language_Skill> tb_Language_Skill { get; set; }
         public virtual DbSet<tb_Language_Skill_Type> tb_Language_Skill_Type { get; set; }
+        public virtual DbSet<tb_Leave_Balance> tb_Leave_Balance { get; set; }
         public virtual DbSet<tb_Leave_Type> tb_Leave_Type { get; set; }
         public virtual DbSet<tb_Loan_Type> tb_Loan_Type { get; set; }
         public virtual DbSet<tb_Major> tb_Major { get; set; }
@@ -77,6 +78,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Member_Type> tb_Member_Type { get; set; }
         public virtual DbSet<tb_Menu> tb_Menu { get; set; }
         public virtual DbSet<tb_Menu_Role> tb_Menu_Role { get; set; }
+        public virtual DbSet<tb_Month> tb_Month { get; set; }
         public virtual DbSet<tb_Move_Level_Detail> tb_Move_Level_Detail { get; set; }
         public virtual DbSet<tb_Move_Level_Head> tb_Move_Level_Head { get; set; }
         public virtual DbSet<tb_Move_Man_Power_Detail> tb_Move_Man_Power_Detail { get; set; }
@@ -118,6 +120,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_User_Status> tb_User_Status { get; set; }
         public virtual DbSet<tb_User_Training> tb_User_Training { get; set; }
         public virtual DbSet<tb_User_Type> tb_User_Type { get; set; }
+        public virtual DbSet<tb_Working_Time> tb_Working_Time { get; set; }
         public virtual DbSet<tb_Working_Type> tb_Working_Type { get; set; }
         public virtual DbSet<vw_Agent_Position> vw_Agent_Position { get; set; }
         public virtual DbSet<vw_Benefit_Cremation> vw_Benefit_Cremation { get; set; }
@@ -153,6 +156,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Role> vw_User_Role { get; set; }
         public virtual DbSet<vw_User_Skill> vw_User_Skill { get; set; }
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
+        public virtual DbSet<tb_Working_Shift> tb_Working_Shift { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {
@@ -351,6 +355,36 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("DateTo", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_TimeAttendance_GetByUser_Result>("sp_TimeAttendance_GetByUser", userIDParameter, taTIDParameter, dateFromParameter, dateToParameter);
+        }
+    
+        public virtual ObjectResult<sp_LeaveBalance_GetByUser_Result> sp_LeaveBalance_GetByUser(Nullable<int> userID, Nullable<int> levYear)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var levYearParameter = levYear.HasValue ?
+                new ObjectParameter("LevYear", levYear) :
+                new ObjectParameter("LevYear", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_LeaveBalance_GetByUser_Result>("sp_LeaveBalance_GetByUser", userIDParameter, levYearParameter);
+        }
+    
+        public virtual ObjectResult<sp_WorkingShift_GetByUser_Result> sp_WorkingShift_GetByUser(Nullable<int> userID, Nullable<int> dateFrom, Nullable<int> dateTo)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var dateFromParameter = dateFrom.HasValue ?
+                new ObjectParameter("DateFrom", dateFrom) :
+                new ObjectParameter("DateFrom", typeof(int));
+    
+            var dateToParameter = dateTo.HasValue ?
+                new ObjectParameter("DateTo", dateTo) :
+                new ObjectParameter("DateTo", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_WorkingShift_GetByUser_Result>("sp_WorkingShift_GetByUser", userIDParameter, dateFromParameter, dateToParameter);
         }
     }
 }

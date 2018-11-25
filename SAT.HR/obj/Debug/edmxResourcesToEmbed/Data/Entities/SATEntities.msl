@@ -77,19 +77,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_Evaluation_GetByUser" FunctionName="SAT.HR.Store.sp_Evaluation_GetByUser">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="SAT.HR.sp_Evaluation_GetByUser_Result">
-          <ScalarProperty Name="CapDID" ColumnName="CapDID" />
-          <ScalarProperty Name="CapDName" ColumnName="CapDName" />
-          <ScalarProperty Name="CapDDesc" ColumnName="CapDDesc" />
-          <ScalarProperty Name="Score1" ColumnName="Score1" />
-          <ScalarProperty Name="Score2" ColumnName="Score2" />
-          <ScalarProperty Name="UserScore1" ColumnName="UserScore1" />
-          <ScalarProperty Name="UserScore2" ColumnName="UserScore2" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_Evaluation_List" FunctionName="SAT.HR.Store.sp_Evaluation_List">
       <ResultMapping>
         <ComplexTypeMapping TypeName="SAT.HR.sp_Evaluation_List_Result">
@@ -182,6 +169,19 @@
           <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
           <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
           <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_LeaveBalance_GetByUser" FunctionName="SAT.HR.Store.sp_LeaveBalance_GetByUser">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SAT.HR.sp_LeaveBalance_GetByUser_Result">
+          <ScalarProperty Name="LevID" ColumnName="LevID" />
+          <ScalarProperty Name="LevYear" ColumnName="LevYear" />
+          <ScalarProperty Name="LevName" ColumnName="LevName" />
+          <ScalarProperty Name="LevStandard" ColumnName="LevStandard" />
+          <ScalarProperty Name="LevMax" ColumnName="LevMax" />
+          <ScalarProperty Name="LevUsed" ColumnName="LevUsed" />
+          <ScalarProperty Name="LevBalance" ColumnName="LevBalance" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -747,6 +747,22 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="tb_Leave_Balance">
+      <EntityTypeMapping TypeName="SAT.HR.tb_Leave_Balance">
+        <MappingFragment StoreEntitySet="tb_Leave_Balance">
+          <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+          <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+          <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="LevUsed" ColumnName="LevUsed" />
+          <ScalarProperty Name="LevMax" ColumnName="LevMax" />
+          <ScalarProperty Name="LevStandard" ColumnName="LevStandard" />
+          <ScalarProperty Name="LevID" ColumnName="LevID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="LevYear" ColumnName="LevYear" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="tb_Leave_Type">
       <EntityTypeMapping TypeName="SAT.HR.tb_Leave_Type">
         <MappingFragment StoreEntitySet="tb_Leave_Type">
@@ -848,6 +864,14 @@
           <ScalarProperty Name="R_View" ColumnName="R_View" />
           <ScalarProperty Name="MenuID" ColumnName="MenuID" />
           <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_Month">
+      <EntityTypeMapping TypeName="SAT.HR.tb_Month">
+        <MappingFragment StoreEntitySet="tb_Month">
+          <ScalarProperty Name="MName" ColumnName="MName" />
+          <ScalarProperty Name="MID" ColumnName="MID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1490,6 +1514,17 @@
         <MappingFragment StoreEntitySet="tb_User_Type">
           <ScalarProperty Name="TypeName" ColumnName="TypeName" />
           <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_Working_Time">
+      <EntityTypeMapping TypeName="SAT.HR.tb_Working_Time">
+        <MappingFragment StoreEntitySet="tb_Working_Time">
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="WorkDay" ColumnName="WorkDay" />
+          <ScalarProperty Name="WtID" ColumnName="WtID" />
+          <ScalarProperty Name="WID" ColumnName="WID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -2349,5 +2384,44 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="tb_Working_Shift">
+      <EntityTypeMapping TypeName="SAT.HR.tb_Working_Shift">
+        <MappingFragment StoreEntitySet="tb_Working_Shift">
+          <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+          <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+          <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="Adj_TimeOut" ColumnName="Adj_TimeOut" />
+          <ScalarProperty Name="Adj_TimeIn" ColumnName="Adj_TimeIn" />
+          <ScalarProperty Name="Act_TimeOut" ColumnName="Act_TimeOut" />
+          <ScalarProperty Name="Act_TimeIn" ColumnName="Act_TimeIn" />
+          <ScalarProperty Name="WsMonth" ColumnName="WsMonth" />
+          <ScalarProperty Name="WsYear" ColumnName="WsYear" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="WsID" ColumnName="WsID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_WorkingShift_GetByUser" FunctionName="SAT.HR.Store.sp_WorkingShift_GetByUser">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SAT.HR.sp_WorkingShift_GetByUser_Result">
+          <ScalarProperty Name="WsID" ColumnName="WsID" />
+          <ScalarProperty Name="WsYear" ColumnName="WsYear" />
+          <ScalarProperty Name="WsMonth" ColumnName="WsMonth" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="WsMonthName" ColumnName="WsMonthName" />
+          <ScalarProperty Name="Act_TimeIn" ColumnName="Act_TimeIn" />
+          <ScalarProperty Name="Act_TimeOut" ColumnName="Act_TimeOut" />
+          <ScalarProperty Name="Adj_TimeIn" ColumnName="Adj_TimeIn" />
+          <ScalarProperty Name="Adj_TimeOut" ColumnName="Adj_TimeOut" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+          <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+          <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

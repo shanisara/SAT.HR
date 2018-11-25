@@ -59,6 +59,10 @@
       <Parameter Name="DateFrom" Mode="In" Type="Int32" />
       <Parameter Name="DateTo" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="sp_LeaveBalance_GetByUser" ReturnType="Collection(SAT.HR.sp_LeaveBalance_GetByUser_Result)">
+      <Parameter Name="UserID" Mode="In" Type="Int32" />
+      <Parameter Name="LevYear" Mode="In" Type="Int32" />
+    </FunctionImport>
     <EntitySet Name="tb_Accumulative_Fund" EntityType="SAT.HR.tb_Accumulative_Fund" />
     <EntitySet Name="tb_Action_Type" EntityType="SAT.HR.tb_Action_Type" />
     <EntitySet Name="tb_Agent_Type" EntityType="SAT.HR.tb_Agent_Type" />
@@ -101,6 +105,7 @@
     <EntitySet Name="tb_Language" EntityType="SAT.HR.tb_Language" />
     <EntitySet Name="tb_Language_Skill" EntityType="SAT.HR.tb_Language_Skill" />
     <EntitySet Name="tb_Language_Skill_Type" EntityType="SAT.HR.tb_Language_Skill_Type" />
+    <EntitySet Name="tb_Leave_Balance" EntityType="SAT.HR.tb_Leave_Balance" />
     <EntitySet Name="tb_Leave_Type" EntityType="SAT.HR.tb_Leave_Type" />
     <EntitySet Name="tb_Loan_Type" EntityType="SAT.HR.tb_Loan_Type" />
     <EntitySet Name="tb_Major" EntityType="SAT.HR.tb_Major" />
@@ -109,6 +114,7 @@
     <EntitySet Name="tb_Member_Type" EntityType="SAT.HR.tb_Member_Type" />
     <EntitySet Name="tb_Menu" EntityType="SAT.HR.tb_Menu" />
     <EntitySet Name="tb_Menu_Role" EntityType="SAT.HR.tb_Menu_Role" />
+    <EntitySet Name="tb_Month" EntityType="SAT.HR.tb_Month" />
     <EntitySet Name="tb_Move_Level_Detail" EntityType="SAT.HR.tb_Move_Level_Detail" />
     <EntitySet Name="tb_Move_Level_Head" EntityType="SAT.HR.tb_Move_Level_Head" />
     <EntitySet Name="tb_Move_Man_Power_Detail" EntityType="SAT.HR.tb_Move_Man_Power_Detail" />
@@ -150,6 +156,7 @@
     <EntitySet Name="tb_User_Status" EntityType="SAT.HR.tb_User_Status" />
     <EntitySet Name="tb_User_Training" EntityType="SAT.HR.tb_User_Training" />
     <EntitySet Name="tb_User_Type" EntityType="SAT.HR.tb_User_Type" />
+    <EntitySet Name="tb_Working_Time" EntityType="SAT.HR.tb_Working_Time" />
     <EntitySet Name="tb_Working_Type" EntityType="SAT.HR.tb_Working_Type" />
     <EntitySet Name="vw_Agent_Position" EntityType="SAT.HR.vw_Agent_Position" />
     <EntitySet Name="vw_Benefit_Cremation" EntityType="SAT.HR.vw_Benefit_Cremation" />
@@ -493,6 +500,10 @@
       <End Role="tb_TimeAttendance_Type" EntitySet="tb_TimeAttendance_Type" />
       <End Role="tb_TimeAttendance" EntitySet="tb_TimeAttendance" />
     </AssociationSet>
+    <AssociationSet Name="FK_tb_TimeAttendance_tb_User" Association="SAT.HR.FK_tb_TimeAttendance_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_TimeAttendance" EntitySet="tb_TimeAttendance" />
+    </AssociationSet>
     <AssociationSet Name="FK_tb_Users_tb_Title" Association="SAT.HR.FK_tb_Users_tb_Title">
       <End Role="tb_Title" EntitySet="tb_Title" />
       <End Role="tb_User" EntitySet="tb_User" />
@@ -549,6 +560,16 @@
       <End Role="tb_Working_Type" EntitySet="tb_Working_Type" />
       <End Role="tb_User" EntitySet="tb_User" />
     </AssociationSet>
+    <EntitySet Name="tb_Working_Shift" EntityType="SAT.HR.tb_Working_Shift" />
+    <AssociationSet Name="FK_tb_Working_Shift_tb_User" Association="SAT.HR.FK_tb_Working_Shift_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_Working_Shift" EntitySet="tb_Working_Shift" />
+    </AssociationSet>
+    <FunctionImport Name="sp_WorkingShift_GetByUser" ReturnType="Collection(SAT.HR.sp_WorkingShift_GetByUser_Result)">
+      <Parameter Name="UserID" Mode="In" Type="Int32" />
+      <Parameter Name="DateFrom" Mode="In" Type="Int32" />
+      <Parameter Name="DateTo" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_Menu_GetByUser_Result">
     <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -694,6 +715,15 @@
     <Property Type="Int32" Name="CreateBy" Nullable="true" />
     <Property Type="DateTime" Name="ModifyDate" Nullable="true" Precision="23" />
     <Property Type="Int32" Name="ModifyBy" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_LeaveBalance_GetByUser_Result">
+    <Property Type="Int32" Name="LevID" Nullable="false" />
+    <Property Type="Int32" Name="LevYear" Nullable="false" />
+    <Property Type="String" Name="LevName" Nullable="true" MaxLength="200" />
+    <Property Type="Decimal" Name="LevStandard" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="LevMax" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="LevUsed" Nullable="false" Precision="2" Scale="2" />
+    <Property Type="Decimal" Name="LevBalance" Nullable="false" Precision="2" Scale="2" />
   </ComplexType>
   <EntityType Name="tb_Accumulative_Fund">
     <Key>
@@ -1291,6 +1321,23 @@
     <Property Name="LkTName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="tb_User_Skill" Relationship="SAT.HR.FK_tb_User_Skill_tb_Language_Skill_Type" FromRole="tb_Language_Skill_Type" ToRole="tb_User_Skill" />
   </EntityType>
+  <EntityType Name="tb_Leave_Balance">
+    <Key>
+      <PropertyRef Name="LevYear" />
+      <PropertyRef Name="UserID" />
+      <PropertyRef Name="LevID" />
+    </Key>
+    <Property Name="LevYear" Type="Int32" Nullable="false" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="LevID" Type="Int32" Nullable="false" />
+    <Property Name="LevStandard" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="LevMax" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="LevUsed" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+  </EntityType>
   <EntityType Name="tb_Leave_Type">
     <Key>
       <PropertyRef Name="LevID" />
@@ -1400,6 +1447,13 @@
     <Property Name="ModifyBy" Type="Int32" />
     <NavigationProperty Name="tb_Menu" Relationship="SAT.HR.FK_tb_RoleMenu_tb_Menu" FromRole="tb_Menu_Role" ToRole="tb_Menu" />
     <NavigationProperty Name="tb_Role" Relationship="SAT.HR.FK_tb_RoleMenu_tb_Role" FromRole="tb_Menu_Role" ToRole="tb_Role" />
+  </EntityType>
+  <EntityType Name="tb_Month">
+    <Key>
+      <PropertyRef Name="MID" />
+    </Key>
+    <Property Name="MID" Type="Int32" Nullable="false" />
+    <Property Name="MName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="tb_Move_Level_Detail">
     <Key>
@@ -1716,6 +1770,7 @@
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
     <NavigationProperty Name="tb_TimeAttendance_Type" Relationship="SAT.HR.FK_tb_TimeAttendance_tb_TimeAttendance" FromRole="tb_TimeAttendance" ToRole="tb_TimeAttendance_Type" />
+    <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_TimeAttendance_tb_User" FromRole="tb_TimeAttendance" ToRole="tb_User" />
   </EntityType>
   <EntityType Name="tb_TimeAttendance_Type">
     <Key>
@@ -1862,6 +1917,7 @@
     <NavigationProperty Name="tb_Religion" Relationship="SAT.HR.FK_tb_Users_tb_Religion" FromRole="tb_User" ToRole="tb_Religion" />
     <NavigationProperty Name="tb_Resign_Type" Relationship="SAT.HR.FK_tb_User_tb_Resign_Type" FromRole="tb_User" ToRole="tb_Resign_Type" />
     <NavigationProperty Name="tb_Sex" Relationship="SAT.HR.FK_tb_Users_tb_Sex" FromRole="tb_User" ToRole="tb_Sex" />
+    <NavigationProperty Name="tb_TimeAttendance" Relationship="SAT.HR.FK_tb_TimeAttendance_tb_User" FromRole="tb_User" ToRole="tb_TimeAttendance" />
     <NavigationProperty Name="tb_Title" Relationship="SAT.HR.FK_tb_Users_tb_Title" FromRole="tb_User" ToRole="tb_Title" />
     <NavigationProperty Name="tb_Training_Course" Relationship="SAT.HR.FK_tb_Training_Course_tb_User" FromRole="tb_User" ToRole="tb_Training_Course" />
     <NavigationProperty Name="tb_User_Certificate" Relationship="SAT.HR.FK_tb_User_Certificate_tb_User" FromRole="tb_User" ToRole="tb_User_Certificate" />
@@ -1875,6 +1931,7 @@
     <NavigationProperty Name="tb_User_Training" Relationship="SAT.HR.FK_tb_User_Training_tb_User" FromRole="tb_User" ToRole="tb_User_Training" />
     <NavigationProperty Name="tb_User_Status" Relationship="SAT.HR.FK_tb_Users_tb_User_Status" FromRole="tb_User" ToRole="tb_User_Status" />
     <NavigationProperty Name="tb_Working_Type" Relationship="SAT.HR.FK_tb_Users_tb_Working_Type" FromRole="tb_User" ToRole="tb_Working_Type" />
+    <NavigationProperty Name="tb_Working_Shift" Relationship="SAT.HR.FK_tb_Working_Shift_tb_User" FromRole="tb_User" ToRole="tb_Working_Shift" />
   </EntityType>
   <EntityType Name="tb_User_Certificate">
     <Key>
@@ -2116,6 +2173,16 @@
     <NavigationProperty Name="tb_Position" Relationship="SAT.HR.FK_tb_Position_tb_User_Type" FromRole="tb_User_Type" ToRole="tb_Position" />
     <NavigationProperty Name="tb_Section" Relationship="SAT.HR.FK_tb_Section_tb_User_Type" FromRole="tb_User_Type" ToRole="tb_Section" />
     <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_User_tb_User_Type" FromRole="tb_User_Type" ToRole="tb_User" />
+  </EntityType>
+  <EntityType Name="tb_Working_Time">
+    <Key>
+      <PropertyRef Name="WID" />
+    </Key>
+    <Property Name="WID" Type="Int32" Nullable="false" />
+    <Property Name="WtID" Type="Int32" />
+    <Property Name="WorkDay" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="StartTime" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="EndTime" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="tb_Working_Type">
     <Key>
@@ -3887,6 +3954,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tb_TimeAttendance_tb_User">
+    <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_TimeAttendance" Role="tb_TimeAttendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_TimeAttendance">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tb_Users_tb_Title">
     <End Type="SAT.HR.tb_Title" Role="tb_Title" Multiplicity="0..1" />
     <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="*" />
@@ -4055,4 +4134,51 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="tb_Working_Shift">
+    <Key>
+      <PropertyRef Name="WsID" />
+    </Key>
+    <Property Name="WsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="WsYear" Type="Int32" />
+    <Property Name="WsMonth" Type="Int32" />
+    <Property Name="Act_TimeIn" Type="DateTime" Precision="3" />
+    <Property Name="Act_TimeOut" Type="DateTime" Precision="3" />
+    <Property Name="Adj_TimeIn" Type="DateTime" Precision="3" />
+    <Property Name="Adj_TimeOut" Type="DateTime" Precision="3" />
+    <Property Name="Remark" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+    <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Working_Shift_tb_User" FromRole="tb_Working_Shift" ToRole="tb_User" />
+  </EntityType>
+  <Association Name="FK_tb_Working_Shift_tb_User">
+    <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
+    <End Type="SAT.HR.tb_Working_Shift" Role="tb_Working_Shift" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_Working_Shift">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="sp_WorkingShift_GetByUser_Result">
+    <Property Type="Int32" Name="WsID" Nullable="false" />
+    <Property Type="Int32" Name="WsYear" Nullable="true" />
+    <Property Type="Int32" Name="WsMonth" Nullable="true" />
+    <Property Type="Int32" Name="UserID" Nullable="false" />
+    <Property Type="String" Name="WsMonthName" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="Act_TimeIn" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="Act_TimeOut" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="Adj_TimeIn" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="Adj_TimeOut" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Remark" Nullable="true" MaxLength="400" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreateBy" Nullable="true" />
+    <Property Type="DateTime" Name="ModifyDate" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="ModifyBy" Nullable="true" />
+  </ComplexType>
 </Schema>

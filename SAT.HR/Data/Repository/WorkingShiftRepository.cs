@@ -10,172 +10,172 @@ namespace SAT.HR.Data
 {
     public class WorkingShiftRepository
     {
-        //public WorkingShiftViewModel GetWorkingShiftByUser(int userid)
-        //{
-        //    var data = new BenefitRemunerationViewModel();
-        //    var list = new List<BenefitRemunerationViewModel>();
-        //    try
-        //    {
-        //        using (SATEntities db = new SATEntities())
-        //        {
-        //            int index = 1;
-        //            var remuneration = db.tb_Benefit_Remuneration.Where(x => x.UserID == userid).OrderByDescending(o => o.BrID).ToList();
+        public WorkingShiftPageViewModel GetWorkingShiftByUser(int userid, string datefrom, string dateto)
+        {
+            var data = new WorkingShiftPageViewModel();
+            var list = new List<WorkingShiftPageViewModel>();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    int index = 1;
 
-        //            foreach (var item in remuneration)
-        //            {
-        //                BenefitRemunerationViewModel model = new BenefitRemunerationViewModel();
-        //                model.RowNumber = index++;
-        //                model.BrID = item.BrID;
-        //                model.UserID = item.UserID;
-        //                model.BrYear = item.BrYear;
-        //                model.RecID = item.RecID;
-        //                model.RecFullName = item.RecFullName;
-        //                model.BrAmout = item.BrAmout;
-        //                model.BrRemark = item.BrRemark;
-        //                model.CreateDate = item.CreateDate;
-        //                model.CreateBy = item.CreateBy;
-        //                model.ModifyDate = item.ModifyDate;
-        //                model.ModifyBy = item.ModifyBy;
-        //                model.RecName = string.Empty;
-        //                list.Add(model);
-        //            }
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
+                    int fromdate = Convert.ToInt32(UtilityService.ConvertDateThai2Eng(Convert.ToDateTime(datefrom)).ToString("yyyyMMdd"));
+                    int todate = Convert.ToInt32(UtilityService.ConvertDateThai2Eng(Convert.ToDateTime(dateto)).ToString("yyyyMMdd"));
+                    var workingshift = db.sp_WorkingShift_GetByUser(userid, fromdate, todate).ToList();
 
-        //        throw;
-        //    }
-        //    data.UserID = userid;
-        //    data.ListRemuneration = list;
-        //    return data;
-        //}
+                    foreach (var item in workingshift)
+                    {
+                        WorkingShiftPageViewModel model = new WorkingShiftPageViewModel();
+                        model.RowNumber = index++;
+                        model.WsID = item.WsID;
+                        model.UserID = item.UserID;
+                        model.WsYear = item.WsYear;
+                        model.WsMonth = item.WsMonthName;
+                        model.ActTimeIn = item.Act_TimeIn.Value.ToString("dd/MM/yyyy HH:mm");
+                        model.ActTimeOut = item.Act_TimeOut.Value.ToString("dd/MM/yyyy HH:mm");
+                        //model.AdjTimeIn = item.Adj_TimeIn.Value.ToString("dd/MM/yyyy HH:mm");
+                        //model.AdjTimeOut = item.Adj_TimeOut.Value.ToString("dd/MM/yyyy HH:mm");
+                        list.Add(model);
+                    }
+                }
+            }
+            catch (Exception)
+            {
 
-        //public WorkingShiftViewModel GetWorkingShiftByID(int userid, int id)
-        //{
-        //    BenefitRemunerationViewModel data = new BenefitRemunerationViewModel();
-        //    data.UserID = userid;
+                throw;
+            }
+            data.UserID = userid;
+            data.ListWorkingShift = list;
+            return data;
+        }
 
-        //    try
-        //    {
-        //        using (SATEntities db = new SATEntities())
-        //        {
-        //            var item = db.tb_Benefit_Remuneration.Where(x => x.BrID == id).FirstOrDefault();
-        //            BenefitRemunerationViewModel model = new BenefitRemunerationViewModel();
-        //            if (item != null)
-        //            {
-        //                model.BrID = item.BrID;
-        //                model.UserID = item.UserID;
-        //                model.BrYear = item.BrYear;
-        //                model.BrDate = item.BrDate;
-        //                model.RecID = item.RecID;
-        //                model.RecFullName = item.RecFullName;
-        //                model.BrAmout = item.BrAmout;
-        //                model.BrRemark = item.BrRemark;
-        //                model.CreateDate = item.CreateDate;
-        //                model.CreateBy = item.CreateBy;
-        //                model.ModifyDate = item.ModifyDate;
-        //                model.ModifyBy = item.ModifyBy;
-        //            }
-        //            else
-        //            {
-        //                model.BrYear = DateTime.Now.Year;
-        //            }
-        //            data = model;
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
+        public WorkingShiftViewModel GetWorkingShiftByID(int? id, int userid)
+        {
+            WorkingShiftViewModel data = new WorkingShiftViewModel();
+            data.UserID = userid;
 
-        //    }
-        //    return data;
-        //}
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var item = db.tb_Working_Shift.Where(x => x.WsID == id).FirstOrDefault();
 
-        //public ResponseData AddByEntity(WorkingShiftViewModel data)
-        //{
-        //    using (SATEntities db = new SATEntities())
-        //    {
-        //        ResponseData result = new Models.ResponseData();
-        //        try
-        //        {
-        //            tb_Benefit_Remuneration model = new tb_Benefit_Remuneration();
-        //            model.BrID = data.BrID;
-        //            model.UserID = data.UserID;
-        //            model.BrYear = data.BrYear;
-        //            if (Convert.ToDateTime(data.BrDate) > DateTime.MinValue)
-        //                model.BrDate = Convert.ToDateTime(data.BrDate);
-        //            model.RecID = data.RecID;
-        //            model.RecFullName = data.RecFullName;
-        //            model.BrAmout = data.BrAmout;
-        //            model.BrRemark = data.BrRemark;
-        //            model.CreateBy = UtilityService.User.UserID;
-        //            model.CreateDate = DateTime.Now;
-        //            model.ModifyBy = UtilityService.User.UserID;
-        //            model.ModifyDate = DateTime.Now;
-        //            db.tb_Benefit_Remuneration.Add(model);
-        //            db.SaveChanges();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            result.MessageCode = "";
-        //            result.MessageText = ex.Message;
-        //        }
-        //        return result;
-        //    }
-        //}
+                    WorkingShiftViewModel model = new WorkingShiftViewModel();
+                    model.UserID = userid;
 
-        //public ResponseData UpdateByEntity(WorkingShiftViewModel newdata)
-        //{
-        //    using (SATEntities db = new SATEntities())
-        //    {
-        //        ResponseData result = new Models.ResponseData();
-        //        try
-        //        {
-        //            var model = db.tb_Benefit_Remuneration.Single(x => x.UserID == newdata.UserID && x.BrID == newdata.BrID);
-        //            model.BrID = newdata.BrID;
-        //            model.UserID = newdata.UserID;
-        //            model.BrYear = newdata.BrYear;
-        //            if (Convert.ToDateTime(newdata.BrDate) > DateTime.MinValue)
-        //                model.BrDate = Convert.ToDateTime(newdata.BrDate);
-        //            model.RecID = newdata.RecID;
-        //            model.RecFullName = newdata.RecFullName;
-        //            model.BrAmout = newdata.BrAmout;
-        //            model.BrRemark = newdata.BrRemark;
-        //            model.ModifyBy = UtilityService.User.UserID;
-        //            model.ModifyDate = DateTime.Now;
-        //            db.SaveChanges();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            result.MessageCode = "";
-        //            result.MessageText = ex.Message;
-        //        }
-        //        return result;
-        //    }
-        //}
+                    if (item != null)
+                    {
+                        model.WsID = item.WsID;
+                        model.UserID = item.UserID;
+                        model.WsYear = item.WsYear;
+                        model.WsMonth = item.WsMonth;
+                        model.Act_TimeIn = item.Act_TimeIn;
+                        model.Act_TimeOut = item.Act_TimeOut;
+                        model.Adj_TimeIn = item.Adj_TimeIn;
+                        model.Adj_TimeOut = item.Adj_TimeOut;
+                        model.CreateDate = item.CreateDate;
+                        model.CreateBy = item.CreateBy;
+                        model.ModifyDate = item.ModifyDate;
+                        model.ModifyBy = item.ModifyBy;
+                    }
+                    else
+                    {
+                        model.WsYear = DateTime.Now.Year + 543;
+                        model.WsMonth = DateTime.Now.Month;
+                    }
 
-        //public ResponseData DeleteByID(int id)
-        //{
-        //    ResponseData result = new Models.ResponseData();
-        //    using (SATEntities db = new SATEntities())
-        //    {
-        //        try
-        //        {
-        //            var model = db.tb_Benefit_Remuneration.SingleOrDefault(x => x.BrID == id);
-        //            if (model != null)
-        //            {
-        //                db.tb_Benefit_Remuneration.Remove(model);
-        //                db.SaveChanges();
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            result.MessageCode = "";
-        //            result.MessageText = ex.Message;
-        //        }
-        //        return result;
-        //    }
-        //}
+                    data = model;
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+            return data;
+        }
+
+        public ResponseData AddByEntity(WorkingShiftViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_Working_Shift model = new tb_Working_Shift();
+                    model.WsID = data.WsID;
+                    model.UserID = (int)data.UserID;
+                    model.WsYear = data.WsYear;
+                    model.WsMonth = data.WsMonth;
+                    model.Act_TimeIn = data.Act_TimeIn;
+                    model.Act_TimeOut = data.Act_TimeOut;
+                    model.Adj_TimeIn = data.Adj_TimeIn;
+                    model.Adj_TimeOut = data.Adj_TimeOut;
+                    model.CreateDate = DateTime.Now;
+                    model.CreateBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    db.tb_Working_Shift.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdateByEntity(WorkingShiftViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var model = db.tb_Working_Shift.Single(x => x.UserID == newdata.UserID && x.WsID == newdata.WsID);
+                    model.WsYear = newdata.WsYear;
+                    model.WsMonth = newdata.WsMonth;
+                    model.Act_TimeIn = newdata.Act_TimeIn;
+                    model.Act_TimeOut = newdata.Act_TimeOut;
+                    model.Adj_TimeIn = newdata.Adj_TimeIn;
+                    model.Adj_TimeOut = newdata.Adj_TimeOut;
+                    model.ModifyDate = DateTime.Now;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
+
+        public ResponseData DeleteByID(int id)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var model = db.tb_Working_Shift.SingleOrDefault(x => x.WsID == id);
+                    if (model != null)
+                    {
+                        db.tb_Working_Shift.Remove(model);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
 
     }
 }

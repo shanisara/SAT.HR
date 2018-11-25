@@ -110,8 +110,11 @@ namespace SAT.HR.Helpers
 
         public static DateTime ConvertDateThai2Eng(DateTime? date)
         {
-            DateTime dateEng = Convert.ToDateTime(date.Value.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("en-GB")));
-            return dateEng;
+            int dd = date.Value.Day;
+            int mm = date.Value.Month;
+            int yy = date.Value.Year - 543;
+            DateTime newDate = Convert.ToDateTime(yy + "/" + mm + "/" + dd, new System.Globalization.CultureInfo("en-GB"));
+            return newDate;
         }
 
         public static DateTime ConvertDate2Save(DateTime? date)

@@ -1,6 +1,7 @@
 ﻿using SAT.HR.Data;
 using SAT.HR.Data.Repository;
 using SAT.HR.Helpers;
+using SAT.HR.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,16 +36,17 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult LeaveBalanceDetail(int id)
+        public ActionResult LeaveBalanceDetail(int id, int? year)
         {
-            var model = new EmployeeRepository().GetByID(id);
-            ViewBag.YearLeaveBalance = DropDownList.GetYearHoliday(null);
+            var model = new LeaveBalanceRepository().GetByUser(id, year);
+            ViewBag.YearLeaveBalance = DropDownList.GetYearLeave(year);
             return View(model);
         }
 
-        public ActionResult _LeaveBalance()
+        public JsonResult SaveLeaveBalance(LeaveBalanceViewModel data)
         {
-            return PartialView("_LeaveBalance");
+            ResponseData result = new LeaveBalanceRepository().SaveByEntity(data);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -61,13 +63,47 @@ namespace SAT.HR.Controllers
         public ActionResult WorkingShiftDetail(int id)
         {
             var model = new EmployeeRepository().GetByID(id);
+
+            DateTime firstDayOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            DateTime lastDayOfMount = firstDayOfMonth.AddMonths(1).AddDays(-1);
+
+            string dateFrom = firstDayOfMonth.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH"));
+            string dateTo = lastDayOfMount.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH"));
+
+            ViewBag.DateFrom = dateFrom;
+            ViewBag.DateTo = dateTo;
+
             return View(model);
         }
 
-        public ActionResult WorkingShiftDetailByID(int? id)
+        public ActionResult WorkingShiftByID(int? id, int userid)
         {
-            //var model = new WorkingTime().WorkingShiftDetailByID(id);
-            return PartialView("_WorkingShiftDetail");
+            var model = new WorkingShiftRepository().GetWorkingShiftByID(id, userid);
+            ViewBag.Month = DropDownList.GetMonth(model.WsMonth);
+            return PartialView("_WorkingShiftDetail", model);
+        }
+
+        public JsonResult SaveWorkingShift(WorkingShiftViewModel data)
+        {
+            ResponseData result = new ResponseData();
+            if (data.WsID != 0)
+                result = new WorkingShiftRepository().UpdateByEntity(data);
+            else
+                result = new WorkingShiftRepository().AddByEntity(data);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteWorkingShift(int id)
+        {
+            var result = new WorkingShiftRepository().DeleteByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult WorkingShiftByUser(int userid, string datefrom, string dateto)
+        {
+            var list = new WorkingShiftRepository().GetWorkingShiftByUser(userid, datefrom, dateto);
+            return Json(new { data = list.ListWorkingShift }, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -103,6 +139,16 @@ namespace SAT.HR.Controllers
             var model = new TimeAttendanceRepository().GetTimeAttendanceByID(id, userid);
             ViewBag.AttendanceType = DropDownList.GetAttendanceType(null);
             return PartialView("_TimeAttendanceDetail", model);
+        }
+
+        public JsonResult SaveTimeAttendance(TimeAttendanceViewModel data)
+        {
+            ResponseData result = new ResponseData();
+            if (data.TaID != 0)
+                result = new TimeAttendanceRepository().UpdateByEntity(data);
+            else
+                result = new TimeAttendanceRepository().AddByEntity(data);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult DeleteTimeAttendance(int id)

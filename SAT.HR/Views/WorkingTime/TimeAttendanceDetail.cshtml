@@ -1,5 +1,4 @@
 ﻿@model SAT.HR.Models.EmployeeViewModel
-
 @{
     ViewBag.Title = "TimeAttendanceDetail";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -51,14 +50,14 @@
                             <thead class="text-primary">
                                 <tr>
                                     <th style="width:5%" class="disabled-sorting">ลำดับ</th>
-                                    <th style="width:15%">ประเภท</th>
-                                    <th style="width:8%">เวลาเข้า</th>
-                                    <th style="width:10%;">เวลามาตรฐาน</th>
-                                    <th style="width:10%">เวลาออก	</th>
+                                    <th style="width:11%">ประเภท</th>
+                                    <th style="width:11%">เวลาเข้า</th>
+                                    <th style="width:11%;">เวลามาตรฐาน</th>
+                                    <th style="width:11%">เวลาออก	</th>
                                     <th style="width:12%">เวลาออกมาตรฐาน</th>
-                                    <th style="width:10%;">ปรับเวลาเข้า</th>
-                                    <th style="width:10%;">ปรับเวลาออก</th>
-                                    <th style="width:10%;">หมายเหตุ</th>
+                                    <th style="width:11%;">ปรับเวลาเข้า</th>
+                                    <th style="width:11%;">ปรับเวลาออก</th>
+                                    <th style="width:7%;">หมายเหตุ</th>
                                     <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
                                 </tr>
                             </thead>
@@ -87,8 +86,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn btn-sm btn-primary" id="btn-save">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary btn-save">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
             </div>
         </div>
     </div>
@@ -132,6 +131,7 @@
             var dataTable = {
                 table: null,
                 initializeDataTable: function () {
+
                     var userid = $('#UserID').val();
                     var datefrom = $('#DateFrom').val();
                     var dateto = $('#DateTo').val();
@@ -165,16 +165,12 @@
                             { "data": "Remark", "orderable": true },
                         ],
                         "columnDefs": [
-                            //{
-                            //    "render": function (data, type, row) {
-                            //        return '<div class="text-danger">' + data + '</div>';
-                            //    }, "targets": [4]
-                            //},
                             {
                                 "render": function (data, type, row) {
                                     var inner = '<div class="td-actions pull-right">' +
-                                                    '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.BcfID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;' +
-                                                '</div>';
+                                                    '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.TaID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;' +
+                                                    '<button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.TaID + '"><i class="material-icons">close</i></button>' +
+                                                 '</div>';
                                     return inner;
                                 }, "targets": 9
                             },
@@ -247,7 +243,8 @@
 
 
             $(".btn-search").click(function () {
-                dataTable.getData();
+                $('.table-detail').dataTable().fnDestroy();
+                dataTable.initializeDataTable();
             });
 
             $(".btn-add").click(function () {
@@ -263,6 +260,45 @@
                 var url = '@Url.Action("TimeAttendance", "WorkingTime")';
                 window.location.href = url;
             });
+
+            $(".btn-save").click(function () {
+                 var $valid = $('.form-detail').valid();
+                 if (!$valid) {
+                    return false;
+                 }
+                 else {
+                     $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("SaveTimeAttendance", "WorkingTime")',
+                        data: $(".form-detail").serialize(),
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                swal({
+                                    title: "",
+                                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                                    type: "success",
+                                    buttonsStyling: false,
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                }).then(function () {
+                                    $('.modal-detail').modal('hide');
+                                    dataTable.getData();
+                                });
+                            }
+                            else {
+                                swal({
+                                    title: '',
+                                    text: res.MessageText,
+                                    type: 'error',
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                    buttonsStyling: false
+                                }).catch(swal.noop)
+                            }
+                        }
+                    });
+                 }
+             });
         });
 
     </script>

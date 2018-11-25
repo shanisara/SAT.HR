@@ -10,16 +10,15 @@
 namespace SAT.HR.Data.Entities
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class tb_TimeAttendance
+    public partial class sp_WorkingShift_GetByUser_Result
     {
-        public int TaID { get; set; }
-        public Nullable<int> TaTID { get; set; }
-        public Nullable<int> UserID { get; set; }
-        public Nullable<System.DateTime> Std_TimeIn { get; set; }
+        public int WsID { get; set; }
+        public Nullable<int> WsYear { get; set; }
+        public Nullable<int> WsMonth { get; set; }
+        public int UserID { get; set; }
+        public string WsMonthName { get; set; }
         public Nullable<System.DateTime> Act_TimeIn { get; set; }
-        public Nullable<System.DateTime> Std_TimeOut { get; set; }
         public Nullable<System.DateTime> Act_TimeOut { get; set; }
         public Nullable<System.DateTime> Adj_TimeIn { get; set; }
         public Nullable<System.DateTime> Adj_TimeOut { get; set; }
@@ -28,8 +27,5 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
-    
-        public virtual tb_TimeAttendance_Type tb_TimeAttendance_Type { get; set; }
-        public virtual tb_User tb_User { get; set; }
     }
 }

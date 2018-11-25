@@ -351,6 +351,33 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<YearViewModel> GetYearLeave()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var lists = new List<YearViewModel>();
+                lists = db.tb_Leave_Type.GroupBy(g => g.LevYear).Select(group => new { Year = group.Key })
+                            .Select(s => new YearViewModel()
+                            {
+                                Year = s.Year
+                            })
+                            .OrderByDescending(x => x.Year).ToList();
+                return lists;
+            }
+        }
+
+        public List<MonthViewModel> GetMonth()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.tb_Month.Select(s => new MonthViewModel()
+                {
+                    MonthID = s.MID,
+                    MonthName = s.MName
+                }).ToList();
+                return list;
+            }
+        }
 
     }
 
@@ -359,4 +386,9 @@ namespace SAT.HR.Data.Repository
         public int Year { get; set; }
     }
 
+    public class MonthViewModel
+    {
+        public int MonthID { get; set; }
+        public string MonthName { get; set; }
+    }
 }

@@ -1144,6 +1144,23 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
+        public static List<SelectListItem> GetYearLeave(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new MasterRepository().GetYearLeave();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.Year.ToString();
+                select.Text = item.Year.ToString();
+                select.Selected = defaultValue.HasValue ? (item.Year == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
         public static List<SelectListItem> GetCapability(int? year, int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
@@ -1272,6 +1289,24 @@ namespace SAT.HR.Data.Repository
             }
             return list;
         }
+
+        public static List<SelectListItem> GetMonth(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new MasterRepository().GetMonth();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.MonthID.ToString();
+                select.Text = item.MonthName;
+                select.Selected = defaultValue.HasValue ? (item.MonthID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
 
     }
 }

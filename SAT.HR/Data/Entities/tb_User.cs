@@ -27,6 +27,7 @@ namespace SAT.HR.Data.Entities
             this.tb_Benefit_Provident_Fund = new HashSet<tb_Benefit_Provident_Fund>();
             this.tb_Evaluation = new HashSet<tb_Evaluation>();
             this.tb_Process_History = new HashSet<tb_Process_History>();
+            this.tb_TimeAttendance = new HashSet<tb_TimeAttendance>();
             this.tb_Training_Course = new HashSet<tb_Training_Course>();
             this.tb_User_Certificate = new HashSet<tb_User_Certificate>();
             this.tb_User_Education = new HashSet<tb_User_Education>();
@@ -36,6 +37,7 @@ namespace SAT.HR.Data.Entities
             this.tb_User_Position = new HashSet<tb_User_Position>();
             this.tb_User_Skill = new HashSet<tb_User_Skill>();
             this.tb_User_Training = new HashSet<tb_User_Training>();
+            this.tb_Working_Shift = new HashSet<tb_Working_Shift>();
         }
     
         public int UserID { get; set; }
@@ -137,6 +139,8 @@ namespace SAT.HR.Data.Entities
         public virtual tb_Religion tb_Religion { get; set; }
         public virtual tb_Resign_Type tb_Resign_Type { get; set; }
         public virtual tb_Sex tb_Sex { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_TimeAttendance> tb_TimeAttendance { get; set; }
         public virtual tb_Title tb_Title { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Training_Course> tb_Training_Course { get; set; }
@@ -159,5 +163,7 @@ namespace SAT.HR.Data.Entities
         public virtual ICollection<tb_User_Training> tb_User_Training { get; set; }
         public virtual tb_User_Status tb_User_Status { get; set; }
         public virtual tb_Working_Type tb_Working_Type { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Working_Shift> tb_Working_Shift { get; set; }
     }
 }

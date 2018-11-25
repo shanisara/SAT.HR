@@ -5,22 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="SAT.HR.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV.dbo.AALocation' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="AALocation">
-          <Property Name="province" Type="nvarchar" MaxLength="255" />
-          <Property Name="district" Type="nvarchar" MaxLength="255" />
-          <Property Name="subdistrict" Type="nvarchar" MaxLength="255" />
-          <Property Name="zipcode" Type="float" />
-        </EntityType>-->
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV.dbo.AAManPower' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="AAManPower">
-          <Property Name="Div" Type="nvarchar" MaxLength="200" />
-          <Property Name="Dep" Type="nvarchar" MaxLength="200" />
-          <Property Name="Sec" Type="nvarchar" MaxLength="200" />
-          <Property Name="UtID" Type="int" />
-        </EntityType>-->
         <EntityType Name="tb_Accumulative_Fund">
           <Key>
             <PropertyRef Name="CuID" />
@@ -552,6 +536,23 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.AAManPower' does not have a primar
           <Property Name="LkTID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LkTName" Type="nvarchar" MaxLength="200" />
         </EntityType>
+        <EntityType Name="tb_Leave_Balance">
+          <Key>
+            <PropertyRef Name="LevYear" />
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="LevID" />
+          </Key>
+          <Property Name="LevYear" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="LevID" Type="int" Nullable="false" />
+          <Property Name="LevStandard" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="LevMax" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="LevUsed" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="int" />
+        </EntityType>
         <EntityType Name="tb_Leave_Type">
           <Key>
             <PropertyRef Name="LevID" />
@@ -648,6 +649,13 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.AAManPower' does not have a primar
           <Property Name="CreateBy" Type="int" />
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
+        </EntityType>
+        <EntityType Name="tb_Month">
+          <Key>
+            <PropertyRef Name="MID" />
+          </Key>
+          <Property Name="MID" Type="int" Nullable="false" />
+          <Property Name="MName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="tb_Move_Level_Detail">
           <Key>
@@ -1262,6 +1270,34 @@ warning 6013: The table/view 'SATHRDB_DEV.dbo.AAManPower' does not have a primar
           <Property Name="TypeID" Type="int" Nullable="false" />
           <Property Name="TypeName" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="tb_Working_Shift">
+          <Key>
+            <PropertyRef Name="WsID" />
+          </Key>
+          <Property Name="WsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="WsYear" Type="int" />
+          <Property Name="WsMonth" Type="int" />
+          <Property Name="Act_TimeIn" Type="datetime" />
+          <Property Name="Act_TimeOut" Type="datetime" />
+          <Property Name="Adj_TimeIn" Type="datetime" />
+          <Property Name="Adj_TimeOut" Type="datetime" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="400" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="int" />
+        </EntityType>
+        <EntityType Name="tb_Working_Time">
+          <Key>
+            <PropertyRef Name="WID" />
+          </Key>
+          <Property Name="WID" Type="int" Nullable="false" />
+          <Property Name="WtID" Type="int" />
+          <Property Name="WorkDay" Type="nvarchar" MaxLength="50" />
+          <Property Name="StartTime" Type="nvarchar" MaxLength="5" />
+          <Property Name="EndTime" Type="nvarchar" MaxLength="5" />
+        </EntityType>
         <EntityType Name="tb_Working_Type">
           <Key>
             <PropertyRef Name="WorkingTypeID" />
@@ -1711,16 +1747,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Man_Power_Head' does not h
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Level' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vw_Salary_Level">
-          <Property Name="Level" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>-->
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Step' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vw_Salary_Step">
-          <Property Name="Step" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>-->
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Section">
@@ -2737,6 +2763,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tb_TimeAttendance_tb_User">
+          <End Role="tb_User" Type="Self.tb_User" Multiplicity="0..1" />
+          <End Role="tb_TimeAttendance" Type="Self.tb_TimeAttendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tb_TimeAttendance">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tb_Title_tb_Sex">
           <End Role="tb_Sex" Type="Self.tb_Sex" Multiplicity="0..1" />
           <End Role="tb_Title" Type="Self.tb_Title" Multiplicity="*" />
@@ -3277,6 +3315,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tb_Working_Shift_tb_User">
+          <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
+          <End Role="tb_Working_Shift" Type="Self.tb_Working_Shift" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tb_Working_Shift">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_Calculate_Age" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar">
           <Parameter Name="dob" Type="datetime" Mode="In" />
         </Function>
@@ -3308,6 +3358,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Parameter Name="UserType" Type="nvarchar" Mode="In" />
           <Parameter Name="CapID" Type="nvarchar" Mode="In" />
           <Parameter Name="Keyword" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_LeaveBalance_GetByUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="LevYear" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_ManPower_Approval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="MopID" Type="int" Mode="In" />
@@ -3342,6 +3396,11 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
         <Function Name="sp_TimeAttendance_GetByUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="TaTID" Type="int" Mode="In" />
+          <Parameter Name="DateFrom" Type="int" Mode="In" />
+          <Parameter Name="DateTo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_WorkingShift_GetByUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="DateFrom" Type="int" Mode="In" />
           <Parameter Name="DateTo" Type="int" Mode="In" />
         </Function>
@@ -3388,6 +3447,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_Language" EntityType="Self.tb_Language" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Language_Skill" EntityType="Self.tb_Language_Skill" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Language_Skill_Type" EntityType="Self.tb_Language_Skill_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Leave_Balance" EntityType="Self.tb_Leave_Balance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Leave_Type" EntityType="Self.tb_Leave_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Loan_Type" EntityType="Self.tb_Loan_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Major" EntityType="Self.tb_Major" Schema="dbo" store:Type="Tables" />
@@ -3396,6 +3456,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_Member_Type" EntityType="Self.tb_Member_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Menu" EntityType="Self.tb_Menu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Menu_Role" EntityType="Self.tb_Menu_Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Month" EntityType="Self.tb_Month" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Move_Level_Detail" EntityType="Self.tb_Move_Level_Detail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Move_Level_Head" EntityType="Self.tb_Move_Level_Head" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Move_Man_Power_Detail" EntityType="Self.tb_Move_Man_Power_Detail" Schema="dbo" store:Type="Tables" />
@@ -3437,6 +3498,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_User_Status" EntityType="Self.tb_User_Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_User_Training" EntityType="Self.tb_User_Training" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_User_Type" EntityType="Self.tb_User_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Working_Shift" EntityType="Self.tb_Working_Shift" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Working_Time" EntityType="Self.tb_Working_Time" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Working_Type" EntityType="Self.tb_Working_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="vw_Agent_Position" EntityType="Self.vw_Agent_Position" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -4402,6 +4465,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <End Role="tb_TimeAttendance_Type" EntitySet="tb_TimeAttendance_Type" />
             <End Role="tb_TimeAttendance" EntitySet="tb_TimeAttendance" />
           </AssociationSet>
+          <AssociationSet Name="FK_tb_TimeAttendance_tb_User" Association="Self.FK_tb_TimeAttendance_tb_User">
+            <End Role="tb_User" EntitySet="tb_User" />
+            <End Role="tb_TimeAttendance" EntitySet="tb_TimeAttendance" />
+          </AssociationSet>
           <AssociationSet Name="FK_tb_Title_tb_Sex" Association="Self.FK_tb_Title_tb_Sex">
             <End Role="tb_Sex" EntitySet="tb_Sex" />
             <End Role="tb_Title" EntitySet="tb_Title" />
@@ -4582,6 +4649,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <End Role="tb_Working_Type" EntitySet="tb_Working_Type" />
             <End Role="tb_User" EntitySet="tb_User" />
           </AssociationSet>
+          <AssociationSet Name="FK_tb_Working_Shift_tb_User" Association="Self.FK_tb_Working_Shift_tb_User">
+            <End Role="tb_User" EntitySet="tb_User" />
+            <End Role="tb_Working_Shift" EntitySet="tb_Working_Shift" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -4646,6 +4717,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <Parameter Name="DateFrom" Mode="In" Type="Int32" />
             <Parameter Name="DateTo" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="sp_LeaveBalance_GetByUser" ReturnType="Collection(SAT.HR.sp_LeaveBalance_GetByUser_Result)">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="LevYear" Mode="In" Type="Int32" />
+          </FunctionImport>
           <EntitySet Name="tb_Accumulative_Fund" EntityType="SAT.HR.tb_Accumulative_Fund" />
           <EntitySet Name="tb_Action_Type" EntityType="SAT.HR.tb_Action_Type" />
           <EntitySet Name="tb_Agent_Type" EntityType="SAT.HR.tb_Agent_Type" />
@@ -4688,6 +4763,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_Language" EntityType="SAT.HR.tb_Language" />
           <EntitySet Name="tb_Language_Skill" EntityType="SAT.HR.tb_Language_Skill" />
           <EntitySet Name="tb_Language_Skill_Type" EntityType="SAT.HR.tb_Language_Skill_Type" />
+          <EntitySet Name="tb_Leave_Balance" EntityType="SAT.HR.tb_Leave_Balance" />
           <EntitySet Name="tb_Leave_Type" EntityType="SAT.HR.tb_Leave_Type" />
           <EntitySet Name="tb_Loan_Type" EntityType="SAT.HR.tb_Loan_Type" />
           <EntitySet Name="tb_Major" EntityType="SAT.HR.tb_Major" />
@@ -4696,6 +4772,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_Member_Type" EntityType="SAT.HR.tb_Member_Type" />
           <EntitySet Name="tb_Menu" EntityType="SAT.HR.tb_Menu" />
           <EntitySet Name="tb_Menu_Role" EntityType="SAT.HR.tb_Menu_Role" />
+          <EntitySet Name="tb_Month" EntityType="SAT.HR.tb_Month" />
           <EntitySet Name="tb_Move_Level_Detail" EntityType="SAT.HR.tb_Move_Level_Detail" />
           <EntitySet Name="tb_Move_Level_Head" EntityType="SAT.HR.tb_Move_Level_Head" />
           <EntitySet Name="tb_Move_Man_Power_Detail" EntityType="SAT.HR.tb_Move_Man_Power_Detail" />
@@ -4737,6 +4814,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_User_Status" EntityType="SAT.HR.tb_User_Status" />
           <EntitySet Name="tb_User_Training" EntityType="SAT.HR.tb_User_Training" />
           <EntitySet Name="tb_User_Type" EntityType="SAT.HR.tb_User_Type" />
+          <EntitySet Name="tb_Working_Time" EntityType="SAT.HR.tb_Working_Time" />
           <EntitySet Name="tb_Working_Type" EntityType="SAT.HR.tb_Working_Type" />
           <EntitySet Name="vw_Agent_Position" EntityType="SAT.HR.vw_Agent_Position" />
           <EntitySet Name="vw_Benefit_Cremation" EntityType="SAT.HR.vw_Benefit_Cremation" />
@@ -5080,6 +5158,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <End Role="tb_TimeAttendance_Type" EntitySet="tb_TimeAttendance_Type" />
             <End Role="tb_TimeAttendance" EntitySet="tb_TimeAttendance" />
           </AssociationSet>
+          <AssociationSet Name="FK_tb_TimeAttendance_tb_User" Association="SAT.HR.FK_tb_TimeAttendance_tb_User">
+            <End Role="tb_User" EntitySet="tb_User" />
+            <End Role="tb_TimeAttendance" EntitySet="tb_TimeAttendance" />
+          </AssociationSet>
           <AssociationSet Name="FK_tb_Users_tb_Title" Association="SAT.HR.FK_tb_Users_tb_Title">
             <End Role="tb_Title" EntitySet="tb_Title" />
             <End Role="tb_User" EntitySet="tb_User" />
@@ -5136,6 +5218,16 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <End Role="tb_Working_Type" EntitySet="tb_Working_Type" />
             <End Role="tb_User" EntitySet="tb_User" />
           </AssociationSet>
+          <EntitySet Name="tb_Working_Shift" EntityType="SAT.HR.tb_Working_Shift" />
+          <AssociationSet Name="FK_tb_Working_Shift_tb_User" Association="SAT.HR.FK_tb_Working_Shift_tb_User">
+            <End Role="tb_User" EntitySet="tb_User" />
+            <End Role="tb_Working_Shift" EntitySet="tb_Working_Shift" />
+          </AssociationSet>
+          <FunctionImport Name="sp_WorkingShift_GetByUser" ReturnType="Collection(SAT.HR.sp_WorkingShift_GetByUser_Result)">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="DateFrom" Mode="In" Type="Int32" />
+            <Parameter Name="DateTo" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="sp_Menu_GetByUser_Result">
           <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -5281,6 +5373,15 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Type="Int32" Name="CreateBy" Nullable="true" />
           <Property Type="DateTime" Name="ModifyDate" Nullable="true" Precision="23" />
           <Property Type="Int32" Name="ModifyBy" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_LeaveBalance_GetByUser_Result">
+          <Property Type="Int32" Name="LevID" Nullable="false" />
+          <Property Type="Int32" Name="LevYear" Nullable="false" />
+          <Property Type="String" Name="LevName" Nullable="true" MaxLength="200" />
+          <Property Type="Decimal" Name="LevStandard" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="LevMax" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="LevUsed" Nullable="false" Precision="2" Scale="2" />
+          <Property Type="Decimal" Name="LevBalance" Nullable="false" Precision="2" Scale="2" />
         </ComplexType>
         <EntityType Name="tb_Accumulative_Fund">
           <Key>
@@ -5878,6 +5979,23 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="LkTName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tb_User_Skill" Relationship="SAT.HR.FK_tb_User_Skill_tb_Language_Skill_Type" FromRole="tb_Language_Skill_Type" ToRole="tb_User_Skill" />
         </EntityType>
+        <EntityType Name="tb_Leave_Balance">
+          <Key>
+            <PropertyRef Name="LevYear" />
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="LevID" />
+          </Key>
+          <Property Name="LevYear" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="LevID" Type="Int32" Nullable="false" />
+          <Property Name="LevStandard" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="LevMax" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="LevUsed" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+        </EntityType>
         <EntityType Name="tb_Leave_Type">
           <Key>
             <PropertyRef Name="LevID" />
@@ -5987,6 +6105,13 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="ModifyBy" Type="Int32" />
           <NavigationProperty Name="tb_Menu" Relationship="SAT.HR.FK_tb_RoleMenu_tb_Menu" FromRole="tb_Menu_Role" ToRole="tb_Menu" />
           <NavigationProperty Name="tb_Role" Relationship="SAT.HR.FK_tb_RoleMenu_tb_Role" FromRole="tb_Menu_Role" ToRole="tb_Role" />
+        </EntityType>
+        <EntityType Name="tb_Month">
+          <Key>
+            <PropertyRef Name="MID" />
+          </Key>
+          <Property Name="MID" Type="Int32" Nullable="false" />
+          <Property Name="MName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="tb_Move_Level_Detail">
           <Key>
@@ -6303,6 +6428,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="Int32" />
           <NavigationProperty Name="tb_TimeAttendance_Type" Relationship="SAT.HR.FK_tb_TimeAttendance_tb_TimeAttendance" FromRole="tb_TimeAttendance" ToRole="tb_TimeAttendance_Type" />
+          <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_TimeAttendance_tb_User" FromRole="tb_TimeAttendance" ToRole="tb_User" />
         </EntityType>
         <EntityType Name="tb_TimeAttendance_Type">
           <Key>
@@ -6449,6 +6575,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <NavigationProperty Name="tb_Religion" Relationship="SAT.HR.FK_tb_Users_tb_Religion" FromRole="tb_User" ToRole="tb_Religion" />
           <NavigationProperty Name="tb_Resign_Type" Relationship="SAT.HR.FK_tb_User_tb_Resign_Type" FromRole="tb_User" ToRole="tb_Resign_Type" />
           <NavigationProperty Name="tb_Sex" Relationship="SAT.HR.FK_tb_Users_tb_Sex" FromRole="tb_User" ToRole="tb_Sex" />
+          <NavigationProperty Name="tb_TimeAttendance" Relationship="SAT.HR.FK_tb_TimeAttendance_tb_User" FromRole="tb_User" ToRole="tb_TimeAttendance" />
           <NavigationProperty Name="tb_Title" Relationship="SAT.HR.FK_tb_Users_tb_Title" FromRole="tb_User" ToRole="tb_Title" />
           <NavigationProperty Name="tb_Training_Course" Relationship="SAT.HR.FK_tb_Training_Course_tb_User" FromRole="tb_User" ToRole="tb_Training_Course" />
           <NavigationProperty Name="tb_User_Certificate" Relationship="SAT.HR.FK_tb_User_Certificate_tb_User" FromRole="tb_User" ToRole="tb_User_Certificate" />
@@ -6462,6 +6589,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <NavigationProperty Name="tb_User_Training" Relationship="SAT.HR.FK_tb_User_Training_tb_User" FromRole="tb_User" ToRole="tb_User_Training" />
           <NavigationProperty Name="tb_User_Status" Relationship="SAT.HR.FK_tb_Users_tb_User_Status" FromRole="tb_User" ToRole="tb_User_Status" />
           <NavigationProperty Name="tb_Working_Type" Relationship="SAT.HR.FK_tb_Users_tb_Working_Type" FromRole="tb_User" ToRole="tb_Working_Type" />
+          <NavigationProperty Name="tb_Working_Shift" Relationship="SAT.HR.FK_tb_Working_Shift_tb_User" FromRole="tb_User" ToRole="tb_Working_Shift" />
         </EntityType>
         <EntityType Name="tb_User_Certificate">
           <Key>
@@ -6703,6 +6831,16 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <NavigationProperty Name="tb_Position" Relationship="SAT.HR.FK_tb_Position_tb_User_Type" FromRole="tb_User_Type" ToRole="tb_Position" />
           <NavigationProperty Name="tb_Section" Relationship="SAT.HR.FK_tb_Section_tb_User_Type" FromRole="tb_User_Type" ToRole="tb_Section" />
           <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_User_tb_User_Type" FromRole="tb_User_Type" ToRole="tb_User" />
+        </EntityType>
+        <EntityType Name="tb_Working_Time">
+          <Key>
+            <PropertyRef Name="WID" />
+          </Key>
+          <Property Name="WID" Type="Int32" Nullable="false" />
+          <Property Name="WtID" Type="Int32" />
+          <Property Name="WorkDay" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StartTime" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="EndTime" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="tb_Working_Type">
           <Key>
@@ -8474,6 +8612,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tb_TimeAttendance_tb_User">
+          <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_TimeAttendance" Role="tb_TimeAttendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tb_TimeAttendance">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tb_Users_tb_Title">
           <End Type="SAT.HR.tb_Title" Role="tb_Title" Multiplicity="0..1" />
           <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="*" />
@@ -8642,6 +8792,53 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="tb_Working_Shift">
+          <Key>
+            <PropertyRef Name="WsID" />
+          </Key>
+          <Property Name="WsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="WsYear" Type="Int32" />
+          <Property Name="WsMonth" Type="Int32" />
+          <Property Name="Act_TimeIn" Type="DateTime" Precision="3" />
+          <Property Name="Act_TimeOut" Type="DateTime" Precision="3" />
+          <Property Name="Adj_TimeIn" Type="DateTime" Precision="3" />
+          <Property Name="Adj_TimeOut" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+          <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Working_Shift_tb_User" FromRole="tb_Working_Shift" ToRole="tb_User" />
+        </EntityType>
+        <Association Name="FK_tb_Working_Shift_tb_User">
+          <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
+          <End Type="SAT.HR.tb_Working_Shift" Role="tb_Working_Shift" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tb_Working_Shift">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="sp_WorkingShift_GetByUser_Result">
+          <Property Type="Int32" Name="WsID" Nullable="false" />
+          <Property Type="Int32" Name="WsYear" Nullable="true" />
+          <Property Type="Int32" Name="WsMonth" Nullable="true" />
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="String" Name="WsMonthName" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="Act_TimeIn" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="Act_TimeOut" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="Adj_TimeIn" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="Adj_TimeOut" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Remark" Nullable="true" MaxLength="400" />
+          <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="CreateBy" Nullable="true" />
+          <Property Type="DateTime" Name="ModifyDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="ModifyBy" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8721,19 +8918,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
                 <ScalarProperty Name="recordsTotal" ColumnName="recordsTotal" />
                 <ScalarProperty Name="recordsFiltered" ColumnName="recordsFiltered" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_Evaluation_GetByUser" FunctionName="SAT.HR.Store.sp_Evaluation_GetByUser">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SAT.HR.sp_Evaluation_GetByUser_Result">
-                <ScalarProperty Name="CapDID" ColumnName="CapDID" />
-                <ScalarProperty Name="CapDName" ColumnName="CapDName" />
-                <ScalarProperty Name="CapDDesc" ColumnName="CapDDesc" />
-                <ScalarProperty Name="Score1" ColumnName="Score1" />
-                <ScalarProperty Name="Score2" ColumnName="Score2" />
-                <ScalarProperty Name="UserScore1" ColumnName="UserScore1" />
-                <ScalarProperty Name="UserScore2" ColumnName="UserScore2" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -8829,6 +9013,19 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
                 <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
                 <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_LeaveBalance_GetByUser" FunctionName="SAT.HR.Store.sp_LeaveBalance_GetByUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_LeaveBalance_GetByUser_Result">
+                <ScalarProperty Name="LevID" ColumnName="LevID" />
+                <ScalarProperty Name="LevYear" ColumnName="LevYear" />
+                <ScalarProperty Name="LevName" ColumnName="LevName" />
+                <ScalarProperty Name="LevStandard" ColumnName="LevStandard" />
+                <ScalarProperty Name="LevMax" ColumnName="LevMax" />
+                <ScalarProperty Name="LevUsed" ColumnName="LevUsed" />
+                <ScalarProperty Name="LevBalance" ColumnName="LevBalance" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -9394,6 +9591,22 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tb_Leave_Balance">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Leave_Balance">
+              <MappingFragment StoreEntitySet="tb_Leave_Balance">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="LevUsed" ColumnName="LevUsed" />
+                <ScalarProperty Name="LevMax" ColumnName="LevMax" />
+                <ScalarProperty Name="LevStandard" ColumnName="LevStandard" />
+                <ScalarProperty Name="LevID" ColumnName="LevID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LevYear" ColumnName="LevYear" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tb_Leave_Type">
             <EntityTypeMapping TypeName="SAT.HR.tb_Leave_Type">
               <MappingFragment StoreEntitySet="tb_Leave_Type">
@@ -9495,6 +9708,14 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="R_View" ColumnName="R_View" />
                 <ScalarProperty Name="MenuID" ColumnName="MenuID" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Month">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Month">
+              <MappingFragment StoreEntitySet="tb_Month">
+                <ScalarProperty Name="MName" ColumnName="MName" />
+                <ScalarProperty Name="MID" ColumnName="MID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -10137,6 +10358,17 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               <MappingFragment StoreEntitySet="tb_User_Type">
                 <ScalarProperty Name="TypeName" ColumnName="TypeName" />
                 <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Working_Time">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Working_Time">
+              <MappingFragment StoreEntitySet="tb_Working_Time">
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="WorkDay" ColumnName="WorkDay" />
+                <ScalarProperty Name="WtID" ColumnName="WtID" />
+                <ScalarProperty Name="WID" ColumnName="WID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -10996,6 +11228,45 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tb_Working_Shift">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Working_Shift">
+              <MappingFragment StoreEntitySet="tb_Working_Shift">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Adj_TimeOut" ColumnName="Adj_TimeOut" />
+                <ScalarProperty Name="Adj_TimeIn" ColumnName="Adj_TimeIn" />
+                <ScalarProperty Name="Act_TimeOut" ColumnName="Act_TimeOut" />
+                <ScalarProperty Name="Act_TimeIn" ColumnName="Act_TimeIn" />
+                <ScalarProperty Name="WsMonth" ColumnName="WsMonth" />
+                <ScalarProperty Name="WsYear" ColumnName="WsYear" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="WsID" ColumnName="WsID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_WorkingShift_GetByUser" FunctionName="SAT.HR.Store.sp_WorkingShift_GetByUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_WorkingShift_GetByUser_Result">
+                <ScalarProperty Name="WsID" ColumnName="WsID" />
+                <ScalarProperty Name="WsYear" ColumnName="WsYear" />
+                <ScalarProperty Name="WsMonth" ColumnName="WsMonth" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="WsMonthName" ColumnName="WsMonthName" />
+                <ScalarProperty Name="Act_TimeIn" ColumnName="Act_TimeIn" />
+                <ScalarProperty Name="Act_TimeOut" ColumnName="Act_TimeOut" />
+                <ScalarProperty Name="Adj_TimeIn" ColumnName="Adj_TimeIn" />
+                <ScalarProperty Name="Adj_TimeOut" ColumnName="Adj_TimeOut" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
