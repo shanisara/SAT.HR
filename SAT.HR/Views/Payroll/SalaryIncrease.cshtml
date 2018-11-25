@@ -4,18 +4,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    .card .card-body .col-form-label, .card .card-body {
-        padding-top: 0px;
-    }
-
-        .card .card-body .col-form-label.label-checkbox, .card .card-body .label-on-right.label-checkbox {
-            padding-top: 5px;
-        }
-</style>
-
-
-
 <div class="content">
     <div class="row">
         <div class="col-md-12">
@@ -64,9 +52,9 @@
                                         <div class="col-sm-6" style="margin-top:-30px">
                                             <div class="row">
                                                 <label class="col-sm-2 col-form-label m-t-20">ปีบัญชี</label>
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-3">
                                                     <div class="form-group bmd-form-group">
-                                                        <input class="form-control" type="text">
+                                                        @Html.TextBox("Year", (int)ViewBag.Year, new { @class = "form-control text-left", type = "number" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -75,7 +63,7 @@
                                                 <div class="col-sm-10 checkbox-radios">
                                                     <div class="form-check form-check-inline">
                                                         <label class="form-check-label">
-                                                            <input name="salarylevel" class="form-check-input" type="radio" value="1"> 1 ถึง 8
+                                                            <input name="salarylevel" class="form-check-input" type="radio" value="1" checked> 1 ถึง 8
                                                             <span class="circle">
                                                                 <span class="check"></span>
                                                             </span>
@@ -96,7 +84,7 @@
                                                 <div class="col-sm-10 checkbox-radios">
                                                     <div class="form-check form-check-inline">
                                                         <label class="form-check-label">
-                                                            <input name="salarystep" class="form-check-input" type="radio" value="0.5"> 0.5 ขั้น
+                                                            <input name="salarystep" class="form-check-input" type="radio" value="0.5" > 0.5 ขั้น
                                                             <span class="circle">
                                                                 <span class="check"></span>
                                                             </span>
@@ -104,7 +92,7 @@
                                                     </div>
                                                     <div class="form-check form-check-inline">
                                                         <label class="form-check-label">
-                                                            <input name="salarystep" class="form-check-input" type="radio" value="1.0"> 1 ขั้น
+                                                            <input name="salarystep" class="form-check-input" type="radio" value="1.0" checked> 1 ขั้น
                                                             <span class="circle">
                                                                 <span class="check"></span>
                                                             </span>
@@ -208,6 +196,16 @@
     </div>
 </div>
 
+<style>
+    .card .card-body .col-form-label, .card .card-body {
+        padding-top: 0px;
+    }
+
+        .card .card-body .col-form-label.label-checkbox, .card .card-body .label-on-right.label-checkbox {
+            padding-top: 5px;
+        }
+</style>
+
 @section Scripts {
 <script>
 
@@ -286,13 +284,27 @@
             var ref_this = $("#tabs li").find(".active");
             var id = ref_this.data("id");
             if (id == "tab-step1") {
-                $('.li-step1').find('a').removeClass('active');
-                $('.div-step1').removeClass('active');
+                swal({
+                    title: '',
+                    text: "ยืนยันการปรับขั้นเงินเดือน",
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                    buttonsStyling: false
+                }).then(function () {
+                    $('.li-step1').find('a').removeClass('active');
+                    $('.div-step1').removeClass('active');
 
-                $('.li-step2').find('a').removeClass('disabled').addClass('active');
-                $('.div-step2').addClass('active');
+                    $('.li-step2').find('a').removeClass('disabled').addClass('active');
+                    $('.div-step2').addClass('active');
 
-                $(".btn-previous").show();
+                    $(".btn-previous").show();
+
+                    //Get Data
+                }).catch(swal.noop)
             }
             else if (id == "tab-step2") {
                 $('.li-step2').find('a').removeClass('active');

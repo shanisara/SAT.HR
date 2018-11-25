@@ -3390,6 +3390,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Parameter Name="eduID" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_SalaryIncrease_Process" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Year" Type="int" Mode="In" />
           <Parameter Name="Level" Type="int" Mode="In" />
           <Parameter Name="Step" Type="decimal" Mode="In" />
         </Function>
@@ -4703,10 +4704,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <Parameter Name="UserType" Mode="In" Type="String" />
             <Parameter Name="Keyword" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_SalaryIncrease_Process" ReturnType="Collection(SAT.HR.sp_SalaryIncrease_Process_Result)">
-            <Parameter Name="Level" Mode="In" Type="Int32" />
-            <Parameter Name="Step" Mode="In" Type="Decimal" />
-          </FunctionImport>
           <FunctionImport Name="sp_ManPower_Approval">
             <Parameter Name="MopID" Mode="In" Type="Int32" />
             <Parameter Name="ActionBy" Mode="In" Type="Int32" />
@@ -5228,6 +5225,11 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <Parameter Name="DateFrom" Mode="In" Type="Int32" />
             <Parameter Name="DateTo" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="sp_SalaryIncrease_Process" ReturnType="Collection(SAT.HR.sp_SalaryIncrease_Process_Result)">
+            <Parameter Name="Year" Mode="In" Type="Int32" />
+            <Parameter Name="Level" Mode="In" Type="Int32" />
+            <Parameter Name="Step" Mode="In" Type="Decimal" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="sp_Menu_GetByUser_Result">
           <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -5344,18 +5346,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Type="Int32" Name="RoleID" Nullable="true" />
           <Property Type="Int32" Name="recordsTotal" Nullable="true" />
           <Property Type="Int32" Name="recordsFiltered" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_SalaryIncrease_Process_Result">
-          <Property Type="Int32" Name="UserID" Nullable="true" />
-          <Property Type="String" Name="TiShortName" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="FirstNameTh" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="LastNameTh" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="Process_Old_Level" Nullable="true" />
-          <Property Type="Decimal" Name="Process_Old_Step" Nullable="false" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="Process_Old_Salary" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="Process_New_Level" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="Process_New_Step" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="Process_New_Salary" Nullable="true" Precision="18" Scale="2" />
         </ComplexType>
         <ComplexType Name="sp_TimeAttendance_GetByUser_Result">
           <Property Type="Int32" Name="TaID" Nullable="false" />
@@ -8839,6 +8829,19 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Type="DateTime" Name="ModifyDate" Nullable="true" Precision="23" />
           <Property Type="Int32" Name="ModifyBy" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="sp_SalaryIncrease_Process_Result">
+          <Property Type="Int32" Name="Year" Nullable="true" />
+          <Property Type="Int32" Name="Seq" Nullable="false" />
+          <Property Type="Decimal" Name="UpStep" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="UserID" Nullable="true" />
+          <Property Type="String" Name="FullNameTh" Nullable="true" MaxLength="501" />
+          <Property Type="Int32" Name="Old_Level" Nullable="true" />
+          <Property Type="Decimal" Name="New_Level" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Old_Step" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="New_Step" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Old_Salary" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="New_Salary" Nullable="false" Precision="18" Scale="2" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8975,22 +8978,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
                 <ScalarProperty Name="recordsTotal" ColumnName="recordsTotal" />
                 <ScalarProperty Name="recordsFiltered" ColumnName="recordsFiltered" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_SalaryIncrease_Process" FunctionName="SAT.HR.Store.sp_SalaryIncrease_Process">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SAT.HR.sp_SalaryIncrease_Process_Result">
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="TiShortName" ColumnName="TiShortName" />
-                <ScalarProperty Name="FirstNameTh" ColumnName="FirstNameTh" />
-                <ScalarProperty Name="LastNameTh" ColumnName="LastNameTh" />
-                <ScalarProperty Name="Process_Old_Level" ColumnName="Process_Old_Level" />
-                <ScalarProperty Name="Process_Old_Step" ColumnName="Process_Old_Step" />
-                <ScalarProperty Name="Process_Old_Salary" ColumnName="Process_Old_Salary" />
-                <ScalarProperty Name="Process_New_Level" ColumnName="Process_New_Level" />
-                <ScalarProperty Name="Process_New_Step" ColumnName="Process_New_Step" />
-                <ScalarProperty Name="Process_New_Salary" ColumnName="Process_New_Salary" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -11264,6 +11251,23 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
                 <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
                 <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_SalaryIncrease_Process" FunctionName="SAT.HR.Store.sp_SalaryIncrease_Process">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_SalaryIncrease_Process_Result">
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Seq" ColumnName="Seq" />
+                <ScalarProperty Name="UpStep" ColumnName="UpStep" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="FullNameTh" ColumnName="FullNameTh" />
+                <ScalarProperty Name="Old_Level" ColumnName="Old_Level" />
+                <ScalarProperty Name="New_Level" ColumnName="New_Level" />
+                <ScalarProperty Name="Old_Step" ColumnName="Old_Step" />
+                <ScalarProperty Name="New_Step" ColumnName="New_Step" />
+                <ScalarProperty Name="Old_Salary" ColumnName="Old_Salary" />
+                <ScalarProperty Name="New_Salary" ColumnName="New_Salary" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

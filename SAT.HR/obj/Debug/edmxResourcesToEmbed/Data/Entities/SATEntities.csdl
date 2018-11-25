@@ -45,10 +45,6 @@
       <Parameter Name="UserType" Mode="In" Type="String" />
       <Parameter Name="Keyword" Mode="In" Type="String" />
     </FunctionImport>
-    <FunctionImport Name="sp_SalaryIncrease_Process" ReturnType="Collection(SAT.HR.sp_SalaryIncrease_Process_Result)">
-      <Parameter Name="Level" Mode="In" Type="Int32" />
-      <Parameter Name="Step" Mode="In" Type="Decimal" />
-    </FunctionImport>
     <FunctionImport Name="sp_ManPower_Approval">
       <Parameter Name="MopID" Mode="In" Type="Int32" />
       <Parameter Name="ActionBy" Mode="In" Type="Int32" />
@@ -570,6 +566,11 @@
       <Parameter Name="DateFrom" Mode="In" Type="Int32" />
       <Parameter Name="DateTo" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="sp_SalaryIncrease_Process" ReturnType="Collection(SAT.HR.sp_SalaryIncrease_Process_Result)">
+      <Parameter Name="Year" Mode="In" Type="Int32" />
+      <Parameter Name="Level" Mode="In" Type="Int32" />
+      <Parameter Name="Step" Mode="In" Type="Decimal" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_Menu_GetByUser_Result">
     <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -686,18 +687,6 @@
     <Property Type="Int32" Name="RoleID" Nullable="true" />
     <Property Type="Int32" Name="recordsTotal" Nullable="true" />
     <Property Type="Int32" Name="recordsFiltered" Nullable="true" />
-  </ComplexType>
-  <ComplexType Name="sp_SalaryIncrease_Process_Result">
-    <Property Type="Int32" Name="UserID" Nullable="true" />
-    <Property Type="String" Name="TiShortName" Nullable="true" MaxLength="100" />
-    <Property Type="String" Name="FirstNameTh" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="LastNameTh" Nullable="true" MaxLength="200" />
-    <Property Type="Int32" Name="Process_Old_Level" Nullable="true" />
-    <Property Type="Decimal" Name="Process_Old_Step" Nullable="false" Precision="18" Scale="2" />
-    <Property Type="Decimal" Name="Process_Old_Salary" Nullable="true" Precision="18" Scale="2" />
-    <Property Type="Decimal" Name="Process_New_Level" Nullable="true" Precision="18" Scale="2" />
-    <Property Type="Decimal" Name="Process_New_Step" Nullable="true" Precision="18" Scale="2" />
-    <Property Type="Decimal" Name="Process_New_Salary" Nullable="true" Precision="18" Scale="2" />
   </ComplexType>
   <ComplexType Name="sp_TimeAttendance_GetByUser_Result">
     <Property Type="Int32" Name="TaID" Nullable="false" />
@@ -4180,5 +4169,18 @@
     <Property Type="Int32" Name="CreateBy" Nullable="true" />
     <Property Type="DateTime" Name="ModifyDate" Nullable="true" Precision="23" />
     <Property Type="Int32" Name="ModifyBy" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_SalaryIncrease_Process_Result">
+    <Property Type="Int32" Name="Year" Nullable="true" />
+    <Property Type="Int32" Name="Seq" Nullable="false" />
+    <Property Type="Decimal" Name="UpStep" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="UserID" Nullable="true" />
+    <Property Type="String" Name="FullNameTh" Nullable="true" MaxLength="501" />
+    <Property Type="Int32" Name="Old_Level" Nullable="true" />
+    <Property Type="Decimal" Name="New_Level" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Old_Step" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="New_Step" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Old_Salary" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="New_Salary" Nullable="false" Precision="18" Scale="2" />
   </ComplexType>
 </Schema>

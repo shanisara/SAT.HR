@@ -310,19 +310,6 @@ namespace SAT.HR.Data.Entities
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ManPower_List_Result>("sp_ManPower_List", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, userTypeParameter, keywordParameter);
         }
     
-        public virtual ObjectResult<sp_SalaryIncrease_Process_Result> sp_SalaryIncrease_Process(Nullable<int> level, Nullable<decimal> step)
-        {
-            var levelParameter = level.HasValue ?
-                new ObjectParameter("Level", level) :
-                new ObjectParameter("Level", typeof(int));
-    
-            var stepParameter = step.HasValue ?
-                new ObjectParameter("Step", step) :
-                new ObjectParameter("Step", typeof(decimal));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_SalaryIncrease_Process_Result>("sp_SalaryIncrease_Process", levelParameter, stepParameter);
-        }
-    
         public virtual int sp_ManPower_Approval(Nullable<int> mopID, Nullable<int> actionBy)
         {
             var mopIDParameter = mopID.HasValue ?
@@ -385,6 +372,23 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("DateTo", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_WorkingShift_GetByUser_Result>("sp_WorkingShift_GetByUser", userIDParameter, dateFromParameter, dateToParameter);
+        }
+    
+        public virtual ObjectResult<sp_SalaryIncrease_Process_Result> sp_SalaryIncrease_Process(Nullable<int> year, Nullable<int> level, Nullable<decimal> step)
+        {
+            var yearParameter = year.HasValue ?
+                new ObjectParameter("Year", year) :
+                new ObjectParameter("Year", typeof(int));
+    
+            var levelParameter = level.HasValue ?
+                new ObjectParameter("Level", level) :
+                new ObjectParameter("Level", typeof(int));
+    
+            var stepParameter = step.HasValue ?
+                new ObjectParameter("Step", step) :
+                new ObjectParameter("Step", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_SalaryIncrease_Process_Result>("sp_SalaryIncrease_Process", yearParameter, levelParameter, stepParameter);
         }
     }
 }
