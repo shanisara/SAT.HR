@@ -4,19 +4,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
-        width: 122px;
-        /*margin-left: 13px;
-        margin-top: -5px;*/
-    }
-    .card [class*=card-header-] .card-title a {
-        color: #3C4858;
-    }
-    .card [class*=card-header-] .card-title a:hover {
-        color:#fff;
-    }
-</style>
 <div class="content">
     <div class="row">
         <div class="col-md-12">
@@ -58,6 +45,22 @@
         </div>
     </div>
 </div>
+
+<style>
+    .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+        width: 122px;
+        /*margin-left: 13px;
+        margin-top: -5px;*/
+    }
+
+    .card [class*=card-header-] .card-title a {
+        color: #3C4858;
+    }
+
+        .card [class*=card-header-] .card-title a:hover {
+            color: #fff;
+        }
+</style>
 
 @section Scripts {
     <script>
@@ -101,10 +104,18 @@
                             },
                             {
                                 "render": function (data, type, row) {
-                                    var inner = '<div class="td-actions text-right">' +
-                                                    '<button title="แสดงข้อมูล" type="button" class="btn btn-round btn-warning edit-transfer" data-id="' + row.MopID +'"><i class="material-icons">search</i></button>&nbsp;&nbsp;' +
+                                    var status = row.MopStatus;
+                                    var inner = '';
+                                    if (status == true) {
+                                        inner = '<div class="td-actions text-right">' +
+                                                    '<button title="แสดงข้อมูล" type="button" class="btn btn-round btn-warning edit-transfer" data-id="' + row.MopID + '"><i class="material-icons">search</i></button>&nbsp;&nbsp;' +
+                                                '</div>';
+                                    } else {
+                                        inner = '<div class="td-actions text-right">' +
+                                                    '<button title="แสดงข้อมูล" type="button" class="btn btn-round btn-warning edit-transfer" data-id="' + row.MopID + '"><i class="material-icons">search</i></button>&nbsp;&nbsp;' +
                                                     '<button title="ลบ" type="button" class="btn btn-round btn-danger delete-transfer" data-id="' + row.MopID + '"><i class="material-icons">close</i></button>' +
                                                 '</div>';
+                                    }
                                     return inner;
                                 }, "targets": 8
                             },

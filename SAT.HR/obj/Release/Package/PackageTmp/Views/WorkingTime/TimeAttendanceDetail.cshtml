@@ -1,5 +1,4 @@
 ﻿@model SAT.HR.Models.EmployeeViewModel
-
 @{
     ViewBag.Title = "TimeAttendanceDetail";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -29,25 +28,15 @@
                             <div class="row col-md-10 ml-auto mr-auto ">
                                 @Html.Label("วันที่: ", null, new { @class = "col-form-label m-l-25" })
                                 <div class="col-sm-2">
-                                    @Html.TextBox("DateFrom", null, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
+                                    @Html.TextBox("DateFrom",(string)ViewBag.DateFrom, new { @class = "form-control datepicker" })
                                 </div>
-                                @Html.Label("ถึงวันที่: ", null, new { @class = "col-form-label text-right" })
+                                @Html.Label("ถึงวันที่: ", new { @class = "col-form-label text-right" })
                                 <div class="col-sm-2">
-                                    @Html.TextBox("DateTo", null, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
+                                    @Html.TextBox("DateTo", (string)ViewBag.DateTo, new { @class = "form-control datepicker" })
                                 </div>
                                 @Html.Label("ประเภท: ", null, new { @class = "col-form-label text-right" })
                                 <div class="col-sm-3">
-                                    <select class="form-control" id="FITER_FLAG" name="FITER_FLAG">
-                                        <option value=""> == ทั้งหมด ==</option>
-                                        <option value="1">เวลาจากการสแกน</option>
-                                        <option value="2">เวลาจากการบันทึก</option>
-                                        <option value="3">เข้างานสาย</option>
-                                        <option value="4">ออกก่อนเลิกงาน</option>
-                                        <option value="5">ทำงานล่วงเวลา</option>
-                                        <option value="6">ลางาน</option>
-                                        <option value="7">ขาดงาน</option>
-                                        <option value="34">เข้างานสายและออกก่อนเลิกงาน</option>
-                                    </select>
+                                    @Html.DropDownList("AttendanceType", new SelectList((IEnumerable<SelectListItem>)ViewBag.AttendanceType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker usertype", data_style = "select-with-transition" })
                                 </div>
                                 <button class="btn btn-success btn-sm btn-search" data-toggle="modal"><i class="material-icons">search</i>ค้นหา</button>
                             </div>
@@ -57,18 +46,18 @@
                         </div>
                     </div>
                     <div class="material-datatables">
-                        <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                        <table data-url="@Url.Content("~/WorkingTime/TimeAttendanceByUser")" class="table table-striped table-no-bordered table-hover table-detail" cellspacing="0" style="width:100%">
                             <thead class="text-primary">
                                 <tr>
                                     <th style="width:5%" class="disabled-sorting">ลำดับ</th>
-                                    <th style="width:15%">ประเภท</th>
-                                    <th style="width:8%">เวลาเข้า</th>
-                                    <th style="width:10%;">เวลามาตรฐาน</th>
-                                    <th style="width:10%">เวลาออก	</th>
+                                    <th style="width:11%">ประเภท</th>
+                                    <th style="width:11%">เวลาเข้า</th>
+                                    <th style="width:11%;">เวลามาตรฐาน</th>
+                                    <th style="width:11%">เวลาออก	</th>
                                     <th style="width:12%">เวลาออกมาตรฐาน</th>
-                                    <th style="width:10%;">ปรับเวลาเข้า</th>
-                                    <th style="width:10%;">ปรับเวลาออก</th>
-                                    <th style="width:10%;">หมายเหตุ</th>
+                                    <th style="width:11%;">ปรับเวลาเข้า</th>
+                                    <th style="width:11%;">ปรับเวลาออก</th>
+                                    <th style="width:7%;">หมายเหตุ</th>
                                     <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
                                 </tr>
                             </thead>
@@ -97,8 +86,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn btn-sm btn-primary" id="btn-save">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary btn-save">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
             </div>
         </div>
     </div>
@@ -114,12 +103,6 @@
         vertical-align: top;
     }
 
-    .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
-        width: 60px;
-        margin-left: 13px;
-        margin-top: -5px;
-    }
-
     .modal-dialog-working {
         max-width: 850px;
     }
@@ -130,19 +113,192 @@
 
         $(document).ready(function () {
 
-             $(".btn-add").click(function () {
-                var url = '@Url.Action("TimeAttendanceDetailByID", "WorkingTime")';
-                $.post(url, { id: 0 }, function (data) {
+            $('.datepicker').datetimepicker({
+                format: 'DD/MM/YYYY',
+                icons: {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-chevron-up",
+                    down: "fa fa-chevron-down",
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-screenshot',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-remove'
+                }
+            });
+
+            var dataTable = {
+                table: null,
+                initializeDataTable: function () {
+
+                    var userid = $('#UserID').val();
+                    var datefrom = $('#DateFrom').val();
+                    var dateto = $('#DateTo').val();
+                    var type = $('#AttendanceType').val();
+
+                    $table = $('.table-detail');
+
+                    dataTable.table = $table.DataTable({
+                        "proccessing": true,
+                        "serverSide": true,
+                        paging: false,
+                        bFilter: false,
+                        ordering: false,
+                        searching: true,
+                        language: { zeroRecords: "ไม่พบข้อมูล" },
+                        dom: 't',
+                        ajax: {
+                            url: $table.data("url"),
+                            data: { userid: userid, datefrom: datefrom, dateto: dateto, type: type },
+                            type: "POST",
+                        },
+                        "columns": [
+                            { "data": "RowNumber", "orderable": false, "searchable": false },
+                            { "data": "TaTName", "orderable": true },
+                            { "data": "ActTimeIn", "orderable": true },
+                            { "data": "StdTimeIn", "orderable": true },
+                            { "data": "ActTimeOut", "orderable": true },
+                            { "data": "StdTimeOut", "orderable": true },
+                            { "data": "AdjTimeIn", "orderable": true },
+                            { "data": "AdjTimeOut", "orderable": true },
+                            { "data": "Remark", "orderable": true },
+                        ],
+                        "columnDefs": [
+                            {
+                                "render": function (data, type, row) {
+                                    var inner = '<div class="td-actions pull-right">' +
+                                                    '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.TaID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;' +
+                                                    '<button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.TaID + '"><i class="material-icons">close</i></button>' +
+                                                 '</div>';
+                                    return inner;
+                                }, "targets": 9
+                            },
+                        ]
+                    });
+
+                    dataTable.table.on('click', '.edit', function () {
+                        var id = $(this).data("id");
+                        var userid = $("#UserID").val();
+                        var url = '@Url.Action("TimeAttendanceByID", "WorkingTime")';
+                        $.post(url, { id: id, userid: userid }, function (data) {
+                            $(".div-detail").html(data);
+                            $('.modal-detail').modal('show');
+                        });
+                    });
+
+                    dataTable.table.on('click', '.delete', function () {
+                        var id = $(this).data("id");
+                        swal({
+                            title: '',
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
+                            type: 'question',
+                            showCancelButton: true,
+                            confirmButtonClass: 'btn btn-success',
+                            cancelButtonClass: 'btn btn-danger',
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                            cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                            buttonsStyling: false
+                        }).then(function () {
+                            $.ajax({
+                                type: 'POST',
+                                url: '@Url.Action("DeleteTimeAttendance", "WorkingTime")/' + id,
+                                success: function (res) {
+                                    if (res.MessageCode == null) {
+                                        swal({
+                                            title: "",
+                                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.DeleteSucceed)",
+                                            type: "success",
+                                            confirmButtonClass: "btn btn-primary",
+                                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                            buttonsStyling: false
+                                        }).then(function () {
+                                            dataTable.getData();
+                                        });
+                                    }
+                                    else {
+                                        swal({
+                                            title: '',
+                                            text: res.MessageText,
+                                            type: 'error',
+                                            confirmButtonClass: "btn btn-primary",
+                                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                            buttonsStyling: false
+                                        }).catch(swal.noop);
+                                    }
+                                }
+                            });
+                        }).catch(swal.noop)
+                    });
+                },
+                getData: function () {
+                    if (dataTable.table == null)
+                        dataTable.initializeDataTable();
+                    else
+                        dataTable.table.ajax.reload();
+                }
+            }
+
+            dataTable.getData();
+
+
+            $(".btn-search").click(function () {
+                $('.table-detail').dataTable().fnDestroy();
+                dataTable.initializeDataTable();
+            });
+
+            $(".btn-add").click(function () {
+                var userid = $('#UserID').val();
+                var url = '@Url.Action("TimeAttendanceByID", "WorkingTime")';
+                $.post(url, { id: 0, userid: userid }, function (data) {
                     $(".div-detail").html(data);
                     $('.modal-detail').modal('show');
                 });
             });
 
-
             $(".btn-back").click(function () {
                 var url = '@Url.Action("TimeAttendance", "WorkingTime")';
                 window.location.href = url;
             });
+
+            $(".btn-save").click(function () {
+                 var $valid = $('.form-detail').valid();
+                 if (!$valid) {
+                    return false;
+                 }
+                 else {
+                     $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("SaveTimeAttendance", "WorkingTime")',
+                        data: $(".form-detail").serialize(),
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                swal({
+                                    title: "",
+                                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                                    type: "success",
+                                    buttonsStyling: false,
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                }).then(function () {
+                                    $('.modal-detail').modal('hide');
+                                    dataTable.getData();
+                                });
+                            }
+                            else {
+                                swal({
+                                    title: '',
+                                    text: res.MessageText,
+                                    type: 'error',
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                    buttonsStyling: false
+                                }).catch(swal.noop)
+                            }
+                        }
+                    });
+                 }
+             });
         });
 
     </script>

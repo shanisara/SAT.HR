@@ -5,41 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    .modal-dialog {
-        max-width: 1100px;
-        margin: 1.75rem auto;
-    }
-
-    .col-form-label {
-        font-size: 14px;
-    }
-
-    .label-text {
-        font-size: 14px;
-        line-height: 2.679;
-        color: #170cdb;
-        font-weight: 100;
-    }
-
-    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
-        vertical-align: top;
-    }
-
-    .table thead tr th {
-        font-size: 15px;
-    }
-
-    .form-control-error:read-only {
-        background-image: linear-gradient(to top,#d2d2d2 1px,rgba(210,210,210,0) 1px),linear-gradient(to top,#fc0909 1px,rgba(210,210,210,0) 3px);
-    }
-
-    .m-t-8 {
-        margin-top: 8px;
-    }
-
-</style>
-
 <div class="content">
     <div class="row">
         <div class="col-md-12">
@@ -67,11 +32,11 @@
                                 <div class="col-sm-2">
                                     @Html.TextBoxFor(m => m.MopYear, new { @class = "form-control", required = "true" })
                                 </div>
-                                <label class="col-sm-2 col-form-label" for="MlBookCmd">ประเภทการโยกย้าย<span class="text-danger"> *</span> </label>
+                                <label class="col-sm-2 col-form-label" for="MtID">ประเภทการโยกย้าย<span class="text-danger"> *</span> </label>
                                 <div class="col-sm-2">
                                     @Html.DropDownListFor(n => n.MtID, new SelectList((IEnumerable<SelectListItem>)ViewBag.MoveType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
                                 </div>
-                                <label class="col-sm-2 col-form-label" for="MlBookCmd">ประเภทบุคลากร<span class="text-danger"> *</span> </label>
+                                <label class="col-sm-2 col-form-label" for="UserTID">ประเภทบุคลากร<span class="text-danger"> *</span> </label>
                                 <div class="col-sm-2">
                                     @Html.DropDownListFor(n => n.UserTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.UserType, "Value", "Text"), new { @class = "selectpicker", data_style = "select-with-transition" })
                                 </div>
@@ -81,13 +46,13 @@
                                 <div class="col-sm-2">
                                     @Html.TextBoxFor(m => m.MopBookCmd, new { @class = "form-control", required = "true" })
                                 </div>
-                                <label class="col-sm-2 col-form-label" for="MlDateCmdText">วันที่ลงคำสั่ง<span class="text-danger"> *</span> </label>
+                                <label class="col-sm-2 col-form-label" for="MopDateCmd">วันที่ลงคำสั่ง<span class="text-danger"> *</span> </label>
                                 <div class="col-sm-2">
                                     @Html.TextBoxFor(m => m.MopDateCmd, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
                                 </div>
-                                @Html.Label("วันที่มีผล: ", null, new { @class = "col-sm-2 col-form-label" })
+                                <label class="col-sm-2 col-form-label" for="MopDateEff">วันที่มีผล<span class="text-danger"> *</span> </label>
                                 <div class="col-sm-2">
-                                    @Html.TextBoxFor(m => m.MopDateEff, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
+                                    @Html.TextBoxFor(m => m.MopDateEff, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
                                 </div>
                             </div>
                             <div class="row m-t-10">
@@ -145,7 +110,10 @@
                                                 </td>
                                                 <td>@Model.ListDetail[i].MovRemark</td>
                                                 <td class="td-actions text-right">
+                                                    @if (Model.MopID != 0 && !(bool)Model.MopStatus)
+                                                    {
                                                     <button title="ลบ" type="button" class="btn btn-round btn-danger btn-delete" data-id="@Model.ListDetail[i].UserID"><i class="material-icons">close</i></button>
+                                                    }
                                                 </td>
                                             </tr>
                                             index++;
@@ -159,7 +127,14 @@
                 <div class="row m-b-10">
                     <div class="ml-auto mr-auto">
                         <button type="button" class="btn btn-round btn-back">ย้อนกลับ</button>
-                        <button type="button" class="btn btn-round btn-primary btn-save">บันทึก</button>
+                        @if (!(bool)Model.MopStatus)
+                        {
+                            <button type="button" class="btn btn-round btn-primary btn-save">บันทึก</button>
+                            if (Model.MopID != 0)
+                            {
+                            <button type="button" class="btn btn-round btn-primary btn-approve">ยืนยัน</button>
+                            }
+                        }
                     </div>
                 </div>
             </div>
@@ -188,6 +163,40 @@
     </div>
 </div>
 <!--  End Modal -->
+
+<style>
+    .modal-dialog {
+        max-width: 1100px;
+        margin: 1.75rem auto;
+    }
+
+    .col-form-label {
+        font-size: 14px;
+    }
+
+    .label-text {
+        font-size: 14px;
+        line-height: 2.679;
+        color: #170cdb;
+        font-weight: 100;
+    }
+
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        vertical-align: top;
+    }
+
+    .table thead tr th {
+        font-size: 15px;
+    }
+
+    .form-control-error:read-only {
+        background-image: linear-gradient(to top,#d2d2d2 1px,rgba(210,210,210,0) 1px),linear-gradient(to top,#fc0909 1px,rgba(210,210,210,0) 3px);
+    }
+
+    .m-t-8 {
+        margin-top: 8px;
+    }
+</style>
 
 @section Scripts {
 <script>
@@ -365,7 +374,6 @@
                     processData: false,
                     contentType: false,
                     success: function (res) {
-                        debugger;
                         if (res.MessageCode == null) {
                             swal({
                                 title: "",
@@ -395,6 +403,65 @@
                             }).catch(swal.noop);
                         }
                     }
+                });
+            }
+        });
+
+        $(".btn-approve").click(function () {
+            debugger;
+            var mopid = $("#MopID").val();
+            if (mopid == 0) {
+                swal({
+                    title: "",
+                    text: "ต้องบันทึกข้อมูลก่อนการยืนยันโยกย้ายอัตรากำลังพล",
+                    type: "success",
+                    confirmButtonClass: "btn btn-primary",
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                    buttonsStyling: false,
+                }).then(function () {
+                });
+            }
+            else {
+                swal({
+                    title: '',
+                    text: "ยืนยันโยกย้ายอัตรากำลังพล",
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                    buttonsStyling: false
+                }).then(function () {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("ApprovePositionTransfer", "Employee")/' + mopid,
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                swal({
+                                    title: "",
+                                    text: "โยกย้ายอัตรากำลังพลเรียบร้อยแล้ว",
+                                    type: "success",
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                    buttonsStyling: false,
+                                }).then(function () {
+                                    $(".btn-save").hide();
+                                    $(".btn-approve").hide();
+                                });
+                            }
+                            else {
+                                swal({
+                                    title: '',
+                                    text: res.MessageText,
+                                    type: 'error',
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                    buttonsStyling: false
+                                }).catch(swal.noop);
+                            }
+                        }
+                    });
                 });
             }
         });
