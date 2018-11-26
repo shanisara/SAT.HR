@@ -157,6 +157,8 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Skill> vw_User_Skill { get; set; }
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
         public virtual DbSet<tb_Working_Shift> tb_Working_Shift { get; set; }
+        public virtual DbSet<tb_Departments> tb_Departments { get; set; }
+        public virtual DbSet<tb_Organization> tb_Organization { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {

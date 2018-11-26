@@ -375,6 +375,16 @@
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
         </EntityType>
+        <EntityType Name="tb_Departments">
+          <Key>
+            <PropertyRef Name="DeptID" />
+          </Key>
+          <Property Name="DeptID" Type="int" Nullable="false" />
+          <Property Name="DeptCode" Type="nvarchar" MaxLength="20" />
+          <Property Name="DeptName" Type="nvarchar" MaxLength="200" />
+          <Property Name="ParentID" Type="int" />
+          <Property Name="Seq" Type="int" />
+        </EntityType>
         <EntityType Name="tb_Discipline">
           <Key>
             <PropertyRef Name="DisID" />
@@ -747,6 +757,17 @@
           </Key>
           <Property Name="OcID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OcName" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="tb_Organization">
+          <Key>
+            <PropertyRef Name="OrgID" />
+          </Key>
+          <Property Name="OrgID" Type="int" Nullable="false" />
+          <Property Name="OrgCode" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="DepID" Type="int" />
+          <Property Name="PosID" Type="int" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="Level" Type="int" />
         </EntityType>
         <EntityType Name="tb_Part_Type">
           <Key>
@@ -2535,6 +2556,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tb_Department_tb_Department">
+          <End Role="tb_Departments" Type="Self.tb_Departments" Multiplicity="0..1" />
+          <End Role="tb_Departments1" Type="Self.tb_Departments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Departments">
+              <PropertyRef Name="DeptID" />
+            </Principal>
+            <Dependent Role="tb_Departments1">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tb_Department_tb_Division">
           <End Role="tb_Division" Type="Self.tb_Division" Multiplicity="0..1" />
           <End Role="tb_Department" Type="Self.tb_Department" Multiplicity="*" />
@@ -2664,6 +2697,42 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Principal>
             <Dependent Role="tb_Move_Man_Power_Head">
               <PropertyRef Name="MtID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Organization_tb_Organization">
+          <End Role="tb_Departments" Type="Self.tb_Departments" Multiplicity="0..1" />
+          <End Role="tb_Organization" Type="Self.tb_Organization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Departments">
+              <PropertyRef Name="DeptID" />
+            </Principal>
+            <Dependent Role="tb_Organization">
+              <PropertyRef Name="DepID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Organization_tb_Position">
+          <End Role="tb_Position" Type="Self.tb_Position" Multiplicity="0..1" />
+          <End Role="tb_Organization" Type="Self.tb_Organization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Position">
+              <PropertyRef Name="PoID" />
+            </Principal>
+            <Dependent Role="tb_Organization">
+              <PropertyRef Name="PosID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Organization_tb_User">
+          <End Role="tb_User" Type="Self.tb_User" Multiplicity="0..1" />
+          <End Role="tb_Organization" Type="Self.tb_Organization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tb_Organization">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3433,6 +3502,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_Cripple_Type" EntityType="Self.tb_Cripple_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Degree" EntityType="Self.tb_Degree" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Department" EntityType="Self.tb_Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Departments" EntityType="Self.tb_Departments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Discipline" EntityType="Self.tb_Discipline" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_District" EntityType="Self.tb_District" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Division" EntityType="Self.tb_Division" Schema="dbo" store:Type="Tables" />
@@ -3464,6 +3534,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_Move_Man_Power_Head" EntityType="Self.tb_Move_Man_Power_Head" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Nationality" EntityType="Self.tb_Nationality" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Occupation" EntityType="Self.tb_Occupation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Organization" EntityType="Self.tb_Organization" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Part_Type" EntityType="Self.tb_Part_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Position" EntityType="Self.tb_Position" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Position_Agent" EntityType="Self.tb_Position_Agent" Schema="dbo" store:Type="Tables" />
@@ -4390,6 +4461,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <End Role="tb_Country" EntitySet="tb_Country" />
             <End Role="tb_Course" EntitySet="tb_Course" />
           </AssociationSet>
+          <AssociationSet Name="FK_tb_Department_tb_Department" Association="Self.FK_tb_Department_tb_Department">
+            <End Role="tb_Departments" EntitySet="tb_Departments" />
+            <End Role="tb_Departments1" EntitySet="tb_Departments" />
+          </AssociationSet>
           <AssociationSet Name="FK_tb_Department_tb_Division" Association="Self.FK_tb_Department_tb_Division">
             <End Role="tb_Division" EntitySet="tb_Division" />
             <End Role="tb_Department" EntitySet="tb_Department" />
@@ -4433,6 +4508,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <AssociationSet Name="FK_tb_Move_Man_Power_Head_tb_Action_Type" Association="Self.FK_tb_Move_Man_Power_Head_tb_Action_Type">
             <End Role="tb_Action_Type" EntitySet="tb_Action_Type" />
             <End Role="tb_Move_Man_Power_Head" EntitySet="tb_Move_Man_Power_Head" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Organization_tb_Organization" Association="Self.FK_tb_Organization_tb_Organization">
+            <End Role="tb_Departments" EntitySet="tb_Departments" />
+            <End Role="tb_Organization" EntitySet="tb_Organization" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Organization_tb_Position" Association="Self.FK_tb_Organization_tb_Position">
+            <End Role="tb_Position" EntitySet="tb_Position" />
+            <End Role="tb_Organization" EntitySet="tb_Organization" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Organization_tb_User" Association="Self.FK_tb_Organization_tb_User">
+            <End Role="tb_User" EntitySet="tb_User" />
+            <End Role="tb_Organization" EntitySet="tb_Organization" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_Position_tb_User_Type" Association="Self.FK_tb_Position_tb_User_Type">
             <End Role="tb_User_Type" EntitySet="tb_User_Type" />
@@ -5230,6 +5317,24 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <Parameter Name="Level" Mode="In" Type="Int32" />
             <Parameter Name="Step" Mode="In" Type="Decimal" />
           </FunctionImport>
+          <EntitySet Name="tb_Departments" EntityType="SAT.HR.tb_Departments" />
+          <AssociationSet Name="FK_tb_Department_tb_Department" Association="SAT.HR.FK_tb_Department_tb_Department">
+            <End Role="tb_Departments" EntitySet="tb_Departments" />
+            <End Role="tb_Departments1" EntitySet="tb_Departments" />
+          </AssociationSet>
+          <EntitySet Name="tb_Organization" EntityType="SAT.HR.tb_Organization" />
+          <AssociationSet Name="FK_tb_Organization_tb_Organization" Association="SAT.HR.FK_tb_Organization_tb_Organization">
+            <End Role="tb_Departments" EntitySet="tb_Departments" />
+            <End Role="tb_Organization" EntitySet="tb_Organization" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Organization_tb_Position" Association="SAT.HR.FK_tb_Organization_tb_Position">
+            <End Role="tb_Position" EntitySet="tb_Position" />
+            <End Role="tb_Organization" EntitySet="tb_Organization" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Organization_tb_User" Association="SAT.HR.FK_tb_Organization_tb_User">
+            <End Role="tb_User" EntitySet="tb_User" />
+            <End Role="tb_Organization" EntitySet="tb_Organization" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_Menu_GetByUser_Result">
           <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -6224,6 +6329,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="Int32" />
           <NavigationProperty Name="tb_User_Type" Relationship="SAT.HR.FK_tb_Position_tb_User_Type" FromRole="tb_Position" ToRole="tb_User_Type" />
+          <NavigationProperty Name="tb_Organization" Relationship="SAT.HR.FK_tb_Organization_tb_Position" FromRole="tb_Position" ToRole="tb_Organization" />
         </EntityType>
         <EntityType Name="tb_Position_Agent">
           <Key>
@@ -6580,6 +6686,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <NavigationProperty Name="tb_User_Status" Relationship="SAT.HR.FK_tb_Users_tb_User_Status" FromRole="tb_User" ToRole="tb_User_Status" />
           <NavigationProperty Name="tb_Working_Type" Relationship="SAT.HR.FK_tb_Users_tb_Working_Type" FromRole="tb_User" ToRole="tb_Working_Type" />
           <NavigationProperty Name="tb_Working_Shift" Relationship="SAT.HR.FK_tb_Working_Shift_tb_User" FromRole="tb_User" ToRole="tb_Working_Shift" />
+          <NavigationProperty Name="tb_Organization" Relationship="SAT.HR.FK_tb_Organization_tb_User" FromRole="tb_User" ToRole="tb_Organization" />
         </EntityType>
         <EntityType Name="tb_User_Certificate">
           <Key>
@@ -8842,6 +8949,81 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Type="Decimal" Name="Old_Salary" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="New_Salary" Nullable="false" Precision="18" Scale="2" />
         </ComplexType>
+        <EntityType Name="tb_Departments">
+          <Key>
+            <PropertyRef Name="DeptID" />
+          </Key>
+          <Property Name="DeptID" Type="Int32" Nullable="false" />
+          <Property Name="DeptCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="DeptName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ParentID" Type="Int32" />
+          <Property Name="Seq" Type="Int32" />
+          <NavigationProperty Name="tb_Departments1" Relationship="SAT.HR.FK_tb_Department_tb_Department" FromRole="tb_Departments" ToRole="tb_Departments1" />
+          <NavigationProperty Name="tb_Departments2" Relationship="SAT.HR.FK_tb_Department_tb_Department" FromRole="tb_Departments1" ToRole="tb_Departments" />
+          <NavigationProperty Name="tb_Organization" Relationship="SAT.HR.FK_tb_Organization_tb_Organization" FromRole="tb_Departments" ToRole="tb_Organization" />
+        </EntityType>
+        <Association Name="FK_tb_Department_tb_Department">
+          <End Type="SAT.HR.tb_Departments" Role="tb_Departments" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Departments" Role="tb_Departments1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Departments">
+              <PropertyRef Name="DeptID" />
+            </Principal>
+            <Dependent Role="tb_Departments1">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tb_Organization">
+          <Key>
+            <PropertyRef Name="OrgID" />
+          </Key>
+          <Property Name="OrgID" Type="Int32" Nullable="false" />
+          <Property Name="OrgCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="DepID" Type="Int32" />
+          <Property Name="PosID" Type="Int32" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="Level" Type="Int32" />
+          <NavigationProperty Name="tb_Departments" Relationship="SAT.HR.FK_tb_Organization_tb_Organization" FromRole="tb_Organization" ToRole="tb_Departments" />
+          <NavigationProperty Name="tb_Position" Relationship="SAT.HR.FK_tb_Organization_tb_Position" FromRole="tb_Organization" ToRole="tb_Position" />
+          <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Organization_tb_User" FromRole="tb_Organization" ToRole="tb_User" />
+        </EntityType>
+        <Association Name="FK_tb_Organization_tb_Organization">
+          <End Type="SAT.HR.tb_Departments" Role="tb_Departments" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Organization" Role="tb_Organization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Departments">
+              <PropertyRef Name="DeptID" />
+            </Principal>
+            <Dependent Role="tb_Organization">
+              <PropertyRef Name="DepID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Organization_tb_Position">
+          <End Type="SAT.HR.tb_Position" Role="tb_Position" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Organization" Role="tb_Organization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Position">
+              <PropertyRef Name="PoID" />
+            </Principal>
+            <Dependent Role="tb_Organization">
+              <PropertyRef Name="PosID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Organization_tb_User">
+          <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Organization" Role="tb_Organization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tb_Organization">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -11271,6 +11453,29 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="tb_Departments">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Departments">
+              <MappingFragment StoreEntitySet="tb_Departments">
+                <ScalarProperty Name="Seq" ColumnName="Seq" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="DeptName" ColumnName="DeptName" />
+                <ScalarProperty Name="DeptCode" ColumnName="DeptCode" />
+                <ScalarProperty Name="DeptID" ColumnName="DeptID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Organization">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Organization">
+              <MappingFragment StoreEntitySet="tb_Organization">
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="PosID" ColumnName="PosID" />
+                <ScalarProperty Name="DepID" ColumnName="DepID" />
+                <ScalarProperty Name="OrgCode" ColumnName="OrgCode" />
+                <ScalarProperty Name="OrgID" ColumnName="OrgID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

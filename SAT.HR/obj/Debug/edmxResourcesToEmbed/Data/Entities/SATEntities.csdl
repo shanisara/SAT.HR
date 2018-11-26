@@ -571,6 +571,11 @@
       <Parameter Name="Level" Mode="In" Type="Int32" />
       <Parameter Name="Step" Mode="In" Type="Decimal" />
     </FunctionImport>
+    <EntitySet Name="tb_Departments" EntityType="SAT.HR.tb_Departments" />
+    <AssociationSet Name="FK_tb_Department_tb_Department" Association="SAT.HR.FK_tb_Department_tb_Department">
+      <End Role="tb_Departments" EntitySet="tb_Departments" />
+      <End Role="tb_Departments1" EntitySet="tb_Departments" />
+    </AssociationSet>
   </EntityContainer>
   <ComplexType Name="sp_Menu_GetByUser_Result">
     <Property Type="Int32" Name="MenuID" Nullable="false" />
@@ -4183,4 +4188,29 @@
     <Property Type="Decimal" Name="Old_Salary" Nullable="false" Precision="18" Scale="2" />
     <Property Type="Decimal" Name="New_Salary" Nullable="false" Precision="18" Scale="2" />
   </ComplexType>
+  <EntityType Name="tb_Departments">
+    <Key>
+      <PropertyRef Name="DeptID" />
+    </Key>
+    <Property Name="DeptID" Type="Int32" Nullable="false" />
+    <Property Name="DeptCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="DeptName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ParentID" Type="Int32" />
+    <Property Name="LevelID" Type="Int32" />
+    <Property Name="Seq" Type="Int32" />
+    <NavigationProperty Name="tb_Departments1" Relationship="SAT.HR.FK_tb_Department_tb_Department" FromRole="tb_Departments" ToRole="tb_Departments1" />
+    <NavigationProperty Name="tb_Departments2" Relationship="SAT.HR.FK_tb_Department_tb_Department" FromRole="tb_Departments1" ToRole="tb_Departments" />
+  </EntityType>
+  <Association Name="FK_tb_Department_tb_Department">
+    <End Type="SAT.HR.tb_Departments" Role="tb_Departments" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_Departments" Role="tb_Departments1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Departments">
+        <PropertyRef Name="DeptID" />
+      </Principal>
+      <Dependent Role="tb_Departments1">
+        <PropertyRef Name="ParentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

@@ -370,6 +370,17 @@
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
+  <EntityType Name="tb_Departments">
+    <Key>
+      <PropertyRef Name="DeptID" />
+    </Key>
+    <Property Name="DeptID" Type="int" Nullable="false" />
+    <Property Name="DeptCode" Type="nvarchar" MaxLength="20" />
+    <Property Name="DeptName" Type="nvarchar" MaxLength="200" />
+    <Property Name="ParentID" Type="int" />
+    <Property Name="LevelID" Type="int" />
+    <Property Name="Seq" Type="int" />
+  </EntityType>
   <EntityType Name="tb_Discipline">
     <Key>
       <PropertyRef Name="DisID" />
@@ -1743,6 +1754,16 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Man_Power_Head' does not h
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Level' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Level">
+          <Property Name="Level" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Step' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Step">
+          <Property Name="Step" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Section">
     <Key>
@@ -2527,6 +2548,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Principal>
       <Dependent Role="tb_Course">
         <PropertyRef Name="CountryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Department_tb_Department">
+    <End Role="tb_Departments" Type="Self.tb_Departments" Multiplicity="0..1" />
+    <End Role="tb_Departments1" Type="Self.tb_Departments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Departments">
+        <PropertyRef Name="DeptID" />
+      </Principal>
+      <Dependent Role="tb_Departments1">
+        <PropertyRef Name="ParentID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3428,6 +3461,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_Cripple_Type" EntityType="Self.tb_Cripple_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Degree" EntityType="Self.tb_Degree" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Department" EntityType="Self.tb_Department" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Departments" EntityType="Self.tb_Departments" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Discipline" EntityType="Self.tb_Discipline" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_District" EntityType="Self.tb_District" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Division" EntityType="Self.tb_Division" Schema="dbo" store:Type="Tables" />
@@ -4384,6 +4418,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <AssociationSet Name="FK_tb_Course_tb_Country" Association="Self.FK_tb_Course_tb_Country">
       <End Role="tb_Country" EntitySet="tb_Country" />
       <End Role="tb_Course" EntitySet="tb_Course" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Department_tb_Department" Association="Self.FK_tb_Department_tb_Department">
+      <End Role="tb_Departments" EntitySet="tb_Departments" />
+      <End Role="tb_Departments1" EntitySet="tb_Departments" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_Department_tb_Division" Association="Self.FK_tb_Department_tb_Division">
       <End Role="tb_Division" EntitySet="tb_Division" />

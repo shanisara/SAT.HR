@@ -814,7 +814,7 @@ namespace SAT.HR.Data.Repository
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new PositionRateRepository().GetDivisionManPower(type);
+            var data = new OrganizationRepository().GetDivisionManPower(type);
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
@@ -830,7 +830,7 @@ namespace SAT.HR.Data.Repository
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new PositionRateRepository().GetDepartmentManPower(type, divid);
+            var data = new OrganizationRepository().GetDepartmentManPower(type, divid);
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
@@ -846,7 +846,7 @@ namespace SAT.HR.Data.Repository
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new PositionRateRepository().GetSectionManPower(type, divid, depid);
+            var data = new OrganizationRepository().GetSectionManPower(type, divid, depid);
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
@@ -862,7 +862,7 @@ namespace SAT.HR.Data.Repository
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new PositionRateRepository().GetPositionManPower(type, divid, depid, secid);
+            var data = new OrganizationRepository().GetPositionManPower(type, divid, depid, secid);
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
@@ -878,7 +878,7 @@ namespace SAT.HR.Data.Repository
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new PositionRateRepository().GetPositionManPower(type, divid, depid, secid);
+            var data = new OrganizationRepository().GetPositionManPower(type, divid, depid, secid);
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
@@ -894,7 +894,7 @@ namespace SAT.HR.Data.Repository
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new PositionRateRepository().GetPositionRate(type);
+            var data = new OrganizationRepository().GetPositionRate(type);
             
             foreach (var item in data)
             {

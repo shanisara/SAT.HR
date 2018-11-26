@@ -895,19 +895,6 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region User
-
-        //[HttpPost]
-        //public JsonResult Employee(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
-        //{
-        //    var search = Request["search[value]"];
-        //    var dir = order[0]["dir"].ToLower();
-        //    var column = columns[int.Parse(order[0]["column"])]["data"];
-        //    var dataTableData = new EmployeeRepository().GetUserNotInRole(search, draw, start, length, dir, column);
-        //    return Json(dataTableData, JsonRequestBehavior.AllowGet);
-        //}
-
-        #endregion
 
         #region Role User
 
@@ -1010,13 +997,13 @@ namespace SAT.HR.Controllers
 
         public JsonResult GetDetailByUser(int userid)
         {
-            var result = new PositionRateRepository().GetDetailByUser(userid);
+            var result = new OrganizationRepository().GetDetailByUser(userid);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetDetailByMp(int mpid)
         {
-            var result = new PositionRateRepository().GetDetailByMp(mpid);
+            var result = new OrganizationRepository().GetDetailByMp(mpid);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

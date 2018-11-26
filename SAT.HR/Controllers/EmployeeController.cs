@@ -563,12 +563,6 @@ namespace SAT.HR.Controllers
 
         #region 2. อัตรากำลังพล
 
-        public ActionResult PositionRate()
-        {
-            ViewBag.UserType = DropDownList.GetUserType(1);
-            return View();
-        }
-
         public ActionResult PositionRateDetail(int? id, int? type)
         {
             var model = new PositionRateRepository().GetByID(id, type);
@@ -580,45 +574,6 @@ namespace SAT.HR.Controllers
             ViewBag.Education = DropDownList.GetEducation(model != null ? model.EduID : null, true);
             ViewBag.TypeID = type;
             return PartialView("_PositionRate", model);
-        }
-
-        public JsonResult GetRoot(int id)
-        {
-            var items = new[]
-            {
-                new
-                {
-                    id = "0",
-                    text = "การกีฬาแห่งประเทศไทย",
-                    state = new { opened = true },
-                    icon = SysConfig.ApplicationRoot + "Content/assets/img/home.png",
-                    children = new PositionRateRepository().GetTree(id)
-                }
-            }.ToList();
-
-            return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-        }
-
-        public JsonResult GetTreeAll(int id)
-        {
-            var items = new PositionRateRepository().GetTreeAll(id);
-            return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-        }
-
-        public JsonResult GetChildren(string parenttype, int usertype, string div, string dep, string sec, string po)
-        {
-            List<TreeViewModel> items = new PositionRateRepository().GetTree(parenttype, usertype, div, dep, sec, po);
-            return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-
-            //var g1 = Guid.NewGuid().ToString();
-            //var g2 = Guid.NewGuid().ToString();
-
-            //var items = new[]
-            //{
-            //    new { id = "child-" + g1, text = "Child " + g1, children = true },
-            //    new { id = "child-" + g2, text = "Child " + g2, children = true }
-            //}
-            //.ToList();
         }
 
         public JsonResult SavePositionRate(PositionRateViewModel data)
@@ -772,7 +727,53 @@ namespace SAT.HR.Controllers
 
         #endregion
 
+        #region 5. สังกัด
 
+        public ActionResult Organization()
+        {
+            ViewBag.UserType = DropDownList.GetUserType(1);
+            return View();
+        }
 
+        public JsonResult GetRoot(int id)
+        {
+            var items = new[]
+            {
+                new
+                {
+                    id = "0",
+                    text = "การกีฬาแห่งประเทศไทย",
+                    state = new { opened = true },
+                    icon = SysConfig.ApplicationRoot + "Content/assets/img/home.png",
+                    children = new OrganizationRepository().GetTree(id)
+                }
+            }.ToList();
+
+            return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
+        public JsonResult GetTreeAll(int id)
+        {
+            var items = new OrganizationRepository().GetTreeAll(id);
+            return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
+        public JsonResult GetChildren(string parenttype, int usertype, string div, string dep, string sec, string po)
+        {
+            List<TreeViewModel> items = new OrganizationRepository().GetTree(parenttype, usertype, div, dep, sec, po);
+            return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+
+            //var g1 = Guid.NewGuid().ToString();
+            //var g2 = Guid.NewGuid().ToString();
+
+            //var items = new[]
+            //{
+            //    new { id = "child-" + g1, text = "Child " + g1, children = true },
+            //    new { id = "child-" + g2, text = "Child " + g2, children = true }
+            //}
+            //.ToList();
+        }
+
+        #endregion
     }
 }
