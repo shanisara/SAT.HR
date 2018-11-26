@@ -38,6 +38,7 @@ namespace SAT.HR.Data.Entities
             this.tb_User_Skill = new HashSet<tb_User_Skill>();
             this.tb_User_Training = new HashSet<tb_User_Training>();
             this.tb_Working_Shift = new HashSet<tb_Working_Shift>();
+            this.tb_Organization = new HashSet<tb_Organization>();
         }
     
         public int UserID { get; set; }
@@ -165,5 +166,7 @@ namespace SAT.HR.Data.Entities
         public virtual tb_Working_Type tb_Working_Type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Working_Shift> tb_Working_Shift { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Organization> tb_Organization { get; set; }
     }
 }

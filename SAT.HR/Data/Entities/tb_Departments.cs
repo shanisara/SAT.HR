@@ -18,17 +18,19 @@ namespace SAT.HR.Data.Entities
         public tb_Departments()
         {
             this.tb_Departments1 = new HashSet<tb_Departments>();
+            this.tb_Organization = new HashSet<tb_Organization>();
         }
     
         public int DeptID { get; set; }
         public string DeptCode { get; set; }
         public string DeptName { get; set; }
         public Nullable<int> ParentID { get; set; }
-        public Nullable<int> LevelID { get; set; }
         public Nullable<int> Seq { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Departments> tb_Departments1 { get; set; }
         public virtual tb_Departments tb_Departments2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Organization> tb_Organization { get; set; }
     }
 }
