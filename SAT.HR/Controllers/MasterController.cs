@@ -71,7 +71,7 @@ namespace SAT.HR.Controllers
             {
                 model = new DepartmentRepository().GetByID((int)id);
             }
-            ViewBag.Division = DropDownList.GetDivision(model.DivID, false);
+            ViewBag.Division = DropDownList.GetDivision(model.DivID);
             return PartialView("_Department", model);
         }
 
@@ -104,7 +104,7 @@ namespace SAT.HR.Controllers
 
         public JsonResult DepartmentByDiv(int divid)
         {
-            var result = DropDownList.GetDepartment(divid, null, false);
+            var result = DropDownList.GetDepartment(divid, null);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -124,8 +124,8 @@ namespace SAT.HR.Controllers
             {
                 model = new SectionRepository().GetByID((int)id);
             }
-            ViewBag.Division = DropDownList.GetDivision(model.DivID, false);
-            ViewBag.Department = DropDownList.GetDepartment(model.DivID, model.DepID, false);
+            //ViewBag.Division = DropDownList.GetDivision(model.DivID);
+            //ViewBag.Department = DropDownList.GetDepartment(model.DivID, model.DepID, false);
             return PartialView("_Section", model);
         }
 
@@ -158,8 +158,8 @@ namespace SAT.HR.Controllers
 
         public JsonResult SectionByDep(int divid, int depid)
         {
-            var result = DropDownList.GetSection(divid, depid, null, true);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            //var result = DropDownList.GetSection(divid, depid, null, true);
+            return Json(/*result,*/ JsonRequestBehavior.AllowGet);
         }
 
 

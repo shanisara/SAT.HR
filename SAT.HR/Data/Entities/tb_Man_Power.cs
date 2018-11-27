@@ -15,22 +15,25 @@ namespace SAT.HR.Data.Entities
     public partial class tb_Man_Power
     {
         public int MpID { get; set; }
-        public Nullable<int> DivID { get; set; }
+        public string MpCode { get; set; }
         public Nullable<int> DepID { get; set; }
-        public Nullable<int> SecID { get; set; }
         public Nullable<int> PoID { get; set; }
         public Nullable<int> DisID { get; set; }
-        public Nullable<int> TypeID { get; set; }
         public Nullable<int> UserID { get; set; }
+        public Nullable<int> LevelID { get; set; }
         public Nullable<int> EduID { get; set; }
+        public Nullable<int> TypeID { get; set; }
+        public string FullName { get; set; }
+        public string PoName { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
     
+        public virtual tb_Discipline tb_Discipline { get; set; }
+        public virtual tb_Position tb_Position { get; set; }
+        public virtual tb_User tb_User { get; set; }
+        public virtual tb_User_Type tb_User_Type { get; set; }
         public virtual tb_Department tb_Department { get; set; }
-        public virtual tb_Division tb_Division { get; set; }
-        public virtual tb_Education tb_Education { get; set; }
-        public virtual tb_Section tb_Section { get; set; }
     }
 }

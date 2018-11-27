@@ -25,9 +25,6 @@ namespace SAT.HR.Data.Entities
         public string AgentPoTName { get; set; }
         public Nullable<int> AgentMpID { get; set; }
         public string AgentPoName { get; set; }
-        public string DivName { get; set; }
-        public string DepName { get; set; }
-        public string SecName { get; set; }
         public string MovRemark { get; set; }
         public Nullable<int> MopStatus { get; set; }
     }

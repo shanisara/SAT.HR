@@ -136,9 +136,9 @@ namespace SAT.HR.Data.Repository
                         model.CourseID = item.CourseID;
                         model.UserID = item.UserID;
                         model.FullName = item.FullName;
-                        model.DivName = item.DivName;
-                        model.DepName = item.DepName;
-                        model.SecName = item.SecName;
+                        //model.DivName = item.DivName;
+                        //model.DepName = item.DepName;
+                        //model.SecName = item.SecName;
                         model.PoName = item.PoName;
                         list.Add(model);
                     }

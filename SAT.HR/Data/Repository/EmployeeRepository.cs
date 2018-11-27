@@ -28,12 +28,12 @@ namespace SAT.HR.Data.Repository
                         FullNameTh = s.FullNameTh,
                         Avatar = SysConfig.ApplicationRoot + (!string.IsNullOrEmpty(s.Avatar) ? SysConfig.PathDownloadUserAvatar + "/" + s.Avatar : "Content/assets/img/default-avatar.png"),
                         Email = s.Email,
-                        DivID = s.DivID,
-                        DivName = s.DivName,
-                        DepID = s.DepID,
-                        DepName = s.DepName,
-                        SecID = s.SecID,
-                        SecName = s.SecName,
+                        //DivID = s.DivID,
+                        //DivName = s.DivName,
+                        //DepID = s.DepID,
+                        //DepName = s.DepName,
+                        //SecID = s.SecID,
+                        //SecName = s.SecName,
                         PoID = s.PoID,
                         PoName = s.PoName,
                         RoleID = s.RoleID,
@@ -66,12 +66,12 @@ namespace SAT.HR.Data.Repository
                     model.FullNameTh = data.FullNameTh;
                     model.Avatar = SysConfig.ApplicationRoot + (!string.IsNullOrEmpty(data.Avatar) ? SysConfig.PathDownloadUserAvatar + data.Avatar : "Content/assets/img/image_placeholder.jpg");
                     model.Email = data.Email;
-                    model.DivID = data.DivID;
-                    model.DivName = data.DivName;
-                    model.DepID = data.DepID;
-                    model.DepName = data.DepName;
-                    model.SecID = data.SecID;
-                    model.SecName = data.SecName;
+                    //model.DivID = data.DivID;
+                    //model.DivName = data.DivName;
+                    //model.DepID = data.DepID;
+                    //model.DepName = data.DepName;
+                    //model.SecID = data.SecID;
+                    //model.SecName = data.SecName;
                     model.PoID = data.PoID;
                     model.PoName = data.PoName;
                     model.RoleID = data.RoleID;
@@ -123,12 +123,12 @@ namespace SAT.HR.Data.Repository
                         UserID = s.UserID,
                         UserName = s.UserName,
                         FullNameTh = s.FullNameTh,
-                        DivID = s.DivID,
-                        DivName = s.DivName,
-                        DepID = s.DepID,
-                        DepName = s.DepName,
-                        SecID = s.SecID,
-                        SecName = s.SecName,
+                        //DivID = s.DivID,
+                        //DivName = s.DivName,
+                        //DepID = s.DepID,
+                        //DepName = s.DepName,
+                        //SecID = s.SecID,
+                        //SecName = s.SecName,
                         PoID = s.PoID,
                         PoCode = s.PoCode,
                         PoName = s.PoName,
@@ -186,7 +186,7 @@ namespace SAT.HR.Data.Repository
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    sortBy = (sortBy == "RowNumber") ? "DivSeq" : sortBy;
+                    sortBy = (sortBy == "RowNumber") ? "MpID" : sortBy;
                     string perPage = initialPage.HasValue ? Convert.ToInt32(initialPage) == 0 ? "1" : (Convert.ToInt32(initialPage.ToString().Substring(0, initialPage.ToString().Length - 1)) + 1).ToString() : "1";
                     var data = db.sp_Employee_List(pageSize.ToString(), perPage, sortBy, sortDir, userType, userStatus, filter).ToList();
 
@@ -276,9 +276,9 @@ namespace SAT.HR.Data.Repository
                     model.ResignDate = data.ResignDate;
                     model.ResignRemark = data.ResignRemark;
 
-                    model.DivID = data.DivID;
-                    model.DepID = data.DepID;
-                    model.SecID = data.SecID;
+                    //model.DivID = data.DivID;
+                    //model.DepID = data.DepID;
+                    //model.SecID = data.SecID;
                     model.PoID = data.PoID;
                     model.ProjectNo = data.ProjectNo;
                     model.ProjectName = data.ProjectName;
@@ -286,9 +286,9 @@ namespace SAT.HR.Data.Repository
                     model.SalaryStep = data.SalaryStep;
                     model.Salary = data.Salary.HasValue ? (decimal)data.Salary : 0;
 
-                    model.DivName = data.DivName;
-                    model.DepName = data.DepName;
-                    model.SecName = data.SecName;
+                    //model.DivName = data.DivName;
+                    //model.DepName = data.DepName;
+                    //model.SecName = data.SecName;
                     model.PoName = data.PoName;
 
                     model.EmpowerID = data.EmpowerID;
@@ -559,11 +559,11 @@ namespace SAT.HR.Data.Repository
                             //var po = db.tb_Man_Power.Where(x => x.MpID == newdata.PoID).FirstOrDefault();
                             //if (po != null)
                             //{
-                            man.DivID = newdata.DivID;
-                            man.DepID = newdata.DepID;
-                            man.SecID = newdata.SecID;
-                            man.PoID = newdata.PoID;
-                            db.SaveChanges();
+                            //man.DivID = newdata.DivID;
+                            //man.DepID = newdata.DepID;
+                            //man.SecID = newdata.SecID;
+                            //man.PoID = newdata.PoID;
+                            //db.SaveChanges();
                             //}
                         }
                         //else
@@ -1753,8 +1753,8 @@ namespace SAT.HR.Data.Repository
                         model.ExTName = item.ExTName;
                         model.UeProjectName = item.UeProjectName;
                         model.UeRecDateText = (item.UeRecDate.HasValue) ? item.UeRecDate.Value.ToString("dd/MM/yyyy") : string.Empty;
-                        model.PoName = item.PoName;
-                        model.FullPosition = item.DivName + "/" + item.DepName + "/" + item.PoName;
+                        //model.PoName = item.PoName;
+                        //model.FullPosition = item.DivName + "/" + item.DepName + "/" + item.PoName;
                         list.Add(model);
                     }
                 }

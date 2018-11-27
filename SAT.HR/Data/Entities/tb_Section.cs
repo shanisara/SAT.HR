@@ -17,7 +17,6 @@ namespace SAT.HR.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tb_Section()
         {
-            this.tb_Man_Power = new HashSet<tb_Man_Power>();
             this.tb_User_Position = new HashSet<tb_User_Position>();
         }
     
@@ -33,8 +32,6 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> ModifyBy { get; set; }
     
         public virtual tb_Division tb_Division { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Man_Power> tb_Man_Power { get; set; }
         public virtual tb_User_Type tb_User_Type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User_Position> tb_User_Position { get; set; }

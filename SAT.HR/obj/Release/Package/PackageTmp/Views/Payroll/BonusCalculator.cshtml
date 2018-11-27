@@ -4,18 +4,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    .card .card-body .col-form-label, .card .card-body {
-        padding-top: 0px;
-    }
-
-        .card .card-body .col-form-label.label-checkbox, .card .card-body .label-on-right.label-checkbox {
-            padding-top: 5px;
-        }
-</style>
-
-
-
 <div class="content">
     <div class="row">
         <div class="col-md-12">
@@ -64,7 +52,7 @@
                                             <label class="col-sm-3 col-form-label m-t-20">ปีบัญชี</label>
                                             <div class="col-sm-3">
                                                 <div class="form-group bmd-form-group">
-                                                    <input class="form-control" type="text">
+                                                    @Html.TextBox("Year", (int)ViewBag.Year, new { @class = "form-control text-right", type = "number" })
                                                 </div>
                                             </div>
                                         </div>
@@ -72,7 +60,7 @@
                                             <label class="col-sm-3 col-form-label m-t-20">อัตรา (เท่า)</label>
                                             <div class="col-sm-3">
                                                 <div class="form-group bmd-form-group">
-                                                    <input class="form-control" type="text">
+                                                    @Html.TextBox("Rate", (string)ViewBag.Rate, new { @class = "form-control text-right", type = "number" })
                                                 </div>
                                             </div>
                                         </div>
@@ -284,6 +272,16 @@
     </div>
 </div>
 
+<style>
+    .card .card-body .col-form-label, .card .card-body {
+        padding-top: 0px;
+    }
+
+        .card .card-body .col-form-label.label-checkbox, .card .card-body .label-on-right.label-checkbox {
+            padding-top: 5px;
+        }
+</style>
+
 @section Scripts {
 <script>
     $(document).ready(function () {
@@ -361,13 +359,25 @@
             var ref_this = $("#tabs li").find(".active");
             var id = ref_this.data("id");
             if (id == "tab-step1") {
-                $('.li-step1').find('a').removeClass('active');
-                $('.div-step1').removeClass('active');
+                swal({
+                    title: '',
+                    text: "ยืนยันการปรับขั้นเงินเดือน",
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                    buttonsStyling: false
+                }).then(function () {
+                    $('.li-step1').find('a').removeClass('active');
+                    $('.div-step1').removeClass('active');
 
-                $('.li-step2').find('a').removeClass('disabled').addClass('active');
-                $('.div-step2').addClass('active');
+                    $('.li-step2').find('a').removeClass('disabled').addClass('active');
+                    $('.div-step2').addClass('active');
 
-                $(".btn-previous").show();
+                    $(".btn-previous").show();
+                }).catch(swal.noop)
             }
             else if (id == "tab-step2") {
                 $('.li-step2').find('a').removeClass('active');

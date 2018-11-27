@@ -29,9 +29,9 @@ namespace SAT.HR.Data.Repository
                         PositionRateViewModel model = new PositionRateViewModel();
                         model.RowNumber = ++i;
                         model.MpID = (int)item.MpID;
-                        model.MpCode = item.UserTypID == 1 ? item.MpID.ToString().PadLeft(3, '0') : item.MpID.ToString().PadLeft(4, '0');
+                        model.MpCode = item.MpCode;
                         model.UserID = item.UserID;
-                        model.FullNameTh = model.UserID != null ? "("+ model.MpCode + ") " + item.FullNameTh : "ตำแหน่งว่าง ✓";
+                        model.FullNameTh = !string.IsNullOrEmpty(item.FullNameTh) ? "("+ model.MpCode + ") " + item.FullNameTh : "ตำแหน่งว่าง ✓";
                         model.DivID = item.DivID;
                         model.DivName = item.DivName;
                         model.DepID = item.DepID;
@@ -73,9 +73,9 @@ namespace SAT.HR.Data.Repository
                     {
                         model.MpID = data.MpID;
                         model.MpCode = data.TypeID == 1 ? data.MpID.ToString().PadLeft(3, '0') : data.MpID.ToString().PadLeft(4, '0');
-                        model.DivID = data.DivID;
-                        model.DepID = data.DepID;
-                        model.SecID = data.SecID;
+                        //model.DivID = data.DivID;
+                        //model.DepID = data.DepID;
+                        //model.SecID = data.SecID;
                         model.PoID = data.PoID;
                         model.DisID = data.DisID;
                         model.UserID = data.UserID;
@@ -110,9 +110,9 @@ namespace SAT.HR.Data.Repository
                     tb_Man_Power model = new tb_Man_Power();
                     model.MpID = maxID + 1;
                     model.TypeID = data.TypeID;
-                    model.DivID = data.DivID;
+                    //model.DivID = data.DivID;
                     model.DepID = data.DepID;
-                    model.SecID = data.SecID;
+                    //model.SecID = data.SecID;
                     model.PoID = data.PoID;
                     model.DisID = data.DisID;
                     model.UserID = data.UserID;
@@ -142,9 +142,9 @@ namespace SAT.HR.Data.Repository
                 try
                 {
                     var model = db.tb_Man_Power.Single(x => x.MpID == newdata.MpID);
-                    model.DivID = newdata.DivID;
+                    //model.DivID = newdata.DivID;
                     model.DepID = newdata.DepID;
-                    model.SecID = newdata.SecID;
+                    //model.SecID = newdata.SecID;
                     model.PoID = newdata.PoID;
                     model.DisID = newdata.DisID;
                     model.UserID = newdata.UserID;

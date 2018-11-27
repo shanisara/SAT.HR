@@ -26,6 +26,7 @@ namespace SAT.HR.Data.Entities
             this.tb_Benefit_Other_Welfare = new HashSet<tb_Benefit_Other_Welfare>();
             this.tb_Benefit_Provident_Fund = new HashSet<tb_Benefit_Provident_Fund>();
             this.tb_Evaluation = new HashSet<tb_Evaluation>();
+            this.tb_Man_Power = new HashSet<tb_Man_Power>();
             this.tb_Process_History = new HashSet<tb_Process_History>();
             this.tb_TimeAttendance = new HashSet<tb_TimeAttendance>();
             this.tb_Training_Course = new HashSet<tb_Training_Course>();
@@ -38,7 +39,6 @@ namespace SAT.HR.Data.Entities
             this.tb_User_Skill = new HashSet<tb_User_Skill>();
             this.tb_User_Training = new HashSet<tb_User_Training>();
             this.tb_Working_Shift = new HashSet<tb_Working_Shift>();
-            this.tb_Organization = new HashSet<tb_Organization>();
         }
     
         public int UserID { get; set; }
@@ -132,6 +132,8 @@ namespace SAT.HR.Data.Entities
         public virtual tb_Empower tb_Empower { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Evaluation> tb_Evaluation { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Man_Power> tb_Man_Power { get; set; }
         public virtual tb_Marital_Status tb_Marital_Status { get; set; }
         public virtual tb_Nationality tb_Nationality { get; set; }
         public virtual tb_Nationality tb_Nationality1 { get; set; }
@@ -166,7 +168,5 @@ namespace SAT.HR.Data.Entities
         public virtual tb_Working_Type tb_Working_Type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Working_Shift> tb_Working_Shift { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Organization> tb_Organization { get; set; }
     }
 }

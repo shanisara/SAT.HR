@@ -1,8 +1,10 @@
 ﻿@model SAT.HR.Models.OrganizationViewModel
+
 @{
     ViewBag.Title = "PositionRate";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 
 <div class="content">
     <div class="row">
@@ -13,7 +15,7 @@
                         <i class="material-icons">group</i>
                     </div>
                     <h4 class="card-title">
-                        <span> โครงสร้างองค์กร <small> </small></span>
+                        <span> อัตรากำลังพล > <small> </small></span>
                         <div class="col-md-2 pull-right">
                             @Html.DropDownList("usertype", new SelectList((IEnumerable<SelectListItem>)ViewBag.UserType, "Value", "Text"), new { @class = "selectpicker", data_style = "select-with-transition" })
                         </div>
@@ -66,10 +68,11 @@
 <!--  End Modal -->
 
 <style>
-
-    .jstree-default .jstree-anchor {
-        font-size: 12px;
-    }
+    /*.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+        width: 100px;
+        margin-left: 13px;
+        margin-top: -5px;
+    }*/
 
     .card [class*=card-header-] .card-title a {
         color: #3C4858;
@@ -98,46 +101,37 @@
                         'strings': { 'Loading ...': 'กรุณารอสักครู่ ...' },
                         'data': {
                             'url': function (node) {
-                                //return (node.id === '#') ? 'GetRoot/' + usertype : 'GetChildren/' + node.id + '?usertype=' + usertype;
-
                                 if (node.id === '#') {
                                     return 'GetRoot/' + usertype;
                                 }
                                 else {
-                                    debugger;
-                                    var getPo = node.original.is_po;
-                                    //if (getPo == false)
-                                        return 'GetChildren/' + node.id + '?usertype=' + usertype;
-                                    //else
-                                    //    return 'GetPosition/' + node.id;
-
-                                //    var div = null; var dep = null; var sec = null; var po = null;
-                                //    var parenttype = node.original.node_type;
-                                //    if (parenttype == 'div') {
-                                //        div = node.id;
-                                //    }
-                                //    else if (parenttype == 'dep') {
-                                //        div = (node.parents.length == 3) ? node.parents[0] : null;
-                                //        dep = node.id;
-                                //    }
-                                //    else if (parenttype == 'sec') {
-                                //        div = (node.parents.length == 4) ? node.parents[1] : null;
-                                //        dep = (node.parents.length == 4) ? node.parents[0] : null;
-                                //        sec = node.id;
-                                //    }
-                                //    else if (parenttype == 'pos') {
-                                //        div = (node.parents.length == 5) ? node.parents[2] : null;
-                                //        dep = (node.parents.length == 5) ? node.parents[1] : null;
-                                //        sec = (node.parents.length == 5) ? node.parents[0] : null;
-                                //        po = node.id;
-                                //    }
-                                //    else if (parenttype == 'user') {
-                                //        div = (node.parents.length == 6) ? node.parents[3] : null;
-                                //        dep = (node.parents.length == 6) ? node.parents[2] : null;
-                                //        sec = (node.parents.length == 6) ? node.parents[1] : null;
-                                //        po = (node.parents.length == 6) ? node.parents[0] : null;
-                                //    }
-                                //    return 'GetChildren/' + node.id + '?parenttype=' + parenttype + '&usertype=' + usertype + '&div=' + div + '&dep=' + dep + '&sec=' + sec + '&po=' + po;
+                                    var div = null; var dep = null; var sec = null; var po = null;
+                                    var parenttype = node.original.node_type;
+                                    if (parenttype == 'div') {
+                                        div = node.id;
+                                    }
+                                    else if (parenttype == 'dep') {
+                                        div = (node.parents.length == 3) ? node.parents[0] : null;
+                                        dep = node.id;
+                                    }
+                                    else if (parenttype == 'sec') {
+                                        div = (node.parents.length == 4) ? node.parents[1] : null;
+                                        dep = (node.parents.length == 4) ? node.parents[0] : null;
+                                        sec = node.id;
+                                    }
+                                    else if (parenttype == 'pos') {
+                                        div = (node.parents.length == 5) ? node.parents[2] : null;
+                                        dep = (node.parents.length == 5) ? node.parents[1] : null;
+                                        sec = (node.parents.length == 5) ? node.parents[0] : null;
+                                        po = node.id;
+                                    }
+                                    else if (parenttype == 'user') {
+                                        div = (node.parents.length == 6) ? node.parents[3] : null;
+                                        dep = (node.parents.length == 6) ? node.parents[2] : null;
+                                        sec = (node.parents.length == 6) ? node.parents[1] : null;
+                                        po = (node.parents.length == 6) ? node.parents[0] : null;
+                                    }
+                                    return 'GetChildren/' + node.id + '?parenttype=' + parenttype + '&usertype=' + usertype + '&div=' + div + '&dep=' + dep + '&sec=' + sec + '&po=' + po;
                                 }
                             },
                             'data': function (node, callback) {
@@ -146,7 +140,7 @@
                         }
                     },
                     "animation": 0,
-                    'plugins': ['search', 'wholerow', "types"]
+                    'plugins': ['search', 'wholerow', 'sort', "types"]
                 });
 
                 $tree.on('changed.jstree', function (e, data) {

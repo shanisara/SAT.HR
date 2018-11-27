@@ -15,16 +15,11 @@ namespace SAT.HR.Data.Entities
     public partial class vw_Man_Power
     {
         public int MpID { get; set; }
-        public Nullable<int> DivID { get; set; }
+        public string MpCode { get; set; }
         public Nullable<int> UserID { get; set; }
-        public string DivName { get; set; }
-        public Nullable<int> DivSeq { get; set; }
         public Nullable<int> DepID { get; set; }
-        public string DepName { get; set; }
-        public Nullable<int> SecID { get; set; }
-        public string SecName { get; set; }
+        public Nullable<int> ParentID { get; set; }
         public Nullable<int> PoID { get; set; }
-        public string PoCode { get; set; }
         public string PoName { get; set; }
         public Nullable<int> DisID { get; set; }
         public string DisName { get; set; }
@@ -38,5 +33,9 @@ namespace SAT.HR.Data.Entities
         public Nullable<decimal> SalaryStep { get; set; }
         public Nullable<decimal> Salary { get; set; }
         public Nullable<int> TypeID { get; set; }
+        public string DepName { get; set; }
+        public string DepPath { get; set; }
+        public string DepTree { get; set; }
+        public Nullable<int> DepLevel { get; set; }
     }
 }

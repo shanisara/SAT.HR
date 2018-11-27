@@ -193,7 +193,7 @@ namespace SAT.HR.Data.Repository
                         if (item.AgentMpID != null)
                         {
                             model.AgentPo = item.AgentPoTName + " (" + item.AgentMpID + ") " + item.AgentPoName;
-                            model.BelongTo = item.DivName + (!string.IsNullOrEmpty(item.DepName) ? " / " + item.DepName : string.Empty) + (!string.IsNullOrEmpty(item.SecName) ? " / " + item.SecName : string.Empty);
+                            //model.BelongTo = item.DivName + (!string.IsNullOrEmpty(item.DepName) ? " / " + item.DepName : string.Empty) + (!string.IsNullOrEmpty(item.SecName) ? " / " + item.SecName : string.Empty);
                         }
                         list.Add(model);
                     }

@@ -12,7 +12,7 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class vw_Agent_Position
+    public partial class vw_Agent_Position_bak
     {
         public int MpID { get; set; }
         public string PoName { get; set; }

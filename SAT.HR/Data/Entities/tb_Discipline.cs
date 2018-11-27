@@ -14,11 +14,20 @@ namespace SAT.HR.Data.Entities
     
     public partial class tb_Discipline
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tb_Discipline()
+        {
+            this.tb_Man_Power = new HashSet<tb_Man_Power>();
+        }
+    
         public int DisID { get; set; }
         public string DisName { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Man_Power> tb_Man_Power { get; set; }
     }
 }

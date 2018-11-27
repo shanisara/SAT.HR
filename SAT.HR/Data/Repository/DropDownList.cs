@@ -9,14 +9,11 @@ namespace SAT.HR.Data.Repository
 {
     public class DropDownList
     {
-        public static List<SelectListItem> GetDivision(int? defaultValue, bool isActive)
+        public static List<SelectListItem> GetDivision(int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new DivisionRepository().GetAll();
-            if (isActive == true)
-                data = data.Where(m => m.DivStatus == true).ToList();
-
+            var data = new DepartmentRepository().GetDepartmentLevel2();
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();
@@ -27,17 +24,43 @@ namespace SAT.HR.Data.Repository
             }
             return list;
         }
-
-        public static List<SelectListItem> GetDepartment(int? divid, int? defaultValue, bool isActive)
+        public static List<SelectListItem> GetDepartment(int? id, int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new DepartmentRepository().GetAll();
-            if (isActive == true)
-                data = data.Where(m => m.DepStatus == true).ToList();
+            var data = new DepartmentRepository().GetDepartmentLevel3(id);
 
-            if (divid.HasValue)
-                data = data.Where(m => m.DivID == divid).ToList();
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.DepID.ToString();
+                select.Text = item.DepName;
+                select.Selected = defaultValue.HasValue ? (item.DepID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+        public static List<SelectListItem> GetSection(int? id, int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new DepartmentRepository().GetDepartmentLevel4(id);
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.DepID.ToString();
+                select.Text = item.DepName;
+                select.Selected = defaultValue.HasValue ? (item.DepID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+        public static List<SelectListItem> GetSubSection(int? id, int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new DepartmentRepository().GetDepartmentLevel5(id);
 
             foreach (var item in data)
             {
@@ -50,30 +73,72 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
-        public static List<SelectListItem> GetSection(int? divid, int? depid, int? defaultValue, bool isActive)
-        {
-            List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new SectionRepository().GetAll();
-            if (isActive == true)
-                data = data.Where(m => m.SecStatus == true).ToList();
+        //public static List<SelectListItem> GetDivision(int? defaultValue, bool isActive)
+        //{
+        //    List<SelectListItem> list = new List<SelectListItem>();
 
-            if (divid.HasValue)
-                data = data.Where(m => m.DivID == divid).ToList();
+        //    var data = new DepartmentRepository().GetAll();
+        //    if (isActive == true)
+        //        data = data.Where(m => m.DivStatus == true).ToList();
 
-            if (depid.HasValue)
-                data = data.Where(m => m.DepID == depid).ToList();
+        //    foreach (var item in data)
+        //    {
+        //        SelectListItem select = new SelectListItem();
+        //        select.Value = item.DivID.ToString();
+        //        select.Text = item.DivName;
+        //        select.Selected = defaultValue.HasValue ? (item.DivID == defaultValue ? true : false) : false;
+        //        list.Add(select);
+        //    }
+        //    return list;
+        //}
 
-            foreach (var item in data)
-            {
-                SelectListItem select = new SelectListItem();
-                select.Value = item.SecID.ToString();
-                select.Text = item.SecName;
-                select.Selected = defaultValue.HasValue ? (item.SecID == defaultValue ? true : false) : false;
-                list.Add(select);
-            }
-            return list;
-        }
+        //public static List<SelectListItem> GetDepartment(int? divid, int? defaultValue, bool isActive)
+        //{
+        //    List<SelectListItem> list = new List<SelectListItem>();
+
+        //    var data = new DepartmentRepository().GetAll();
+        //    if (isActive == true)
+        //        data = data.Where(m => m.DepStatus == true).ToList();
+
+        //    if (divid.HasValue)
+        //        data = data.Where(m => m.DivID == divid).ToList();
+
+        //    foreach (var item in data)
+        //    {
+        //        SelectListItem select = new SelectListItem();
+        //        select.Value = item.DepID.ToString();
+        //        select.Text = item.DepName;
+        //        select.Selected = defaultValue.HasValue ? (item.DepID == defaultValue ? true : false) : false;
+        //        list.Add(select);
+        //    }
+        //    return list;
+        //}
+
+        //public static List<SelectListItem> GetSection(int? divid, int? depid, int? defaultValue, bool isActive)
+        //{
+        //    List<SelectListItem> list = new List<SelectListItem>();
+
+        //    var data = new SectionRepository().GetAll();
+        //    if (isActive == true)
+        //        data = data.Where(m => m.SecStatus == true).ToList();
+
+        //    if (divid.HasValue)
+        //        data = data.Where(m => m.DivID == divid).ToList();
+
+        //    if (depid.HasValue)
+        //        data = data.Where(m => m.DepID == depid).ToList();
+
+        //    foreach (var item in data)
+        //    {
+        //        SelectListItem select = new SelectListItem();
+        //        select.Value = item.SecID.ToString();
+        //        select.Text = item.SecName;
+        //        select.Selected = defaultValue.HasValue ? (item.SecID == defaultValue ? true : false) : false;
+        //        list.Add(select);
+        //    }
+        //    return list;
+        //}
 
         public static List<SelectListItem> GetDiscipline(int? defaultValue, bool isActive)
         {
@@ -382,7 +447,7 @@ namespace SAT.HR.Data.Repository
                 table = group.TableName;
 
             if (table == "tb_Division")
-                list = GetDivision(defaultValue, false);
+                list = GetDivision(defaultValue);
             else if (table == "tb_Department")
                 list = GetDepartmentFull(null, defaultValue, false);
             else if (table == "tb_Section")

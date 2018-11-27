@@ -563,12 +563,19 @@ namespace SAT.HR.Controllers
 
         #region 2. อัตรากำลังพล
 
+        public ActionResult PositionRate()
+        {
+            ViewBag.UserType = DropDownList.GetUserType(1);
+            return View();
+        }
+
         public ActionResult PositionRateDetail(int? id, int? type)
         {
             var model = new PositionRateRepository().GetByID(id, type);
-            ViewBag.Division = DropDownList.GetDivision(model != null ? model.DivID : null, false);
-            ViewBag.Department = DropDownList.GetDepartment(model != null ? model.DivID : null, model != null ? model.DepID: null, false);
-            ViewBag.Section = DropDownList.GetSection(model != null ? model.DivID : null, model != null ? model.DepID: null, model != null ? model.SecID: null, false);
+            //ViewBag.Division = DropDownList.GetDivision(model != null ? model.DepID : null, false);
+            //ViewBag.Department = DropDownList.GetDepartment(model != null ? model.DivID : null, model != null ? model.DepID: null, false);
+            //ViewBag.Section = DropDownList.GetSection(model != null ? model.DivID : null, model != null ? model.DepID: null, model != null ? model.SecID: null, false);
+
             ViewBag.Position = DropDownList.GetPosition(model != null ? model.PoID : null, type, false);
             ViewBag.Discipline = DropDownList.GetDiscipline(model != null ? model.DisID : null, true);
             ViewBag.Education = DropDownList.GetEducation(model != null ? model.EduID : null, true);
@@ -737,42 +744,59 @@ namespace SAT.HR.Controllers
 
         public JsonResult GetRoot(int id)
         {
-            var items = new[]
-            {
-                new
-                {
-                    id = "0",
-                    text = "การกีฬาแห่งประเทศไทย",
-                    state = new { opened = true },
-                    icon = SysConfig.ApplicationRoot + "Content/assets/img/home.png",
-                    children = new OrganizationRepository().GetTree(id)
-                }
-            }.ToList();
-
+            List<TreeViewModel> items = new OrganizationRepository().GetTree(id);
             return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
-        public JsonResult GetTreeAll(int id)
+        public JsonResult GetChildren(int usertype, string id)
         {
-            var items = new OrganizationRepository().GetTreeAll(id);
+            List<TreeViewModel> items = new OrganizationRepository().GetChildren(usertype, id);
             return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
-        public JsonResult GetChildren(string parenttype, int usertype, string div, string dep, string sec, string po)
+        public JsonResult GetPosition(int id)
         {
-            List<TreeViewModel> items = new OrganizationRepository().GetTree(parenttype, usertype, div, dep, sec, po);
+            List<TreeViewModel> items = new OrganizationRepository().GetPosition(id);
             return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-
-            //var g1 = Guid.NewGuid().ToString();
-            //var g2 = Guid.NewGuid().ToString();
-
-            //var items = new[]
-            //{
-            //    new { id = "child-" + g1, text = "Child " + g1, children = true },
-            //    new { id = "child-" + g2, text = "Child " + g2, children = true }
-            //}
-            //.ToList();
         }
+
+
+        //public JsonResult GetTreeAll(int id)
+        //{
+        //    var items = new OrganizationRepository().GetTreeAll(id);
+        //    return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        //}
+        //public JsonResult GetRoot(int id)
+        //{
+        //    var items = new[]
+        //    {
+        //        new
+        //        {
+        //            id = "0",
+        //            text = "การกีฬาแห่งประเทศไทย",
+        //            state = new { opened = true },
+        //            icon = SysConfig.ApplicationRoot + "Content/assets/img/home.png",
+        //            children = new OrganizationRepository().GetTree(id)
+        //        }
+        //    }.ToList();
+
+        //    return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        //}
+        //public JsonResult GetChildren(string parenttype, int usertype, string div, string dep, string sec, string po)
+        //{
+        //    List<TreeViewModel> items = new OrganizationRepository().GetTree(parenttype, usertype, div, dep, sec, po);
+        //    return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+
+        //    //var g1 = Guid.NewGuid().ToString();
+        //    //var g2 = Guid.NewGuid().ToString();
+
+        //    //var items = new[]
+        //    //{
+        //    //    new { id = "child-" + g1, text = "Child " + g1, children = true },
+        //    //    new { id = "child-" + g2, text = "Child " + g2, children = true }
+        //    //}
+        //    //.ToList();
+        //}
 
         #endregion
     }

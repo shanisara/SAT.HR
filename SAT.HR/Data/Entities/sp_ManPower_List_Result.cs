@@ -35,5 +35,6 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> RoleID { get; set; }
         public Nullable<int> recordsTotal { get; set; }
         public Nullable<int> recordsFiltered { get; set; }
+        public string MpCode { get; set; }
     }
 }
