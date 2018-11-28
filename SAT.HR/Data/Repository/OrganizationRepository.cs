@@ -57,7 +57,7 @@ namespace SAT.HR.Data.Repository
                     {
                         var emp = new TreeViewModel();
                         emp.id = org.MpID.ToString() + "_" + org.DepID.ToString();
-                        emp.text = " (" + org.MpCode + ") " + (string.IsNullOrEmpty(org.FullNameTh) ? "ตำแหน่งว่าง ✓" : org.FullNameTh) +" (" + org.PoName +")";
+                        emp.text = " (" + org.MpCode + ") " + org.TiShortName + (string.IsNullOrEmpty(org.FullNameTh) ? "ตำแหน่งว่าง ✓" : org.FullNameTh) +" (" + org.PoName +")";
                         emp.children = false;
                         emp.state = new TreeStateViewModel() { opened = true };
                         emp.icon = SysConfig.ApplicationRoot + "Content/assets/img/user2.png";
@@ -120,7 +120,7 @@ namespace SAT.HR.Data.Repository
 
                         var model = new TreeViewModel();
                         model.id = item.MpID.ToString() +"_"+ item.PoID.ToString();
-                        model.text = " (" + item.MpCode + ") " + (string.IsNullOrEmpty(item.FullNameTh) ? "ตำแหน่งว่าง ✓" : item.FullNameTh) + " (" + item.PoName + ")";
+                        model.text = " (" + item.MpCode + ") " + item.TiShortName + (string.IsNullOrEmpty(item.FullNameTh) ? "ตำแหน่งว่าง ✓" : item.FullNameTh) + " (" + item.PoName + ")";
                         model.children = false;
                         model.state = new TreeStateViewModel() { opened = true };
                         model.icon = SysConfig.ApplicationRoot + "Content/assets/img/user2.png";

@@ -23,17 +23,15 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> LevelID { get; set; }
         public Nullable<int> EduID { get; set; }
         public Nullable<int> TypeID { get; set; }
-        public string FullName { get; set; }
-        public string PoName { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
     
+        public virtual tb_Department tb_Department { get; set; }
         public virtual tb_Discipline tb_Discipline { get; set; }
         public virtual tb_Position tb_Position { get; set; }
         public virtual tb_User tb_User { get; set; }
         public virtual tb_User_Type tb_User_Type { get; set; }
-        public virtual tb_Department tb_Department { get; set; }
     }
 }

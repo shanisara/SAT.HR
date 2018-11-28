@@ -17,6 +17,7 @@ namespace SAT.HR.Data.Entities
         public int MpID { get; set; }
         public string MpCode { get; set; }
         public Nullable<int> UserID { get; set; }
+        public Nullable<int> LevelID { get; set; }
         public Nullable<int> DepID { get; set; }
         public Nullable<int> ParentID { get; set; }
         public Nullable<int> PoID { get; set; }

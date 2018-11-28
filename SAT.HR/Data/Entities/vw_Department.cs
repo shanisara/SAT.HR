@@ -17,9 +17,10 @@ namespace SAT.HR.Data.Entities
         public int DepID { get; set; }
         public string DepName { get; set; }
         public Nullable<int> ParentID { get; set; }
-        public int DepLevel { get; set; }
-        public string DepPath { get; set; }
         public Nullable<int> Seq { get; set; }
         public Nullable<int> TypeID { get; set; }
+        public int DepLevel { get; set; }
+        public string DepPath { get; set; }
+        public string FullPath { get; set; }
     }
 }

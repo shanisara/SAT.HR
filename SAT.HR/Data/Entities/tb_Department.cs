@@ -27,6 +27,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> ParentID { get; set; }
         public Nullable<int> Seq { get; set; }
         public Nullable<int> TypeID { get; set; }
+        public Nullable<bool> IsActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Department> tb_Department1 { get; set; }
