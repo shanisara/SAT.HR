@@ -187,7 +187,7 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var list = db.vw_Department.Where(m => m.ParentID == parentid)
+                var list = db.vw_Department.Where(m => m.ParentID == parentid && m.ParentID != null)
                     .Select(s => new DepartmentViewModel()
                     {
                         DepID = s.DepID,
