@@ -44,6 +44,7 @@ namespace SAT.HR.Models
         public Nullable<int> DepID { get; set; }
         public Nullable<int> SecID { get; set; }
         public Nullable<int> PoID { get; set; }
+        public Nullable<int> DisID { get; set; }
         public Nullable<int> EmpowerID { get; set; }
         public Nullable<int> EmpowerDivID { get; set; }
         public Nullable<int> EmpowerDepID { get; set; }
@@ -78,6 +79,7 @@ namespace SAT.HR.Models
         public string SecName { get; set; }
         public string PoCode { get; set; }
         public string PoName { get; set; }
+        public string DisName { get; set; }
         public decimal Salary { get; set; }
         public string Age { get; set; }
         public string Experience { get; set; }

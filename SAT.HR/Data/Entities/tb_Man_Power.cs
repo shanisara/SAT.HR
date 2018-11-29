@@ -28,10 +28,10 @@ namespace SAT.HR.Data.Entities
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
     
-        public virtual tb_Department tb_Department { get; set; }
         public virtual tb_Discipline tb_Discipline { get; set; }
         public virtual tb_Position tb_Position { get; set; }
         public virtual tb_User tb_User { get; set; }
         public virtual tb_User_Type tb_User_Type { get; set; }
+        public virtual tb_Department tb_Department { get; set; }
     }
 }

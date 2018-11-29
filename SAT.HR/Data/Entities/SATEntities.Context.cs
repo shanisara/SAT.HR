@@ -72,6 +72,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Leave_Type> tb_Leave_Type { get; set; }
         public virtual DbSet<tb_Loan_Type> tb_Loan_Type { get; set; }
         public virtual DbSet<tb_Major> tb_Major { get; set; }
+        public virtual DbSet<tb_Man_Power> tb_Man_Power { get; set; }
         public virtual DbSet<tb_Marital_Status> tb_Marital_Status { get; set; }
         public virtual DbSet<tb_Member_Type> tb_Member_Type { get; set; }
         public virtual DbSet<tb_Menu> tb_Menu { get; set; }
@@ -132,7 +133,9 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Benefit_Provident_Fund> vw_Benefit_Provident_Fund { get; set; }
         public virtual DbSet<vw_Capability> vw_Capability { get; set; }
         public virtual DbSet<vw_Course> vw_Course { get; set; }
+        public virtual DbSet<vw_Department> vw_Department { get; set; }
         public virtual DbSet<vw_Employee> vw_Employee { get; set; }
+        public virtual DbSet<vw_Man_Power> vw_Man_Power { get; set; }
         public virtual DbSet<vw_Menu_Role> vw_Menu_Role { get; set; }
         public virtual DbSet<vw_Move_Level_Detail> vw_Move_Level_Detail { get; set; }
         public virtual DbSet<vw_Move_Level_Head> vw_Move_Level_Head { get; set; }
@@ -154,9 +157,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Skill> vw_User_Skill { get; set; }
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
         public virtual DbSet<tb_Department> tb_Department { get; set; }
-        public virtual DbSet<vw_Man_Power> vw_Man_Power { get; set; }
-        public virtual DbSet<tb_Man_Power> tb_Man_Power { get; set; }
-        public virtual DbSet<vw_Department> vw_Department { get; set; }
     
         public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
         {
@@ -191,39 +191,6 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("MenuType", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Menu_GetByRole_Result>("sp_Menu_GetByRole", roleIDParameter, menuTypeParameter);
-        }
-    
-        public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
-        {
-            var pageSizeParameter = pageSize != null ?
-                new ObjectParameter("PageSize", pageSize) :
-                new ObjectParameter("PageSize", typeof(string));
-    
-            var initialPageParameter = initialPage != null ?
-                new ObjectParameter("InitialPage", initialPage) :
-                new ObjectParameter("InitialPage", typeof(string));
-    
-            var sortByParameter = sortBy != null ?
-                new ObjectParameter("SortBy", sortBy) :
-                new ObjectParameter("SortBy", typeof(string));
-    
-            var sortrDirParameter = sortrDir != null ?
-                new ObjectParameter("SortrDir", sortrDir) :
-                new ObjectParameter("SortrDir", typeof(string));
-    
-            var userTypeParameter = userType != null ?
-                new ObjectParameter("UserType", userType) :
-                new ObjectParameter("UserType", typeof(string));
-    
-            var userStatusParameter = userStatus != null ?
-                new ObjectParameter("UserStatus", userStatus) :
-                new ObjectParameter("UserStatus", typeof(string));
-    
-            var keywordParameter = keyword != null ?
-                new ObjectParameter("Keyword", keyword) :
-                new ObjectParameter("Keyword", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Employee_List_Result>("sp_Employee_List", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, userTypeParameter, userStatusParameter, keywordParameter);
         }
     
         public virtual ObjectResult<sp_Evaluation_GetByUser_Result> sp_Evaluation_GetByUser(Nullable<int> userID, Nullable<int> capID)
@@ -389,6 +356,39 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("Step", typeof(decimal));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_SalaryIncrease_Process_Result>("sp_SalaryIncrease_Process", yearParameter, levelParameter, stepParameter);
+        }
+    
+        public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
+        {
+            var pageSizeParameter = pageSize != null ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(string));
+    
+            var initialPageParameter = initialPage != null ?
+                new ObjectParameter("InitialPage", initialPage) :
+                new ObjectParameter("InitialPage", typeof(string));
+    
+            var sortByParameter = sortBy != null ?
+                new ObjectParameter("SortBy", sortBy) :
+                new ObjectParameter("SortBy", typeof(string));
+    
+            var sortrDirParameter = sortrDir != null ?
+                new ObjectParameter("SortrDir", sortrDir) :
+                new ObjectParameter("SortrDir", typeof(string));
+    
+            var userTypeParameter = userType != null ?
+                new ObjectParameter("UserType", userType) :
+                new ObjectParameter("UserType", typeof(string));
+    
+            var userStatusParameter = userStatus != null ?
+                new ObjectParameter("UserStatus", userStatus) :
+                new ObjectParameter("UserStatus", typeof(string));
+    
+            var keywordParameter = keyword != null ?
+                new ObjectParameter("Keyword", keyword) :
+                new ObjectParameter("Keyword", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Employee_List_Result>("sp_Employee_List", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, userTypeParameter, userStatusParameter, keywordParameter);
         }
     }
 }
