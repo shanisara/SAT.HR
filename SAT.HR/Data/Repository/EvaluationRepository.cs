@@ -70,7 +70,7 @@ namespace SAT.HR.Data.Repository
                     model.EvaluationName = cap.CapTName + " / " + cap.CapGName + " / " + cap.CapGTName;
 
                     List<EvaluationDetailViewModel> lists = new List<EvaluationDetailViewModel>();
-                    var evaluation = db.sp_Evaluation_GetByUser(userid, capid).ToList();
+                    var evaluation = db.sp_Evaluation_User(userid, capid).ToList();
                     foreach (var item in evaluation)
                     {
                         EvaluationDetailViewModel eval = new EvaluationDetailViewModel();

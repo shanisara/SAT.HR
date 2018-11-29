@@ -78,22 +78,25 @@ namespace SAT.HR.Controllers
             ViewBag.SalaryLevel = DropDownList.GetSalaryLevel(model.SalaryLevel);
             ViewBag.SalaryStep = DropDownList.GetSalaryStep(model.SalaryStep, model.SalaryLevel);
 
-            ViewBag.Division = DropDownList.GetDivisionManPower(model.UserType, model.DivID);
-            ViewBag.Department = DropDownList.GetDepartmentManPower(model.UserType, model.DivID, model.DepID);
-            ViewBag.Section = DropDownList.GetSectionManPower(model.UserType, model.DivID, model.DepID, model.SecID);
-            ViewBag.Position = DropDownList.GetPositionManPowerValuePo(model.UserType, model.DivID, model.DepID, model.SecID, model.PoID);
+            ViewBag.Department = DropDownList.GetDepartmentRoot(model.UserType, model.DepID);   
+            ViewBag.DepartmentLvl2 = DropDownList.GetDepartmentRoot(model.UserType, model.DepLvl);  //-- > Lvl1 + Lvl2
+            ViewBag.DepartmentLvl3 = DropDownList.GetDepartmentRoot(model.UserType, model.DepLvl3);
+            ViewBag.DepartmentLvl4 = DropDownList.GetDepartmentRoot(model.UserType, model.DepLvl4);
+            ViewBag.DepartmentLvl5 = DropDownList.GetDepartmentRoot(model.UserType, model.DepLvl5);
+            ViewBag.Position = DropDownList.GetPositionByDep(model.UserType, model.DepID, model.PoID);
 
             ViewBag.Empower = DropDownList.GetEmpower(model.EmpowerID);     //-- > ช่วยราชการ
-            ViewBag.EmpowerDivision = DropDownList.GetDivisionManPower(model.UserType, model.EmpowerDivID);
-            ViewBag.EmpowerDepartment = DropDownList.GetDepartmentManPower(model.UserType, model.EmpowerDivID, model.EmpowerDepID);
-            ViewBag.EmpowerSection = DropDownList.GetSectionManPower(model.UserType, model.EmpowerDivID, model.EmpowerDepID, model.EmpowerSecID);
-            ViewBag.EmpowerPosition = DropDownList.GetPositionManPowerValuePo(model.UserType, model.EmpowerDivID, model.EmpowerDepID, model.EmpowerSecID, model.EmpowerID);
+            ViewBag.EmpowerDepRoot = DropDownList.GetDepartmentRoot(model.UserType, model.EmpowerDepID);    //-- > Lvl1 + Lvl2
+            ViewBag.EmpowerDepLvl3 = DropDownList.GetDepartmentRoot(model.UserType, model.EmpowerDepLvl3);
+            ViewBag.EmpowerDepLvl4 = DropDownList.GetDepartmentRoot(model.UserType, model.EmpowerDepLvl4);
+            ViewBag.EmpowerDepLvl5 = DropDownList.GetDepartmentRoot(model.UserType, model.EmpowerDepLvl5);
 
             ViewBag.PositionType = DropDownList.GetPositionType(model.AgentPoAID);//-- > รักษาการแทน
-            ViewBag.AgentDivision = DropDownList.GetDivisionManPower(model.UserType, model.AgentDivID);
-            ViewBag.AgentDepartment = DropDownList.GetDepartmentManPower(model.UserType, model.AgentDivID, model.AgentDepID);
-            ViewBag.AgentSection = DropDownList.GetSectionManPower(model.UserType, model.AgentDivID, model.AgentDepID, model.AgentSecID);
-            ViewBag.AgentPosition = DropDownList.GetPositionManPowerValuePo(model.UserType, model.AgentDivID, model.AgentDepID, model.AgentSecID, model.AgentPoID);
+            ViewBag.AgentDepRoot = DropDownList.GetDepartmentRoot(model.UserType, model.AgentDepID);    //-- > Lvl1 + Lvl2
+            ViewBag.AgentDepLvl3 = DropDownList.GetDepartmentRoot(model.UserType, model.AgentDepLvl3); 
+            ViewBag.AgentDepLvl4 = DropDownList.GetDepartmentRoot(model.UserType, model.AgentDepLvl4);
+            ViewBag.AgentDepLvl5 = DropDownList.GetDepartmentRoot(model.UserType, model.AgentDepLvl5);
+            ViewBag.AgentPosition = DropDownList.GetPositionByDep(model.UserType, model.AgentDepID, model.AgentPoID);
 
             ViewBag.HomeProvince = DropDownList.GetProvince(model.HomeProvinceID);
             ViewBag.HomeDistrict = DropDownList.GetDistrict(model.HomeDistrictID, model.HomeProvinceID);
@@ -116,7 +119,7 @@ namespace SAT.HR.Controllers
 
         public ActionResult Detail(int id, int? type)
         {
-            var model = new EmployeeRepository().GetByID(id);
+            var model = new EmployeeRepository().GetUser(id);
             ViewBag.UserTypeID = type;
             return View(model);
         }
@@ -168,7 +171,7 @@ namespace SAT.HR.Controllers
 
             ViewBag.MaritalStatus = DropDownList.GetMaritalStatus(model != null ? model.MaritalStatusID : null);
             ViewBag.Occupation = DropDownList.GetOccupation(model != null ? model.OcID : null);
-            ViewBag.Position = DropDownList.GetPosition(model != null ? model.PoID : null, usertype, true);
+            //ViewBag.Position = DropDownList.GetPosition(model != null ? model.PoID : null, usertype, true);
 
             return PartialView("_FamilyDetail", model);
         }
@@ -255,10 +258,10 @@ namespace SAT.HR.Controllers
             ViewBag.ActionType = DropDownList.GetActionType(model.ActID, null);
             ViewBag.PositionType = DropDownList.GetPositionType(model.PoTID);
             ViewBag.PositionAgent = DropDownList.PositionAgent(model.PoAID);
-            ViewBag.Division = DropDownList.GetDivisionManPower(usertype, model.DivID);
-            ViewBag.Department = DropDownList.GetDepartmentManPower(usertype, model.DivID, model.DepID);
-            ViewBag.Section = DropDownList.GetSectionManPower(usertype, model.DivID, model.DepID, model.SecID);
-            ViewBag.Position = DropDownList.GetPositionManPowerValuePo(usertype, model.DivID, model.DepID, model.SecID, model.PoID);
+            //ViewBag.Division = DropDownList.GetDivisionManPower(usertype, model.DivID);
+            //ViewBag.Department = DropDownList.GetDepartmentManPower(usertype, model.DivID, model.DepID);
+            //ViewBag.Section = DropDownList.GetSectionManPower(usertype, model.DivID, model.DepID, model.SecID);
+            //ViewBag.Position = DropDownList.GetPositionManPowerValuePo(usertype, model.DivID, model.DepID, model.SecID, model.PoID);
             return PartialView("_PositionDetail", model);
         }
 
@@ -576,7 +579,7 @@ namespace SAT.HR.Controllers
             //ViewBag.Department = DropDownList.GetDepartment(model != null ? model.DivID : null, model != null ? model.DepID: null, false);
             //ViewBag.Section = DropDownList.GetSection(model != null ? model.DivID : null, model != null ? model.DepID: null, model != null ? model.SecID: null, false);
 
-            ViewBag.Position = DropDownList.GetPosition(model != null ? model.PoID : null, type, false);
+            //ViewBag.Position = DropDownList.GetPosition(model != null ? model.PoID : null, type, false);
             ViewBag.Discipline = DropDownList.GetDiscipline(model != null ? model.DisID : null, true);
             ViewBag.Education = DropDownList.GetEducation(model != null ? model.EduID : null, true);
             ViewBag.TypeID = type;
@@ -697,7 +700,7 @@ namespace SAT.HR.Controllers
             var model = new PositionTransferRepository().GetDetailByID(id);
             ViewBag.Employee = DropDownList.GetEmployee(null, type);
             ViewBag.PositionType = DropDownList.GetPositionType(null);
-            ViewBag.Position = DropDownList.GetPositionRate(null, type);
+            //ViewBag.Position = DropDownList.GetPositionRate(null, type);
             return PartialView("_PositionTransferDetail", model);
         }
 

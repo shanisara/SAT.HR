@@ -17,6 +17,7 @@ namespace SAT.HR.Data.Entities
         public int UserID { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+        public Nullable<decimal> IDCard { get; set; }
         public Nullable<int> TitleID { get; set; }
         public string TiFullName { get; set; }
         public string TiShortName { get; set; }
@@ -24,9 +25,6 @@ namespace SAT.HR.Data.Entities
         public string LastNameTh { get; set; }
         public string FirstNameEn { get; set; }
         public string LastNameEn { get; set; }
-        public Nullable<int> StatusID { get; set; }
-        public string StatusName { get; set; }
-        public Nullable<decimal> IDCard { get; set; }
         public Nullable<decimal> TIN { get; set; }
         public Nullable<int> SexID { get; set; }
         public string SexName { get; set; }
@@ -41,38 +39,28 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> MaritalStatusID { get; set; }
         public string MaritalName { get; set; }
         public Nullable<System.DateTime> Birthday { get; set; }
-        public Nullable<System.DateTime> RetireDate { get; set; }
         public Nullable<System.DateTime> StartWorkDate { get; set; }
-        public Nullable<System.DateTime> ProbationDate { get; set; }
         public string Remuneration { get; set; }
-        public Nullable<int> WorkingTypeID { get; set; }
-        public string WorkingTypeName { get; set; }
-        public string FingerScan { get; set; }
-        public string CardScan { get; set; }
         public Nullable<int> SalaryLevel { get; set; }
         public Nullable<decimal> SalaryStep { get; set; }
         public Nullable<decimal> Salary { get; set; }
+        public Nullable<int> DepID { get; set; }
+        public string DepName { get; set; }
+        public string PathDepID { get; set; }
         public Nullable<int> PoID { get; set; }
-        public string PoCode { get; set; }
         public string PoName { get; set; }
         public string ProjectNo { get; set; }
         public string ProjectName { get; set; }
         public Nullable<int> EmpowerID { get; set; }
         public string EmpowerName { get; set; }
-        public Nullable<int> EmpowerDivID { get; set; }
-        public string EmpowerDivName { get; set; }
         public Nullable<int> EmpowerDepID { get; set; }
         public string EmpowerDepName { get; set; }
-        public Nullable<int> EmpowerSecID { get; set; }
-        public string EmpowerSecName { get; set; }
+        public string EmpowerPathDepID { get; set; }
         public Nullable<int> AgentPoAID { get; set; }
         public string AgentPoAName { get; set; }
-        public Nullable<int> AgentDivID { get; set; }
-        public string AgentDivName { get; set; }
         public Nullable<int> AgentDepID { get; set; }
         public string AgentDepName { get; set; }
-        public Nullable<int> AgentSecID { get; set; }
-        public string AgentSecName { get; set; }
+        public string AgentPathDepID { get; set; }
         public Nullable<int> AgentPoID { get; set; }
         public string PoAName { get; set; }
         public string HomeAddr { get; set; }
@@ -97,18 +85,26 @@ namespace SAT.HR.Data.Entities
         public string ContactPhone { get; set; }
         public string Avatar { get; set; }
         public Nullable<bool> IsActive { get; set; }
-        public string Age { get; set; }
-        public Nullable<int> UserTID { get; set; }
-        public string UserTName { get; set; }
-        public Nullable<int> RoleID { get; set; }
-        public string Experience { get; set; }
+        public Nullable<int> ResignID { get; set; }
+        public string ResignRemark { get; set; }
+        public Nullable<System.DateTime> ResignDate { get; set; }
         public Nullable<int> CrpID { get; set; }
         public string CrpName { get; set; }
         public Nullable<int> CrpTID { get; set; }
         public string CrpTypeName { get; set; }
-        public Nullable<int> ResignID { get; set; }
-        public string ResignRemark { get; set; }
-        public Nullable<System.DateTime> ResignDate { get; set; }
+        public Nullable<int> WorkingTypeID { get; set; }
+        public string WorkingTypeName { get; set; }
+        public Nullable<int> StatusID { get; set; }
+        public string StatusName { get; set; }
+        public Nullable<int> UserTID { get; set; }
+        public string UserTName { get; set; }
+        public string FingerScan { get; set; }
+        public string CardScan { get; set; }
+        public Nullable<int> RoleID { get; set; }
+        public string Age { get; set; }
+        public string Experience { get; set; }
+        public Nullable<System.DateTime> RetireDate { get; set; }
+        public Nullable<System.DateTime> ProbationDate { get; set; }
         public Nullable<bool> IsGPALower250 { get; set; }
         public Nullable<bool> IsToeicLower300 { get; set; }
         public Nullable<bool> IsAgeOver35 { get; set; }

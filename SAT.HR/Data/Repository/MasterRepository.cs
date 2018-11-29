@@ -342,7 +342,7 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var list = db.tb_TimeAttendance_Type.Select(s => new TimeAttendanceTypeViewModel()
+                var list = db.tb_Time_Attendance_Type.Select(s => new TimeAttendanceTypeViewModel()
                 {
                     TaTID = s.TaTID,
                     TaTName = s.TaTName

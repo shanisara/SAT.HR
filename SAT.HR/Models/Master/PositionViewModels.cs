@@ -161,8 +161,10 @@ namespace SAT.HR.Models
     public class ManPowerViewModel
     {
         public int? MpID { get; set; }
-        public string FullName { get; set; }
-        public string BelongTo { get; set; }
+        public string MpCode { get; set; }
+        public int? PoID { get; set; }
+        public string PoName { get; set; }
+        public string FullNameTh { get; set; }
         public string Position { get; set; }
         public string Level { get; set; }
         public string Step { get; set; }

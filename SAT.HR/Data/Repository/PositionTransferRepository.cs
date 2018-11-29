@@ -444,7 +444,7 @@ namespace SAT.HR.Data.Repository
                     try
                     {
                         int actionid = UtilityService.User.UserID;
-                        db.sp_ManPower_Approval(id, actionid);
+                        db.sp_Man_Power_Approval(id, actionid);
                         transection.Commit();
                     }
                     catch (Exception ex)

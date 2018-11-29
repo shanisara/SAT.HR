@@ -14,31 +14,31 @@ namespace SAT.HR.Data.Entities
     public partial class sp_Employee_List_Result
     {
         public int UserID { get; set; }
+        public string UserName { get; set; }
         public Nullable<decimal> IDCard { get; set; }
-        public Nullable<int> DepID { get; set; }
-        public string DepName { get; set; }
-        public string TiFullName { get; set; }
-        public Nullable<int> PoID { get; set; }
         public string TiShortName { get; set; }
-        public string PoName { get; set; }
-        public Nullable<int> EduID { get; set; }
-        public string EduName { get; set; }
+        public string TiFullName { get; set; }
+        public string FirstNameTh { get; set; }
+        public string LastNameTh { get; set; }
         public Nullable<int> SalaryLevel { get; set; }
         public Nullable<decimal> SalaryStep { get; set; }
+        public Nullable<int> MpID { get; set; }
+        public string MpCode { get; set; }
+        public Nullable<int> PoID { get; set; }
+        public string PoName { get; set; }
+        public Nullable<int> DepID { get; set; }
+        public string DepName { get; set; }
+        public Nullable<int> DisID { get; set; }
+        public string DisName { get; set; }
+        public Nullable<int> EduID { get; set; }
+        public string EduName { get; set; }
+        public Nullable<int> UserTypID { get; set; }
+        public string UserTypName { get; set; }
         public Nullable<int> StatusID { get; set; }
         public string StatusName { get; set; }
         public Nullable<bool> IsActive { get; set; }
-        public int UserTypID { get; set; }
-        public string UserTypName { get; set; }
         public Nullable<int> RoleID { get; set; }
         public Nullable<int> recordsTotal { get; set; }
         public Nullable<int> recordsFiltered { get; set; }
-        public Nullable<int> DisID { get; set; }
-        public string DisName { get; set; }
-        public Nullable<int> MpID { get; set; }
-        public string MpCode { get; set; }
-        public string FirstNameTh { get; set; }
-        public string LastNameTh { get; set; }
-        public int Property { get; set; }
     }
 }

@@ -169,57 +169,73 @@ namespace SAT.HR.Data.Repository
 
 
 
-        public List<DepartmentViewModel> GetDepartmentLevel2()
+        public List<DepartmentViewModel> GetDepartmentRoot(int? typeid)
         {
             using (SATEntities db = new SATEntities())
             {
-                var list = db.vw_Department.Where(m => m.DepLevel == 2).Select(s => new DepartmentViewModel()
-                {
-                    DepID = s.DepID,
-                    DepName = s.DepName,
-                }).OrderBy(x => x.DepName).ToList();
+                var list = db.vw_Department.Where(m => m.TypeID == typeid && (m.DepLevel == 1 || m.DepLevel == 2))
+                    .Select(s => new DepartmentViewModel()
+                    {
+                        DepID = s.DepID,
+                        DepName = s.DepName,
+                    }).OrderBy(x => x.DepName).ToList();
                 return list;
             }
         }
 
-        public List<DepartmentViewModel> GetDepartmentLevel3(int? id)
+        public List<DepartmentViewModel> GetDepartmentByParent(int? typeid, int? parentid)
         {
             using (SATEntities db = new SATEntities())
             {
-                var list = db.vw_Department.Where(m => m.DepLevel == 3 && m.ParentID == id).Select(s => new DepartmentViewModel()
-                {
-                    DepID = s.DepID,
-                    DepName = s.DepName,
-                }).OrderBy(x => x.DepName).ToList();
+                var list = db.vw_Department.Where(m => m.ParentID == parentid)
+                    .Select(s => new DepartmentViewModel()
+                    {
+                        DepID = s.DepID,
+                        DepName = s.DepName,
+                    }).OrderBy(x => x.DepName).ToList();
                 return list;
             }
         }
 
-        public List<DepartmentViewModel> GetDepartmentLevel4(int? id)
-        {
-            using (SATEntities db = new SATEntities())
-            {
-                var list = db.vw_Department.Where(m => m.DepLevel == 4 && m.ParentID == id).Select(s => new DepartmentViewModel()
-                {
-                    DepID = s.DepID,
-                    DepName = s.DepName,
-                }).OrderBy(x => x.DepName).ToList();
-                return list;
-            }
-        }
 
-        public List<DepartmentViewModel> GetDepartmentLevel5(int? id)
-        {
-            using (SATEntities db = new SATEntities())
-            {
-                var list = db.vw_Department.Where(m => m.DepLevel == 5 && m.ParentID == id).Select(s => new DepartmentViewModel()
-                {
-                    DepID = s.DepID,
-                    DepName = s.DepName,
-                }).OrderBy(x => x.DepName).ToList();
-                return list;
-            }
-        }
+        //public List<DepartmentViewModel> GetDepartmentLevel3(int? id)
+        //{
+        //    using (SATEntities db = new SATEntities())
+        //    {
+        //        var list = db.vw_Department.Where(m => m.DepLevel == 3 && m.ParentID == id).Select(s => new DepartmentViewModel()
+        //        {
+        //            DepID = s.DepID,
+        //            DepName = s.DepName,
+        //        }).OrderBy(x => x.DepName).ToList();
+        //        return list;
+        //    }
+        //}
+
+        //public List<DepartmentViewModel> GetDepartmentLevel4(int? id)
+        //{
+        //    using (SATEntities db = new SATEntities())
+        //    {
+        //        var list = db.vw_Department.Where(m => m.DepLevel == 4 && m.ParentID == id).Select(s => new DepartmentViewModel()
+        //        {
+        //            DepID = s.DepID,
+        //            DepName = s.DepName,
+        //        }).OrderBy(x => x.DepName).ToList();
+        //        return list;
+        //    }
+        //}
+
+        //public List<DepartmentViewModel> GetDepartmentLevel5(int? id)
+        //{
+        //    using (SATEntities db = new SATEntities())
+        //    {
+        //        var list = db.vw_Department.Where(m => m.DepLevel == 5 && m.ParentID == id).Select(s => new DepartmentViewModel()
+        //        {
+        //            DepID = s.DepID,
+        //            DepName = s.DepName,
+        //        }).OrderBy(x => x.DepName).ToList();
+        //        return list;
+        //    }
+        //}
 
 
 

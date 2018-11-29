@@ -10,13 +10,17 @@
 namespace SAT.HR.Data.Entities
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class vw_Agent_Position_bak
+    public partial class sp_Menu_Report_User_Result
     {
-        public int MpID { get; set; }
-        public string PoName { get; set; }
-        public string FullSectionName { get; set; }
-        public Nullable<int> PoID { get; set; }
+        public int RoleID { get; set; }
+        public string RoleName { get; set; }
+        public Nullable<int> MenuID { get; set; }
+        public string MenuName { get; set; }
+        public string ControllerName { get; set; }
+        public string ActionName { get; set; }
+        public string Icon { get; set; }
+        public Nullable<int> ParentID { get; set; }
+        public string MenuType { get; set; }
     }
 }

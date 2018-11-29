@@ -26,7 +26,7 @@ namespace SAT.HR.Data
                     year = (year == null) ? DateTime.Now.Year + 543 : year;
                     data.LeaveYear = year;
 
-                    var leavebalance = db.sp_LeaveBalance_GetByUser(userid, year).ToList();
+                    var leavebalance = db.sp_Leave_Balance_User(userid, year).ToList();
 
                     int index = 1;
                     foreach (var item in leavebalance)

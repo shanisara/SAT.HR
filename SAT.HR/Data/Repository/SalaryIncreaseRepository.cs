@@ -16,7 +16,7 @@ namespace SAT.HR.Data
             {
                 try
                 {
-                    var salaryincrease = db.sp_SalaryIncrease_Process(year, level, step).ToList();
+                    var salaryincrease = db.sp_Salary_Increase_List(year, level, step).ToList();
                     foreach (var item in salaryincrease)
                     {
                         SalaryIncreaseProcessViewModel model = new SalaryIncreaseProcessViewModel();

@@ -11,14 +11,14 @@ namespace SAT.HR.Data.Entities
 {
     using System;
     
-    public partial class sp_Menu_GetByUser_Result
+    public partial class sp_Evaluation_User_Result
     {
-        public int MenuID { get; set; }
-        public string MenuName { get; set; }
-        public string ControllerName { get; set; }
-        public string ActionName { get; set; }
-        public string Icon { get; set; }
-        public Nullable<int> ParentID { get; set; }
-        public string MenuType { get; set; }
+        public int CapDID { get; set; }
+        public string CapDName { get; set; }
+        public string CapDDesc { get; set; }
+        public Nullable<int> Score1 { get; set; }
+        public Nullable<int> Score2 { get; set; }
+        public Nullable<int> UserScore1 { get; set; }
+        public Nullable<int> UserScore2 { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace SAT.HR.Data.Entities
 {
     using System;
     
-    public partial class sp_SalaryIncrease_Process_Result
+    public partial class sp_Salary_Increase_List_Result
     {
         public Nullable<int> Year { get; set; }
         public int Seq { get; set; }

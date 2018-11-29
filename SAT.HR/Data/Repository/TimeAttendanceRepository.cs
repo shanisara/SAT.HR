@@ -22,7 +22,7 @@ namespace SAT.HR.Data
 
                     int fromdate = Convert.ToInt32(UtilityService.ConvertDateThai2Eng(Convert.ToDateTime(datefrom)).ToString("yyyyMMdd"));
                     int todate = Convert.ToInt32(UtilityService.ConvertDateThai2Eng(Convert.ToDateTime(dateto)).ToString("yyyyMMdd"));
-                    var timeattendance = db.sp_TimeAttendance_GetByUser(userid, type, fromdate, todate).ToList();
+                    var timeattendance = db.sp_Time_Attendance_User(userid, type, fromdate, todate).ToList();
 
                     foreach (var item in timeattendance)
                     {
@@ -67,7 +67,7 @@ namespace SAT.HR.Data
                     string currday = DateTime.Now.ToString("dddd"); 
                     var workingshift = db.tb_Working_Time.Where(x => x.WID == wtid && x.WorkDay == currday).FirstOrDefault();
 
-                    var item = db.tb_TimeAttendance.Where(x => x.TaID == id).FirstOrDefault();
+                    var item = db.tb_Time_Attendance.Where(x => x.TaID == id).FirstOrDefault();
                     TimeAttendanceViewModel model = new TimeAttendanceViewModel();
                     model.UserID = userid;
                     if (item != null)
@@ -109,7 +109,7 @@ namespace SAT.HR.Data
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    tb_TimeAttendance model = new tb_TimeAttendance();
+                    tb_Time_Attendance model = new tb_Time_Attendance();
                     model.TaID = data.TaID;
                     model.UserID = data.UserID;
                     model.TaTID = data.TaTID;
@@ -123,7 +123,7 @@ namespace SAT.HR.Data
                     model.CreateBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
-                    db.tb_TimeAttendance.Add(model);
+                    db.tb_Time_Attendance.Add(model);
                     db.SaveChanges();
                 }
                 catch (Exception ex)
@@ -142,7 +142,7 @@ namespace SAT.HR.Data
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    var model = db.tb_TimeAttendance.Single(x => x.UserID == newdata.UserID && x.TaID == newdata.TaID);
+                    var model = db.tb_Time_Attendance.Single(x => x.UserID == newdata.UserID && x.TaID == newdata.TaID);
                     model.TaID = newdata.TaID;
                     model.UserID = newdata.UserID;
                     model.TaTID = newdata.TaTID;
@@ -172,10 +172,10 @@ namespace SAT.HR.Data
             {
                 try
                 {
-                    var model = db.tb_TimeAttendance.SingleOrDefault(x => x.TaID == id);
+                    var model = db.tb_Time_Attendance.SingleOrDefault(x => x.TaID == id);
                     if (model != null)
                     {
-                        db.tb_TimeAttendance.Remove(model);
+                        db.tb_Time_Attendance.Remove(model);
                         db.SaveChanges();
                     }
                 }

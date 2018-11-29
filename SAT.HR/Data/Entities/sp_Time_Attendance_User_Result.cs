@@ -11,7 +11,7 @@ namespace SAT.HR.Data.Entities
 {
     using System;
     
-    public partial class sp_TimeAttendance_GetByUser_Result
+    public partial class sp_Time_Attendance_User_Result
     {
         public int TaID { get; set; }
         public Nullable<int> TaTID { get; set; }

@@ -36,7 +36,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> TypeID { get; set; }
         public string DepName { get; set; }
         public string DepPath { get; set; }
-        public string DepTree { get; set; }
+        public string PathDepID { get; set; }
         public Nullable<int> DepLevel { get; set; }
     }
 }

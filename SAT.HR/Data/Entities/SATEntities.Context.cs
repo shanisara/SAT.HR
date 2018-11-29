@@ -53,9 +53,9 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Cripple> tb_Cripple { get; set; }
         public virtual DbSet<tb_Cripple_Type> tb_Cripple_Type { get; set; }
         public virtual DbSet<tb_Degree> tb_Degree { get; set; }
+        public virtual DbSet<tb_Department> tb_Department { get; set; }
         public virtual DbSet<tb_Discipline> tb_Discipline { get; set; }
         public virtual DbSet<tb_District> tb_District { get; set; }
-        public virtual DbSet<tb_Division> tb_Division { get; set; }
         public virtual DbSet<tb_Document_Number> tb_Document_Number { get; set; }
         public virtual DbSet<tb_Document_Type> tb_Document_Type { get; set; }
         public virtual DbSet<tb_Education> tb_Education { get; set; }
@@ -96,17 +96,15 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Resign_Type> tb_Resign_Type { get; set; }
         public virtual DbSet<tb_Role> tb_Role { get; set; }
         public virtual DbSet<tb_Salary> tb_Salary { get; set; }
-        public virtual DbSet<tb_Section> tb_Section { get; set; }
         public virtual DbSet<tb_Sex> tb_Sex { get; set; }
         public virtual DbSet<tb_SubDistrict> tb_SubDistrict { get; set; }
         public virtual DbSet<tb_SysConfig> tb_SysConfig { get; set; }
-        public virtual DbSet<tb_TimeAttendance> tb_TimeAttendance { get; set; }
-        public virtual DbSet<tb_TimeAttendance_Type> tb_TimeAttendance_Type { get; set; }
+        public virtual DbSet<tb_Time_Attendance> tb_Time_Attendance { get; set; }
+        public virtual DbSet<tb_Time_Attendance_Type> tb_Time_Attendance_Type { get; set; }
         public virtual DbSet<tb_Title> tb_Title { get; set; }
         public virtual DbSet<tb_Training_Course> tb_Training_Course { get; set; }
         public virtual DbSet<tb_Training_Type> tb_Training_Type { get; set; }
         public virtual DbSet<tb_Transfer_Type> tb_Transfer_Type { get; set; }
-        public virtual DbSet<tb_User> tb_User { get; set; }
         public virtual DbSet<tb_User_Certificate> tb_User_Certificate { get; set; }
         public virtual DbSet<tb_User_Education> tb_User_Education { get; set; }
         public virtual DbSet<tb_User_Excellent> tb_User_Excellent { get; set; }
@@ -122,7 +120,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Working_Shift> tb_Working_Shift { get; set; }
         public virtual DbSet<tb_Working_Time> tb_Working_Time { get; set; }
         public virtual DbSet<tb_Working_Type> tb_Working_Type { get; set; }
-        public virtual DbSet<vw_Agent_Position_bak> vw_Agent_Position_bak { get; set; }
         public virtual DbSet<vw_Benefit_Cremation> vw_Benefit_Cremation { get; set; }
         public virtual DbSet<vw_Benefit_Death_Replacement> vw_Benefit_Death_Replacement { get; set; }
         public virtual DbSet<vw_Benefit_Death_Subsidy> vw_Benefit_Death_Subsidy { get; set; }
@@ -141,10 +138,8 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Move_Level_Head> vw_Move_Level_Head { get; set; }
         public virtual DbSet<vw_Move_Man_Power_Detail> vw_Move_Man_Power_Detail { get; set; }
         public virtual DbSet<vw_Move_Man_Power_Head> vw_Move_Man_Power_Head { get; set; }
-        public virtual DbSet<vw_Section> vw_Section { get; set; }
         public virtual DbSet<vw_Title> vw_Title { get; set; }
         public virtual DbSet<vw_Trainning_Course> vw_Trainning_Course { get; set; }
-        public virtual DbSet<vw_User> vw_User { get; set; }
         public virtual DbSet<vw_User_Certificate> vw_User_Certificate { get; set; }
         public virtual DbSet<vw_User_Education> vw_User_Education { get; set; }
         public virtual DbSet<vw_User_Excellent> vw_User_Excellent { get; set; }
@@ -156,18 +151,98 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Role> vw_User_Role { get; set; }
         public virtual DbSet<vw_User_Skill> vw_User_Skill { get; set; }
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
-        public virtual DbSet<tb_Department> tb_Department { get; set; }
+        public virtual DbSet<tb_User> tb_User { get; set; }
+        public virtual DbSet<vw_User> vw_User { get; set; }
     
-        public virtual ObjectResult<sp_Menu_GetByUser_Result> sp_Menu_GetByUser(Nullable<int> userID)
+        public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
+        {
+            var pageSizeParameter = pageSize != null ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(string));
+    
+            var initialPageParameter = initialPage != null ?
+                new ObjectParameter("InitialPage", initialPage) :
+                new ObjectParameter("InitialPage", typeof(string));
+    
+            var sortByParameter = sortBy != null ?
+                new ObjectParameter("SortBy", sortBy) :
+                new ObjectParameter("SortBy", typeof(string));
+    
+            var sortrDirParameter = sortrDir != null ?
+                new ObjectParameter("SortrDir", sortrDir) :
+                new ObjectParameter("SortrDir", typeof(string));
+    
+            var userTypeParameter = userType != null ?
+                new ObjectParameter("UserType", userType) :
+                new ObjectParameter("UserType", typeof(string));
+    
+            var userStatusParameter = userStatus != null ?
+                new ObjectParameter("UserStatus", userStatus) :
+                new ObjectParameter("UserStatus", typeof(string));
+    
+            var keywordParameter = keyword != null ?
+                new ObjectParameter("Keyword", keyword) :
+                new ObjectParameter("Keyword", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Employee_List_Result>("sp_Employee_List", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, userTypeParameter, userStatusParameter, keywordParameter);
+        }
+    
+        public virtual ObjectResult<sp_Leave_Balance_User_Result> sp_Leave_Balance_User(Nullable<int> userID, Nullable<int> levYear)
         {
             var userIDParameter = userID.HasValue ?
                 new ObjectParameter("UserID", userID) :
                 new ObjectParameter("UserID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Menu_GetByUser_Result>("sp_Menu_GetByUser", userIDParameter);
+            var levYearParameter = levYear.HasValue ?
+                new ObjectParameter("LevYear", levYear) :
+                new ObjectParameter("LevYear", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Leave_Balance_User_Result>("sp_Leave_Balance_User", userIDParameter, levYearParameter);
         }
     
-        public virtual ObjectResult<sp_Menu_Report_GetByUser_Result> sp_Menu_Report_GetByUser(Nullable<int> userID, Nullable<int> parentID)
+        public virtual int sp_Man_Power_Approval(Nullable<int> mopID, Nullable<int> actionBy)
+        {
+            var mopIDParameter = mopID.HasValue ?
+                new ObjectParameter("MopID", mopID) :
+                new ObjectParameter("MopID", typeof(int));
+    
+            var actionByParameter = actionBy.HasValue ?
+                new ObjectParameter("ActionBy", actionBy) :
+                new ObjectParameter("ActionBy", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Man_Power_Approval", mopIDParameter, actionByParameter);
+        }
+    
+        public virtual ObjectResult<sp_Man_Power_List_Result> sp_Man_Power_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string keyword)
+        {
+            var pageSizeParameter = pageSize != null ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(string));
+    
+            var initialPageParameter = initialPage != null ?
+                new ObjectParameter("InitialPage", initialPage) :
+                new ObjectParameter("InitialPage", typeof(string));
+    
+            var sortByParameter = sortBy != null ?
+                new ObjectParameter("SortBy", sortBy) :
+                new ObjectParameter("SortBy", typeof(string));
+    
+            var sortrDirParameter = sortrDir != null ?
+                new ObjectParameter("SortrDir", sortrDir) :
+                new ObjectParameter("SortrDir", typeof(string));
+    
+            var userTypeParameter = userType != null ?
+                new ObjectParameter("UserType", userType) :
+                new ObjectParameter("UserType", typeof(string));
+    
+            var keywordParameter = keyword != null ?
+                new ObjectParameter("Keyword", keyword) :
+                new ObjectParameter("Keyword", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Man_Power_List_Result>("sp_Man_Power_List", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, userTypeParameter, keywordParameter);
+        }
+    
+        public virtual ObjectResult<sp_Menu_Report_User_Result> sp_Menu_Report_User(Nullable<int> userID, Nullable<int> parentID)
         {
             var userIDParameter = userID.HasValue ?
                 new ObjectParameter("UserID", userID) :
@@ -177,10 +252,10 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("ParentID", parentID) :
                 new ObjectParameter("ParentID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Menu_Report_GetByUser_Result>("sp_Menu_Report_GetByUser", userIDParameter, parentIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Menu_Report_User_Result>("sp_Menu_Report_User", userIDParameter, parentIDParameter);
         }
     
-        public virtual ObjectResult<sp_Menu_GetByRole_Result> sp_Menu_GetByRole(Nullable<int> roleID, string menuType)
+        public virtual ObjectResult<sp_Menu_Role_Result> sp_Menu_Role(Nullable<int> roleID, string menuType)
         {
             var roleIDParameter = roleID.HasValue ?
                 new ObjectParameter("RoleID", roleID) :
@@ -190,20 +265,59 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("MenuType", menuType) :
                 new ObjectParameter("MenuType", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Menu_GetByRole_Result>("sp_Menu_GetByRole", roleIDParameter, menuTypeParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Menu_Role_Result>("sp_Menu_Role", roleIDParameter, menuTypeParameter);
         }
     
-        public virtual ObjectResult<sp_Evaluation_GetByUser_Result> sp_Evaluation_GetByUser(Nullable<int> userID, Nullable<int> capID)
+        public virtual ObjectResult<sp_Menu_User_Result> sp_Menu_User(Nullable<int> userID)
         {
             var userIDParameter = userID.HasValue ?
                 new ObjectParameter("UserID", userID) :
                 new ObjectParameter("UserID", typeof(int));
     
-            var capIDParameter = capID.HasValue ?
-                new ObjectParameter("CapID", capID) :
-                new ObjectParameter("CapID", typeof(int));
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Menu_User_Result>("sp_Menu_User", userIDParameter);
+        }
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Evaluation_GetByUser_Result>("sp_Evaluation_GetByUser", userIDParameter, capIDParameter);
+        public virtual ObjectResult<sp_Report_Education_Result> sp_Report_Education(string eduID)
+        {
+            var eduIDParameter = eduID != null ?
+                new ObjectParameter("eduID", eduID) :
+                new ObjectParameter("eduID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Education_Result>("sp_Report_Education", eduIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_Salary_Increase_List_Result> sp_Salary_Increase_List(Nullable<int> year, Nullable<int> level, Nullable<decimal> step)
+        {
+            var yearParameter = year.HasValue ?
+                new ObjectParameter("Year", year) :
+                new ObjectParameter("Year", typeof(int));
+    
+            var levelParameter = level.HasValue ?
+                new ObjectParameter("Level", level) :
+                new ObjectParameter("Level", typeof(int));
+    
+            var stepParameter = step.HasValue ?
+                new ObjectParameter("Step", step) :
+                new ObjectParameter("Step", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Salary_Increase_List_Result>("sp_Salary_Increase_List", yearParameter, levelParameter, stepParameter);
+        }
+    
+        public virtual ObjectResult<sp_Working_Shift_User_Result> sp_Working_Shift_User(Nullable<int> userID, Nullable<int> dateFrom, Nullable<int> dateTo)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var dateFromParameter = dateFrom.HasValue ?
+                new ObjectParameter("DateFrom", dateFrom) :
+                new ObjectParameter("DateFrom", typeof(int));
+    
+            var dateToParameter = dateTo.HasValue ?
+                new ObjectParameter("DateTo", dateTo) :
+                new ObjectParameter("DateTo", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Working_Shift_User_Result>("sp_Working_Shift_User", userIDParameter, dateFromParameter, dateToParameter);
         }
     
         public virtual ObjectResult<sp_Evaluation_List_Result> sp_Evaluation_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string capID, string keyword)
@@ -239,58 +353,20 @@ namespace SAT.HR.Data.Entities
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Evaluation_List_Result>("sp_Evaluation_List", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, userTypeParameter, capIDParameter, keywordParameter);
         }
     
-        public virtual ObjectResult<sp_Report_Education_Result> sp_Report_Education(string eduID)
+        public virtual ObjectResult<sp_Evaluation_User_Result> sp_Evaluation_User(Nullable<int> userID, Nullable<int> capID)
         {
-            var eduIDParameter = eduID != null ?
-                new ObjectParameter("eduID", eduID) :
-                new ObjectParameter("eduID", typeof(string));
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Education_Result>("sp_Report_Education", eduIDParameter);
+            var capIDParameter = capID.HasValue ?
+                new ObjectParameter("CapID", capID) :
+                new ObjectParameter("CapID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Evaluation_User_Result>("sp_Evaluation_User", userIDParameter, capIDParameter);
         }
     
-        public virtual ObjectResult<sp_ManPower_List_Result> sp_ManPower_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string keyword)
-        {
-            var pageSizeParameter = pageSize != null ?
-                new ObjectParameter("PageSize", pageSize) :
-                new ObjectParameter("PageSize", typeof(string));
-    
-            var initialPageParameter = initialPage != null ?
-                new ObjectParameter("InitialPage", initialPage) :
-                new ObjectParameter("InitialPage", typeof(string));
-    
-            var sortByParameter = sortBy != null ?
-                new ObjectParameter("SortBy", sortBy) :
-                new ObjectParameter("SortBy", typeof(string));
-    
-            var sortrDirParameter = sortrDir != null ?
-                new ObjectParameter("SortrDir", sortrDir) :
-                new ObjectParameter("SortrDir", typeof(string));
-    
-            var userTypeParameter = userType != null ?
-                new ObjectParameter("UserType", userType) :
-                new ObjectParameter("UserType", typeof(string));
-    
-            var keywordParameter = keyword != null ?
-                new ObjectParameter("Keyword", keyword) :
-                new ObjectParameter("Keyword", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ManPower_List_Result>("sp_ManPower_List", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, userTypeParameter, keywordParameter);
-        }
-    
-        public virtual int sp_ManPower_Approval(Nullable<int> mopID, Nullable<int> actionBy)
-        {
-            var mopIDParameter = mopID.HasValue ?
-                new ObjectParameter("MopID", mopID) :
-                new ObjectParameter("MopID", typeof(int));
-    
-            var actionByParameter = actionBy.HasValue ?
-                new ObjectParameter("ActionBy", actionBy) :
-                new ObjectParameter("ActionBy", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_ManPower_Approval", mopIDParameter, actionByParameter);
-        }
-    
-        public virtual ObjectResult<sp_TimeAttendance_GetByUser_Result> sp_TimeAttendance_GetByUser(Nullable<int> userID, Nullable<int> taTID, Nullable<int> dateFrom, Nullable<int> dateTo)
+        public virtual ObjectResult<sp_Time_Attendance_User_Result> sp_Time_Attendance_User(Nullable<int> userID, Nullable<int> taTID, Nullable<int> dateFrom, Nullable<int> dateTo)
         {
             var userIDParameter = userID.HasValue ?
                 new ObjectParameter("UserID", userID) :
@@ -308,87 +384,7 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("DateTo", dateTo) :
                 new ObjectParameter("DateTo", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_TimeAttendance_GetByUser_Result>("sp_TimeAttendance_GetByUser", userIDParameter, taTIDParameter, dateFromParameter, dateToParameter);
-        }
-    
-        public virtual ObjectResult<sp_LeaveBalance_GetByUser_Result> sp_LeaveBalance_GetByUser(Nullable<int> userID, Nullable<int> levYear)
-        {
-            var userIDParameter = userID.HasValue ?
-                new ObjectParameter("UserID", userID) :
-                new ObjectParameter("UserID", typeof(int));
-    
-            var levYearParameter = levYear.HasValue ?
-                new ObjectParameter("LevYear", levYear) :
-                new ObjectParameter("LevYear", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_LeaveBalance_GetByUser_Result>("sp_LeaveBalance_GetByUser", userIDParameter, levYearParameter);
-        }
-    
-        public virtual ObjectResult<sp_WorkingShift_GetByUser_Result> sp_WorkingShift_GetByUser(Nullable<int> userID, Nullable<int> dateFrom, Nullable<int> dateTo)
-        {
-            var userIDParameter = userID.HasValue ?
-                new ObjectParameter("UserID", userID) :
-                new ObjectParameter("UserID", typeof(int));
-    
-            var dateFromParameter = dateFrom.HasValue ?
-                new ObjectParameter("DateFrom", dateFrom) :
-                new ObjectParameter("DateFrom", typeof(int));
-    
-            var dateToParameter = dateTo.HasValue ?
-                new ObjectParameter("DateTo", dateTo) :
-                new ObjectParameter("DateTo", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_WorkingShift_GetByUser_Result>("sp_WorkingShift_GetByUser", userIDParameter, dateFromParameter, dateToParameter);
-        }
-    
-        public virtual ObjectResult<sp_SalaryIncrease_Process_Result> sp_SalaryIncrease_Process(Nullable<int> year, Nullable<int> level, Nullable<decimal> step)
-        {
-            var yearParameter = year.HasValue ?
-                new ObjectParameter("Year", year) :
-                new ObjectParameter("Year", typeof(int));
-    
-            var levelParameter = level.HasValue ?
-                new ObjectParameter("Level", level) :
-                new ObjectParameter("Level", typeof(int));
-    
-            var stepParameter = step.HasValue ?
-                new ObjectParameter("Step", step) :
-                new ObjectParameter("Step", typeof(decimal));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_SalaryIncrease_Process_Result>("sp_SalaryIncrease_Process", yearParameter, levelParameter, stepParameter);
-        }
-    
-        public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
-        {
-            var pageSizeParameter = pageSize != null ?
-                new ObjectParameter("PageSize", pageSize) :
-                new ObjectParameter("PageSize", typeof(string));
-    
-            var initialPageParameter = initialPage != null ?
-                new ObjectParameter("InitialPage", initialPage) :
-                new ObjectParameter("InitialPage", typeof(string));
-    
-            var sortByParameter = sortBy != null ?
-                new ObjectParameter("SortBy", sortBy) :
-                new ObjectParameter("SortBy", typeof(string));
-    
-            var sortrDirParameter = sortrDir != null ?
-                new ObjectParameter("SortrDir", sortrDir) :
-                new ObjectParameter("SortrDir", typeof(string));
-    
-            var userTypeParameter = userType != null ?
-                new ObjectParameter("UserType", userType) :
-                new ObjectParameter("UserType", typeof(string));
-    
-            var userStatusParameter = userStatus != null ?
-                new ObjectParameter("UserStatus", userStatus) :
-                new ObjectParameter("UserStatus", typeof(string));
-    
-            var keywordParameter = keyword != null ?
-                new ObjectParameter("Keyword", keyword) :
-                new ObjectParameter("Keyword", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Employee_List_Result>("sp_Employee_List", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, userTypeParameter, userStatusParameter, keywordParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Time_Attendance_User_Result>("sp_Time_Attendance_User", userIDParameter, taTIDParameter, dateFromParameter, dateToParameter);
         }
     }
 }

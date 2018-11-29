@@ -11,15 +11,14 @@ namespace SAT.HR.Data.Entities
 {
     using System;
     
-    public partial class sp_Menu_GetByRole_Result
+    public partial class sp_Leave_Balance_User_Result
     {
-        public int RoleID { get; set; }
-        public string MenuName { get; set; }
-        public Nullable<int> ParentID { get; set; }
-        public int MenuID { get; set; }
-        public Nullable<bool> R_View { get; set; }
-        public Nullable<bool> R_Add { get; set; }
-        public Nullable<bool> R_Edit { get; set; }
-        public Nullable<bool> R_Delete { get; set; }
+        public int LevID { get; set; }
+        public int LevYear { get; set; }
+        public string LevName { get; set; }
+        public Nullable<decimal> LevMax { get; set; }
+        public Nullable<decimal> LevStandard { get; set; }
+        public Nullable<decimal> LevUsed { get; set; }
+        public Nullable<decimal> LevBalance { get; set; }
     }
 }

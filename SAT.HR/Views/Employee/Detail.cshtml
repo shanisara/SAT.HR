@@ -4,6 +4,66 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-icon card-header-primary">
+                    <div class="card-icon">
+                        <i class="material-icons">perm_identity</i>
+                    </div>
+                    <h4 class="card-title">
+                        @Html.HiddenFor(m => m.UserID)
+                        @Html.HiddenFor(m => m.UserType, new { Value = @ViewBag.UserTypeID })
+
+                        <span>ทะเบียนประวัติ: </span><span class="text-primary">@Model.FullNameTh (@Model.IDCard)</span>
+                        <button type="button" class="btn btn-round pull-right btn-back">ย้อนกลับ</button>
+                    </h4>
+                </div>
+                <div class="card-body" id="tabs">
+                    <ul class="nav nav-pills nav-pills-warning" role="tablist">
+                        <li class="nav-item" id="employee">
+                            <a class="nav-link active" data-id="employee" href="#" data-toggle="tab" role="tablist"> ประวัติส่วนตัว </a>
+                        </li>
+                        <li class="nav-item" id="family">
+                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> ครอบครัว </a>
+                        </li>
+                        <li class="nav-item" id="education">
+                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> การศึกษา </a>
+                        </li>
+                        <li class="nav-item" id="position">
+                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> การดำรงตำแหน่ง </a>
+                        </li>
+                        <li class="nav-item" id="trainning">
+                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> อบรม/ดูงาน </a>
+                        </li>
+                        <li class="nav-item" id="insignia">
+                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> เครื่องราชฯ/วิริยะ </a>
+                        </li>
+                        <li class="nav-item" id="excellent">
+                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> พนักงานดีเด่น </a>
+                        </li>
+                        <li class="nav-item" id="certificate">
+                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> ใบประกอบวิชาชีพ </a>
+                        </li>
+                        <li class="nav-item" id="history">
+                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> ประวัติแก้ไขชื่อ </a>
+                        </li>
+                        <li class="nav-item" id="language">
+                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> ทักษะพิเศษ </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content tab-space">
+                        <div class="tab-pane active" id="tab-detail">
+                            <div id="div-detail"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <style>
     .fileinput .thumbnail {
         max-width: 250px;
@@ -100,66 +160,6 @@
         font-size: .6875rem;
     }*/
 </style>
-
-<div class="content">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header card-header-icon card-header-primary">
-                    <div class="card-icon">
-                        <i class="material-icons">perm_identity</i>
-                    </div>
-                    <h4 class="card-title">
-                        @Html.HiddenFor(m => m.UserID)
-                        @Html.HiddenFor(m => m.UserType, new { Value = @ViewBag.UserTypeID })
-
-                        <span>ทะเบียนประวัติ: </span><span class="text-primary">@Model.FullNameTh (@Model.IDCard)</span>
-                        <button type="button" class="btn btn-round pull-right btn-back">ย้อนกลับ</button>
-                    </h4>
-                </div>
-                <div class="card-body" id="tabs">
-                    <ul class="nav nav-pills nav-pills-warning" role="tablist">
-                        <li class="nav-item" id="employee">
-                            <a class="nav-link active" data-id="employee" href="#" data-toggle="tab" role="tablist"> ประวัติส่วนตัว </a>
-                        </li>
-                        <li class="nav-item" id="family">
-                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> ครอบครัว </a>
-                        </li>
-                        <li class="nav-item" id="education">
-                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> การศึกษา </a>
-                        </li>
-                        <li class="nav-item" id="position">
-                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> การดำรงตำแหน่ง </a>
-                        </li>
-                        <li class="nav-item" id="trainning">
-                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> อบรม/ดูงาน </a>
-                        </li>
-                        <li class="nav-item" id="insignia">
-                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> เครื่องราชฯ/วิริยะ </a>
-                        </li>
-                        <li class="nav-item" id="excellent">
-                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> พนักงานดีเด่น </a>
-                        </li>
-                        <li class="nav-item" id="certificate">
-                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> ใบประกอบวิชาชีพ </a>
-                        </li>
-                        <li class="nav-item" id="history">
-                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> ประวัติแก้ไขชื่อ </a>
-                        </li>
-                        <li class="nav-item" id="language">
-                            <a class="nav-link" data-toggle="tab" role="tablist" href="#"> ทักษะพิเศษ </a>
-                        </li>
-                    </ul>
-                    <div class="tab-content tab-space">
-                        <div class="tab-pane active" id="tab-detail">
-                            <div id="div-detail"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 @section Scripts {
     <script>

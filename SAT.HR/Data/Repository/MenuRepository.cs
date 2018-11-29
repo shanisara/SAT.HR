@@ -20,7 +20,7 @@ namespace SAT.HR.Data.Repository
                 model.FullName = UtilityService.User.FullNameTh;
                 model.Avatar = !string.IsNullOrEmpty(UtilityService.User.Avatar) ? UtilityService.User.Avatar : "avatar.png";
 
-                var menu = db.sp_Menu_GetByUser(model.UserID).Select(s => new MenuViewModel()
+                var menu = db.sp_Menu_User(model.UserID).Select(s => new MenuViewModel()
                 {
                     MenuID = (int)s.MenuID,
                     MenuName = s.MenuName,
@@ -44,7 +44,7 @@ namespace SAT.HR.Data.Repository
                 RoleMenuViewModel data = new RoleMenuViewModel();
                 int userid = UtilityService.User.UserID;
 
-                var menu = db.sp_Menu_Report_GetByUser(userid, menuid).Select(s => new RoleMenuViewModel()
+                var menu = db.sp_Menu_Report_User(userid, menuid).Select(s => new RoleMenuViewModel()
                 {
                     MenuID = (int)s.MenuID,
                     MenuName = s.MenuName,

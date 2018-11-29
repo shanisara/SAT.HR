@@ -50,6 +50,8 @@ namespace SAT.HR.Models
 
         public string Password { get; set; }
 
+        public decimal? IDCard { get; set; }
+
         public string FullNameTh { get; set; }
 
         public string FullNameEn { get; set; }

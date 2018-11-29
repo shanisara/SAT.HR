@@ -272,30 +272,65 @@ namespace SAT.HR.Data.Repository
                     model.ResignDate = data.ResignDate;
                     model.ResignRemark = data.ResignRemark;
 
-                    //model.DivID = data.DivID;
-                    //model.DepID = data.DepID;
-                    //model.SecID = data.SecID;
+                    model.DepID = data.DepID;
+                    if (model.DepID != null)
+                    {
+                        string[] pathDepID = data.PathDepID.Split('.');
+                        model.DepLvl = pathDepID.Length > 1 ? Convert.ToInt32(pathDepID[1]) : Convert.ToInt32(pathDepID[0]);
+                        if (pathDepID.Length > 0)
+                            model.DepLvl1 = Convert.ToInt32(pathDepID[0]);
+                        if (pathDepID.Length > 1)
+                            model.DepLvl2 = Convert.ToInt32(pathDepID[1]);
+                        if (pathDepID.Length > 2)
+                            model.DepLvl3 = Convert.ToInt32(pathDepID[2]);
+                        if (pathDepID.Length > 3)
+                            model.DepLvl4 = Convert.ToInt32(pathDepID[3]);
+                        if (pathDepID.Length > 4)
+                            model.DepLvl5 = Convert.ToInt32(pathDepID[4]);
+                    }
+
                     model.PoID = data.PoID;
                     model.ProjectNo = data.ProjectNo;
                     model.ProjectName = data.ProjectName;
                     model.SalaryLevel = data.SalaryLevel;
                     model.SalaryStep = data.SalaryStep;
                     model.Salary = data.Salary.HasValue ? (decimal)data.Salary : 0;
-
-                    //model.DivName = data.DivName;
-                    //model.DepName = data.DepName;
-                    //model.SecName = data.SecName;
-                    model.PoName = data.PoName;
-
+                    
                     model.EmpowerID = data.EmpowerID;
-                    model.EmpowerDivID = data.EmpowerDivID;
                     model.EmpowerDepID = data.EmpowerDepID;
-                    model.EmpowerSecID = data.EmpowerSecID;
-
-                    model.AgentPoAID = data.AgentPoAID;
-                    model.AgentDivID = data.AgentDivID;
+                    if (model.EmpowerDepID != null)
+                    {
+                        string[] pathDepID = data.EmpowerPathDepID.Split('.');
+                        model.DepLvl = pathDepID.Length > 1 ? Convert.ToInt32(pathDepID[1]) : Convert.ToInt32(pathDepID[0]);
+                        if (pathDepID.Length > 0)
+                            model.EmpowerDepLvl1 = Convert.ToInt32(pathDepID[0]);
+                        if (pathDepID.Length > 1)
+                            model.EmpowerDepLvl2 = Convert.ToInt32(pathDepID[1]);
+                        if (pathDepID.Length > 2)
+                            model.EmpowerDepLvl3 = Convert.ToInt32(pathDepID[2]);
+                        if (pathDepID.Length > 3)
+                            model.EmpowerDepLvl4 = Convert.ToInt32(pathDepID[3]);
+                        if (pathDepID.Length > 4)
+                            model.EmpowerDepLvl5 = Convert.ToInt32(pathDepID[4]);
+                    }
+                    
                     model.AgentDepID = data.AgentDepID;
-                    model.AgentSecID = data.AgentSecID;
+                    if (model.AgentDepID != null)
+                    {
+                        string[] pathDepID = data.AgentPathDepID.Split('.');
+                        model.DepLvl = pathDepID.Length > 1 ? Convert.ToInt32(pathDepID[1]) : Convert.ToInt32(pathDepID[0]);
+                        if (pathDepID.Length > 0)
+                            model.AgentDepLvl1 = Convert.ToInt32(pathDepID[0]);
+                        if (pathDepID.Length > 1)
+                            model.AgentDepLvl2 = Convert.ToInt32(pathDepID[1]);
+                        if (pathDepID.Length > 2)
+                            model.AgentDepLvl3 = Convert.ToInt32(pathDepID[2]);
+                        if (pathDepID.Length > 3)
+                            model.AgentDepLvl4 = Convert.ToInt32(pathDepID[3]);
+                        if (pathDepID.Length > 4)
+                            model.AgentDepLvl5 = Convert.ToInt32(pathDepID[4]);
+                    }
+                    model.AgentPoAID = data.AgentPoAID;
                     model.AgentPoID = data.AgentPoID;
 
                     model.HomeAddr = data.HomeAddr;
@@ -332,6 +367,21 @@ namespace SAT.HR.Data.Repository
             return model;
         }
 
+        public EmployeeViewModel GetUser(int id)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.vw_Employee.Where(x => x.UserID == id).Select(s => new EmployeeViewModel()
+                {
+                    UserID = s.UserID,
+                    UserName = s.UserName,
+                    FullNameTh = s.FullNameTh,
+                    IDCard = s.IDCard
+                }).FirstOrDefault();
+                return data;
+            }
+        }
+
         public List<UserProfile> GetEmployee(int? userType)
         {
             using (SATEntities db = new SATEntities())
@@ -339,7 +389,9 @@ namespace SAT.HR.Data.Repository
                 var list = db.vw_Employee.Where(x => x.StatusID == 1 && x.UserTypeID == userType && x.IsActive == true).Select(s => new UserProfile()
                 {
                     UserID = s.UserID,
-                    UserName = s.FullNameTh
+                    UserName = s.UserName,
+                    FullNameTh = s.FullNameTh,
+                    IDCard = s.IDCard
                 }).ToList();
                 return list;
             }
@@ -510,14 +562,14 @@ namespace SAT.HR.Data.Repository
                         model.Salary = newdata.Salary;
 
                         model.EmpowerID = newdata.EmpowerID;
-                        model.EmpowerDivID = newdata.EmpowerDivID;
+                        //model.EmpowerDivID = newdata.EmpowerDivID;
                         model.EmpowerDepID = newdata.EmpowerDepID;
-                        model.EmpowerSecID = newdata.EmpowerSecID;
+                        //model.EmpowerSecID = newdata.EmpowerSecID;
 
                         model.AgentPoAID = newdata.AgentPoAID;
-                        model.AgentDivID = newdata.AgentDivID;
+                        //model.AgentDivID = newdata.AgentDivID;
                         model.AgentDepID = newdata.AgentDepID;
-                        model.AgentSecID = newdata.AgentSecID;
+                        //model.AgentSecID = newdata.AgentSecID;
                         model.AgentPoID = newdata.AgentPoID;
 
                         model.HomeAddr = newdata.HomeAddr;
@@ -1132,9 +1184,9 @@ namespace SAT.HR.Data.Repository
                     model.ActID = obj.ActID;
                     model.UpCmd = obj.UpCmd;
                     model.PoTID = obj.PoTID;
-                    model.DivID = obj.DivID;
+                    //model.DivID = obj.DivID;
                     model.DepID = obj.DepID;
-                    model.SecID = obj.SecID;
+                    //model.SecID = obj.SecID;
                     model.PoID = obj.PoID;
                     model.PoAID = obj.PoAID;
                     model.UpLevel = obj.UpLevel;
@@ -1188,9 +1240,9 @@ namespace SAT.HR.Data.Repository
                     model.ActID = data.ActID;
                     model.UpCmd = data.UpCmd;
                     model.PoTID = data.PoTID;
-                    model.DivID = data.DivID;
+                    //model.DivID = data.DivID;
                     model.DepID = data.DepID;
-                    model.SecID = data.SecID;
+                    //model.SecID = data.SecID;
                     model.PoID = data.PoID;
                     model.PoAID = data.PoAID;
                     model.UpLevel = data.UpLevel;
@@ -1247,9 +1299,9 @@ namespace SAT.HR.Data.Repository
                     model.ActID = newdata.ActID;
                     model.UpCmd = newdata.UpCmd;
                     model.PoTID = newdata.PoTID;
-                    model.DivID = newdata.DivID;
+                    //model.DivID = newdata.DivID;
                     model.DepID = newdata.DepID;
-                    model.SecID = newdata.SecID;
+                    //model.SecID = newdata.SecID;
                     model.PoID = newdata.PoID;
                     model.PoAID = newdata.PoAID;
                     model.UpLevel = newdata.UpLevel;

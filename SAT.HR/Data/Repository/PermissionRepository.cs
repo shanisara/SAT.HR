@@ -333,7 +333,7 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.sp_Menu_GetByRole(roleid, "T").Select(s => new RoleMenuViewModel()
+                var data = db.sp_Menu_Role(roleid, "T").Select(s => new RoleMenuViewModel()
                 {
                     RoleID = s.RoleID,
                     MenuID = (int)s.MenuID,
@@ -353,7 +353,7 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.sp_Menu_GetByRole(roleid, "R").Select(s => new RoleMenuViewModel()
+                var data = db.sp_Menu_Role(roleid, "R").Select(s => new RoleMenuViewModel()
                 {
                     RoleID = s.RoleID,
                     MenuID = (int)s.MenuID,

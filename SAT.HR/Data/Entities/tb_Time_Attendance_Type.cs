@@ -12,18 +12,18 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_TimeAttendance_Type
+    public partial class tb_Time_Attendance_Type
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tb_TimeAttendance_Type()
+        public tb_Time_Attendance_Type()
         {
-            this.tb_TimeAttendance = new HashSet<tb_TimeAttendance>();
+            this.tb_Time_Attendance = new HashSet<tb_Time_Attendance>();
         }
     
         public int TaTID { get; set; }
         public string TaTName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_TimeAttendance> tb_TimeAttendance { get; set; }
+        public virtual ICollection<tb_Time_Attendance> tb_Time_Attendance { get; set; }
     }
 }

@@ -21,7 +21,7 @@ namespace SAT.HR.Data.Repository
                 {
                     sortBy = (sortBy == "RowNumber") ? "MpID" : sortBy;
                     string perPage = initialPage.HasValue ? Convert.ToInt32(initialPage) == 0 ? "1" : (Convert.ToInt32(initialPage.ToString().Substring(0, initialPage.ToString().Length - 1)) + 1).ToString() : "1";
-                    var data = db.sp_ManPower_List(pageSize.ToString(), perPage, sortBy, sortDir, userType, filter).ToList();
+                    var data = db.sp_Man_Power_List(pageSize.ToString(), perPage, sortBy, sortDir, userType, filter).ToList();
 
                     int i = 0;
                     foreach (var item in data)
@@ -161,11 +161,6 @@ namespace SAT.HR.Data.Repository
                 return result;
             }
         }
-
-        
-
-
-
 
     }
 }

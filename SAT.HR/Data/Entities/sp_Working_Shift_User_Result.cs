@@ -11,7 +11,7 @@ namespace SAT.HR.Data.Entities
 {
     using System;
     
-    public partial class sp_WorkingShift_GetByUser_Result
+    public partial class sp_Working_Shift_User_Result
     {
         public int WsID { get; set; }
         public Nullable<int> WsYear { get; set; }

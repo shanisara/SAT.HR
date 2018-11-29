@@ -315,7 +315,7 @@ namespace SAT.HR.Data.Repository
                 if (data != null)
                 {
                     //model.BelongTo = data.DivName + " / " + data.DepName + " / " + data.SecName;
-                    model.FullName = data.FullNameTh;
+                    model.FullNameTh = data.FullNameTh;
                 }
                 return model;
             }

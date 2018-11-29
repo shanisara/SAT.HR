@@ -40,19 +40,31 @@ namespace SAT.HR.Models
         public Nullable<decimal> SalaryStep { get; set; }
         public Nullable<int> MpID { get; set; }
         public string MpCode { get; set; }
-        public Nullable<int> DivID { get; set; }
         public Nullable<int> DepID { get; set; }
-        public Nullable<int> SecID { get; set; }
+        public Nullable<int> DepLvl { get; set; }
+        public Nullable<int> DepLvl1 { get; set; }
+        public Nullable<int> DepLvl2 { get; set; }
+        public Nullable<int> DepLvl3 { get; set; }
+        public Nullable<int> DepLvl4 { get; set; }
+        public Nullable<int> DepLvl5 { get; set; }
         public Nullable<int> PoID { get; set; }
         public Nullable<int> DisID { get; set; }
         public Nullable<int> EmpowerID { get; set; }
-        public Nullable<int> EmpowerDivID { get; set; }
         public Nullable<int> EmpowerDepID { get; set; }
-        public Nullable<int> EmpowerSecID { get; set; }
+        public Nullable<int> EmpowerDepLvl { get; set; }
+        public Nullable<int> EmpowerDepLvl1 { get; set; }
+        public Nullable<int> EmpowerDepLvl2 { get; set; }
+        public Nullable<int> EmpowerDepLvl3 { get; set; }
+        public Nullable<int> EmpowerDepLvl4 { get; set; }
+        public Nullable<int> EmpowerDepLvl5 { get; set; }
         public Nullable<int> AgentPoAID { get; set; }
-        public Nullable<int> AgentDivID { get; set; }
         public Nullable<int> AgentDepID { get; set; }
-        public Nullable<int> AgentSecID { get; set; }
+        public Nullable<int> AgentDepLvl { get; set; }
+        public Nullable<int> AgentDepLvl1 { get; set; }
+        public Nullable<int> AgentDepLvl2 { get; set; }
+        public Nullable<int> AgentDepLvl3 { get; set; }
+        public Nullable<int> AgentDepLvl4 { get; set; }
+        public Nullable<int> AgentDepLvl5 { get; set; }
         public Nullable<int> AgentPoID { get; set; }
         public string HomeAddr { get; set; }
         public Nullable<int> HomeSubDistrictID { get; set; }

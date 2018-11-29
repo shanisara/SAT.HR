@@ -11,19 +11,20 @@ namespace SAT.HR.Data.Entities
 {
     using System;
     
-    public partial class sp_ManPower_List_Result
+    public partial class sp_Man_Power_List_Result
     {
         public Nullable<int> UserID { get; set; }
         public Nullable<decimal> IDCard { get; set; }
         public string FullNameTh { get; set; }
         public string FullNameEn { get; set; }
-        public Nullable<int> MpID { get; set; }
-        public Nullable<int> DivID { get; set; }
+        public int MpID { get; set; }
+        public string MpCode { get; set; }
+        public int DivID { get; set; }
         public string DivName { get; set; }
-        public Nullable<int> DivSeq { get; set; }
+        public int DivSeq { get; set; }
         public Nullable<int> DepID { get; set; }
         public string DepName { get; set; }
-        public Nullable<int> SecID { get; set; }
+        public int SecID { get; set; }
         public string SecName { get; set; }
         public Nullable<int> PoID { get; set; }
         public string PoCode { get; set; }
@@ -35,6 +36,5 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> RoleID { get; set; }
         public Nullable<int> recordsTotal { get; set; }
         public Nullable<int> recordsFiltered { get; set; }
-        public string MpCode { get; set; }
     }
 }

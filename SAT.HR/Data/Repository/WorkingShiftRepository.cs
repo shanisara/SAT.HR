@@ -22,7 +22,7 @@ namespace SAT.HR.Data
 
                     int fromdate = Convert.ToInt32(UtilityService.ConvertDateThai2Eng(Convert.ToDateTime(datefrom)).ToString("yyyyMMdd"));
                     int todate = Convert.ToInt32(UtilityService.ConvertDateThai2Eng(Convert.ToDateTime(dateto)).ToString("yyyyMMdd"));
-                    var workingshift = db.sp_WorkingShift_GetByUser(userid, fromdate, todate).ToList();
+                    var workingshift = db.sp_Working_Shift_User(userid, fromdate, todate).ToList();
 
                     foreach (var item in workingshift)
                     {

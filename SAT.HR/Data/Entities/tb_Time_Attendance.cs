@@ -12,7 +12,7 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_TimeAttendance
+    public partial class tb_Time_Attendance
     {
         public int TaID { get; set; }
         public Nullable<int> TaTID { get; set; }
@@ -29,7 +29,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
     
-        public virtual tb_TimeAttendance_Type tb_TimeAttendance_Type { get; set; }
+        public virtual tb_Time_Attendance_Type tb_Time_Attendance_Type { get; set; }
         public virtual tb_User tb_User { get; set; }
     }
 }

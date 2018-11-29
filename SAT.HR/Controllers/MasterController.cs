@@ -13,47 +13,47 @@ namespace SAT.HR.Controllers
     {
         #region 1. ฝ่าย - Division
 
-        public ActionResult Division()
-        {
-            return View();
-        }
+        //public ActionResult Division()
+        //{
+        //    return View();
+        //}
 
-        public ActionResult DivisionDetail(int? id)
-        {
-            DivisionViewModel model = new DivisionViewModel();
-            if (id.HasValue)
-            {
-                model = new DivisionRepository().GetByID((int)id);
-            }
-            return PartialView("_Division", model);
-        }
+        //public ActionResult DivisionDetail(int? id)
+        //{
+        //    DivisionViewModel model = new DivisionViewModel();
+        //    if (id.HasValue)
+        //    {
+        //        model = new DivisionRepository().GetByID((int)id);
+        //    }
+        //    return PartialView("_Division", model);
+        //}
 
-        [HttpPost]
-        public JsonResult Division(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
-        {
-            var search = Request["search[value]"];
-            var dir = order[0]["dir"].ToLower();
-            var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new DivisionRepository().GetPage(search, draw, start, length, dir, column);
-            return Json(dataTableData, JsonRequestBehavior.AllowGet);
-        }
+        //[HttpPost]
+        //public JsonResult Division(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        //{
+        //    var search = Request["search[value]"];
+        //    var dir = order[0]["dir"].ToLower();
+        //    var column = columns[int.Parse(order[0]["column"])]["data"];
+        //    var dataTableData = new DivisionRepository().GetPage(search, draw, start, length, dir, column);
+        //    return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        //}
         
-        public JsonResult SaveDivision(DivisionViewModel model)
-        {
-            ResponseData result = new Models.ResponseData();
-            if(model.DivID != 0)
-                result = new DivisionRepository().UpdateByEntity(model);
-            else
-                result = new DivisionRepository().AddByEntity(model);
+        //public JsonResult SaveDivision(DivisionViewModel model)
+        //{
+        //    ResponseData result = new Models.ResponseData();
+        //    if(model.DivID != 0)
+        //        result = new DivisionRepository().UpdateByEntity(model);
+        //    else
+        //        result = new DivisionRepository().AddByEntity(model);
 
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
+        //    return Json(result, JsonRequestBehavior.AllowGet);
+        //}
 
-        public JsonResult DeleteDivision(int id)
-        {
-            var result = new DivisionRepository().RemoveByID(id);
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
+        //public JsonResult DeleteDivision(int id)
+        //{
+        //    var result = new DivisionRepository().RemoveByID(id);
+        //    return Json(result, JsonRequestBehavior.AllowGet);
+        //}
 
         #endregion
 
@@ -71,7 +71,7 @@ namespace SAT.HR.Controllers
             {
                 model = new DepartmentRepository().GetByID((int)id);
             }
-            ViewBag.Division = DropDownList.GetDivision(model.DivID);
+            //ViewBag.Division = DropDownList.GetDivision(model.DivID);
             return PartialView("_Department", model);
         }
 
@@ -104,63 +104,63 @@ namespace SAT.HR.Controllers
 
         public JsonResult DepartmentByDiv(int divid)
         {
-            var result = DropDownList.GetDepartment(divid, null);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            //var result = DropDownList.GetDepartment(divid, null);
+            return Json(/*result,*/ JsonRequestBehavior.AllowGet);
         }
 
         #endregion
 
         #region 3. หน่วยงาน - Section
 
-        public ActionResult Section()
-        {
-            return View();
-        }
+        //public ActionResult Section()
+        //{
+        //    return View();
+        //}
 
-        public ActionResult SectionDetail(int? id)
-        {
-            SectionViewModel model = new SectionViewModel();
-            if (id.HasValue)
-            {
-                model = new SectionRepository().GetByID((int)id);
-            }
-            //ViewBag.Division = DropDownList.GetDivision(model.DivID);
-            //ViewBag.Department = DropDownList.GetDepartment(model.DivID, model.DepID, false);
-            return PartialView("_Section", model);
-        }
+        //public ActionResult SectionDetail(int? id)
+        //{
+        //    SectionViewModel model = new SectionViewModel();
+        //    if (id.HasValue)
+        //    {
+        //        model = new SectionRepository().GetByID((int)id);
+        //    }
+        //    //ViewBag.Division = DropDownList.GetDivision(model.DivID);
+        //    //ViewBag.Department = DropDownList.GetDepartment(model.DivID, model.DepID, false);
+        //    return PartialView("_Section", model);
+        //}
 
-        [HttpPost]
-        public JsonResult Section(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
-        {
-            var search = Request["search[value]"];
-            var dir = order[0]["dir"].ToLower();
-            var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new SectionRepository().GetPage(search, draw, start, length, dir, column);
-            return Json(dataTableData, JsonRequestBehavior.AllowGet);
-        }
+        //[HttpPost]
+        //public JsonResult Section(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        //{
+        //    var search = Request["search[value]"];
+        //    var dir = order[0]["dir"].ToLower();
+        //    var column = columns[int.Parse(order[0]["column"])]["data"];
+        //    var dataTableData = new SectionRepository().GetPage(search, draw, start, length, dir, column);
+        //    return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        //}
 
-        public JsonResult SaveSection(SectionViewModel model)
-        {
-            ResponseData result = new Models.ResponseData();
-            if (model.SecID != 0)
-                result = new SectionRepository().UpdateByEntity(model);
-            else
-                result = new SectionRepository().AddByEntity(model);
+        //public JsonResult SaveSection(SectionViewModel model)
+        //{
+        //    ResponseData result = new Models.ResponseData();
+        //    if (model.SecID != 0)
+        //        result = new SectionRepository().UpdateByEntity(model);
+        //    else
+        //        result = new SectionRepository().AddByEntity(model);
 
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
+        //    return Json(result, JsonRequestBehavior.AllowGet);
+        //}
 
-        public JsonResult DeleteSection(int id)
-        {
-            var result = new SectionRepository().RemoveByID(id);
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
+        //public JsonResult DeleteSection(int id)
+        //{
+        //    var result = new SectionRepository().RemoveByID(id);
+        //    return Json(result, JsonRequestBehavior.AllowGet);
+        //}
 
-        public JsonResult SectionByDep(int divid, int depid)
-        {
-            //var result = DropDownList.GetSection(divid, depid, null, true);
-            return Json(/*result,*/ JsonRequestBehavior.AllowGet);
-        }
+        //public JsonResult SectionByDep(int divid, int depid)
+        //{
+        //    //var result = DropDownList.GetSection(divid, depid, null, true);
+        //    return Json(/*result,*/ JsonRequestBehavior.AllowGet);
+        //}
 
 
         #endregion
@@ -257,8 +257,8 @@ namespace SAT.HR.Controllers
 
         public JsonResult PositionByType(int type,int poid)
         {
-            var result = DropDownList.GetPosition(poid, type, true);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            //var result = DropDownList.GetPosition(poid, type, true);
+            return Json(/*result,*/ JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -1009,26 +1009,26 @@ namespace SAT.HR.Controllers
 
         public JsonResult GeDepartmentManPower(int divid, int type)
         {
-            var result = DropDownList.GetDepartmentManPower(type, divid, null);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            //var result = DropDownList.GetDepartmentManPower(type, divid, null);
+            return Json(/*result,*/ JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetSectionManPower(int divid, int depid, int type)
         {
-            var result = DropDownList.GetSectionManPower(type, divid, depid, null);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            //var result = DropDownList.GetSectionManPower(type, divid, depid, null);
+            return Json(/*result,*/ JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetPositionManPowerValuePo(int divid, int depid, int secid, int type)
         {
-            var result = DropDownList.GetPositionManPowerValuePo(type, divid, depid, secid, null);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            //var result = DropDownList.GetPositionManPowerValuePo(type, divid, depid, secid, null);
+            return Json(/*result,*/ JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetPositionManPowerValueMp(int divid, int depid, int secid, int type)
         {
-            var result = DropDownList.GetPositionManPowerValueMp(type, divid, depid, secid, null);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            //var result = DropDownList.GetPositionManPowerValueMp(type, divid, depid, secid, null);
+            return Json(/*result,*/ JsonRequestBehavior.AllowGet);
         }
 
         #endregion 
