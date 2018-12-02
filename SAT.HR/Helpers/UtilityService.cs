@@ -201,11 +201,21 @@ namespace SAT.HR.Helpers
 
 
 
+
+
         public static string PathUploadUserAvatar
         {
             get
             {
                 return SysConfigRepository.GetKeyValue("PathUploadUserAvatar");
+            }
+        }
+
+        public static string PathUploadUserAttach
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathUploadUserAttach");
             }
         }
 
@@ -259,11 +269,21 @@ namespace SAT.HR.Helpers
 
 
 
+
+
         public static string PathDownloadUserAvatar
         {
             get
             {
                 return SysConfigRepository.GetKeyValue("PathDownloadUserAvatar");
+            }
+        }
+
+        public static string PathDownloadUserAttach
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathDownloadUserAttach");
             }
         }
 
@@ -316,6 +336,8 @@ namespace SAT.HR.Helpers
         }
 
 
+
+
         public static string PathReport
         {
             get
@@ -323,7 +345,6 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathReportFile");
             }
         }
-
 
         public static string ServerName
         {

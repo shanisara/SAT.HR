@@ -96,6 +96,9 @@ namespace SAT.HR.Models
         public int? ResignID { get; set; }
         public Nullable<System.DateTime> ResignDate { get; set; }
         public string ResignRemark { get; set; }
+        public string PathFileAttach1 { get; set; }
+        public string PathFileAttach2 { get; set; }
+
 
         public Nullable<bool> IsGPALower250 { get; set; }
         public Nullable<bool> IsToeicLower300 { get; set; }

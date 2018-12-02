@@ -143,6 +143,16 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public FileResult DownloadFileAttach(int id, int type)
+        {
+            var result = new EmployeeRepository().DownloadFileAttach(id, type);
+            string fileName = result.FileName;
+            string filePath = result.FilePath;
+            string contentType = result.ContentType;
+            return new FilePathResult(Path.Combine(filePath, fileName), contentType);
+        }
+
+
         #endregion
 
         #region 1.2 Tab: User-Family

@@ -9,6 +9,8 @@
     @Html.HiddenFor(m => m.IsGPALower250)
     @Html.HiddenFor(m => m.IsToeicLower300)
     @Html.HiddenFor(m => m.IsAgeOver35)
+    @Html.HiddenFor(m => m.PathFileAttach1)
+    @Html.HiddenFor(m => m.PathFileAttach2)
 
     <div class="content">
         <div class="row">
@@ -282,14 +284,22 @@
                                     </div>
                                 }
 
-                                <div class="row" style="display:none">
+                                <div class="row">
                                     <div class="col-md-6">
                                         @Html.Label("บัตรประชาชน", null, new { @class = "bmd-label-fixed" })
-                                        <input id="fileAttach1" name="fileAttach1" type="file" class="form-control file-upload">
+                                        <div class="input-group-prepend file-path-attach1">
+                                            <a class="m-t-10 file-name-attach1" target="_blank" href=@Url.Action("DownloadFileAttach", "Employee", new { id = Model.UserID, type = 1 })>@Model.PathFileAttach1</a>
+                                            <a class="btn btn-link btn-danger btn-just-icon file-delete-attach1" file-delete href="#" title="ลบ" style="margin-top:0px"><i class="material-icons">delete_forever</i></a>
+                                        </div>
+                                        <input id="fileAttach1" name="fileAttach1" type="file" class="form-control file-upload-attach1">
                                     </div>
                                     <div class="col-md-6">
                                         @Html.Label("ทะเบียนบ้าน", null, new { @class = "bmd-label-fixed" })
-                                        <input id="fileAttach2" name="fileAttach2" type="file" class="form-control file-upload">
+                                        <div class="input-group-prepend file-path-attach2">
+                                            <a class="m-t-10 file-name-attach2" target="_blank" href=@Url.Action("DownloadFileAttach", "Employee", new { id = Model.UserID, type = 2 })>@Model.PathFileAttach2</a>
+                                            <a class="btn btn-link btn-danger btn-just-icon file-delete-attach2" file-delete href="#" title="ลบ" style="margin-top:0px"><i class="material-icons">delete_forever</i></a>
+                                        </div>
+                                        <input id="fileAttach2" name="fileAttach2" type="file" class="form-control file-upload-attach2">
                                     </div>
                                 </div>
 
@@ -637,6 +647,24 @@
 
 <script>
 
+    if ('@Model.PathFileAttach1' != '') {
+        $(".file-path-attach1").show();
+        $(".file-upload-attach1").hide();
+    }
+    else {
+        $(".file-path-attach1").hide();
+        $(".file-upload-attach1").show();
+    }
+
+    if ('@Model.PathFileAttach2' != '') {
+        $(".file-path-attach2").show();
+        $(".file-upload-attach2").hide();
+    }
+    else {
+        $(".file-path-attach2").hide();
+        $(".file-upload-attach2").show();
+    }
+
     if ('@Model.SalaryLevel' != '') {
         $('select[name=SalaryLevel]').val('@Model.SalaryLevel');
         $('select[name=SalaryLevel]').selectpicker('refresh');
@@ -711,6 +739,20 @@
             clear: 'fa fa-trash',
             close: 'fa fa-remove'
         }
+    });
+
+    $(".file-delete-attach1").click(function () {
+        $("#PathFileAttach1").val('');
+        $(".file-upload-attach1").val('');
+        $(".file-upload-attach1").show();
+        $(".file-path-attach1").hide();
+    });
+
+    $(".file-delete-attach2").click(function () {
+        $("#PathFileAttach2").val('');
+        $(".file-upload-attach2").val('');
+        $(".file-upload-attach2").show();
+        $(".file-path-attach2").hide();
     });
 
     var DropDownList = {

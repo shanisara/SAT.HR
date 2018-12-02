@@ -315,6 +315,9 @@ namespace SAT.HR.Data.Repository
                     model.IsToeicLower300 = data.IsToeicLower300;
                     model.IsAgeOver35 = data.IsAgeOver35;
 
+                    model.PathFileAttach1 = data.FileAttach1;
+                    model.PathFileAttach2 = data.FileAttach2;
+
                     //model.CreateDate = data.CreateDate;
                     //model.CreateBy = data.CreateBy;
                     //model.ModifyDate = data.ModifyDate;
@@ -474,6 +477,9 @@ namespace SAT.HR.Data.Repository
 
                         #region FileAttach
 
+                        model.FileAttach1 = newdata.PathFileAttach1;
+                        model.FileAttach2 = newdata.PathFileAttach2;
+
                         if (newdata.FileAvatar != null && newdata.FileAvatar.ContentLength > 0)
                         {
                             var fileName = Path.GetFileName(newdata.FileAvatar.FileName);
@@ -488,22 +494,41 @@ namespace SAT.HR.Data.Repository
                             string fileLocation = Path.Combine(directory, newFileName);
 
                             newdata.FileAvatar.SaveAs(fileLocation);
-
                             model.Avatar = newFileName;
                         }
 
                         if (newdata.FileAttach1 != null && newdata.FileAttach1.ContentLength > 0)
                         {
+                            var fileName = Path.GetFileName(newdata.FileAttach1.FileName);
+                            var fileExt = System.IO.Path.GetExtension(newdata.FileAttach1.FileName).Substring(1);
 
-                            string newFileName1 = "";
-                            model.FileAttach1 = newFileName1;
+                            string directory = SysConfig.PathUploadUserAttach;
+                            bool isExists = System.IO.Directory.Exists(directory);
+                            if (!isExists)
+                                System.IO.Directory.CreateDirectory(directory);
+
+                            string newFileName = newdata.UserID.ToString() + DateTime.Now.ToString("_yyyyMMdd_hhmmss") + "." + fileExt;
+                            string fileLocation = Path.Combine(directory, newFileName);
+
+                            newdata.FileAttach1.SaveAs(fileLocation);
+                            model.FileAttach1 = newFileName;
                         }
 
                         if (newdata.FileAttach2 != null && newdata.FileAttach2.ContentLength > 0)
                         {
+                            var fileName = Path.GetFileName(newdata.FileAttach2.FileName);
+                            var fileExt = System.IO.Path.GetExtension(newdata.FileAttach2.FileName).Substring(1);
 
-                            string newFileName2 = "";
-                            model.FileAttach2 = newFileName2;
+                            string directory = SysConfig.PathUploadUserAttach;
+                            bool isExists = System.IO.Directory.Exists(directory);
+                            if (!isExists)
+                                System.IO.Directory.CreateDirectory(directory);
+
+                            string newFileName = newdata.UserID.ToString() + DateTime.Now.ToString("_yyyyMMdd_hhmmss") + "." + fileExt;
+                            string fileLocation = Path.Combine(directory, newFileName);
+
+                            newdata.FileAttach2.SaveAs(fileLocation);
+                            model.FileAttach2 = newFileName;
                         }
 
 
@@ -511,7 +536,6 @@ namespace SAT.HR.Data.Repository
 
                         #region Information
 
-                        //model.UserName = newdata.UserName;
                         model.TitleID = newdata.TitleID;
                         model.FirstNameTh = newdata.FirstNameTh;
                         model.LastNameTh = newdata.LastNameTh;
@@ -593,35 +617,7 @@ namespace SAT.HR.Data.Repository
                             man.SecID = newdata.SecID;
                             man.PoID = man.PoID;
                             db.SaveChanges();
-
-                            //var po = db.tb_Man_Power.Where(x => x.MpID == man.MpID).FirstOrDefault();
-                            //if (po != null)
-                            //{
-                            //    man.DivID = newdata.DivID;
-                            //    man.DepID = newdata.DepID;
-                            //    man.SecID = newdata.SecID;
-                            //    man.PoID = newdata.PoID;
-                            //    db.SaveChanges();
-                            //}
                         }
-                        //else
-                        //{
-                        //    int maxID = db.tb_Man_Power.Where(m => m.TypeID == newdata.UserType).Max(m => (int)m.MpID);
-                        //    tb_Man_Power objMan = new tb_Man_Power();
-                        //    objMan.MpID = maxID;
-                        //    objMan.DivID = newdata.DivID;
-                        //    objMan.DepID = newdata.DepID;
-                        //    objMan.SecID = newdata.SecID;
-                        //    objMan.PoID = newdata.SecID;
-                        //    objMan.TypeID = newdata.UserType;
-                        //    objMan.UserID = newdata.UserID;
-                        //    objMan.CreateBy = UtilityService.User.UserID;
-                        //    objMan.CreateDate = DateTime.Now;
-                        //    objMan.ModifyBy = UtilityService.User.UserID;
-                        //    objMan.ModifyDate = DateTime.Now;
-                        //    db.tb_Man_Power.Add(objMan);
-                        //    db.SaveChanges();
-                        //}
 
                         #endregion
 
@@ -685,6 +681,43 @@ namespace SAT.HR.Data.Repository
                 return result;
             }
         }
+
+        public FileViewModel DownloadFileAttach(int? id, int type)
+        {
+            FileViewModel model = new FileViewModel();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var data = db.tb_User.Where(x => x.UserID == id).FirstOrDefault();
+
+                    string filename = string.Empty;
+                    if (type == 1)
+                        filename = data.FileAttach1;
+                    else if (type == 2)
+                        filename = data.FileAttach2;
+
+                    string[] fileSplit = filename.Split('.');
+                    int length = fileSplit.Length - 1;
+                    string fileExt = fileSplit[length].ToUpper();
+
+                    var doctype = db.tb_Document_Type.Where(x => x.DocType == fileExt).FirstOrDefault();
+                    string Contenttype = doctype.ContentType;
+
+                    string filepath = SysConfig.PathDownloadUserAttach;
+
+                    model.FileName = filename;
+                    model.FilePath = filepath;
+                    model.ContentType = Contenttype;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return model;
+        }
+
 
 
         #endregion
@@ -1011,6 +1044,7 @@ namespace SAT.HR.Data.Repository
                     model.UeGPA = edu.UeGPA;
                     model.UeEduOfficial = edu.UeEduOfficial;
                     model.UeEduOfficialLevel = edu.UeEduOfficialLevel;
+                    model.UePartFile = edu.UePartFile;
 
                     if (model != null)
                         data = model;
@@ -1046,8 +1080,7 @@ namespace SAT.HR.Data.Repository
                         string fileLocation = Path.Combine(directory, newFileName);
 
                         fileUpload.SaveAs(fileLocation);
-
-                        data.UePartFile = newFileName;
+                        model.UePartFile = newFileName;
                     }
 
                     model.UserID = data.UserID;
@@ -1086,6 +1119,8 @@ namespace SAT.HR.Data.Repository
                 {
                     var model = db.tb_User_Education.Single(x => x.UserID == newdata.UserID && x.UeID == newdata.UeID);
 
+                    model.UePartFile = newdata.UePartFile;
+
                     if (fileUpload != null && fileUpload.ContentLength > 0)
                     {
                         var fileName = Path.GetFileName(fileUpload.FileName);
@@ -1100,8 +1135,7 @@ namespace SAT.HR.Data.Repository
                         string fileLocation = Path.Combine(directory, newFileName);
 
                         fileUpload.SaveAs(fileLocation);
-
-                        newdata.UePartFile = newFileName;
+                        model.UePartFile = newFileName;
                     }
 
                     model.EduID = newdata.EduID;
