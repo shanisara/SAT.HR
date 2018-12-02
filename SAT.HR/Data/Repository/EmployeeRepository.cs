@@ -358,7 +358,7 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public ResponseData AddUserByEntity(EmployeeViewModel data, HttpPostedFileBase fileUpload)
+        public ResponseData AddUserByEntity(EmployeeViewModel data)
         {
             using (SATEntities db = new SATEntities())
             {
@@ -367,10 +367,12 @@ namespace SAT.HR.Data.Repository
                 {
                     tb_User model = new tb_User();
 
-                    if (fileUpload != null && fileUpload.ContentLength > 0)
+                    #region FileAttach
+
+                    if (data.FileAvatar != null && data.FileAvatar.ContentLength > 0)
                     {
-                        var fileName = Path.GetFileName(fileUpload.FileName);
-                        var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
+                        var fileName = Path.GetFileName(data.FileAvatar.FileName);
+                        var fileExt = System.IO.Path.GetExtension(data.FileAvatar.FileName).Substring(1);
 
                         string directory = SysConfig.PathUploadUserAvatar;
                         bool isExists = System.IO.Directory.Exists(directory);
@@ -380,13 +382,14 @@ namespace SAT.HR.Data.Repository
                         string newFileName = data.UserID.ToString() + DateTime.Now.ToString("_yyyyMMdd_hhmmss") + "." + fileExt;
                         string fileLocation = Path.Combine(directory, newFileName);
 
-                        fileUpload.SaveAs(fileLocation);
+                        data.FileAvatar.SaveAs(fileLocation);
 
                         model.Avatar = newFileName;
                     }
 
+                    #endregion
+
                     model.UserTID = data.UserType;
-                    //model.UserName = data.UserName;
                     model.TitleID = data.TitleID;
                     model.FirstNameTh = data.FirstNameTh;
                     model.LastNameTh = data.LastNameTh;
@@ -458,7 +461,7 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public ResponseData UpdateUserByEntity(EmployeeViewModel newdata, HttpPostedFileBase fileUpload)
+        public ResponseData UpdateUserByEntity(EmployeeViewModel newdata)
         {
             using (SATEntities db = new SATEntities())
             {
@@ -469,10 +472,12 @@ namespace SAT.HR.Data.Repository
                     {
                         var model = db.tb_User.Single(x => x.UserID == newdata.UserID);
 
-                        if (fileUpload != null && fileUpload.ContentLength > 0)
+                        #region FileAttach
+
+                        if (newdata.FileAvatar != null && newdata.FileAvatar.ContentLength > 0)
                         {
-                            var fileName = Path.GetFileName(fileUpload.FileName);
-                            var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
+                            var fileName = Path.GetFileName(newdata.FileAvatar.FileName);
+                            var fileExt = System.IO.Path.GetExtension(newdata.FileAvatar.FileName).Substring(1);
 
                             string directory = SysConfig.PathUploadUserAvatar;
                             bool isExists = System.IO.Directory.Exists(directory);
@@ -482,10 +487,27 @@ namespace SAT.HR.Data.Repository
                             string newFileName = newdata.UserID.ToString() + DateTime.Now.ToString("_yyyyMMdd_hhmmss") + "." + fileExt;
                             string fileLocation = Path.Combine(directory, newFileName);
 
-                            fileUpload.SaveAs(fileLocation);
+                            newdata.FileAvatar.SaveAs(fileLocation);
 
                             model.Avatar = newFileName;
                         }
+
+                        if (newdata.FileAttach1 != null && newdata.FileAttach1.ContentLength > 0)
+                        {
+
+                            string newFileName1 = "";
+                            model.FileAttach1 = newFileName1;
+                        }
+
+                        if (newdata.FileAttach2 != null && newdata.FileAttach2.ContentLength > 0)
+                        {
+
+                            string newFileName2 = "";
+                            model.FileAttach2 = newFileName2;
+                        }
+
+
+                        #endregion
 
                         #region Information
 

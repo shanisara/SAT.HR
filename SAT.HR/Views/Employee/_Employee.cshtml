@@ -31,7 +31,7 @@
                                                 <span class="btn btn-round btn-file">
                                                     <span class="fileinput-new">Select image</span>
                                                     <span class="fileinput-exists">เปลี่ยน</span>
-                                                    <input type="hidden"><input type="file" id="fileUpload" name="fileUpload" class="">
+                                                    <input type="hidden"><input type="file" id="fileAvatar" name="fileAvatar" class="">
                                                 </span>
                                                 <a class="btn btn-danger btn-round fileinput-exists" href="#" data-dismiss="fileinput"><i class="fa fa-times"></i> ลบ</a>
                                             </div>
@@ -285,11 +285,11 @@
                                 <div class="row" style="display:none">
                                     <div class="col-md-6">
                                         @Html.Label("บัตรประชาชน", null, new { @class = "bmd-label-fixed" })
-                                        <input id="fileUpload" name="fileUpload" type="file" class="form-control file-upload">
+                                        <input id="fileAttach1" name="fileAttach1" type="file" class="form-control file-upload">
                                     </div>
                                     <div class="col-md-6">
                                         @Html.Label("ทะเบียนบ้าน", null, new { @class = "bmd-label-fixed" })
-                                        <input id="fileUpload" name="fileUpload" type="file" class="form-control file-upload">
+                                        <input id="fileAttach2" name="fileAttach2" type="file" class="form-control file-upload">
                                     </div>
                                 </div>
 
@@ -997,9 +997,13 @@
             return false;
         }
         else {
+            debugger;
+
             var form = $('.form-employee')[0];
             var data = new FormData(form);
-            data.append(".fileUpload", fileUpload);
+            data.append(".fileAvatar", fileAvatar);
+            data.append(".fileAttach1", fileAttach1);
+            data.append(".fileAttach2", fileAttach2);
 
             $.ajax({
                 type: 'POST',

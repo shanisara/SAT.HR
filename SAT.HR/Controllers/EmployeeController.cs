@@ -121,13 +121,13 @@ namespace SAT.HR.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveEmployee(EmployeeViewModel data, HttpPostedFileBase fileUpload)
+        public JsonResult SaveEmployee(EmployeeViewModel data)
         {
             ResponseData result = new Models.ResponseData();
             if (data.UserID != 0)
-                result = new EmployeeRepository().UpdateUserByEntity(data, fileUpload);
+                result = new EmployeeRepository().UpdateUserByEntity(data);
             else
-                result = new EmployeeRepository().AddUserByEntity(data, fileUpload);
+                result = new EmployeeRepository().AddUserByEntity(data);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

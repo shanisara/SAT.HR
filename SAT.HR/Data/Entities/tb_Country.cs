@@ -18,8 +18,8 @@ namespace SAT.HR.Data.Entities
         public tb_Country()
         {
             this.tb_Course = new HashSet<tb_Course>();
-            this.tb_User_Training = new HashSet<tb_User_Training>();
             this.tb_User_Education = new HashSet<tb_User_Education>();
+            this.tb_User_Training = new HashSet<tb_User_Training>();
         }
     
         public int CountryID { get; set; }
@@ -28,8 +28,8 @@ namespace SAT.HR.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Course> tb_Course { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_User_Training> tb_User_Training { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User_Education> tb_User_Education { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_User_Training> tb_User_Training { get; set; }
     }
 }
