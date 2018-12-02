@@ -48,6 +48,7 @@ namespace SAT.HR.Data.Repository
                 {
                     RowNumber = i + 1,
                     SecID = s.SecID,
+                    SecCode = s.SecCode,
                     SecName = s.SecName,
                     SecStatus = s.SecStatus,
                     DivID = (int)s.DivID,
@@ -74,6 +75,7 @@ namespace SAT.HR.Data.Repository
                 var list = db.vw_Section.Select(m => new SectionViewModel()
                 {
                     SecID = m.SecID,
+                    SecCode = m.SecCode,
                     SecName = m.SecName,
                     SecStatus = m.SecStatus,
                     DivID = (int)m.DivID,
@@ -92,6 +94,7 @@ namespace SAT.HR.Data.Repository
                 var data = db.vw_Section.Where(x => x.SecID == id).FirstOrDefault();
                 SectionViewModel model = new Models.SectionViewModel();
                 model.SecID = data.SecID;
+                model.SecCode = data.SecCode;
                 model.SecName = data.SecName;
                 model.SecStatus = data.SecStatus;
                 model.DivID = data.DivID;
@@ -110,6 +113,7 @@ namespace SAT.HR.Data.Repository
                 {
                     tb_Section model = new tb_Section();
                     model.SecID = data.SecID;
+                    model.SecCode = data.SecCode;
                     model.SecName = data.SecName;
                     model.SecStatus = (data.Status == "1") ? true : false;
                     //model.DivID = (int)data.DivID;
@@ -138,6 +142,7 @@ namespace SAT.HR.Data.Repository
                 {
                     var data = db.tb_Section.Single(x => x.SecID == newdata.SecID);
                     data.SecName = newdata.SecName;
+                    data.SecCode = newdata.SecCode;
                     data.SecStatus = (newdata.Status == "1") ? true : false;
                     //data.DivID = newdata.DivID;
                     data.DepID = newdata.DepID;

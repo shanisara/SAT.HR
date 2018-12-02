@@ -199,11 +199,21 @@ namespace SAT.HR.Helpers
             }
         }
 
+
+
         public static string PathUploadUserAvatar
         {
             get
             {
                 return SysConfigRepository.GetKeyValue("PathUploadUserAvatar");
+            }
+        }
+
+        public static string PathUploadUserEducation
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathUploadUserEducation");
             }
         }
 
@@ -247,6 +257,8 @@ namespace SAT.HR.Helpers
             }
         }
 
+
+
         public static string PathDownloadUserAvatar
         {
             get
@@ -279,6 +291,14 @@ namespace SAT.HR.Helpers
             }
         }
 
+        public static string PathDownloadUserEducation
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathDownloadUserEducation");
+            }
+        }
+
         public static string PathDownloadUserPosition
         {
             get
@@ -294,6 +314,16 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathDownloadCourse");
             }
         }
+
+
+        public static string PathReport
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathReportFile");
+            }
+        }
+
 
         public static string ServerName
         {
@@ -329,12 +359,6 @@ namespace SAT.HR.Helpers
                 return ConfigurationManager.AppSettings["ReportPassword"];
             }
         }
-        public static string PathReport
-        {
-            get
-            {
-                return SysConfigRepository.GetKeyValue("PathReportFile");
-            }
-        }       
+
     }   
 }

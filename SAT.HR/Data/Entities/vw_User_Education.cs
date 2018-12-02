@@ -31,5 +31,6 @@ namespace SAT.HR.Data.Entities
         public Nullable<decimal> UeGPA { get; set; }
         public Nullable<bool> UeEduOfficial { get; set; }
         public Nullable<bool> UeEduOfficialLevel { get; set; }
+        public string UePartFile { get; set; }
     }
 }

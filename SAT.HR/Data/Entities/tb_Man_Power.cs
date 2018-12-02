@@ -46,7 +46,7 @@ namespace SAT.HR.Data.Entities
         public virtual tb_Man_Power tb_Man_Power2 { get; set; }
         public virtual tb_Position tb_Position { get; set; }
         public virtual tb_Section tb_Section { get; set; }
-        public virtual tb_User tb_User { get; set; }
         public virtual tb_User_Type tb_User_Type { get; set; }
+        public virtual tb_User tb_User { get; set; }
     }
 }

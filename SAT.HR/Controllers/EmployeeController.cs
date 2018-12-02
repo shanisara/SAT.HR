@@ -167,7 +167,7 @@ namespace SAT.HR.Controllers
 
             ViewBag.MaritalStatus = DropDownList.GetMaritalStatus(model != null ? model.MaritalStatusID : null);
             ViewBag.Occupation = DropDownList.GetOccupation(model != null ? model.OcID : null);
-            //ViewBag.Position = DropDownList.GetPosition(model != null ? model.PoID : null, usertype, true);
+            ViewBag.Position = DropDownList.GetPosition(usertype, model != null ? model.PoID : null);
 
             return PartialView("_FamilyDetail", model);
         }
@@ -219,9 +219,9 @@ namespace SAT.HR.Controllers
         {
             ResponseData result = new Models.ResponseData();
             if (data.UeID != 0)
-                result = new EmployeeRepository().UpdateEducationByEntity(data);
+                result = new EmployeeRepository().UpdateEducationByEntity(data, fileUpload);
             else
-                result = new EmployeeRepository().AddEducationByEntity(data);
+                result = new EmployeeRepository().AddEducationByEntity(data, fileUpload);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -354,21 +354,6 @@ namespace SAT.HR.Controllers
         public JsonResult SaveInsignia(UserInsigniaViewModel data, HttpPostedFileBase fileUpload)
         {
             ResponseData result = new Models.ResponseData();
-
-            if (fileUpload != null && fileUpload.ContentLength > 0)
-            {
-                //if (fileUpload.ContentLength > 10240)
-                //{
-
-                //}
-
-                //var supportedTypes = new[] { "jpg", "jpeg", "png" };
-                //var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
-                //if (!supportedTypes.Contains(fileExt))
-                //{
-
-                //}
-            }
 
             if (data.UiID != 0)
                 result = new EmployeeRepository().UpdateInsigniaByEntity(data, fileUpload);

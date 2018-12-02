@@ -45,6 +45,7 @@ namespace SAT.HR.Data.Repository
                 {
                     RowNumber = i + 1,
                     DepID = s.DepID,
+                    DepCode = s.DepCode,
                     DepName = s.DepName,
                     DivID = s.DivID,
                     DivName = s.DivName,
@@ -70,6 +71,7 @@ namespace SAT.HR.Data.Repository
                 var list = db.vw_Department.Select(s => new DepartmentViewModel()
                 {
                     DepID = s.DepID,
+                    DepCode = s.DepCode,
                     DepName = s.DepName,
                     DepStatus = (bool)s.DepStatus,
                     DivID = s.DivID,
@@ -86,6 +88,7 @@ namespace SAT.HR.Data.Repository
                 var data = db.tb_Department.Where(x => x.DepID == id).FirstOrDefault();
                 DepartmentViewModel model = new Models.DepartmentViewModel();
                 model.DepID = data.DepID;
+                model.DepCode = data.DepCode;
                 model.DepName = data.DepName;
                 model.DepStatus = (bool)data.DepStatus;
                 model.Status = data.DepStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive;
@@ -103,6 +106,7 @@ namespace SAT.HR.Data.Repository
                 {
                     tb_Department model = new tb_Department();
                     model.DepID = data.DepID;
+                    model.DepCode = data.DepCode;
                     model.DepName = data.DepName;
                     model.DepStatus = (data.Status == "1") ? true : false;
                     model.DivID = (int)data.DivID;
@@ -129,6 +133,7 @@ namespace SAT.HR.Data.Repository
                 try
                 {
                     var data = db.tb_Department.Single(x => x.DepID == newdata.DivID);
+                    data.DepCode = newdata.DepCode;
                     data.DepName = newdata.DepName;
                     data.DepStatus = (newdata.Status == "1") ? true : false;
                     data.DivID = (int)newdata.DivID;

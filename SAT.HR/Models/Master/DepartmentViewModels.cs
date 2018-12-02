@@ -9,6 +9,7 @@ namespace SAT.HR.Models
         public int RowNumber { get; set; }
 
         public int DepID { get; set; }
+        public string DepCode { get; set; }
 
         public int? DivID { get; set; }
 

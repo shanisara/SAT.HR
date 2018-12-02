@@ -22,9 +22,7 @@ namespace SAT.HR.Controllers
         {
             DivisionViewModel model = new DivisionViewModel();
             if (id.HasValue)
-            {
                 model = new DivisionRepository().GetByID((int)id);
-            }
             return PartialView("_Division", model);
         }
 
@@ -68,9 +66,8 @@ namespace SAT.HR.Controllers
         {
             DepartmentViewModel model = new DepartmentViewModel();
             if (id.HasValue)
-            {
                 model = new DepartmentRepository().GetByID((int)id);
-            }
+            
             ViewBag.Division = DropDownList.GetDivision(model.DivID);
             return PartialView("_Department", model);
         }

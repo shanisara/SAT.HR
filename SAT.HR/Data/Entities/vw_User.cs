@@ -114,5 +114,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<bool> IsGPALower250 { get; set; }
         public Nullable<bool> IsToeicLower300 { get; set; }
         public Nullable<bool> IsAgeOver35 { get; set; }
+        public string FileAttach1 { get; set; }
+        public string FileAttach2 { get; set; }
     }
 }

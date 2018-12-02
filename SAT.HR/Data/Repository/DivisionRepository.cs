@@ -46,6 +46,7 @@ namespace SAT.HR.Data.Repository
                     {
                         RowNumber = i + 1,
                         DivID = s.DivID,
+                        DivCode = s.DivCode,
                         DivName = s.DivName,
                         DivStatus = s.DivStatus,
                         Status = s.DivStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive
@@ -71,24 +72,11 @@ namespace SAT.HR.Data.Repository
                 var data = db.tb_Division.Where(x => x.DivID == id).FirstOrDefault();
                 DivisionViewModel model = new Models.DivisionViewModel();
                 model.DivID = data.DivID;
+                model.DivCode = data.DivCode;
                 model.DivName = data.DivName;
                 model.DivStatus = data.DivStatus;
                 model.Status = data.DivStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive;
                 return model;
-            }
-        }
-
-        public List<DivisionViewModel> GetAll()
-        {
-            using (SATEntities db = new SATEntities())
-            {
-                var list = db.tb_Division.Select(s => new DivisionViewModel()
-                {
-                    DivID = s.DivID,
-                    DivName = s.DivName,
-                    DivStatus = s.DivStatus
-                }).OrderBy(x => x.DivName).ToList();
-                return list;
             }
         }
 
@@ -101,6 +89,7 @@ namespace SAT.HR.Data.Repository
                 {
                     tb_Division model = new tb_Division();
                     model.DivID = data.DivID;
+                    model.DivCode = data.DivCode;
                     model.DivName = data.DivName;
                     model.DivStatus = (data.Status == "1") ? true : false;
                     model.CreateBy = UtilityService.User.UserID;
@@ -126,6 +115,7 @@ namespace SAT.HR.Data.Repository
                 try
                 {
                     var data = db.tb_Division.Single(x => x.DivID == newdata.DivID);
+                    data.DivCode = newdata.DivCode;
                     data.DivName = newdata.DivName;
                     data.DivStatus = (newdata.Status == "1") ? true : false;
                     data.ModifyBy = UtilityService.User.UserID;

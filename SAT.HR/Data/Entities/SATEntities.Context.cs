@@ -107,9 +107,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Training_Course> tb_Training_Course { get; set; }
         public virtual DbSet<tb_Training_Type> tb_Training_Type { get; set; }
         public virtual DbSet<tb_Transfer_Type> tb_Transfer_Type { get; set; }
-        public virtual DbSet<tb_User> tb_User { get; set; }
         public virtual DbSet<tb_User_Certificate> tb_User_Certificate { get; set; }
-        public virtual DbSet<tb_User_Education> tb_User_Education { get; set; }
         public virtual DbSet<tb_User_Excellent> tb_User_Excellent { get; set; }
         public virtual DbSet<tb_User_Family> tb_User_Family { get; set; }
         public virtual DbSet<tb_User_History> tb_User_History { get; set; }
@@ -146,9 +144,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Section> vw_Section { get; set; }
         public virtual DbSet<vw_Title> vw_Title { get; set; }
         public virtual DbSet<vw_Trainning_Course> vw_Trainning_Course { get; set; }
-        public virtual DbSet<vw_User> vw_User { get; set; }
         public virtual DbSet<vw_User_Certificate> vw_User_Certificate { get; set; }
-        public virtual DbSet<vw_User_Education> vw_User_Education { get; set; }
         public virtual DbSet<vw_User_Excellent> vw_User_Excellent { get; set; }
         public virtual DbSet<vw_User_Family> vw_User_Family { get; set; }
         public virtual DbSet<vw_User_History> vw_User_History { get; set; }
@@ -158,6 +154,11 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Role> vw_User_Role { get; set; }
         public virtual DbSet<vw_User_Skill> vw_User_Skill { get; set; }
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
+        public virtual DbSet<tb_User_Education> tb_User_Education { get; set; }
+        public virtual DbSet<vw_User_Education> vw_User_Education { get; set; }
+        public virtual DbSet<tb_User> tb_User { get; set; }
+        public virtual DbSet<vw_Organization1> vw_Organization1 { get; set; }
+        public virtual DbSet<vw_User> vw_User { get; set; }
     
         public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
         {

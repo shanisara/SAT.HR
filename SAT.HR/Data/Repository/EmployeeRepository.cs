@@ -1001,7 +1001,7 @@ namespace SAT.HR.Data.Repository
             return data;
         }
 
-        public ResponseData AddEducationByEntity(UserEducationViewModel data)
+        public ResponseData AddEducationByEntity(UserEducationViewModel data, HttpPostedFileBase fileUpload)
         {
             using (SATEntities db = new SATEntities())
             {
@@ -1009,6 +1009,25 @@ namespace SAT.HR.Data.Repository
                 try
                 {
                     tb_User_Education model = new tb_User_Education();
+
+                    if (fileUpload != null && fileUpload.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(fileUpload.FileName);
+                        var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
+
+                        string directory = SysConfig.PathUploadUserEducation;
+                        bool isExists = System.IO.Directory.Exists(directory);
+                        if (!isExists)
+                            System.IO.Directory.CreateDirectory(directory);
+
+                        string newFileName = data.UserID.ToString() + DateTime.Now.ToString("_yyyyMMdd_hhmmss") + "." + fileExt;
+                        string fileLocation = Path.Combine(directory, newFileName);
+
+                        fileUpload.SaveAs(fileLocation);
+
+                        data.UePartFile = newFileName;
+                    }
+
                     model.UserID = data.UserID;
                     model.EduID = data.EduID;
                     model.DegID = data.DegID;
@@ -1036,7 +1055,7 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public ResponseData UpdateEducationByEntity(UserEducationViewModel newdata)
+        public ResponseData UpdateEducationByEntity(UserEducationViewModel newdata, HttpPostedFileBase fileUpload)
         {
             using (SATEntities db = new SATEntities())
             {
@@ -1044,6 +1063,25 @@ namespace SAT.HR.Data.Repository
                 try
                 {
                     var model = db.tb_User_Education.Single(x => x.UserID == newdata.UserID && x.UeID == newdata.UeID);
+
+                    if (fileUpload != null && fileUpload.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(fileUpload.FileName);
+                        var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
+
+                        string directory = SysConfig.PathUploadUserEducation;
+                        bool isExists = System.IO.Directory.Exists(directory);
+                        if (!isExists)
+                            System.IO.Directory.CreateDirectory(directory);
+
+                        string newFileName = newdata.UserID.ToString() + DateTime.Now.ToString("_yyyyMMdd_hhmmss") + "." + fileExt;
+                        string fileLocation = Path.Combine(directory, newFileName);
+
+                        fileUpload.SaveAs(fileLocation);
+
+                        newdata.UePartFile = newFileName;
+                    }
+
                     model.EduID = newdata.EduID;
                     model.DegID = newdata.DegID;
                     model.MajID = newdata.MajID;

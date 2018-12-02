@@ -10,7 +10,7 @@ namespace SAT.HR.Models
         public int RowNumber { get; set; }
 
         public int SecID { get; set; }
-
+        public string SecCode { get; set; }
         public string SecName { get; set; }
 
         public int? DivID { get; set; }
