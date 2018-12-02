@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="~/Content/assets/img/favicon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <title>Human Resource Management System</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Menu -->
+        @Html.Action("Index", "Menu")
+
+        <div class="main-panel">
+            <!-- Top Navbar -->
+            @Html.Partial("_TopNavbar")
+
+            <!-- Main view  -->
+            @RenderBody()
+
+            <!-- Footer -->
+            @Html.Partial("_Footer")
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/plugin")
+
+    <script>
+        $(document).ready(function () {
+
+
+            //if ($('.slider').length != 0) {
+            //    md.initSliders();
+            //}
+
+            $("#minimizeSidebar").click(function () {
+                $body = $('body');
+                if ($body.hasClass('sidebar-mini')) {
+                    $body.removeClass('sidebar-mini');
+                }
+                else {
+                    $body.addClass('sidebar-mini');
+                }
+            });
+
+
+            $(document).ajaxStart(function () {
+                $.blockUI({
+                    message: 'กรุณารอสักครู่...',
+                    css: {
+                        border: 'none',
+                        padding: '15px',
+                        backgroundColor: '#000',
+                        '-webkit-border-radius': '10px',
+                        '-moz-border-radius': '10px',
+                        opacity: .5,
+                        color: '#fff'
+                    }
+                });
+                if (typeof NProgress != 'undefined') {
+                    NProgress.start();
+                }
+            }).ajaxStop(function () {
+                $.unblockUI();
+                if (typeof NProgress != 'undefined') {
+                    NProgress.done();
+                }
+            //}).ajaxSend(function (event, xhr, settings) {
+            //    $.blockUI({ message: null }); 
+            }).ajaxSuccess(function (event, xhr, settings) {
+                $.unblockUI();
+                if (typeof NProgress != 'undefined') {
+                    NProgress.done();
+                }
+            }).ajaxError(function (event, jqxhr, settings, thrownError) {
+                $.unblockUI();
+                if (typeof NProgress != 'undefined') {
+                    NProgress.done();
+                }
+                try {
+                    var jsonValue = jQuery.parseJSON(jqxhr.responseText);
+                    $.alert({
+                        columnClass: 'col-xs-10 col-xs-offset-1',
+                        theme: 'supervan',
+                        content: jsonValue.message + '</br>' + jsonValue.callstack,
+                        title: 'Internal Server Error', // hides the title.
+                        //cancelButton: true, // hides the cancel button.
+                        //confirmButton: true, // hides the confirm button.
+                        closeIcon: false, // hides the close icon.
+                        //content: false, // hides content block.
+                        //backgroundDismiss:true
+                    });
+                } catch (e) { }
+            });
+
+
+        });
+
+        
+    </script>
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

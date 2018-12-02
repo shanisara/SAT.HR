@@ -171,12 +171,17 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var list = db.vw_Department.Where(m => m.DivID == divid)
-                    .Select(s => new DepartmentViewModel()
-                    {
-                        DepID = s.DepID,
-                        DepName = s.DepName,
-                    }).OrderBy(x => x.DepName).ToList();
+                var data = db.vw_Department.ToList();
+
+                if (divid.HasValue)
+                    data = data.Where(m => m.DivID == divid).ToList();
+
+                var list = data.Select(s => new DepartmentViewModel()
+                            {
+                                DepID = s.DepID,
+                                DepName = s.DepName,
+                            }).OrderBy(x => x.DepName).ToList();
+
                 return list;
             }
         }

@@ -1,0 +1,105 @@
+﻿@model SAT.HR.Models.BenefitHomeRentalViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-detail" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.UserID)
+    @Html.HiddenFor(m => m.BhrID)
+
+    <div class="form-horizontal">
+        <div class="row">
+            <label class="col-sm-2 col-form-label">ปีบัญชี<span class="text-danger"> *</span></label>
+            <div class="col-sm-3">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BhrYear, new { @class = "form-control", type = "number", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-sm-2 col-form-label">ประเภท<span class="text-danger"> *</span></label>
+            <div class="col-sm-3">
+                <div class="dropdown bootstrap-select dropup">
+                    @Html.DropDownListFor(x => x.RID, new SelectList((IEnumerable<SelectListItem>)ViewBag.RentType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
+                </div>
+            </div>
+            <label class="col-sm-2 col-form-label">ส่วน<span class="text-danger"> *</span></label>
+            <div class="col-sm-5">
+                <div class="dropdown bootstrap-select dropup">
+                    @Html.DropDownListFor(x => x.RID, new SelectList((IEnumerable<SelectListItem>)ViewBag.PartType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row m-t-5">
+            <label class="col-sm-2 col-form-label">ระดับ<span class="text-danger"> *</span></label>
+            <div class="col-sm-3">
+                <div class="dropdown bootstrap-select dropup">
+                    @Html.DropDownListFor(x => x.BhrLevel, new SelectList((IEnumerable<SelectListItem>)ViewBag.BhrLevel, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
+                </div>
+            </div>
+            <label class="col-sm-2 col-form-label">ขั้น<span class="text-danger"> *</span></label>
+            <div class="col-sm-5">
+                <div class="dropdown bootstrap-select dropup">
+                    @Html.DropDownListFor(x => x.BhrStep, new SelectList((IEnumerable<SelectListItem>)ViewBag.BhrStep, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row m-t-5">
+            <label class="col-sm-2 col-form-label">วันที่เริ่ม<span class="text-danger"> *</span></label>
+            <div class="col-sm-3">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BhrStartDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
+                </div>
+            </div>
+            <label class="col-sm-2 col-form-label">วันที่สิ้นสุด<span class="text-danger"> *</span></label>
+            <div class="col-sm-5">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BhrEndDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-sm-2 col-form-label">จำนวนเงิน<span class="text-danger"> *</span></label>
+            <div class="col-sm-10">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BhrAmout, new { @class = "form-control", type = "number", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("หมายเหตุ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BhrRemark, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    if ('@Model.BhrLevel' != '') {
+        $('select[name=BhrLevel]').val('@Model.BhrLevel');
+        $('select[name=BhrLevel]').selectpicker('refresh');
+    }
+
+    if ('@Model.BhrStep' != '') {
+        $('select[name=BhrStep]').val('@Model.BhrStep');
+        $('select[name=BhrStep]').selectpicker('refresh');
+    }
+
+    $('.selectpicker').selectpicker();
+
+    $('.datepicker').datetimepicker({
+        format: 'DD/MM/YYYY',
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-screenshot',
+            clear: 'fa fa-trash',
+            close: 'fa fa-remove'
+        }
+    });
+</script>

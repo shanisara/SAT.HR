@@ -1,0 +1,110 @@
+﻿@model SAT.HR.Models.BenefitLoanViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-detail" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.UserID)
+    @Html.HiddenFor(m => m.BlID)
+
+    <div class="form-horizontal">
+        <div class="row">
+            <label class="col-sm-2 col-form-label">ปีบัญชี<span class="text-danger"> *</span></label>
+            <div class="col-sm-4">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BlYear, new { @class = "form-control", type = "number", required = "true" })
+                </div>
+            </div>
+            <label class="col-sm-2 col-form-label">แหล่งเงินกู้<span class="text-danger"> *</span></label>
+            <div class="col-sm-4">
+                <div class="dropdown bootstrap-select dropup">
+                    @Html.DropDownListFor(x => x.BID, new SelectList((IEnumerable<SelectListItem>)ViewBag.BankLoan, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row m-t-5">
+            <label class="col-sm-2 col-form-label">ประเภทเงินกู้<span class="text-danger"> *</span></label>
+            <div class="col-sm-4">
+                <div class="dropdown bootstrap-select dropup">
+                    @Html.DropDownListFor(x => x.LtID, new SelectList((IEnumerable<SelectListItem>)ViewBag.LoanType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
+                </div>
+            </div>
+            <label class="col-sm-2 col-form-label">หมายเลขบัญชี<span class="text-danger"> *</span></label>
+            <div class="col-sm-4">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BlAccountNo, new { @class = "form-control", type = "number", required = "true" })
+                </div>
+            </div>
+        </div>
+       
+        <div class="row">
+            @Html.Label("วันที่เริ่มต้น", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-4">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BlStartDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
+                </div>
+            </div>
+            @Html.Label("วันที่สิ้นสุด", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-4">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BlEndDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
+                </div>
+            </div>
+        </div>
+        <div class="row m-t-5">
+            <label class="col-sm-2 col-form-label">ยอดเงินกู้<span class="text-danger"> *</span></label>
+            <div class="col-sm-4">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BISummaryAmout, new { @class = "form-control", type = "number", required = "true" })
+                </div>
+            </div>
+            @Html.Label("วันที่ปิดบัญชี", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-4">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BlCloseDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-sm-2 col-form-label">จำนวนงวด<span class="text-danger"> *</span></label>
+            <div class="col-sm-4">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BlPeriod, new { @class = "form-control", type = "number", required = "true" })
+                </div>
+            </div>
+            <label class="col-sm-2 col-form-label">ชำระต่องวด<span class="text-danger"> *</span></label>
+            <div class="col-sm-4">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BlPeriodPay, new { @class = "form-control", type = "number", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("หมายเหตุ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BlRemark, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+
+
+    $('.selectpicker').selectpicker();
+
+    $('.datepicker').datetimepicker({
+        format: 'DD/MM/YYYY',
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-screenshot',
+            clear: 'fa fa-trash',
+            close: 'fa fa-remove'
+        }
+    });
+</script>

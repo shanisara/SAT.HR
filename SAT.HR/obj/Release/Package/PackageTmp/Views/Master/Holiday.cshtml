@@ -1,0 +1,265 @@
+﻿
+@{
+    ViewBag.Title = "Holiday";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+        width: 120px;
+    }
+    .card [class*=card-header-] .card-title a {
+        color: #3C4858;
+    }
+    .card [class*=card-header-] .card-title a:hover {
+        color: #fff;
+    }
+</style>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">assignment</i>
+                        </div>
+                        <h4 class="card-title">
+                            <span>รายการวันหยุด</span>
+                            <div class="pull-right">
+                                @Html.DropDownList("Year", new SelectList((IEnumerable<SelectListItem>)ViewBag.YearHoliday, "Value", "Text"), new { @class = "selectpicker", data_style = "select-with-transition" })
+                            </div>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="toolbar">
+                            <button class="btn btn-primary btn-sm pull-right" data-toggle="modal" id="btnAdd"><i class="material-icons">add</i> เพิ่มวันหยุด</button>
+                        </div>
+                        <div class="material-datatables">
+                            <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th style="width:10%">ลำดับ</th>
+                                        <th style="width:10%">ปี</th>
+                                        <th style="width:15%">วันที่</th>
+                                        <th style="width:45%">วันหยุด</th>
+                                        <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- end content -->
+                </div>
+                <!--  end card  -->
+            </div>
+            <!-- end col-md-12 -->
+        </div>
+        <!-- end row -->
+    </div>
+</div>
+
+<!-- Classic Modal -->
+<div class="modal fade modal-large" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span>ข้อมูลวันหยุด</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="material-icons">clear</i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div class="container-fluid">
+                        <div id="detail"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-sm btn-primary" id="btnSave">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  End Modal -->
+
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+
+            var dataTable = {
+                table: null,
+                initializeDataTable: function () {
+                    var year = $('#Year').val();
+
+                    $table = $('#datatables');
+                    dataTable.table = $table.DataTable({
+                        "proccessing": true,
+                        "serverSide": true,
+                        responsive: true,
+                        language: {
+                            search: "_INPUT_",
+                            searchPlaceholder: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.searchPlaceholder)",
+                        },
+                        ajax: {
+                            url: '@Url.Action("Holiday", "Master")/' + "?year=" + year,
+                            type: "POST",
+                        },
+                        "columns": [
+                            { "data": "RowNumber", "orderable": true },
+                            { "data": "HolYear", "orderable": true },
+                            { "data": "HolDateText", "orderable": true },
+                            { "data": "HolDescription", "orderable": true }
+                        ],
+                        "columnDefs": [
+
+                            {
+                                "render": function (data, type, row) {
+                                    var inner = '<div class="td-actions text-right">' +
+                                        '<button type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.HolID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;' +
+                                        '<button type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.HolID + '"><i class="material-icons">close</i></button>' +
+                                        '</div>';
+                                    return inner;
+                                }, "targets": 4
+                            },
+                        ],
+                        "order": [[1, "asc"]],
+                        "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                        "pagingType": "full_numbers",
+                    });
+
+
+                    dataTable.table.on('click', '.edit', function () {
+                        var id = $(this)[0].dataset["id"];
+                        var url = '@Url.Action("HolidayDetail", "Master")/' + id;
+                        $.post(url, function (data) {
+                            $("#detail").html(data);
+                            $('#modalDetail').modal('show');
+                        });
+                    });
+
+                    dataTable.table.on('click', '.delete', function () {
+                        var id = $(this)[0].dataset["id"];
+                        showSwal.confirmDeleteMessage(id);
+                    });
+
+                },
+                getData: function () {
+                    if (dataTable.table == null)
+                        dataTable.initializeDataTable();
+                    else
+                        dataTable.table.ajax.reload();
+                },
+                renewData: function () {
+                    $('#datatables').dataTable().fnDestroy();
+                    dataTable.initializeDataTable();
+                }
+            }
+
+            dataTable.getData();
+
+            $('#Year').change(function () {
+                dataTable.renewData();
+            });
+
+            var showSwal = {
+                saveMessage: function () {
+                    swal({
+                        title: "",
+                        text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                        type: "success",
+                        buttonsStyling: false,
+                        confirmButtonClass: "btn btn-success",
+                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                    }).catch(swal.noop)
+                },
+                deleteMessage: function () {
+                    swal({
+                        title: '',
+                        text: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.DeleteSucceed)',
+                        type: 'success',
+                        confirmButtonClass: "btn btn-success",
+                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                        buttonsStyling: false
+                    }).catch(swal.noop)
+                },
+                confirmDeleteMessage: function (id) {
+                    swal({
+                        title: '',
+                        text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
+                        type: 'question',
+                        showCancelButton: true,
+                        confirmButtonClass: 'btn btn-success',
+                        cancelButtonClass: 'btn btn-danger',
+                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                        cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                        buttonsStyling: false
+                    }).then(function () {
+
+                        var url = '@Url.Action("DeleteHoliday", "Master")/' + id;
+                        $.ajax({
+                            type: 'POST',
+                            url: url,
+                            success: function (res) {
+                                if (res.MessageCode == null) {
+                                    showSwal.deleteMessage();
+                                    dataTable.getData();
+                                }
+                                else {
+                                    alert(res.MessageText);
+                                }
+                            }
+                        });
+                    }).catch(swal.noop)
+                }
+            }
+
+
+            // Add record
+            $("#btnAdd").click(function () {
+                var url = '@Url.Action("HolidayDetail", "Master")';
+                $.post(url, function (data) {
+                    $("#detail").html(data);
+                    $('#modalDetail').modal('show');
+                });
+            });
+
+            // Save record
+            $("#btnSave").click(function () {
+                //var status = $("#formDetail").valid();
+                //if (status) {
+                if ($('#HolDate').val() == "") {
+                    $('#HolDate').focus();
+                }
+                else if ($('#HolDescription').val() == "") {
+                    $('#HolDescription').focus();
+                }
+                else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("SaveHoliday", "Master")',
+                        data: $("#formDetail").serialize(),
+                        dataType: 'json',
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                showSwal.saveMessage();
+                                dataTable.getData();
+                                $('#modalDetail').modal('hide');
+                            }
+                            else {
+                                alert(res.MessageText);
+                            }
+                        }
+                    });
+                }
+            });
+
+            
+        });
+    </script>
+}

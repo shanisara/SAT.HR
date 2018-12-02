@@ -1,0 +1,60 @@
+﻿@model SAT.HR.Models.DepartmentViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formDetail" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.DepID)
+    @Html.Hidden("Status")
+
+    <div class="col-md-12">
+        <div class="row">
+            @Html.Label("ฝ่าย", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                <div class="form-group bmd-form-group">
+                    @*<label class="bmd-label-floating">ใส่ข้อมูลฝ่าย</label>*@
+                    @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "  -- กรุณาเลือก --", new { @class = "form-control selectpicker", data_show_subtext = "true", data_live_search = "true", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("กอง", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                <div class="form-group bmd-form-group">
+                    @*<label class="bmd-label-floating">ใส่ข้อมูลกอง</label>*@
+                    @Html.TextBoxFor(m => m.DepName, new { @class = "form-control", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("สถานะ", null, new { @class = "col-sm-2 col-form-label label-checkbox" })
+            <div class="col-sm-10">
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input checkbox" type="checkbox">
+                        <span class="form-check-sign" style="top:0px"><span class="check"></span></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        $('.selectpicker').selectpicker();
+
+        if ('@Model.DepStatus' == 'True') {
+            $(".checkbox").prop("checked", true);
+        }
+
+        $(".checkbox").click(function () {
+            var checked = $(this).is(':checked');
+            if (checked) {
+                $('#Status').val('1');
+            }
+            else {
+                $('#Status').val('0');
+            }
+        });
+
+    });
+</script>

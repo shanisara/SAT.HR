@@ -92,7 +92,6 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
-
         //public static List<SelectListItem> GetPositionByDep(int? typeid, int? depid, int? defaultValue)
         //{
         //    List<SelectListItem> list = new List<SelectListItem>();
@@ -414,14 +413,14 @@ namespace SAT.HR.Data.Repository
             if (group != null)
                 table = group.TableName;
 
-            //if (table == "tb_Division")
-            //    list = GetDivision(defaultValue);
-            //if (table == "tb_Department")
-            //    list = GetDepartmentFull(null, defaultValue, false);
-            //else if (table == "tb_Section")
-            //    list = GetSectionFull(null, null, defaultValue, false);
+            if (table == "tb_Division")
+                list = GetDivision(defaultValue);
+            if (table == "tb_Department")
+                list = GetDepartment(null, defaultValue);
+            else if (table == "tb_Section")
+                list = GetSection(null,null, defaultValue);
             if (table == "tb_Position")
-                list = GetPosition(defaultValue, 1);
+                list = GetPosition(1, defaultValue);
             else if (table == "tb_Level")
                 list = GetLevel(defaultValue);
             else if (table == "tb_Discipline")

@@ -1,0 +1,489 @@
+﻿@model SAT.HR.Models.PositionTransferViewModel
+
+@{
+    ViewBag.Title = "PositionTransferDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-icon card-header-primary">
+                    <div class="card-icon">
+                        <i class="material-icons">perm_identity</i>
+                    </div>
+                    <h4 class="card-title">
+                        <span>โยกย้ายอัตรากำลังพล </span><small class="text-primary"></small>
+                        <button type="button" class="btn btn-round pull-right btn-back">ย้อนกลับ</button>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "formDetail" }))
+                    {
+                        @Html.HiddenFor(m => m.MopID)
+                        @Html.HiddenFor(m => m.MopStatus)
+                        @Html.HiddenFor(m => m.MopPathFile)
+                        @Html.HiddenFor(m => m.UserTID, new { Value = @ViewBag.UserTypeID })
+
+                        <div class="form-horizontal">
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label" for="MlYear">ปีบัญชี<span class="text-danger"> *</span> </label>
+                                <div class="col-sm-2">
+                                    @Html.TextBoxFor(m => m.MopYear, new { @class = "form-control", required = "true" })
+                                </div>
+                                <label class="col-sm-2 col-form-label" for="MtID">ประเภทการโยกย้าย<span class="text-danger"> *</span> </label>
+                                <div class="col-sm-2">
+                                    @Html.DropDownListFor(n => n.MtID, new SelectList((IEnumerable<SelectListItem>)ViewBag.MoveType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
+                                </div>
+                                <label class="col-sm-2 col-form-label" for="UserTID">ประเภทบุคลากร<span class="text-danger"> *</span> </label>
+                                <div class="col-sm-2">
+                                    @Html.DropDownListFor(n => n.UserTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.UserType, "Value", "Text"), new { @class = "selectpicker", data_style = "select-with-transition" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label" for="MlBookCmd">เลขที่หนังสือคำสั่ง<span class="text-danger"> *</span> </label>
+                                <div class="col-sm-2">
+                                    @Html.TextBoxFor(m => m.MopBookCmd, new { @class = "form-control", required = "true" })
+                                </div>
+                                <label class="col-sm-2 col-form-label" for="MopDateCmd">วันที่ลงคำสั่ง<span class="text-danger"> *</span> </label>
+                                <div class="col-sm-2">
+                                    @Html.TextBoxFor(m => m.MopDateCmd, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
+                                </div>
+                                <label class="col-sm-2 col-form-label" for="MopDateEff">วันที่มีผล<span class="text-danger"> *</span> </label>
+                                <div class="col-sm-2">
+                                    @Html.TextBoxFor(m => m.MopDateEff, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
+                                </div>
+                            </div>
+                            <div class="row m-t-10">
+                                @Html.Label("ผู้ลงนาม: ", null, new { @class = "col-sm-2 col-form-label" })
+                                <div class="col-sm-2">
+                                    @Html.TextBoxFor(m => m.MopSignatory, new { @class = "form-control" })
+                                </div>
+                                @Html.Label("ไฟล์หนังสือคำสั่ง: ", null, new { @class = "col-sm-2 col-form-label" })
+                                <div class="col-sm-6">
+                                    <div class="input-group-prepend file-path">
+                                        <i class="fa fa-cloud-download m-t-15"></i>&nbsp;&nbsp;
+                                        <a class="m-t-15 file-name" target="_blank" href=@Url.Action("DownloadFilePositionTransfer", "Employee", new { id = Model.MopID })>@Model.MopPathFile</a>
+                                        <a class="btn btn-link btn-danger btn-just-icon file-delete" file-delete href="#" title="ลบ"><i class="material-icons">delete_forever</i></a>
+                                    </div>
+                                    @Html.TextBoxFor(m => m.fileUpload, new { @class = "form-control file-upload", @type = "file" })
+                                </div>
+                            </div>
+                            <div class="row m-b-10"></div>
+                        </div>
+
+                        <div class="toolbar pull-right">
+                            <button type="button" class="btn btn-primary btn-sm btn-new" data-toggle="modal"><i class="material-icons">add</i> เพิ่มรายการ</button>
+                        </div>
+
+                        <div class="position-transfer">
+                            <table id="tb-detail" data-url="@Url.Content("~/Employee/PositionTransferDetail")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                                <thead class="text-primary">
+                                    <tr>
+                                        <th style="width:4%" class="disabled-sorting">ลำดับ</th>
+                                        <th style="width:15%">ชื่อ-นามสกุล</th>
+                                        <th style="width:16%">ตำแหน่งเก่า</th>
+                                        <th style="width:16%">ตำแหน่งใหม่</th>
+                                        <th style="width:32%">รักษาการแทน</th>
+                                        <th style="width:8%">หมายเหตุ</th>
+                                        <th style="width:9%" class="disabled-sorting text-right">ปฏิบัติการ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null && Model.ListDetail != null)
+                                    {
+                                        int index = 1;
+                                        for (int i = 0; i < Model.ListDetail.Count; i++)
+                                        {
+                                            <tr data-userid="@Model.ListDetail[i].UserID" data-curmpid="@Model.ListDetail[i].CurMpID" data-movmpid="@Model.ListDetail[i].MovMpID" data-agentpotid="@Model.ListDetail[i].AgentPoTID" data-agentmpid="@Model.ListDetail[i].AgentMpID" data-remark=@Model.ListDetail[i].MovRemark>
+                                                <td>@index</td>
+                                                <td>@Model.ListDetail[i].FullName</td>
+                                                <td>@Model.ListDetail[i].CurrentPo</td>
+                                                <td>@Model.ListDetail[i].MovePo</td>
+                                                <td>
+                                                    @if (Model.ListDetail[i].AgentMpID != null)
+                                                    { 
+                                                        @Model.ListDetail[i].AgentPo
+                                                        <div style='font-size: 12px; color: #0000ff; border-bottom: #c0c0c0 0px dotted; margin-bottom: 5px;'><i class='fa fa-home'></i>@Model.ListDetail[i].ManPower</div>
+                                                    }
+                                                </td>
+                                                <td>@Model.ListDetail[i].MovRemark</td>
+                                                <td class="td-actions text-right">
+                                                    @if (Model.MopID != 0 && !(bool)Model.MopStatus)
+                                                    {
+                                                    <button title="ลบ" type="button" class="btn btn-round btn-danger btn-delete" data-id="@Model.ListDetail[i].UserID"><i class="material-icons">close</i></button>
+                                                    }
+                                                </td>
+                                            </tr>
+                                            index++;
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+                <div class="row m-b-10">
+                    <div class="ml-auto mr-auto">
+                        <button type="button" class="btn btn-round btn-back">ย้อนกลับ</button>
+                        @if (!(bool)Model.MopStatus)
+                        {
+                            <button type="button" class="btn btn-round btn-primary btn-save">บันทึก</button>
+                            if (Model.MopID != 0)
+                            {
+                            <button type="button" class="btn btn-round btn-primary btn-approve">ยืนยัน</button>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Classic Modal -->
+<div class="modal fade modal-large modal-transfer" role="dialog" aria-labelledby="modalTransferLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span>โยกย้ายอัตรากำลังพล</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div class="detail-transfer"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-roundbtn-default btn-close" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary btn-add">เพิ่มลงรายการ</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  End Modal -->
+
+<style>
+    .modal-dialog {
+        max-width: 1100px;
+        margin: 1.75rem auto;
+    }
+
+    .col-form-label {
+        font-size: 14px;
+    }
+
+    .label-text {
+        font-size: 14px;
+        line-height: 2.679;
+        color: #170cdb;
+        font-weight: 100;
+    }
+
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        vertical-align: top;
+    }
+
+    .table thead tr th {
+        font-size: 15px;
+    }
+
+    .form-control-error:read-only {
+        background-image: linear-gradient(to top,#d2d2d2 1px,rgba(210,210,210,0) 1px),linear-gradient(to top,#fc0909 1px,rgba(210,210,210,0) 3px);
+    }
+
+    .m-t-8 {
+        margin-top: 8px;
+    }
+</style>
+
+@section Scripts {
+<script>
+    $(document).ready(function () {
+
+        if ('@Model.MopPathFile' != '') {
+            $(".file-path").show();
+            $(".file-upload").hide();
+        }
+        else {
+            $(".file-path").hide();
+            $(".file-upload").show();
+        }
+
+        $('.datepicker').datetimepicker({
+            format: 'DD/MM/YYYY',
+            icons: {
+                time: "fa fa-clock-o",
+                date: "fa fa-calendar",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            }
+        });
+
+        var $validatorHead = $('.formDetail').validate({
+            rules: {
+                MlYear: {
+                    required: true,
+                    minlength: 4
+                },
+                MoveType: {
+                    required: true,
+                },
+                MopBookCmd: {
+                    required: true,
+                    minlength: 3,
+                },
+                MopDateCmdText: {
+                    required: true,
+                }
+            },
+            highlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-danger');
+                $(element).closest('.custom-select').addClass('form-control-error');
+            },
+            success: function (element) {
+                $(element).closest('.form-group').removeClass('has-danger').addClass('has-success');
+                $(element).closest('.custom-select').removeClass('form-control-error').addClass('form-control');
+            },
+            errorPlacement: function (error, element) {
+                $(element).append(error);
+            }
+        });
+
+        var runningIndex = function () {
+            var index = 1;
+            $('#tb-detail tbody tr td:first-child').each(function () {
+                $(this).html(index);
+                index++;
+            });
+        }
+
+        $(".file-delete").click(function () {
+            $("#MopPathFile").val('');
+            $(".file-upload").val('');
+            $(".file-upload").show();
+            $(".file-path").hide();
+        });
+
+        $(".file-upload").change(function () {
+            var book = $('#MopBookCmd').val();
+            var name = "คส.ที่ " + book + " เรื่องการโยกย้ายอัตรากำลังพล";
+            $("#MopPathFile").val(name);
+        });
+
+        $(".btn-back").click(function () {
+            var url = '@Url.Action("PositionTransfer", "Employee")';
+            window.location.href = url;
+        });
+
+        $(".btn-new").click(function () {
+            var type = $("#UserTID").val()
+            var url = '@Url.Action("PositionTransferDetailByID", "Employee")';
+            $.post(url, { id: 0, type: type }, function (data) {
+                $(".detail-transfer").html(data);
+                $('.modal-transfer').modal('show');
+            });
+        });
+
+        $(".btn-add").click(function () {
+            var $valid = $('.form-position-transfer').valid();
+            if (!$valid) {
+                if ($("#UserID").val() == '') {
+                    $('#UserID-error').text(''); //กรุณาระบุพนักงาน
+                }
+                if ($("#MovMpID").val() == '') {
+                    $('#MovMpID-error').text(''); //กรุณาระบุตำแหน่งที่ย้ายไป
+                }
+                return false;
+            }
+            else {
+                var userid = $("#UserID").val();
+                var curmpid = $('#CurMpID').val();
+                var movmpid = $('#MovMpID').val();
+                var agentmpid = $('#AgentMpID').val();
+                var agenttypeid = $('#AgentPoTID').val();
+                var username = $("#UserID option:selected").text();
+                var curponame = $(".user-po").text();
+                var movponame = $("#MovMpID option:selected").text();
+                var agentponame = $("#AgentMpID option:selected").text();
+                var agenttype = $("#AgentPoTID option:selected").text();
+                var agentmp = $('.agent-mp').text();
+                var remark = $("#MovRemark").val();
+
+                var agentpo = '';
+                if (agentmpid != '')
+                    agentpo = agenttype + ": " + agentponame + "<div style='font-size: 12px; color: #0000ff; border-bottom: #c0c0c0 0px dotted; margin-bottom: 5px;'><i class='fa fa-home'></i>" + agentmp + "</div>";
+
+                var data = "<tr data-userid='" + userid + "' data-curmpid='" + curmpid + "' data-movmpid='" + movmpid + "' data-agentpotid= '" + agenttypeid + "' data-agentmpid='" + agentmpid + "' data-remark='" + remark + "'>" +
+                    "<td></td>" +
+                    "<td>" + username + "</td>" +
+                    "<td>" + curponame + "</td>" +
+                    "<td>" + movponame + "</td>" +
+                    "<td>" + agentpo + "</td>" +
+                    "<td>" + remark + "</td> " +
+                    "<td class='td-actions text-right'><button title='ลบ' type='button' rel='tooltip' class='btn btn-round btn-danger btn-delete' data-id='" + userid + "'><i class='material-icons'>close</i></button></td>" +
+                    "</tr>";
+                $("#tb-detail tbody").append(data);
+
+                runningIndex();
+
+                $('.modal-transfer').modal('hide');
+            }
+        });
+
+        $(".btn-save").click(function () {
+            var $valid = $('.formDetail').valid();
+            if (!$valid) {
+                $validatorHead.focusInvalid();
+                return false;
+            }
+            else {
+                var qtd = 0;
+                $("#tb-detail tbody tr").each(function () {
+                    var userid = $(this).data("userid");
+                    var curmpid = $(this).data("curmpid");
+                    var movmpid = $(this).data("movmpid");
+                    var agentpotid = $(this).data("agentpotid");
+                    var agentmpid = $(this).data("agentmpid");
+                    var remark = $(this).data("remark");
+                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].UserID' value= '" + userid + "' > ");
+                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].CurMpID' value= '" + curmpid + "' > ");
+                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].MovMpID' value= '" + movmpid + "' > ");
+                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].AgentPoTID' value= '" + agentpotid + "' > ");
+                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].AgentMpID' value= '" + agentmpid + "' > ");
+                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].MovRemark' value= '" + remark + "' > ");
+                    qtd += 1;
+                });
+
+                var form = $('.formDetail')[0];
+                var data = new FormData(form);
+                data.append(".fileUpload", fileUpload);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SavePositionTransfer", "Employee")',
+                    data: data,
+                    dataType: 'json',
+                    enctype: 'multipart/form-data',
+                    processData: false,
+                    contentType: false,
+                    success: function (res) {
+                        if (res.MessageCode == null) {
+                            swal({
+                                title: "",
+                                text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                                type: "success",
+                                confirmButtonClass: "btn btn-primary",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                buttonsStyling: false,
+                            }).then(function () {
+                                if ($("#MopID").val() == 0)
+                                    $("#MopID").val(res.ID);
+                                if ($("#MopPathFile").val() != '') {
+                                    $(".file-name").text($("#MopPathFile").val());
+                                    $(".file-upload").hide();
+                                    $(".file-path").show();
+                                }
+                            });
+                        }
+                        else {
+                            swal({
+                                title: '',
+                                text: res.MessageText,
+                                type: 'error',
+                                confirmButtonClass: "btn btn-primary",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                buttonsStyling: false
+                            }).catch(swal.noop);
+                        }
+                    }
+                });
+            }
+        });
+
+        $(".btn-approve").click(function () {
+            debugger;
+            var mopid = $("#MopID").val();
+            if (mopid == 0) {
+                swal({
+                    title: "",
+                    text: "ต้องบันทึกข้อมูลก่อนการยืนยันโยกย้ายอัตรากำลังพล",
+                    type: "success",
+                    confirmButtonClass: "btn btn-primary",
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                    buttonsStyling: false,
+                }).then(function () {
+                });
+            }
+            else {
+                swal({
+                    title: '',
+                    text: "ยืนยันโยกย้ายอัตรากำลังพล",
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                    buttonsStyling: false
+                }).then(function () {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("ApprovePositionTransfer", "Employee")/' + mopid,
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                swal({
+                                    title: "",
+                                    text: "โยกย้ายอัตรากำลังพลเรียบร้อยแล้ว",
+                                    type: "success",
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                    buttonsStyling: false,
+                                }).then(function () {
+                                    $(".btn-save").hide();
+                                    $(".btn-approve").hide();
+                                });
+                            }
+                            else {
+                                swal({
+                                    title: '',
+                                    text: res.MessageText,
+                                    type: 'error',
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                    buttonsStyling: false
+                                }).catch(swal.noop);
+                            }
+                        }
+                    });
+                });
+            }
+        });
+
+        $("#tb-detail").on('click', '.btn-delete', function () {
+            var itemDelete = $(this);
+            swal({
+                title: '',
+                text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                buttonsStyling: false
+            }).then(function () {
+                itemDelete.parent().parent().remove();
+                runningIndex();
+            });
+        });
+
+    });
+</script>
+}

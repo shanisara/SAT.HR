@@ -180,12 +180,16 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var list = db.vw_Section.Where(m => m.DepID == depid)
-                    .Select(s => new SectionViewModel()
-                    {
-                        SecID = s.SecID,
-                        SecName = s.SecName,
-                    }).OrderBy(x => x.SecName).ToList();
+                var data = db.vw_Section.ToList();
+
+                if (depid.HasValue)
+                    data = data.Where(m => m.DepID == depid).ToList();
+
+                var list = data.Select(s => new SectionViewModel()
+                            {
+                                SecID = s.SecID,
+                                SecName = s.SecName,
+                            }).OrderBy(x => x.SecName).ToList();
                 return list;
             }
         }
