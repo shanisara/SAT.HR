@@ -18,6 +18,7 @@ namespace SAT.HR.Data.Entities
         public tb_Department()
         {
             this.tb_Man_Power = new HashSet<tb_Man_Power>();
+            this.tb_User_Position = new HashSet<tb_User_Position>();
         }
     
         public int DepID { get; set; }
@@ -32,5 +33,7 @@ namespace SAT.HR.Data.Entities
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Man_Power> tb_Man_Power { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_User_Position> tb_User_Position { get; set; }
     }
 }

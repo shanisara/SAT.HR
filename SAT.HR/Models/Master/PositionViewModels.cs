@@ -100,7 +100,7 @@ namespace SAT.HR.Models
         public string DivName { get; set; }
         public string DepName { get; set; }
         public string SecName { get; set; }
-        public string BelongTo { get; set; }
+        public string ManPower { get; set; }
     }
 
     public class PositionTransferDetailResult
@@ -167,6 +167,7 @@ namespace SAT.HR.Models
         public string PoName { get; set; }
         public string FullNameTh { get; set; }
         public string Position { get; set; }
+        public string ManPower { get; set; }
         public string Level { get; set; }
         public string Step { get; set; }
         public string Salary { get; set; }

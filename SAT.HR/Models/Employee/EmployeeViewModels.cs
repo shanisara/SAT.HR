@@ -50,6 +50,7 @@ namespace SAT.HR.Models
         public Nullable<int> EmpowerDepID { get; set; }
         public Nullable<int> EmpowerSecID { get; set; }
         public Nullable<int> AgentPoAID { get; set; }
+        public Nullable<int> AgentMpID { get; set; }
         public Nullable<int> AgentDepID { get; set; }
         public Nullable<int> AgentDivID { get; set; }
         public Nullable<int> AgentSecID { get; set; }

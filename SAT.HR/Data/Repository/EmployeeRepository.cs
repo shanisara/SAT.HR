@@ -269,26 +269,12 @@ namespace SAT.HR.Data.Repository
                     model.ResignDate = data.ResignDate;
                     model.ResignRemark = data.ResignRemark;
 
+                    model.MpID = data.MpID;
+                    model.MpCode = data.MpCode;
 
-                    //model.DivID = data.DivID;
+                    model.DivID = data.DivID;
                     model.DepID = data.DepID;
-                    //model.SecID = data.SecID;
-                    //if (model.DepID != null)
-                    //{
-                    //    string[] pathDepID = data.PathDepID.Split('.');
-                    //    model.DepLvl = pathDepID.Length > 1 ? Convert.ToInt32(pathDepID[1]) : Convert.ToInt32(pathDepID[0]);
-                    //    if (pathDepID.Length > 0)
-                    //        model.DepLvl1 = Convert.ToInt32(pathDepID[0]);
-                    //    if (pathDepID.Length > 1)
-                    //        model.DepLvl2 = Convert.ToInt32(pathDepID[1]);
-                    //    if (pathDepID.Length > 2)
-                    //        model.DepLvl3 = Convert.ToInt32(pathDepID[2]);
-                    //    if (pathDepID.Length > 3)
-                    //        model.DepLvl4 = Convert.ToInt32(pathDepID[3]);
-                    //    if (pathDepID.Length > 4)
-                    //        model.DepLvl5 = Convert.ToInt32(pathDepID[4]);
-                    //}
-
+                    model.SecID = data.SecID;
                     model.PoID = data.PoID;
                     model.ProjectNo = data.ProjectNo;
                     model.ProjectName = data.ProjectName;
@@ -297,43 +283,14 @@ namespace SAT.HR.Data.Repository
                     model.Salary = data.Salary.HasValue ? (decimal)data.Salary : 0;
                     
                     model.EmpowerID = data.EmpowerID;
-                    //model.EmpowerDivID = data.EmpowerDivID;
+                    model.EmpowerDivID = data.EmpowerDivID;
                     model.EmpowerDepID = data.EmpowerDepID;
-                    //model.EmpowerSecID = data.EmpowerSecID;
-                    //if (model.EmpowerDepID != null)
-                    //{
-                    //    string[] pathDepID = data.EmpowerPathDepID.Split('.');
-                    //    model.DepLvl = pathDepID.Length > 1 ? Convert.ToInt32(pathDepID[1]) : Convert.ToInt32(pathDepID[0]);
-                    //    if (pathDepID.Length > 0)
-                    //        model.EmpowerDepLvl1 = Convert.ToInt32(pathDepID[0]);
-                    //    if (pathDepID.Length > 1)
-                    //        model.EmpowerDepLvl2 = Convert.ToInt32(pathDepID[1]);
-                    //    if (pathDepID.Length > 2)
-                    //        model.EmpowerDepLvl3 = Convert.ToInt32(pathDepID[2]);
-                    //    if (pathDepID.Length > 3)
-                    //        model.EmpowerDepLvl4 = Convert.ToInt32(pathDepID[3]);
-                    //    if (pathDepID.Length > 4)
-                    //        model.EmpowerDepLvl5 = Convert.ToInt32(pathDepID[4]);
-                    //}
+                    model.EmpowerSecID = data.EmpowerSecID;
 
-                    //model.AgentDivID = data.AgentDivID;
+                    model.AgentMpID = data.AgentMpID;
+                    model.AgentDivID = data.AgentDivID;
                     model.AgentDepID = data.AgentDepID;
-                    //model.AgentSecID = data.AgentSecID;
-                    //if (model.AgentDepID != null)
-                    //{
-                    //    string[] pathDepID = data.AgentPathDepID.Split('.');
-                    //    model.DepLvl = pathDepID.Length > 1 ? Convert.ToInt32(pathDepID[1]) : Convert.ToInt32(pathDepID[0]);
-                    //    if (pathDepID.Length > 0)
-                    //        model.AgentDepLvl1 = Convert.ToInt32(pathDepID[0]);
-                    //    if (pathDepID.Length > 1)
-                    //        model.AgentDepLvl2 = Convert.ToInt32(pathDepID[1]);
-                    //    if (pathDepID.Length > 2)
-                    //        model.AgentDepLvl3 = Convert.ToInt32(pathDepID[2]);
-                    //    if (pathDepID.Length > 3)
-                    //        model.AgentDepLvl4 = Convert.ToInt32(pathDepID[3]);
-                    //    if (pathDepID.Length > 4)
-                    //        model.AgentDepLvl5 = Convert.ToInt32(pathDepID[4]);
-                    //}
+                    model.AgentSecID = data.AgentSecID;
                     model.AgentPoAID = data.AgentPoAID;
                     model.AgentPoID = data.AgentPoID;
 
@@ -394,7 +351,7 @@ namespace SAT.HR.Data.Repository
                 {
                     UserID = s.UserID,
                     UserName = s.UserName,
-                    FullNameTh = s.FullNameTh,
+                    FullNameTh = s.TiShortName + s.FullNameTh,
                     IDCard = s.IDCard
                 }).ToList();
                 return list;
@@ -566,14 +523,14 @@ namespace SAT.HR.Data.Repository
                         model.Salary = newdata.Salary;
 
                         model.EmpowerID = newdata.EmpowerID;
-                        //model.EmpowerDivID = newdata.EmpowerDivID;
+                        model.EmpowerDivID = newdata.EmpowerDivID;
                         model.EmpowerDepID = newdata.EmpowerDepID;
-                        //model.EmpowerSecID = newdata.EmpowerSecID;
+                        model.EmpowerSecID = newdata.EmpowerSecID;
 
                         model.AgentPoAID = newdata.AgentPoAID;
-                        //model.AgentDivID = newdata.AgentDivID;
+                        model.AgentDivID = newdata.AgentDivID;
                         model.AgentDepID = newdata.AgentDepID;
-                        //model.AgentSecID = newdata.AgentSecID;
+                        model.AgentSecID = newdata.AgentSecID;
                         model.AgentPoID = newdata.AgentPoID;
 
                         model.HomeAddr = newdata.HomeAddr;
@@ -605,23 +562,29 @@ namespace SAT.HR.Data.Repository
 
                         #region Division / Department /Section / Position
 
-                        var man = db.tb_Man_Power.Where(x => x.UserID == newdata.UserID).FirstOrDefault();
+                        var man = db.tb_Man_Power.Where(x => x.MpID == newdata.MpID).FirstOrDefault();
                         if (man != null)
                         {
-                            //var po = db.tb_Man_Power.Where(x => x.MpID == newdata.PoID).FirstOrDefault();
+                            man.UserID = newdata.UserID;
+                            man.DivID = newdata.DivID;
+                            man.DepID = newdata.DepID;
+                            man.SecID = newdata.SecID;
+                            man.PoID = man.PoID;
+                            db.SaveChanges();
+
+                            //var po = db.tb_Man_Power.Where(x => x.MpID == man.MpID).FirstOrDefault();
                             //if (po != null)
                             //{
-                            //man.DivID = newdata.DivID;
-                            //man.DepID = newdata.DepID;
-                            //man.SecID = newdata.SecID;
-                            //man.PoID = newdata.PoID;
-                            //db.SaveChanges();
+                            //    man.DivID = newdata.DivID;
+                            //    man.DepID = newdata.DepID;
+                            //    man.SecID = newdata.SecID;
+                            //    man.PoID = newdata.PoID;
+                            //    db.SaveChanges();
                             //}
                         }
                         //else
                         //{
                         //    int maxID = db.tb_Man_Power.Where(m => m.TypeID == newdata.UserType).Max(m => (int)m.MpID);
-
                         //    tb_Man_Power objMan = new tb_Man_Power();
                         //    objMan.MpID = maxID;
                         //    objMan.DivID = newdata.DivID;
@@ -1188,9 +1151,9 @@ namespace SAT.HR.Data.Repository
                     model.ActID = obj.ActID;
                     model.UpCmd = obj.UpCmd;
                     model.PoTID = obj.PoTID;
-                    //model.DivID = obj.DivID;
+                    model.DivID = obj.DivID;
                     model.DepID = obj.DepID;
-                    //model.SecID = obj.SecID;
+                    model.SecID = obj.SecID;
                     model.PoID = obj.PoID;
                     model.PoAID = obj.PoAID;
                     model.UpLevel = obj.UpLevel;
@@ -1244,9 +1207,9 @@ namespace SAT.HR.Data.Repository
                     model.ActID = data.ActID;
                     model.UpCmd = data.UpCmd;
                     model.PoTID = data.PoTID;
-                    //model.DivID = data.DivID;
+                    model.DivID = data.DivID;
                     model.DepID = data.DepID;
-                    //model.SecID = data.SecID;
+                    model.SecID = data.SecID;
                     model.PoID = data.PoID;
                     model.PoAID = data.PoAID;
                     model.UpLevel = data.UpLevel;
@@ -1256,7 +1219,6 @@ namespace SAT.HR.Data.Repository
                     if (data.UpForceDate.HasValue)
                         model.UpForceDate = UtilityService.ConvertDate2Save(data.UpForceDate);
                     model.UpRemark = data.UpRemark;
-                    //model.UpPathFile = data.UpPathFile;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -1303,9 +1265,9 @@ namespace SAT.HR.Data.Repository
                     model.ActID = newdata.ActID;
                     model.UpCmd = newdata.UpCmd;
                     model.PoTID = newdata.PoTID;
-                    //model.DivID = newdata.DivID;
+                    model.DivID = newdata.DivID;
                     model.DepID = newdata.DepID;
-                    //model.SecID = newdata.SecID;
+                    model.SecID = newdata.SecID;
                     model.PoID = newdata.PoID;
                     model.PoAID = newdata.PoAID;
                     model.UpLevel = newdata.UpLevel;
@@ -1315,7 +1277,6 @@ namespace SAT.HR.Data.Repository
                     if (newdata.UpForceDate.HasValue)
                         model.UpForceDate = UtilityService.ConvertDate2Save(newdata.UpForceDate);
                     model.UpRemark = newdata.UpRemark;
-                    //model.UpPathFile = newdata.UpPathFile;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();

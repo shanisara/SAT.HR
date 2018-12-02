@@ -69,10 +69,6 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> SalaryLevel { get; set; }
         public Nullable<decimal> SalaryStep { get; set; }
         public Nullable<decimal> Salary { get; set; }
-        public Nullable<int> EmpowerID { get; set; }
-        public Nullable<int> EmpowerDepID { get; set; }
-        public Nullable<int> AgentDepID { get; set; }
-        public Nullable<int> AgentPoID { get; set; }
         public string HomeAddr { get; set; }
         public Nullable<int> HomeSubDistrictID { get; set; }
         public Nullable<int> HomeDistrictID { get; set; }
@@ -102,9 +98,18 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> ResignID { get; set; }
         public string ResignRemark { get; set; }
         public Nullable<System.DateTime> ResignDate { get; set; }
+        public Nullable<int> EmpowerID { get; set; }
+        public Nullable<int> EmpowerDivID { get; set; }
+        public Nullable<int> EmpowerDepID { get; set; }
+        public Nullable<int> EmpowerSecID { get; set; }
+        public Nullable<int> AgentPoID { get; set; }
+        public Nullable<int> AgentDivID { get; set; }
+        public Nullable<int> AgentDepID { get; set; }
+        public Nullable<int> AgentSecID { get; set; }
         public Nullable<bool> IsGPALower250 { get; set; }
         public Nullable<bool> IsToeicLower300 { get; set; }
         public Nullable<bool> IsAgeOver35 { get; set; }
+        public Nullable<int> AgentMpID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Benefit_Cremation> tb_Benefit_Cremation { get; set; }
@@ -125,7 +130,6 @@ namespace SAT.HR.Data.Entities
         public virtual tb_Blood_Type tb_Blood_Type { get; set; }
         public virtual tb_Cripple tb_Cripple { get; set; }
         public virtual tb_Cripple_Type tb_Cripple_Type { get; set; }
-        public virtual tb_Empower tb_Empower { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Evaluation> tb_Evaluation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

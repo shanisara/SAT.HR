@@ -163,5 +163,20 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<DivisionViewModel> GetDivision()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.vw_Division
+                    .Select(s => new DivisionViewModel()
+                    {
+                        DivID = s.DivID,
+                        DivName = s.DivName,
+                    }).OrderBy(x => x.DivName).ToList();
+                return list;
+            }
+        }
+
+
     }
 }

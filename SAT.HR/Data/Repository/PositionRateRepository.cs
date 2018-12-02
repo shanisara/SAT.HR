@@ -73,9 +73,9 @@ namespace SAT.HR.Data.Repository
                     {
                         model.MpID = data.MpID;
                         model.MpCode = data.TypeID == 1 ? data.MpID.ToString().PadLeft(3, '0') : data.MpID.ToString().PadLeft(4, '0');
-                        //model.DivID = data.DivID;
-                        //model.DepID = data.DepID;
-                        //model.SecID = data.SecID;
+                        model.DivID = data.DivID;
+                        model.DepID = data.DepID;
+                        model.SecID = data.SecID;
                         model.PoID = data.PoID;
                         model.DisID = data.DisID;
                         model.UserID = data.UserID;
@@ -106,13 +106,17 @@ namespace SAT.HR.Data.Repository
                 try
                 {
                     int maxID = db.tb_Man_Power.Where(m => m.TypeID == data.TypeID).Max(m => (int)m.MpID);
+                    int newMpID = maxID + 1;
+                    int parentID = GetParentID(data.DivID, data.DepID, data.SecID);
 
                     tb_Man_Power model = new tb_Man_Power();
-                    model.MpID = maxID + 1;
+                    model.MpID = newMpID;
+                    model.ParentID = parentID;
+                    model.MpCode = newMpID.ToString().PadLeft(3, '0');
                     model.TypeID = data.TypeID;
-                    //model.DivID = data.DivID;
+                    model.DivID = data.DivID;
                     model.DepID = data.DepID;
-                    //model.SecID = data.SecID;
+                    model.SecID = data.SecID;
                     model.PoID = data.PoID;
                     model.DisID = data.DisID;
                     model.UserID = data.UserID;
@@ -124,6 +128,7 @@ namespace SAT.HR.Data.Repository
                     db.tb_Man_Power.Add(model);
                     db.SaveChanges();
                     result.ID = model.MpID;
+                    result.Code = model.MpCode;
                 }
                 catch (Exception ex)
                 {
@@ -142,9 +147,9 @@ namespace SAT.HR.Data.Repository
                 try
                 {
                     var model = db.tb_Man_Power.Single(x => x.MpID == newdata.MpID);
-                    //model.DivID = newdata.DivID;
+                    model.DivID = newdata.DivID;
                     model.DepID = newdata.DepID;
-                    //model.SecID = newdata.SecID;
+                    model.SecID = newdata.SecID;
                     model.PoID = newdata.PoID;
                     model.DisID = newdata.DisID;
                     model.UserID = newdata.UserID;
@@ -160,6 +165,39 @@ namespace SAT.HR.Data.Repository
                 }
                 return result;
             }
+        }
+
+        private int GetParentID(int? divid, int? depid, int? secid)
+        {
+            int parentID = 0;
+
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.vw_Man_Power.Where(x => x.DivID == divid).ToList();
+
+                if (depid == null && secid == null)
+                {
+                    data = data.Where(x => x.DepID == null && x.DepID == null).ToList();
+                }
+                else
+                {
+                    if (depid != null)
+                        data = data.Where(x => x.DepID != null).ToList();
+
+                    if (secid != null)
+                        data = data.Where(x => x.DepID == depid && x.SecID != null).ToList();
+                }
+
+                if (data.Count > 0)
+                {
+                    if (data[0].ParentID.HasValue)
+                    {
+                        parentID = (int)data[0].ParentID;
+                    }
+                }
+            }
+
+            return parentID;
         }
 
     }

@@ -19,7 +19,9 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> ActID { get; set; }
         public string UpCmd { get; set; }
         public Nullable<int> PoTID { get; set; }
+        public Nullable<int> DivID { get; set; }
         public Nullable<int> DepID { get; set; }
+        public Nullable<int> SecID { get; set; }
         public Nullable<int> PoID { get; set; }
         public Nullable<int> PoAID { get; set; }
         public string UpLevel { get; set; }
@@ -34,6 +36,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> ModifyBy { get; set; }
     
         public virtual tb_Action_Type tb_Action_Type { get; set; }
+        public virtual tb_Department tb_Department { get; set; }
         public virtual tb_Position_Type tb_Position_Type { get; set; }
         public virtual tb_User tb_User { get; set; }
     }

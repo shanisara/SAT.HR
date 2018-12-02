@@ -14,28 +14,28 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.tb_Department.ToList();
+                var data = db.vw_Department.ToList();
 
                 int recordsTotal = data.Count();
 
                 if (!string.IsNullOrEmpty(filter))
                 {
-                    //data = data.Where(x => x.DivName.Contains(filter) || x.DepName.Contains(filter)).ToList();
+                    data = data.Where(x => x.DivName.Contains(filter) || x.DepName.Contains(filter)).ToList();
                 }
 
                 int recordsFiltered = data.Count();
 
                 switch (sortBy)
                 {
-                    //case "DivName":
-                    //    data = (sortDir == "asc") ? data.OrderBy(x => x.DivName).ToList() : data.OrderByDescending(x => x.DivName).ToList();
-                    //    break;
+                    case "DivName":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.DivName).ToList() : data.OrderByDescending(x => x.DivName).ToList();
+                        break;
                     case "DepName":
                         data = (sortDir == "asc") ? data.OrderBy(x => x.DepName).ToList() : data.OrderByDescending(x => x.DepName).ToList();
                         break;
-                    //case "Status":
-                    //    data = (sortDir == "asc") ? data.OrderBy(x => x.DepStatus).ToList() : data.OrderByDescending(x => x.DepStatus).ToList();
-                    //    break;
+                    case "Status":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.DepStatus).ToList() : data.OrderByDescending(x => x.DepStatus).ToList();
+                        break;
                 }
 
                 int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
@@ -46,10 +46,10 @@ namespace SAT.HR.Data.Repository
                     RowNumber = i + 1,
                     DepID = s.DepID,
                     DepName = s.DepName,
-                    //DivID = s.DivID,
-                    //DivName = s.DivName,
-                    //DepStatus = (bool)s.DepStatus,
-                    //Status = s.DepStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive
+                    DivID = s.DivID,
+                    DivName = s.DivName,
+                    DepStatus = (bool)s.DepStatus,
+                    Status = s.DepStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive
                 }).Skip(start * length).Take(length).ToList();
 
 
@@ -67,13 +67,13 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var list = db.tb_Department.Select(s => new DepartmentViewModel()
+                var list = db.vw_Department.Select(s => new DepartmentViewModel()
                 {
                     DepID = s.DepID,
                     DepName = s.DepName,
-                    //DepStatus = (bool)s.DepStatus,
-                    //DivID = s.DivID,
-                    //DivName = s.DivName
+                    DepStatus = (bool)s.DepStatus,
+                    DivID = s.DivID,
+                    DivName = s.DivName
                 }).OrderBy(x => x.DepName).ToList();
                 return list;
             }
@@ -83,13 +83,13 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                //var data = db.tb_Department.Where(x => x.DepID == id).FirstOrDefault();
+                var data = db.tb_Department.Where(x => x.DepID == id).FirstOrDefault();
                 DepartmentViewModel model = new Models.DepartmentViewModel();
-                //model.DepID = data.DepID;
-                //model.DepName = data.DepName;
-                //model.DepStatus = (bool)data.DepStatus;
-                //model.Status = data.DepStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive;
-                //model.DivID = data.DivID;
+                model.DepID = data.DepID;
+                model.DepName = data.DepName;
+                model.DepStatus = (bool)data.DepStatus;
+                model.Status = data.DepStatus == true ? EnumType.StatusName.Active : EnumType.StatusName.NotActive;
+                model.DivID = data.DivID;
                 return model;
             }
         }
@@ -102,14 +102,14 @@ namespace SAT.HR.Data.Repository
                 try
                 {
                     tb_Department model = new tb_Department();
-                    //model.DepID = data.DepID;
-                    //model.DepName = data.DepName;
-                    //model.DepStatus = (data.Status == "1") ? true : false;
-                    //model.DivID = (int)data.DivID;
-                    //model.CreateBy = UtilityService.User.UserID;
-                    //model.CreateDate = DateTime.Now;
-                    //model.ModifyBy = UtilityService.User.UserID;
-                    //model.ModifyDate = DateTime.Now;
+                    model.DepID = data.DepID;
+                    model.DepName = data.DepName;
+                    model.DepStatus = (data.Status == "1") ? true : false;
+                    model.DivID = (int)data.DivID;
+                    model.CreateBy = UtilityService.User.UserID;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
                     db.tb_Department.Add(model);
                     db.SaveChanges();
                 }
@@ -128,13 +128,13 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    //var data = db.tb_Department.Single(x => x.DepID == newdata.DivID);
-                    //data.DepName = newdata.DepName;
-                    //data.DepStatus = (newdata.Status == "1") ? true : false;
-                    //data.DivID = (int)newdata.DivID;
-                    //data.ModifyBy = UtilityService.User.UserID;
-                    //data.ModifyDate = DateTime.Now;
-                    //db.SaveChanges();
+                    var data = db.tb_Department.Single(x => x.DepID == newdata.DivID);
+                    data.DepName = newdata.DepName;
+                    data.DepStatus = (newdata.Status == "1") ? true : false;
+                    data.DivID = (int)newdata.DivID;
+                    data.ModifyBy = UtilityService.User.UserID;
+                    data.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
                 }
                 catch (Exception)
                 {
@@ -151,12 +151,12 @@ namespace SAT.HR.Data.Repository
             {
                 try
                 {
-                    //var obj = db.tb_Department.SingleOrDefault(c => c.DepID == id);
-                    //if (obj != null)
-                    //{
-                    //    db.tb_Department.Remove(obj);
-                    //    db.SaveChanges();
-                    //}
+                    var obj = db.tb_Department.SingleOrDefault(c => c.DepID == id);
+                    if (obj != null)
+                    {
+                        db.tb_Department.Remove(obj);
+                        db.SaveChanges();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -167,78 +167,19 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-
-
-        //public List<DepartmentViewModel> GetDepartmentRoot(int? typeid)
-        //{
-        //    using (SATEntities db = new SATEntities())
-        //    {
-        //        var list = db.vw_Department.Where(m => m.TypeID == typeid && (m.DepLevel == 1 || m.DepLevel == 2))
-        //            .Select(s => new DepartmentViewModel()
-        //            {
-        //                DepID = s.DepID,
-        //                DepName = s.DepName,
-        //            }).OrderBy(x => x.DepName).ToList();
-        //        return list;
-        //    }
-        //}
-
-        //public List<DepartmentViewModel> GetDepartmentByParent(int? typeid, int? parentid)
-        //{
-        //    using (SATEntities db = new SATEntities())
-        //    {
-        //        var list = db.vw_Department.Where(m => m.ParentID == parentid && m.ParentID != null)
-        //            .Select(s => new DepartmentViewModel()
-        //            {
-        //                DepID = s.DepID,
-        //                DepName = s.DepName,
-        //            }).OrderBy(x => x.DepName).ToList();
-        //        return list;
-        //    }
-        //}
-
-
-
-        //public List<DepartmentViewModel> GetDepartmentLevel3(int? id)
-        //{
-        //    using (SATEntities db = new SATEntities())
-        //    {
-        //        var list = db.vw_Department.Where(m => m.DepLevel == 3 && m.ParentID == id).Select(s => new DepartmentViewModel()
-        //        {
-        //            DepID = s.DepID,
-        //            DepName = s.DepName,
-        //        }).OrderBy(x => x.DepName).ToList();
-        //        return list;
-        //    }
-        //}
-
-        //public List<DepartmentViewModel> GetDepartmentLevel4(int? id)
-        //{
-        //    using (SATEntities db = new SATEntities())
-        //    {
-        //        var list = db.vw_Department.Where(m => m.DepLevel == 4 && m.ParentID == id).Select(s => new DepartmentViewModel()
-        //        {
-        //            DepID = s.DepID,
-        //            DepName = s.DepName,
-        //        }).OrderBy(x => x.DepName).ToList();
-        //        return list;
-        //    }
-        //}
-
-        //public List<DepartmentViewModel> GetDepartmentLevel5(int? id)
-        //{
-        //    using (SATEntities db = new SATEntities())
-        //    {
-        //        var list = db.vw_Department.Where(m => m.DepLevel == 5 && m.ParentID == id).Select(s => new DepartmentViewModel()
-        //        {
-        //            DepID = s.DepID,
-        //            DepName = s.DepName,
-        //        }).OrderBy(x => x.DepName).ToList();
-        //        return list;
-        //    }
-        //}
-
-
+        public List<DepartmentViewModel> GetDepartment(int? divid)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var list = db.vw_Department.Where(m => m.DivID == divid)
+                    .Select(s => new DepartmentViewModel()
+                    {
+                        DepID = s.DepID,
+                        DepName = s.DepName,
+                    }).OrderBy(x => x.DepName).ToList();
+                return list;
+            }
+        }
 
     }
 }

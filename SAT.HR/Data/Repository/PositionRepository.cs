@@ -220,6 +220,5 @@ namespace SAT.HR.Data.Repository
                 return list;
             }
         }
-
     }
 }

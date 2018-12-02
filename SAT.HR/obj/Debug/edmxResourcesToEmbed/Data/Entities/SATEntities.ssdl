@@ -1018,10 +1018,6 @@
     <Property Name="SalaryLevel" Type="int" />
     <Property Name="SalaryStep" Type="decimal" Precision="18" Scale="2" />
     <Property Name="Salary" Type="decimal" Precision="18" Scale="2" />
-    <Property Name="EmpowerID" Type="int" />
-    <Property Name="EmpowerDepID" Type="int" />
-    <Property Name="AgentDepID" Type="int" />
-    <Property Name="AgentPoID" Type="int" />
     <Property Name="HomeAddr" Type="nvarchar" MaxLength="100" />
     <Property Name="HomeSubDistrictID" Type="int" />
     <Property Name="HomeDistrictID" Type="int" />
@@ -1051,9 +1047,18 @@
     <Property Name="ResignID" Type="int" />
     <Property Name="ResignRemark" Type="nvarchar" MaxLength="400" />
     <Property Name="ResignDate" Type="date" />
+    <Property Name="EmpowerID" Type="int" />
+    <Property Name="EmpowerDivID" Type="int" />
+    <Property Name="EmpowerDepID" Type="int" />
+    <Property Name="EmpowerSecID" Type="int" />
+    <Property Name="AgentPoID" Type="int" />
+    <Property Name="AgentDivID" Type="int" />
+    <Property Name="AgentDepID" Type="int" />
+    <Property Name="AgentSecID" Type="int" />
     <Property Name="IsGPALower250" Type="bit" />
     <Property Name="IsToeicLower300" Type="bit" />
     <Property Name="IsAgeOver35" Type="bit" />
+    <Property Name="AgentMpID" Type="int" />
   </EntityType>
   <EntityType Name="tb_User_Certificate">
     <Key>
@@ -1188,7 +1193,9 @@
     <Property Name="ActID" Type="int" />
     <Property Name="UpCmd" Type="nvarchar" MaxLength="200" />
     <Property Name="PoTID" Type="int" />
+    <Property Name="DivID" Type="int" />
     <Property Name="DepID" Type="int" />
+    <Property Name="SecID" Type="int" />
     <Property Name="PoID" Type="int" />
     <Property Name="PoAID" Type="int" />
     <Property Name="UpLevel" Type="nvarchar" MaxLength="50" />
@@ -1754,6 +1761,16 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Organization' does not have a
     <Property Name="PathMpID" Type="varchar" MaxLength="255" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV_3.dbo.vw_Salary_Level' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Level">
+          <Property Name="Level" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV_3.dbo.vw_Salary_Step' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Step">
+          <Property Name="Step" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Section">
     <Key>
@@ -1836,23 +1853,29 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User' does not have a primary
     <Property Name="SalaryLevel" Type="int" />
     <Property Name="SalaryStep" Type="decimal" Precision="18" Scale="2" />
     <Property Name="Salary" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="MpID" Type="int" />
+    <Property Name="MpCode" Type="nvarchar" MaxLength="20" />
+    <Property Name="DivID" Type="int" />
+    <Property Name="DivName" Type="nvarchar" MaxLength="200" />
     <Property Name="DepID" Type="int" />
     <Property Name="DepName" Type="nvarchar" MaxLength="200" />
-    <Property Name="PathDepID" Type="varchar" MaxLength="255" />
+    <Property Name="SecID" Type="int" />
+    <Property Name="SecName" Type="nvarchar" MaxLength="200" />
     <Property Name="PoID" Type="int" />
     <Property Name="PoName" Type="nvarchar" MaxLength="200" />
     <Property Name="ProjectNo" Type="nvarchar" MaxLength="100" />
     <Property Name="ProjectName" Type="nvarchar" MaxLength="200" />
     <Property Name="EmpowerID" Type="int" />
     <Property Name="EmpowerName" Type="nvarchar" MaxLength="100" />
+    <Property Name="EmpowerDivID" Type="int" />
     <Property Name="EmpowerDepID" Type="int" />
-    <Property Name="EmpowerDepName" Type="nvarchar" MaxLength="200" />
-    <Property Name="EmpowerPathDepID" Type="varchar" MaxLength="255" />
+    <Property Name="EmpowerSecID" Type="int" />
     <Property Name="AgentPoAID" Type="int" />
     <Property Name="AgentPoAName" Type="nvarchar" MaxLength="100" />
+    <Property Name="AgentMpID" Type="int" />
+    <Property Name="AgentDivID" Type="int" />
     <Property Name="AgentDepID" Type="int" />
-    <Property Name="AgentDepName" Type="nvarchar" MaxLength="200" />
-    <Property Name="AgentPathDepID" Type="varchar" MaxLength="255" />
+    <Property Name="AgentSecID" Type="int" />
     <Property Name="AgentPoID" Type="int" />
     <Property Name="PoAName" Type="nvarchar" MaxLength="100" />
     <Property Name="HomeAddr" Type="nvarchar" MaxLength="100" />
@@ -2988,6 +3011,18 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tb_User_Position_tb_Department">
+    <End Role="tb_Department" Type="Self.tb_Department" Multiplicity="0..1" />
+    <End Role="tb_User_Position" Type="Self.tb_User_Position" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Department">
+        <PropertyRef Name="DepID" />
+      </Principal>
+      <Dependent Role="tb_User_Position">
+        <PropertyRef Name="DepID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tb_User_Position_tb_Position_Type">
     <End Role="tb_Position_Type" Type="Self.tb_Position_Type" Multiplicity="0..1" />
     <End Role="tb_User_Position" Type="Self.tb_User_Position" Multiplicity="*" />
@@ -3153,18 +3188,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
       </Principal>
       <Dependent Role="tb_User">
         <PropertyRef Name="BloodID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_Users_tb_Empower">
-    <End Role="tb_Empower" Type="Self.tb_Empower" Multiplicity="0..1" />
-    <End Role="tb_User" Type="Self.tb_User" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Empower">
-        <PropertyRef Name="EmpowerID" />
-      </Principal>
-      <Dependent Role="tb_User">
-        <PropertyRef Name="EmpowerID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3895,23 +3918,29 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     [vw_User].[SalaryLevel] AS [SalaryLevel], 
     [vw_User].[SalaryStep] AS [SalaryStep], 
     [vw_User].[Salary] AS [Salary], 
+    [vw_User].[MpID] AS [MpID], 
+    [vw_User].[MpCode] AS [MpCode], 
+    [vw_User].[DivID] AS [DivID], 
+    [vw_User].[DivName] AS [DivName], 
     [vw_User].[DepID] AS [DepID], 
     [vw_User].[DepName] AS [DepName], 
-    [vw_User].[PathDepID] AS [PathDepID], 
+    [vw_User].[SecID] AS [SecID], 
+    [vw_User].[SecName] AS [SecName], 
     [vw_User].[PoID] AS [PoID], 
     [vw_User].[PoName] AS [PoName], 
     [vw_User].[ProjectNo] AS [ProjectNo], 
     [vw_User].[ProjectName] AS [ProjectName], 
     [vw_User].[EmpowerID] AS [EmpowerID], 
     [vw_User].[EmpowerName] AS [EmpowerName], 
+    [vw_User].[EmpowerDivID] AS [EmpowerDivID], 
     [vw_User].[EmpowerDepID] AS [EmpowerDepID], 
-    [vw_User].[EmpowerDepName] AS [EmpowerDepName], 
-    [vw_User].[EmpowerPathDepID] AS [EmpowerPathDepID], 
+    [vw_User].[EmpowerSecID] AS [EmpowerSecID], 
     [vw_User].[AgentPoAID] AS [AgentPoAID], 
     [vw_User].[AgentPoAName] AS [AgentPoAName], 
+    [vw_User].[AgentMpID] AS [AgentMpID], 
+    [vw_User].[AgentDivID] AS [AgentDivID], 
     [vw_User].[AgentDepID] AS [AgentDepID], 
-    [vw_User].[AgentDepName] AS [AgentDepName], 
-    [vw_User].[AgentPathDepID] AS [AgentPathDepID], 
+    [vw_User].[AgentSecID] AS [AgentSecID], 
     [vw_User].[AgentPoID] AS [AgentPoID], 
     [vw_User].[PoAName] AS [PoAName], 
     [vw_User].[HomeAddr] AS [HomeAddr], 
@@ -4468,6 +4497,10 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
       <End Role="tb_Action_Type" EntitySet="tb_Action_Type" />
       <End Role="tb_User_Position" EntitySet="tb_User_Position" />
     </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Position_tb_Department" Association="Self.FK_tb_User_Position_tb_Department">
+      <End Role="tb_Department" EntitySet="tb_Department" />
+      <End Role="tb_User_Position" EntitySet="tb_User_Position" />
+    </AssociationSet>
     <AssociationSet Name="FK_tb_User_Position_tb_Position_Type" Association="Self.FK_tb_User_Position_tb_Position_Type">
       <End Role="tb_Position_Type" EntitySet="tb_Position_Type" />
       <End Role="tb_User_Position" EntitySet="tb_User_Position" />
@@ -4522,10 +4555,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     </AssociationSet>
     <AssociationSet Name="FK_tb_Users_tb_Blood_Type" Association="Self.FK_tb_Users_tb_Blood_Type">
       <End Role="tb_Blood_Type" EntitySet="tb_Blood_Type" />
-      <End Role="tb_User" EntitySet="tb_User" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Users_tb_Empower" Association="Self.FK_tb_Users_tb_Empower">
-      <End Role="tb_Empower" EntitySet="tb_Empower" />
       <End Role="tb_User" EntitySet="tb_User" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_Users_tb_Marital_Status" Association="Self.FK_tb_Users_tb_Marital_Status">

@@ -29,7 +29,7 @@
         <div class="row">
             @Html.Label("ฝ่าย/กอง/งาน: ", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-10">
-                <span class="label-text user-belong"></span>
+                <span class="label-text user-mp"></span>
             </div>
         </div>
         <div class="row">
@@ -50,7 +50,7 @@
         <div class="row">
             @Html.Label("ฝ่าย/กอง/งาน: ", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-10">
-                <span class="label-text move-belong"></span>
+                <span class="label-text move-mp"></span>
             </div>
         </div>
         <div class="row">
@@ -78,7 +78,7 @@
         <div class="row">
             @Html.Label("ฝ่าย/กอง/งาน: ", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-10">
-                <span class="label-text agent-belong"></span>
+                <span class="label-text agent-mp"></span>
             </div>
         </div>
         <div class="row">
@@ -105,12 +105,12 @@
             data: { userid: userid },
             dataType: 'json',
             success: function (res) {
-                var belong = res.BelongTo;
+                var manpower = res.ManPower;
                 var poname = res.Position;
                 var level = res.Level;
                 var curmpid = res.MpID;
                 $('#CurMpID').val(curmpid);
-                $('.user-belong').text(belong);
+                $('.user-mp').text(manpower);
                 $('.user-po').text(poname);
                 $('.user-level').text(level);
             }
@@ -125,9 +125,9 @@
             data: { mpid: mpid },
             dataType: 'json',
             success: function (res) {
-                var belong = res.BelongTo;
-                var username = res.FullName;
-                $('.move-belong').text(belong);
+                var manpower = res.ManPower;
+                var username = res.FullNameTh;
+                $('.move-mp').text(manpower);
                 $('.move-name').text(username);
             }
         });
@@ -141,9 +141,9 @@
             data: { mpid: mpid },
             dataType: 'json',
             success: function (res) {
-                var belong = res.BelongTo;
-                var username = res.FullName;
-                $('.agent-belong').text(belong);
+                var manpower = res.ManPower;
+                var username = res.FullNameTh;
+                $('.agent-mp').text(manpower);
                 $('.agent-name').text(username);
             }
         });

@@ -44,23 +44,29 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> SalaryLevel { get; set; }
         public Nullable<decimal> SalaryStep { get; set; }
         public Nullable<decimal> Salary { get; set; }
+        public Nullable<int> MpID { get; set; }
+        public string MpCode { get; set; }
+        public Nullable<int> DivID { get; set; }
+        public string DivName { get; set; }
         public Nullable<int> DepID { get; set; }
         public string DepName { get; set; }
-        public string PathDepID { get; set; }
+        public Nullable<int> SecID { get; set; }
+        public string SecName { get; set; }
         public Nullable<int> PoID { get; set; }
         public string PoName { get; set; }
         public string ProjectNo { get; set; }
         public string ProjectName { get; set; }
         public Nullable<int> EmpowerID { get; set; }
         public string EmpowerName { get; set; }
+        public Nullable<int> EmpowerDivID { get; set; }
         public Nullable<int> EmpowerDepID { get; set; }
-        public string EmpowerDepName { get; set; }
-        public string EmpowerPathDepID { get; set; }
+        public Nullable<int> EmpowerSecID { get; set; }
         public Nullable<int> AgentPoAID { get; set; }
         public string AgentPoAName { get; set; }
+        public Nullable<int> AgentMpID { get; set; }
+        public Nullable<int> AgentDivID { get; set; }
         public Nullable<int> AgentDepID { get; set; }
-        public string AgentDepName { get; set; }
-        public string AgentPathDepID { get; set; }
+        public Nullable<int> AgentSecID { get; set; }
         public Nullable<int> AgentPoID { get; set; }
         public string PoAName { get; set; }
         public string HomeAddr { get; set; }

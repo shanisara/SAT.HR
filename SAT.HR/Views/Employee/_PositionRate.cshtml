@@ -33,13 +33,13 @@
     <div class="row">
         @Html.Label("กอง: ", null, new { @class = "col-sm-3 col-form-label" })
         <div class="col-sm-9">
-            @Html.DropDownListFor(n => n.DepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Department, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true", required = "true" })
+            @Html.DropDownListFor(n => n.DepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Department, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true" })
         </div>
     </div>
     <div class="row">
         @Html.Label("งาน: ", null, new { @class = "col-sm-3 col-form-label" })
         <div class="col-sm-9">
-            @Html.DropDownListFor(n => n.SecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Section, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true", required = "true" })
+            @Html.DropDownListFor(n => n.SecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Section, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true" })
         </div>
     </div>
     <div class="row">
@@ -66,13 +66,12 @@
     $('.selectpicker').selectpicker();
 
     $('select[name=DivID]').change(function () {
-        debugger;
         var type = $('#usertype').val();
         var divid = $('select[name=DivID]').val();
         $.ajax({
             type: 'POST',
-            url: '@Url.Action("DepartmentByDiv", "Master")', //GeDepartmentManPower
-            data: { divid: divid, type: type },
+            url: '@Url.Action("GetDepartment", "Master")', //GeDepartmentManPower
+            data: { type: type, divid: divid },
             dataType: 'json',
             success: function (res) {
                 $('select[name=DepID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
@@ -96,8 +95,8 @@
         var depid = $('select[name=DepID]').val();
         $.ajax({
             type: 'POST',
-            url: '@Url.Action("SectionByDep", "Master")', //GetSectionManPower
-            data: { divid: divid, depid: depid, type: type },
+            url: '@Url.Action("GetSection", "Master")', //GetSectionManPower
+            data: { type: type, divid: divid, depid: depid },
             dataType: 'json',
             success: function (res) {
                 $('select[name=SecID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');

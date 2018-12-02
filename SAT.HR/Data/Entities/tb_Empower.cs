@@ -14,16 +14,7 @@ namespace SAT.HR.Data.Entities
     
     public partial class tb_Empower
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tb_Empower()
-        {
-            this.tb_User = new HashSet<tb_User>();
-        }
-    
         public int EmpowerID { get; set; }
         public string EmpowerName { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_User> tb_User { get; set; }
     }
 }

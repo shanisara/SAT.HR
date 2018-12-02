@@ -184,6 +184,7 @@
     <EntitySet Name="vw_Move_Level_Head" EntityType="SAT.HR.vw_Move_Level_Head" />
     <EntitySet Name="vw_Move_Man_Power_Detail" EntityType="SAT.HR.vw_Move_Man_Power_Detail" />
     <EntitySet Name="vw_Move_Man_Power_Head" EntityType="SAT.HR.vw_Move_Man_Power_Head" />
+    <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
     <EntitySet Name="vw_Section" EntityType="SAT.HR.vw_Section" />
     <EntitySet Name="vw_Title" EntityType="SAT.HR.vw_Title" />
     <EntitySet Name="vw_Trainning_Course" EntityType="SAT.HR.vw_Trainning_Course" />
@@ -355,6 +356,10 @@
       <End Role="tb_Department" EntitySet="tb_Department" />
       <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
     </AssociationSet>
+    <AssociationSet Name="FK_tb_User_Position_tb_Department" Association="SAT.HR.FK_tb_User_Position_tb_Department">
+      <End Role="tb_Department" EntitySet="tb_Department" />
+      <End Role="tb_User_Position" EntitySet="tb_User_Position" />
+    </AssociationSet>
     <AssociationSet Name="FK_tb_Man_Power_tb_Discipline" Association="SAT.HR.FK_tb_Man_Power_tb_Discipline">
       <End Role="tb_Discipline" EntitySet="tb_Discipline" />
       <End Role="tb_Man_Power" EntitySet="tb_Man_Power" />
@@ -374,10 +379,6 @@
     <AssociationSet Name="FK_tb_User_Education_tb_Education" Association="SAT.HR.FK_tb_User_Education_tb_Education">
       <End Role="tb_Education" EntitySet="tb_Education" />
       <End Role="tb_User_Education" EntitySet="tb_User_Education" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Users_tb_Empower" Association="SAT.HR.FK_tb_Users_tb_Empower">
-      <End Role="tb_Empower" EntitySet="tb_Empower" />
-      <End Role="tb_User" EntitySet="tb_User" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_Evaluation_tb_User" Association="SAT.HR.FK_tb_Evaluation_tb_User">
       <End Role="tb_User" EntitySet="tb_User" />
@@ -563,7 +564,6 @@
       <End Role="tb_User" EntitySet="tb_User" />
       <End Role="tb_Working_Shift" EntitySet="tb_Working_Shift" />
     </AssociationSet>
-    <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
   </EntityContainer>
   <ComplexType Name="sp_Employee_List_Result">
     <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -1169,6 +1169,7 @@
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
     <NavigationProperty Name="tb_Man_Power" Relationship="SAT.HR.FK_tb_Man_Power_tb_Department" FromRole="tb_Department" ToRole="tb_Man_Power" />
+    <NavigationProperty Name="tb_User_Position" Relationship="SAT.HR.FK_tb_User_Position_tb_Department" FromRole="tb_Department" ToRole="tb_User_Position" />
   </EntityType>
   <EntityType Name="tb_Discipline">
     <Key>
@@ -1252,7 +1253,6 @@
     </Key>
     <Property Name="EmpowerID" Type="Int32" Nullable="false" />
     <Property Name="EmpowerName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Users_tb_Empower" FromRole="tb_Empower" ToRole="tb_User" />
   </EntityType>
   <EntityType Name="tb_Evaluation">
     <Key>
@@ -1886,10 +1886,6 @@
     <Property Name="SalaryLevel" Type="Int32" />
     <Property Name="SalaryStep" Type="Decimal" Precision="18" Scale="2" />
     <Property Name="Salary" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="EmpowerID" Type="Int32" />
-    <Property Name="EmpowerDepID" Type="Int32" />
-    <Property Name="AgentDepID" Type="Int32" />
-    <Property Name="AgentPoID" Type="Int32" />
     <Property Name="HomeAddr" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="HomeSubDistrictID" Type="Int32" />
     <Property Name="HomeDistrictID" Type="Int32" />
@@ -1919,9 +1915,18 @@
     <Property Name="ResignID" Type="Int32" />
     <Property Name="ResignRemark" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
     <Property Name="ResignDate" Type="DateTime" Precision="0" />
+    <Property Name="EmpowerID" Type="Int32" />
+    <Property Name="EmpowerDivID" Type="Int32" />
+    <Property Name="EmpowerDepID" Type="Int32" />
+    <Property Name="EmpowerSecID" Type="Int32" />
+    <Property Name="AgentPoID" Type="Int32" />
+    <Property Name="AgentDivID" Type="Int32" />
+    <Property Name="AgentDepID" Type="Int32" />
+    <Property Name="AgentSecID" Type="Int32" />
     <Property Name="IsGPALower250" Type="Boolean" />
     <Property Name="IsToeicLower300" Type="Boolean" />
     <Property Name="IsAgeOver35" Type="Boolean" />
+    <Property Name="AgentMpID" Type="Int32" />
     <NavigationProperty Name="tb_Benefit_Cremation" Relationship="SAT.HR.FK_tb_Benefit_Cremation_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Cremation" />
     <NavigationProperty Name="tb_Benefit_Death_Replacement" Relationship="SAT.HR.FK_tb_Benefit_Death_Replacement_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Death_Replacement" />
     <NavigationProperty Name="tb_Benefit_Death_Subsidy" Relationship="SAT.HR.FK_tb_Benefit_Death_Subsidy_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Death_Subsidy" />
@@ -1933,7 +1938,6 @@
     <NavigationProperty Name="tb_Blood_Type" Relationship="SAT.HR.FK_tb_Users_tb_Blood_Type" FromRole="tb_User" ToRole="tb_Blood_Type" />
     <NavigationProperty Name="tb_Cripple" Relationship="SAT.HR.FK_tb_User_tb_Cripple" FromRole="tb_User" ToRole="tb_Cripple" />
     <NavigationProperty Name="tb_Cripple_Type" Relationship="SAT.HR.FK_tb_User_tb_Cripple_Type" FromRole="tb_User" ToRole="tb_Cripple_Type" />
-    <NavigationProperty Name="tb_Empower" Relationship="SAT.HR.FK_tb_Users_tb_Empower" FromRole="tb_User" ToRole="tb_Empower" />
     <NavigationProperty Name="tb_Evaluation" Relationship="SAT.HR.FK_tb_Evaluation_tb_User" FromRole="tb_User" ToRole="tb_Evaluation" />
     <NavigationProperty Name="tb_Man_Power" Relationship="SAT.HR.FK_tb_Man_Power_tb_User" FromRole="tb_User" ToRole="tb_Man_Power" />
     <NavigationProperty Name="tb_Marital_Status" Relationship="SAT.HR.FK_tb_Users_tb_Marital_Status" FromRole="tb_User" ToRole="tb_Marital_Status" />
@@ -2107,7 +2111,9 @@
     <Property Name="ActID" Type="Int32" />
     <Property Name="UpCmd" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="PoTID" Type="Int32" />
+    <Property Name="DivID" Type="Int32" />
     <Property Name="DepID" Type="Int32" />
+    <Property Name="SecID" Type="Int32" />
     <Property Name="PoID" Type="Int32" />
     <Property Name="PoAID" Type="Int32" />
     <Property Name="UpLevel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2121,6 +2127,7 @@
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
     <NavigationProperty Name="tb_Action_Type" Relationship="SAT.HR.FK_tb_User_Position_tb_Action_Type" FromRole="tb_User_Position" ToRole="tb_Action_Type" />
+    <NavigationProperty Name="tb_Department" Relationship="SAT.HR.FK_tb_User_Position_tb_Department" FromRole="tb_User_Position" ToRole="tb_Department" />
     <NavigationProperty Name="tb_Position_Type" Relationship="SAT.HR.FK_tb_User_Position_tb_Position_Type" FromRole="tb_User_Position" ToRole="tb_Position_Type" />
     <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_User_Position_tb_User" FromRole="tb_User_Position" ToRole="tb_User" />
   </EntityType>
@@ -2630,6 +2637,24 @@
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
   </EntityType>
+  <EntityType Name="vw_Organization">
+    <Key>
+      <PropertyRef Name="MpID" />
+      <PropertyRef Name="MpCode" />
+      <PropertyRef Name="DepLevel" />
+    </Key>
+    <Property Name="MpID" Type="Int32" Nullable="false" />
+    <Property Name="MpCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ParentID" Type="Int32" />
+    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+    <Property Name="TypeID" Type="Int32" />
+    <Property Name="DepLevel" Type="Int32" Nullable="false" />
+    <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
   <EntityType Name="vw_Section">
     <Key>
       <PropertyRef Name="SecID" />
@@ -2705,23 +2730,29 @@
     <Property Name="SalaryLevel" Type="Int32" />
     <Property Name="SalaryStep" Type="Decimal" Precision="18" Scale="2" />
     <Property Name="Salary" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="MpID" Type="Int32" />
+    <Property Name="MpCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="DivID" Type="Int32" />
+    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="DepID" Type="Int32" />
     <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="PathDepID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="SecID" Type="Int32" />
+    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="PoID" Type="Int32" />
     <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="ProjectNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="ProjectName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="EmpowerID" Type="Int32" />
     <Property Name="EmpowerName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="EmpowerDivID" Type="Int32" />
     <Property Name="EmpowerDepID" Type="Int32" />
-    <Property Name="EmpowerDepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="EmpowerPathDepID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="EmpowerSecID" Type="Int32" />
     <Property Name="AgentPoAID" Type="Int32" />
     <Property Name="AgentPoAName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="AgentMpID" Type="Int32" />
+    <Property Name="AgentDivID" Type="Int32" />
     <Property Name="AgentDepID" Type="Int32" />
-    <Property Name="AgentDepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="AgentPathDepID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="AgentSecID" Type="Int32" />
     <Property Name="AgentPoID" Type="Int32" />
     <Property Name="PoAName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="HomeAddr" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
@@ -3499,6 +3530,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tb_User_Position_tb_Department">
+    <End Type="SAT.HR.tb_Department" Role="tb_Department" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_User_Position" Role="tb_User_Position" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Department">
+        <PropertyRef Name="DepID" />
+      </Principal>
+      <Dependent Role="tb_User_Position">
+        <PropertyRef Name="DepID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tb_Man_Power_tb_Discipline">
     <End Type="SAT.HR.tb_Discipline" Role="tb_Discipline" Multiplicity="0..1" />
     <End Type="SAT.HR.tb_Man_Power" Role="tb_Man_Power" Multiplicity="*" />
@@ -3556,18 +3599,6 @@
       </Principal>
       <Dependent Role="tb_User_Education">
         <PropertyRef Name="EduID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_Users_tb_Empower">
-    <End Type="SAT.HR.tb_Empower" Role="tb_Empower" Multiplicity="0..1" />
-    <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Empower">
-        <PropertyRef Name="EmpowerID" />
-      </Principal>
-      <Dependent Role="tb_User">
-        <PropertyRef Name="EmpowerID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -4123,22 +4154,4 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="vw_Organization">
-    <Key>
-      <PropertyRef Name="MpID" />
-      <PropertyRef Name="MpCode" />
-      <PropertyRef Name="DepLevel" />
-    </Key>
-    <Property Name="MpID" Type="Int32" Nullable="false" />
-    <Property Name="MpCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-    <Property Name="ParentID" Type="Int32" />
-    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
-    <Property Name="TypeID" Type="Int32" />
-    <Property Name="DepLevel" Type="Int32" Nullable="false" />
-    <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-  </EntityType>
 </Schema>
