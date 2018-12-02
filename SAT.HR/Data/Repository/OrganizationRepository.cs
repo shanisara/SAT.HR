@@ -18,19 +18,19 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
                     List<OrganizationViewModel> list = new List<OrganizationViewModel>();
-                    var data = db.vw_Department.Where(m => m.TypeID == usertype && m.ParentID == null).ToList();
+                    var data = db.vw_Organization.Where(m => m.TypeID == usertype && m.ParentID == null).ToList();
 
                     foreach (var item in data)
                     {
                         var model = new TreeViewModel();
-                        model.id = item.DepID.ToString();
-                        model.text = item.DepName;
+                        model.id = item.MpID.ToString();
+                        model.text = item.DivName;
                         model.children = true;
                         model.state = new TreeStateViewModel() { opened = true };
                         model.icon = SysConfig.ApplicationRoot + "Content/assets/img/home.png";
                         items.Add(model);
                     }
-                    
+
                     return items;
                 }
             }
@@ -50,81 +50,118 @@ namespace SAT.HR.Data.Repository
                     List<OrganizationViewModel> list = new List<OrganizationViewModel>();
 
                     int parentid = Convert.ToInt32(id);
-                    var data = db.vw_Department.Where(m => m.TypeID == usertype && m.ParentID == parentid).OrderBy(o => o.Seq).ToList();
+                    var organization = db.vw_Organization.Where(m => m.TypeID == usertype && m.ParentID == parentid)/*.OrderBy(o => o.Seq)*/.ToList();
 
-                    var orgemp = db.vw_Man_Power.Where(m => m.DepID == parentid).ToList();
-                    foreach (var org in orgemp)
+                    var data = new List<OrganizationViewModel>();
+                    if (organization.Count > 0)
                     {
-                        var emp = new TreeViewModel();
-                        emp.id = org.MpID.ToString() + "_" + org.DepID.ToString();
-                        emp.text = " (" + org.MpCode + ") " + org.TiShortName + (string.IsNullOrEmpty(org.FullNameTh) ? "ตำแหน่งว่าง ✓" : org.FullNameTh) +" (" + org.PoName +")";
-                        emp.children = false;
-                        emp.state = new TreeStateViewModel() { opened = true };
-                        emp.icon = SysConfig.ApplicationRoot + "Content/assets/img/user2.png";
-                        items.Add(emp);
+                        if (organization[0].DepLevel == 1 || organization[0].DepLevel == 2 || organization[0].DepLevel == 3)
+                        {
+                            data = organization
+                                   .Select(s => new OrganizationViewModel
+                                   {
+                                       MpName = !string.IsNullOrEmpty(s.DepName) ? s.DepName : s.DivName,
+                                       MpID = s.MpID,
+                                       MpCode = s.MpCode,
+                                       ParentID = s.ParentID,
+                                       DivName = s.DivName,
+                                       DepName = s.DepName,
+                                       SecName = s.SecName,
+                                   }).ToList();
+                        }
+                        else if (organization[0].DepLevel == 4)
+                        {
+                            var secname = organization[0].SecName;
+                            if (!string.IsNullOrEmpty(secname))
+                            {
+                                data = organization.GroupBy(g => g.SecName)
+                                        .Select(group => new OrganizationViewModel
+                                        {
+                                            MpName = group.Key,
+                                            MpID = group.FirstOrDefault().MpID,
+                                            MpCode = group.FirstOrDefault().MpCode,
+                                            ParentID = group.FirstOrDefault().ParentID,
+                                            DivName = group.FirstOrDefault().DivName,
+                                            DepName = group.FirstOrDefault().DepName,
+                                            SecName = group.FirstOrDefault().SecName,
+                                        }).ToList();
+
+                            }
+                            else
+                            {
+                                data = organization.GroupBy(g => g.DepName)
+                                         .Select(group => new OrganizationViewModel
+                                         {
+                                             MpName = group.Key,
+                                             MpID = group.FirstOrDefault().MpID,
+                                             MpCode = group.FirstOrDefault().MpCode,
+                                             ParentID = group.FirstOrDefault().ParentID,
+                                             DivName = group.FirstOrDefault().DivName,
+                                             DepName = group.FirstOrDefault().DepName,
+                                             SecName = group.FirstOrDefault().SecName,
+                                         }).ToList();
+                            }
+                        }
+                        else if (organization[0].DepLevel == 5)
+                        {
+                            data = organization.GroupBy(g => g.SecName)
+                                    .Select(group => new OrganizationViewModel
+                                    {
+                                        MpName = group.Key,
+                                        MpID = group.FirstOrDefault().MpID,
+                                        MpCode = group.FirstOrDefault().MpCode,
+                                        ParentID = group.FirstOrDefault().ParentID,
+                                        DivName = group.FirstOrDefault().DivName,
+                                        DepName = group.FirstOrDefault().DepName,
+                                        SecName = group.FirstOrDefault().SecName,
+                                    }).ToList();
+                        }
+
+                        var orgemp = db.vw_Man_Power.Where(m => m.MpID == parentid).ToList();
+                        foreach (var org in orgemp)
+                        {
+                            var emp = new TreeViewModel();
+                            emp.id = org.MpID.ToString() + "_" + org.DivID.ToString();
+                            emp.text = " (" + org.MpCode + ") " + org.TiShortName + (string.IsNullOrEmpty(org.FullNameTh) ? "ตำแหน่งว่าง ✓" : org.FullNameTh) + " (" + org.PoName + ")";
+                            emp.children = false;
+                            emp.state = new TreeStateViewModel() { opened = true };
+                            emp.icon = SysConfig.ApplicationRoot + "Content/assets/img/user2.png";
+                            items.Add(emp);
+                        }
                     }
 
                     if (data.Count > 0)
                     {
                         foreach (var item in data)
                         {
-                            var countChild = db.vw_Department.Where(m => m.TypeID == usertype && m.ParentID == item.DepID && !string.IsNullOrEmpty(m.DepName)).Count();
-
                             var model = new TreeViewModel();
-                            model.id = item.DepID.ToString();
-                            model.text = item.DepName /*+ " (" + countChild + ")"*/;
+                            model.id = item.MpID.ToString();
+                            model.text = item.MpName;
                             model.children = true;
                             model.state = new TreeStateViewModel() { opened = true };
                             model.icon = SysConfig.ApplicationRoot + "Content/assets/img/department.gif";
-                            model.is_po = (countChild > 0) ? true : false;
+                            //model.is_po = (countChild > 0) ? true : false;
                             items.Add(model);
                         }
                     }
                     else
                     {
-                        items = GetPosition(parentid);
-                    }
+                        var sec = db.vw_Man_Power.Where(m => m.MpID == parentid).FirstOrDefault();
+                        var secid = sec.SecID;
 
-                    return items;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
+                        var users = db.vw_Man_Power.Where(m => m.SecID == secid).ToList();
+                        foreach (var item in users)
+                        {
+                            //var countEmp = db.vw_Man_Power.Where(m => m.MpID == item.MpID && m.UserID != null).Count();
 
-        public List<TreeViewModel> GetPosition(int depid)
-        {
-            var items = new List<TreeViewModel>();
-            try
-            {
-                using (SATEntities db = new SATEntities())
-                {
-                    List<OrganizationViewModel> list = new List<OrganizationViewModel>();
-
-                    //var data = db.vw_Man_Power.Where(m => m.DepID == depid)
-                    //            .GroupBy(item => item.PoID, (key, group) => new
-                    //            {
-                    //                PoID = key,
-                    //                PoName = group.FirstOrDefault().PoName,
-                    //                MpID = group.FirstOrDefault().MpID,
-                    //                MpCode = group.FirstOrDefault().MpCode
-                    //            }).ToList();
-
-                    var data = db.vw_Man_Power.Where(m => m.DepID == depid)/*.OrderBy(o => o.DepLevel)*/.ToList();
-
-                    foreach (var item in data)
-                    {
-                        //var countEmp = db.vw_Man_Power.Where(m => m.MpID == item.MpID && m.UserID != null).Count();
-
-                        var model = new TreeViewModel();
-                        model.id = item.MpID.ToString() +"_"+ item.PoID.ToString();
-                        model.text = " (" + item.MpCode + ") " + item.TiShortName + (string.IsNullOrEmpty(item.FullNameTh) ? "ตำแหน่งว่าง ✓" : item.FullNameTh) + " (" + item.PoName + ")";
-                        model.children = false;
-                        model.state = new TreeStateViewModel() { opened = true };
-                        model.icon = SysConfig.ApplicationRoot + "Content/assets/img/user2.png";
-                        items.Add(model);
+                            var model = new TreeViewModel();
+                            model.id = item.MpID.ToString() + "_" + item.PoID.ToString();
+                            model.text = " (" + item.MpCode + ") " + item.TiShortName + (string.IsNullOrEmpty(item.FullNameTh) ? "ตำแหน่งว่าง ✓" : item.FullNameTh) + " (" + item.PoName + ")";
+                            model.children = false;
+                            model.state = new TreeStateViewModel() { opened = true };
+                            model.icon = SysConfig.ApplicationRoot + "Content/assets/img/user2.png";
+                            items.Add(model);
+                        }
                     }
 
                     return items;
@@ -137,6 +174,48 @@ namespace SAT.HR.Data.Repository
         }
 
 
+
+        //public List<TreeViewModel> GetPosition(int mpid)
+        //{
+        //    var items = new List<TreeViewModel>();
+        //    try
+        //    {
+        //        using (SATEntities db = new SATEntities())
+        //        {
+        //            List<OrganizationViewModel> list = new List<OrganizationViewModel>();
+
+        //            //var data = db.vw_Man_Power.Where(m => m.DepID == depid)
+        //            //            .GroupBy(item => item.PoID, (key, group) => new
+        //            //            {
+        //            //                PoID = key,
+        //            //                PoName = group.FirstOrDefault().PoName,
+        //            //                MpID = group.FirstOrDefault().MpID,
+        //            //                MpCode = group.FirstOrDefault().MpCode
+        //            //            }).ToList();
+
+        //            var data = db.vw_Man_Power.Where(m => m.MpID == mpid)/*.OrderBy(o => o.DepLevel)*/.ToList();
+
+        //            foreach (var item in data)
+        //            {
+        //                //var countEmp = db.vw_Man_Power.Where(m => m.MpID == item.MpID && m.UserID != null).Count();
+
+        //                var model = new TreeViewModel();
+        //                model.id = item.MpID.ToString() + "_" + item.PoID.ToString();
+        //                model.text = " (" + item.MpCode + ") " + item.TiShortName + (string.IsNullOrEmpty(item.FullNameTh) ? "ตำแหน่งว่าง ✓" : item.FullNameTh) + " (" + item.PoName + ")";
+        //                model.children = false;
+        //                model.state = new TreeStateViewModel() { opened = true };
+        //                model.icon = SysConfig.ApplicationRoot + "Content/assets/img/user2.png";
+        //                items.Add(model);
+        //            }
+
+        //            return items;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw;
+        //    }
+        //}
 
         #region ManPowerViewModel (No use)
 

@@ -9,39 +9,39 @@ namespace SAT.HR.Data.Repository
 {
     public class DropDownList
     {
-        public static List<SelectListItem> GetDepartmentRoot(int? typeid, int? defaultValue)
-        {
-            List<SelectListItem> list = new List<SelectListItem>();
+        //public static List<SelectListItem> GetDepartmentRoot(int? typeid, int? defaultValue)
+        //{
+        //    List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new DepartmentRepository().GetDepartmentRoot(typeid);
+        //    var data = new DepartmentRepository().GetDepartmentRoot(typeid);
 
-            foreach (var item in data)
-            {
-                SelectListItem select = new SelectListItem();
-                select.Value = item.DepID.ToString();
-                select.Text = item.DepName;
-                select.Selected = defaultValue.HasValue ? (item.DepID == defaultValue ? true : false) : false;
-                list.Add(select);
-            }
-            return list;
-        }
+        //    foreach (var item in data)
+        //    {
+        //        SelectListItem select = new SelectListItem();
+        //        select.Value = item.DepID.ToString();
+        //        select.Text = item.DepName;
+        //        select.Selected = defaultValue.HasValue ? (item.DepID == defaultValue ? true : false) : false;
+        //        list.Add(select);
+        //    }
+        //    return list;
+        //}
 
-        public static List<SelectListItem> GetDepartmentByParent(int? typeid, int? depid, int? defaultValue)
-        {
-            List<SelectListItem> list = new List<SelectListItem>();
+        //public static List<SelectListItem> GetDepartmentByParent(int? typeid, int? depid, int? defaultValue)
+        //{
+        //    List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new DepartmentRepository().GetDepartmentByParent(typeid, depid);
+        //    var data = new DepartmentRepository().GetDepartmentByParent(typeid, depid);
 
-            foreach (var item in data)
-            {
-                SelectListItem select = new SelectListItem();
-                select.Value = item.DepID.ToString();
-                select.Text = item.DepName;
-                select.Selected = defaultValue.HasValue ? (item.DepID == defaultValue ? true : false) : false;
-                list.Add(select);
-            }
-            return list;
-        }
+        //    foreach (var item in data)
+        //    {
+        //        SelectListItem select = new SelectListItem();
+        //        select.Value = item.DepID.ToString();
+        //        select.Text = item.DepName;
+        //        select.Selected = defaultValue.HasValue ? (item.DepID == defaultValue ? true : false) : false;
+        //        list.Add(select);
+        //    }
+        //    return list;
+        //}
 
         public static List<SelectListItem> GetPositionByDep(int? typeid, int? depid, int? defaultValue)
         {

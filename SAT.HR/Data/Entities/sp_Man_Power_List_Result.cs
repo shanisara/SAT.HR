@@ -19,15 +19,13 @@ namespace SAT.HR.Data.Entities
         public string FullNameEn { get; set; }
         public int MpID { get; set; }
         public string MpCode { get; set; }
-        public int DivID { get; set; }
+        public Nullable<int> DivID { get; set; }
         public string DivName { get; set; }
-        public int DivSeq { get; set; }
         public Nullable<int> DepID { get; set; }
         public string DepName { get; set; }
-        public int SecID { get; set; }
+        public Nullable<int> SecID { get; set; }
         public string SecName { get; set; }
         public Nullable<int> PoID { get; set; }
-        public string PoCode { get; set; }
         public string PoName { get; set; }
         public Nullable<int> SalaryLevel { get; set; }
         public Nullable<decimal> SalaryStep { get; set; }

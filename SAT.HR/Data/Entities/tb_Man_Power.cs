@@ -14,13 +14,22 @@ namespace SAT.HR.Data.Entities
     
     public partial class tb_Man_Power
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tb_Man_Power()
+        {
+            this.tb_Man_Power1 = new HashSet<tb_Man_Power>();
+        }
+    
         public int MpID { get; set; }
         public string MpCode { get; set; }
+        public Nullable<int> ParentID { get; set; }
+        public Nullable<int> DivID { get; set; }
         public Nullable<int> DepID { get; set; }
-        public Nullable<int> PoID { get; set; }
+        public Nullable<int> SecID { get; set; }
         public Nullable<int> DisID { get; set; }
+        public Nullable<int> PoID { get; set; }
         public Nullable<int> UserID { get; set; }
-        public Nullable<int> LevelID { get; set; }
+        public Nullable<int> Level { get; set; }
         public Nullable<int> EduID { get; set; }
         public Nullable<int> TypeID { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
@@ -30,8 +39,14 @@ namespace SAT.HR.Data.Entities
     
         public virtual tb_Department tb_Department { get; set; }
         public virtual tb_Discipline tb_Discipline { get; set; }
+        public virtual tb_Division tb_Division { get; set; }
+        public virtual tb_Education tb_Education { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Man_Power> tb_Man_Power1 { get; set; }
+        public virtual tb_Man_Power tb_Man_Power2 { get; set; }
         public virtual tb_Position tb_Position { get; set; }
-        public virtual tb_User_Type tb_User_Type { get; set; }
+        public virtual tb_Section tb_Section { get; set; }
         public virtual tb_User tb_User { get; set; }
+        public virtual tb_User_Type tb_User_Type { get; set; }
     }
 }

@@ -12,33 +12,18 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class vw_Man_Power
+    public partial class vw_Organization
     {
         public int MpID { get; set; }
         public string MpCode { get; set; }
         public Nullable<int> ParentID { get; set; }
-        public Nullable<int> UserID { get; set; }
-        public Nullable<int> Level { get; set; }
-        public Nullable<int> DivID { get; set; }
         public string DivName { get; set; }
-        public Nullable<int> DepID { get; set; }
         public string DepName { get; set; }
-        public Nullable<int> SecID { get; set; }
         public string SecName { get; set; }
-        public Nullable<int> PoID { get; set; }
         public string PoName { get; set; }
-        public Nullable<int> DisID { get; set; }
-        public string DisName { get; set; }
-        public Nullable<int> EduID { get; set; }
-        public string EduName { get; set; }
-        public Nullable<decimal> IDCard { get; set; }
-        public string TiShortName { get; set; }
-        public string TiFullName { get; set; }
         public string FullNameTh { get; set; }
-        public string FullNameEn { get; set; }
-        public Nullable<int> SalaryLevel { get; set; }
-        public Nullable<decimal> SalaryStep { get; set; }
-        public Nullable<decimal> Salary { get; set; }
         public Nullable<int> TypeID { get; set; }
+        public int DepLevel { get; set; }
+        public string PathMpID { get; set; }
     }
 }

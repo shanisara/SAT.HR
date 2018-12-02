@@ -15,12 +15,11 @@ namespace SAT.HR.Data.Entities
     public partial class vw_Department
     {
         public int DepID { get; set; }
+        public string DepCode { get; set; }
         public string DepName { get; set; }
-        public Nullable<int> ParentID { get; set; }
-        public Nullable<int> Seq { get; set; }
-        public Nullable<int> TypeID { get; set; }
-        public int DepLevel { get; set; }
-        public string DepPath { get; set; }
-        public string PathDepID { get; set; }
+        public Nullable<bool> DepStatus { get; set; }
+        public Nullable<int> DivID { get; set; }
+        public string DivCode { get; set; }
+        public string DivName { get; set; }
     }
 }

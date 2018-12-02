@@ -144,6 +144,7 @@ namespace SAT.HR.Models
         public string DepName { get; set; }
         public string SecName { get; set; }
         public string PoName { get; set; }
+        public string FullDepartment { get; set; }
         public int DivSeq { get; set; }
         public string PoCode { get; set; }
         public int recordsTotal { get; set; }

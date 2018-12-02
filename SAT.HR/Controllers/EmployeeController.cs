@@ -78,23 +78,23 @@ namespace SAT.HR.Controllers
             ViewBag.SalaryLevel = DropDownList.GetSalaryLevel(model.SalaryLevel);
             ViewBag.SalaryStep = DropDownList.GetSalaryStep(model.SalaryStep, model.SalaryLevel);
 
-            ViewBag.Department = DropDownList.GetDepartmentRoot(model.UserType, model.DepID);     //-- > Lvl1 + Lvl2
-            ViewBag.DepartmentLvl3 = DropDownList.GetDepartmentByParent(model.UserType, model.DepLvl, model.DepLvl3);
-            ViewBag.DepartmentLvl4 = DropDownList.GetDepartmentByParent(model.UserType, model.DepLvl3, model.DepLvl4);
-            ViewBag.DepartmentLvl5 = DropDownList.GetDepartmentByParent(model.UserType, model.DepLvl4, model.DepLvl5);
+            //ViewBag.Department = DropDownList.GetDepartmentRoot(model.UserType, model.DepID);     //-- > Lvl1 + Lvl2
+            //ViewBag.DepartmentLvl3 = DropDownList.GetDepartmentByParent(model.UserType, model.DepLvl, model.DepLvl3);
+            //ViewBag.DepartmentLvl4 = DropDownList.GetDepartmentByParent(model.UserType, model.DepLvl3, model.DepLvl4);
+            //ViewBag.DepartmentLvl5 = DropDownList.GetDepartmentByParent(model.UserType, model.DepLvl4, model.DepLvl5);
             ViewBag.Position = DropDownList.GetPositionByDep(model.UserType, model.DepID, model.PoID);
 
             ViewBag.Empower = DropDownList.GetEmpower(model.EmpowerID);     //-- > ช่วยราชการ
-            ViewBag.EmpowerDepRoot = DropDownList.GetDepartmentRoot(model.UserType, model.EmpowerDepID);    //-- > Lvl1 + Lvl2
-            ViewBag.EmpowerDepLvl3 = DropDownList.GetDepartmentByParent(model.UserType, model.EmpowerDepLvl, model.EmpowerDepLvl3);
-            ViewBag.EmpowerDepLvl4 = DropDownList.GetDepartmentByParent(model.UserType, model.EmpowerDepLvl3, model.EmpowerDepLvl4);
-            ViewBag.EmpowerDepLvl5 = DropDownList.GetDepartmentByParent(model.UserType, model.EmpowerDepLvl4, model.EmpowerDepLvl5);
+            //ViewBag.EmpowerDepRoot = DropDownList.GetDepartmentRoot(model.UserType, model.EmpowerDepID);    //-- > Lvl1 + Lvl2
+            //ViewBag.EmpowerDepLvl3 = DropDownList.GetDepartmentByParent(model.UserType, model.EmpowerDepLvl, model.EmpowerDepLvl3);
+            //ViewBag.EmpowerDepLvl4 = DropDownList.GetDepartmentByParent(model.UserType, model.EmpowerDepLvl3, model.EmpowerDepLvl4);
+            //ViewBag.EmpowerDepLvl5 = DropDownList.GetDepartmentByParent(model.UserType, model.EmpowerDepLvl4, model.EmpowerDepLvl5);
 
             ViewBag.PositionType = DropDownList.GetPositionType(model.AgentPoAID);//-- > รักษาการแทน
-            ViewBag.AgentDepRoot = DropDownList.GetDepartmentRoot(model.UserType, model.AgentDepID);    //-- > Lvl1 + Lvl2
-            ViewBag.AgentDepLvl3 = DropDownList.GetDepartmentByParent(model.UserType, model.AgentDepLvl, model.AgentDepLvl3); 
-            ViewBag.AgentDepLvl4 = DropDownList.GetDepartmentByParent(model.UserType, model.AgentDepLvl3, model.AgentDepLvl4);
-            ViewBag.AgentDepLvl5 = DropDownList.GetDepartmentByParent(model.UserType, model.AgentDepLvl4, model.AgentDepLvl5);
+            //ViewBag.AgentDepRoot = DropDownList.GetDepartmentRoot(model.UserType, model.AgentDepID);    //-- > Lvl1 + Lvl2
+            //ViewBag.AgentDepLvl3 = DropDownList.GetDepartmentByParent(model.UserType, model.AgentDepLvl, model.AgentDepLvl3); 
+            //ViewBag.AgentDepLvl4 = DropDownList.GetDepartmentByParent(model.UserType, model.AgentDepLvl3, model.AgentDepLvl4);
+            //ViewBag.AgentDepLvl5 = DropDownList.GetDepartmentByParent(model.UserType, model.AgentDepLvl4, model.AgentDepLvl5);
             ViewBag.AgentPosition = DropDownList.GetPositionByDep(model.UserType, model.AgentDepID, model.AgentPoID);
 
             ViewBag.HomeProvince = DropDownList.GetProvince(model.HomeProvinceID);
@@ -736,7 +736,7 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region 5. สังกัด
+        #region 5. Organization
 
         public ActionResult Organization()
         {
@@ -756,11 +756,13 @@ namespace SAT.HR.Controllers
             return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
-        public JsonResult GetPosition(int id)
-        {
-            List<TreeViewModel> items = new OrganizationRepository().GetPosition(id);
-            return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-        }
+
+
+        //public JsonResult GetPosition(int id)
+        //{
+        //    List<TreeViewModel> items = new OrganizationRepository().GetPosition(id);
+        //    return new JsonResult { Data = items, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        //}
 
 
         //public JsonResult GetTreeAll(int id)

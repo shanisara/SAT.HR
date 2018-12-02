@@ -200,11 +200,8 @@ namespace SAT.HR.Data.Repository
                         model.FullNameTh = item.TiShortName + item.FirstNameTh + " " + item.LastNameTh;
                         model.MpID = item.MpID;
                         model.MpCode = item.MpCode;
-                        model.DepID = item.DepID;
-                        model.DepName = item.DepName;
-                        model.DisID = item.DisID;
+                        model.FullDepartment = item.DivName + (!string.IsNullOrEmpty(item.DepName) ? " / " : "") + item.DepName + (!string.IsNullOrEmpty(item.SecName) ? " / " : "") + item.SecName;
                         model.DisName = item.DisName;
-                        model.PoID = item.PoID;
                         model.PoName = item.PoName;
                         model.recordsTotal = (int)item.recordsTotal;
                         model.recordsFiltered = (int)item.recordsFiltered;
@@ -272,22 +269,25 @@ namespace SAT.HR.Data.Repository
                     model.ResignDate = data.ResignDate;
                     model.ResignRemark = data.ResignRemark;
 
+
+                    //model.DivID = data.DivID;
                     model.DepID = data.DepID;
-                    if (model.DepID != null)
-                    {
-                        string[] pathDepID = data.PathDepID.Split('.');
-                        model.DepLvl = pathDepID.Length > 1 ? Convert.ToInt32(pathDepID[1]) : Convert.ToInt32(pathDepID[0]);
-                        if (pathDepID.Length > 0)
-                            model.DepLvl1 = Convert.ToInt32(pathDepID[0]);
-                        if (pathDepID.Length > 1)
-                            model.DepLvl2 = Convert.ToInt32(pathDepID[1]);
-                        if (pathDepID.Length > 2)
-                            model.DepLvl3 = Convert.ToInt32(pathDepID[2]);
-                        if (pathDepID.Length > 3)
-                            model.DepLvl4 = Convert.ToInt32(pathDepID[3]);
-                        if (pathDepID.Length > 4)
-                            model.DepLvl5 = Convert.ToInt32(pathDepID[4]);
-                    }
+                    //model.SecID = data.SecID;
+                    //if (model.DepID != null)
+                    //{
+                    //    string[] pathDepID = data.PathDepID.Split('.');
+                    //    model.DepLvl = pathDepID.Length > 1 ? Convert.ToInt32(pathDepID[1]) : Convert.ToInt32(pathDepID[0]);
+                    //    if (pathDepID.Length > 0)
+                    //        model.DepLvl1 = Convert.ToInt32(pathDepID[0]);
+                    //    if (pathDepID.Length > 1)
+                    //        model.DepLvl2 = Convert.ToInt32(pathDepID[1]);
+                    //    if (pathDepID.Length > 2)
+                    //        model.DepLvl3 = Convert.ToInt32(pathDepID[2]);
+                    //    if (pathDepID.Length > 3)
+                    //        model.DepLvl4 = Convert.ToInt32(pathDepID[3]);
+                    //    if (pathDepID.Length > 4)
+                    //        model.DepLvl5 = Convert.ToInt32(pathDepID[4]);
+                    //}
 
                     model.PoID = data.PoID;
                     model.ProjectNo = data.ProjectNo;
@@ -297,39 +297,43 @@ namespace SAT.HR.Data.Repository
                     model.Salary = data.Salary.HasValue ? (decimal)data.Salary : 0;
                     
                     model.EmpowerID = data.EmpowerID;
+                    //model.EmpowerDivID = data.EmpowerDivID;
                     model.EmpowerDepID = data.EmpowerDepID;
-                    if (model.EmpowerDepID != null)
-                    {
-                        string[] pathDepID = data.EmpowerPathDepID.Split('.');
-                        model.DepLvl = pathDepID.Length > 1 ? Convert.ToInt32(pathDepID[1]) : Convert.ToInt32(pathDepID[0]);
-                        if (pathDepID.Length > 0)
-                            model.EmpowerDepLvl1 = Convert.ToInt32(pathDepID[0]);
-                        if (pathDepID.Length > 1)
-                            model.EmpowerDepLvl2 = Convert.ToInt32(pathDepID[1]);
-                        if (pathDepID.Length > 2)
-                            model.EmpowerDepLvl3 = Convert.ToInt32(pathDepID[2]);
-                        if (pathDepID.Length > 3)
-                            model.EmpowerDepLvl4 = Convert.ToInt32(pathDepID[3]);
-                        if (pathDepID.Length > 4)
-                            model.EmpowerDepLvl5 = Convert.ToInt32(pathDepID[4]);
-                    }
-                    
+                    //model.EmpowerSecID = data.EmpowerSecID;
+                    //if (model.EmpowerDepID != null)
+                    //{
+                    //    string[] pathDepID = data.EmpowerPathDepID.Split('.');
+                    //    model.DepLvl = pathDepID.Length > 1 ? Convert.ToInt32(pathDepID[1]) : Convert.ToInt32(pathDepID[0]);
+                    //    if (pathDepID.Length > 0)
+                    //        model.EmpowerDepLvl1 = Convert.ToInt32(pathDepID[0]);
+                    //    if (pathDepID.Length > 1)
+                    //        model.EmpowerDepLvl2 = Convert.ToInt32(pathDepID[1]);
+                    //    if (pathDepID.Length > 2)
+                    //        model.EmpowerDepLvl3 = Convert.ToInt32(pathDepID[2]);
+                    //    if (pathDepID.Length > 3)
+                    //        model.EmpowerDepLvl4 = Convert.ToInt32(pathDepID[3]);
+                    //    if (pathDepID.Length > 4)
+                    //        model.EmpowerDepLvl5 = Convert.ToInt32(pathDepID[4]);
+                    //}
+
+                    //model.AgentDivID = data.AgentDivID;
                     model.AgentDepID = data.AgentDepID;
-                    if (model.AgentDepID != null)
-                    {
-                        string[] pathDepID = data.AgentPathDepID.Split('.');
-                        model.DepLvl = pathDepID.Length > 1 ? Convert.ToInt32(pathDepID[1]) : Convert.ToInt32(pathDepID[0]);
-                        if (pathDepID.Length > 0)
-                            model.AgentDepLvl1 = Convert.ToInt32(pathDepID[0]);
-                        if (pathDepID.Length > 1)
-                            model.AgentDepLvl2 = Convert.ToInt32(pathDepID[1]);
-                        if (pathDepID.Length > 2)
-                            model.AgentDepLvl3 = Convert.ToInt32(pathDepID[2]);
-                        if (pathDepID.Length > 3)
-                            model.AgentDepLvl4 = Convert.ToInt32(pathDepID[3]);
-                        if (pathDepID.Length > 4)
-                            model.AgentDepLvl5 = Convert.ToInt32(pathDepID[4]);
-                    }
+                    //model.AgentSecID = data.AgentSecID;
+                    //if (model.AgentDepID != null)
+                    //{
+                    //    string[] pathDepID = data.AgentPathDepID.Split('.');
+                    //    model.DepLvl = pathDepID.Length > 1 ? Convert.ToInt32(pathDepID[1]) : Convert.ToInt32(pathDepID[0]);
+                    //    if (pathDepID.Length > 0)
+                    //        model.AgentDepLvl1 = Convert.ToInt32(pathDepID[0]);
+                    //    if (pathDepID.Length > 1)
+                    //        model.AgentDepLvl2 = Convert.ToInt32(pathDepID[1]);
+                    //    if (pathDepID.Length > 2)
+                    //        model.AgentDepLvl3 = Convert.ToInt32(pathDepID[2]);
+                    //    if (pathDepID.Length > 3)
+                    //        model.AgentDepLvl4 = Convert.ToInt32(pathDepID[3]);
+                    //    if (pathDepID.Length > 4)
+                    //        model.AgentDepLvl5 = Convert.ToInt32(pathDepID[4]);
+                    //}
                     model.AgentPoAID = data.AgentPoAID;
                     model.AgentPoID = data.AgentPoID;
 

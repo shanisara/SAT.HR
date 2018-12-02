@@ -89,7 +89,7 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.tb_Section.Where(x => x.SecID == id).FirstOrDefault();
+                var data = db.vw_Section.Where(x => x.SecID == id).FirstOrDefault();
                 SectionViewModel model = new Models.SectionViewModel();
                 model.SecID = data.SecID;
                 model.SecName = data.SecName;
@@ -112,7 +112,7 @@ namespace SAT.HR.Data.Repository
                     model.SecID = data.SecID;
                     model.SecName = data.SecName;
                     model.SecStatus = (data.Status == "1") ? true : false;
-                    model.DivID = (int)data.DivID;
+                    //model.DivID = (int)data.DivID;
                     model.DepID = (int)data.DepID;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
@@ -139,7 +139,7 @@ namespace SAT.HR.Data.Repository
                     var data = db.tb_Section.Single(x => x.SecID == newdata.SecID);
                     data.SecName = newdata.SecName;
                     data.SecStatus = (newdata.Status == "1") ? true : false;
-                    data.DivID = newdata.DivID;
+                    //data.DivID = newdata.DivID;
                     data.DepID = newdata.DepID;
                     data.ModifyBy = newdata.ModifyBy;
                     data.ModifyDate = DateTime.Now;
