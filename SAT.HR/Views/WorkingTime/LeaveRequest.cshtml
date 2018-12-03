@@ -1,4 +1,5 @@
-﻿
+﻿@model SAT.HR.Models.LeaveRequestViewModel
+
 @{
     ViewBag.Title = "LeaveRequest";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,12 +13,243 @@
                     <div class="card-icon">
                         <i class="material-icons">alarm_on</i>
                     </div>
-                    <h4 class="card-title"><span> ทำรายการลา </span></h4>
+                    <h4 class="card-title">
+                        <span>รายการใบลา </span><small> </small>
+                    </h4>
+                    <div class="form-horizontal">
+                        <div class="row pull-right" style="margin-right: 10px; margin-top: -25px;">
+                            <div style="width:80px">
+                                @Html.DropDownList("LeaveYear", new SelectList((IEnumerable<SelectListItem>)ViewBag.LeaveYear, "Value", "Text"), new { @class = "selectpicker usertype", data_style = "select-with-transition" })
+                            </div>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <div style="width:105px">
+                                @Html.DropDownList("LeaveStatus", new SelectList((IEnumerable<SelectListItem>)ViewBag.LeaveStatus, "Value", "Text"), new { @class = "selectpicker userstatus", data_style = "select-with-transition" })
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
-
+                    <div class="toolbar pull-right">
+                        <button class="btn btn-primary btn-sm add-user" data-toggle="modal"><i class="material-icons">add</i> สร้างใบลา</button>
+                    </div>
+                    <div class="material-datatables">
+                        <table id="datatables" data-url="@Url.Content("~/Employee/LeaveRequest")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th style="width:5%" class="disabled-sorting">ลำดับ</th>
+                                    <th style="width:10%">ปี</th>
+                                    <th style="width:10%">เลขที่</th>
+                                    <th style="width:15%">ประเภท</th>
+                                    <th style="width:20%">ชื่อ-นามสกุล</th>
+                                    <th style="width:10%">วันที่ทำรายการ</th>
+                                    <th style="width:20%">สถานะ</th>
+                                    <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Classic Modal -->
+<div class="modal fade modal-detail" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
+    <div class="modal-dialog modal-large">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span>ใบลา</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="material-icons">clear</i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div id="div-detail"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-sm btn-primary" id="btnSaveDetail">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  End Modal -->
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            var dataTable = {
+                table: null,
+                initializeDataTable: function () {
+                    $table = $('#datatables');
+
+                    dataTable.table = $table.DataTable({
+                        "proccessing": true,
+                        "serverSide": true,
+                        responsive: true,
+                        language: {
+                            search: "_INPUT_",
+                            searchPlaceholder: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.searchPlaceholder)",
+                        },
+                        ajax: {
+                            url: $table.data("url"),
+                            type: "POST",
+                        },
+                        "columns": [
+                            { "data": "RowNumber", "orderable": false, "searchable": false },
+                            { "data": "LeaveYear", "orderable": true },
+                            { "data": "LeaveNo", "orderable": true },
+                            { "data": "LeaveTypeName", "orderable": true },
+                            { "data": "RequestName", "orderable": true },
+                            { "data": "CreateDateText", "orderable": true },
+                            { "data": "StatusName", "orderable": false, "searchable": false  }
+                        ],
+                        "columnDefs": [
+                            {
+                                "render": function (data, type, row) {
+                                    var inner = '<div class="td-actions text-right">' +
+                                                    '<button type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.LeaveID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;' +
+                                                    '<button type="button" rel="tooltip" class="btn btn-round btn-danger cancel" data-id="' + row.LeaveID + '"><i class="material-icons">close</i></button>' +
+                                                '</div>';
+                                    return inner;
+                                }, "targets": 7
+                            },
+                        ],
+                        "order": [[1, "desc"]],
+                        "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                        "pagingType": "full_numbers",
+                    });
+
+
+                    dataTable.table.on('click', '.edit', function () {
+                        var id = $(this).data("id");
+                        var url = '@Url.Action("LeaveRequestDetail", "HumanResource")/' + id;
+                        //$.post(url, function (data) {
+                        //    $("#detail").html(data);
+                        //    $('#modalHeader').modal('show');
+                        //});
+                    });
+
+
+                    dataTable.table.on('click', '.cancel', function () {
+                        var id = $(this).data("id");
+                        swal({
+                            title: '',
+                            text: "ยืนยันการยกเลิก",
+                            type: 'question',
+                            showCancelButton: true,
+                            confirmButtonClass: 'btn btn-success',
+                            cancelButtonClass: 'btn btn-danger',
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                            cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                            buttonsStyling: false
+                        }).then(function () {
+                            $.ajax({
+                                type: 'POST',
+                                url: '@Url.Action("CancelLeaveRequest", "HumanResource")/' + id,
+                                success: function (res) {
+                                    if (res.MessageCode == null) {
+                                        swal({
+                                            title: "",
+                                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.DeleteSucceed)",
+                                            type: "success",
+                                            confirmButtonClass: "btn btn-primary",
+                                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                            buttonsStyling: false
+                                        }).then(function () {
+                                            dataTable.getData();
+                                        });
+                                    }
+                                    else {
+                                        swal({
+                                            title: '',
+                                            text: res.MessageText,
+                                            type: 'error',
+                                            confirmButtonClass: "btn btn-primary",
+                                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                            buttonsStyling: false
+                                        }).catch(swal.noop);
+                                    }
+                                }
+                            });
+                        }).catch(swal.noop)
+                    });
+
+                },
+                getData: function () {
+                    if (dataTable.table == null)
+                        dataTable.initializeDataTable();
+                    else
+                        dataTable.table.ajax.reload();
+                }
+            }
+
+            //dataTable.getData();
+
+            // Add record
+            $("#btnAdd").click(function () {
+                @*var id = $(this)[0].dataset["id"];
+                var url = '@Url.Action("LeaveRequestDetail", "HumanResource")/' + id;
+                window.location.href = url;*@
+
+                var userid = $("#UserID").val();
+                var url = '@Url.Action("LeaveRequestDetail", "HumanResource")';
+                $.post(url, { userid: userid, id: 0 }, function (data) {
+                    $(".div-detail").html(data);
+                    $('.modal-detail').modal('show');
+                });
+            });
+
+            // Save record
+            $(".btn-save").click(function () {
+            var $valid = $('.form-detail').valid();
+            if (!$valid) {
+
+                return false;
+            }
+            else {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SaveLeaveRequest", "HumanResource")',
+                    data: $(".form-detail").serialize(),
+                    success: function (res) {
+                        if (res.MessageCode == null) {
+                            swal({
+                                title: "",
+                                text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                                type: "success",
+                                buttonsStyling: false,
+                                confirmButtonClass: "btn btn-primary",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                            }).then(function () {
+                                $('.modal-detail').modal('hide');
+                                dataTable.getData();
+                            });
+                        }
+                        else {
+                            swal({
+                                title: '',
+                                text: res.MessageText,
+                                type: 'error',
+                                confirmButtonClass: "btn btn-primary",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                buttonsStyling: false
+                            }).catch(swal.noop)
+                        }
+                    }
+                });
+            }
+        });
+
+        $(".btn-back").click(function () {
+            var url = '@Url.Action("LeaveRequest", "HumanResource")';
+            window.location.href = url;
+        });
+
+    });
+</script>
+}

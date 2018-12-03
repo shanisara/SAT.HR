@@ -469,6 +469,14 @@
     <Property Name="ExTID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ExTName" Type="nvarchar" MaxLength="200" />
   </EntityType>
+  <EntityType Name="tb_Form_Master">
+    <Key>
+      <PropertyRef Name="FormID" />
+    </Key>
+    <Property Name="FormID" Type="int" Nullable="false" />
+    <Property Name="FormName" Type="nvarchar" MaxLength="200" />
+    <Property Name="FormDesc" Type="nvarchar" MaxLength="200" />
+  </EntityType>
   <EntityType Name="tb_Holiday">
     <Key>
       <PropertyRef Name="HolID" />
@@ -548,6 +556,34 @@
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
+  <EntityType Name="tb_Leave_Request">
+    <Key>
+      <PropertyRef Name="LeaveID" />
+    </Key>
+    <Property Name="LeaveID" Type="int" Nullable="false" />
+    <Property Name="LeaveNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="LeaveType" Type="int" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="StartDate" Type="datetime" />
+    <Property Name="EndDate" Type="datetime" />
+    <Property Name="DayTime" Type="int" />
+    <Property Name="TotalDay" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="LeaveReason" Type="nvarchar" MaxLength="400" />
+    <Property Name="CancelReason" Type="nvarchar" MaxLength="400" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="400" />
+    <Property Name="Status" Type="int" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Leave_Status">
+    <Key>
+      <PropertyRef Name="StatusID" />
+    </Key>
+    <Property Name="StatusID" Type="int" Nullable="false" />
+    <Property Name="StatusName" Type="nvarchar" MaxLength="200" />
+  </EntityType>
   <EntityType Name="tb_Leave_Type">
     <Key>
       <PropertyRef Name="LevID" />
@@ -571,6 +607,18 @@
     </Key>
     <Property Name="LtID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="LtName" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="tb_Mail_Template">
+    <Key>
+      <PropertyRef Name="MailID" />
+    </Key>
+    <Property Name="MailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MailTo" Type="nvarchar" MaxLength="1000" />
+    <Property Name="MailFrom" Type="nvarchar" MaxLength="1000" />
+    <Property Name="MailSubject" Type="nvarchar" MaxLength="1000" />
+    <Property Name="MailBody" Type="nvarchar" MaxLength="2000" />
+    <Property Name="MailCCTo" Type="nvarchar" MaxLength="1000" />
+    <Property Name="MailBCCTo" Type="nvarchar" MaxLength="1000" />
   </EntityType>
   <EntityType Name="tb_Major">
     <Key>
@@ -1764,16 +1812,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Organization' does not have a
     <Property Name="PathMpID" Type="varchar" MaxLength="255" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV_3.dbo.vw_Salary_Level' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vw_Salary_Level">
-          <Property Name="Level" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>-->
-  <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV_3.dbo.vw_Salary_Step' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vw_Salary_Step">
-          <Property Name="Step" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>-->
-  <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Section">
     <Key>
@@ -2569,6 +2607,30 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
         <PropertyRef Name="UserID" />
       </Principal>
       <Dependent Role="tb_Evaluation">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Leave_Request_tb_Leave_Type">
+    <End Role="tb_Leave_Type" Type="Self.tb_Leave_Type" Multiplicity="0..1" />
+    <End Role="tb_Leave_Request" Type="Self.tb_Leave_Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Leave_Type">
+        <PropertyRef Name="LevID" />
+      </Principal>
+      <Dependent Role="tb_Leave_Request">
+        <PropertyRef Name="LeaveType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Leave_Request_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="0..1" />
+    <End Role="tb_Leave_Request" Type="Self.tb_Leave_Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_Leave_Request">
         <PropertyRef Name="UserID" />
       </Dependent>
     </ReferentialConstraint>
@@ -3413,6 +3475,7 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     <EntitySet Name="tb_Empower" EntityType="Self.tb_Empower" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Evaluation" EntityType="Self.tb_Evaluation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Excellent_Type" EntityType="Self.tb_Excellent_Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Form_Master" EntityType="Self.tb_Form_Master" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Holiday" EntityType="Self.tb_Holiday" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_IndividualPlan" EntityType="Self.tb_IndividualPlan" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Insignia" EntityType="Self.tb_Insignia" Schema="dbo" store:Type="Tables" />
@@ -3420,8 +3483,11 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     <EntitySet Name="tb_Language_Skill" EntityType="Self.tb_Language_Skill" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Language_Skill_Type" EntityType="Self.tb_Language_Skill_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Leave_Balance" EntityType="Self.tb_Leave_Balance" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Leave_Request" EntityType="Self.tb_Leave_Request" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Leave_Status" EntityType="Self.tb_Leave_Status" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Leave_Type" EntityType="Self.tb_Leave_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Loan_Type" EntityType="Self.tb_Loan_Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Mail_Template" EntityType="Self.tb_Mail_Template" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Major" EntityType="Self.tb_Major" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Man_Power" EntityType="Self.tb_Man_Power" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Marital_Status" EntityType="Self.tb_Marital_Status" Schema="dbo" store:Type="Tables" />
@@ -4357,6 +4423,14 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     <AssociationSet Name="FK_tb_Evaluation_tb_User" Association="Self.FK_tb_Evaluation_tb_User">
       <End Role="tb_User" EntitySet="tb_User" />
       <End Role="tb_Evaluation" EntitySet="tb_Evaluation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Leave_Request_tb_Leave_Type" Association="Self.FK_tb_Leave_Request_tb_Leave_Type">
+      <End Role="tb_Leave_Type" EntitySet="tb_Leave_Type" />
+      <End Role="tb_Leave_Request" EntitySet="tb_Leave_Request" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Leave_Request_tb_User" Association="Self.FK_tb_Leave_Request_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_Leave_Request" EntitySet="tb_Leave_Request" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_Man_Power_tb_Department" Association="Self.FK_tb_Man_Power_tb_Department">
       <End Role="tb_Department" EntitySet="tb_Department" />

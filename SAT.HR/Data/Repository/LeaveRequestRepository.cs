@@ -1,19 +1,50 @@
 ﻿using SAT.HR.Data.Entities;
+using SAT.HR.Data.Repository;
 using SAT.HR.Helpers;
 using SAT.HR.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using static SAT.HR.Helpers.EnumType;
 
 namespace SAT.HR.Data
 {
     public class LeaveRequestRepository
     {
-        //public LeaveRequestViewModel GetLeaveRequestByUser(int userid)
+        public List<YearViewModel> GetLeaveYear()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var lists = new List<YearViewModel>();
+                lists = db.tb_Leave_Request.GroupBy(g => g.StartDate.Value.Year)
+                            .Select(group => new YearViewModel()
+                            {
+                                Year = group.Key
+                            }).OrderByDescending(x => x.Year)
+                            .ToList();
+                return lists;
+            }
+        }
+
+        public List<LeaveStatusViewModel> GetLeaveStatus()
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var lists = db.tb_Leave_Status
+                            .Select(s => new LeaveStatusViewModel()
+                            {
+                                StatusID = s.StatusID,
+                                StatusName = s.StatusName
+                            }).ToList();
+                return lists;
+            }
+        }
+
+        //public LeaveRequestViewModel GetByUser(int userid)
         //{
-        //    var data = new BenefitRemunerationViewModel();
-        //    var list = new List<BenefitRemunerationViewModel>();
+        //    var data = new LeaveRequestViewModel();
+        //    var list = new List<LeaveRequestViewModel>();
         //    try
         //    {
         //        using (SATEntities db = new SATEntities())
@@ -23,159 +54,124 @@ namespace SAT.HR.Data
 
         //            foreach (var item in remuneration)
         //            {
-        //                BenefitRemunerationViewModel model = new BenefitRemunerationViewModel();
+        //                LeaveRequestViewModel model = new LeaveRequestViewModel();
         //                model.RowNumber = index++;
-        //                model.BrID = item.BrID;
-        //                model.UserID = item.UserID;
-        //                model.BrYear = item.BrYear;
-        //                model.RecID = item.RecID;
-        //                model.RecFullName = item.RecFullName;
-        //                model.BrAmout = item.BrAmout;
-        //                model.BrRemark = item.BrRemark;
+                        
         //                model.CreateDate = item.CreateDate;
         //                model.CreateBy = item.CreateBy;
         //                model.ModifyDate = item.ModifyDate;
         //                model.ModifyBy = item.ModifyBy;
-        //                model.RecName = string.Empty;
         //                list.Add(model);
         //            }
         //        }
         //    }
         //    catch (Exception)
         //    {
-
         //        throw;
         //    }
         //    data.UserID = userid;
-        //    data.ListRemuneration = list;
+        //    data.ListLeave = list;
         //    return data;
         //}
 
-        //public LeaveRequestViewModel GetLeaveRequestByID(int userid, int id)
-        //{
-        //    BenefitRemunerationViewModel data = new BenefitRemunerationViewModel();
-        //    data.UserID = userid;
+        public LeaveRequestViewModel GetByID(int userid, int? id)
+        {
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var item = db.tb_Leave_Request.Where(x => x.LeaveID == id).FirstOrDefault();
 
-        //    try
-        //    {
-        //        using (SATEntities db = new SATEntities())
-        //        {
-        //            var item = db.tb_Benefit_Remuneration.Where(x => x.BrID == id).FirstOrDefault();
-        //            BenefitRemunerationViewModel model = new BenefitRemunerationViewModel();
-        //            if (item != null)
-        //            {
-        //                model.BrID = item.BrID;
-        //                model.UserID = item.UserID;
-        //                model.BrYear = item.BrYear;
-        //                model.BrDate = item.BrDate;
-        //                model.RecID = item.RecID;
-        //                model.RecFullName = item.RecFullName;
-        //                model.BrAmout = item.BrAmout;
-        //                model.BrRemark = item.BrRemark;
-        //                model.CreateDate = item.CreateDate;
-        //                model.CreateBy = item.CreateBy;
-        //                model.ModifyDate = item.ModifyDate;
-        //                model.ModifyBy = item.ModifyBy;
-        //            }
-        //            else
-        //            {
-        //                model.BrYear = DateTime.Now.Year;
-        //            }
-        //            data = model;
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
+                    LeaveRequestViewModel model = new LeaveRequestViewModel();
 
-        //    }
-        //    return data;
-        //}
+                    model.CreateDate = item.CreateDate;
+                    model.CreateBy = item.CreateBy;
+                    model.ModifyDate = item.ModifyDate;
+                    model.ModifyBy = item.ModifyBy;
 
-        //public ResponseData AddByEntity(LeaveRequestViewModel data)
-        //{
-        //    using (SATEntities db = new SATEntities())
-        //    {
-        //        ResponseData result = new Models.ResponseData();
-        //        try
-        //        {
-        //            tb_Benefit_Remuneration model = new tb_Benefit_Remuneration();
-        //            model.BrID = data.BrID;
-        //            model.UserID = data.UserID;
-        //            model.BrYear = data.BrYear;
-        //            if (Convert.ToDateTime(data.BrDate) > DateTime.MinValue)
-        //                model.BrDate = Convert.ToDateTime(data.BrDate);
-        //            model.RecID = data.RecID;
-        //            model.RecFullName = data.RecFullName;
-        //            model.BrAmout = data.BrAmout;
-        //            model.BrRemark = data.BrRemark;
-        //            model.CreateBy = UtilityService.User.UserID;
-        //            model.CreateDate = DateTime.Now;
-        //            model.ModifyBy = UtilityService.User.UserID;
-        //            model.ModifyDate = DateTime.Now;
-        //            db.tb_Benefit_Remuneration.Add(model);
-        //            db.SaveChanges();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            result.MessageCode = "";
-        //            result.MessageText = ex.Message;
-        //        }
-        //        return result;
-        //    }
-        //}
+                    return model;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
-        //public ResponseData UpdateByEntity(LeaveRequestViewModel newdata)
-        //{
-        //    using (SATEntities db = new SATEntities())
-        //    {
-        //        ResponseData result = new Models.ResponseData();
-        //        try
-        //        {
-        //            var model = db.tb_Benefit_Remuneration.Single(x => x.UserID == newdata.UserID && x.BrID == newdata.BrID);
-        //            model.BrID = newdata.BrID;
-        //            model.UserID = newdata.UserID;
-        //            model.BrYear = newdata.BrYear;
-        //            if (Convert.ToDateTime(newdata.BrDate) > DateTime.MinValue)
-        //                model.BrDate = Convert.ToDateTime(newdata.BrDate);
-        //            model.RecID = newdata.RecID;
-        //            model.RecFullName = newdata.RecFullName;
-        //            model.BrAmout = newdata.BrAmout;
-        //            model.BrRemark = newdata.BrRemark;
-        //            model.ModifyBy = UtilityService.User.UserID;
-        //            model.ModifyDate = DateTime.Now;
-        //            db.SaveChanges();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            result.MessageCode = "";
-        //            result.MessageText = ex.Message;
-        //        }
-        //        return result;
-        //    }
-        //}
+        public ResponseData AddByEntity(LeaveRequestViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    tb_Leave_Request model = new tb_Leave_Request();
 
-        //public ResponseData DeleteByID(int id)
-        //{
-        //    ResponseData result = new ResponseData();
-        //    using (SATEntities db = new SATEntities())
-        //    {
-        //        try
-        //        {
-        //            var model = db.tb_Benefit_Remuneration.SingleOrDefault(x => x.BrID == id);
-        //            if (model != null)
-        //            {
-        //                db.tb_Benefit_Remuneration.Remove(model);
-        //                db.SaveChanges();
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            result.MessageCode = "";
-        //            result.MessageText = ex.Message;
-        //        }
-        //        return result;
-        //    }
-        //}
+                    model.CreateBy = UtilityService.User.UserID;
+                    model.CreateDate = DateTime.Now;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.tb_Leave_Request.Add(model);
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
+
+        public ResponseData UpdateByEntity(LeaveRequestViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var model = db.tb_Leave_Request.Single(x => x.LeaveID == newdata.LeaveID);
+
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
+
+        public ResponseData CancelByID(int id, string reason)
+        {
+            ResponseData result = new ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    int status = (int)LeaveStatus.Canceled;
+
+                    var model = db.tb_Leave_Request.SingleOrDefault(x => x.LeaveID == id);
+                    if (model != null)
+                    {
+                        model.Status = status;
+                        model.CancelReason = reason;
+                        model.ModifyBy = UtilityService.User.UserID;
+                        model.ModifyDate = DateTime.Now;
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
 
     }
 }

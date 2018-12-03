@@ -92,23 +92,6 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
-        //public static List<SelectListItem> GetPositionByDep(int? typeid, int? depid, int? defaultValue)
-        //{
-        //    List<SelectListItem> list = new List<SelectListItem>();
-
-        //    var data = new ManPowerRepository().GetPositionByDep(typeid, depid);
-
-        //    foreach (var item in data)
-        //    {
-        //        SelectListItem select = new SelectListItem();
-        //        select.Value = item.PoID.ToString();
-        //        select.Text = " (" + item.MpCode + ") " + item.PoName + " - " + (!string.IsNullOrEmpty(item.FullNameTh) ? item.FullNameTh : "ตำแหน่งว่าง ✓");
-        //        select.Selected = defaultValue.HasValue ? (item.PoID == defaultValue ? true : false) : false;
-        //        list.Add(select);
-        //    }
-        //    return list;
-        //}
-
         public static List<SelectListItem> GetPosition(int? typeid, int? defaultValue)
         {
             List<SelectListItem> list = new List<SelectListItem>();
@@ -1195,6 +1178,51 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
+        public static List<SelectListItem> GetLeaveYear(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new LeaveRequestRepository().GetLeaveYear();
+            if (data.Count > 0)
+            {
+                foreach (var item in data)
+                {
+                    SelectListItem select = new SelectListItem();
+                    select.Value = item.Year.ToString();
+                    select.Text = item.Year.ToString();
+                    select.Selected = defaultValue.HasValue ? (item.Year == defaultValue ? true : false) : false;
+                    list.Add(select);
+                }
+            }
+            else
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = DateTime.Now.Year.ToString();
+                select.Text = DateTime.Now.Year.ToString();
+                select.Selected = defaultValue.HasValue ? (DateTime.Now.Year == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+        public static List<SelectListItem> GetLeaveStatus(int? defaultValue)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new LeaveRequestRepository().GetLeaveStatus();
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.StatusID.ToString();
+                select.Text = item.StatusName.ToString();
+                select.Selected = defaultValue.HasValue ? (item.StatusID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
+
         //public static List<SelectListItem> GetDivision(int? defaultValue)
         //{
         //    List<SelectListItem> list = new List<SelectListItem>();
@@ -1464,6 +1492,23 @@ namespace SAT.HR.Data.Repository
         //        select.Value = item.SecID.ToString();
         //        select.Text = item.DivName + "/" + item.DepName + "/" +item.SecName;
         //        select.Selected = defaultValue.HasValue ? (item.SecID == defaultValue ? true : false) : false;
+        //        list.Add(select);
+        //    }
+        //    return list;
+        //}
+
+        //public static List<SelectListItem> GetPositionByDep(int? typeid, int? depid, int? defaultValue)
+        //{
+        //    List<SelectListItem> list = new List<SelectListItem>();
+
+        //    var data = new ManPowerRepository().GetPositionByDep(typeid, depid);
+
+        //    foreach (var item in data)
+        //    {
+        //        SelectListItem select = new SelectListItem();
+        //        select.Value = item.PoID.ToString();
+        //        select.Text = " (" + item.MpCode + ") " + item.PoName + " - " + (!string.IsNullOrEmpty(item.FullNameTh) ? item.FullNameTh : "ตำแหน่งว่าง ✓");
+        //        select.Selected = defaultValue.HasValue ? (item.PoID == defaultValue ? true : false) : false;
         //        list.Add(select);
         //    }
         //    return list;

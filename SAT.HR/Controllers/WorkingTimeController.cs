@@ -17,13 +17,51 @@ namespace SAT.HR.Controllers
 
         public ActionResult LeaveRequest()
         {
+            ViewBag.LeaveYear = DropDownList.GetLeaveYear(DateTime.Now.Year);
+            ViewBag.LeaveStatus = DropDownList.GetLeaveStatus(null);
             return View();
         }
 
-        public ActionResult _LeaveRequest()
+        public ActionResult LeaveRequestDetail(int? id, int userid)
         {
-            return PartialView("_LeaveRequest");
+            var model = new LeaveRequestRepository().GetByID(userid, id);
+
+            DateTime firstDayOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            DateTime lastDayOfMount = firstDayOfMonth.AddMonths(1).AddDays(-1);
+
+            string dateFrom = firstDayOfMonth.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH"));
+            string dateTo = lastDayOfMount.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH"));
+
+            ViewBag.DateFrom = dateFrom;
+            ViewBag.DateTo = dateTo;
+            ViewBag.AttendanceType = DropDownList.GetAttendanceType(null);
+
+            return View(model);
         }
+
+        public ActionResult LeaveRequestByID(int? id, int userid)
+        {
+            var model = new LeaveRequestRepository().GetByID(userid, id);
+            ViewBag.AttendanceType = DropDownList.GetAttendanceType(null);
+            return PartialView("_LeaveRequestDetail", model);
+        }
+
+        public JsonResult SaveTimeAttendance(LeaveRequestViewModel data)
+        {
+            ResponseData result = new ResponseData();
+            if (data.LeaveID != 0)
+                result = new LeaveRequestRepository().UpdateByEntity(data);
+            else
+                result = new LeaveRequestRepository().AddByEntity(data);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult CancelLeaveRequest(int id, string reason)
+        {
+            var result = new LeaveRequestRepository().CancelByID(id, reason);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
 
         #endregion
 
