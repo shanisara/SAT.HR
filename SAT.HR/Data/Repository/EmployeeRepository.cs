@@ -28,12 +28,13 @@ namespace SAT.HR.Data.Repository
                         FullNameTh = s.FullNameTh,
                         Avatar = SysConfig.ApplicationRoot + (!string.IsNullOrEmpty(s.Avatar) ? SysConfig.PathDownloadUserAvatar + "/" + s.Avatar : "Content/assets/img/default-avatar.png"),
                         Email = s.Email,
-                        //DivID = s.DivID,
-                        //DivName = s.DivName,
-                        //DepID = s.DepID,
-                        //DepName = s.DepName,
-                        //SecID = s.SecID,
-                        //SecName = s.SecName,
+                        SexID = s.SexID,
+                        DivID = s.DivID,
+                        DivName = s.DivName,
+                        DepID = s.DepID,
+                        DepName = s.DepName,
+                        SecID = s.SecID,
+                        SecName = s.SecName,
                         PoID = s.PoID,
                         PoName = s.PoName,
                         RoleID = s.RoleID,
@@ -66,12 +67,13 @@ namespace SAT.HR.Data.Repository
                     model.FullNameTh = data.FullNameTh;
                     model.Avatar = SysConfig.ApplicationRoot + (!string.IsNullOrEmpty(data.Avatar) ? SysConfig.PathDownloadUserAvatar + data.Avatar : "Content/assets/img/image_placeholder.jpg");
                     model.Email = data.Email;
-                    //model.DivID = data.DivID;
-                    //model.DivName = data.DivName;
-                    //model.DepID = data.DepID;
-                    //model.DepName = data.DepName;
-                    //model.SecID = data.SecID;
-                    //model.SecName = data.SecName;
+                    model.SexID = data.SexID;
+                    model.DivID = data.DivID;
+                    model.DivName = data.DivName;
+                    model.DepID = data.DepID;
+                    model.DepName = data.DepName;
+                    model.SecID = data.SecID;
+                    model.SecName = data.SecName;
                     model.PoID = data.PoID;
                     model.PoName = data.PoName;
                     model.RoleID = data.RoleID;
@@ -340,7 +342,9 @@ namespace SAT.HR.Data.Repository
                     UserID = s.UserID,
                     UserName = s.UserName,
                     FullNameTh = s.FullNameTh,
-                    IDCard = s.IDCard
+                    IDCard = s.IDCard,
+                    UserType = s.UserTypeID,
+                    SexID = s.SexID
                 }).FirstOrDefault();
                 return data;
             }

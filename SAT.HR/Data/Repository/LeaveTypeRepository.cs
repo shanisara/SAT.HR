@@ -72,17 +72,49 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var list = db.tb_Leave_Type.Select(s => new LeaveTypeViewModel()
+                List<LeaveTypeViewModel> list = new List<LeaveTypeViewModel>();
+
+                DateTime curDate = DateTime.Now;
+                var data = db.tb_Leave_Type.Where(m => (m.LevStartDate.Value.Year <= curDate.Year && m.LevStartDate.Value.Month <= curDate.Month && m.LevStartDate.Value.Day <= curDate.Day)
+                           && (m.LevEndDate.Value.Year >= curDate.Year && m.LevEndDate.Value.Month >= curDate.Month && m.LevEndDate.Value.Day >= curDate.Day)).ToList();
+
+                foreach (var s in data)
+                {
+                    LeaveTypeViewModel model = new LeaveTypeViewModel();
+                    model.LevID = s.LevID;
+                    model.LevYear = s.LevYear;
+                    model.LevName = s.LevName;
+                    model.LevStartDate = s.LevStartDate;
+                    model.LevEndDate = s.LevEndDate;
+                    model.LevStartDateText = s.LevStartDate.Value.ToString("dd/MM/yyyy");
+                    model.LevEndDateText = s.LevEndDate.Value.ToString("dd/MM/yyyy");
+                    model.LevMax = s.LevMax;
+                    model.LevStatus = s.LevStatus;
+                    model.SexID = s.SexID;
+                    list.Add(model);
+                }
+                return list;
+            }
+        }
+
+        public List<LeaveTypeViewModel> GetLeaveType(int? sexid)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                DateTime curDate = DateTime.Now;
+                var data = db.tb_Leave_Type.Where(m => (m.LevStartDate.Value.Year <= curDate.Year && m.LevStartDate.Value.Month <= curDate.Month && m.LevStartDate.Value.Day <= curDate.Day)
+                           && (m.LevEndDate.Value.Year >= curDate.Year && m.LevEndDate.Value.Month >= curDate.Month && m.LevEndDate.Value.Day >= curDate.Day)).ToList();
+
+                if (!sexid.HasValue)
+                    sexid = UtilityService.User.SexID;
+
+                data = data.Where(w => w.SexID == null || w.SexID == sexid).ToList();
+
+                var list = data.Select(s => new LeaveTypeViewModel()
                 {
                     LevID = s.LevID,
-                    LevYear = s.LevYear,
-                    LevName = s.LevName,
-                    LevStartDateText = s.LevStartDate.Value.ToString("dd/MM/yyyy"),
-                    LevEndDateText = s.LevEndDate.Value.ToString("dd/MM/yyyy"),
-                    LevMax = s.LevMax,
-                    LevStatus = s.LevStatus,
-                    SexID = s.SexID,
-                }).OrderBy(x => x.LevName).ToList();
+                    LevName = s.LevName
+                }).ToList();
                 return list;
             }
         }

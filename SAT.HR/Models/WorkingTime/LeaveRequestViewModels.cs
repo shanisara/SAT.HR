@@ -25,6 +25,11 @@ namespace SAT.HR.Models
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
 
+        public Nullable<decimal> LeaveBalance { get; set; }
+        public Nullable<decimal> LeaveUsed { get; set; }
+        public Nullable<decimal> LeaveQuota { get; set; }
+        public Nullable<decimal> LeaveMax { get; set; }
+        public string Approver { get; set; }
         public List<LeaveRequestViewModel> ListLeave { get; set; }
     }
 

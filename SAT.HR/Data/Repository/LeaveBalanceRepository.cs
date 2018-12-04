@@ -105,5 +105,36 @@ namespace SAT.HR.Data
             }
         }
 
+        public LeaveBalanceViewModel LeaveBalanceByUser(int userid, int leaveid)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                int year = DateTime.Now.Year + 543;
+                var data = db.tb_Leave_Balance.Where(m => m.LevYear == year && m.LevID == leaveid && m.UserID == userid).FirstOrDefault();
+
+                LeaveBalanceViewModel model = new LeaveBalanceViewModel();
+                if (data != null)
+                {
+                    model.LevMax = data.LevMax;
+                    model.LevStandard = data.LevStandard;
+                    model.LevUsed = data.LevUsed;
+                    model.LevBalance = data.LevMax - data.LevUsed;
+                }
+                else
+                {
+                    DateTime curDate = DateTime.Now;
+                    var leavetype = db.tb_Leave_Type.Where(m => (m.LevStartDate.Value.Year <= curDate.Year && m.LevStartDate.Value.Month <= curDate.Month && m.LevStartDate.Value.Day <= curDate.Day)
+                                    && (m.LevEndDate.Value.Year >= curDate.Year && m.LevEndDate.Value.Month >= curDate.Month && m.LevEndDate.Value.Day >= curDate.Day)
+                                    && m.LevID == leaveid).FirstOrDefault();
+                    model.LevMax = leavetype.LevMax;
+                    model.LevStandard = leavetype.LevMax;
+                    model.LevUsed = 0;
+                    model.LevBalance = leavetype.LevMax;
+
+                }
+                return model;
+            }
+        }
+
     }
 }

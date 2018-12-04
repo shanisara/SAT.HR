@@ -84,6 +84,8 @@ namespace SAT.HR.Models
 
         public int? RoleID { get; set; }
 
+        public int? SexID { get; set; }
+
     }
 
     public class UserStatusViewModel

@@ -22,28 +22,14 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult LeaveRequestDetail(int? id, int userid)
+        public ActionResult LeaveRequestDetail(int? id)
         {
-            var model = new LeaveRequestRepository().GetByID(userid, id);
+            var model = new LeaveRequestRepository().GetByID(id);
 
-            DateTime firstDayOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            DateTime lastDayOfMount = firstDayOfMonth.AddMonths(1).AddDays(-1);
-
-            string dateFrom = firstDayOfMonth.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH"));
-            string dateTo = lastDayOfMount.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH"));
-
-            ViewBag.DateFrom = dateFrom;
-            ViewBag.DateTo = dateTo;
-            ViewBag.AttendanceType = DropDownList.GetAttendanceType(null);
+            ViewBag.Employee = DropDownList.GetEmployee(null, 1);
+            ViewBag.LeaveType = DropDownList.GetLeaveType(null, true, UtilityService.User.SecID);
 
             return View(model);
-        }
-
-        public ActionResult LeaveRequestByID(int? id, int userid)
-        {
-            var model = new LeaveRequestRepository().GetByID(userid, id);
-            ViewBag.AttendanceType = DropDownList.GetAttendanceType(null);
-            return PartialView("_LeaveRequestDetail", model);
         }
 
         public JsonResult SaveTimeAttendance(LeaveRequestViewModel data)
@@ -61,6 +47,13 @@ namespace SAT.HR.Controllers
             var result = new LeaveRequestRepository().CancelByID(id, reason);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        //public ActionResult LeaveRequestByID(int? id)
+        //{
+        //    var model = new LeaveRequestRepository().GetByID(id);
+        //    ViewBag.AttendanceType = DropDownList.GetAttendanceType(null);
+        //    return PartialView("_LeaveRequestDetail", model);
+        //}
 
 
         #endregion

@@ -135,17 +135,14 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Course> vw_Course { get; set; }
         public virtual DbSet<vw_Department> vw_Department { get; set; }
         public virtual DbSet<vw_Division> vw_Division { get; set; }
-        public virtual DbSet<vw_Employee> vw_Employee { get; set; }
         public virtual DbSet<vw_Man_Power> vw_Man_Power { get; set; }
         public virtual DbSet<vw_Menu_Role> vw_Menu_Role { get; set; }
         public virtual DbSet<vw_Move_Level_Detail> vw_Move_Level_Detail { get; set; }
         public virtual DbSet<vw_Move_Level_Head> vw_Move_Level_Head { get; set; }
         public virtual DbSet<vw_Move_Man_Power_Detail> vw_Move_Man_Power_Detail { get; set; }
         public virtual DbSet<vw_Move_Man_Power_Head> vw_Move_Man_Power_Head { get; set; }
-        public virtual DbSet<vw_Organization> vw_Organization { get; set; }
         public virtual DbSet<vw_Section> vw_Section { get; set; }
         public virtual DbSet<vw_Title> vw_Title { get; set; }
-        public virtual DbSet<vw_Trainning_Course> vw_Trainning_Course { get; set; }
         public virtual DbSet<vw_User> vw_User { get; set; }
         public virtual DbSet<vw_User_Certificate> vw_User_Certificate { get; set; }
         public virtual DbSet<vw_User_Education> vw_User_Education { get; set; }
@@ -162,6 +159,9 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Leave_Request> tb_Leave_Request { get; set; }
         public virtual DbSet<tb_Mail_Template> tb_Mail_Template { get; set; }
         public virtual DbSet<tb_Leave_Status> tb_Leave_Status { get; set; }
+        public virtual DbSet<vw_Trainning_Course> vw_Trainning_Course { get; set; }
+        public virtual DbSet<vw_Employee> vw_Employee { get; set; }
+        public virtual DbSet<vw_Organization> vw_Organization { get; set; }
     
         public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
         {

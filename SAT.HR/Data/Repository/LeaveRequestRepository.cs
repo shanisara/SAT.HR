@@ -74,20 +74,31 @@ namespace SAT.HR.Data
         //    return data;
         //}
 
-        public LeaveRequestViewModel GetByID(int userid, int? id)
+        public LeaveRequestViewModel GetByID(int? id)
         {
             try
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    var item = db.tb_Leave_Request.Where(x => x.LeaveID == id).FirstOrDefault();
-
                     LeaveRequestViewModel model = new LeaveRequestViewModel();
 
-                    model.CreateDate = item.CreateDate;
-                    model.CreateBy = item.CreateBy;
-                    model.ModifyDate = item.ModifyDate;
-                    model.ModifyBy = item.ModifyBy;
+                    var item = db.tb_Leave_Request.Where(x => x.LeaveID == id).FirstOrDefault();
+                    if (item != null)
+                    {
+                        
+                        model.CreateDate = item.CreateDate;
+                        model.CreateBy = item.CreateBy;
+                        model.ModifyDate = item.ModifyDate;
+                        model.ModifyBy = item.ModifyBy;
+                    }
+                    else
+                    {
+                        model.UserID = UtilityService.User.UserID;
+                        model.DayTime = 0;
+                        model.StartDate = Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH")));
+                        model.EndDate = Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH")));
+                        model.TotalDay = 1;
+                    }
 
                     return model;
                 }

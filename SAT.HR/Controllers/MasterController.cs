@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using SAT.HR.Models;
 using SAT.HR.Data.Repository;
 using SAT.HR.Helpers;
+using SAT.HR.Data;
 
 namespace SAT.HR.Controllers
 {
@@ -733,6 +734,18 @@ namespace SAT.HR.Controllers
         public JsonResult DeleteLeaveType(int id)
         {
             var result = new LeaveTypeRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult LeaveTypeBySex(int userid)
+        {
+            var result = DropDownList.GetLeaveType(null, userid);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult LeaveBalanceByUser(int userid, int leaveid)
+        {
+            var result = new LeaveBalanceRepository().LeaveBalanceByUser(userid, leaveid);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
