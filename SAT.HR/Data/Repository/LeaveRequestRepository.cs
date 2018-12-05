@@ -119,6 +119,7 @@ namespace SAT.HR.Data
                         model.CreateBy = item.CreateBy;
                         model.ModifyDate = item.ModifyDate;
                         model.ModifyBy = item.ModifyBy;
+                        model.LeaveTotalDay = item.TotalDay;
 
                         var leaveBalance = new LeaveBalanceRepository().LeaveBalanceByUser((int)model.RequestID, (int)model.LeaveType);
                         model.LeaveMax = leaveBalance.LevMax;
@@ -239,9 +240,8 @@ namespace SAT.HR.Data
                         model.StartDate = newdata.StartDate;
                         model.EndDate = newdata.EndDate;
                         model.DayTime = newdata.DayTime;
-                        model.TotalDay = newdata.TotalDay;
+                        model.TotalDay = newdata.LeaveTotalDay;
                         model.LeaveReason = newdata.LeaveReason;
-                        //model.Status = (int)EnumType.LeaveStatus.Waiting;
                         model.ModifyBy = UtilityService.User.UserID;
                         model.ModifyDate = DateTime.Now;
                         db.SaveChanges();

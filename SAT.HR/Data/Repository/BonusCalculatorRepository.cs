@@ -9,14 +9,14 @@ namespace SAT.HR.Data
 {
     public class BonusCalculatorRepository
     {
-        public List<BonusCalculatorProcessViewModel> BonusCalculatorProcess(int year, int level, decimal step)
+        public List<EmpBonusCalculatorViewModel> GetEmpBonusCalculator(int year, int rate)
         {
-            List<BonusCalculatorProcessViewModel> list = new List<BonusCalculatorProcessViewModel>();
+            List<EmpBonusCalculatorViewModel> list = new List<EmpBonusCalculatorViewModel>();
             using (SATEntities db = new SATEntities())
             {
                 try
                 {
-                    //var bonuscalculator = db.sp_SalaryIncrease_Process(year, level, step).ToList();
+                    //var bonuscalculator = db.sp_Bonus_Calculator_List(year, rate).ToList();
                     //foreach (var item in bonuscalculator)
                     //{
                     //    BonusCalculatorProcessViewModel model = new BonusCalculatorProcessViewModel();

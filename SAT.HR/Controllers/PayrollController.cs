@@ -22,10 +22,10 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public JsonResult SalaryIncreaseProcess(int year, int level, decimal step)
+        public ActionResult GetEmpSalaryIncrease(int year, int level, decimal step)
         {
-            var result = new SalaryIncreaseRepository().SalaryIncreaseProcess(year, level, step);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var model = new SalaryIncreaseRepository().GetEmpSalaryIncrease(year, level, step);
+            return PartialView("_SalaryIncrease", model);
         }
 
         public JsonResult SalaryIncreaseConfirm(SalaryIncreaseProcessViewModel data)
@@ -45,10 +45,10 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public JsonResult BonusCalculatorProcess(int year, int level, decimal step)
+        public ActionResult GetEmpBonusCalculator(int year, int rate)
         {
-            var result = new BonusCalculatorRepository().BonusCalculatorProcess(year, level, step);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var model = new BonusCalculatorRepository().GetEmpBonusCalculator(year, rate);
+            return PartialView("_BonusCalculator", model);
         }
 
         public JsonResult BonusCalculatorConfirm(BonusCalculatorProcessViewModel data)

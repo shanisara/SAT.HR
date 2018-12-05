@@ -9,9 +9,9 @@ namespace SAT.HR.Data
 {
     public class SalaryIncreaseRepository
     {
-        public List<SalaryIncreaseProcessViewModel> SalaryIncreaseProcess(int year, int level, decimal step)
+        public List<EmpSalaryIncreaseViewModel> GetEmpSalaryIncrease(int year, int level, decimal step)
         {
-            List<SalaryIncreaseProcessViewModel> list = new List<SalaryIncreaseProcessViewModel>();
+            List<EmpSalaryIncreaseViewModel> list = new List<EmpSalaryIncreaseViewModel>();
             using (SATEntities db = new SATEntities())
             {
                 try
@@ -19,7 +19,7 @@ namespace SAT.HR.Data
                     var salaryincrease = db.sp_Salary_Increase_List(year, level, step).ToList();
                     foreach (var item in salaryincrease)
                     {
-                        SalaryIncreaseProcessViewModel model = new SalaryIncreaseProcessViewModel();
+                        EmpSalaryIncreaseViewModel model = new EmpSalaryIncreaseViewModel();
                         model.Year = item.Year;
                         model.Seq = item.Seq;
                         model.UpStep = item.UpStep;

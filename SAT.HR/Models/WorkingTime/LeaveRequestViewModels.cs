@@ -29,6 +29,7 @@ namespace SAT.HR.Models
         public Nullable<decimal> LeaveStandard { get; set; }
         public Nullable<decimal> LeaveUsed { get; set; }
         public Nullable<decimal> LeaveMax { get; set; }
+        public Nullable<decimal> LeaveTotalDay { get; set; }
         public string Approver { get; set; }
         public string RequestName { get; set; }
         public string LeaveTypeName { get; set; }

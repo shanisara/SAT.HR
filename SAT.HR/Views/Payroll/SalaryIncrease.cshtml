@@ -1,4 +1,5 @@
-﻿
+﻿@model SAT.HR.Models.SalaryIncreaseProcessViewModel
+
 @{
     ViewBag.Title = "SalaryIncrease";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -54,7 +55,7 @@
                                                 <label class="col-sm-2 col-form-label m-t-20">ปีบัญชี</label>
                                                 <div class="col-sm-3">
                                                     <div class="form-group bmd-form-group">
-                                                        @Html.TextBox("Year", (int)ViewBag.Year, new { @class = "form-control text-left", type = "number" })
+                                                        @Html.TextBox("year", (int)ViewBag.Year, new { @class = "form-control text-left", type = "number" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -84,7 +85,7 @@
                                                 <div class="col-sm-10 checkbox-radios">
                                                     <div class="form-check form-check-inline">
                                                         <label class="form-check-label">
-                                                            <input name="salarystep" class="form-check-input" type="radio" value="0.5" > 0.5 ขั้น
+                                                            <input name="salarystep" class="form-check-input" type="radio" value="0.5"> 0.5 ขั้น
                                                             <span class="circle">
                                                                 <span class="check"></span>
                                                             </span>
@@ -105,34 +106,7 @@
                                 </div>
                             </div>
                             <div class="tab-pane div-step2" id="step2">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="card-title"><span>ตรวจสอบและแก้ไข</span></h4>
-                                        <p class="card-category"> รายงานการปรับเงินเดือน </p>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="level-transfer">
-                                            <table id="datatables" data-url="@Url.Content("~/payroll/BonusCalculator")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th style="width:5%" class="disabled-sorting">ลำดับ</th>
-                                                        <th></th>
-                                                        <th style="width:7%">ปีบัญชี</th>
-                                                        <th style="width:8%">รอบที่</th>
-                                                        <th style="width:10%">ชื่อ นามสกุล</th>
-                                                        <th style="width:10%">อัตรา</th>
-                                                        <th style="width:10%">ระดับ</th>
-                                                        <th style="width:10%">ขั้นเก่า</th>
-                                                        <th style="width:10%">ขั้นใหม่</th>
-                                                        <th style="width:10%">เงินเดือนเก่า</th>
-                                                        <th style="width:10%">เงินเดือนใหม่</th>
-                                                        <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
-                                                    </tr>
-                                                </thead>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div id="div-step2"></div>
                             </div>
                             <div class="tab-pane div-step3" id="step3">
                                 <div class="card">
@@ -148,7 +122,7 @@
                                                 <label class="col-sm-2 col-form-label m-t-15">คำสั่ง</label>
                                                 <div class="col-sm-10">
                                                     <div class="form-group bmd-form-group">
-                                                        <input class="form-control" type="text">
+                                                        @Html.TextBoxFor(m => m.BookCmd, new { @class = "form-control", required = "true" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -156,20 +130,24 @@
                                                 <label class="col-sm-2 col-form-label m-t-15">วันที่ลงคำสั่ง</label>
                                                 <div class="col-sm-4">
                                                     <div class="form-group bmd-form-group">
-                                                        <input class="form-control datepicker" type="text">
+                                                        @Html.TextBoxFor(m => m.DateCmd, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
                                                     </div>
                                                 </div>
                                                 <label class="col-sm-2 col-form-label m-t-15">วันที่มีผล</label>
                                                 <div class="col-sm-4">
                                                     <div class="form-group bmd-form-group">
-                                                        <input class="form-control datepicker" type="text">
+                                                        @Html.TextBoxFor(m => m.DateEff, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <label class="col-sm-2 col-form-label m-t-15">ไฟล์แนบ</label>
                                                 <div class="col-sm-10">
-                                                    <input class="form-control file-upload" type="file">
+                                                    <div class="input-group-prepend file-path">
+                                                        @*<a class="m-t-10 file-name" target="_blank" href=@Url.Action("DownloadFileAttach", "Employee", new { id = Model.ProcessID, type = 1 })>@Model.PathFile</a>*@
+                                                        <a class="btn btn-link btn-danger btn-just-icon file-delete" file-delete href="#" title="ลบ" style="margin-top:0px"><i class="material-icons">delete_forever</i></a>
+                                                    </div>
+                                                    <input id="FileUpload" name="FileUpload" type="file" class="form-control file-upload">
                                                 </div>
                                             </div>
                                         </div>
@@ -207,7 +185,7 @@
 </style>
 
 @section Scripts {
-<script>
+    <script>
 
     $(document).ready(function () {
 
@@ -238,11 +216,6 @@
                     $(".btn-previous").show();
                     $(".btn-next").show();
                     $(".btn-finish").hide();
-
-                    @*var url = '@Url.Action("GetEmpSalaryIncrease", "Payroll")';
-                        $.post(url, function (data) {
-                            $("#div-step2").html(data);
-                        });*@
                 }
             }
             else if (this.id == "li-step3") {
@@ -303,7 +276,7 @@
 
                     $(".btn-previous").show();
 
-                    //Get Data
+                    GetEmpSalaryIncrease();
                 }).catch(swal.noop)
             }
             else if (id == "tab-step2") {
@@ -330,12 +303,35 @@
                 cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
                 buttonsStyling: false
             }).then(function () {
-
+                SalaryIncreaseProcess();
             }).catch(swal.noop)
         });
 
+        function GetEmpSalaryIncrease() {
+            var level = parseInt($("input[name='salarylevel']:checked").val());
+            var step = parseInt($("input[name='salarystep']:checked").val());
+            var year = parseFloat($('#year').val());
+            var url = '@Url.Action("GetEmpSalaryIncrease", "Payroll")?level=' + level + '&step=' + step + '&year=' + year;
+            $("#div-step2").load(url);
+        }
+
+        function SalaryIncreaseProcess() {
+            var level = parseInt($("input[name='salarylevel']:checked").val());
+            var step = parseInt($("input[name='salarystep']:checked").val());
+            var year = parseFloat($('#year').val());
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SalaryIncreaseProcess", "Payroll")',
+                data: { year: year, level: level, step: step },
+                dataType: 'json',
+                success: function (res) {
+                    
+                }
+            });
+        }
 
     });
 
-</script>
+    </script>
 }
