@@ -205,14 +205,26 @@
             });
 
             $('input[name="DayTime"]:radio').change(function () {
-                var dayTime = $("input[name='DayTime']:checked").val();
-                if (dayTime == '1') {
-                    $('#TotalDay').text('1');
-                }
-                else {
-                    $('#TotalDay').text('0.5');
-                }
+                calculateTotalDay();
             });
+
+            
+            function calculateTotalDay() {
+                var daytime = $("input[name='DayTime']:checked").val();
+                var startdate = $("#StartDate").val();
+                var entdate = $("#EndDate").val();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("LeaveCalculateTotalDay", "WorkingTime")',
+                    data: { daytime: daytime, startdate: startdate, entdate: entdate },
+                    dataType: 'json',
+                    success: function (res) {
+                        var days = res.TotalDay;
+                        $('#TotalDay').text(days);
+                    }
+                });
+            }
+
 
             $(".btn-back").click(function () {
                 var url = '@Url.Action("LeaveRequest", "WorkingTime")';

@@ -26,7 +26,7 @@ namespace SAT.HR.Data
                     string perPage = initialPage.HasValue ? Convert.ToInt32(initialPage) == 0 ? "1" : (Convert.ToInt32(initialPage.ToString().Substring(0, initialPage.ToString().Length - 1)) + 1).ToString() : "1";
 
                     string requestid = UtilityService.User.UserID.ToString();
-                    var data = db.sp_Leave_Request_List(pageSize.ToString(), perPage, sortBy, sortDir, requestid, year, status, filter).ToList();
+                    var data = db.sp_Leave_Request_List(pageSize.ToString(), perPage, sortBy, sortDir, "", year, status, filter).ToList();
 
                     int i = 0;
                     foreach (var item in data)
@@ -314,6 +314,17 @@ namespace SAT.HR.Data
                 throw;
             }
             return model;
+        }
+
+        public string CalculateTotalDay(string daytime, string startdate, string entdate)
+        {
+            string totalDays = "";
+
+            /////ต้องเช็คเพิ่มนะ โดย ไม่คิด วันหยุดทำงาน และ holiday ////
+
+            totalDays = daytime == "1" ? "1" : "0.5";
+
+            return totalDays;
         }
 
 
