@@ -54,11 +54,11 @@
 </div>
 
 <!-- Classic Modal -->
-@*<div class="modal fade modal-detail" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
+<div class="modal fade modal-detail" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
     <div class="modal-dialog modal-large">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title"><span>ใบลา</span></h4>
+                <h4 class="modal-title"><span>ยกเลิกใบลา</span></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     <i class="material-icons">clear</i>
                 </button>
@@ -70,13 +70,11 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn btn-sm btn-primary" id="btnSaveDetail">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+                <button type="button" class="btn btn-sm btn-primary btn-cancel">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
             </div>
         </div>
     </div>
-</div>*@
-
-
+</div>
 
 @section Scripts {
     <script>
@@ -145,34 +143,12 @@
                             cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
                             buttonsStyling: false
                         }).then(function () {
-                            $.ajax({
-                                type: 'POST',
-                                url: '@Url.Action("CancelLeaveRequest", "WorkingTime")/' + id,
-                                success: function (res) {
-                                    if (res.MessageCode == null) {
-                                        swal({
-                                            title: "",
-                                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.DeleteSucceed)",
-                                            type: "success",
-                                            confirmButtonClass: "btn btn-primary",
-                                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                                            buttonsStyling: false
-                                        }).then(function () {
-                                            dataTable.getData();
-                                        });
-                                    }
-                                    else {
-                                        swal({
-                                            title: '',
-                                            text: res.MessageText,
-                                            type: 'error',
-                                            confirmButtonClass: "btn btn-primary",
-                                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                                            buttonsStyling: false
-                                        }).catch(swal.noop);
-                                    }
-                                }
+                            var url = '@Url.Action("CancelLeaveRequest", "WorkingTime")';
+                            $.post(url, { id: id }, function (data) {
+                                $(".div-detail").html(data);
+                                $('.modal-detail').modal('show');
                             });
+
                         }).catch(swal.noop)
                     });
 
@@ -185,44 +161,29 @@
                 }
             }
 
-            //dataTable.getData();
+            dataTable.getData();
 
 
             $(".btn-add").click(function () {
                 var userid = $("#UserID").val();
                 var url = '@Url.Action("LeaveRequestDetail", "WorkingTime")';
                 window.location.href = url;
-
-                @*var url = '@Url.Action("LeaveRequestDetail", "WorkingTime")';
-                $.post(url, function (data) {
-                    $(".div-detail").html(data);
-                    $('.modal-detail').modal('show');
-                });*@
             });
 
-
-            $(".btn-save").click(function () {
-            var $valid = $('.form-detail').valid();
-            if (!$valid) {
-
-                return false;
-            }
-            else {
+            $(".btn-cancel").click(function () {
                 $.ajax({
                     type: 'POST',
-                    url: '@Url.Action("SaveLeaveRequest", "WorkingTime")',
-                    data: $(".form-detail").serialize(),
+                    url: '@Url.Action("ConfirmCancelLeaveRequest", "WorkingTime")/' + id,
                     success: function (res) {
                         if (res.MessageCode == null) {
                             swal({
                                 title: "",
-                                text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                                text: "ยกเลิกใบลาเรียบร้อย",
                                 type: "success",
-                                buttonsStyling: false,
                                 confirmButtonClass: "btn btn-primary",
                                 confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                buttonsStyling: false
                             }).then(function () {
-                                $('.modal-detail').modal('hide');
                                 dataTable.getData();
                             });
                         }
@@ -234,18 +195,16 @@
                                 confirmButtonClass: "btn btn-primary",
                                 confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
                                 buttonsStyling: false
-                            }).catch(swal.noop)
+                            }).catch(swal.noop);
                         }
                     }
                 });
-            }
+            });
+
+
         });
 
-        $(".btn-back").click(function () {
-            var url = '@Url.Action("LeaveRequest", "WorkingTime")';
-            window.location.href = url;
-        });
 
-    });
-</script>
+
+    </script>
 }

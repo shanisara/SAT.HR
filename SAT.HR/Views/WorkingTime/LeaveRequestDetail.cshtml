@@ -195,6 +195,50 @@
                 }
             });
 
+            $(".btn-back").click(function () {
+                var url = '@Url.Action("LeaveRequest", "WorkingTime")';
+                window.location.href = url;
+            });
+
+            $(".btn-save").click(function () {
+            var $valid = $('.form-detail').valid();
+            if (!$valid) {
+
+                return false;
+            }
+            else {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SaveLeaveRequest", "WorkingTime")',
+                    data: $(".form-detail").serialize(),
+                    success: function (res) {
+                        if (res.MessageCode == null) {
+                            swal({
+                                title: "",
+                                text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                                type: "success",
+                                buttonsStyling: false,
+                                confirmButtonClass: "btn btn-primary",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                            }).then(function () {
+                                $('.modal-detail').modal('hide');
+                                dataTable.getData();
+                            });
+                        }
+                        else {
+                            swal({
+                                title: '',
+                                text: res.MessageText,
+                                type: 'error',
+                                confirmButtonClass: "btn btn-primary",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                buttonsStyling: false
+                            }).catch(swal.noop)
+                        }
+                    }
+                });
+            }
+
         });
 
     </script>

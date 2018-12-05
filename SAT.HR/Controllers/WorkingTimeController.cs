@@ -13,6 +13,7 @@ namespace SAT.HR.Controllers
     public class WorkingTimeController : BaseController
     {
         // การเข้าปฏิบัติงาน
+
         #region ทำรายการลา
 
         public ActionResult LeaveRequest()
@@ -42,19 +43,27 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult CancelLeaveRequest(int id, string reason)
+        public JsonResult ConfirmCancelLeaveRequest(int id, string reason)
         {
-            var result = new LeaveRequestRepository().CancelByID(id, reason);
+            var result = new LeaveRequestRepository().ConfirmCancelByID(id, reason);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        //public ActionResult LeaveRequestByID(int? id)
-        //{
-        //    var model = new LeaveRequestRepository().GetByID(id);
-        //    ViewBag.AttendanceType = DropDownList.GetAttendanceType(null);
-        //    return PartialView("_LeaveRequestDetail", model);
-        //}
+        public ActionResult CancelLeaveRequest(int? id)
+        {
+            var model = new LeaveRequestRepository().GetByID(id);
+            return PartialView("_CancelLeaveRequest", model);
+        }
 
+        [HttpPost]
+        public JsonResult LeaveRequest(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns, string year, string status)
+        {
+            var search = Request["search[value]"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
+            var dataTableData = new LeaveRequestRepository().GetPage(search, draw, start, length, dir, column, year, status);
+            return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
 

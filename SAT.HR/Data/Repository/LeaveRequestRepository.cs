@@ -12,6 +12,50 @@ namespace SAT.HR.Data
 {
     public class LeaveRequestRepository
     {
+        public LeaveRequestPageResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy, string year, string status)
+        {
+            LeaveRequestPageResult result = new LeaveRequestPageResult();
+            List<LeaveRequestViewModel> list = new List<LeaveRequestViewModel>();
+
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    sortBy = (sortBy == "RowNumber") ? "LeaveNo" : sortBy;
+                    string perPage = initialPage.HasValue ? Convert.ToInt32(initialPage) == 0 ? "1" : (Convert.ToInt32(initialPage.ToString().Substring(0, initialPage.ToString().Length - 1)) + 1).ToString() : "1";
+                    //var data = db.sp_LeaveRequest_List(pageSize.ToString(), perPage, sortBy, sortDir, year, status, filter).ToList();
+
+                    int i = 0;
+                    //foreach (var item in data)
+                    //{
+                    //    LeaveRequestViewModel model = new LeaveRequestViewModel();
+                    //    model.RowNumber = ++i;
+                    //    model.UserID = item.UserID;
+                    //    //model.LeaveYear = item.LeaveYear;
+                    //    //model.RequestName = item.TiShortName + item.FirstNameTh + " " + item.LastNameTh;
+                    //    //model.LeaveNo = item.LeaveNo;
+                    //    //model.LeaveTypeName = item.LeaveTypeName;
+                    //    //model.CreateDateText = (item.CreateDateText.HasValue) ? item.CreateDateText.Value.ToString("dd/MM/yyyy") : string.Empty;
+                    //    //model.StatusName = item.StatusName;
+                    //    //model.recordsTotal = (int)item.recordsTotal;
+                    //    //model.recordsFiltered = (int)item.recordsFiltered;
+                    //    list.Add(model);
+                    //}
+
+                    result.draw = draw ?? 0;
+                    result.recordsTotal = list.Count != 0 ? list[0].recordsTotal : 0;
+                    result.recordsFiltered = list.Count != 0 ? list[0].recordsFiltered : 0;
+                    result.data = list;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return result;
+        }
+
         public List<YearViewModel> GetLeaveYear()
         {
             using (SATEntities db = new SATEntities())
@@ -40,39 +84,6 @@ namespace SAT.HR.Data
                 return lists;
             }
         }
-
-        //public LeaveRequestViewModel GetByUser(int userid)
-        //{
-        //    var data = new LeaveRequestViewModel();
-        //    var list = new List<LeaveRequestViewModel>();
-        //    try
-        //    {
-        //        using (SATEntities db = new SATEntities())
-        //        {
-        //            int index = 1;
-        //            var remuneration = db.tb_Benefit_Remuneration.Where(x => x.UserID == userid).OrderByDescending(o => o.BrID).ToList();
-
-        //            foreach (var item in remuneration)
-        //            {
-        //                LeaveRequestViewModel model = new LeaveRequestViewModel();
-        //                model.RowNumber = index++;
-                        
-        //                model.CreateDate = item.CreateDate;
-        //                model.CreateBy = item.CreateBy;
-        //                model.ModifyDate = item.ModifyDate;
-        //                model.ModifyBy = item.ModifyBy;
-        //                list.Add(model);
-        //            }
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
-        //    data.UserID = userid;
-        //    data.ListLeave = list;
-        //    return data;
-        //}
 
         public LeaveRequestViewModel GetByID(int? id)
         {
@@ -156,7 +167,7 @@ namespace SAT.HR.Data
             }
         }
 
-        public ResponseData CancelByID(int id, string reason)
+        public ResponseData ConfirmCancelByID(int id, string reason)
         {
             ResponseData result = new ResponseData();
             using (SATEntities db = new SATEntities())
@@ -183,6 +194,40 @@ namespace SAT.HR.Data
                 return result;
             }
         }
+
+
+        //public LeaveRequestViewModel GetByUser(int userid)
+        //{
+        //    var data = new LeaveRequestViewModel();
+        //    var list = new List<LeaveRequestViewModel>();
+        //    try
+        //    {
+        //        using (SATEntities db = new SATEntities())
+        //        {
+        //            int index = 1;
+        //            var remuneration = db.tb_Benefit_Remuneration.Where(x => x.UserID == userid).OrderByDescending(o => o.BrID).ToList();
+
+        //            foreach (var item in remuneration)
+        //            {
+        //                LeaveRequestViewModel model = new LeaveRequestViewModel();
+        //                model.RowNumber = index++;
+                        
+        //                model.CreateDate = item.CreateDate;
+        //                model.CreateBy = item.CreateBy;
+        //                model.ModifyDate = item.ModifyDate;
+        //                model.ModifyBy = item.ModifyBy;
+        //                list.Add(model);
+        //            }
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //    data.UserID = userid;
+        //    data.ListLeave = list;
+        //    return data;
+        //}
 
     }
 }

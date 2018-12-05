@@ -24,13 +24,22 @@ namespace SAT.HR.Models
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
-
         public Nullable<decimal> LeaveBalance { get; set; }
         public Nullable<decimal> LeaveUsed { get; set; }
         public Nullable<decimal> LeaveQuota { get; set; }
         public Nullable<decimal> LeaveMax { get; set; }
         public string Approver { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
         public List<LeaveRequestViewModel> ListLeave { get; set; }
+    }
+
+    public class LeaveRequestPageResult
+    {
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+        public List<LeaveRequestViewModel> data { get; set; }
     }
 
     public class LeaveStatusViewModel
