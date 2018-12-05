@@ -27,13 +27,13 @@ namespace SAT.HR.Controllers
         {
             var model = new LeaveRequestRepository().GetByID(id);
 
-            ViewBag.Employee = DropDownList.GetEmployee(null, 1);
-            ViewBag.LeaveType = DropDownList.GetLeaveType(null, true, UtilityService.User.SecID);
+            ViewBag.Employee = DropDownList.GetEmployee(model.RequestID, 1);
+            ViewBag.LeaveType = DropDownList.GetLeaveType(model.LeaveType, true, UtilityService.User.SexID);
 
             return View(model);
         }
 
-        public JsonResult SaveTimeAttendance(LeaveRequestViewModel data)
+        public JsonResult SaveLeaveRequest(LeaveRequestViewModel data)
         {
             ResponseData result = new ResponseData();
             if (data.LeaveID != 0)
@@ -63,6 +63,15 @@ namespace SAT.HR.Controllers
             var column = columns[int.Parse(order[0]["column"])]["data"];
             var dataTableData = new LeaveRequestRepository().GetPage(search, draw, start, length, dir, column, year, status);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        public FileResult DownloadFileAttach(int id)
+        {
+            var result = new LeaveRequestRepository().DownloadFileAttach(id);
+            string fileName = result.FileName;
+            string filePath = result.FilePath;
+            string contentType = result.ContentType;
+            return new FilePathResult(System.IO.Path.Combine(filePath, fileName), contentType);
         }
 
         #endregion

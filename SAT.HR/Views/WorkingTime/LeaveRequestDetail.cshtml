@@ -13,7 +13,7 @@
                         <i class="material-icons">alarm_on</i>
                     </div>
                     <h4 class="card-title">
-                        <span>แบบฟอร์มการขออนุมัติลา</span>
+                        <span>แบบฟอร์มการขออนุมัติลา > </span><span class="text-primary"> @Model.LeaveNo</span>
                         <button type="submit" class="btn btn-round pull-right btn-back">ย้อนกลับ</button>
                     </h4>
                 </div>
@@ -21,13 +21,15 @@
                     <div class="card-body ">
                         @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form-leave" }))
                         {
-                        @Html.AntiForgeryToken()
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.LeaveID)
+                            @Html.HiddenFor(m => m.PathFile)
 
                         <div class="row">
                             <label class="col-sm-2 col-form-label">ชื่อผู้ลา</label>
                             <div class="col-sm-3">
                                 <div class="form-group bmd-form-group">
-                                    @Html.DropDownListFor(m => m.UserID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Employee, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true", required = "true" })
+                                    @Html.DropDownListFor(m => m.RequestID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Employee, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true", required = "true" })
                                 </div>
                             </div>
                         </div>
@@ -45,7 +47,7 @@
                             <div class="col-sm-10 m-t-15">
                                 <div class="form-check form-check-inline">
                                     <label class="form-check-label">
-                                        @Html.RadioButtonFor(m => m.DayTime, 0, new { @class = "form-check-input" }) ทั้งวัน
+                                        @Html.RadioButtonFor(m => m.DayTime, 1, new { @class = "form-check-input" }) ทั้งวัน
                                         <span class="circle">
                                             <span class="check"></span>
                                         </span>
@@ -53,7 +55,7 @@
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <label class="form-check-label">
-                                        @Html.RadioButtonFor(m => m.DayTime, 1, new { @class = "form-check-input" }) ครึ่งวันเช้า
+                                        @Html.RadioButtonFor(m => m.DayTime, 2, new { @class = "form-check-input" }) ครึ่งวันเช้า
                                         <span class="circle">
                                             <span class="check"></span>
                                         </span>
@@ -61,7 +63,7 @@
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <label class="form-check-label">
-                                        @Html.RadioButtonFor(m => m.DayTime, 2, new { @class = "form-check-input" }) ครึ่งวันบ่าย
+                                        @Html.RadioButtonFor(m => m.DayTime, 3, new { @class = "form-check-input" }) ครึ่งวันบ่าย
                                         <span class="circle">
                                             <span class="check"></span>
                                         </span>
@@ -102,17 +104,21 @@
                         <div class="row">
                             <label class="col-sm-2 col-form-label">แนบไฟล์:</label>
                             <div class="col-md-6">
-                                <input type="file" name="LeaveFile" class="form-control">
+                                <div class="input-group-prepend file-path">
+                                    <a class="m-t-10 file-name" target="_blank" href=@Url.Action("DownloadFileAttach", "Employee", new { id = Model.LeaveID, type = 1 })>@Model.PathFile</a>
+                                    <a class="btn btn-link btn-danger btn-just-icon file-delete" file-delete href="#" title="ลบ" style="margin-top:0px"><i class="material-icons">delete_forever</i></a>
+                                </div>
+                                <input id="LeaveFile" name="LeaveFile" type="file" class="form-control file-upload">
                             </div>
                         </div>
-                        <div class="row">
+                        @*<div class="row">
                             <label class="col-sm-2 col-form-label">ผู้อนุมัติ:</label>
                             <div class="col-md-10">
                                 <div class="form-group bmd-form-group">
                                     <label id="Approver"></label>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
 
                         <div class="row m-t-40">
                             <div class="ml-auto mr-auto">
@@ -132,6 +138,20 @@
     <script>
         $(document).ready(function () {
 
+            if ('@Model.PathFile' != '') {
+                $(".file-path").show();
+                $(".file-upload").hide();
+            }
+            else {
+                $(".file-path").hide();
+                $(".file-upload").show();
+            }
+
+            if ('@Model.LeaveType' != '') {
+                $('select[name=LeaveType]').val('@Model.LeaveType');
+                $('select[name=LeaveType]').selectpicker('refresh');
+            }
+
             $('.selectpicker').selectpicker();
 
             $('.datepicker').datetimepicker({
@@ -149,8 +169,8 @@
                 }
             });
 
-            $("#UserID").change(function () {
-                var userid = $('select[name=UserID]').val();
+            $("#RequestID").change(function () {
+                var userid = $('select[name=RequestID]').val();
                 $.ajax({
                     type: 'POST',
                     url: '@Url.Action("LeaveTypeBySex", "Master")',
@@ -167,7 +187,7 @@
             });
 
             $("#LeaveType").change(function () {
-                var userid = $('select[name=UserID]').val();
+                var userid = $('select[name=RequestID]').val();
                 var leaveid = $('select[name=LeaveType]').val();
                 $.ajax({
                     type: 'POST',
@@ -175,7 +195,6 @@
                     data: { userid: userid, leaveid: leaveid },
                     dataType: 'json',
                     success: function (res) {
-                        debugger;
                         var max = res.LevMax;
                         var standard = res.LevStandard;
                         var used = res.LevUsed;
@@ -187,7 +206,7 @@
 
             $('input[name="DayTime"]:radio').change(function () {
                 var dayTime = $("input[name='DayTime']:checked").val();
-                if (dayTime == '0') {
+                if (dayTime == '1') {
                     $('#TotalDay').text('1');
                 }
                 else {
@@ -201,43 +220,63 @@
             });
 
             $(".btn-save").click(function () {
-            var $valid = $('.form-detail').valid();
-            if (!$valid) {
+                var $valid = $('#form-leave').valid();
+                if (!$valid) {
 
-                return false;
-            }
-            else {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("SaveLeaveRequest", "WorkingTime")',
-                    data: $(".form-detail").serialize(),
-                    success: function (res) {
-                        if (res.MessageCode == null) {
-                            swal({
-                                title: "",
-                                text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
-                                type: "success",
-                                buttonsStyling: false,
-                                confirmButtonClass: "btn btn-primary",
-                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                            }).then(function () {
-                                $('.modal-detail').modal('hide');
-                                dataTable.getData();
-                            });
+                    return false;
+                }
+                else {
+                    var form = $('#form-leave')[0];
+                    var data = new FormData(form);
+                    data.append(".LeaveFile", LeaveFile);
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("SaveLeaveRequest", "WorkingTime")',
+                        data: data, /*$(".form-detail").serialize(),*/
+                        enctype: 'multipart/form-data',
+                        processData: false,
+                        contentType: false,
+                        success: function (res) {
+                            var id = res.ID;
+                            if (res.MessageCode == null) {
+                                swal({
+                                    title: "",
+                                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                                    type: "success",
+                                    buttonsStyling: false,
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                }).then(function () {
+                                    debugger;
+                                    if (id != '') {
+                                        var url = '@Url.Action("LeaveRequestDetail", "WorkingTime")/' + id;
+                                        window.location.href = url;
+                                    }
+                                });
+                            }
+                            else {
+                                swal({
+                                    title: '',
+                                    text: res.MessageText,
+                                    type: 'error',
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                    buttonsStyling: false
+                                }).catch(swal.noop)
+                            }
                         }
-                        else {
-                            swal({
-                                title: '',
-                                text: res.MessageText,
-                                type: 'error',
-                                confirmButtonClass: "btn btn-primary",
-                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                                buttonsStyling: false
-                            }).catch(swal.noop)
-                        }
-                    }
-                });
-            }
+                    });
+                }
+            });
+
+
+            $(".file-delete").click(function () {
+                $("#PathFile").val('');
+                $(".file-upload").val('');
+                $(".file-upload").show();
+                $(".file-path").hide();
+            });
 
         });
 

@@ -560,10 +560,11 @@
     <Key>
       <PropertyRef Name="LeaveID" />
     </Key>
-    <Property Name="LeaveID" Type="int" Nullable="false" />
+    <Property Name="LeaveID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="LeaveNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="LeaveYear" Type="int" Nullable="false" />
     <Property Name="LeaveType" Type="int" />
-    <Property Name="UserID" Type="int" />
+    <Property Name="RequestID" Type="int" />
     <Property Name="StartDate" Type="datetime" />
     <Property Name="EndDate" Type="datetime" />
     <Property Name="DayTime" Type="int" />
@@ -571,6 +572,7 @@
     <Property Name="LeaveReason" Type="nvarchar" MaxLength="400" />
     <Property Name="CancelReason" Type="nvarchar" MaxLength="400" />
     <Property Name="Remark" Type="nvarchar" MaxLength="400" />
+    <Property Name="PathFile" Type="nvarchar" MaxLength="400" />
     <Property Name="Status" Type="int" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
@@ -2640,7 +2642,7 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
         <PropertyRef Name="UserID" />
       </Principal>
       <Dependent Role="tb_Leave_Request">
-        <PropertyRef Name="UserID" />
+        <PropertyRef Name="RequestID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3404,6 +3406,16 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
   <Function Name="sp_Leave_Balance_User" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="UserID" Type="int" Mode="In" />
     <Parameter Name="LevYear" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_Leave_Request_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PageSize" Type="nvarchar" Mode="In" />
+    <Parameter Name="InitialPage" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortBy" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortrDir" Type="nvarchar" Mode="In" />
+    <Parameter Name="RequestID" Type="nvarchar" Mode="In" />
+    <Parameter Name="Year" Type="nvarchar" Mode="In" />
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+    <Parameter Name="Keyword" Type="nvarchar" Mode="In" />
   </Function>
   <Function Name="sp_Man_Power_Approval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="MopID" Type="int" Mode="In" />

@@ -14,7 +14,7 @@
                         <i class="material-icons">alarm_on</i>
                     </div>
                     <h4 class="card-title">
-                        <span>รายการใบลา </span><small> </small>
+                        <span>รายการขออนุมัติลา </span><small> </small>
                     </h4>
                     <div class="form-horizontal">
                         <div class="row pull-right" style="margin-right: 10px; margin-top: -25px;">
@@ -22,7 +22,7 @@
                                 @Html.DropDownList("LeaveYear", new SelectList((IEnumerable<SelectListItem>)ViewBag.LeaveYear, "Value", "Text"), new { @class = "selectpicker usertype", data_style = "select-with-transition" })
                             </div>&nbsp;&nbsp;&nbsp;&nbsp;
                             <div style="width:105px">
-                                @Html.DropDownList("LeaveStatus", new SelectList((IEnumerable<SelectListItem>)ViewBag.LeaveStatus, "Value", "Text"), new { @class = "selectpicker userstatus", data_style = "select-with-transition" })
+                                @Html.DropDownList("LeaveStatus", new SelectList((IEnumerable<SelectListItem>)ViewBag.LeaveStatus, "Value", "Text"), "-- ทั้งหมด --", new { @class = "selectpicker userstatus", data_style = "select-with-transition" })
                             </div>
                         </div>
                     </div>
@@ -32,16 +32,17 @@
                         <button class="btn btn-primary btn-sm btn-add" data-toggle="modal"><i class="material-icons">add</i> สร้างใบลา</button>
                     </div>
                     <div class="material-datatables">
-                        <table id="datatables" data-url="@Url.Content("~/Employee/LeaveRequest")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                        <table id="datatables" data-url="@Url.Content("~/WorkingTime/LeaveRequest")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
                             <thead>
                                 <tr>
                                     <th style="width:5%" class="disabled-sorting">ลำดับ</th>
-                                    <th style="width:10%">ปี</th>
+                                    <th style="width:5%">ปี</th>
                                     <th style="width:10%">เลขที่</th>
                                     <th style="width:15%">ประเภท</th>
-                                    <th style="width:20%">ชื่อ-นามสกุล</th>
+                                    <th style="width:17%">ชื่อ-นามสกุล</th>
                                     <th style="width:10%">วันที่ทำรายการ</th>
-                                    <th style="width:20%">สถานะ</th>
+                                    <th style="width:17%">ผู้ทำรายการ</th>
+                                    <th style="width:11%">สถานะ</th>
                                     <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
                                 </tr>
                             </thead>
@@ -83,8 +84,10 @@
             var dataTable = {
                 table: null,
                 initializeDataTable: function () {
-                    $table = $('#datatables');
+                    var year = $("#LeaveYear").val();
+                    var status = $("#LeaveStatus").val();
 
+                    $table = $('#datatables');
                     dataTable.table = $table.DataTable({
                         "proccessing": true,
                         "serverSide": true,
@@ -92,9 +95,11 @@
                         language: {
                             search: "_INPUT_",
                             searchPlaceholder: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.searchPlaceholder)",
+                            zeroRecords: "ไม่พบข้อมูล",
                         },
                         ajax: {
                             url: $table.data("url"),
+                            data: { year: year, status: status },
                             type: "POST",
                         },
                         "columns": [
@@ -104,7 +109,8 @@
                             { "data": "LeaveTypeName", "orderable": true },
                             { "data": "RequestName", "orderable": true },
                             { "data": "CreateDateText", "orderable": true },
-                            { "data": "StatusName", "orderable": false, "searchable": false  }
+                            { "data": "CreateByName", "orderable": true },
+                            { "data": "StatusName", "orderable": true }
                         ],
                         "columnDefs": [
                             {
@@ -114,7 +120,7 @@
                                                     '<button type="button" rel="tooltip" class="btn btn-round btn-danger cancel" data-id="' + row.LeaveID + '"><i class="material-icons">close</i></button>' +
                                                 '</div>';
                                     return inner;
-                                }, "targets": 7
+                                }, "targets": 8
                             },
                         ],
                         "order": [[1, "desc"]],

@@ -175,7 +175,6 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-
         public ActionResult CourseTrainningDetail(int? id)
         {
             var model = new TrainningRepository().GetByID(id);

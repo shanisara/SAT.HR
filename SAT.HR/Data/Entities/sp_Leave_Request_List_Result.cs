@@ -10,15 +10,16 @@
 namespace SAT.HR.Data.Entities
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class tb_Leave_Request
+    public partial class sp_Leave_Request_List_Result
     {
         public int LeaveID { get; set; }
-        public string LeaveNo { get; set; }
         public int LeaveYear { get; set; }
+        public string LeaveNo { get; set; }
         public Nullable<int> LeaveType { get; set; }
+        public string LeaveTypeName { get; set; }
         public Nullable<int> RequestID { get; set; }
+        public string RequestName { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
         public Nullable<System.DateTime> EndDate { get; set; }
         public Nullable<int> DayTime { get; set; }
@@ -26,14 +27,15 @@ namespace SAT.HR.Data.Entities
         public string LeaveReason { get; set; }
         public string CancelReason { get; set; }
         public string Remark { get; set; }
-        public string PathFile { get; set; }
         public Nullable<int> Status { get; set; }
+        public string StatusName { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
+        public string CreateByName { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
-    
-        public virtual tb_Leave_Type tb_Leave_Type { get; set; }
-        public virtual tb_User tb_User { get; set; }
+        public Nullable<int> recordsTotal { get; set; }
+        public Nullable<int> recordsFiltered { get; set; }
+        public string PathFile { get; set; }
     }
 }

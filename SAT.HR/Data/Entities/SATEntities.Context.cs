@@ -156,12 +156,12 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Skill> vw_User_Skill { get; set; }
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
         public virtual DbSet<tb_Form_Master> tb_Form_Master { get; set; }
-        public virtual DbSet<tb_Leave_Request> tb_Leave_Request { get; set; }
         public virtual DbSet<tb_Mail_Template> tb_Mail_Template { get; set; }
         public virtual DbSet<tb_Leave_Status> tb_Leave_Status { get; set; }
         public virtual DbSet<vw_Trainning_Course> vw_Trainning_Course { get; set; }
         public virtual DbSet<vw_Employee> vw_Employee { get; set; }
         public virtual DbSet<vw_Organization> vw_Organization { get; set; }
+        public virtual DbSet<tb_Leave_Request> tb_Leave_Request { get; set; }
     
         public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
         {
@@ -394,6 +394,43 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("DateTo", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Time_Attendance_User_Result>("sp_Time_Attendance_User", userIDParameter, taTIDParameter, dateFromParameter, dateToParameter);
+        }
+    
+        public virtual ObjectResult<sp_Leave_Request_List_Result> sp_Leave_Request_List(string pageSize, string initialPage, string sortBy, string sortrDir, string requestID, string year, string status, string keyword)
+        {
+            var pageSizeParameter = pageSize != null ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(string));
+    
+            var initialPageParameter = initialPage != null ?
+                new ObjectParameter("InitialPage", initialPage) :
+                new ObjectParameter("InitialPage", typeof(string));
+    
+            var sortByParameter = sortBy != null ?
+                new ObjectParameter("SortBy", sortBy) :
+                new ObjectParameter("SortBy", typeof(string));
+    
+            var sortrDirParameter = sortrDir != null ?
+                new ObjectParameter("SortrDir", sortrDir) :
+                new ObjectParameter("SortrDir", typeof(string));
+    
+            var requestIDParameter = requestID != null ?
+                new ObjectParameter("RequestID", requestID) :
+                new ObjectParameter("RequestID", typeof(string));
+    
+            var yearParameter = year != null ?
+                new ObjectParameter("Year", year) :
+                new ObjectParameter("Year", typeof(string));
+    
+            var statusParameter = status != null ?
+                new ObjectParameter("Status", status) :
+                new ObjectParameter("Status", typeof(string));
+    
+            var keywordParameter = keyword != null ?
+                new ObjectParameter("Keyword", keyword) :
+                new ObjectParameter("Keyword", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Leave_Request_List_Result>("sp_Leave_Request_List", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, requestIDParameter, yearParameter, statusParameter, keywordParameter);
         }
     }
 }

@@ -151,6 +151,8 @@ namespace SAT.HR.Helpers
 
     public class SysConfig
     {
+        #region SMTP Server Mail
+
         public static string SMTPSERVER
         {
             get
@@ -158,7 +160,6 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("SMTPSERVER");
             }
         }
-
         public static string SMTPUSER
         {
             get
@@ -166,7 +167,6 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("SMTPUSER");
             }
         }
-
         public static string SMTPPORT
         {
             get
@@ -174,7 +174,6 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("SMTPPORT");
             }
         }
-
         public static string SMTPPASS
         {
             get
@@ -182,7 +181,6 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("SMTPPASS");
             }
         }
-
         public static string SMTPMAILSENDER
         {
             get
@@ -190,6 +188,10 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("SMTPMAILFROM");
             }
         }
+
+        #endregion 
+
+        #region  PathUpload & PathDownload
 
         public static string ApplicationRoot
         {
@@ -200,9 +202,6 @@ namespace SAT.HR.Helpers
         }
 
 
-
-
-
         public static string PathUploadUserAvatar
         {
             get
@@ -210,7 +209,6 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathUploadUserAvatar");
             }
         }
-
         public static string PathUploadUserAttach
         {
             get
@@ -218,7 +216,6 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathUploadUserAttach");
             }
         }
-
         public static string PathUploadUserEducation
         {
             get
@@ -226,7 +223,6 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathUploadUserEducation");
             }
         }
-
         public static string PathUploadUserInsignia
         {
             get
@@ -234,7 +230,6 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathUploadUserInsignia");
             }
         }
-
         public static string PathUploadUserPosition
         {
             get
@@ -242,7 +237,6 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathUploadUserPosition");
             }
         }
-
         public static string PathUploadLevelTransfer
         {
             get
@@ -250,7 +244,6 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathUploadLevelTransfer");
             }
         }
-
         public static string PathUploadPositionTransfer
         {
             get
@@ -258,7 +251,6 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathUploadPositionTransfer");
             }
         }
-
         public static string PathUploadCourse
         {
             get
@@ -266,9 +258,13 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathUploadCourse");
             }
         }
-
-
-
+        public static string PathUploadLeaveFile
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathUploadLeaveFile");
+            }
+        }
 
 
         public static string PathDownloadUserAvatar
@@ -278,7 +274,6 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathDownloadUserAvatar");
             }
         }
-
         public static string PathDownloadUserAttach
         {
             get
@@ -286,7 +281,6 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathDownloadUserAttach");
             }
         }
-
         public static string PathDownloadLevelTransfer
         {
             get
@@ -294,7 +288,6 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathDownloadLevelTransfer");
             }
         }
-
         public static string PathDownloadPositionTransfer
         {
             get
@@ -302,7 +295,6 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathDownloadPositionTransfer");
             }
         }
-
         public static string PathDownloadUserInsignia
         {
             get
@@ -310,7 +302,6 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathDownloadUserInsignia");
             }
         }
-
         public static string PathDownloadUserEducation
         {
             get
@@ -318,7 +309,6 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathDownloadUserEducation");
             }
         }
-
         public static string PathDownloadUserPosition
         {
             get
@@ -326,7 +316,6 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathDownloadUserPosition");
             }
         }
-
         public static string PathDownloadCourse
         {
             get
@@ -334,9 +323,17 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathDownloadCourse");
             }
         }
+        public static string PathDownloadLeaveFile
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathDownloadLeaveFile");
+            }
+        }
 
+        #endregion
 
-
+        #region Report
 
         public static string PathReport
         {
@@ -345,7 +342,6 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathReportFile");
             }
         }
-
         public static string ServerName
         {
             get
@@ -353,7 +349,6 @@ namespace SAT.HR.Helpers
                 return ConfigurationManager.AppSettings["ReportServerName"];
             }
         }
-
         public static string DatabaseName
         {
             get
@@ -363,7 +358,6 @@ namespace SAT.HR.Helpers
             }
 
         }
-
         public static string UserName
         {
             get
@@ -372,7 +366,6 @@ namespace SAT.HR.Helpers
             }
 
         }
-
         public static string Password
         {
             get
@@ -381,5 +374,6 @@ namespace SAT.HR.Helpers
             }
         }
 
-    }   
+        #endregion 
+    }
 }
