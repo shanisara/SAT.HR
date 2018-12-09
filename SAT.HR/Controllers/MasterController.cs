@@ -953,6 +953,24 @@ namespace SAT.HR.Controllers
 
         #endregion
 
+        #region 20.ManageUser - จัดการผู้ใช้งาน
+
+        public ActionResult ManageUser()
+        {
+            return View();
+        }
+
+        #endregion
+
+        #region 20.Import
+
+        public ActionResult Import()
+        {
+            return View();
+        }
+
+        #endregion
+
         #region Province / District / SubDistrict
 
         public JsonResult Province(int? defaultValue)

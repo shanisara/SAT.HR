@@ -14,8 +14,9 @@ namespace SAT.HR.Data.Entities
     
     public partial class tb_Form_Master
     {
-        public int FormID { get; set; }
-        public string FormName { get; set; }
-        public string FormDesc { get; set; }
+        public int FormMasterID { get; set; }
+        public string FormMasterName { get; set; }
+        public string FormMasterDesc { get; set; }
+        public string TableName { get; set; }
     }
 }

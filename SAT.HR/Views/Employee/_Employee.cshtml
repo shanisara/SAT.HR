@@ -831,6 +831,22 @@
                 }
             });
         },
+        getPositionManPower: function (el, divid, depid, secid, type) {
+            debugger;
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetPositionManPower", "Master")',
+                data: { type: type, divid: divid, depid: depid, secid: secid },
+                dataType: 'json',
+                success: function (res) {
+                    el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                    $.each(res, function (key, entry) {
+                        el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                    });
+                    el.selectpicker('refresh');
+                }
+            });
+        },
         getProvince: function (el, proid) {
             $.ajax({
                 type: 'POST',
@@ -915,47 +931,47 @@
     });
 
     $("#DivID").change(function () {
-        DropDownList.getPosition($("#MpID"), $('#DivID').val(), $('#DepID').val(), $("#SecID").val(), $("#UserType").val());
+        DropDownList.getPositionManPower($("#MpID"), $('#DivID').val(), $('#DepID').val(), $("#SecID").val(), $("#UserType").val());
         DropDownList.getDepartment($("#DepID"), $('#DivID').val(), $("#UserType").val());
         $('select[name=SecID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
         $('select[name=SecID]').selectpicker('refresh');
     });
 
     $("#DepID").change(function () {
-        DropDownList.getPosition($("#MpID"), $('#DivID').val(), $('#DepID').val(), $("#SecID").val(), $("#UserType").val());
+        DropDownList.getPositionManPower($("#MpID"), $('#DivID').val(), $('#DepID').val(), $("#SecID").val(), $("#UserType").val());
         DropDownList.getSection($("#SecID"), $('#DivID').val(), $('#DepID').val(), $("#UserType").val());
     });
 
     $("#SecID").change(function () {
-        DropDownList.getPosition($("#MpID"), $('#DivID').val(), $('#DepID').val(), $("#SecID").val(), $("#UserType").val());
+        DropDownList.getPositionManPower($("#MpID"), $('#DivID').val(), $('#DepID').val(), $("#SecID").val(), $("#UserType").val());
     });
 
     $("#EmpowerDivID").change(function () {
-        DropDownList.getPosition($("#AgentMpID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#AgentSecID").val(), $("#UserType").val());
+        DropDownList.getPositionManPower($("#AgentMpID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#AgentSecID").val(), $("#UserType").val());
         DropDownList.getDepartment($("#EmpowerDepID"), $('#EmpowerDivID').val(), $("#UserType").val());
         $('select[name=EmpowerSecID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
         $('select[name=EmpowerSecID]').selectpicker('refresh');
     });
 
     $("#EmpowerDepID").change(function () {
-        DropDownList.getPosition($("#AgentMpID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#AgentSecID").val(), $("#UserType").val());
+        DropDownList.getPositionManPower($("#AgentMpID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#AgentSecID").val(), $("#UserType").val());
         DropDownList.getSection($("#EmpowerSecID"), $('#EmpowerDivID').val(), $('#EmpowerDepID').val(), $("#UserType").val());
     });
 
     $("#AgentDivID").change(function () {
-        DropDownList.getPosition($("#AgentMpID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#AgentSecID").val(), $("#UserType").val());
+        DropDownList.getPositionManPower($("#AgentMpID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#AgentSecID").val(), $("#UserType").val());
         DropDownList.getDepartment($("#AgentDepID"), $('#AgentDivID').val(), $("#UserType").val());
         $('select[name=AgentSecID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
         $('select[name=AgentSecID]').selectpicker('refresh');
     });
 
     $("#AgentDepID").change(function () {
-        DropDownList.getPosition($("#AgentMpID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#AgentSecID").val(), $("#UserType").val());
+        DropDownList.getPositionManPower($("#AgentMpID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#AgentSecID").val(), $("#UserType").val());
         DropDownList.getSection($("#AgentSecID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#UserType").val());
     });
 
     $("#AgentSecID").change(function () {
-        DropDownList.getPosition($("#AgentMpID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#AgentSecID").val(), $("#UserType").val());
+        DropDownList.getPositionManPower($("#AgentMpID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#AgentSecID").val(), $("#UserType").val());
     });
 
     $("#HomeProvinceID").change(function () {

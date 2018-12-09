@@ -146,7 +146,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User> vw_User { get; set; }
         public virtual DbSet<vw_User_Certificate> vw_User_Certificate { get; set; }
         public virtual DbSet<vw_User_Education> vw_User_Education { get; set; }
-        public virtual DbSet<vw_User_Excellent> vw_User_Excellent { get; set; }
         public virtual DbSet<vw_User_Family> vw_User_Family { get; set; }
         public virtual DbSet<vw_User_History> vw_User_History { get; set; }
         public virtual DbSet<vw_User_Insignia> vw_User_Insignia { get; set; }
@@ -155,13 +154,14 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Role> vw_User_Role { get; set; }
         public virtual DbSet<vw_User_Skill> vw_User_Skill { get; set; }
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
-        public virtual DbSet<tb_Form_Master> tb_Form_Master { get; set; }
         public virtual DbSet<tb_Mail_Template> tb_Mail_Template { get; set; }
         public virtual DbSet<tb_Leave_Status> tb_Leave_Status { get; set; }
         public virtual DbSet<vw_Trainning_Course> vw_Trainning_Course { get; set; }
         public virtual DbSet<vw_Employee> vw_Employee { get; set; }
         public virtual DbSet<vw_Organization> vw_Organization { get; set; }
         public virtual DbSet<tb_Leave_Request> tb_Leave_Request { get; set; }
+        public virtual DbSet<vw_User_Excellent> vw_User_Excellent { get; set; }
+        public virtual DbSet<tb_Form_Master> tb_Form_Master { get; set; }
     
         public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
         {

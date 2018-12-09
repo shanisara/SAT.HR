@@ -476,11 +476,12 @@
         </EntityType>
         <EntityType Name="tb_Form_Master">
           <Key>
-            <PropertyRef Name="FormID" />
+            <PropertyRef Name="FormMasterID" />
           </Key>
-          <Property Name="FormID" Type="int" Nullable="false" />
-          <Property Name="FormName" Type="nvarchar" MaxLength="200" />
-          <Property Name="FormDesc" Type="nvarchar" MaxLength="200" />
+          <Property Name="FormMasterID" Type="int" Nullable="false" />
+          <Property Name="FormMasterName" Type="nvarchar" MaxLength="200" />
+          <Property Name="FormMasterDesc" Type="nvarchar" MaxLength="200" />
+          <Property Name="TableName" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="tb_Holiday">
           <Key>
@@ -2044,6 +2045,14 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Excellent' does not have
           <Property Name="UeProjectName" Type="nvarchar" MaxLength="200" />
           <Property Name="UeRecYear" Type="int" />
           <Property Name="UeRecDate" Type="date" />
+          <Property Name="DivID" Type="int" />
+          <Property Name="DivName" Type="nvarchar" MaxLength="200" />
+          <Property Name="DepID" Type="int" />
+          <Property Name="DepName" Type="nvarchar" MaxLength="200" />
+          <Property Name="SecID" Type="int" />
+          <Property Name="SecName" Type="nvarchar" MaxLength="200" />
+          <Property Name="PoID" Type="int" />
+          <Property Name="PoName" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Family' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -4146,7 +4155,15 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     [vw_User_Excellent].[ExTName] AS [ExTName], 
     [vw_User_Excellent].[UeProjectName] AS [UeProjectName], 
     [vw_User_Excellent].[UeRecYear] AS [UeRecYear], 
-    [vw_User_Excellent].[UeRecDate] AS [UeRecDate]
+    [vw_User_Excellent].[UeRecDate] AS [UeRecDate], 
+    [vw_User_Excellent].[DivID] AS [DivID], 
+    [vw_User_Excellent].[DivName] AS [DivName], 
+    [vw_User_Excellent].[DepID] AS [DepID], 
+    [vw_User_Excellent].[DepName] AS [DepName], 
+    [vw_User_Excellent].[SecID] AS [SecID], 
+    [vw_User_Excellent].[SecName] AS [SecName], 
+    [vw_User_Excellent].[PoID] AS [PoID], 
+    [vw_User_Excellent].[PoName] AS [PoName]
     FROM [dbo].[vw_User_Excellent] AS [vw_User_Excellent]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_User_Family" EntityType="Self.vw_User_Family" store:Type="Views" store:Schema="dbo">
@@ -4904,7 +4921,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <EntitySet Name="vw_User" EntityType="SAT.HR.vw_User" />
           <EntitySet Name="vw_User_Certificate" EntityType="SAT.HR.vw_User_Certificate" />
           <EntitySet Name="vw_User_Education" EntityType="SAT.HR.vw_User_Education" />
-          <EntitySet Name="vw_User_Excellent" EntityType="SAT.HR.vw_User_Excellent" />
           <EntitySet Name="vw_User_Family" EntityType="SAT.HR.vw_User_Family" />
           <EntitySet Name="vw_User_History" EntityType="SAT.HR.vw_User_History" />
           <EntitySet Name="vw_User_Insignia" EntityType="SAT.HR.vw_User_Insignia" />
@@ -5277,7 +5293,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
             <End Role="tb_User" EntitySet="tb_User" />
             <End Role="tb_Working_Shift" EntitySet="tb_Working_Shift" />
           </AssociationSet>
-          <EntitySet Name="tb_Form_Master" EntityType="SAT.HR.tb_Form_Master" />
           <EntitySet Name="tb_Mail_Template" EntityType="SAT.HR.tb_Mail_Template" />
           <EntitySet Name="tb_Leave_Status" EntityType="SAT.HR.tb_Leave_Status" />
           <EntitySet Name="vw_Trainning_Course" EntityType="SAT.HR.vw_Trainning_Course" />
@@ -5302,6 +5317,8 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
             <End Role="tb_User" EntitySet="tb_User" />
             <End Role="tb_Leave_Request" EntitySet="tb_Leave_Request" />
           </AssociationSet>
+          <EntitySet Name="vw_User_Excellent" EntityType="SAT.HR.vw_User_Excellent" />
+          <EntitySet Name="tb_Form_Master" EntityType="SAT.HR.tb_Form_Master" />
           </EntityContainer>
         <ComplexType Name="sp_Employee_List_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -7526,21 +7543,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <Property Name="UeEduOfficialLevel" Type="Boolean" />
           <Property Name="UePartFile" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="vw_User_Excellent">
-          <Key>
-            <PropertyRef Name="UeID" />
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="UeID" Type="Int32" Nullable="false" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="FullNameTH" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
-          <Property Name="FullNameEn" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
-          <Property Name="ExTID" Type="Int32" />
-          <Property Name="ExTName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="UeProjectName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="UeRecYear" Type="Int32" />
-          <Property Name="UeRecDate" Type="DateTime" Precision="0" />
-        </EntityType>
         <EntityType Name="vw_User_Family">
           <Key>
             <PropertyRef Name="UfID" />
@@ -8839,14 +8841,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="tb_Form_Master">
-          <Key>
-            <PropertyRef Name="FormID" />
-          </Key>
-          <Property Name="FormID" Type="Int32" Nullable="false" />
-          <Property Name="FormName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="FormDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="tb_Mail_Template">
           <Key>
             <PropertyRef Name="MailID" />
@@ -9011,6 +9005,38 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="vw_User_Excellent">
+          <Key>
+            <PropertyRef Name="UeID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UeID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="FullNameTH" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+          <Property Name="FullNameEn" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+          <Property Name="ExTID" Type="Int32" />
+          <Property Name="ExTName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UeProjectName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UeRecYear" Type="Int32" />
+          <Property Name="UeRecDate" Type="DateTime" Precision="0" />
+          <Property Name="DivID" Type="Int32" />
+          <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DepID" Type="Int32" />
+          <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SecID" Type="Int32" />
+          <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PoID" Type="Int32" />
+          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tb_Form_Master">
+          <Key>
+            <PropertyRef Name="FormMasterID" />
+          </Key>
+          <Property Name="FormMasterID" Type="Int32" Nullable="false" />
+          <Property Name="FormMasterName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FormMasterDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TableName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -11165,21 +11191,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="vw_User_Excellent">
-            <EntityTypeMapping TypeName="SAT.HR.vw_User_Excellent">
-              <MappingFragment StoreEntitySet="vw_User_Excellent">
-                <ScalarProperty Name="UeRecDate" ColumnName="UeRecDate" />
-                <ScalarProperty Name="UeRecYear" ColumnName="UeRecYear" />
-                <ScalarProperty Name="UeProjectName" ColumnName="UeProjectName" />
-                <ScalarProperty Name="ExTName" ColumnName="ExTName" />
-                <ScalarProperty Name="ExTID" ColumnName="ExTID" />
-                <ScalarProperty Name="FullNameEn" ColumnName="FullNameEn" />
-                <ScalarProperty Name="FullNameTH" ColumnName="FullNameTH" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="UeID" ColumnName="UeID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="vw_User_Family">
             <EntityTypeMapping TypeName="SAT.HR.vw_User_Family">
               <MappingFragment StoreEntitySet="vw_User_Family">
@@ -11386,15 +11397,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tb_Form_Master">
-            <EntityTypeMapping TypeName="SAT.HR.tb_Form_Master">
-              <MappingFragment StoreEntitySet="tb_Form_Master">
-                <ScalarProperty Name="FormDesc" ColumnName="FormDesc" />
-                <ScalarProperty Name="FormName" ColumnName="FormName" />
-                <ScalarProperty Name="FormID" ColumnName="FormID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tb_Mail_Template">
             <EntityTypeMapping TypeName="SAT.HR.tb_Mail_Template">
               <MappingFragment StoreEntitySet="tb_Mail_Template">
@@ -11536,6 +11538,39 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
                 <ScalarProperty Name="LeaveYear" ColumnName="LeaveYear" />
                 <ScalarProperty Name="LeaveNo" ColumnName="LeaveNo" />
                 <ScalarProperty Name="LeaveID" ColumnName="LeaveID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_User_Excellent">
+            <EntityTypeMapping TypeName="SAT.HR.vw_User_Excellent">
+              <MappingFragment StoreEntitySet="vw_User_Excellent">
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="PoID" ColumnName="PoID" />
+                <ScalarProperty Name="SecName" ColumnName="SecName" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="DepName" ColumnName="DepName" />
+                <ScalarProperty Name="DepID" ColumnName="DepID" />
+                <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="DivID" ColumnName="DivID" />
+                <ScalarProperty Name="UeRecDate" ColumnName="UeRecDate" />
+                <ScalarProperty Name="UeRecYear" ColumnName="UeRecYear" />
+                <ScalarProperty Name="UeProjectName" ColumnName="UeProjectName" />
+                <ScalarProperty Name="ExTName" ColumnName="ExTName" />
+                <ScalarProperty Name="ExTID" ColumnName="ExTID" />
+                <ScalarProperty Name="FullNameEn" ColumnName="FullNameEn" />
+                <ScalarProperty Name="FullNameTH" ColumnName="FullNameTH" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UeID" ColumnName="UeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Form_Master">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Form_Master">
+              <MappingFragment StoreEntitySet="tb_Form_Master">
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
+                <ScalarProperty Name="FormMasterDesc" ColumnName="FormMasterDesc" />
+                <ScalarProperty Name="FormMasterName" ColumnName="FormMasterName" />
+                <ScalarProperty Name="FormMasterID" ColumnName="FormMasterID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
