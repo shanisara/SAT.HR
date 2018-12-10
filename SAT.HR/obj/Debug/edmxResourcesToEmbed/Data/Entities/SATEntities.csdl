@@ -112,7 +112,6 @@
     <EntitySet Name="tb_Language_Skill" EntityType="SAT.HR.tb_Language_Skill" />
     <EntitySet Name="tb_Language_Skill_Type" EntityType="SAT.HR.tb_Language_Skill_Type" />
     <EntitySet Name="tb_Leave_Balance" EntityType="SAT.HR.tb_Leave_Balance" />
-    <EntitySet Name="tb_Leave_Type" EntityType="SAT.HR.tb_Leave_Type" />
     <EntitySet Name="tb_Loan_Type" EntityType="SAT.HR.tb_Loan_Type" />
     <EntitySet Name="tb_Major" EntityType="SAT.HR.tb_Major" />
     <EntitySet Name="tb_Man_Power" EntityType="SAT.HR.tb_Man_Power" />
@@ -564,7 +563,17 @@
     <EntitySet Name="tb_Leave_Status" EntityType="SAT.HR.tb_Leave_Status" />
     <EntitySet Name="vw_Trainning_Course" EntityType="SAT.HR.vw_Trainning_Course" />
     <EntitySet Name="vw_Employee" EntityType="SAT.HR.vw_Employee" />
-    <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
+    <EntitySet Name="vw_User_Excellent" EntityType="SAT.HR.vw_User_Excellent" />
+    <EntitySet Name="tb_Import_Master" EntityType="SAT.HR.tb_Import_Master" />
+    <FunctionImport Name="sp_Move_Level_Approval">
+      <Parameter Name="MlID" Mode="In" Type="Int32" />
+      <Parameter Name="ActionBy" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="tb_Leave_Request" EntityType="SAT.HR.tb_Leave_Request" />
+    <AssociationSet Name="FK_tb_Leave_Request_tb_User" Association="SAT.HR.FK_tb_Leave_Request_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_Leave_Request" EntitySet="tb_Leave_Request" />
+    </AssociationSet>
     <FunctionImport Name="sp_Leave_Request_List" ReturnType="Collection(SAT.HR.sp_Leave_Request_List_Result)">
       <Parameter Name="PageSize" Mode="In" Type="String" />
       <Parameter Name="InitialPage" Mode="In" Type="String" />
@@ -575,17 +584,8 @@
       <Parameter Name="Status" Mode="In" Type="String" />
       <Parameter Name="Keyword" Mode="In" Type="String" />
     </FunctionImport>
-    <EntitySet Name="tb_Leave_Request" EntityType="SAT.HR.tb_Leave_Request" />
-    <AssociationSet Name="FK_tb_Leave_Request_tb_Leave_Type" Association="SAT.HR.FK_tb_Leave_Request_tb_Leave_Type">
-      <End Role="tb_Leave_Type" EntitySet="tb_Leave_Type" />
-      <End Role="tb_Leave_Request" EntitySet="tb_Leave_Request" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Leave_Request_tb_User" Association="SAT.HR.FK_tb_Leave_Request_tb_User">
-      <End Role="tb_User" EntitySet="tb_User" />
-      <End Role="tb_Leave_Request" EntitySet="tb_Leave_Request" />
-    </AssociationSet>
-    <EntitySet Name="vw_User_Excellent" EntityType="SAT.HR.vw_User_Excellent" />
-    <EntitySet Name="tb_Form_Master" EntityType="SAT.HR.tb_Form_Master" />
+    <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
+    <EntitySet Name="tb_Leave_Type" EntityType="SAT.HR.tb_Leave_Type" />
   </EntityContainer>
   <ComplexType Name="sp_Employee_List_Result">
     <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -626,6 +626,7 @@
     <Property Type="Decimal" Name="LevStandard" Nullable="true" Precision="18" Scale="2" />
     <Property Type="Decimal" Name="LevUsed" Nullable="true" Precision="18" Scale="2" />
     <Property Type="Decimal" Name="LevBalance" Nullable="true" Precision="19" Scale="2" />
+    <Property Type="Decimal" Name="LevPending" Nullable="true" Precision="18" Scale="2" />
   </ComplexType>
   <ComplexType Name="sp_Man_Power_Approval_Result">
     <Property Type="Int32" Name="MopID" Nullable="false" />
@@ -1383,24 +1384,6 @@
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
   </EntityType>
-  <EntityType Name="tb_Leave_Type">
-    <Key>
-      <PropertyRef Name="LevID" />
-    </Key>
-    <Property Name="LevID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="LevYear" Type="Int32" Nullable="false" />
-    <Property Name="LevStartDate" Type="DateTime" Precision="3" />
-    <Property Name="LevEndDate" Type="DateTime" Precision="3" />
-    <Property Name="LevMax" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="LevName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="SexID" Type="Int32" />
-    <Property Name="LevStatus" Type="Boolean" />
-    <Property Name="CreateDate" Type="DateTime" Precision="3" />
-    <Property Name="CreateBy" Type="Int32" />
-    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifyBy" Type="Int32" />
-    <NavigationProperty Name="tb_Leave_Request" Relationship="SAT.HR.FK_tb_Leave_Request_tb_Leave_Type" FromRole="tb_Leave_Type" ToRole="tb_Leave_Request" />
-  </EntityType>
   <EntityType Name="tb_Loan_Type">
     <Key>
       <PropertyRef Name="LtID" />
@@ -1802,6 +1785,7 @@
     <Property Name="CreateBy" Type="Int32" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="tb_Time_Attendance">
     <Key>
@@ -1987,6 +1971,7 @@
     <NavigationProperty Name="tb_User_Status" Relationship="SAT.HR.FK_tb_Users_tb_User_Status" FromRole="tb_User" ToRole="tb_User_Status" />
     <NavigationProperty Name="tb_Working_Type" Relationship="SAT.HR.FK_tb_Users_tb_Working_Type" FromRole="tb_User" ToRole="tb_Working_Type" />
     <NavigationProperty Name="tb_Working_Shift" Relationship="SAT.HR.FK_tb_Working_Shift_tb_User" FromRole="tb_User" ToRole="tb_Working_Shift" />
+    <Property Name="IsTerminate" Type="Boolean" />
     <NavigationProperty Name="tb_Leave_Request" Relationship="SAT.HR.FK_tb_Leave_Request_tb_User" FromRole="tb_User" ToRole="tb_Leave_Request" />
   </EntityType>
   <EntityType Name="tb_User_Certificate">
@@ -4179,99 +4164,6 @@
     <Property Name="SexID" Type="Int32" />
     <Property Name="RoleID" Type="Int32" />
   </EntityType>
-  <EntityType Name="vw_Organization">
-    <Key>
-      <PropertyRef Name="MpID" />
-      <PropertyRef Name="MpCode" />
-      <PropertyRef Name="DepLevel" />
-    </Key>
-    <Property Name="MpID" Type="Int32" Nullable="false" />
-    <Property Name="MpCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-    <Property Name="ParentID" Type="Int32" />
-    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
-    <Property Name="TypeID" Type="Int32" />
-    <Property Name="DepLevel" Type="Int32" Nullable="false" />
-    <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-  </EntityType>
-  <ComplexType Name="sp_Leave_Request_List_Result">
-    <Property Type="Int32" Name="LeaveID" Nullable="false" />
-    <Property Type="Int32" Name="LeaveYear" Nullable="false" />
-    <Property Type="String" Name="LeaveNo" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="LeaveType" Nullable="true" />
-    <Property Type="String" Name="LeaveTypeName" Nullable="true" MaxLength="200" />
-    <Property Type="Int32" Name="RequestID" Nullable="true" />
-    <Property Type="String" Name="RequestName" Nullable="true" MaxLength="501" />
-    <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
-    <Property Type="DateTime" Name="EndDate" Nullable="true" Precision="23" />
-    <Property Type="Int32" Name="DayTime" Nullable="true" />
-    <Property Type="Decimal" Name="TotalDay" Nullable="true" Precision="18" Scale="2" />
-    <Property Type="String" Name="LeaveReason" Nullable="true" MaxLength="400" />
-    <Property Type="String" Name="CancelReason" Nullable="true" MaxLength="400" />
-    <Property Type="String" Name="Remark" Nullable="true" MaxLength="400" />
-    <Property Type="Int32" Name="Status" Nullable="true" />
-    <Property Type="String" Name="StatusName" Nullable="true" MaxLength="200" />
-    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
-    <Property Type="Int32" Name="CreateBy" Nullable="true" />
-    <Property Type="String" Name="CreateByName" Nullable="true" MaxLength="501" />
-    <Property Type="DateTime" Name="ModifyDate" Nullable="true" Precision="23" />
-    <Property Type="Int32" Name="ModifyBy" Nullable="true" />
-    <Property Type="Int32" Name="recordsTotal" Nullable="true" />
-    <Property Type="Int32" Name="recordsFiltered" Nullable="true" />
-    <Property Type="String" Name="PathFile" Nullable="false" />
-  </ComplexType>
-  <EntityType Name="tb_Leave_Request">
-    <Key>
-      <PropertyRef Name="LeaveID" />
-    </Key>
-    <Property Name="LeaveID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="LeaveNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="LeaveYear" Type="Int32" Nullable="false" />
-    <Property Name="LeaveType" Type="Int32" />
-    <Property Name="RequestID" Type="Int32" />
-    <Property Name="StartDate" Type="DateTime" Precision="3" />
-    <Property Name="EndDate" Type="DateTime" Precision="3" />
-    <Property Name="DayTime" Type="Int32" />
-    <Property Name="TotalDay" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="LeaveReason" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-    <Property Name="CancelReason" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-    <Property Name="Remark" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-    <Property Name="PathFile" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-    <Property Name="Status" Type="Int32" />
-    <Property Name="CreateDate" Type="DateTime" Precision="3" />
-    <Property Name="CreateBy" Type="Int32" />
-    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifyBy" Type="Int32" />
-    <NavigationProperty Name="tb_Leave_Type" Relationship="SAT.HR.FK_tb_Leave_Request_tb_Leave_Type" FromRole="tb_Leave_Request" ToRole="tb_Leave_Type" />
-    <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Leave_Request_tb_User" FromRole="tb_Leave_Request" ToRole="tb_User" />
-  </EntityType>
-  <Association Name="FK_tb_Leave_Request_tb_Leave_Type">
-    <End Type="SAT.HR.tb_Leave_Type" Role="tb_Leave_Type" Multiplicity="0..1" />
-    <End Type="SAT.HR.tb_Leave_Request" Role="tb_Leave_Request" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Leave_Type">
-        <PropertyRef Name="LevID" />
-      </Principal>
-      <Dependent Role="tb_Leave_Request">
-        <PropertyRef Name="LeaveType" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_Leave_Request_tb_User">
-    <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="0..1" />
-    <End Type="SAT.HR.tb_Leave_Request" Role="tb_Leave_Request" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_User">
-        <PropertyRef Name="UserID" />
-      </Principal>
-      <Dependent Role="tb_Leave_Request">
-        <PropertyRef Name="RequestID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityType Name="vw_User_Excellent">
     <Key>
       <PropertyRef Name="UeID" />
@@ -4295,13 +4187,113 @@
     <Property Name="PoID" Type="Int32" />
     <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
   </EntityType>
-  <EntityType Name="tb_Form_Master">
+  <EntityType Name="tb_Import_Master">
     <Key>
-      <PropertyRef Name="FormMasterID" />
+      <PropertyRef Name="ID" />
     </Key>
-    <Property Name="FormMasterID" Type="Int32" Nullable="false" />
-    <Property Name="FormMasterName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="FormMasterDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="ParentID" Type="Int32" />
+    <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="TableName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tb_Leave_Request">
+    <Key>
+      <PropertyRef Name="FormID" />
+    </Key>
+    <Property Name="FormID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LeaveYear" Type="Int32" Nullable="false" />
+    <Property Name="LeaveType" Type="Int32" />
+    <Property Name="RequestID" Type="Int32" />
+    <Property Name="StartDate" Type="DateTime" Precision="3" />
+    <Property Name="EndDate" Type="DateTime" Precision="3" />
+    <Property Name="DayTime" Type="Int32" />
+    <Property Name="TotalDay" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="LeaveReason" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="CancelReason" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="PathFile" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+    <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Leave_Request_tb_User" FromRole="tb_Leave_Request" ToRole="tb_User" />
+  </EntityType>
+  <Association Name="FK_tb_Leave_Request_tb_User">
+    <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_Leave_Request" Role="tb_Leave_Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_Leave_Request">
+        <PropertyRef Name="RequestID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="sp_Leave_Request_List_Result">
+    <Property Type="Int32" Name="FormID" Nullable="false" />
+    <Property Type="Int32" Name="LeaveYear" Nullable="false" />
+    <Property Type="String" Name="DocNo" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="LeaveType" Nullable="true" />
+    <Property Type="String" Name="LeaveTypeName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="RequestID" Nullable="true" />
+    <Property Type="String" Name="RequestName" Nullable="true" MaxLength="501" />
+    <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="EndDate" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="DayTime" Nullable="true" />
+    <Property Type="Decimal" Name="TotalDay" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="LeaveReason" Nullable="true" MaxLength="400" />
+    <Property Type="String" Name="CancelReason" Nullable="true" MaxLength="400" />
+    <Property Type="String" Name="Remark" Nullable="true" MaxLength="400" />
+    <Property Type="String" Name="PathFile" Nullable="true" MaxLength="400" />
+    <Property Type="Int32" Name="Status" Nullable="true" />
+    <Property Type="String" Name="StatusName" Nullable="true" MaxLength="200" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreateBy" Nullable="true" />
+    <Property Type="String" Name="CreateByName" Nullable="true" MaxLength="501" />
+    <Property Type="DateTime" Name="ModifyDate" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="ModifyBy" Nullable="true" />
+    <Property Type="Int32" Name="recordsTotal" Nullable="true" />
+    <Property Type="Int32" Name="recordsFiltered" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="vw_Organization">
+    <Key>
+      <PropertyRef Name="MpID" />
+      <PropertyRef Name="MpCode" />
+      <PropertyRef Name="DepLevel" />
+    </Key>
+    <Property Name="MpID" Type="Int32" Nullable="false" />
+    <Property Name="MpCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ParentID" Type="Int32" />
+    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+    <Property Name="TypeID" Type="Int32" />
+    <Property Name="DepLevel" Type="Int32" Nullable="false" />
+    <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tb_Leave_Type">
+    <Key>
+      <PropertyRef Name="LevID" />
+    </Key>
+    <Property Name="LevID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LevCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="LevName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="LevDesc" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="LevYear" Type="Int32" Nullable="false" />
+    <Property Name="LevStartDate" Type="DateTime" Precision="3" />
+    <Property Name="LevEndDate" Type="DateTime" Precision="3" />
+    <Property Name="LevMax" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="SexID" Type="Int32" />
+    <Property Name="TypeID" Type="Int32" />
+    <Property Name="LevStatus" Type="Boolean" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
   </EntityType>
 </Schema>

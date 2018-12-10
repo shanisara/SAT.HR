@@ -13,18 +13,17 @@
                         <i class="material-icons">alarm_on</i>
                     </div>
                     <h4 class="card-title">
-                        <span>แบบฟอร์มการขออนุมัติลา > </span><span class="text-primary"> @Model.LeaveNo</span>
+                        <span>แบบฟอร์มการขออนุมัติลา > </span><span class="text-primary"> @Model.DocNo</span>
                         <button type="submit" class="btn btn-round pull-right btn-back">ย้อนกลับ</button>
                     </h4>
                 </div>
                 <div class="card-body">
-                    <div class="card-body ">
-                        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form-leave" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.HiddenFor(m => m.LeaveID)
-                            @Html.HiddenFor(m => m.PathFile)
-                            @Html.HiddenFor(m => m.LeaveTotalDay)
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form-leave" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.FormID)
+                        @Html.HiddenFor(m => m.PathFile)
+                        @Html.HiddenFor(m => m.LeaveTotalDay)
 
                         <div class="row">
                             <label class="col-sm-2 col-form-label">ชื่อผู้ลา</label>
@@ -106,20 +105,20 @@
                             <label class="col-sm-2 col-form-label">แนบไฟล์:</label>
                             <div class="col-md-6">
                                 <div class="input-group-prepend file-path">
-                                    <a class="m-t-10 file-name" target="_blank" href=@Url.Action("DownloadFileAttach", "Employee", new { id = Model.LeaveID, type = 1 })>@Model.PathFile</a>
+                                    <a class="m-t-10 file-name" target="_blank" href=@Url.Action("DownloadFileAttach", "Employee", new { id = Model.FormID, type = 1 })>@Model.PathFile</a>
                                     <a class="btn btn-link btn-danger btn-just-icon file-delete" file-delete href="#" title="ลบ" style="margin-top:0px"><i class="material-icons">delete_forever</i></a>
                                 </div>
                                 <input id="LeaveFile" name="LeaveFile" type="file" class="form-control file-upload">
                             </div>
                         </div>
                         @*<div class="row">
-                            <label class="col-sm-2 col-form-label">ผู้อนุมัติ:</label>
-                            <div class="col-md-10">
-                                <div class="form-group bmd-form-group">
-                                    <label id="Approver"></label>
+                                <label class="col-sm-2 col-form-label">ผู้อนุมัติ:</label>
+                                <div class="col-md-10">
+                                    <div class="form-group bmd-form-group">
+                                        <label id="Approver"></label>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>*@
+                            </div>*@
 
                         <div class="row m-t-40">
                             <div class="ml-auto mr-auto">
@@ -127,8 +126,7 @@
                                 <button type="button" class="btn btn-primary btn-save">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
                             </div>
                         </div>
-                        }
-                    </div>
+                    }
                 </div>
             </div>
         </div>
@@ -209,7 +207,7 @@
                 calculateTotalDay();
             });
 
-            
+
             function calculateTotalDay() {
                 var daytime = $("input[name='DayTime']:checked").val();
                 var startdate = $("#StartDate").val();

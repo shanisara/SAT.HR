@@ -97,12 +97,16 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public List<LeaveTypeViewModel> GetLeaveType(int? sexid)
+        public List<LeaveTypeViewModel> GetLeaveType(int? sexid, int requestid)
         {
             using (SATEntities db = new SATEntities())
             {
+                var user = db.tb_User.Where(m => m.UserID == requestid).FirstOrDefault();
+                int type = (int)user.UserTID;
+
                 DateTime curDate = DateTime.Now;
-                var data = db.tb_Leave_Type.Where(m => (m.LevStartDate.Value.Year <= curDate.Year && m.LevStartDate.Value.Month <= curDate.Month && m.LevStartDate.Value.Day <= curDate.Day)
+                var data = db.tb_Leave_Type.Where(m => (m.TypeID == type
+                           && m.LevStartDate.Value.Year <= curDate.Year && m.LevStartDate.Value.Month <= curDate.Month && m.LevStartDate.Value.Day <= curDate.Day)
                            && (m.LevEndDate.Value.Year >= curDate.Year && m.LevEndDate.Value.Month >= curDate.Month && m.LevEndDate.Value.Day >= curDate.Day)).ToList();
 
                 if (!sexid.HasValue)

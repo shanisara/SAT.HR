@@ -465,5 +465,25 @@ namespace SAT.HR.Controllers
         #endregion
 
 
+        #region ความปลอดภัยในการทำงาน
+
+        public ActionResult Security()
+        {
+            return View();
+        }
+
+
+        #endregion
+
+        #region รายละเอียดสวัสดิการ
+
+        public ActionResult Document()
+        {
+            return View();
+        }
+
+
+        #endregion
+
     }
 }

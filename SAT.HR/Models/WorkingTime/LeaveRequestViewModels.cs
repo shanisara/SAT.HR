@@ -8,8 +8,8 @@ namespace SAT.HR.Models
     public class LeaveRequestViewModel
     {
         public int RowNumber { get; set; }
-        public int LeaveID { get; set; }
-        public string LeaveNo { get; set; }
+        public int FormID { get; set; }
+        public string DocNo { get; set; }
         public Nullable<int> LeaveType { get; set; }
         public Nullable<int> RequestID { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }

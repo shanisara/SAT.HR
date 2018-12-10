@@ -12,11 +12,11 @@ namespace SAT.HR.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_Form_Master
+    public partial class tb_Import_Master
     {
-        public int FormMasterID { get; set; }
-        public string FormMasterName { get; set; }
-        public string FormMasterDesc { get; set; }
+        public int ID { get; set; }
+        public Nullable<int> ParentID { get; set; }
+        public string Name { get; set; }
         public string TableName { get; set; }
     }
 }

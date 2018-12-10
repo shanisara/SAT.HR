@@ -135,7 +135,14 @@
                 <div class="row m-b-10">
                     <div class="ml-auto mr-auto">
                         <button type="button" class="btn btn-round btn-back">ย้อนกลับ</button>
-                        <button type="button" class="btn btn-round btn-primary btn-save">บันทึก</button>
+                        @if (!(bool)Model.MlApproveStatus)
+                        {
+                            <button type="button" class="btn btn-round btn-primary btn-save">บันทึก</button>
+                            if (Model.MlID != 0)
+                            {
+                                <button type="button" class="btn btn-round btn-primary btn-approve">ยืนยัน</button>
+                            }
+                        }
                     </div>
                 </div>
             </div>
@@ -364,6 +371,64 @@
                             }).catch(swal.noop);
                         }
                     }
+                });
+            }
+        });
+
+        $(".btn-approve").click(function () {
+            var mlid = $("#MlID").val();
+            if (mlid == 0) {
+                swal({
+                    title: "",
+                    text: "ต้องบันทึกข้อมูลก่อนการยืนยันโยกย้ายระดับ",
+                    type: "success",
+                    confirmButtonClass: "btn btn-primary",
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                    buttonsStyling: false,
+                }).then(function () {
+                });
+            }
+            else {
+                swal({
+                    title: '',
+                    text: "ยืนยันโยกย้ายอัตรากำลังพล",
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                    buttonsStyling: false
+                }).then(function () {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("ApproveLevelTransfer", "Employee")/' + mlid,
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                swal({
+                                    title: "",
+                                    text: "โยกย้ายระดับเรียบร้อยแล้ว",
+                                    type: "success",
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                    buttonsStyling: false,
+                                }).then(function () {
+                                    $(".btn-save").hide();
+                                    $(".btn-approve").hide();
+                                });
+                            }
+                            else {
+                                swal({
+                                    title: '',
+                                    text: res.MessageText,
+                                    type: 'error',
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                    buttonsStyling: false
+                                }).catch(swal.noop);
+                            }
+                        }
+                    });
                 });
             }
         });

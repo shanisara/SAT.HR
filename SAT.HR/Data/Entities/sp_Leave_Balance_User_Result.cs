@@ -20,5 +20,6 @@ namespace SAT.HR.Data.Entities
         public Nullable<decimal> LevStandard { get; set; }
         public Nullable<decimal> LevUsed { get; set; }
         public Nullable<decimal> LevBalance { get; set; }
+        public Nullable<decimal> LevPending { get; set; }
     }
 }

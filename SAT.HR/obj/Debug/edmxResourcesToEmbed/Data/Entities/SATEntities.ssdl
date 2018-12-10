@@ -469,15 +469,6 @@
     <Property Name="ExTID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ExTName" Type="nvarchar" MaxLength="200" />
   </EntityType>
-  <EntityType Name="tb_Form_Master">
-    <Key>
-      <PropertyRef Name="FormMasterID" />
-    </Key>
-    <Property Name="FormMasterID" Type="int" Nullable="false" />
-    <Property Name="FormMasterName" Type="nvarchar" MaxLength="200" />
-    <Property Name="FormMasterDesc" Type="nvarchar" MaxLength="200" />
-    <Property Name="TableName" Type="nvarchar" MaxLength="100" />
-  </EntityType>
   <EntityType Name="tb_Holiday">
     <Key>
       <PropertyRef Name="HolID" />
@@ -489,6 +480,15 @@
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Import_Master">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="ParentID" Type="int" />
+    <Property Name="Name" Type="nvarchar" MaxLength="200" />
+    <Property Name="TableName" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="tb_IndividualPlan">
     <Key>
@@ -559,10 +559,10 @@
   </EntityType>
   <EntityType Name="tb_Leave_Request">
     <Key>
-      <PropertyRef Name="LeaveID" />
+      <PropertyRef Name="FormID" />
     </Key>
-    <Property Name="LeaveID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="LeaveNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="FormID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DocNo" Type="nvarchar" MaxLength="50" />
     <Property Name="LeaveYear" Type="int" Nullable="false" />
     <Property Name="LeaveType" Type="int" />
     <Property Name="RequestID" Type="int" />
@@ -592,12 +592,15 @@
       <PropertyRef Name="LevID" />
     </Key>
     <Property Name="LevID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LevCode" Type="nvarchar" MaxLength="20" />
+    <Property Name="LevName" Type="nvarchar" MaxLength="200" />
+    <Property Name="LevDesc" Type="nvarchar" MaxLength="400" />
     <Property Name="LevYear" Type="int" Nullable="false" />
     <Property Name="LevStartDate" Type="datetime" />
     <Property Name="LevEndDate" Type="datetime" />
     <Property Name="LevMax" Type="decimal" Precision="18" Scale="2" />
-    <Property Name="LevName" Type="nvarchar" MaxLength="200" />
     <Property Name="SexID" Type="int" />
+    <Property Name="TypeID" Type="int" />
     <Property Name="LevStatus" Type="bit" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
@@ -970,6 +973,7 @@
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
+    <Property Name="Description" Type="nvarchar" MaxLength="500" />
   </EntityType>
   <EntityType Name="tb_Time_Attendance">
     <Key>
@@ -1112,6 +1116,7 @@
     <Property Name="AgentMpID" Type="int" />
     <Property Name="FileAttach1" Type="nvarchar" MaxLength="4000" />
     <Property Name="FileAttach2" Type="nvarchar" MaxLength="4000" />
+    <Property Name="IsTerminate" Type="bit" />
   </EntityType>
   <EntityType Name="tb_User_Certificate">
     <Key>
@@ -2631,18 +2636,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_Leave_Request_tb_Leave_Type">
-    <End Role="tb_Leave_Type" Type="Self.tb_Leave_Type" Multiplicity="0..1" />
-    <End Role="tb_Leave_Request" Type="Self.tb_Leave_Request" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Leave_Type">
-        <PropertyRef Name="LevID" />
-      </Principal>
-      <Dependent Role="tb_Leave_Request">
-        <PropertyRef Name="LeaveType" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_tb_Leave_Request_tb_User">
     <End Role="tb_User" Type="Self.tb_User" Multiplicity="0..1" />
     <End Role="tb_Leave_Request" Type="Self.tb_Leave_Request" Multiplicity="*" />
@@ -3449,6 +3442,10 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
   <Function Name="sp_Menu_User" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="UserID" Type="int" Mode="In" />
   </Function>
+  <Function Name="sp_Move_Level_Approval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="MlID" Type="int" Mode="In" />
+    <Parameter Name="ActionBy" Type="int" Mode="In" />
+  </Function>
   <Function Name="sp_Report_Education" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="eduID" Type="varchar" Mode="In" />
   </Function>
@@ -3505,8 +3502,8 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     <EntitySet Name="tb_Empower" EntityType="Self.tb_Empower" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Evaluation" EntityType="Self.tb_Evaluation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Excellent_Type" EntityType="Self.tb_Excellent_Type" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="tb_Form_Master" EntityType="Self.tb_Form_Master" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Holiday" EntityType="Self.tb_Holiday" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Import_Master" EntityType="Self.tb_Import_Master" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_IndividualPlan" EntityType="Self.tb_IndividualPlan" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Insignia" EntityType="Self.tb_Insignia" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Language" EntityType="Self.tb_Language" Schema="dbo" store:Type="Tables" />
@@ -4470,10 +4467,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     <AssociationSet Name="FK_tb_Evaluation_tb_User" Association="Self.FK_tb_Evaluation_tb_User">
       <End Role="tb_User" EntitySet="tb_User" />
       <End Role="tb_Evaluation" EntitySet="tb_Evaluation" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Leave_Request_tb_Leave_Type" Association="Self.FK_tb_Leave_Request_tb_Leave_Type">
-      <End Role="tb_Leave_Type" EntitySet="tb_Leave_Type" />
-      <End Role="tb_Leave_Request" EntitySet="tb_Leave_Request" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_Leave_Request_tb_User" Association="Self.FK_tb_Leave_Request_tb_User">
       <End Role="tb_User" EntitySet="tb_User" />

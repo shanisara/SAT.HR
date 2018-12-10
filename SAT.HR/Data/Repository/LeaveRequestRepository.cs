@@ -22,7 +22,7 @@ namespace SAT.HR.Data
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    sortBy = (sortBy == "RowNumber") ? "LeaveNo" : sortBy;
+                    sortBy = (sortBy == "RowNumber") ? "DocNo" : sortBy;
                     string perPage = initialPage.HasValue ? Convert.ToInt32(initialPage) == 0 ? "1" : (Convert.ToInt32(initialPage.ToString().Substring(0, initialPage.ToString().Length - 1)) + 1).ToString() : "1";
 
                     string requestid = UtilityService.User.UserID.ToString();
@@ -33,11 +33,11 @@ namespace SAT.HR.Data
                     {
                         LeaveRequestViewModel model = new LeaveRequestViewModel();
                         model.RowNumber = ++i;
-                        model.LeaveID = item.LeaveID;
+                        model.FormID = item.FormID;
                         model.RequestID = item.RequestID;
                         model.LeaveYear = item.LeaveYear;
                         model.RequestName = item.RequestName;
-                        model.LeaveNo = item.LeaveNo;
+                        model.DocNo = item.DocNo;
                         model.LeaveTypeName = item.LeaveTypeName;
                         model.CreateByName = item.CreateByName;
                         model.CreateDateText = item.CreateDate.Value.ToString("dd/MM/yyyy");
@@ -98,11 +98,11 @@ namespace SAT.HR.Data
                 {
                     LeaveRequestViewModel model = new LeaveRequestViewModel();
 
-                    var item = db.tb_Leave_Request.Where(x => x.LeaveID == id).FirstOrDefault();
+                    var item = db.tb_Leave_Request.Where(x => x.FormID == id).FirstOrDefault();
                     if (item != null)
                     {
-                        model.LeaveID = item.LeaveID;
-                        model.LeaveNo = item.LeaveNo;
+                        model.FormID = item.FormID;
+                        model.DocNo = item.DocNo;
                         model.LeaveYear = item.LeaveYear;
                         model.LeaveType = item.LeaveType;
                         model.RequestID = item.RequestID;
@@ -174,8 +174,8 @@ namespace SAT.HR.Data
                             model.PathFile = newFileName;
                         }
 
-                        model.LeaveID = data.LeaveID;
-                        model.LeaveNo = DocumentNumberRepository.GetNextNumber("LEAVE"); 
+                        model.FormID = data.FormID;
+                        model.DocNo = DocumentNumberRepository.GetNextNumber("LEAVE"); 
                         model.LeaveYear = DateTime.Now.Year;
                         model.LeaveType = data.LeaveType;
                         model.RequestID = data.RequestID;
@@ -193,7 +193,7 @@ namespace SAT.HR.Data
                         db.SaveChanges();
                         
                         transection.Commit();
-                        result.ID = model.LeaveID;
+                        result.ID = model.FormID;
                     }
                     catch (Exception ex)
                     {
@@ -215,7 +215,7 @@ namespace SAT.HR.Data
                     ResponseData result = new Models.ResponseData();
                     try
                     {
-                        var model = db.tb_Leave_Request.Single(x => x.LeaveID == newdata.LeaveID);
+                        var model = db.tb_Leave_Request.Single(x => x.FormID == newdata.FormID);
                         model.PathFile = newdata.PathFile;
 
                         if (newdata.LeaveFile != null && newdata.LeaveFile.ContentLength > 0)
@@ -266,7 +266,7 @@ namespace SAT.HR.Data
             {
                 try
                 {
-                    var model = db.tb_Leave_Request.SingleOrDefault(x => x.LeaveID == id);
+                    var model = db.tb_Leave_Request.SingleOrDefault(x => x.FormID == id);
                     if (model != null)
                     {
                         model.Status = (int)EnumType.LeaveStatus.Canceled;
@@ -292,7 +292,7 @@ namespace SAT.HR.Data
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    var data = db.tb_Leave_Request.Where(x => x.LeaveID == id).FirstOrDefault();
+                    var data = db.tb_Leave_Request.Where(x => x.FormID == id).FirstOrDefault();
                     string filename = data.PathFile;
 
                     string[] fileSplit = filename.Split('.');

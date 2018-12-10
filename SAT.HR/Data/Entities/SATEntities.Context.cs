@@ -70,7 +70,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Language_Skill> tb_Language_Skill { get; set; }
         public virtual DbSet<tb_Language_Skill_Type> tb_Language_Skill_Type { get; set; }
         public virtual DbSet<tb_Leave_Balance> tb_Leave_Balance { get; set; }
-        public virtual DbSet<tb_Leave_Type> tb_Leave_Type { get; set; }
         public virtual DbSet<tb_Loan_Type> tb_Loan_Type { get; set; }
         public virtual DbSet<tb_Major> tb_Major { get; set; }
         public virtual DbSet<tb_Man_Power> tb_Man_Power { get; set; }
@@ -158,10 +157,11 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Leave_Status> tb_Leave_Status { get; set; }
         public virtual DbSet<vw_Trainning_Course> vw_Trainning_Course { get; set; }
         public virtual DbSet<vw_Employee> vw_Employee { get; set; }
-        public virtual DbSet<vw_Organization> vw_Organization { get; set; }
-        public virtual DbSet<tb_Leave_Request> tb_Leave_Request { get; set; }
         public virtual DbSet<vw_User_Excellent> vw_User_Excellent { get; set; }
-        public virtual DbSet<tb_Form_Master> tb_Form_Master { get; set; }
+        public virtual DbSet<tb_Import_Master> tb_Import_Master { get; set; }
+        public virtual DbSet<tb_Leave_Request> tb_Leave_Request { get; set; }
+        public virtual DbSet<vw_Organization> vw_Organization { get; set; }
+        public virtual DbSet<tb_Leave_Type> tb_Leave_Type { get; set; }
     
         public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
         {
@@ -394,6 +394,19 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("DateTo", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Time_Attendance_User_Result>("sp_Time_Attendance_User", userIDParameter, taTIDParameter, dateFromParameter, dateToParameter);
+        }
+    
+        public virtual int sp_Move_Level_Approval(Nullable<int> mlID, Nullable<int> actionBy)
+        {
+            var mlIDParameter = mlID.HasValue ?
+                new ObjectParameter("MlID", mlID) :
+                new ObjectParameter("MlID", typeof(int));
+    
+            var actionByParameter = actionBy.HasValue ?
+                new ObjectParameter("ActionBy", actionBy) :
+                new ObjectParameter("ActionBy", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Move_Level_Approval", mlIDParameter, actionByParameter);
         }
     
         public virtual ObjectResult<sp_Leave_Request_List_Result> sp_Leave_Request_List(string pageSize, string initialPage, string sortBy, string sortrDir, string requestID, string year, string status, string keyword)

@@ -28,7 +28,7 @@ namespace SAT.HR.Controllers
             var model = new LeaveRequestRepository().GetByID(id);
 
             ViewBag.Employee = DropDownList.GetEmployee(model.RequestID, 1);
-            ViewBag.LeaveType = DropDownList.GetLeaveType(model.LeaveType, true, UtilityService.User.SexID);
+            ViewBag.LeaveType = DropDownList.GetLeaveType(model.LeaveType, true, UtilityService.User.SexID, (int)model.RequestID);
 
             return View(model);
         }
@@ -36,7 +36,7 @@ namespace SAT.HR.Controllers
         public JsonResult SaveLeaveRequest(LeaveRequestViewModel data)
         {
             ResponseData result = new ResponseData();
-            if (data.LeaveID != 0)
+            if (data.FormID != 0)
                 result = new LeaveRequestRepository().UpdateByEntity(data);
             else
                 result = new LeaveRequestRepository().AddByEntity(data);
@@ -82,7 +82,7 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region สิทธิการลาพนักงาน
+        #region ปรับปรุงสิทธิการลาพนักงาน
 
         public ActionResult LeaveBalance()
         {
@@ -106,7 +106,7 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region รอบการเข้าปฏิบัติงาน
+        #region ปรับปรุงรอบการเข้าปฏิบัติงาน
 
         public ActionResult WorkingShift()
         {
@@ -221,5 +221,27 @@ namespace SAT.HR.Controllers
 
 
         #endregion
+
+        #region ตรวจสอบสิทธิการลาคงเหลือ
+
+        public ActionResult EmpLeaveBalance()
+        {
+            int id = UtilityService.User.UserID;
+            var model = new LeaveBalanceRepository().GetByUser(id, null);
+            return View(model);
+        }
+
+        #endregion
+
+        #region รายการรออนุมัติ
+
+        public ActionResult LeaveApprove()
+        {
+            return View();
+        }
+
+        #endregion
+
+        
     }
 }

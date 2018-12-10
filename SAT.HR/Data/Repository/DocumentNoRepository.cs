@@ -21,16 +21,17 @@ namespace SAT.HR.Data.Repository
             int sCount = 0;
 
             var data = GetByCode(code);
+            string culture = data.Culture;
             int intCurrentNum = (int)data.CurrentNum;
             int LastMonth = (int)data.LastMonth;
             bool ResetMonth = (bool)data.ResetMonth;
-            int LastYear = (int)data.LastYear;
+            int LastYear = (int)data.LastYear + (culture == "th-TH" ? + 543 : 0);
             bool ResetYear = (bool)data.ResetYear;
             bool ZeroContain = (bool)data.ZeroContain;
             int NumLength = (int)data.NumLength;
             string Prefix = data.Prefix;
             string Suffix = data.Suffix;
-            string culture = data.Culture;
+            
 
             int thisYear = Convert.ToInt32(DateTime.Now.ToString("yyyy", new System.Globalization.CultureInfo(culture)));
 

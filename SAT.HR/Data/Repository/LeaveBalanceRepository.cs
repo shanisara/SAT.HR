@@ -41,6 +41,7 @@ namespace SAT.HR.Data
                         model.LevStandard = item.LevStandard;
                         model.LevUsed = item.LevUsed;
                         model.LevBalance = item.LevBalance;
+                        model.LevPending = item.LevPending;
                         list.Add(model);
                     }
                     data.ListLeaveBalance = list;
@@ -126,11 +127,11 @@ namespace SAT.HR.Data
                     var leavetype = db.tb_Leave_Type.Where(m => (m.LevStartDate.Value.Year <= curDate.Year && m.LevStartDate.Value.Month <= curDate.Month && m.LevStartDate.Value.Day <= curDate.Day)
                                     && (m.LevEndDate.Value.Year >= curDate.Year && m.LevEndDate.Value.Month >= curDate.Month && m.LevEndDate.Value.Day >= curDate.Day)
                                     && m.LevID == leaveid).FirstOrDefault();
+
                     model.LevMax = leavetype.LevMax;
                     model.LevStandard = leavetype.LevMax;
                     model.LevUsed = 0;
                     model.LevBalance = leavetype.LevMax;
-
                 }
                 return model;
             }

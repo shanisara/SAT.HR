@@ -105,7 +105,7 @@
                         "columns": [
                             { "data": "RowNumber", "orderable": false, "searchable": false },
                             { "data": "LeaveYear", "orderable": true },
-                            { "data": "LeaveNo", "orderable": true },
+                            { "data": "DocNo", "orderable": true },
                             { "data": "LeaveTypeName", "orderable": true },
                             { "data": "RequestName", "orderable": true },
                             { "data": "CreateDateText", "orderable": true },
@@ -116,8 +116,8 @@
                             {
                                 "render": function (data, type, row) {
                                     var inner = '<div class="td-actions text-right">' +
-                                                    '<button type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.LeaveID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;' +
-                                                    '<button type="button" rel="tooltip" class="btn btn-round btn-danger cancel" data-id="' + row.LeaveID + '"><i class="material-icons">close</i></button>' +
+                                                    '<button type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.FormID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;' +
+                                                    '<button type="button" rel="tooltip" class="btn btn-round btn-danger cancel" data-id="' + row.FormID + '"><i class="material-icons">close</i></button>' +
                                                 '</div>';
                                     return inner;
                                 }, "targets": 8
@@ -138,24 +138,11 @@
 
                     dataTable.table.on('click', '.cancel', function () {
                         var id = $(this).data("id");
-                        swal({
-                            title: '',
-                            text: "ยืนยันการยกเลิก",
-                            type: 'question',
-                            showCancelButton: true,
-                            confirmButtonClass: 'btn btn-success',
-                            cancelButtonClass: 'btn btn-danger',
-                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                            cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
-                            buttonsStyling: false
-                        }).then(function () {
-                            var url = '@Url.Action("CancelLeaveRequest", "WorkingTime")';
-                            $.post(url, { id: id }, function (data) {
-                                $(".div-detail").html(data);
-                                $('.modal-detail').modal('show');
-                            });
-
-                        }).catch(swal.noop)
+                        var url = '@Url.Action("CancelLeaveRequest", "WorkingTime")';
+                        $.post(url, { id: id }, function (data) {
+                            $(".div-detail").html(data);
+                            $('.modal-detail').modal('show');
+                        });
                     });
 
                 },

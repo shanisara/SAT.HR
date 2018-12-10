@@ -4,5 +4,76 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Import</h2>
 
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">assignment</i>
+                        </div>
+                        <h4 class="card-title"><span>นำข้อมูลเข้า</span></h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">ระบบ:</label>
+                            <div class="col-sm-3">
+                                <div class="form-group bmd-form-group">
+                                    @Html.DropDownList("Subject", new SelectList((IEnumerable<SelectListItem>)ViewBag.Subject, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker usertype", data_style = "select-with-transition" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">ข้อมูล:</label>
+                            <div class="col-sm-3">
+                                <div class="form-group bmd-form-group">
+                                    @Html.DropDownList("SubSubject", new SelectList((IEnumerable<SelectListItem>)ViewBag.SubSubject, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker usertype", data_style = "select-with-transition" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">ไฟล์:</label>
+                            <div class="col-sm-3">
+                                <input type="file" id="FileImport" name="FileImport" />
+                            </div>
+                        </div>
+
+                        <div class="row m-t-40">
+                            <div class="ml-auto mr-auto">
+                                <button type="button" class="btn btn-primary btn-save">ตกลง</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            $('.selectpicker').selectpicker();
+
+            $("#Subject").change(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetSubTitle", "Master")',
+                    data: { id: $("#Subject").val() },
+                    dataType: 'json',
+                    success: function (res) {
+                        $("#SubSubject").empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                        $.each(res, function (key, entry) {
+                            $("#SubSubject").append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                        });
+                        $("#SubSubject").selectpicker('refresh');
+                    }
+                });
+            });
+
+
+        });
+    </script>
+}

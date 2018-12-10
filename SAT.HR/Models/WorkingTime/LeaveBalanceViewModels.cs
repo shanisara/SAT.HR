@@ -35,6 +35,8 @@ namespace SAT.HR.Models
 
         public decimal? LevBalance { get; set; }
 
+        public decimal? LevPending { get; set; }
+
         public List<LeaveBalanceViewModel> ListLeaveBalance { get; set; }
 
 

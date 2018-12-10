@@ -14,26 +14,20 @@ namespace SAT.HR.Data.Entities
     
     public partial class tb_Leave_Type
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tb_Leave_Type()
-        {
-            this.tb_Leave_Request = new HashSet<tb_Leave_Request>();
-        }
-    
         public int LevID { get; set; }
+        public string LevCode { get; set; }
+        public string LevName { get; set; }
+        public string LevDesc { get; set; }
         public int LevYear { get; set; }
         public Nullable<System.DateTime> LevStartDate { get; set; }
         public Nullable<System.DateTime> LevEndDate { get; set; }
         public Nullable<decimal> LevMax { get; set; }
-        public string LevName { get; set; }
         public Nullable<int> SexID { get; set; }
+        public Nullable<int> TypeID { get; set; }
         public Nullable<bool> LevStatus { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Leave_Request> tb_Leave_Request { get; set; }
     }
 }

@@ -14,8 +14,8 @@ namespace SAT.HR.Data.Entities
     
     public partial class tb_Leave_Request
     {
-        public int LeaveID { get; set; }
-        public string LeaveNo { get; set; }
+        public int FormID { get; set; }
+        public string DocNo { get; set; }
         public int LeaveYear { get; set; }
         public Nullable<int> LeaveType { get; set; }
         public Nullable<int> RequestID { get; set; }
@@ -33,7 +33,6 @@ namespace SAT.HR.Data.Entities
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
     
-        public virtual tb_Leave_Type tb_Leave_Type { get; set; }
         public virtual tb_User tb_User { get; set; }
     }
 }

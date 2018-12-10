@@ -966,6 +966,34 @@ namespace SAT.HR.Controllers
 
         public ActionResult Import()
         {
+            ViewBag.Subject = new ImportRepository().Subject();
+            ViewBag.SubSubject = new ImportRepository().SubSubject(null);
+            return View();
+        }
+
+        public JsonResult GetSubTitle(int id)
+        {
+            var result = new ImportRepository().SubSubject(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        #endregion
+
+        #region 21 Announcement
+        public ActionResult Announcement()
+        {
+
+            return View();
+        }
+
+        #endregion
+
+        #region 22 Benefit
+        public ActionResult Benefit()
+        {
+
             return View();
         }
 
@@ -990,18 +1018,6 @@ namespace SAT.HR.Controllers
             var result = DropDownList.GetSubDistrict(defaultValue, proid, disid);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
-        //public JsonResult DistrictByPro(int proid)
-        //{
-        //    var result = DropDownList.GetDistrict(proid, null);
-        //    return Json(result, JsonRequestBehavior.AllowGet);
-        //}
-
-        //public JsonResult SubDistrictByDis(int proid, int disid)
-        //{
-        //    var result = DropDownList.GetSubDistrict(proid, disid, null);
-        //    return Json(result, JsonRequestBehavior.AllowGet);
-        //}
 
         #endregion
 
@@ -1064,32 +1080,6 @@ namespace SAT.HR.Controllers
             var result = DropDownList.GetPositionManPower(type, divid, depid, secid, poid);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
-
-        //public JsonResult GetDivisionManPower(int type, int divid)
-        //{
-        //    var result = DropDownList.GetDivisionManPower(type, divid);
-        //    return Json(result, JsonRequestBehavior.AllowGet);
-        //}
-
-        //public JsonResult GetDepartmentManPower(int type, int divid, int depid)
-        //{
-        //    var result = DropDownList.GetDepartmentManPower(type, divid, depid);
-        //    return Json(result, JsonRequestBehavior.AllowGet);
-        //}
-
-        //public JsonResult GetSectionManPower(int type, int divid, int depid, int secid)
-        //{
-        //    var result = DropDownList.GetSectionManPower(type, depid, secid);
-        //    return Json(result, JsonRequestBehavior.AllowGet);
-        //}
-
-
-        //public JsonResult GetPositionManPowerValueMp(int divid, int depid, int secid, int type)
-        //{
-        //    var result = DropDownList.GetPositionManPowerValueMp(type, divid, depid, secid, null);
-        //    return Json(/*result,*/ JsonRequestBehavior.AllowGet);
-        //}
 
         #endregion
 

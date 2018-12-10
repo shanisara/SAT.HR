@@ -293,11 +293,11 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
-        public static List<SelectListItem> GetLeaveType(int? defaultValue, bool isActive, int? sexid)
+        public static List<SelectListItem> GetLeaveType(int? defaultValue, bool isActive, int? sexid, int requestid)
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            var data = new LeaveTypeRepository().GetLeaveType(sexid);
+            var data = new LeaveTypeRepository().GetLeaveType(sexid, requestid);
 
             foreach (var item in data)
             {
@@ -1226,7 +1226,7 @@ namespace SAT.HR.Data.Repository
             var user = new EmployeeRepository().GetUser(userid);
             int sexid = user.SexID.HasValue ? user.SexID.Value : 0;
 
-            var data = new LeaveTypeRepository().GetLeaveType(sexid);
+            var data = new LeaveTypeRepository().GetLeaveType(sexid, userid);
             foreach (var item in data)
             {
                 SelectListItem select = new SelectListItem();

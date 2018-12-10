@@ -641,6 +641,12 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult ApproveLevelTransfer(int id)
+        {
+            ResponseData result = new LevelTransferRepository().ApproveLevelTransfer(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult DeleteLevelTransfer(int id)
         {
             var result = new LevelTransferRepository().DeleteLevelTransfer(id);

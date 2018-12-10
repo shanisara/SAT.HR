@@ -95,7 +95,7 @@ namespace SAT.HR.Data.Repository
                         model.MlDateCmdText = data.MlDateCmd.HasValue ? data.MlDateCmd.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.MlSignatory = data.MlSignatory;
                         model.MIPathFile = data.MIPathFile;
-                        model.MlApproveStatus = data.MlApproveStatus;
+                        model.MlApproveStatus = data.MlApproveStatus == null ? false : data.MlApproveStatus;
 
                         var detail = GetDetail(id);
                         model.ListDetail = detail;
@@ -103,6 +103,7 @@ namespace SAT.HR.Data.Repository
                     else
                     {
                         model.MlYear = Convert.ToInt32(DateTime.Now.ToString("yyyy", new System.Globalization.CultureInfo("th-TH")));
+                        model.MlApproveStatus = false;
                     }
                 }
             }
@@ -326,6 +327,30 @@ namespace SAT.HR.Data.Repository
                             }
                         }
 
+                        transection.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transection.Rollback();
+                        result.MessageCode = "";
+                        result.MessageText = ex.Message;
+                    }
+                    return result;
+                }
+            }
+        }
+
+        public ResponseData ApproveLevelTransfer(int id)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                using (var transection = db.Database.BeginTransaction())
+                {
+                    ResponseData result = new ResponseData();
+                    try
+                    {
+                        int actionid = UtilityService.User.UserID;
+                        db.sp_Move_Level_Approval(id, actionid);
                         transection.Commit();
                     }
                     catch (Exception ex)

@@ -1,0 +1,64 @@
+﻿@model SAT.HR.Models.LeaveBalanceViewModel
+
+@{
+    ViewBag.Title = "EmpLeaveBalance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form-leave" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="card-header card-header-primary card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">alarm_on</i>
+                        </div>
+                        <h4 class="card-title">
+                            <span>  ปรับปรุงสิทธิการลาพนักงาน: </span>
+                            @Html.HiddenFor(m => m.UserID)
+                            <span class="text-primary">@Model.FullNameTh (@Model.IDCard)</span>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="material-datatables">
+                            <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                                <thead class="text-primary">
+                                    <tr>
+                                        <th style="width:5%" class="disabled-sorting">ลำดับ</th>
+                                        <th style="width:30%">ประเภท</th>
+                                        <th style="width:10%; text-align:center;">สิทธิที่ได้รับ</th>
+                                        <th style="width:15%; text-align:center;">สิทธิที่ได้รับสูงสุด</th>
+                                        <th style="width:10%; text-align:center;">รออนุมัติ</th>
+                                        <th style="width:10%; text-align:center;">สิทธิใช้แล้ว</th>
+                                        <th style="width:10%; text-align:center;">สิทธิคงเหลือ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.ListLeaveBalance != null)
+                                    {
+                                        for (int i = 0; i < Model.ListLeaveBalance.Count; i++)
+                                        {
+                                            <tr>
+                                                <td>@Model.ListLeaveBalance[i].RowNumber</td>
+                                                <td>@Model.ListLeaveBalance[i].LevName</td>
+                                                <td class="text-center">@Model.ListLeaveBalance[i].LevStandard</td>
+                                                <td class="text-center">@Model.ListLeaveBalance[i].LevMax</td>
+                                                <td class="text-center">@Model.ListLeaveBalance[i].LevPending</td>
+                                                <td class="text-center">@Model.ListLeaveBalance[i].LevUsed</td>
+                                                <td class="text-center">@Model.ListLeaveBalance[i].LevBalance</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

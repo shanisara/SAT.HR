@@ -13,9 +13,9 @@ namespace SAT.HR.Data.Entities
     
     public partial class sp_Leave_Request_List_Result
     {
-        public int LeaveID { get; set; }
+        public int FormID { get; set; }
         public int LeaveYear { get; set; }
-        public string LeaveNo { get; set; }
+        public string DocNo { get; set; }
         public Nullable<int> LeaveType { get; set; }
         public string LeaveTypeName { get; set; }
         public Nullable<int> RequestID { get; set; }
@@ -27,6 +27,7 @@ namespace SAT.HR.Data.Entities
         public string LeaveReason { get; set; }
         public string CancelReason { get; set; }
         public string Remark { get; set; }
+        public string PathFile { get; set; }
         public Nullable<int> Status { get; set; }
         public string StatusName { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
@@ -36,6 +37,5 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> ModifyBy { get; set; }
         public Nullable<int> recordsTotal { get; set; }
         public Nullable<int> recordsFiltered { get; set; }
-        public string PathFile { get; set; }
     }
 }
