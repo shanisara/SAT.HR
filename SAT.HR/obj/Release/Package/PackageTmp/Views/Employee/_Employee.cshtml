@@ -9,6 +9,8 @@
     @Html.HiddenFor(m => m.IsGPALower250)
     @Html.HiddenFor(m => m.IsToeicLower300)
     @Html.HiddenFor(m => m.IsAgeOver35)
+    @Html.HiddenFor(m => m.PathFileAttach1)
+    @Html.HiddenFor(m => m.PathFileAttach2)
 
     <div class="content">
         <div class="row">
@@ -31,7 +33,7 @@
                                                 <span class="btn btn-round btn-file">
                                                     <span class="fileinput-new">Select image</span>
                                                     <span class="fileinput-exists">เปลี่ยน</span>
-                                                    <input type="hidden"><input type="file" id="fileUpload" name="fileUpload" class="">
+                                                    <input type="hidden"><input type="file" id="fileAvatar" name="fileAvatar" class="">
                                                 </span>
                                                 <a class="btn btn-danger btn-round fileinput-exists" href="#" data-dismiss="fileinput"><i class="fa fa-times"></i> ลบ</a>
                                             </div>
@@ -281,6 +283,26 @@
                                         </div>
                                     </div>
                                 }
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        @Html.Label("บัตรประชาชน", null, new { @class = "bmd-label-fixed" })
+                                        <div class="input-group-prepend file-path-attach1">
+                                            <a class="m-t-10 file-name-attach1" target="_blank" href=@Url.Action("DownloadFileAttach", "Employee", new { id = Model.UserID, type = 1 })>@Model.PathFileAttach1</a>
+                                            <a class="btn btn-link btn-danger btn-just-icon file-delete-attach1" file-delete href="#" title="ลบ" style="margin-top:0px"><i class="material-icons">delete_forever</i></a>
+                                        </div>
+                                        <input id="fileAttach1" name="fileAttach1" type="file" class="form-control file-upload-attach1">
+                                    </div>
+                                    <div class="col-md-6">
+                                        @Html.Label("ทะเบียนบ้าน", null, new { @class = "bmd-label-fixed" })
+                                        <div class="input-group-prepend file-path-attach2">
+                                            <a class="m-t-10 file-name-attach2" target="_blank" href=@Url.Action("DownloadFileAttach", "Employee", new { id = Model.UserID, type = 2 })>@Model.PathFileAttach2</a>
+                                            <a class="btn btn-link btn-danger btn-just-icon file-delete-attach2" file-delete href="#" title="ลบ" style="margin-top:0px"><i class="material-icons">delete_forever</i></a>
+                                        </div>
+                                        <input id="fileAttach2" name="fileAttach2" type="file" class="form-control file-upload-attach2">
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -616,7 +638,32 @@
     </div>
 }
 
+<style>
+    .form-check, label {
+        font-size: 12px;
+    }
+
+</style>
+
 <script>
+
+    if ('@Model.PathFileAttach1' != '') {
+        $(".file-path-attach1").show();
+        $(".file-upload-attach1").hide();
+    }
+    else {
+        $(".file-path-attach1").hide();
+        $(".file-upload-attach1").show();
+    }
+
+    if ('@Model.PathFileAttach2' != '') {
+        $(".file-path-attach2").show();
+        $(".file-upload-attach2").hide();
+    }
+    else {
+        $(".file-path-attach2").hide();
+        $(".file-upload-attach2").show();
+    }
 
     if ('@Model.SalaryLevel' != '') {
         $('select[name=SalaryLevel]').val('@Model.SalaryLevel');
@@ -694,6 +741,20 @@
         }
     });
 
+    $(".file-delete-attach1").click(function () {
+        $("#PathFileAttach1").val('');
+        $(".file-upload-attach1").val('');
+        $(".file-upload-attach1").show();
+        $(".file-path-attach1").hide();
+    });
+
+    $(".file-delete-attach2").click(function () {
+        $("#PathFileAttach2").val('');
+        $(".file-upload-attach2").val('');
+        $(".file-upload-attach2").show();
+        $(".file-path-attach2").hide();
+    });
+
     var DropDownList = {
         getTitle: function (el, sexid) {
             $.ajax({
@@ -760,6 +821,22 @@
                 type: 'POST',
                 url: '@Url.Action("GetPosition", "Master")',
                 data: { type: type },
+                dataType: 'json',
+                success: function (res) {
+                    el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                    $.each(res, function (key, entry) {
+                        el.append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                    });
+                    el.selectpicker('refresh');
+                }
+            });
+        },
+        getPositionManPower: function (el, divid, depid, secid, type) {
+            debugger;
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetPositionManPower", "Master")',
+                data: { type: type, divid: divid, depid: depid, secid: secid },
                 dataType: 'json',
                 success: function (res) {
                     el.empty().append('<option value=""> -- กรุณาเลือก -- </option>');
@@ -854,47 +931,47 @@
     });
 
     $("#DivID").change(function () {
-        DropDownList.getPosition($("#MpID"), $('#DivID').val(), $('#DepID').val(), $("#SecID").val(), $("#UserType").val());
+        DropDownList.getPositionManPower($("#MpID"), $('#DivID').val(), $('#DepID').val(), $("#SecID").val(), $("#UserType").val());
         DropDownList.getDepartment($("#DepID"), $('#DivID').val(), $("#UserType").val());
         $('select[name=SecID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
         $('select[name=SecID]').selectpicker('refresh');
     });
 
     $("#DepID").change(function () {
-        DropDownList.getPosition($("#MpID"), $('#DivID').val(), $('#DepID').val(), $("#SecID").val(), $("#UserType").val());
+        DropDownList.getPositionManPower($("#MpID"), $('#DivID').val(), $('#DepID').val(), $("#SecID").val(), $("#UserType").val());
         DropDownList.getSection($("#SecID"), $('#DivID').val(), $('#DepID').val(), $("#UserType").val());
     });
 
     $("#SecID").change(function () {
-        DropDownList.getPosition($("#MpID"), $('#DivID').val(), $('#DepID').val(), $("#SecID").val(), $("#UserType").val());
+        DropDownList.getPositionManPower($("#MpID"), $('#DivID').val(), $('#DepID').val(), $("#SecID").val(), $("#UserType").val());
     });
 
     $("#EmpowerDivID").change(function () {
-        DropDownList.getPosition($("#AgentMpID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#AgentSecID").val(), $("#UserType").val());
+        DropDownList.getPositionManPower($("#AgentMpID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#AgentSecID").val(), $("#UserType").val());
         DropDownList.getDepartment($("#EmpowerDepID"), $('#EmpowerDivID').val(), $("#UserType").val());
         $('select[name=EmpowerSecID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
         $('select[name=EmpowerSecID]').selectpicker('refresh');
     });
 
     $("#EmpowerDepID").change(function () {
-        DropDownList.getPosition($("#AgentMpID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#AgentSecID").val(), $("#UserType").val());
+        DropDownList.getPositionManPower($("#AgentMpID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#AgentSecID").val(), $("#UserType").val());
         DropDownList.getSection($("#EmpowerSecID"), $('#EmpowerDivID').val(), $('#EmpowerDepID').val(), $("#UserType").val());
     });
 
     $("#AgentDivID").change(function () {
-        DropDownList.getPosition($("#AgentMpID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#AgentSecID").val(), $("#UserType").val());
+        DropDownList.getPositionManPower($("#AgentMpID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#AgentSecID").val(), $("#UserType").val());
         DropDownList.getDepartment($("#AgentDepID"), $('#AgentDivID').val(), $("#UserType").val());
         $('select[name=AgentSecID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
         $('select[name=AgentSecID]').selectpicker('refresh');
     });
 
     $("#AgentDepID").change(function () {
-        DropDownList.getPosition($("#AgentMpID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#AgentSecID").val(), $("#UserType").val());
+        DropDownList.getPositionManPower($("#AgentMpID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#AgentSecID").val(), $("#UserType").val());
         DropDownList.getSection($("#AgentSecID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#UserType").val());
     });
 
     $("#AgentSecID").change(function () {
-        DropDownList.getPosition($("#AgentMpID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#AgentSecID").val(), $("#UserType").val());
+        DropDownList.getPositionManPower($("#AgentMpID"), $('#AgentDivID').val(), $('#AgentDepID').val(), $("#AgentSecID").val(), $("#UserType").val());
     });
 
     $("#HomeProvinceID").change(function () {
@@ -980,7 +1057,9 @@
         else {
             var form = $('.form-employee')[0];
             var data = new FormData(form);
-            data.append(".fileUpload", fileUpload);
+            data.append(".fileAvatar", fileAvatar);
+            data.append(".fileAttach1", fileAttach1);
+            data.append(".fileAttach2", fileAttach2);
 
             $.ajax({
                 type: 'POST',

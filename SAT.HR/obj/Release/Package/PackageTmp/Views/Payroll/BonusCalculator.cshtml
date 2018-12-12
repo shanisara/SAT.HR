@@ -1,4 +1,4 @@
-﻿
+﻿@model SAT.HR.Models.BonusCalculatorProcessViewModel
 @{
     ViewBag.Title = "BonusCalculator";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -52,7 +52,7 @@
                                             <label class="col-sm-3 col-form-label m-t-20">ปีบัญชี</label>
                                             <div class="col-sm-3">
                                                 <div class="form-group bmd-form-group">
-                                                    @Html.TextBox("Year", (int)ViewBag.Year, new { @class = "form-control text-right", type = "number" })
+                                                    @Html.TextBoxFor(m => m.Year, new { @class = "form-control text-right", type = "number" })
                                                 </div>
                                             </div>
                                         </div>
@@ -60,7 +60,7 @@
                                             <label class="col-sm-3 col-form-label m-t-20">อัตรา (เท่า)</label>
                                             <div class="col-sm-3">
                                                 <div class="form-group bmd-form-group">
-                                                    @Html.TextBox("Rate", (string)ViewBag.Rate, new { @class = "form-control text-right", type = "number" })
+                                                    @Html.TextBoxFor(m => m.Rate, new { @class = "form-control text-right", type = "number" })
                                                 </div>
                                             </div>
                                         </div>
@@ -69,41 +69,7 @@
                             </div>
                         </div>
                         <div class="tab-pane div-step2" id="step2">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title"><span>ตรวจสอบและแก้ไข</span></h4>
-                                    <p class="card-category"> รายการคำนวณโบนัสประจำปี </p>
-                                </div>
-                                <div class="card-body">
-                                    <div class="level-transfer">
-                                        <table id="datatables" data-url="@Url.Content("~/payroll/BonusCalculator")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
-                                            <thead>
-                                                <tr>
-                                                    <th style="width:5%" class="disabled-sorting">ลำดับ</th>
-                                                    <th style="width:7%">ปีบัญชี</th>
-                                                    <th style="width:10%">ชื่อ นามสกุล</th>
-                                                    <th style="width:8%">เงินเดือน</th>
-                                                    <th style="width:10%">อัตรา</th>
-                                                    <th style="width:10%">โบนัส</th>
-                                                    <th>m10</th>
-                                                    <th>m11</th>
-                                                    <th>m12</th>
-                                                    <th>m1</th>
-                                                    <th>m2</th>
-                                                    <th>m3</th>
-                                                    <th>m4</th>
-                                                    <th>m5</th>
-                                                    <th>m6</th>
-                                                    <th>m7</th>
-                                                    <th>m8</th>
-                                                    <th>m9</th>
-                                                    <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
-                                                </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+                            <div id="div-step2"></div>
                         </div>
                         <div class="tab-pane div-step3" id="step3">
                             <div class="card">
@@ -119,7 +85,7 @@
                                             <label class="col-sm-2 col-form-label m-t-15">คำสั่ง</label>
                                             <div class="col-sm-10">
                                                 <div class="form-group bmd-form-group">
-                                                    <input class="form-control" type="text">
+                                                    @Html.TextBoxFor(m => m.BookCmd, new { @class = "form-control", required = "true" })
                                                 </div>
                                             </div>
                                         </div>
@@ -127,14 +93,18 @@
                                             <label class="col-sm-2 col-form-label m-t-15">วันที่ลงคำสั่ง</label>
                                             <div class="col-sm-10">
                                                 <div class="form-group bmd-form-group">
-                                                    <input class="form-control datepicker" type="text">
+                                                    @Html.TextBoxFor(m => m.DateCmd, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <label class="col-sm-2 col-form-label m-t-15">ไฟล์แนบ</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control file-upload" type="file">
+                                                <div class="input-group-prepend file-path">
+                                                    @*<a class="m-t-10 file-name" target="_blank" href=@Url.Action("DownloadFileAttach", "Employee", new { id = Model.ProcessID, type = 1 })>@Model.PathFile</a>*@
+                                                    <a class="btn btn-link btn-danger btn-just-icon file-delete" file-delete href="#" title="ลบ" style="margin-top:0px"><i class="material-icons">delete_forever</i></a>
+                                                </div>
+                                                <input id="FileUpload" name="FileUpload" type="file" class="form-control file-upload">
                                             </div>
                                         </div>
                                     </div>
@@ -315,9 +285,9 @@
                     $(".btn-finish").hide();
 
                     @*var url = '@Url.Action("GetEmpBonusCalculator", "Payroll")';
-                        $.post(url, function (data) {
-                            $("#div-step2").html(data);
-                        });*@
+                    $.post(url, function (data) {
+                        $("#div-step2").html(data);
+                    });*@
                 }
             }
             else if (this.id == "li-step3") {
@@ -377,6 +347,8 @@
                     $('.div-step2').addClass('active');
 
                     $(".btn-previous").show();
+
+                    GetEmpBonusCalculator();
                 }).catch(swal.noop)
             }
             else if (id == "tab-step2") {
@@ -406,6 +378,28 @@
 
             }).catch(swal.noop)
         });
+
+        function GetEmpBonusCalculator() {
+            var year = parseInt($('#Year').val());
+            var rate = parseFloat($('#Rate').val());
+            var url = '@Url.Action("GetEmpBonusCalculator", "Payroll")?year=' + year + '&rate=' + rate;
+            $("#div-step2").load(url);
+        }
+
+        function BonusCalculatorProcess() {
+            var year = parseInt($('#Year').val());
+            var rate = parseFloat($('#Rate').val());
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("BonusCalculatorProcess", "Payroll")',
+                data: { year: year, rate: rate },
+                dataType: 'json',
+                success: function (res) {
+                    $("#div-step2").html(res);
+                }
+            });
+        }
 
     });
 

@@ -1,0 +1,71 @@
+﻿@model List<SAT.HR.Models.EmpSalaryIncreaseViewModel>
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title"><span>ตรวจสอบและแก้ไข</span></h4>
+        <p class="card-category"> รายงานการปรับเงินเดือน </p>
+        <div class="toolbar pull-right" style="margin-top: -50px;">
+            <button class="btn btn-primary btn-sm btn-export" data-toggle="modal">Export</button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="level-transfer">
+            <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                <thead>
+                    <tr>
+                        <th style="width:4%" class="disabled-sorting">ลำดับ</th>
+                        <th style="width:5%">
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox">
+                                    <span class="form-check-sign"><span class="check"></span></span>
+                                </label>
+                            </div>
+                        </th>
+                        <th style="width:7%">ปีบัญชี</th>
+                        <th style="width:5%">รอบที่</th>
+                        <th style="width:26%">ชื่อ นามสกุล</th>
+                        <th style="width:5%">อัตรา</th>
+                        <th style="width:5%">ระดับ</th>
+                        <th style="width:7%">ขั้นเก่า</th>
+                        <th style="width:7%">ขั้นใหม่</th>
+                        <th style="width:11%">เงินเดือนเก่า</th>
+                        <th style="width:11%">เงินเดือนใหม่</th>
+                        <th style="width:5%" class="disabled-sorting text-right">แก้ไข</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        for (int i = 0; i < Model.Count; i++)
+                        {
+                        <tr data-user="@Model[i].UserID">
+                            <td>@(i + 1)</td>
+                            <td>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox">
+                                        <span class="form-check-sign"><span class="check"></span></span>
+                                    </label>
+                                </div>
+                            </td>
+                            <td>@Model[i].Year</td>
+                            <td>@Model[i].Seq</td>
+                            <td>@Model[i].FullNameTh</td>
+                            <td>@Model[i].UpStep</td>
+                            <td>@Model[i].Old_Level</td>
+                            <td>@Model[i].Old_Step</td>
+                            <td>@Model[i].New_Step</td>
+                            <td style="text-align:right;">@Model[i].Old_Salary</td>
+                            <td style="text-align:right;">@Model[i].New_Salary</td>
+                            <td>
+                                <div class="td-actions pull-right"><button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="@Model[i].UserID"><i class="material-icons">edit</i></button></div>
+                            </td>
+                        </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

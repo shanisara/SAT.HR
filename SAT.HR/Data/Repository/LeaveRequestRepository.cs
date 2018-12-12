@@ -113,7 +113,6 @@ namespace SAT.HR.Data
                         model.LeaveReason = item.LeaveReason;
                         model.CancelReason = item.CancelReason;
                         model.Remark = item.Remark;
-                        model.Status = item.Status;
                         model.PathFile = item.PathFile;
                         model.CreateDate = item.CreateDate;
                         model.CreateBy = item.CreateBy;
@@ -184,7 +183,7 @@ namespace SAT.HR.Data
                         model.DayTime = data.DayTime;
                         model.TotalDay = Convert.ToDecimal((data.DayTime == 1) ? 1 : 0.5);
                         model.LeaveReason = data.LeaveReason;
-                        model.Status = (int)EnumType.LeaveStatus.Waiting;
+                        //model.Status = (int)EnumType.LeaveStatus.Waiting;
                         model.CreateBy = UtilityService.User.UserID;
                         model.CreateDate = DateTime.Now;
                         model.ModifyBy = UtilityService.User.UserID;
@@ -269,7 +268,7 @@ namespace SAT.HR.Data
                     var model = db.tb_Leave_Request.SingleOrDefault(x => x.FormID == id);
                     if (model != null)
                     {
-                        model.Status = (int)EnumType.LeaveStatus.Canceled;
+                        //model.Status = (int)EnumType.LeaveStatus.Canceled;
                         model.CancelReason = reason;
                         model.ModifyBy = UtilityService.User.UserID;
                         model.ModifyDate = DateTime.Now;
