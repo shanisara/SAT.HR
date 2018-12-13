@@ -1077,12 +1077,12 @@
           <Property Name="SalaryLevel" Type="int" />
           <Property Name="SalaryStep" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Salary" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="HomeAddr" Type="nvarchar" MaxLength="100" />
+          <Property Name="HomeAddr" Type="nvarchar(max)" />
           <Property Name="HomeSubDistrictID" Type="int" />
           <Property Name="HomeDistrictID" Type="int" />
           <Property Name="HomeProvinceID" Type="int" />
           <Property Name="HomeZipCode" Type="int" />
-          <Property Name="CurrAddr" Type="nvarchar" MaxLength="100" />
+          <Property Name="CurrAddr" Type="nvarchar(max)" />
           <Property Name="CurrSubDistrictID" Type="int" />
           <Property Name="CurrDistrictID" Type="int" />
           <Property Name="CurrProvinceID" Type="int" />
@@ -1121,6 +1121,7 @@
           <Property Name="FileAttach1" Type="nvarchar" MaxLength="4000" />
           <Property Name="FileAttach2" Type="nvarchar" MaxLength="4000" />
           <Property Name="IsTerminate" Type="bit" />
+          <Property Name="UserCode" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="tb_User_Certificate">
           <Key>
@@ -3423,6 +3424,16 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <Parameter Name="Status" Type="nvarchar" Mode="In" />
           <Parameter Name="Keyword" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="sp_Leave_Request_Waiting" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PageSize" Type="nvarchar" Mode="In" />
+          <Parameter Name="InitialPage" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortBy" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortrDir" Type="nvarchar" Mode="In" />
+          <Parameter Name="ApproverID" Type="nvarchar" Mode="In" />
+          <Parameter Name="Year" Type="nvarchar" Mode="In" />
+          <Parameter Name="Status" Type="nvarchar" Mode="In" />
+          <Parameter Name="Keyword" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="sp_Man_Power_Approval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="MopID" Type="int" Mode="In" />
           <Parameter Name="ActionBy" Type="int" Mode="In" />
@@ -3463,6 +3474,13 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <Parameter Name="TaTID" Type="int" Mode="In" />
           <Parameter Name="DateFrom" Type="int" Mode="In" />
           <Parameter Name="DateTo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_WorkFlow_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FormID" Type="int" Mode="In" />
+          <Parameter Name="FormMasterID" Type="int" Mode="In" />
+          <Parameter Name="RequestUserID" Type="int" Mode="In" />
+          <Parameter Name="RequestMpID" Type="int" Mode="In" />
+          <Parameter Name="FormHeaderID" Type="int" Mode="InOut" />
         </Function>
         <Function Name="sp_Working_Shift_User" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserID" Type="int" Mode="In" />
@@ -5294,6 +5312,12 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
             <Parameter Name="MlID" Mode="In" Type="Int32" />
             <Parameter Name="ActionBy" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="tb_Leave_Type" EntityType="SAT.HR.tb_Leave_Type" />
+          <EntitySet Name="tb_Leave_Request" EntityType="SAT.HR.tb_Leave_Request" />
+          <AssociationSet Name="FK_tb_Leave_Request_tb_User" Association="SAT.HR.FK_tb_Leave_Request_tb_User">
+            <End Role="tb_User" EntitySet="tb_User" />
+            <End Role="tb_Leave_Request" EntitySet="tb_Leave_Request" />
+          </AssociationSet>
           <FunctionImport Name="sp_Leave_Request_List" ReturnType="Collection(SAT.HR.sp_Leave_Request_List_Result)">
             <Parameter Name="PageSize" Mode="In" Type="String" />
             <Parameter Name="InitialPage" Mode="In" Type="String" />
@@ -5304,13 +5328,24 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
             <Parameter Name="Status" Mode="In" Type="String" />
             <Parameter Name="Keyword" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="sp_WorkFlow_Create">
+            <Parameter Name="FormID" Mode="In" Type="Int32" />
+            <Parameter Name="FormMasterID" Mode="In" Type="Int32" />
+            <Parameter Name="RequestUserID" Mode="In" Type="Int32" />
+            <Parameter Name="RequestMpID" Mode="In" Type="Int32" />
+            <Parameter Name="FormHeaderID" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Leave_Request_Waiting" ReturnType="Collection(SAT.HR.sp_Leave_Request_Waiting_Result)">
+            <Parameter Name="PageSize" Mode="In" Type="String" />
+            <Parameter Name="InitialPage" Mode="In" Type="String" />
+            <Parameter Name="SortBy" Mode="In" Type="String" />
+            <Parameter Name="SortrDir" Mode="In" Type="String" />
+            <Parameter Name="ApproverID" Mode="In" Type="String" />
+            <Parameter Name="Year" Mode="In" Type="String" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+            <Parameter Name="Keyword" Mode="In" Type="String" />
+          </FunctionImport>
           <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
-          <EntitySet Name="tb_Leave_Type" EntityType="SAT.HR.tb_Leave_Type" />
-          <EntitySet Name="tb_Leave_Request" EntityType="SAT.HR.tb_Leave_Request" />
-          <AssociationSet Name="FK_tb_Leave_Request_tb_User" Association="SAT.HR.FK_tb_Leave_Request_tb_User">
-            <End Role="tb_User" EntitySet="tb_User" />
-            <End Role="tb_Leave_Request" EntitySet="tb_Leave_Request" />
-          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_Employee_List_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -6618,12 +6653,12 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <Property Name="SalaryLevel" Type="Int32" />
           <Property Name="SalaryStep" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Salary" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="HomeAddr" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="HomeAddr" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="HomeSubDistrictID" Type="Int32" />
           <Property Name="HomeDistrictID" Type="Int32" />
           <Property Name="HomeProvinceID" Type="Int32" />
           <Property Name="HomeZipCode" Type="Int32" />
-          <Property Name="CurrAddr" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CurrAddr" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CurrSubDistrictID" Type="Int32" />
           <Property Name="CurrDistrictID" Type="Int32" />
           <Property Name="CurrProvinceID" Type="Int32" />
@@ -6698,6 +6733,7 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <NavigationProperty Name="tb_Working_Shift" Relationship="SAT.HR.FK_tb_Working_Shift_tb_User" FromRole="tb_User" ToRole="tb_Working_Shift" />
           <Property Name="IsTerminate" Type="Boolean" />
           <NavigationProperty Name="tb_Leave_Request" Relationship="SAT.HR.FK_tb_Leave_Request_tb_User" FromRole="tb_User" ToRole="tb_Leave_Request" />
+          <Property Name="UserCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           </EntityType>
         <EntityType Name="tb_User_Certificate">
           <Key>
@@ -8921,50 +8957,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="TableName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
-        <ComplexType Name="sp_Leave_Request_List_Result">
-          <Property Type="Int32" Name="FormID" Nullable="false" />
-          <Property Type="Int32" Name="LeaveYear" Nullable="false" />
-          <Property Type="String" Name="DocNo" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="LeaveType" Nullable="true" />
-          <Property Type="String" Name="LeaveTypeName" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="RequestID" Nullable="true" />
-          <Property Type="String" Name="RequestName" Nullable="true" MaxLength="501" />
-          <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
-          <Property Type="DateTime" Name="EndDate" Nullable="true" Precision="23" />
-          <Property Type="Int32" Name="DayTime" Nullable="true" />
-          <Property Type="Decimal" Name="TotalDay" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="String" Name="LeaveReason" Nullable="true" MaxLength="400" />
-          <Property Type="String" Name="CancelReason" Nullable="true" MaxLength="400" />
-          <Property Type="String" Name="Remark" Nullable="true" MaxLength="400" />
-          <Property Type="String" Name="PathFile" Nullable="true" MaxLength="400" />
-          <Property Type="Int32" Name="Status" Nullable="true" />
-          <Property Type="String" Name="StatusName" Nullable="true" MaxLength="200" />
-          <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
-          <Property Type="Int32" Name="CreateBy" Nullable="true" />
-          <Property Type="String" Name="CreateByName" Nullable="true" MaxLength="501" />
-          <Property Type="DateTime" Name="ModifyDate" Nullable="true" Precision="23" />
-          <Property Type="Int32" Name="ModifyBy" Nullable="true" />
-          <Property Type="Int32" Name="recordsTotal" Nullable="true" />
-          <Property Type="Int32" Name="recordsFiltered" Nullable="true" />
-        </ComplexType>
-        <EntityType Name="vw_Organization">
-          <Key>
-            <PropertyRef Name="MpID" />
-            <PropertyRef Name="MpCode" />
-            <PropertyRef Name="DepLevel" />
-          </Key>
-          <Property Name="MpID" Type="Int32" Nullable="false" />
-          <Property Name="MpCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="ParentID" Type="Int32" />
-          <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
-          <Property Name="TypeID" Type="Int32" />
-          <Property Name="DepLevel" Type="Int32" Nullable="false" />
-          <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="tb_Leave_Type">
           <Key>
             <PropertyRef Name="LevID" />
@@ -9020,6 +9012,80 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="sp_Leave_Request_List_Result">
+          <Property Type="Int32" Name="FormHeaderID" Nullable="false" />
+          <Property Type="String" Name="DocNo" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="FormID" Nullable="true" />
+          <Property Type="Int32" Name="FormMasterID" Nullable="true" />
+          <Property Type="Int32" Name="LeaveYear" Nullable="true" />
+          <Property Type="Int32" Name="LeaveType" Nullable="true" />
+          <Property Type="String" Name="LeaveTypeName" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="EndDate" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="TotalDay" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="LastApproveDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="TransLastStepID" Nullable="true" />
+          <Property Type="Int32" Name="TransNextStepID" Nullable="true" />
+          <Property Type="Int32" Name="TransCurrentStepID" Nullable="true" />
+          <Property Type="Int32" Name="RequestMpID" Nullable="true" />
+          <Property Type="Int32" Name="RequestUserID" Nullable="true" />
+          <Property Type="String" Name="RequestUserName" Nullable="true" MaxLength="501" />
+          <Property Type="String" Name="Remark" Nullable="true" MaxLength="400" />
+          <Property Type="String" Name="Action" Nullable="true" MaxLength="11" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="NextApproverName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="LastApproverName" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="recordsTotal" Nullable="true" />
+          <Property Type="Int32" Name="recordsFiltered" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_Leave_Request_Waiting_Result">
+          <Property Type="Int32" Name="FormHeaderID" Nullable="false" />
+          <Property Type="String" Name="DocNo" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="FormID" Nullable="true" />
+          <Property Type="Int32" Name="FormMasterID" Nullable="true" />
+          <Property Type="Int32" Name="LeaveYear" Nullable="true" />
+          <Property Type="Int32" Name="LeaveType" Nullable="true" />
+          <Property Type="String" Name="LeaveTypeName" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="EndDate" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="TotalDay" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="LastApproveDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="TransLastStepID" Nullable="true" />
+          <Property Type="Int32" Name="TransNextStepID" Nullable="true" />
+          <Property Type="Int32" Name="TransCurrentStepID" Nullable="true" />
+          <Property Type="Int32" Name="RequestMpID" Nullable="true" />
+          <Property Type="Int32" Name="RequestUserID" Nullable="true" />
+          <Property Type="String" Name="RequestUserName" Nullable="true" MaxLength="501" />
+          <Property Type="String" Name="Remark" Nullable="true" MaxLength="400" />
+          <Property Type="String" Name="Action" Nullable="true" MaxLength="11" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="1000" />
+          <Property Type="Int32" Name="NextApproverUserID" Nullable="true" />
+          <Property Type="Int32" Name="NextApproverMpID" Nullable="true" />
+          <Property Type="String" Name="NextApproverName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="LastApproverName" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="recordsTotal" Nullable="true" />
+          <Property Type="Int32" Name="recordsFiltered" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="vw_Organization">
+          <Key>
+            <PropertyRef Name="MpID" />
+            <PropertyRef Name="MpCode" />
+            <PropertyRef Name="DepLevel" />
+          </Key>
+          <Property Name="MpID" Type="Int32" Nullable="false" />
+          <Property Name="MpCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ParentID" Type="Int32" />
+          <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+          <Property Name="TypeID" Type="Int32" />
+          <Property Name="DepLevel" Type="Int32" Nullable="false" />
+          <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10280,6 +10346,7 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <EntitySetMapping Name="tb_User">
             <EntityTypeMapping TypeName="SAT.HR.tb_User">
               <MappingFragment StoreEntitySet="tb_User">
+                <ScalarProperty Name="UserCode" ColumnName="UserCode" />
                 <ScalarProperty Name="IsTerminate" ColumnName="IsTerminate" />
                 <ScalarProperty Name="FileAttach2" ColumnName="FileAttach2" />
                 <ScalarProperty Name="FileAttach1" ColumnName="FileAttach1" />
@@ -11472,53 +11539,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_Move_Level_Approval" FunctionName="SAT.HR.Store.sp_Move_Level_Approval" />
-          <FunctionImportMapping FunctionImportName="sp_Leave_Request_List" FunctionName="SAT.HR.Store.sp_Leave_Request_List">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SAT.HR.sp_Leave_Request_List_Result">
-                <ScalarProperty Name="FormID" ColumnName="FormID" />
-                <ScalarProperty Name="LeaveYear" ColumnName="LeaveYear" />
-                <ScalarProperty Name="DocNo" ColumnName="DocNo" />
-                <ScalarProperty Name="LeaveType" ColumnName="LeaveType" />
-                <ScalarProperty Name="LeaveTypeName" ColumnName="LeaveTypeName" />
-                <ScalarProperty Name="RequestID" ColumnName="RequestID" />
-                <ScalarProperty Name="RequestName" ColumnName="RequestName" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="DayTime" ColumnName="DayTime" />
-                <ScalarProperty Name="TotalDay" ColumnName="TotalDay" />
-                <ScalarProperty Name="LeaveReason" ColumnName="LeaveReason" />
-                <ScalarProperty Name="CancelReason" ColumnName="CancelReason" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="PathFile" ColumnName="PathFile" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateByName" ColumnName="CreateByName" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="recordsTotal" ColumnName="recordsTotal" />
-                <ScalarProperty Name="recordsFiltered" ColumnName="recordsFiltered" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <EntitySetMapping Name="vw_Organization">
-            <EntityTypeMapping TypeName="SAT.HR.vw_Organization">
-              <MappingFragment StoreEntitySet="vw_Organization">
-                <ScalarProperty Name="PathMpID" ColumnName="PathMpID" />
-                <ScalarProperty Name="DepLevel" ColumnName="DepLevel" />
-                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
-                <ScalarProperty Name="FullNameTh" ColumnName="FullNameTh" />
-                <ScalarProperty Name="PoName" ColumnName="PoName" />
-                <ScalarProperty Name="SecName" ColumnName="SecName" />
-                <ScalarProperty Name="DepName" ColumnName="DepName" />
-                <ScalarProperty Name="DivName" ColumnName="DivName" />
-                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
-                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
-                <ScalarProperty Name="MpID" ColumnName="MpID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tb_Leave_Type">
             <EntityTypeMapping TypeName="SAT.HR.tb_Leave_Type">
               <MappingFragment StoreEntitySet="tb_Leave_Type">
@@ -11560,6 +11580,88 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
                 <ScalarProperty Name="LeaveYear" ColumnName="LeaveYear" />
                 <ScalarProperty Name="DocNo" ColumnName="DocNo" />
                 <ScalarProperty Name="FormID" ColumnName="FormID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_Leave_Request_List" FunctionName="SAT.HR.Store.sp_Leave_Request_List">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_Leave_Request_List_Result">
+                <ScalarProperty Name="FormHeaderID" ColumnName="FormHeaderID" />
+                <ScalarProperty Name="DocNo" ColumnName="DocNo" />
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
+                <ScalarProperty Name="FormMasterID" ColumnName="FormMasterID" />
+                <ScalarProperty Name="LeaveYear" ColumnName="LeaveYear" />
+                <ScalarProperty Name="LeaveType" ColumnName="LeaveType" />
+                <ScalarProperty Name="LeaveTypeName" ColumnName="LeaveTypeName" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="TotalDay" ColumnName="TotalDay" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="LastApproveDate" ColumnName="LastApproveDate" />
+                <ScalarProperty Name="TransLastStepID" ColumnName="TransLastStepID" />
+                <ScalarProperty Name="TransNextStepID" ColumnName="TransNextStepID" />
+                <ScalarProperty Name="TransCurrentStepID" ColumnName="TransCurrentStepID" />
+                <ScalarProperty Name="RequestMpID" ColumnName="RequestMpID" />
+                <ScalarProperty Name="RequestUserID" ColumnName="RequestUserID" />
+                <ScalarProperty Name="RequestUserName" ColumnName="RequestUserName" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="NextApproverName" ColumnName="NextApproverName" />
+                <ScalarProperty Name="LastApproverName" ColumnName="LastApproverName" />
+                <ScalarProperty Name="recordsTotal" ColumnName="recordsTotal" />
+                <ScalarProperty Name="recordsFiltered" ColumnName="recordsFiltered" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_WorkFlow_Create" FunctionName="SAT.HR.Store.sp_WorkFlow_Create" />
+          <FunctionImportMapping FunctionImportName="sp_Leave_Request_Waiting" FunctionName="SAT.HR.Store.sp_Leave_Request_Waiting">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_Leave_Request_Waiting_Result">
+                <ScalarProperty Name="FormHeaderID" ColumnName="FormHeaderID" />
+                <ScalarProperty Name="DocNo" ColumnName="DocNo" />
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
+                <ScalarProperty Name="FormMasterID" ColumnName="FormMasterID" />
+                <ScalarProperty Name="LeaveYear" ColumnName="LeaveYear" />
+                <ScalarProperty Name="LeaveType" ColumnName="LeaveType" />
+                <ScalarProperty Name="LeaveTypeName" ColumnName="LeaveTypeName" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="TotalDay" ColumnName="TotalDay" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="LastApproveDate" ColumnName="LastApproveDate" />
+                <ScalarProperty Name="TransLastStepID" ColumnName="TransLastStepID" />
+                <ScalarProperty Name="TransNextStepID" ColumnName="TransNextStepID" />
+                <ScalarProperty Name="TransCurrentStepID" ColumnName="TransCurrentStepID" />
+                <ScalarProperty Name="RequestMpID" ColumnName="RequestMpID" />
+                <ScalarProperty Name="RequestUserID" ColumnName="RequestUserID" />
+                <ScalarProperty Name="RequestUserName" ColumnName="RequestUserName" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="NextApproverUserID" ColumnName="NextApproverUserID" />
+                <ScalarProperty Name="NextApproverMpID" ColumnName="NextApproverMpID" />
+                <ScalarProperty Name="NextApproverName" ColumnName="NextApproverName" />
+                <ScalarProperty Name="LastApproverName" ColumnName="LastApproverName" />
+                <ScalarProperty Name="recordsTotal" ColumnName="recordsTotal" />
+                <ScalarProperty Name="recordsFiltered" ColumnName="recordsFiltered" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="vw_Organization">
+            <EntityTypeMapping TypeName="SAT.HR.vw_Organization">
+              <MappingFragment StoreEntitySet="vw_Organization">
+                <ScalarProperty Name="PathMpID" ColumnName="PathMpID" />
+                <ScalarProperty Name="DepLevel" ColumnName="DepLevel" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="FullNameTh" ColumnName="FullNameTh" />
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="SecName" ColumnName="SecName" />
+                <ScalarProperty Name="DepName" ColumnName="DepName" />
+                <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
+                <ScalarProperty Name="MpID" ColumnName="MpID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

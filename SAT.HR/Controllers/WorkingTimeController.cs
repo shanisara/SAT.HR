@@ -23,6 +23,11 @@ namespace SAT.HR.Controllers
             return View();
         }
 
+        public ActionResult LeaveApprove()
+        {
+            return View();
+        }
+
         public ActionResult LeaveRequestDetail(int? id)
         {
             var model = new LeaveRequestRepository().GetByID(id);
@@ -36,7 +41,7 @@ namespace SAT.HR.Controllers
         public JsonResult SaveLeaveRequest(LeaveRequestViewModel data)
         {
             ResponseData result = new ResponseData();
-            if (data.FormID != 0)
+            if (data.FormID.HasValue)
                 result = new LeaveRequestRepository().UpdateByEntity(data);
             else
                 result = new LeaveRequestRepository().AddByEntity(data);
@@ -67,7 +72,17 @@ namespace SAT.HR.Controllers
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
             var column = columns[int.Parse(order[0]["column"])]["data"];
-            var dataTableData = new LeaveRequestRepository().GetPage(search, draw, start, length, dir, column, year, status);
+            var dataTableData = new LeaveRequestRepository().GetLeaveRequest(search, draw, start, length, dir, column, year, status);
+            return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult LeaveWaiting(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns, string year, string status)
+        {
+            var search = Request["search[value]"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
+            var dataTableData = new LeaveRequestRepository().GetLeaveWaiting(search, draw, start, length, dir, column, year, status);
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
 
@@ -229,15 +244,6 @@ namespace SAT.HR.Controllers
             int id = UtilityService.User.UserID;
             var model = new LeaveBalanceRepository().GetByUser(id, null);
             return View(model);
-        }
-
-        #endregion
-
-        #region รายการรออนุมัติ
-
-        public ActionResult LeaveApprove()
-        {
-            return View();
         }
 
         #endregion

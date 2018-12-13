@@ -7,13 +7,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Data.Entity.Core.Objects;
 using static SAT.HR.Helpers.EnumType;
 
 namespace SAT.HR.Data
 {
     public class LeaveRequestRepository
     {
-        public LeaveRequestPageResult GetPage(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy, string year, string status)
+        public LeaveRequestPageResult GetLeaveRequest(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy, string year, string status)
         {
             LeaveRequestPageResult result = new LeaveRequestPageResult();
             List<LeaveRequestViewModel> list = new List<LeaveRequestViewModel>();
@@ -26,7 +27,7 @@ namespace SAT.HR.Data
                     string perPage = initialPage.HasValue ? Convert.ToInt32(initialPage) == 0 ? "1" : (Convert.ToInt32(initialPage.ToString().Substring(0, initialPage.ToString().Length - 1)) + 1).ToString() : "1";
 
                     string requestid = UtilityService.User.UserID.ToString();
-                    var data = db.sp_Leave_Request_List(pageSize.ToString(), perPage, sortBy, sortDir, "", year, status, filter).ToList();
+                    var data = db.sp_Leave_Request_List(pageSize.ToString(), perPage, sortBy, sortDir, requestid, year, status, filter).ToList();
 
                     int i = 0;
                     foreach (var item in data)
@@ -34,14 +35,65 @@ namespace SAT.HR.Data
                         LeaveRequestViewModel model = new LeaveRequestViewModel();
                         model.RowNumber = ++i;
                         model.FormID = item.FormID;
-                        model.RequestID = item.RequestID;
+                        model.RequestID = item.RequestUserID;
                         model.LeaveYear = item.LeaveYear;
-                        model.RequestName = item.RequestName;
+                        model.RequestName = item.RequestUserName;
                         model.DocNo = item.DocNo;
                         model.LeaveTypeName = item.LeaveTypeName;
-                        model.CreateByName = item.CreateByName;
+                        model.StartDateDateText = item.StartDate.Value.ToString("dd/MM/yyyy");
+                        model.EndDateDateText = item.EndDate.Value.ToString("dd/MM/yyyy");
                         model.CreateDateText = item.CreateDate.Value.ToString("dd/MM/yyyy");
-                        model.StatusName = item.StatusName;
+                        model.StatusName = item.Status;
+                        model.recordsTotal = (int)item.recordsTotal;
+                        model.recordsFiltered = (int)item.recordsFiltered;
+                        list.Add(model);
+                    }
+
+                    result.draw = draw ?? 0;
+                    result.recordsTotal = list.Count != 0 ? list[0].recordsTotal : 0;
+                    result.recordsFiltered = list.Count != 0 ? list[0].recordsFiltered : 0;
+                    result.data = list;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return result;
+        }
+
+        public LeaveRequestPageResult GetLeaveWaiting(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy, string year, string status)
+        {
+            LeaveRequestPageResult result = new LeaveRequestPageResult();
+            List<LeaveRequestViewModel> list = new List<LeaveRequestViewModel>();
+
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    sortBy = (sortBy == "RowNumber") ? "DocNo" : sortBy;
+                    string perPage = initialPage.HasValue ? Convert.ToInt32(initialPage) == 0 ? "1" : (Convert.ToInt32(initialPage.ToString().Substring(0, initialPage.ToString().Length - 1)) + 1).ToString() : "1";
+
+                    string loginUserID = UtilityService.User.UserID.ToString();
+                    string loginMpID = UtilityService.User.MpID.ToString();
+                    var data = db.sp_Leave_Request_Waiting(pageSize.ToString(), perPage, sortBy, sortDir, loginUserID, year, status, filter).ToList();
+
+                    int i = 0;
+                    foreach (var item in data)
+                    {
+                        LeaveRequestViewModel model = new LeaveRequestViewModel();
+                        model.RowNumber = ++i;
+                        model.FormID = item.FormID;
+                        model.RequestID = item.RequestUserID;
+                        model.LeaveYear = item.LeaveYear;
+                        model.RequestName = item.RequestUserName;
+                        model.DocNo = item.DocNo;
+                        model.LeaveTypeName = item.LeaveTypeName;
+                        model.StartDateDateText = item.StartDate.Value.ToString("dd/MM/yyyy");
+                        model.EndDateDateText = item.EndDate.Value.ToString("dd/MM/yyyy");
+                        model.CreateDateText = item.CreateDate.Value.ToString("dd/MM/yyyy");
+                        model.StatusName = item.Status;
                         model.recordsTotal = (int)item.recordsTotal;
                         model.recordsFiltered = (int)item.recordsFiltered;
                         list.Add(model);
@@ -153,6 +205,9 @@ namespace SAT.HR.Data
                     ResponseData result = new Models.ResponseData();
                     try
                     {
+                        var requestUserID = UtilityService.User.UserID;
+                        var requestMpID = UtilityService.User.MpID;
+
                         tb_Leave_Request model = new tb_Leave_Request();
                         model.PathFile = data.PathFile;
 
@@ -173,11 +228,11 @@ namespace SAT.HR.Data
                             model.PathFile = newFileName;
                         }
 
-                        model.FormID = data.FormID;
+                        //model.FormID = (int)data.FormID;
                         model.DocNo = DocumentNumberRepository.GetNextNumber("LEAVE"); 
                         model.LeaveYear = DateTime.Now.Year;
                         model.LeaveType = data.LeaveType;
-                        model.RequestID = data.RequestID;
+                        model.RequestID = data.RequestID; //requestUserID
                         model.StartDate = data.StartDate;
                         model.EndDate = data.EndDate;
                         model.DayTime = data.DayTime;
@@ -190,6 +245,9 @@ namespace SAT.HR.Data
                         model.ModifyDate = DateTime.Now;
                         db.tb_Leave_Request.Add(model);
                         db.SaveChanges();
+
+                        ObjectParameter formHeaderID = new ObjectParameter("FormHeaderID", typeof(int));
+                        db.sp_WorkFlow_Create(model.FormID, 1, model.RequestID, requestMpID, formHeaderID);
                         
                         transection.Commit();
                         result.ID = model.FormID;

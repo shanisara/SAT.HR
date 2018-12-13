@@ -64,6 +64,8 @@ namespace SAT.HR.Models
 
         public int? UserTypeID { get; set; }
 
+        public int? MpID { get; set; }
+
         public int? DivID { get; set; }
 
         public string DivName { get; set; }

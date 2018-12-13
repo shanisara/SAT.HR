@@ -159,9 +159,9 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Employee> vw_Employee { get; set; }
         public virtual DbSet<vw_User_Excellent> vw_User_Excellent { get; set; }
         public virtual DbSet<tb_Import_Master> tb_Import_Master { get; set; }
-        public virtual DbSet<vw_Organization> vw_Organization { get; set; }
         public virtual DbSet<tb_Leave_Type> tb_Leave_Type { get; set; }
         public virtual DbSet<tb_Leave_Request> tb_Leave_Request { get; set; }
+        public virtual DbSet<vw_Organization> vw_Organization { get; set; }
     
         public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
         {
@@ -444,6 +444,64 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("Keyword", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Leave_Request_List_Result>("sp_Leave_Request_List", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, requestIDParameter, yearParameter, statusParameter, keywordParameter);
+        }
+    
+        public virtual int sp_WorkFlow_Create(Nullable<int> formID, Nullable<int> formMasterID, Nullable<int> requestUserID, Nullable<int> requestMpID, ObjectParameter formHeaderID)
+        {
+            var formIDParameter = formID.HasValue ?
+                new ObjectParameter("FormID", formID) :
+                new ObjectParameter("FormID", typeof(int));
+    
+            var formMasterIDParameter = formMasterID.HasValue ?
+                new ObjectParameter("FormMasterID", formMasterID) :
+                new ObjectParameter("FormMasterID", typeof(int));
+    
+            var requestUserIDParameter = requestUserID.HasValue ?
+                new ObjectParameter("RequestUserID", requestUserID) :
+                new ObjectParameter("RequestUserID", typeof(int));
+    
+            var requestMpIDParameter = requestMpID.HasValue ?
+                new ObjectParameter("RequestMpID", requestMpID) :
+                new ObjectParameter("RequestMpID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_WorkFlow_Create", formIDParameter, formMasterIDParameter, requestUserIDParameter, requestMpIDParameter, formHeaderID);
+        }
+    
+        public virtual ObjectResult<sp_Leave_Request_Waiting_Result> sp_Leave_Request_Waiting(string pageSize, string initialPage, string sortBy, string sortrDir, string approverID, string year, string status, string keyword)
+        {
+            var pageSizeParameter = pageSize != null ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(string));
+    
+            var initialPageParameter = initialPage != null ?
+                new ObjectParameter("InitialPage", initialPage) :
+                new ObjectParameter("InitialPage", typeof(string));
+    
+            var sortByParameter = sortBy != null ?
+                new ObjectParameter("SortBy", sortBy) :
+                new ObjectParameter("SortBy", typeof(string));
+    
+            var sortrDirParameter = sortrDir != null ?
+                new ObjectParameter("SortrDir", sortrDir) :
+                new ObjectParameter("SortrDir", typeof(string));
+    
+            var approverIDParameter = approverID != null ?
+                new ObjectParameter("ApproverID", approverID) :
+                new ObjectParameter("ApproverID", typeof(string));
+    
+            var yearParameter = year != null ?
+                new ObjectParameter("Year", year) :
+                new ObjectParameter("Year", typeof(string));
+    
+            var statusParameter = status != null ?
+                new ObjectParameter("Status", status) :
+                new ObjectParameter("Status", typeof(string));
+    
+            var keywordParameter = keyword != null ?
+                new ObjectParameter("Keyword", keyword) :
+                new ObjectParameter("Keyword", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Leave_Request_Waiting_Result>("sp_Leave_Request_Waiting", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, approverIDParameter, yearParameter, statusParameter, keywordParameter);
         }
     }
 }

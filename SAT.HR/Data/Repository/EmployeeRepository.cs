@@ -68,6 +68,7 @@ namespace SAT.HR.Data.Repository
                     model.Avatar = SysConfig.ApplicationRoot + (!string.IsNullOrEmpty(data.Avatar) ? SysConfig.PathDownloadUserAvatar + data.Avatar : "Content/assets/img/image_placeholder.jpg");
                     model.Email = data.Email;
                     model.SexID = data.SexID;
+                    model.MpID = data.MpID;
                     model.DivID = data.DivID;
                     model.DivName = data.DivName;
                     model.DepID = data.DepID;

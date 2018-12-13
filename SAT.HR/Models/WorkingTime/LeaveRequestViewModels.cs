@@ -8,7 +8,7 @@ namespace SAT.HR.Models
     public class LeaveRequestViewModel
     {
         public int RowNumber { get; set; }
-        public int FormID { get; set; }
+        public Nullable<int> FormID { get; set; }
         public string DocNo { get; set; }
         public Nullable<int> LeaveType { get; set; }
         public Nullable<int> RequestID { get; set; }
@@ -39,6 +39,8 @@ namespace SAT.HR.Models
         public string PathFile { get; set; }
         public HttpPostedFileBase LeaveFile { get; set; }
         public string CreateDateText { get; set; }
+        public string StartDateDateText { get; set; }
+        public string EndDateDateText { get; set; }
         public int recordsTotal { get; set; }
         public int recordsFiltered { get; set; }
         public List<LeaveRequestViewModel> ListLeave { get; set; }

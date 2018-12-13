@@ -1254,6 +1254,7 @@
     <EntitySetMapping Name="tb_User">
       <EntityTypeMapping TypeName="SAT.HR.tb_User">
         <MappingFragment StoreEntitySet="tb_User">
+          <ScalarProperty Name="UserCode" ColumnName="UserCode" />
           <ScalarProperty Name="IsTerminate" ColumnName="IsTerminate" />
           <ScalarProperty Name="FileAttach2" ColumnName="FileAttach2" />
           <ScalarProperty Name="FileAttach1" ColumnName="FileAttach1" />
@@ -2446,6 +2447,27 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <FunctionImportMapping FunctionImportName="sp_Move_Level_Approval" FunctionName="SAT.HR.Store.sp_Move_Level_Approval" />
+    <EntitySetMapping Name="tb_Leave_Type">
+      <EntityTypeMapping TypeName="SAT.HR.tb_Leave_Type">
+        <MappingFragment StoreEntitySet="tb_Leave_Type">
+          <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+          <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+          <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="LevStatus" ColumnName="LevStatus" />
+          <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+          <ScalarProperty Name="SexID" ColumnName="SexID" />
+          <ScalarProperty Name="LevMax" ColumnName="LevMax" />
+          <ScalarProperty Name="LevEndDate" ColumnName="LevEndDate" />
+          <ScalarProperty Name="LevStartDate" ColumnName="LevStartDate" />
+          <ScalarProperty Name="LevYear" ColumnName="LevYear" />
+          <ScalarProperty Name="LevDesc" ColumnName="LevDesc" />
+          <ScalarProperty Name="LevName" ColumnName="LevName" />
+          <ScalarProperty Name="LevCode" ColumnName="LevCode" />
+          <ScalarProperty Name="LevID" ColumnName="LevID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="tb_Leave_Request">
       <EntityTypeMapping TypeName="SAT.HR.tb_Leave_Request">
         <MappingFragment StoreEntitySet="tb_Leave_Request">
@@ -2453,7 +2475,6 @@
           <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
           <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="PathFile" ColumnName="PathFile" />
           <ScalarProperty Name="Remark" ColumnName="Remark" />
           <ScalarProperty Name="CancelReason" ColumnName="CancelReason" />
@@ -2473,28 +2494,63 @@
     <FunctionImportMapping FunctionImportName="sp_Leave_Request_List" FunctionName="SAT.HR.Store.sp_Leave_Request_List">
       <ResultMapping>
         <ComplexTypeMapping TypeName="SAT.HR.sp_Leave_Request_List_Result">
-          <ScalarProperty Name="FormID" ColumnName="FormID" />
-          <ScalarProperty Name="LeaveYear" ColumnName="LeaveYear" />
+          <ScalarProperty Name="FormHeaderID" ColumnName="FormHeaderID" />
           <ScalarProperty Name="DocNo" ColumnName="DocNo" />
+          <ScalarProperty Name="FormID" ColumnName="FormID" />
+          <ScalarProperty Name="FormMasterID" ColumnName="FormMasterID" />
+          <ScalarProperty Name="LeaveYear" ColumnName="LeaveYear" />
           <ScalarProperty Name="LeaveType" ColumnName="LeaveType" />
           <ScalarProperty Name="LeaveTypeName" ColumnName="LeaveTypeName" />
-          <ScalarProperty Name="RequestID" ColumnName="RequestID" />
-          <ScalarProperty Name="RequestName" ColumnName="RequestName" />
           <ScalarProperty Name="StartDate" ColumnName="StartDate" />
           <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-          <ScalarProperty Name="DayTime" ColumnName="DayTime" />
           <ScalarProperty Name="TotalDay" ColumnName="TotalDay" />
-          <ScalarProperty Name="LeaveReason" ColumnName="LeaveReason" />
-          <ScalarProperty Name="CancelReason" ColumnName="CancelReason" />
-          <ScalarProperty Name="Remark" ColumnName="Remark" />
-          <ScalarProperty Name="PathFile" ColumnName="PathFile" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="StatusName" ColumnName="StatusName" />
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-          <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-          <ScalarProperty Name="CreateByName" ColumnName="CreateByName" />
-          <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-          <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+          <ScalarProperty Name="LastApproveDate" ColumnName="LastApproveDate" />
+          <ScalarProperty Name="TransLastStepID" ColumnName="TransLastStepID" />
+          <ScalarProperty Name="TransNextStepID" ColumnName="TransNextStepID" />
+          <ScalarProperty Name="TransCurrentStepID" ColumnName="TransCurrentStepID" />
+          <ScalarProperty Name="RequestMpID" ColumnName="RequestMpID" />
+          <ScalarProperty Name="RequestUserID" ColumnName="RequestUserID" />
+          <ScalarProperty Name="RequestUserName" ColumnName="RequestUserName" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="Action" ColumnName="Action" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="NextApproverName" ColumnName="NextApproverName" />
+          <ScalarProperty Name="LastApproverName" ColumnName="LastApproverName" />
+          <ScalarProperty Name="recordsTotal" ColumnName="recordsTotal" />
+          <ScalarProperty Name="recordsFiltered" ColumnName="recordsFiltered" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_WorkFlow_Create" FunctionName="SAT.HR.Store.sp_WorkFlow_Create" />
+    <FunctionImportMapping FunctionImportName="sp_Leave_Request_Waiting" FunctionName="SAT.HR.Store.sp_Leave_Request_Waiting">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SAT.HR.sp_Leave_Request_Waiting_Result">
+          <ScalarProperty Name="FormHeaderID" ColumnName="FormHeaderID" />
+          <ScalarProperty Name="DocNo" ColumnName="DocNo" />
+          <ScalarProperty Name="FormID" ColumnName="FormID" />
+          <ScalarProperty Name="FormMasterID" ColumnName="FormMasterID" />
+          <ScalarProperty Name="LeaveYear" ColumnName="LeaveYear" />
+          <ScalarProperty Name="LeaveType" ColumnName="LeaveType" />
+          <ScalarProperty Name="LeaveTypeName" ColumnName="LeaveTypeName" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="TotalDay" ColumnName="TotalDay" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="LastApproveDate" ColumnName="LastApproveDate" />
+          <ScalarProperty Name="TransLastStepID" ColumnName="TransLastStepID" />
+          <ScalarProperty Name="TransNextStepID" ColumnName="TransNextStepID" />
+          <ScalarProperty Name="TransCurrentStepID" ColumnName="TransCurrentStepID" />
+          <ScalarProperty Name="RequestMpID" ColumnName="RequestMpID" />
+          <ScalarProperty Name="RequestUserID" ColumnName="RequestUserID" />
+          <ScalarProperty Name="RequestUserName" ColumnName="RequestUserName" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="Action" ColumnName="Action" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="NextApproverUserID" ColumnName="NextApproverUserID" />
+          <ScalarProperty Name="NextApproverMpID" ColumnName="NextApproverMpID" />
+          <ScalarProperty Name="NextApproverName" ColumnName="NextApproverName" />
+          <ScalarProperty Name="LastApproverName" ColumnName="LastApproverName" />
           <ScalarProperty Name="recordsTotal" ColumnName="recordsTotal" />
           <ScalarProperty Name="recordsFiltered" ColumnName="recordsFiltered" />
         </ComplexTypeMapping>
@@ -2514,27 +2570,6 @@
           <ScalarProperty Name="ParentID" ColumnName="ParentID" />
           <ScalarProperty Name="MpCode" ColumnName="MpCode" />
           <ScalarProperty Name="MpID" ColumnName="MpID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="tb_Leave_Type">
-      <EntityTypeMapping TypeName="SAT.HR.tb_Leave_Type">
-        <MappingFragment StoreEntitySet="tb_Leave_Type">
-          <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-          <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-          <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-          <ScalarProperty Name="LevStatus" ColumnName="LevStatus" />
-          <ScalarProperty Name="TypeID" ColumnName="TypeID" />
-          <ScalarProperty Name="SexID" ColumnName="SexID" />
-          <ScalarProperty Name="LevMax" ColumnName="LevMax" />
-          <ScalarProperty Name="LevEndDate" ColumnName="LevEndDate" />
-          <ScalarProperty Name="LevStartDate" ColumnName="LevStartDate" />
-          <ScalarProperty Name="LevYear" ColumnName="LevYear" />
-          <ScalarProperty Name="LevDesc" ColumnName="LevDesc" />
-          <ScalarProperty Name="LevName" ColumnName="LevName" />
-          <ScalarProperty Name="LevCode" ColumnName="LevCode" />
-          <ScalarProperty Name="LevID" ColumnName="LevID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

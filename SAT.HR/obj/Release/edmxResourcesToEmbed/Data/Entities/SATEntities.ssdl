@@ -574,7 +574,6 @@
     <Property Name="CancelReason" Type="nvarchar" MaxLength="400" />
     <Property Name="Remark" Type="nvarchar" MaxLength="400" />
     <Property Name="PathFile" Type="nvarchar" MaxLength="400" />
-    <Property Name="Status" Type="int" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -1073,12 +1072,12 @@
     <Property Name="SalaryLevel" Type="int" />
     <Property Name="SalaryStep" Type="decimal" Precision="18" Scale="2" />
     <Property Name="Salary" Type="decimal" Precision="18" Scale="2" />
-    <Property Name="HomeAddr" Type="nvarchar" MaxLength="100" />
+    <Property Name="HomeAddr" Type="nvarchar(max)" />
     <Property Name="HomeSubDistrictID" Type="int" />
     <Property Name="HomeDistrictID" Type="int" />
     <Property Name="HomeProvinceID" Type="int" />
     <Property Name="HomeZipCode" Type="int" />
-    <Property Name="CurrAddr" Type="nvarchar" MaxLength="100" />
+    <Property Name="CurrAddr" Type="nvarchar(max)" />
     <Property Name="CurrSubDistrictID" Type="int" />
     <Property Name="CurrDistrictID" Type="int" />
     <Property Name="CurrProvinceID" Type="int" />
@@ -1117,6 +1116,7 @@
     <Property Name="FileAttach1" Type="nvarchar" MaxLength="4000" />
     <Property Name="FileAttach2" Type="nvarchar" MaxLength="4000" />
     <Property Name="IsTerminate" Type="bit" />
+    <Property Name="UserCode" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="tb_User_Certificate">
     <Key>
@@ -3419,6 +3419,16 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     <Parameter Name="Status" Type="nvarchar" Mode="In" />
     <Parameter Name="Keyword" Type="nvarchar" Mode="In" />
   </Function>
+  <Function Name="sp_Leave_Request_Waiting" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PageSize" Type="nvarchar" Mode="In" />
+    <Parameter Name="InitialPage" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortBy" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortrDir" Type="nvarchar" Mode="In" />
+    <Parameter Name="ApproverID" Type="nvarchar" Mode="In" />
+    <Parameter Name="Year" Type="nvarchar" Mode="In" />
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+    <Parameter Name="Keyword" Type="nvarchar" Mode="In" />
+  </Function>
   <Function Name="sp_Man_Power_Approval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="MopID" Type="int" Mode="In" />
     <Parameter Name="ActionBy" Type="int" Mode="In" />
@@ -3459,6 +3469,13 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     <Parameter Name="TaTID" Type="int" Mode="In" />
     <Parameter Name="DateFrom" Type="int" Mode="In" />
     <Parameter Name="DateTo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_WorkFlow_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FormID" Type="int" Mode="In" />
+    <Parameter Name="FormMasterID" Type="int" Mode="In" />
+    <Parameter Name="RequestUserID" Type="int" Mode="In" />
+    <Parameter Name="RequestMpID" Type="int" Mode="In" />
+    <Parameter Name="FormHeaderID" Type="int" Mode="InOut" />
   </Function>
   <Function Name="sp_Working_Shift_User" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="UserID" Type="int" Mode="In" />

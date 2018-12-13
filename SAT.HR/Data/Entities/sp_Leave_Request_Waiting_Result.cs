@@ -11,7 +11,7 @@ namespace SAT.HR.Data.Entities
 {
     using System;
     
-    public partial class sp_Leave_Request_List_Result
+    public partial class sp_Leave_Request_Waiting_Result
     {
         public int FormHeaderID { get; set; }
         public string DocNo { get; set; }
@@ -34,6 +34,8 @@ namespace SAT.HR.Data.Entities
         public string Remark { get; set; }
         public string Action { get; set; }
         public string Status { get; set; }
+        public Nullable<int> NextApproverUserID { get; set; }
+        public Nullable<int> NextApproverMpID { get; set; }
         public string NextApproverName { get; set; }
         public string LastApproverName { get; set; }
         public Nullable<int> recordsTotal { get; set; }

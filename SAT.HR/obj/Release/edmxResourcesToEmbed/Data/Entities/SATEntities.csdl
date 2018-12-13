@@ -569,6 +569,7 @@
       <Parameter Name="MlID" Mode="In" Type="Int32" />
       <Parameter Name="ActionBy" Mode="In" Type="Int32" />
     </FunctionImport>
+    <EntitySet Name="tb_Leave_Type" EntityType="SAT.HR.tb_Leave_Type" />
     <EntitySet Name="tb_Leave_Request" EntityType="SAT.HR.tb_Leave_Request" />
     <AssociationSet Name="FK_tb_Leave_Request_tb_User" Association="SAT.HR.FK_tb_Leave_Request_tb_User">
       <End Role="tb_User" EntitySet="tb_User" />
@@ -584,8 +585,24 @@
       <Parameter Name="Status" Mode="In" Type="String" />
       <Parameter Name="Keyword" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="sp_WorkFlow_Create">
+      <Parameter Name="FormID" Mode="In" Type="Int32" />
+      <Parameter Name="FormMasterID" Mode="In" Type="Int32" />
+      <Parameter Name="RequestUserID" Mode="In" Type="Int32" />
+      <Parameter Name="RequestMpID" Mode="In" Type="Int32" />
+      <Parameter Name="FormHeaderID" Mode="InOut" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Leave_Request_Waiting" ReturnType="Collection(SAT.HR.sp_Leave_Request_Waiting_Result)">
+      <Parameter Name="PageSize" Mode="In" Type="String" />
+      <Parameter Name="InitialPage" Mode="In" Type="String" />
+      <Parameter Name="SortBy" Mode="In" Type="String" />
+      <Parameter Name="SortrDir" Mode="In" Type="String" />
+      <Parameter Name="ApproverID" Mode="In" Type="String" />
+      <Parameter Name="Year" Mode="In" Type="String" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="Keyword" Mode="In" Type="String" />
+    </FunctionImport>
     <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
-    <EntitySet Name="tb_Leave_Type" EntityType="SAT.HR.tb_Leave_Type" />
   </EntityContainer>
   <ComplexType Name="sp_Employee_List_Result">
     <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -1893,12 +1910,12 @@
     <Property Name="SalaryLevel" Type="Int32" />
     <Property Name="SalaryStep" Type="Decimal" Precision="18" Scale="2" />
     <Property Name="Salary" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="HomeAddr" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="HomeAddr" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="HomeSubDistrictID" Type="Int32" />
     <Property Name="HomeDistrictID" Type="Int32" />
     <Property Name="HomeProvinceID" Type="Int32" />
     <Property Name="HomeZipCode" Type="Int32" />
-    <Property Name="CurrAddr" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CurrAddr" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="CurrSubDistrictID" Type="Int32" />
     <Property Name="CurrDistrictID" Type="Int32" />
     <Property Name="CurrProvinceID" Type="Int32" />
@@ -1973,6 +1990,7 @@
     <NavigationProperty Name="tb_Working_Shift" Relationship="SAT.HR.FK_tb_Working_Shift_tb_User" FromRole="tb_User" ToRole="tb_Working_Shift" />
     <Property Name="IsTerminate" Type="Boolean" />
     <NavigationProperty Name="tb_Leave_Request" Relationship="SAT.HR.FK_tb_Leave_Request_tb_User" FromRole="tb_User" ToRole="tb_Leave_Request" />
+    <Property Name="UserCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="tb_User_Certificate">
     <Key>
@@ -4196,6 +4214,26 @@
     <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="TableName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
   </EntityType>
+  <EntityType Name="tb_Leave_Type">
+    <Key>
+      <PropertyRef Name="LevID" />
+    </Key>
+    <Property Name="LevID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LevCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="LevName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="LevDesc" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="LevYear" Type="Int32" Nullable="false" />
+    <Property Name="LevStartDate" Type="DateTime" Precision="3" />
+    <Property Name="LevEndDate" Type="DateTime" Precision="3" />
+    <Property Name="LevMax" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="SexID" Type="Int32" />
+    <Property Name="TypeID" Type="Int32" />
+    <Property Name="LevStatus" Type="Boolean" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+  </EntityType>
   <EntityType Name="tb_Leave_Request">
     <Key>
       <PropertyRef Name="FormID" />
@@ -4213,7 +4251,6 @@
     <Property Name="CancelReason" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
     <Property Name="Remark" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
     <Property Name="PathFile" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-    <Property Name="Status" Type="Int32" />
     <Property Name="CreateDate" Type="DateTime" Precision="3" />
     <Property Name="CreateBy" Type="Int32" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
@@ -4233,28 +4270,58 @@
     </ReferentialConstraint>
   </Association>
   <ComplexType Name="sp_Leave_Request_List_Result">
-    <Property Type="Int32" Name="FormID" Nullable="false" />
-    <Property Type="Int32" Name="LeaveYear" Nullable="false" />
+    <Property Type="Int32" Name="FormHeaderID" Nullable="false" />
     <Property Type="String" Name="DocNo" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="FormID" Nullable="true" />
+    <Property Type="Int32" Name="FormMasterID" Nullable="true" />
+    <Property Type="Int32" Name="LeaveYear" Nullable="true" />
     <Property Type="Int32" Name="LeaveType" Nullable="true" />
     <Property Type="String" Name="LeaveTypeName" Nullable="true" MaxLength="200" />
-    <Property Type="Int32" Name="RequestID" Nullable="true" />
-    <Property Type="String" Name="RequestName" Nullable="true" MaxLength="501" />
     <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
     <Property Type="DateTime" Name="EndDate" Nullable="true" Precision="23" />
-    <Property Type="Int32" Name="DayTime" Nullable="true" />
     <Property Type="Decimal" Name="TotalDay" Nullable="true" Precision="18" Scale="2" />
-    <Property Type="String" Name="LeaveReason" Nullable="true" MaxLength="400" />
-    <Property Type="String" Name="CancelReason" Nullable="true" MaxLength="400" />
-    <Property Type="String" Name="Remark" Nullable="true" MaxLength="400" />
-    <Property Type="String" Name="PathFile" Nullable="true" MaxLength="400" />
-    <Property Type="Int32" Name="Status" Nullable="true" />
-    <Property Type="String" Name="StatusName" Nullable="true" MaxLength="200" />
     <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
-    <Property Type="Int32" Name="CreateBy" Nullable="true" />
-    <Property Type="String" Name="CreateByName" Nullable="true" MaxLength="501" />
-    <Property Type="DateTime" Name="ModifyDate" Nullable="true" Precision="23" />
-    <Property Type="Int32" Name="ModifyBy" Nullable="true" />
+    <Property Type="DateTime" Name="LastApproveDate" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="TransLastStepID" Nullable="true" />
+    <Property Type="Int32" Name="TransNextStepID" Nullable="true" />
+    <Property Type="Int32" Name="TransCurrentStepID" Nullable="true" />
+    <Property Type="Int32" Name="RequestMpID" Nullable="true" />
+    <Property Type="Int32" Name="RequestUserID" Nullable="true" />
+    <Property Type="String" Name="RequestUserName" Nullable="true" MaxLength="501" />
+    <Property Type="String" Name="Remark" Nullable="true" MaxLength="400" />
+    <Property Type="String" Name="Action" Nullable="true" MaxLength="11" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="1000" />
+    <Property Type="String" Name="NextApproverName" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="LastApproverName" Nullable="true" MaxLength="500" />
+    <Property Type="Int32" Name="recordsTotal" Nullable="true" />
+    <Property Type="Int32" Name="recordsFiltered" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_Leave_Request_Waiting_Result">
+    <Property Type="Int32" Name="FormHeaderID" Nullable="false" />
+    <Property Type="String" Name="DocNo" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="FormID" Nullable="true" />
+    <Property Type="Int32" Name="FormMasterID" Nullable="true" />
+    <Property Type="Int32" Name="LeaveYear" Nullable="true" />
+    <Property Type="Int32" Name="LeaveType" Nullable="true" />
+    <Property Type="String" Name="LeaveTypeName" Nullable="true" MaxLength="200" />
+    <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="EndDate" Nullable="true" Precision="23" />
+    <Property Type="Decimal" Name="TotalDay" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="LastApproveDate" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="TransLastStepID" Nullable="true" />
+    <Property Type="Int32" Name="TransNextStepID" Nullable="true" />
+    <Property Type="Int32" Name="TransCurrentStepID" Nullable="true" />
+    <Property Type="Int32" Name="RequestMpID" Nullable="true" />
+    <Property Type="Int32" Name="RequestUserID" Nullable="true" />
+    <Property Type="String" Name="RequestUserName" Nullable="true" MaxLength="501" />
+    <Property Type="String" Name="Remark" Nullable="true" MaxLength="400" />
+    <Property Type="String" Name="Action" Nullable="true" MaxLength="11" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="1000" />
+    <Property Type="Int32" Name="NextApproverUserID" Nullable="true" />
+    <Property Type="Int32" Name="NextApproverMpID" Nullable="true" />
+    <Property Type="String" Name="NextApproverName" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="LastApproverName" Nullable="true" MaxLength="500" />
     <Property Type="Int32" Name="recordsTotal" Nullable="true" />
     <Property Type="Int32" Name="recordsFiltered" Nullable="true" />
   </ComplexType>
@@ -4275,25 +4342,5 @@
     <Property Name="TypeID" Type="Int32" />
     <Property Name="DepLevel" Type="Int32" Nullable="false" />
     <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-  </EntityType>
-  <EntityType Name="tb_Leave_Type">
-    <Key>
-      <PropertyRef Name="LevID" />
-    </Key>
-    <Property Name="LevID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="LevCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-    <Property Name="LevName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="LevDesc" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-    <Property Name="LevYear" Type="Int32" Nullable="false" />
-    <Property Name="LevStartDate" Type="DateTime" Precision="3" />
-    <Property Name="LevEndDate" Type="DateTime" Precision="3" />
-    <Property Name="LevMax" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="SexID" Type="Int32" />
-    <Property Name="TypeID" Type="Int32" />
-    <Property Name="LevStatus" Type="Boolean" />
-    <Property Name="CreateDate" Type="DateTime" Precision="3" />
-    <Property Name="CreateBy" Type="Int32" />
-    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifyBy" Type="Int32" />
   </EntityType>
 </Schema>
