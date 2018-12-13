@@ -23,9 +23,19 @@ namespace SAT.HR.Controllers
             return View();
         }
 
-        public ActionResult LeaveApprove()
+        public ActionResult LeaveWaiting()
         {
             return View();
+        }
+
+        public ActionResult LeaveApprove(int? id)
+        {
+            var model = new LeaveRequestRepository().GetByID(id);
+
+            ViewBag.Employee = DropDownList.GetEmployee(model.RequestID, 1);
+            ViewBag.LeaveType = DropDownList.GetLeaveType(model.LeaveType, true, UtilityService.User.SexID, (int)model.RequestID);
+
+            return View(model);
         }
 
         public ActionResult LeaveRequestDetail(int? id)
