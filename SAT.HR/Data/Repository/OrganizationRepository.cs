@@ -18,7 +18,7 @@ namespace SAT.HR.Data.Repository
                 using (SATEntities db = new SATEntities())
                 {
                     List<OrganizationViewModel> list = new List<OrganizationViewModel>();
-                    var data = db.vw_Organization.Where(m => m.TypeID == usertype && m.ParentID == null).ToList();
+                    var data = db.vw_Organization.Where(m => m.ParentID == null && m.TypeID == null).ToList();
 
                     foreach (var item in data)
                     {
@@ -50,7 +50,7 @@ namespace SAT.HR.Data.Repository
                     List<OrganizationViewModel> list = new List<OrganizationViewModel>();
 
                     int parentid = Convert.ToInt32(id);
-                    var organization = db.vw_Organization.Where(m => m.TypeID == usertype && m.ParentID == parentid)/*.OrderBy(o => o.Seq)*/.ToList();
+                    var organization = db.vw_Organization.Where(m => m.ParentID == parentid).ToList();
 
                     var data = new List<OrganizationViewModel>();
                     if (organization.Count > 0)
@@ -89,8 +89,10 @@ namespace SAT.HR.Data.Repository
                             }
                             else
                             {
-                                data = organization.GroupBy(g => g.DepName)
-                                         .Select(group => new OrganizationViewModel
+                                data = organization
+                                        //.Where(m => m.TypeID == usertype)
+                                        .GroupBy(g => g.DepName)
+                                        .Select(group => new OrganizationViewModel
                                          {
                                              MpName = group.Key,
                                              MpID = group.FirstOrDefault().MpID,
@@ -104,7 +106,8 @@ namespace SAT.HR.Data.Repository
                         }
                         else if (organization[0].DepLevel == 5)
                         {
-                            data = organization.GroupBy(g => g.SecName)
+                            data = organization
+                                    .GroupBy(g => g.SecName)
                                     .Select(group => new OrganizationViewModel
                                     {
                                         MpName = group.Key,
@@ -114,7 +117,11 @@ namespace SAT.HR.Data.Repository
                                         DivName = group.FirstOrDefault().DivName,
                                         DepName = group.FirstOrDefault().DepName,
                                         SecName = group.FirstOrDefault().SecName,
+                                        TypeID = group.FirstOrDefault().TypeID,
                                     }).ToList();
+
+                            if (usertype == 1)
+                                data = data.Where(m => m.TypeID == usertype).ToList();
                         }
 
                         var orgemp = db.vw_Man_Power.Where(m => m.MpID == parentid).ToList();
@@ -140,7 +147,6 @@ namespace SAT.HR.Data.Repository
                             model.children = true;
                             model.state = new TreeStateViewModel() { opened = true };
                             model.icon = SysConfig.ApplicationRoot + "Content/assets/img/department.gif";
-                            //model.is_po = (countChild > 0) ? true : false;
                             items.Add(model);
                         }
                     }
@@ -149,11 +155,9 @@ namespace SAT.HR.Data.Repository
                         var sec = db.vw_Man_Power.Where(m => m.MpID == parentid).FirstOrDefault();
                         var secid = sec.SecID;
 
-                        var users = db.vw_Man_Power.Where(m => m.SecID == secid).ToList();
+                        var users = db.vw_Man_Power.Where(m => m.TypeID == usertype && m.SecID == secid).ToList();
                         foreach (var item in users)
                         {
-                            //var countEmp = db.vw_Man_Power.Where(m => m.MpID == item.MpID && m.UserID != null).Count();
-
                             var model = new TreeViewModel();
                             model.id = item.MpID.ToString() + "_" + item.PoID.ToString();
                             model.text = " (" + item.MpCode + ") " + item.TiShortName + (string.IsNullOrEmpty(item.FullNameTh) ? "ตำแหน่งว่าง ✓" : item.FullNameTh) + " (" + item.PoName + ")";
