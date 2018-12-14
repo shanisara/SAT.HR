@@ -583,6 +583,7 @@
           <Property Name="CreateBy" Type="int" />
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
+          <Property Name="CancelDate" Type="datetime" />
         </EntityType>
         <EntityType Name="tb_Leave_Status">
           <Key>
@@ -1846,15 +1847,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Man_Power_Head' does not h
           <Property Name="ModifyBy" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Organization' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Organization' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
         <EntityType Name="vw_Organization">
-          <Key>
-            <PropertyRef Name="MpID" />
-            <PropertyRef Name="MpCode" />
-            <PropertyRef Name="DepLevel" />
-          </Key>
-          <Property Name="MpID" Type="int" Nullable="false" />
-          <Property Name="MpCode" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="MpID" Type="int" />
+          <Property Name="MpCode" Type="nvarchar" MaxLength="20" />
           <Property Name="ParentID" Type="int" />
           <Property Name="DivName" Type="nvarchar" MaxLength="200" />
           <Property Name="DepName" Type="nvarchar" MaxLength="200" />
@@ -1862,9 +1858,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Organization' does not have a p
           <Property Name="PoName" Type="nvarchar" MaxLength="200" />
           <Property Name="FullNameTh" Type="nvarchar" MaxLength="401" />
           <Property Name="TypeID" Type="int" />
-          <Property Name="DepLevel" Type="int" Nullable="false" />
+          <Property Name="DepLevel" Type="int" />
           <Property Name="PathMpID" Type="varchar" MaxLength="255" />
-        </EntityType>
+        </EntityType>-->
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Section">
@@ -1975,7 +1971,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <Property Name="AgentSecID" Type="int" />
           <Property Name="AgentPoID" Type="int" />
           <Property Name="PoAName" Type="nvarchar" MaxLength="100" />
-          <Property Name="HomeAddr" Type="nvarchar" MaxLength="100" />
+          <Property Name="HomeAddr" Type="nvarchar(max)" />
           <Property Name="HomeSubDistrictID" Type="int" />
           <Property Name="HomeSubDistrictName" Type="nvarchar" MaxLength="100" />
           <Property Name="HomeDistrictID" Type="int" />
@@ -1983,7 +1979,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User' does not have a primary k
           <Property Name="HomeProvinceID" Type="int" />
           <Property Name="HomeProvinceName" Type="nvarchar" MaxLength="100" />
           <Property Name="HomeZipCode" Type="int" />
-          <Property Name="CurrAddr" Type="nvarchar" MaxLength="100" />
+          <Property Name="CurrAddr" Type="nvarchar(max)" />
           <Property Name="CurrSubDistrictID" Type="int" />
           <Property Name="CurrSubDistrictName" Type="nvarchar" MaxLength="100" />
           <Property Name="CurrDistrictID" Type="int" />
@@ -3509,6 +3505,13 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Parameter Name="DateFrom" Type="int" Mode="In" />
           <Parameter Name="DateTo" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_Workflow_Cancel" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FormHeaderID" Type="int" Mode="In" />
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="StepNo" Type="int" Mode="In" />
+          <Parameter Name="IsAccept" Type="int" Mode="In" />
+          <Parameter Name="Comment" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="sp_WorkFlow_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FormID" Type="int" Mode="In" />
           <Parameter Name="FormMasterID" Type="int" Mode="In" />
@@ -4026,21 +4029,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Move_Man_Power_Head].[ModifyDate] AS [ModifyDate], 
     [vw_Move_Man_Power_Head].[ModifyBy] AS [ModifyBy]
     FROM [dbo].[vw_Move_Man_Power_Head] AS [vw_Move_Man_Power_Head]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="vw_Organization" EntityType="Self.vw_Organization" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [vw_Organization].[MpID] AS [MpID], 
-    [vw_Organization].[MpCode] AS [MpCode], 
-    [vw_Organization].[ParentID] AS [ParentID], 
-    [vw_Organization].[DivName] AS [DivName], 
-    [vw_Organization].[DepName] AS [DepName], 
-    [vw_Organization].[SecName] AS [SecName], 
-    [vw_Organization].[PoName] AS [PoName], 
-    [vw_Organization].[FullNameTh] AS [FullNameTh], 
-    [vw_Organization].[TypeID] AS [TypeID], 
-    [vw_Organization].[DepLevel] AS [DepLevel], 
-    [vw_Organization].[PathMpID] AS [PathMpID]
-    FROM [dbo].[vw_Organization] AS [vw_Organization]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_Section" EntityType="Self.vw_Section" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -5412,6 +5400,13 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           </FunctionImport>
           <EntitySet Name="vw_Leave_Request" EntityType="SAT.HR.vw_Leave_Request" />
           <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
+          <FunctionImport Name="sp_Workflow_Cancel">
+            <Parameter Name="FormHeaderID" Mode="In" Type="Int32" />
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="StepNo" Mode="In" Type="Int32" />
+            <Parameter Name="IsAccept" Mode="In" Type="Int32" />
+            <Parameter Name="Comment" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="sp_Employee_List_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -7533,7 +7528,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="AgentSecID" Type="Int32" />
           <Property Name="AgentPoID" Type="Int32" />
           <Property Name="PoAName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="HomeAddr" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="HomeAddr" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="HomeSubDistrictID" Type="Int32" />
           <Property Name="HomeSubDistrictName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="HomeDistrictID" Type="Int32" />
@@ -7541,7 +7536,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="HomeProvinceID" Type="Int32" />
           <Property Name="HomeProvinceName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="HomeZipCode" Type="Int32" />
-          <Property Name="CurrAddr" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CurrAddr" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CurrSubDistrictID" Type="Int32" />
           <Property Name="CurrSubDistrictName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="CurrDistrictID" Type="Int32" />
@@ -9065,6 +9060,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="Int32" />
           <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Leave_Request_tb_User" FromRole="tb_Leave_Request" ToRole="tb_User" />
+          <Property Name="CancelDate" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_tb_Leave_Request_tb_User">
           <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="0..1" />
@@ -11661,6 +11657,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySetMapping Name="tb_Leave_Request">
             <EntityTypeMapping TypeName="SAT.HR.tb_Leave_Request">
               <MappingFragment StoreEntitySet="tb_Leave_Request">
+                <ScalarProperty Name="CancelDate" ColumnName="CancelDate" />
                 <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
                 <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
@@ -11779,23 +11776,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="vw_Organization">
-            <EntityTypeMapping TypeName="SAT.HR.vw_Organization">
-              <MappingFragment StoreEntitySet="vw_Organization">
-                <ScalarProperty Name="PathMpID" ColumnName="PathMpID" />
-                <ScalarProperty Name="DepLevel" ColumnName="DepLevel" />
-                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
-                <ScalarProperty Name="FullNameTh" ColumnName="FullNameTh" />
-                <ScalarProperty Name="PoName" ColumnName="PoName" />
-                <ScalarProperty Name="SecName" ColumnName="SecName" />
-                <ScalarProperty Name="DepName" ColumnName="DepName" />
-                <ScalarProperty Name="DivName" ColumnName="DivName" />
-                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
-                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
-                <ScalarProperty Name="MpID" ColumnName="MpID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_Workflow_Cancel" FunctionName="SAT.HR.Store.sp_Workflow_Cancel" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

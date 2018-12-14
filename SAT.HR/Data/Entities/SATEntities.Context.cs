@@ -504,5 +504,30 @@ namespace SAT.HR.Data.Entities
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Leave_Request_Waiting_Result>("sp_Leave_Request_Waiting", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, approverIDParameter, yearParameter, statusParameter, keywordParameter);
         }
+    
+        public virtual int sp_Workflow_Cancel(Nullable<int> formHeaderID, Nullable<int> userID, Nullable<int> stepNo, Nullable<int> isAccept, string comment)
+        {
+            var formHeaderIDParameter = formHeaderID.HasValue ?
+                new ObjectParameter("FormHeaderID", formHeaderID) :
+                new ObjectParameter("FormHeaderID", typeof(int));
+    
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var stepNoParameter = stepNo.HasValue ?
+                new ObjectParameter("StepNo", stepNo) :
+                new ObjectParameter("StepNo", typeof(int));
+    
+            var isAcceptParameter = isAccept.HasValue ?
+                new ObjectParameter("IsAccept", isAccept) :
+                new ObjectParameter("IsAccept", typeof(int));
+    
+            var commentParameter = comment != null ?
+                new ObjectParameter("Comment", comment) :
+                new ObjectParameter("Comment", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Workflow_Cancel", formHeaderIDParameter, userIDParameter, stepNoParameter, isAcceptParameter, commentParameter);
+        }
     }
 }
