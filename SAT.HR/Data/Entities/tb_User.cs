@@ -26,6 +26,7 @@ namespace SAT.HR.Data.Entities
             this.tb_Benefit_Other_Welfare = new HashSet<tb_Benefit_Other_Welfare>();
             this.tb_Benefit_Provident_Fund = new HashSet<tb_Benefit_Provident_Fund>();
             this.tb_Evaluation = new HashSet<tb_Evaluation>();
+            this.tb_Leave_Request = new HashSet<tb_Leave_Request>();
             this.tb_Man_Power = new HashSet<tb_Man_Power>();
             this.tb_Process_History = new HashSet<tb_Process_History>();
             this.tb_Time_Attendance = new HashSet<tb_Time_Attendance>();
@@ -39,7 +40,6 @@ namespace SAT.HR.Data.Entities
             this.tb_User_Skill = new HashSet<tb_User_Skill>();
             this.tb_User_Training = new HashSet<tb_User_Training>();
             this.tb_Working_Shift = new HashSet<tb_Working_Shift>();
-            this.tb_Leave_Request = new HashSet<tb_Leave_Request>();
         }
     
         public int UserID { get; set; }
@@ -115,7 +115,6 @@ namespace SAT.HR.Data.Entities
         public string FileAttach2 { get; set; }
         public Nullable<bool> IsTerminate { get; set; }
         public string UserCode { get; set; }
-        public string UserCode1 { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Benefit_Cremation> tb_Benefit_Cremation { get; set; }
@@ -138,6 +137,8 @@ namespace SAT.HR.Data.Entities
         public virtual tb_Cripple_Type tb_Cripple_Type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Evaluation> tb_Evaluation { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Leave_Request> tb_Leave_Request { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Man_Power> tb_Man_Power { get; set; }
         public virtual tb_Marital_Status tb_Marital_Status { get; set; }
@@ -174,7 +175,5 @@ namespace SAT.HR.Data.Entities
         public virtual tb_Working_Type tb_Working_Type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Working_Shift> tb_Working_Shift { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Leave_Request> tb_Leave_Request { get; set; }
     }
 }

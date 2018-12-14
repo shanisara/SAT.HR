@@ -69,6 +69,34 @@
       <Parameter Name="DateFrom" Mode="In" Type="Int32" />
       <Parameter Name="DateTo" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="sp_Move_Level_Approval">
+      <Parameter Name="MlID" Mode="In" Type="Int32" />
+      <Parameter Name="ActionBy" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Leave_Request_List" ReturnType="Collection(SAT.HR.sp_Leave_Request_List_Result)">
+      <Parameter Name="PageSize" Mode="In" Type="String" />
+      <Parameter Name="InitialPage" Mode="In" Type="String" />
+      <Parameter Name="SortBy" Mode="In" Type="String" />
+      <Parameter Name="SortrDir" Mode="In" Type="String" />
+      <Parameter Name="RequestID" Mode="In" Type="String" />
+      <Parameter Name="Year" Mode="In" Type="String" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="Keyword" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_WorkFlow_Create">
+      <Parameter Name="FormID" Mode="In" Type="Int32" />
+      <Parameter Name="FormMasterID" Mode="In" Type="Int32" />
+      <Parameter Name="RequestUserID" Mode="In" Type="Int32" />
+      <Parameter Name="RequestMpID" Mode="In" Type="Int32" />
+      <Parameter Name="FormHeaderID" Mode="InOut" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Workflow_Cancel">
+      <Parameter Name="FormHeaderID" Mode="In" Type="Int32" />
+      <Parameter Name="UserID" Mode="In" Type="Int32" />
+      <Parameter Name="StepNo" Mode="In" Type="Int32" />
+      <Parameter Name="IsAccept" Mode="In" Type="Int32" />
+      <Parameter Name="Comment" Mode="In" Type="String" />
+    </FunctionImport>
     <EntitySet Name="tb_Accumulative_Fund" EntityType="SAT.HR.tb_Accumulative_Fund" />
     <EntitySet Name="tb_Action_Type" EntityType="SAT.HR.tb_Action_Type" />
     <EntitySet Name="tb_Agent_Type" EntityType="SAT.HR.tb_Agent_Type" />
@@ -105,14 +133,21 @@
     <EntitySet Name="tb_Empower" EntityType="SAT.HR.tb_Empower" />
     <EntitySet Name="tb_Evaluation" EntityType="SAT.HR.tb_Evaluation" />
     <EntitySet Name="tb_Excellent_Type" EntityType="SAT.HR.tb_Excellent_Type" />
+    <EntitySet Name="tb_Form_Master" EntityType="SAT.HR.tb_Form_Master" />
+    <EntitySet Name="tb_Form_Step" EntityType="SAT.HR.tb_Form_Step" />
     <EntitySet Name="tb_Holiday" EntityType="SAT.HR.tb_Holiday" />
+    <EntitySet Name="tb_Import_Master" EntityType="SAT.HR.tb_Import_Master" />
     <EntitySet Name="tb_IndividualPlan" EntityType="SAT.HR.tb_IndividualPlan" />
     <EntitySet Name="tb_Insignia" EntityType="SAT.HR.tb_Insignia" />
     <EntitySet Name="tb_Language" EntityType="SAT.HR.tb_Language" />
     <EntitySet Name="tb_Language_Skill" EntityType="SAT.HR.tb_Language_Skill" />
     <EntitySet Name="tb_Language_Skill_Type" EntityType="SAT.HR.tb_Language_Skill_Type" />
     <EntitySet Name="tb_Leave_Balance" EntityType="SAT.HR.tb_Leave_Balance" />
+    <EntitySet Name="tb_Leave_Request" EntityType="SAT.HR.tb_Leave_Request" />
+    <EntitySet Name="tb_Leave_Status" EntityType="SAT.HR.tb_Leave_Status" />
+    <EntitySet Name="tb_Leave_Type" EntityType="SAT.HR.tb_Leave_Type" />
     <EntitySet Name="tb_Loan_Type" EntityType="SAT.HR.tb_Loan_Type" />
+    <EntitySet Name="tb_Mail_Template" EntityType="SAT.HR.tb_Mail_Template" />
     <EntitySet Name="tb_Major" EntityType="SAT.HR.tb_Major" />
     <EntitySet Name="tb_Man_Power" EntityType="SAT.HR.tb_Man_Power" />
     <EntitySet Name="tb_Marital_Status" EntityType="SAT.HR.tb_Marital_Status" />
@@ -176,6 +211,10 @@
     <EntitySet Name="vw_Course" EntityType="SAT.HR.vw_Course" />
     <EntitySet Name="vw_Department" EntityType="SAT.HR.vw_Department" />
     <EntitySet Name="vw_Division" EntityType="SAT.HR.vw_Division" />
+    <EntitySet Name="vw_Employee" EntityType="SAT.HR.vw_Employee" />
+    <EntitySet Name="vw_Form_Header" EntityType="SAT.HR.vw_Form_Header" />
+    <EntitySet Name="vw_Form_Waiting" EntityType="SAT.HR.vw_Form_Waiting" />
+    <EntitySet Name="vw_Leave_Request" EntityType="SAT.HR.vw_Leave_Request" />
     <EntitySet Name="vw_Man_Power" EntityType="SAT.HR.vw_Man_Power" />
     <EntitySet Name="vw_Menu_Role" EntityType="SAT.HR.vw_Menu_Role" />
     <EntitySet Name="vw_Move_Level_Detail" EntityType="SAT.HR.vw_Move_Level_Detail" />
@@ -184,9 +223,12 @@
     <EntitySet Name="vw_Move_Man_Power_Head" EntityType="SAT.HR.vw_Move_Man_Power_Head" />
     <EntitySet Name="vw_Section" EntityType="SAT.HR.vw_Section" />
     <EntitySet Name="vw_Title" EntityType="SAT.HR.vw_Title" />
+    <EntitySet Name="vw_Trainning_Course" EntityType="SAT.HR.vw_Trainning_Course" />
+    <EntitySet Name="vw_Trans_Step_Route" EntityType="SAT.HR.vw_Trans_Step_Route" />
     <EntitySet Name="vw_User" EntityType="SAT.HR.vw_User" />
     <EntitySet Name="vw_User_Certificate" EntityType="SAT.HR.vw_User_Certificate" />
     <EntitySet Name="vw_User_Education" EntityType="SAT.HR.vw_User_Education" />
+    <EntitySet Name="vw_User_Excellent" EntityType="SAT.HR.vw_User_Excellent" />
     <EntitySet Name="vw_User_Family" EntityType="SAT.HR.vw_User_Family" />
     <EntitySet Name="vw_User_History" EntityType="SAT.HR.vw_User_History" />
     <EntitySet Name="vw_User_Insignia" EntityType="SAT.HR.vw_User_Insignia" />
@@ -399,6 +441,10 @@
       <End Role="tb_Language_Skill_Type" EntitySet="tb_Language_Skill_Type" />
       <End Role="tb_User_Skill" EntitySet="tb_User_Skill" />
     </AssociationSet>
+    <AssociationSet Name="FK_tb_Leave_Request_tb_User" Association="SAT.HR.FK_tb_Leave_Request_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_Leave_Request" EntitySet="tb_Leave_Request" />
+    </AssociationSet>
     <AssociationSet Name="FK_tb_User_Education_tb_Major" Association="SAT.HR.FK_tb_User_Education_tb_Major">
       <End Role="tb_Major" EntitySet="tb_Major" />
       <End Role="tb_User_Education" EntitySet="tb_User_Education" />
@@ -559,46 +605,15 @@
       <End Role="tb_User" EntitySet="tb_User" />
       <End Role="tb_Working_Shift" EntitySet="tb_Working_Shift" />
     </AssociationSet>
-    <EntitySet Name="tb_Mail_Template" EntityType="SAT.HR.tb_Mail_Template" />
-    <EntitySet Name="tb_Leave_Status" EntityType="SAT.HR.tb_Leave_Status" />
-    <EntitySet Name="vw_Trainning_Course" EntityType="SAT.HR.vw_Trainning_Course" />
-    <EntitySet Name="vw_Employee" EntityType="SAT.HR.vw_Employee" />
-    <EntitySet Name="vw_User_Excellent" EntityType="SAT.HR.vw_User_Excellent" />
-    <EntitySet Name="tb_Import_Master" EntityType="SAT.HR.tb_Import_Master" />
-    <FunctionImport Name="sp_Move_Level_Approval">
-      <Parameter Name="MlID" Mode="In" Type="Int32" />
-      <Parameter Name="ActionBy" Mode="In" Type="Int32" />
+    <FunctionImport Name="sp_WorkFlow_Approve_Step">
+      <Parameter Name="FormHeaderID" Mode="In" Type="Int32" />
+      <Parameter Name="StepApproverID" Mode="In" Type="Int32" />
+      <Parameter Name="IsAccept" Mode="In" Type="Int32" />
+      <Parameter Name="Comment" Mode="In" Type="String" />
+      <Parameter Name="UserID" Mode="In" Type="Int32" />
+      <Parameter Name="StepNo" Mode="In" Type="Int32" />
     </FunctionImport>
-    <EntitySet Name="tb_Leave_Type" EntityType="SAT.HR.tb_Leave_Type" />
-    <FunctionImport Name="sp_Leave_Request_List" ReturnType="Collection(SAT.HR.sp_Leave_Request_List_Result)">
-      <Parameter Name="PageSize" Mode="In" Type="String" />
-      <Parameter Name="InitialPage" Mode="In" Type="String" />
-      <Parameter Name="SortBy" Mode="In" Type="String" />
-      <Parameter Name="SortrDir" Mode="In" Type="String" />
-      <Parameter Name="RequestID" Mode="In" Type="String" />
-      <Parameter Name="Year" Mode="In" Type="String" />
-      <Parameter Name="Status" Mode="In" Type="String" />
-      <Parameter Name="Keyword" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="sp_WorkFlow_Create">
-      <Parameter Name="FormID" Mode="In" Type="Int32" />
-      <Parameter Name="FormMasterID" Mode="In" Type="Int32" />
-      <Parameter Name="RequestUserID" Mode="In" Type="Int32" />
-      <Parameter Name="RequestMpID" Mode="In" Type="Int32" />
-      <Parameter Name="FormHeaderID" Mode="InOut" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_Leave_Request_Waiting" ReturnType="Collection(SAT.HR.sp_Leave_Request_Waiting_Result)">
-      <Parameter Name="PageSize" Mode="In" Type="String" />
-      <Parameter Name="InitialPage" Mode="In" Type="String" />
-      <Parameter Name="SortBy" Mode="In" Type="String" />
-      <Parameter Name="SortrDir" Mode="In" Type="String" />
-      <Parameter Name="ApproverID" Mode="In" Type="String" />
-      <Parameter Name="Year" Mode="In" Type="String" />
-      <Parameter Name="Status" Mode="In" Type="String" />
-      <Parameter Name="Keyword" Mode="In" Type="String" />
-    </FunctionImport>
-    <EntitySet Name="vw_Leave_Request" EntityType="SAT.HR.vw_Leave_Request" />
-    <FunctionImport Name="sp_Workflow_Cancel">
+    <FunctionImport Name="sp_WorkFlow_Cancel1">
       <Parameter Name="FormHeaderID" Mode="In" Type="Int32" />
       <Parameter Name="UserID" Mode="In" Type="Int32" />
       <Parameter Name="StepNo" Mode="In" Type="Int32" />
@@ -606,11 +621,14 @@
       <Parameter Name="Comment" Mode="In" Type="String" />
     </FunctionImport>
     <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
-    <EntitySet Name="tb_Leave_Request" EntityType="SAT.HR.tb_Leave_Request" />
-    <AssociationSet Name="FK_tb_Leave_Request_tb_User" Association="SAT.HR.FK_tb_Leave_Request_tb_User">
-      <End Role="tb_User" EntitySet="tb_User" />
-      <End Role="tb_Leave_Request" EntitySet="tb_Leave_Request" />
-    </AssociationSet>
+    <FunctionImport Name="sp_Leave_Request_Waiting" ReturnType="Collection(SAT.HR.sp_Leave_Request_Waiting_Result)">
+      <Parameter Name="PageSize" Mode="In" Type="String" />
+      <Parameter Name="InitialPage" Mode="In" Type="String" />
+      <Parameter Name="SortBy" Mode="In" Type="String" />
+      <Parameter Name="SortrDir" Mode="In" Type="String" />
+      <Parameter Name="ApproverID" Mode="In" Type="String" />
+      <Parameter Name="Keyword" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_Employee_List_Result">
     <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -800,6 +818,33 @@
     <Property Type="Int32" Name="CreateBy" Nullable="true" />
     <Property Type="DateTime" Name="ModifyDate" Nullable="true" Precision="23" />
     <Property Type="Int32" Name="ModifyBy" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_Leave_Request_List_Result">
+    <Property Type="Int32" Name="FormHeaderID" Nullable="false" />
+    <Property Type="String" Name="DocNo" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="FormID" Nullable="true" />
+    <Property Type="Int32" Name="FormMasterID" Nullable="true" />
+    <Property Type="Int32" Name="LeaveYear" Nullable="true" />
+    <Property Type="Int32" Name="LeaveType" Nullable="true" />
+    <Property Type="String" Name="LeaveTypeName" Nullable="true" MaxLength="200" />
+    <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="EndDate" Nullable="true" Precision="23" />
+    <Property Type="Decimal" Name="TotalDay" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="LastApproveDate" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="TransLastStepID" Nullable="true" />
+    <Property Type="Int32" Name="TransNextStepID" Nullable="true" />
+    <Property Type="Int32" Name="TransCurrentStepID" Nullable="true" />
+    <Property Type="Int32" Name="RequestMpID" Nullable="true" />
+    <Property Type="Int32" Name="RequestUserID" Nullable="true" />
+    <Property Type="String" Name="RequestUserName" Nullable="true" MaxLength="501" />
+    <Property Type="String" Name="Remark" Nullable="true" MaxLength="400" />
+    <Property Type="String" Name="Action" Nullable="true" MaxLength="11" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="1000" />
+    <Property Type="String" Name="NextApproverName" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="LastApproverName" Nullable="true" MaxLength="500" />
+    <Property Type="Int32" Name="recordsTotal" Nullable="true" />
+    <Property Type="Int32" Name="recordsFiltered" Nullable="true" />
   </ComplexType>
   <EntityType Name="tb_Accumulative_Fund">
     <Key>
@@ -1326,6 +1371,49 @@
     <Property Name="ExTName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="tb_User_Excellent" Relationship="SAT.HR.FK_tb_User_Excellent_tb_Excellent_Type" FromRole="tb_Excellent_Type" ToRole="tb_User_Excellent" />
   </EntityType>
+  <EntityType Name="tb_Form_Master">
+    <Key>
+      <PropertyRef Name="FormMasterID" />
+    </Key>
+    <Property Name="FormMasterID" Type="Int32" Nullable="false" />
+    <Property Name="FormMasterName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="FormMasterDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="FormTableName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tb_Form_Step">
+    <Key>
+      <PropertyRef Name="FormStepID" />
+    </Key>
+    <Property Name="FormStepID" Type="Int32" Nullable="false" />
+    <Property Name="FormMasterID" Type="Int32" />
+    <Property Name="StepNo" Type="Int32" />
+    <Property Name="StepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="NextStepID" Type="Int32" />
+    <Property Name="ApproveType" Type="Int32" />
+    <Property Name="ExtendProc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsNotifyAcceptNext" Type="Boolean" />
+    <Property Name="IsNotifyAcceptSelf" Type="Boolean" />
+    <Property Name="IsNotifyAcceptPrev" Type="Boolean" />
+    <Property Name="IsNotifyAcceptRequestor" Type="Boolean" />
+    <Property Name="IsNotifyAcceptCustom" Type="Boolean" />
+    <Property Name="IsNotifyRejectNext" Type="Boolean" />
+    <Property Name="IsNotifyRejectSelf" Type="Boolean" />
+    <Property Name="IsNotifyRejectPrev" Type="Boolean" />
+    <Property Name="IsNotifyRejectRequestor" Type="Boolean" />
+    <Property Name="IsNotifyRejectCustom" Type="Boolean" />
+    <Property Name="NotifyAcceptNextTemplateID" Type="Boolean" />
+    <Property Name="NotifyAcceptSelfTemplateID" Type="Boolean" />
+    <Property Name="NotifyAcceptPrevTemplateID" Type="Boolean" />
+    <Property Name="NotifyAcceptRequestorTemplateID" Type="Boolean" />
+    <Property Name="NotifyAcceptCustomTemplateID" Type="Boolean" />
+    <Property Name="NotifyRejectNextTemplateID" Type="Boolean" />
+    <Property Name="NotifyRejectSelfTemplateID" Type="Boolean" />
+    <Property Name="NotifyRejectPrevTemplateID" Type="Boolean" />
+    <Property Name="NotifyRejectRequestorTemplateID" Type="Boolean" />
+    <Property Name="NotifyRejectCustomTemplateID" Type="Boolean" />
+    <Property Name="NotifyAcceptCustomMail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="NotifyRejectCustomMail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
   <EntityType Name="tb_Holiday">
     <Key>
       <PropertyRef Name="HolID" />
@@ -1337,6 +1425,15 @@
     <Property Name="CreateBy" Type="Int32" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tb_Import_Master">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="ParentID" Type="Int32" />
+    <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="TableName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="tb_IndividualPlan">
     <Key>
@@ -1409,6 +1506,57 @@
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
   </EntityType>
+  <EntityType Name="tb_Leave_Request">
+    <Key>
+      <PropertyRef Name="FormID" />
+    </Key>
+    <Property Name="FormID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LeaveYear" Type="Int32" Nullable="false" />
+    <Property Name="LeaveType" Type="Int32" />
+    <Property Name="RequestID" Type="Int32" />
+    <Property Name="StartDate" Type="DateTime" Precision="3" />
+    <Property Name="EndDate" Type="DateTime" Precision="3" />
+    <Property Name="DayTime" Type="Int32" />
+    <Property Name="TotalDay" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="LeaveReason" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="CancelReason" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="PathFile" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+    <Property Name="CancelDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Leave_Request_tb_User" FromRole="tb_Leave_Request" ToRole="tb_User" />
+  </EntityType>
+  <EntityType Name="tb_Leave_Status">
+    <Key>
+      <PropertyRef Name="StatusID" />
+    </Key>
+    <Property Name="StatusID" Type="Int32" Nullable="false" />
+    <Property Name="StatusName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tb_Leave_Type">
+    <Key>
+      <PropertyRef Name="LevID" />
+    </Key>
+    <Property Name="LevID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LevCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="LevName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="LevDesc" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="LevYear" Type="Int32" Nullable="false" />
+    <Property Name="LevStartDate" Type="DateTime" Precision="3" />
+    <Property Name="LevEndDate" Type="DateTime" Precision="3" />
+    <Property Name="LevMax" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="SexID" Type="Int32" />
+    <Property Name="TypeID" Type="Int32" />
+    <Property Name="LevStatus" Type="Boolean" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+  </EntityType>
   <EntityType Name="tb_Loan_Type">
     <Key>
       <PropertyRef Name="LtID" />
@@ -1416,6 +1564,18 @@
     <Property Name="LtID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="LtName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="tb_Benefit_Loan" Relationship="SAT.HR.FK_tb_Benefit_Loan_tb_Loan_Type" FromRole="tb_Loan_Type" ToRole="tb_Benefit_Loan" />
+  </EntityType>
+  <EntityType Name="tb_Mail_Template">
+    <Key>
+      <PropertyRef Name="MailID" />
+    </Key>
+    <Property Name="MailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MailTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="MailFrom" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="MailSubject" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="MailBody" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="MailCCTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="MailBCCTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="tb_Major">
     <Key>
@@ -1961,6 +2121,8 @@
     <Property Name="AgentMpID" Type="Int32" />
     <Property Name="FileAttach1" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
     <Property Name="FileAttach2" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+    <Property Name="IsTerminate" Type="Boolean" />
+    <Property Name="UserCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="tb_Benefit_Cremation" Relationship="SAT.HR.FK_tb_Benefit_Cremation_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Cremation" />
     <NavigationProperty Name="tb_Benefit_Death_Replacement" Relationship="SAT.HR.FK_tb_Benefit_Death_Replacement_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Death_Replacement" />
     <NavigationProperty Name="tb_Benefit_Death_Subsidy" Relationship="SAT.HR.FK_tb_Benefit_Death_Subsidy_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Death_Subsidy" />
@@ -1973,6 +2135,7 @@
     <NavigationProperty Name="tb_Cripple" Relationship="SAT.HR.FK_tb_User_tb_Cripple" FromRole="tb_User" ToRole="tb_Cripple" />
     <NavigationProperty Name="tb_Cripple_Type" Relationship="SAT.HR.FK_tb_User_tb_Cripple_Type" FromRole="tb_User" ToRole="tb_Cripple_Type" />
     <NavigationProperty Name="tb_Evaluation" Relationship="SAT.HR.FK_tb_Evaluation_tb_User" FromRole="tb_User" ToRole="tb_Evaluation" />
+    <NavigationProperty Name="tb_Leave_Request" Relationship="SAT.HR.FK_tb_Leave_Request_tb_User" FromRole="tb_User" ToRole="tb_Leave_Request" />
     <NavigationProperty Name="tb_Man_Power" Relationship="SAT.HR.FK_tb_Man_Power_tb_User" FromRole="tb_User" ToRole="tb_Man_Power" />
     <NavigationProperty Name="tb_Marital_Status" Relationship="SAT.HR.FK_tb_Users_tb_Marital_Status" FromRole="tb_User" ToRole="tb_Marital_Status" />
     <NavigationProperty Name="tb_Nationality" Relationship="SAT.HR.FK_tb_Users_tb_Nationality" FromRole="tb_User" ToRole="tb_Nationality" />
@@ -1996,10 +2159,6 @@
     <NavigationProperty Name="tb_User_Status" Relationship="SAT.HR.FK_tb_Users_tb_User_Status" FromRole="tb_User" ToRole="tb_User_Status" />
     <NavigationProperty Name="tb_Working_Type" Relationship="SAT.HR.FK_tb_Users_tb_Working_Type" FromRole="tb_User" ToRole="tb_Working_Type" />
     <NavigationProperty Name="tb_Working_Shift" Relationship="SAT.HR.FK_tb_Working_Shift_tb_User" FromRole="tb_User" ToRole="tb_Working_Shift" />
-    <Property Name="IsTerminate" Type="Boolean" />
-    <Property Name="UserCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="UserCode1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="tb_Leave_Request" Relationship="SAT.HR.FK_tb_Leave_Request_tb_User" FromRole="tb_User" ToRole="tb_Leave_Request" />
   </EntityType>
   <EntityType Name="tb_User_Certificate">
     <Key>
@@ -2523,6 +2682,123 @@
     <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="DivStatus" Type="Boolean" />
   </EntityType>
+  <EntityType Name="vw_Employee">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IDCard" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="TiShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="TiFullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+    <Property Name="FullNameEn" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+    <Property Name="DivID" Type="Int32" />
+    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DepID" Type="Int32" />
+    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SecID" Type="Int32" />
+    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PoID" Type="Int32" />
+    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="EduID" Type="Int32" />
+    <Property Name="EduName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="MpID" Type="Int32" />
+    <Property Name="SalaryLevel" Type="Int32" />
+    <Property Name="SalaryStep" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Avatar" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="StatusID" Type="Int32" />
+    <Property Name="StatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="UserTypeID" Type="Int32" />
+    <Property Name="UserTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SexID" Type="Int32" />
+    <Property Name="RoleID" Type="Int32" />
+  </EntityType>
+  <EntityType Name="vw_Form_Header">
+    <Key>
+      <PropertyRef Name="FormHeaderID" />
+    </Key>
+    <Property Name="FormHeaderID" Type="Int32" Nullable="false" />
+    <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FormID" Type="Int32" />
+    <Property Name="FormMasterID" Type="Int32" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="LastApproveDate" Type="DateTime" Precision="3" />
+    <Property Name="TransLastStepID" Type="Int32" />
+    <Property Name="TransNextStepID" Type="Int32" />
+    <Property Name="TransCurrentStepID" Type="Int32" />
+    <Property Name="RequestUserID" Type="Int32" />
+    <Property Name="RequestMpID" Type="Int32" />
+    <Property Name="Remark" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="CurrentStepNo" Type="Int32" />
+    <Property Name="Action" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="NextApproverMpID" Type="Int32" />
+    <Property Name="NextApproverUserID" Type="Int32" />
+    <Property Name="NextApproverName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="LastApproverName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="RequestUserName" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="vw_Form_Waiting">
+    <Key>
+      <PropertyRef Name="FormHeaderID" />
+    </Key>
+    <Property Name="FormHeaderID" Type="Int32" Nullable="false" />
+    <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FormID" Type="Int32" />
+    <Property Name="FormMasterID" Type="Int32" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="LastApproveDate" Type="DateTime" Precision="3" />
+    <Property Name="TransLastStepID" Type="Int32" />
+    <Property Name="TransNextStepID" Type="Int32" />
+    <Property Name="TransCurrentStepID" Type="Int32" />
+    <Property Name="RequestUserID" Type="Int32" />
+    <Property Name="RequestMpID" Type="Int32" />
+    <Property Name="Remark" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="CurrentStepNo" Type="Int32" />
+    <Property Name="Action" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="NextApproverUserID" Type="Int32" />
+    <Property Name="NextApproverMpID" Type="Int32" />
+    <Property Name="NextApproverName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="LastApproverName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="RequestUserName" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="vw_Leave_Request">
+    <Key>
+      <PropertyRef Name="FormHeaderID" />
+    </Key>
+    <Property Name="FormHeaderID" Type="Int32" Nullable="false" />
+    <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FormID" Type="Int32" />
+    <Property Name="FormMasterID" Type="Int32" />
+    <Property Name="LeaveYear" Type="Int32" />
+    <Property Name="LeaveType" Type="Int32" />
+    <Property Name="LeaveTypeName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="StartDate" Type="DateTime" Precision="3" />
+    <Property Name="EndDate" Type="DateTime" Precision="3" />
+    <Property Name="TotalDay" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="DayTime" Type="Int32" />
+    <Property Name="LeaveReason" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="CancelReason" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="LeaveFile" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="LastApproveDate" Type="DateTime" Precision="3" />
+    <Property Name="TransLastStepID" Type="Int32" />
+    <Property Name="TransNextStepID" Type="Int32" />
+    <Property Name="TransCurrentStepID" Type="Int32" />
+    <Property Name="RequestMpID" Type="Int32" />
+    <Property Name="RequestUserID" Type="Int32" />
+    <Property Name="RequestUserName" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
+    <Property Name="ApproverComment" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="Action" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="NextApproverName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="LastApproverName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
   <EntityType Name="vw_Man_Power">
     <Key>
       <PropertyRef Name="MpID" />
@@ -2674,6 +2950,59 @@
     <Property Name="SexID" Type="Int32" />
     <Property Name="SexName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
   </EntityType>
+  <EntityType Name="vw_Trainning_Course">
+    <Key>
+      <PropertyRef Name="CourseID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="CourseID" Type="Int32" Nullable="false" />
+    <Property Name="CourseNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CourseName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="FullName" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
+    <Property Name="MpID" Type="Int32" />
+    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PoID" Type="Int32" />
+  </EntityType>
+  <EntityType Name="vw_Trans_Step_Route">
+    <Key>
+      <PropertyRef Name="StepID" />
+    </Key>
+    <Property Name="StepID" Type="Int32" Nullable="false" />
+    <Property Name="FormMasterID" Type="Int32" />
+    <Property Name="FormHeaderID" Type="Int32" />
+    <Property Name="FormStepID" Type="Int32" />
+    <Property Name="NextStepID" Type="Int32" />
+    <Property Name="StepNo" Type="Int32" />
+    <Property Name="StepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ApproveType" Type="Int32" />
+    <Property Name="ExtendProc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsNotifyAcceptNext" Type="Boolean" />
+    <Property Name="IsNotifyAcceptSelf" Type="Boolean" />
+    <Property Name="IsNotifyAcceptPrev" Type="Boolean" />
+    <Property Name="IsNotifyAcceptRequestor" Type="Boolean" />
+    <Property Name="IsNotifyAcceptCustom" Type="Boolean" />
+    <Property Name="IsNotifyRejectNext" Type="Boolean" />
+    <Property Name="IsNotifyRejectSelf" Type="Boolean" />
+    <Property Name="IsNotifyRejectPrev" Type="Boolean" />
+    <Property Name="IsNotifyRejectRequestor" Type="Boolean" />
+    <Property Name="IsNotifyRejectCustom" Type="Boolean" />
+    <Property Name="NotifyAcceptNextTemplateID" Type="Boolean" />
+    <Property Name="NotifyAcceptSelfTemplateID" Type="Boolean" />
+    <Property Name="NotifyAcceptPrevTemplateID" Type="Boolean" />
+    <Property Name="NotifyAcceptRequestorTemplateID" Type="Boolean" />
+    <Property Name="NotifyAcceptCustomTemplateID" Type="Boolean" />
+    <Property Name="NotifyRejectNextTemplateID" Type="Boolean" />
+    <Property Name="NotifyRejectSelfTemplateID" Type="Boolean" />
+    <Property Name="NotifyRejectPrevTemplateID" Type="Boolean" />
+    <Property Name="NotifyRejectRequestorTemplateID" Type="Boolean" />
+    <Property Name="NotifyRejectCustomTemplateID" Type="Boolean" />
+    <Property Name="NotifyAcceptCustomMail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="NotifyRejectCustomMail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
   <EntityType Name="vw_User">
     <Key>
       <PropertyRef Name="UserID" />
@@ -2821,6 +3150,29 @@
     <Property Name="UeEduOfficial" Type="Boolean" />
     <Property Name="UeEduOfficialLevel" Type="Boolean" />
     <Property Name="UePartFile" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="vw_User_Excellent">
+    <Key>
+      <PropertyRef Name="UeID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UeID" Type="Int32" Nullable="false" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="FullNameTH" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+    <Property Name="FullNameEn" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+    <Property Name="ExTID" Type="Int32" />
+    <Property Name="ExTName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="UeProjectName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="UeRecYear" Type="Int32" />
+    <Property Name="UeRecDate" Type="DateTime" Precision="0" />
+    <Property Name="DivID" Type="Int32" />
+    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DepID" Type="Int32" />
+    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SecID" Type="Int32" />
+    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PoID" Type="Int32" />
+    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="vw_User_Family">
     <Key>
@@ -3640,6 +3992,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tb_Leave_Request_tb_User">
+    <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_Leave_Request" Role="tb_Leave_Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_Leave_Request">
+        <PropertyRef Name="RequestID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tb_User_Education_tb_Major">
     <End Type="SAT.HR.tb_Major" Role="tb_Major" Multiplicity="0..1" />
     <End Type="SAT.HR.tb_User_Education" Role="tb_User_Education" Multiplicity="*" />
@@ -4120,156 +4484,24 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="tb_Mail_Template">
+  <EntityType Name="vw_Organization">
     <Key>
-      <PropertyRef Name="MailID" />
+      <PropertyRef Name="MpID" />
+      <PropertyRef Name="MpCode" />
+      <PropertyRef Name="DepLevel" />
     </Key>
-    <Property Name="MailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="MailTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-    <Property Name="MailFrom" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-    <Property Name="MailSubject" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-    <Property Name="MailBody" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-    <Property Name="MailCCTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-    <Property Name="MailBCCTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-  </EntityType>
-  <EntityType Name="tb_Leave_Status">
-    <Key>
-      <PropertyRef Name="StatusID" />
-    </Key>
-    <Property Name="StatusID" Type="Int32" Nullable="false" />
-    <Property Name="StatusName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-  </EntityType>
-  <EntityType Name="vw_Trainning_Course">
-    <Key>
-      <PropertyRef Name="CourseID" />
-      <PropertyRef Name="UserID" />
-    </Key>
-    <Property Name="CourseID" Type="Int32" Nullable="false" />
-    <Property Name="CourseNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="CourseName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="UserID" Type="Int32" Nullable="false" />
-    <Property Name="FullName" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
-    <Property Name="MpID" Type="Int32" />
-    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="PoID" Type="Int32" />
-  </EntityType>
-  <EntityType Name="vw_Employee">
-    <Key>
-      <PropertyRef Name="UserID" />
-    </Key>
-    <Property Name="UserID" Type="Int32" Nullable="false" />
-    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="IDCard" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="TiShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="TiFullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
-    <Property Name="FullNameEn" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
-    <Property Name="DivID" Type="Int32" />
-    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="DepID" Type="Int32" />
-    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="SecID" Type="Int32" />
-    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="PoID" Type="Int32" />
-    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="EduID" Type="Int32" />
-    <Property Name="EduName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="MpID" Type="Int32" />
-    <Property Name="SalaryLevel" Type="Int32" />
-    <Property Name="SalaryStep" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="Avatar" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="StatusID" Type="Int32" />
-    <Property Name="StatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="IsActive" Type="Boolean" />
-    <Property Name="UserTypeID" Type="Int32" />
-    <Property Name="UserTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="SexID" Type="Int32" />
-    <Property Name="RoleID" Type="Int32" />
-  </EntityType>
-  <EntityType Name="vw_User_Excellent">
-    <Key>
-      <PropertyRef Name="UeID" />
-      <PropertyRef Name="UserID" />
-    </Key>
-    <Property Name="UeID" Type="Int32" Nullable="false" />
-    <Property Name="UserID" Type="Int32" Nullable="false" />
-    <Property Name="FullNameTH" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
-    <Property Name="FullNameEn" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
-    <Property Name="ExTID" Type="Int32" />
-    <Property Name="ExTName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="UeProjectName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="UeRecYear" Type="Int32" />
-    <Property Name="UeRecDate" Type="DateTime" Precision="0" />
-    <Property Name="DivID" Type="Int32" />
-    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="DepID" Type="Int32" />
-    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="SecID" Type="Int32" />
-    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="PoID" Type="Int32" />
-    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-  </EntityType>
-  <EntityType Name="tb_Import_Master">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="MpID" Type="Int32" Nullable="false" />
+    <Property Name="MpCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="ParentID" Type="Int32" />
-    <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="TableName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-  </EntityType>
-  <EntityType Name="tb_Leave_Type">
-    <Key>
-      <PropertyRef Name="LevID" />
-    </Key>
-    <Property Name="LevID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="LevCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-    <Property Name="LevName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="LevDesc" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-    <Property Name="LevYear" Type="Int32" Nullable="false" />
-    <Property Name="LevStartDate" Type="DateTime" Precision="3" />
-    <Property Name="LevEndDate" Type="DateTime" Precision="3" />
-    <Property Name="LevMax" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="SexID" Type="Int32" />
+    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
     <Property Name="TypeID" Type="Int32" />
-    <Property Name="LevStatus" Type="Boolean" />
-    <Property Name="CreateDate" Type="DateTime" Precision="3" />
-    <Property Name="CreateBy" Type="Int32" />
-    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifyBy" Type="Int32" />
+    <Property Name="DepLevel" Type="Int32" Nullable="false" />
+    <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
   </EntityType>
-  <ComplexType Name="sp_Leave_Request_List_Result">
-    <Property Type="Int32" Name="FormHeaderID" Nullable="false" />
-    <Property Type="String" Name="DocNo" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="FormID" Nullable="true" />
-    <Property Type="Int32" Name="FormMasterID" Nullable="true" />
-    <Property Type="Int32" Name="LeaveYear" Nullable="true" />
-    <Property Type="Int32" Name="LeaveType" Nullable="true" />
-    <Property Type="String" Name="LeaveTypeName" Nullable="true" MaxLength="200" />
-    <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
-    <Property Type="DateTime" Name="EndDate" Nullable="true" Precision="23" />
-    <Property Type="Decimal" Name="TotalDay" Nullable="true" Precision="18" Scale="2" />
-    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
-    <Property Type="DateTime" Name="LastApproveDate" Nullable="true" Precision="23" />
-    <Property Type="Int32" Name="TransLastStepID" Nullable="true" />
-    <Property Type="Int32" Name="TransNextStepID" Nullable="true" />
-    <Property Type="Int32" Name="TransCurrentStepID" Nullable="true" />
-    <Property Type="Int32" Name="RequestMpID" Nullable="true" />
-    <Property Type="Int32" Name="RequestUserID" Nullable="true" />
-    <Property Type="String" Name="RequestUserName" Nullable="true" MaxLength="501" />
-    <Property Type="String" Name="Remark" Nullable="true" MaxLength="400" />
-    <Property Type="String" Name="Action" Nullable="true" MaxLength="11" />
-    <Property Type="String" Name="Status" Nullable="true" MaxLength="1000" />
-    <Property Type="String" Name="NextApproverName" Nullable="true" MaxLength="500" />
-    <Property Type="String" Name="LastApproverName" Nullable="true" MaxLength="500" />
-    <Property Type="Int32" Name="recordsTotal" Nullable="true" />
-    <Property Type="Int32" Name="recordsFiltered" Nullable="true" />
-  </ComplexType>
   <ComplexType Name="sp_Leave_Request_Waiting_Result">
     <Property Type="Int32" Name="FormHeaderID" Nullable="false" />
     <Property Type="String" Name="DocNo" Nullable="true" MaxLength="50" />
@@ -4299,96 +4531,4 @@
     <Property Type="Int32" Name="recordsTotal" Nullable="true" />
     <Property Type="Int32" Name="recordsFiltered" Nullable="true" />
   </ComplexType>
-  <EntityType Name="vw_Leave_Request">
-    <Key>
-      <PropertyRef Name="FormHeaderID" />
-    </Key>
-    <Property Name="FormHeaderID" Type="Int32" Nullable="false" />
-    <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="FormID" Type="Int32" />
-    <Property Name="FormMasterID" Type="Int32" />
-    <Property Name="LeaveYear" Type="Int32" />
-    <Property Name="LeaveType" Type="Int32" />
-    <Property Name="LeaveTypeName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="StartDate" Type="DateTime" Precision="3" />
-    <Property Name="EndDate" Type="DateTime" Precision="3" />
-    <Property Name="TotalDay" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="DayTime" Type="Int32" />
-    <Property Name="LeaveReason" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-    <Property Name="CancelReason" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-    <Property Name="LeaveFile" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-    <Property Name="CreateDate" Type="DateTime" Precision="3" />
-    <Property Name="LastApproveDate" Type="DateTime" Precision="3" />
-    <Property Name="TransLastStepID" Type="Int32" />
-    <Property Name="TransNextStepID" Type="Int32" />
-    <Property Name="TransCurrentStepID" Type="Int32" />
-    <Property Name="RequestMpID" Type="Int32" />
-    <Property Name="RequestUserID" Type="Int32" />
-    <Property Name="RequestUserName" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
-    <Property Name="ApproverComment" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-    <Property Name="Action" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-    <Property Name="Status" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-    <Property Name="NextApproverName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-    <Property Name="LastApproverName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-    <Property Name="Remark" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-    <Property Name="DayTime1" Type="Int32" />
-    <Property Name="LeaveReason1" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-    <Property Name="CancelReason1" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-    <Property Name="LeaveFile1" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-    <Property Name="ApproverComment1" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-  </EntityType>
-  <EntityType Name="vw_Organization">
-    <Key>
-      <PropertyRef Name="MpID" />
-      <PropertyRef Name="MpCode" />
-      <PropertyRef Name="DepLevel" />
-    </Key>
-    <Property Name="MpID" Type="Int32" Nullable="false" />
-    <Property Name="MpCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-    <Property Name="ParentID" Type="Int32" />
-    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
-    <Property Name="TypeID" Type="Int32" />
-    <Property Name="DepLevel" Type="Int32" Nullable="false" />
-    <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-  </EntityType>
-  <EntityType Name="tb_Leave_Request">
-    <Key>
-      <PropertyRef Name="FormID" />
-    </Key>
-    <Property Name="FormID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="LeaveYear" Type="Int32" Nullable="false" />
-    <Property Name="LeaveType" Type="Int32" />
-    <Property Name="RequestID" Type="Int32" />
-    <Property Name="StartDate" Type="DateTime" Precision="3" />
-    <Property Name="EndDate" Type="DateTime" Precision="3" />
-    <Property Name="DayTime" Type="Int32" />
-    <Property Name="TotalDay" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="LeaveReason" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-    <Property Name="CancelReason" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-    <Property Name="Remark" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-    <Property Name="PathFile" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-    <Property Name="CreateDate" Type="DateTime" Precision="3" />
-    <Property Name="CreateBy" Type="Int32" />
-    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifyBy" Type="Int32" />
-    <Property Name="CancelDate" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Leave_Request_tb_User" FromRole="tb_Leave_Request" ToRole="tb_User" />
-  </EntityType>
-  <Association Name="FK_tb_Leave_Request_tb_User">
-    <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="0..1" />
-    <End Type="SAT.HR.tb_Leave_Request" Role="tb_Leave_Request" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_User">
-        <PropertyRef Name="UserID" />
-      </Principal>
-      <Dependent Role="tb_Leave_Request">
-        <PropertyRef Name="RequestID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
 </Schema>

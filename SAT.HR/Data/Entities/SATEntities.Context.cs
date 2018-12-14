@@ -63,14 +63,21 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Empower> tb_Empower { get; set; }
         public virtual DbSet<tb_Evaluation> tb_Evaluation { get; set; }
         public virtual DbSet<tb_Excellent_Type> tb_Excellent_Type { get; set; }
+        public virtual DbSet<tb_Form_Master> tb_Form_Master { get; set; }
+        public virtual DbSet<tb_Form_Step> tb_Form_Step { get; set; }
         public virtual DbSet<tb_Holiday> tb_Holiday { get; set; }
+        public virtual DbSet<tb_Import_Master> tb_Import_Master { get; set; }
         public virtual DbSet<tb_IndividualPlan> tb_IndividualPlan { get; set; }
         public virtual DbSet<tb_Insignia> tb_Insignia { get; set; }
         public virtual DbSet<tb_Language> tb_Language { get; set; }
         public virtual DbSet<tb_Language_Skill> tb_Language_Skill { get; set; }
         public virtual DbSet<tb_Language_Skill_Type> tb_Language_Skill_Type { get; set; }
         public virtual DbSet<tb_Leave_Balance> tb_Leave_Balance { get; set; }
+        public virtual DbSet<tb_Leave_Request> tb_Leave_Request { get; set; }
+        public virtual DbSet<tb_Leave_Status> tb_Leave_Status { get; set; }
+        public virtual DbSet<tb_Leave_Type> tb_Leave_Type { get; set; }
         public virtual DbSet<tb_Loan_Type> tb_Loan_Type { get; set; }
+        public virtual DbSet<tb_Mail_Template> tb_Mail_Template { get; set; }
         public virtual DbSet<tb_Major> tb_Major { get; set; }
         public virtual DbSet<tb_Man_Power> tb_Man_Power { get; set; }
         public virtual DbSet<tb_Marital_Status> tb_Marital_Status { get; set; }
@@ -134,6 +141,10 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Course> vw_Course { get; set; }
         public virtual DbSet<vw_Department> vw_Department { get; set; }
         public virtual DbSet<vw_Division> vw_Division { get; set; }
+        public virtual DbSet<vw_Employee> vw_Employee { get; set; }
+        public virtual DbSet<vw_Form_Header> vw_Form_Header { get; set; }
+        public virtual DbSet<vw_Form_Waiting> vw_Form_Waiting { get; set; }
+        public virtual DbSet<vw_Leave_Request> vw_Leave_Request { get; set; }
         public virtual DbSet<vw_Man_Power> vw_Man_Power { get; set; }
         public virtual DbSet<vw_Menu_Role> vw_Menu_Role { get; set; }
         public virtual DbSet<vw_Move_Level_Detail> vw_Move_Level_Detail { get; set; }
@@ -142,9 +153,12 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Move_Man_Power_Head> vw_Move_Man_Power_Head { get; set; }
         public virtual DbSet<vw_Section> vw_Section { get; set; }
         public virtual DbSet<vw_Title> vw_Title { get; set; }
+        public virtual DbSet<vw_Trainning_Course> vw_Trainning_Course { get; set; }
+        public virtual DbSet<vw_Trans_Step_Route> vw_Trans_Step_Route { get; set; }
         public virtual DbSet<vw_User> vw_User { get; set; }
         public virtual DbSet<vw_User_Certificate> vw_User_Certificate { get; set; }
         public virtual DbSet<vw_User_Education> vw_User_Education { get; set; }
+        public virtual DbSet<vw_User_Excellent> vw_User_Excellent { get; set; }
         public virtual DbSet<vw_User_Family> vw_User_Family { get; set; }
         public virtual DbSet<vw_User_History> vw_User_History { get; set; }
         public virtual DbSet<vw_User_Insignia> vw_User_Insignia { get; set; }
@@ -153,16 +167,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Role> vw_User_Role { get; set; }
         public virtual DbSet<vw_User_Skill> vw_User_Skill { get; set; }
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
-        public virtual DbSet<tb_Mail_Template> tb_Mail_Template { get; set; }
-        public virtual DbSet<tb_Leave_Status> tb_Leave_Status { get; set; }
-        public virtual DbSet<vw_Trainning_Course> vw_Trainning_Course { get; set; }
-        public virtual DbSet<vw_Employee> vw_Employee { get; set; }
-        public virtual DbSet<vw_User_Excellent> vw_User_Excellent { get; set; }
-        public virtual DbSet<tb_Import_Master> tb_Import_Master { get; set; }
-        public virtual DbSet<tb_Leave_Type> tb_Leave_Type { get; set; }
         public virtual DbSet<vw_Organization> vw_Organization { get; set; }
-        public virtual DbSet<tb_Leave_Request> tb_Leave_Request { get; set; }
-        public virtual DbSet<vw_Leave_Request> vw_Leave_Request { get; set; }
     
         public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
         {
@@ -468,43 +473,6 @@ namespace SAT.HR.Data.Entities
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_WorkFlow_Create", formIDParameter, formMasterIDParameter, requestUserIDParameter, requestMpIDParameter, formHeaderID);
         }
     
-        public virtual ObjectResult<sp_Leave_Request_Waiting_Result> sp_Leave_Request_Waiting(string pageSize, string initialPage, string sortBy, string sortrDir, string approverID, string year, string status, string keyword)
-        {
-            var pageSizeParameter = pageSize != null ?
-                new ObjectParameter("PageSize", pageSize) :
-                new ObjectParameter("PageSize", typeof(string));
-    
-            var initialPageParameter = initialPage != null ?
-                new ObjectParameter("InitialPage", initialPage) :
-                new ObjectParameter("InitialPage", typeof(string));
-    
-            var sortByParameter = sortBy != null ?
-                new ObjectParameter("SortBy", sortBy) :
-                new ObjectParameter("SortBy", typeof(string));
-    
-            var sortrDirParameter = sortrDir != null ?
-                new ObjectParameter("SortrDir", sortrDir) :
-                new ObjectParameter("SortrDir", typeof(string));
-    
-            var approverIDParameter = approverID != null ?
-                new ObjectParameter("ApproverID", approverID) :
-                new ObjectParameter("ApproverID", typeof(string));
-    
-            var yearParameter = year != null ?
-                new ObjectParameter("Year", year) :
-                new ObjectParameter("Year", typeof(string));
-    
-            var statusParameter = status != null ?
-                new ObjectParameter("Status", status) :
-                new ObjectParameter("Status", typeof(string));
-    
-            var keywordParameter = keyword != null ?
-                new ObjectParameter("Keyword", keyword) :
-                new ObjectParameter("Keyword", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Leave_Request_Waiting_Result>("sp_Leave_Request_Waiting", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, approverIDParameter, yearParameter, statusParameter, keywordParameter);
-        }
-    
         public virtual int sp_Workflow_Cancel(Nullable<int> formHeaderID, Nullable<int> userID, Nullable<int> stepNo, Nullable<int> isAccept, string comment)
         {
             var formHeaderIDParameter = formHeaderID.HasValue ?
@@ -528,6 +496,89 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("Comment", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Workflow_Cancel", formHeaderIDParameter, userIDParameter, stepNoParameter, isAcceptParameter, commentParameter);
+        }
+    
+        public virtual int sp_WorkFlow_Approve_Step(Nullable<int> formHeaderID, Nullable<int> stepApproverID, Nullable<int> isAccept, string comment, Nullable<int> userID, Nullable<int> stepNo)
+        {
+            var formHeaderIDParameter = formHeaderID.HasValue ?
+                new ObjectParameter("FormHeaderID", formHeaderID) :
+                new ObjectParameter("FormHeaderID", typeof(int));
+    
+            var stepApproverIDParameter = stepApproverID.HasValue ?
+                new ObjectParameter("StepApproverID", stepApproverID) :
+                new ObjectParameter("StepApproverID", typeof(int));
+    
+            var isAcceptParameter = isAccept.HasValue ?
+                new ObjectParameter("IsAccept", isAccept) :
+                new ObjectParameter("IsAccept", typeof(int));
+    
+            var commentParameter = comment != null ?
+                new ObjectParameter("Comment", comment) :
+                new ObjectParameter("Comment", typeof(string));
+    
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var stepNoParameter = stepNo.HasValue ?
+                new ObjectParameter("StepNo", stepNo) :
+                new ObjectParameter("StepNo", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_WorkFlow_Approve_Step", formHeaderIDParameter, stepApproverIDParameter, isAcceptParameter, commentParameter, userIDParameter, stepNoParameter);
+        }
+    
+        public virtual int sp_WorkFlow_Cancel1(Nullable<int> formHeaderID, Nullable<int> userID, Nullable<int> stepNo, Nullable<int> isAccept, string comment)
+        {
+            var formHeaderIDParameter = formHeaderID.HasValue ?
+                new ObjectParameter("FormHeaderID", formHeaderID) :
+                new ObjectParameter("FormHeaderID", typeof(int));
+    
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var stepNoParameter = stepNo.HasValue ?
+                new ObjectParameter("StepNo", stepNo) :
+                new ObjectParameter("StepNo", typeof(int));
+    
+            var isAcceptParameter = isAccept.HasValue ?
+                new ObjectParameter("IsAccept", isAccept) :
+                new ObjectParameter("IsAccept", typeof(int));
+    
+            var commentParameter = comment != null ?
+                new ObjectParameter("Comment", comment) :
+                new ObjectParameter("Comment", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_WorkFlow_Cancel1", formHeaderIDParameter, userIDParameter, stepNoParameter, isAcceptParameter, commentParameter);
+        }
+    
+        public virtual ObjectResult<sp_Leave_Request_Waiting_Result> sp_Leave_Request_Waiting(string pageSize, string initialPage, string sortBy, string sortrDir, string approverID, string keyword)
+        {
+            var pageSizeParameter = pageSize != null ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(string));
+    
+            var initialPageParameter = initialPage != null ?
+                new ObjectParameter("InitialPage", initialPage) :
+                new ObjectParameter("InitialPage", typeof(string));
+    
+            var sortByParameter = sortBy != null ?
+                new ObjectParameter("SortBy", sortBy) :
+                new ObjectParameter("SortBy", typeof(string));
+    
+            var sortrDirParameter = sortrDir != null ?
+                new ObjectParameter("SortrDir", sortrDir) :
+                new ObjectParameter("SortrDir", typeof(string));
+    
+            var approverIDParameter = approverID != null ?
+                new ObjectParameter("ApproverID", approverID) :
+                new ObjectParameter("ApproverID", typeof(string));
+    
+            var keywordParameter = keyword != null ?
+                new ObjectParameter("Keyword", keyword) :
+                new ObjectParameter("Keyword", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Leave_Request_Waiting_Result>("sp_Leave_Request_Waiting", pageSizeParameter, initialPageParameter, sortByParameter, sortrDirParameter, approverIDParameter, keywordParameter);
         }
     }
 }

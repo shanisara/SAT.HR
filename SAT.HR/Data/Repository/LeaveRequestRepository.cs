@@ -77,7 +77,7 @@ namespace SAT.HR.Data
 
                     string loginUserID = UtilityService.User.UserID.ToString();
                     string loginMpID = UtilityService.User.MpID.ToString();
-                    var data = db.sp_Leave_Request_Waiting(pageSize.ToString(), perPage, sortBy, sortDir, loginUserID, year, status, filter).ToList();
+                    var data = db.sp_Leave_Request_Waiting(pageSize.ToString(), perPage, sortBy, sortDir, loginUserID, filter).ToList();
 
                     int i = 0;
                     foreach (var item in data)

@@ -469,6 +469,49 @@
     <Property Name="ExTID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ExTName" Type="nvarchar" MaxLength="200" />
   </EntityType>
+  <EntityType Name="tb_Form_Master">
+    <Key>
+      <PropertyRef Name="FormMasterID" />
+    </Key>
+    <Property Name="FormMasterID" Type="int" Nullable="false" />
+    <Property Name="FormMasterName" Type="nvarchar" MaxLength="200" />
+    <Property Name="FormMasterDesc" Type="nvarchar" MaxLength="200" />
+    <Property Name="FormTableName" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="tb_Form_Step">
+    <Key>
+      <PropertyRef Name="FormStepID" />
+    </Key>
+    <Property Name="FormStepID" Type="int" Nullable="false" />
+    <Property Name="FormMasterID" Type="int" />
+    <Property Name="StepNo" Type="int" />
+    <Property Name="StepName" Type="nvarchar" MaxLength="200" />
+    <Property Name="NextStepID" Type="int" />
+    <Property Name="ApproveType" Type="int" />
+    <Property Name="ExtendProc" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsNotifyAcceptNext" Type="bit" />
+    <Property Name="IsNotifyAcceptSelf" Type="bit" />
+    <Property Name="IsNotifyAcceptPrev" Type="bit" />
+    <Property Name="IsNotifyAcceptRequestor" Type="bit" />
+    <Property Name="IsNotifyAcceptCustom" Type="bit" />
+    <Property Name="IsNotifyRejectNext" Type="bit" />
+    <Property Name="IsNotifyRejectSelf" Type="bit" />
+    <Property Name="IsNotifyRejectPrev" Type="bit" />
+    <Property Name="IsNotifyRejectRequestor" Type="bit" />
+    <Property Name="IsNotifyRejectCustom" Type="bit" />
+    <Property Name="NotifyAcceptNextTemplateID" Type="bit" />
+    <Property Name="NotifyAcceptSelfTemplateID" Type="bit" />
+    <Property Name="NotifyAcceptPrevTemplateID" Type="bit" />
+    <Property Name="NotifyAcceptRequestorTemplateID" Type="bit" />
+    <Property Name="NotifyAcceptCustomTemplateID" Type="bit" />
+    <Property Name="NotifyRejectNextTemplateID" Type="bit" />
+    <Property Name="NotifyRejectSelfTemplateID" Type="bit" />
+    <Property Name="NotifyRejectPrevTemplateID" Type="bit" />
+    <Property Name="NotifyRejectRequestorTemplateID" Type="bit" />
+    <Property Name="NotifyRejectCustomTemplateID" Type="bit" />
+    <Property Name="NotifyAcceptCustomMail" Type="nvarchar" MaxLength="500" />
+    <Property Name="NotifyRejectCustomMail" Type="nvarchar" MaxLength="500" />
+  </EntityType>
   <EntityType Name="tb_Holiday">
     <Key>
       <PropertyRef Name="HolID" />
@@ -1671,6 +1714,60 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Employee' does not have a pri
     <Property Name="RoleID" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Form_Header' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Form_Header">
+    <Key>
+      <PropertyRef Name="FormHeaderID" />
+    </Key>
+    <Property Name="FormHeaderID" Type="int" Nullable="false" />
+    <Property Name="DocNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="FormID" Type="int" />
+    <Property Name="FormMasterID" Type="int" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="LastApproveDate" Type="datetime" />
+    <Property Name="TransLastStepID" Type="int" />
+    <Property Name="TransNextStepID" Type="int" />
+    <Property Name="TransCurrentStepID" Type="int" />
+    <Property Name="RequestUserID" Type="int" />
+    <Property Name="RequestMpID" Type="int" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="400" />
+    <Property Name="CurrentStepNo" Type="int" />
+    <Property Name="Action" Type="varchar" MaxLength="11" />
+    <Property Name="Status" Type="nvarchar" MaxLength="1000" />
+    <Property Name="NextApproverMpID" Type="int" />
+    <Property Name="NextApproverUserID" Type="int" />
+    <Property Name="NextApproverName" Type="nvarchar" MaxLength="500" />
+    <Property Name="LastApproverName" Type="nvarchar" MaxLength="500" />
+    <Property Name="RequestUserName" Type="nvarchar" MaxLength="501" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Form_Waiting' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Form_Waiting">
+    <Key>
+      <PropertyRef Name="FormHeaderID" />
+    </Key>
+    <Property Name="FormHeaderID" Type="int" Nullable="false" />
+    <Property Name="DocNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="FormID" Type="int" />
+    <Property Name="FormMasterID" Type="int" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="LastApproveDate" Type="datetime" />
+    <Property Name="TransLastStepID" Type="int" />
+    <Property Name="TransNextStepID" Type="int" />
+    <Property Name="TransCurrentStepID" Type="int" />
+    <Property Name="RequestUserID" Type="int" />
+    <Property Name="RequestMpID" Type="int" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="400" />
+    <Property Name="CurrentStepNo" Type="int" />
+    <Property Name="Action" Type="varchar" MaxLength="11" />
+    <Property Name="Status" Type="nvarchar" MaxLength="1000" />
+    <Property Name="NextApproverUserID" Type="int" />
+    <Property Name="NextApproverMpID" Type="int" />
+    <Property Name="NextApproverName" Type="nvarchar" MaxLength="500" />
+    <Property Name="LastApproverName" Type="nvarchar" MaxLength="500" />
+    <Property Name="RequestUserName" Type="nvarchar" MaxLength="501" />
+  </EntityType>
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Leave_Request' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Leave_Request">
     <Key>
@@ -1909,6 +2006,44 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Trainning_Course' does not ha
     <Property Name="SecName" Type="nvarchar" MaxLength="200" />
     <Property Name="PoName" Type="nvarchar" MaxLength="200" />
     <Property Name="PoID" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Trans_Step_Route' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Trans_Step_Route">
+    <Key>
+      <PropertyRef Name="StepID" />
+    </Key>
+    <Property Name="StepID" Type="int" Nullable="false" />
+    <Property Name="FormMasterID" Type="int" />
+    <Property Name="FormHeaderID" Type="int" />
+    <Property Name="FormStepID" Type="int" />
+    <Property Name="NextStepID" Type="int" />
+    <Property Name="StepNo" Type="int" />
+    <Property Name="StepName" Type="nvarchar" MaxLength="200" />
+    <Property Name="ApproveType" Type="int" />
+    <Property Name="ExtendProc" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsNotifyAcceptNext" Type="bit" />
+    <Property Name="IsNotifyAcceptSelf" Type="bit" />
+    <Property Name="IsNotifyAcceptPrev" Type="bit" />
+    <Property Name="IsNotifyAcceptRequestor" Type="bit" />
+    <Property Name="IsNotifyAcceptCustom" Type="bit" />
+    <Property Name="IsNotifyRejectNext" Type="bit" />
+    <Property Name="IsNotifyRejectSelf" Type="bit" />
+    <Property Name="IsNotifyRejectPrev" Type="bit" />
+    <Property Name="IsNotifyRejectRequestor" Type="bit" />
+    <Property Name="IsNotifyRejectCustom" Type="bit" />
+    <Property Name="NotifyAcceptNextTemplateID" Type="bit" />
+    <Property Name="NotifyAcceptSelfTemplateID" Type="bit" />
+    <Property Name="NotifyAcceptPrevTemplateID" Type="bit" />
+    <Property Name="NotifyAcceptRequestorTemplateID" Type="bit" />
+    <Property Name="NotifyAcceptCustomTemplateID" Type="bit" />
+    <Property Name="NotifyRejectNextTemplateID" Type="bit" />
+    <Property Name="NotifyRejectSelfTemplateID" Type="bit" />
+    <Property Name="NotifyRejectPrevTemplateID" Type="bit" />
+    <Property Name="NotifyRejectRequestorTemplateID" Type="bit" />
+    <Property Name="NotifyRejectCustomTemplateID" Type="bit" />
+    <Property Name="NotifyAcceptCustomMail" Type="nvarchar" MaxLength="500" />
+    <Property Name="NotifyRejectCustomMail" Type="nvarchar" MaxLength="500" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -3454,6 +3589,14 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     <Parameter Name="Status" Type="nvarchar" Mode="In" />
     <Parameter Name="Keyword" Type="nvarchar" Mode="In" />
   </Function>
+  <Function Name="sp_Leave_Request_Waiting" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PageSize" Type="nvarchar" Mode="In" />
+    <Parameter Name="InitialPage" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortBy" Type="nvarchar" Mode="In" />
+    <Parameter Name="SortrDir" Type="nvarchar" Mode="In" />
+    <Parameter Name="ApproverID" Type="nvarchar" Mode="In" />
+    <Parameter Name="Keyword" Type="nvarchar" Mode="In" />
+  </Function>
   <Function Name="sp_Man_Power_Approval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="MopID" Type="int" Mode="In" />
     <Parameter Name="ActionBy" Type="int" Mode="In" />
@@ -3494,6 +3637,21 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     <Parameter Name="TaTID" Type="int" Mode="In" />
     <Parameter Name="DateFrom" Type="int" Mode="In" />
     <Parameter Name="DateTo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_WorkFlow_Approve_Step" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FormHeaderID" Type="int" Mode="In" />
+    <Parameter Name="StepApproverID" Type="int" Mode="In" />
+    <Parameter Name="IsAccept" Type="int" Mode="In" />
+    <Parameter Name="Comment" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserID" Type="int" Mode="In" />
+    <Parameter Name="StepNo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_WorkFlow_Cancel" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FormHeaderID" Type="int" Mode="In" />
+    <Parameter Name="UserID" Type="int" Mode="In" />
+    <Parameter Name="StepNo" Type="int" Mode="In" />
+    <Parameter Name="IsAccept" Type="int" Mode="In" />
+    <Parameter Name="Comment" Type="nvarchar" Mode="In" />
   </Function>
   <Function Name="sp_WorkFlow_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="FormID" Type="int" Mode="In" />
@@ -3544,6 +3702,8 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     <EntitySet Name="tb_Empower" EntityType="Self.tb_Empower" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Evaluation" EntityType="Self.tb_Evaluation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Excellent_Type" EntityType="Self.tb_Excellent_Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Form_Master" EntityType="Self.tb_Form_Master" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Form_Step" EntityType="Self.tb_Form_Step" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Holiday" EntityType="Self.tb_Holiday" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Import_Master" EntityType="Self.tb_Import_Master" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_IndividualPlan" EntityType="Self.tb_IndividualPlan" Schema="dbo" store:Type="Tables" />
@@ -3867,6 +4027,54 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     [vw_Employee].[RoleID] AS [RoleID]
     FROM [dbo].[vw_Employee] AS [vw_Employee]</DefiningQuery>
     </EntitySet>
+    <EntitySet Name="vw_Form_Header" EntityType="Self.vw_Form_Header" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Form_Header].[FormHeaderID] AS [FormHeaderID], 
+    [vw_Form_Header].[DocNo] AS [DocNo], 
+    [vw_Form_Header].[FormID] AS [FormID], 
+    [vw_Form_Header].[FormMasterID] AS [FormMasterID], 
+    [vw_Form_Header].[CreateDate] AS [CreateDate], 
+    [vw_Form_Header].[LastApproveDate] AS [LastApproveDate], 
+    [vw_Form_Header].[TransLastStepID] AS [TransLastStepID], 
+    [vw_Form_Header].[TransNextStepID] AS [TransNextStepID], 
+    [vw_Form_Header].[TransCurrentStepID] AS [TransCurrentStepID], 
+    [vw_Form_Header].[RequestUserID] AS [RequestUserID], 
+    [vw_Form_Header].[RequestMpID] AS [RequestMpID], 
+    [vw_Form_Header].[Remark] AS [Remark], 
+    [vw_Form_Header].[CurrentStepNo] AS [CurrentStepNo], 
+    [vw_Form_Header].[Action] AS [Action], 
+    [vw_Form_Header].[Status] AS [Status], 
+    [vw_Form_Header].[NextApproverMpID] AS [NextApproverMpID], 
+    [vw_Form_Header].[NextApproverUserID] AS [NextApproverUserID], 
+    [vw_Form_Header].[NextApproverName] AS [NextApproverName], 
+    [vw_Form_Header].[LastApproverName] AS [LastApproverName], 
+    [vw_Form_Header].[RequestUserName] AS [RequestUserName]
+    FROM [dbo].[vw_Form_Header] AS [vw_Form_Header]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Form_Waiting" EntityType="Self.vw_Form_Waiting" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Form_Waiting].[FormHeaderID] AS [FormHeaderID], 
+    [vw_Form_Waiting].[DocNo] AS [DocNo], 
+    [vw_Form_Waiting].[FormID] AS [FormID], 
+    [vw_Form_Waiting].[FormMasterID] AS [FormMasterID], 
+    [vw_Form_Waiting].[CreateDate] AS [CreateDate], 
+    [vw_Form_Waiting].[LastApproveDate] AS [LastApproveDate], 
+    [vw_Form_Waiting].[TransLastStepID] AS [TransLastStepID], 
+    [vw_Form_Waiting].[TransNextStepID] AS [TransNextStepID], 
+    [vw_Form_Waiting].[TransCurrentStepID] AS [TransCurrentStepID], 
+    [vw_Form_Waiting].[RequestUserID] AS [RequestUserID], 
+    [vw_Form_Waiting].[RequestMpID] AS [RequestMpID], 
+    [vw_Form_Waiting].[Remark] AS [Remark], 
+    [vw_Form_Waiting].[CurrentStepNo] AS [CurrentStepNo], 
+    [vw_Form_Waiting].[Action] AS [Action], 
+    [vw_Form_Waiting].[Status] AS [Status], 
+    [vw_Form_Waiting].[NextApproverUserID] AS [NextApproverUserID], 
+    [vw_Form_Waiting].[NextApproverMpID] AS [NextApproverMpID], 
+    [vw_Form_Waiting].[NextApproverName] AS [NextApproverName], 
+    [vw_Form_Waiting].[LastApproverName] AS [LastApproverName], 
+    [vw_Form_Waiting].[RequestUserName] AS [RequestUserName]
+    FROM [dbo].[vw_Form_Waiting] AS [vw_Form_Waiting]</DefiningQuery>
+    </EntitySet>
     <EntitySet Name="vw_Leave_Request" EntityType="Self.vw_Leave_Request" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [vw_Leave_Request].[FormHeaderID] AS [FormHeaderID], 
@@ -4066,6 +4274,41 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     [vw_Trainning_Course].[PoName] AS [PoName], 
     [vw_Trainning_Course].[PoID] AS [PoID]
     FROM [dbo].[vw_Trainning_Course] AS [vw_Trainning_Course]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Trans_Step_Route" EntityType="Self.vw_Trans_Step_Route" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Trans_Step_Route].[StepID] AS [StepID], 
+    [vw_Trans_Step_Route].[FormMasterID] AS [FormMasterID], 
+    [vw_Trans_Step_Route].[FormHeaderID] AS [FormHeaderID], 
+    [vw_Trans_Step_Route].[FormStepID] AS [FormStepID], 
+    [vw_Trans_Step_Route].[NextStepID] AS [NextStepID], 
+    [vw_Trans_Step_Route].[StepNo] AS [StepNo], 
+    [vw_Trans_Step_Route].[StepName] AS [StepName], 
+    [vw_Trans_Step_Route].[ApproveType] AS [ApproveType], 
+    [vw_Trans_Step_Route].[ExtendProc] AS [ExtendProc], 
+    [vw_Trans_Step_Route].[IsNotifyAcceptNext] AS [IsNotifyAcceptNext], 
+    [vw_Trans_Step_Route].[IsNotifyAcceptSelf] AS [IsNotifyAcceptSelf], 
+    [vw_Trans_Step_Route].[IsNotifyAcceptPrev] AS [IsNotifyAcceptPrev], 
+    [vw_Trans_Step_Route].[IsNotifyAcceptRequestor] AS [IsNotifyAcceptRequestor], 
+    [vw_Trans_Step_Route].[IsNotifyAcceptCustom] AS [IsNotifyAcceptCustom], 
+    [vw_Trans_Step_Route].[IsNotifyRejectNext] AS [IsNotifyRejectNext], 
+    [vw_Trans_Step_Route].[IsNotifyRejectSelf] AS [IsNotifyRejectSelf], 
+    [vw_Trans_Step_Route].[IsNotifyRejectPrev] AS [IsNotifyRejectPrev], 
+    [vw_Trans_Step_Route].[IsNotifyRejectRequestor] AS [IsNotifyRejectRequestor], 
+    [vw_Trans_Step_Route].[IsNotifyRejectCustom] AS [IsNotifyRejectCustom], 
+    [vw_Trans_Step_Route].[NotifyAcceptNextTemplateID] AS [NotifyAcceptNextTemplateID], 
+    [vw_Trans_Step_Route].[NotifyAcceptSelfTemplateID] AS [NotifyAcceptSelfTemplateID], 
+    [vw_Trans_Step_Route].[NotifyAcceptPrevTemplateID] AS [NotifyAcceptPrevTemplateID], 
+    [vw_Trans_Step_Route].[NotifyAcceptRequestorTemplateID] AS [NotifyAcceptRequestorTemplateID], 
+    [vw_Trans_Step_Route].[NotifyAcceptCustomTemplateID] AS [NotifyAcceptCustomTemplateID], 
+    [vw_Trans_Step_Route].[NotifyRejectNextTemplateID] AS [NotifyRejectNextTemplateID], 
+    [vw_Trans_Step_Route].[NotifyRejectSelfTemplateID] AS [NotifyRejectSelfTemplateID], 
+    [vw_Trans_Step_Route].[NotifyRejectPrevTemplateID] AS [NotifyRejectPrevTemplateID], 
+    [vw_Trans_Step_Route].[NotifyRejectRequestorTemplateID] AS [NotifyRejectRequestorTemplateID], 
+    [vw_Trans_Step_Route].[NotifyRejectCustomTemplateID] AS [NotifyRejectCustomTemplateID], 
+    [vw_Trans_Step_Route].[NotifyAcceptCustomMail] AS [NotifyAcceptCustomMail], 
+    [vw_Trans_Step_Route].[NotifyRejectCustomMail] AS [NotifyRejectCustomMail]
+    FROM [dbo].[vw_Trans_Step_Route] AS [vw_Trans_Step_Route]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vw_User" EntityType="Self.vw_User" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
