@@ -115,6 +115,7 @@ namespace SAT.HR.Data.Entities
         public string FileAttach2 { get; set; }
         public Nullable<bool> IsTerminate { get; set; }
         public string UserCode { get; set; }
+        public string UserCode1 { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Benefit_Cremation> tb_Benefit_Cremation { get; set; }
