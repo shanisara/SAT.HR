@@ -60,9 +60,9 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult ConfirmCancelLeaveRequest(int id, string reason)
+        public JsonResult ConfirmCancelLeaveRequest(int formheaderid, int stepno, string reason)
         {
-            var result = new LeaveRequestRepository().Cancel(id, reason);
+            var result = new LeaveRequestRepository().Cancel(formheaderid, stepno, reason);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

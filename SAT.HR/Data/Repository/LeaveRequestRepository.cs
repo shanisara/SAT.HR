@@ -212,7 +212,7 @@ namespace SAT.HR.Data
                     {
                         model.FormID = item.FormID;
                         model.FormHeaderID = item.FormHeaderID;
-                        model.FormMasterID = item.FormMasterID;
+                        model.FormMasterID = (int)item.FormMasterID;
                         model.DocNo = item.DocNo;
                         model.LeaveYear = item.LeaveYear;
                         model.LeaveType = item.LeaveType;
@@ -281,7 +281,7 @@ namespace SAT.HR.Data
                         }
 
                         //model.FormID = (int)data.FormID;
-                        model.DocNo = DocumentNumberRepository.GetNextNumber("LEAVE"); 
+                        model.DocNo = DocumentNumberRepository.GetNextNumber("LEAVE");
                         model.LeaveYear = DateTime.Now.Year;
                         model.LeaveType = data.LeaveType;
                         model.RequestID = data.RequestID; //requestUserID
@@ -300,7 +300,7 @@ namespace SAT.HR.Data
 
                         ObjectParameter formHeaderID = new ObjectParameter("FormHeaderID", typeof(int));
                         db.sp_WorkFlow_Create(model.FormID, 1, model.RequestID, requestMpID, formHeaderID);
-                        
+
                         transection.Commit();
                         result.ID = model.FormID;
                     }
@@ -368,22 +368,16 @@ namespace SAT.HR.Data
             }
         }
 
-        public ResponseData Cancel(int id, string reason)
+        public ResponseData Cancel(int formheaderid, int stepno, string reason)
         {
             ResponseData result = new ResponseData();
             using (SATEntities db = new SATEntities())
             {
                 try
                 {
-                    var model = db.tb_Leave_Request.SingleOrDefault(x => x.FormID == id);
-                    if (model != null)
-                    {
-                        //model.Status = (int)EnumType.LeaveStatus.Canceled;
-                        model.CancelReason = reason;
-                        model.ModifyBy = UtilityService.User.UserID;
-                        model.ModifyDate = DateTime.Now;
-                        db.SaveChanges();
-                    }
+                    //[sp_WorkFlow_Cancel] 43, 296, 1, 0,'comment'
+                    int userid = UtilityService.User.UserID;
+                    db.sp_Workflow_Cancel(formheaderid, userid, stepno, 0, reason);
                 }
                 catch (Exception ex)
                 {
@@ -394,7 +388,7 @@ namespace SAT.HR.Data
             }
         }
 
-        public ResponseData Approve(LeaveRequestViewModel newdata)
+        public ResponseData Approve(LeaveRequestViewModel data)
         {
             using (SATEntities db = new SATEntities())
             {
@@ -403,7 +397,9 @@ namespace SAT.HR.Data
                     ResponseData result = new Models.ResponseData();
                     try
                     {
-
+                        //exec [sp_WorkFlow_Create] 1,1,292,291,0
+                        ObjectParameter FormHeaderID = new ObjectParameter("FormHeaderID", typeof(int));
+                        db.sp_WorkFlow_Create(data.FormID, data.FormMasterID, data.RequestID, data.RequestMpID, FormHeaderID);
                         return result;
                     }
                     catch (Exception)
@@ -455,40 +451,6 @@ namespace SAT.HR.Data
 
             return totalDays;
         }
-
-
-        //public LeaveRequestViewModel GetByUser(int userid)
-        //{
-        //    var data = new LeaveRequestViewModel();
-        //    var list = new List<LeaveRequestViewModel>();
-        //    try
-        //    {
-        //        using (SATEntities db = new SATEntities())
-        //        {
-        //            int index = 1;
-        //            var remuneration = db.tb_Benefit_Remuneration.Where(x => x.UserID == userid).OrderByDescending(o => o.BrID).ToList();
-
-        //            foreach (var item in remuneration)
-        //            {
-        //                LeaveRequestViewModel model = new LeaveRequestViewModel();
-        //                model.RowNumber = index++;
-
-        //                model.CreateDate = item.CreateDate;
-        //                model.CreateBy = item.CreateBy;
-        //                model.ModifyDate = item.ModifyDate;
-        //                model.ModifyBy = item.ModifyBy;
-        //                list.Add(model);
-        //            }
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
-        //    data.UserID = userid;
-        //    data.ListLeave = list;
-        //    return data;
-        //}
 
     }
 }

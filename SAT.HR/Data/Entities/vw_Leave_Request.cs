@@ -29,6 +29,7 @@ namespace SAT.HR.Data.Entities
         public string CancelReason { get; set; }
         public string LeaveFile { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<int> CurrentStepNo { get; set; }
         public Nullable<System.DateTime> LastApproveDate { get; set; }
         public Nullable<int> TransLastStepID { get; set; }
         public Nullable<int> TransNextStepID { get; set; }

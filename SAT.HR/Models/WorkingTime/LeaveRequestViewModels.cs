@@ -46,10 +46,11 @@ namespace SAT.HR.Models
         public string EndDateText { get; set; }
         public int recordsTotal { get; set; }
         public int recordsFiltered { get; set; }
-        public Nullable<int> FormHeaderID { get; set; }
-        public Nullable<int> FormMasterID { get; set; }
+        public int FormHeaderID { get; set; }
+        public int FormMasterID { get; set; }
         public Nullable<int> CurrentStepID { get; set; }
         public Nullable<int> Accept { get; set; }
+        public Nullable<int> RequestMpID { get; set; }
         public List<LeaveRequestViewModel> ListLeave { get; set; }
     }
 

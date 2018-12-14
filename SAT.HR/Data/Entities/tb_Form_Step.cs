@@ -43,5 +43,8 @@ namespace SAT.HR.Data.Entities
         public Nullable<bool> NotifyRejectCustomTemplateID { get; set; }
         public string NotifyAcceptCustomMail { get; set; }
         public string NotifyRejectCustomMail { get; set; }
+        public Nullable<int> MinApprover { get; set; }
+        public Nullable<int> MaxApprover { get; set; }
+        public Nullable<int> ReturnStepID { get; set; }
     }
 }

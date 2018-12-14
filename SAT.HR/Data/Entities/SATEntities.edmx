@@ -516,6 +516,9 @@
           <Property Name="NotifyRejectCustomTemplateID" Type="bit" />
           <Property Name="NotifyAcceptCustomMail" Type="nvarchar" MaxLength="500" />
           <Property Name="NotifyRejectCustomMail" Type="nvarchar" MaxLength="500" />
+          <Property Name="MinApprover" Type="int" />
+          <Property Name="MaxApprover" Type="int" />
+          <Property Name="ReturnStepID" Type="int" />
         </EntityType>
         <EntityType Name="tb_Holiday">
           <Key>
@@ -1719,60 +1722,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Employee' does not have a pri
           <Property Name="RoleID" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Form_Header' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="vw_Form_Header">
-          <Key>
-            <PropertyRef Name="FormHeaderID" />
-          </Key>
-          <Property Name="FormHeaderID" Type="int" Nullable="false" />
-          <Property Name="DocNo" Type="nvarchar" MaxLength="50" />
-          <Property Name="FormID" Type="int" />
-          <Property Name="FormMasterID" Type="int" />
-          <Property Name="CreateDate" Type="datetime" />
-          <Property Name="LastApproveDate" Type="datetime" />
-          <Property Name="TransLastStepID" Type="int" />
-          <Property Name="TransNextStepID" Type="int" />
-          <Property Name="TransCurrentStepID" Type="int" />
-          <Property Name="RequestUserID" Type="int" />
-          <Property Name="RequestMpID" Type="int" />
-          <Property Name="Remark" Type="nvarchar" MaxLength="400" />
-          <Property Name="CurrentStepNo" Type="int" />
-          <Property Name="Action" Type="varchar" MaxLength="11" />
-          <Property Name="Status" Type="nvarchar" MaxLength="1000" />
-          <Property Name="NextApproverMpID" Type="int" />
-          <Property Name="NextApproverUserID" Type="int" />
-          <Property Name="NextApproverName" Type="nvarchar" MaxLength="500" />
-          <Property Name="LastApproverName" Type="nvarchar" MaxLength="500" />
-          <Property Name="RequestUserName" Type="nvarchar" MaxLength="501" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Form_Waiting' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="vw_Form_Waiting">
-          <Key>
-            <PropertyRef Name="FormHeaderID" />
-          </Key>
-          <Property Name="FormHeaderID" Type="int" Nullable="false" />
-          <Property Name="DocNo" Type="nvarchar" MaxLength="50" />
-          <Property Name="FormID" Type="int" />
-          <Property Name="FormMasterID" Type="int" />
-          <Property Name="CreateDate" Type="datetime" />
-          <Property Name="LastApproveDate" Type="datetime" />
-          <Property Name="TransLastStepID" Type="int" />
-          <Property Name="TransNextStepID" Type="int" />
-          <Property Name="TransCurrentStepID" Type="int" />
-          <Property Name="RequestUserID" Type="int" />
-          <Property Name="RequestMpID" Type="int" />
-          <Property Name="Remark" Type="nvarchar" MaxLength="400" />
-          <Property Name="CurrentStepNo" Type="int" />
-          <Property Name="Action" Type="varchar" MaxLength="11" />
-          <Property Name="Status" Type="nvarchar" MaxLength="1000" />
-          <Property Name="NextApproverUserID" Type="int" />
-          <Property Name="NextApproverMpID" Type="int" />
-          <Property Name="NextApproverName" Type="nvarchar" MaxLength="500" />
-          <Property Name="LastApproverName" Type="nvarchar" MaxLength="500" />
-          <Property Name="RequestUserName" Type="nvarchar" MaxLength="501" />
-        </EntityType>
-        <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Leave_Request' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Leave_Request">
           <Key>
@@ -1793,6 +1742,7 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Leave_Request' does not have 
           <Property Name="CancelReason" Type="nvarchar" MaxLength="400" />
           <Property Name="LeaveFile" Type="nvarchar" MaxLength="400" />
           <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CurrentStepNo" Type="int" />
           <Property Name="LastApproveDate" Type="datetime" />
           <Property Name="TransLastStepID" Type="int" />
           <Property Name="TransNextStepID" Type="int" />
@@ -2011,44 +1961,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Trainning_Course' does not ha
           <Property Name="SecName" Type="nvarchar" MaxLength="200" />
           <Property Name="PoName" Type="nvarchar" MaxLength="200" />
           <Property Name="PoID" Type="int" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Trans_Step_Route' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="vw_Trans_Step_Route">
-          <Key>
-            <PropertyRef Name="StepID" />
-          </Key>
-          <Property Name="StepID" Type="int" Nullable="false" />
-          <Property Name="FormMasterID" Type="int" />
-          <Property Name="FormHeaderID" Type="int" />
-          <Property Name="FormStepID" Type="int" />
-          <Property Name="NextStepID" Type="int" />
-          <Property Name="StepNo" Type="int" />
-          <Property Name="StepName" Type="nvarchar" MaxLength="200" />
-          <Property Name="ApproveType" Type="int" />
-          <Property Name="ExtendProc" Type="nvarchar" MaxLength="50" />
-          <Property Name="IsNotifyAcceptNext" Type="bit" />
-          <Property Name="IsNotifyAcceptSelf" Type="bit" />
-          <Property Name="IsNotifyAcceptPrev" Type="bit" />
-          <Property Name="IsNotifyAcceptRequestor" Type="bit" />
-          <Property Name="IsNotifyAcceptCustom" Type="bit" />
-          <Property Name="IsNotifyRejectNext" Type="bit" />
-          <Property Name="IsNotifyRejectSelf" Type="bit" />
-          <Property Name="IsNotifyRejectPrev" Type="bit" />
-          <Property Name="IsNotifyRejectRequestor" Type="bit" />
-          <Property Name="IsNotifyRejectCustom" Type="bit" />
-          <Property Name="NotifyAcceptNextTemplateID" Type="bit" />
-          <Property Name="NotifyAcceptSelfTemplateID" Type="bit" />
-          <Property Name="NotifyAcceptPrevTemplateID" Type="bit" />
-          <Property Name="NotifyAcceptRequestorTemplateID" Type="bit" />
-          <Property Name="NotifyAcceptCustomTemplateID" Type="bit" />
-          <Property Name="NotifyRejectNextTemplateID" Type="bit" />
-          <Property Name="NotifyRejectSelfTemplateID" Type="bit" />
-          <Property Name="NotifyRejectPrevTemplateID" Type="bit" />
-          <Property Name="NotifyRejectRequestorTemplateID" Type="bit" />
-          <Property Name="NotifyRejectCustomTemplateID" Type="bit" />
-          <Property Name="NotifyAcceptCustomMail" Type="nvarchar" MaxLength="500" />
-          <Property Name="NotifyRejectCustomMail" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -3643,7 +3555,7 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <Parameter Name="DateFrom" Type="int" Mode="In" />
           <Parameter Name="DateTo" Type="int" Mode="In" />
         </Function>
-        <Function Name="sp_WorkFlow_Approve_Step" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="sp_WorkFlow_ApproveStep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FormHeaderID" Type="int" Mode="In" />
           <Parameter Name="StepApproverID" Type="int" Mode="In" />
           <Parameter Name="IsAccept" Type="int" Mode="In" />
@@ -4032,54 +3944,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     [vw_Employee].[RoleID] AS [RoleID]
     FROM [dbo].[vw_Employee] AS [vw_Employee]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="vw_Form_Header" EntityType="Self.vw_Form_Header" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [vw_Form_Header].[FormHeaderID] AS [FormHeaderID], 
-    [vw_Form_Header].[DocNo] AS [DocNo], 
-    [vw_Form_Header].[FormID] AS [FormID], 
-    [vw_Form_Header].[FormMasterID] AS [FormMasterID], 
-    [vw_Form_Header].[CreateDate] AS [CreateDate], 
-    [vw_Form_Header].[LastApproveDate] AS [LastApproveDate], 
-    [vw_Form_Header].[TransLastStepID] AS [TransLastStepID], 
-    [vw_Form_Header].[TransNextStepID] AS [TransNextStepID], 
-    [vw_Form_Header].[TransCurrentStepID] AS [TransCurrentStepID], 
-    [vw_Form_Header].[RequestUserID] AS [RequestUserID], 
-    [vw_Form_Header].[RequestMpID] AS [RequestMpID], 
-    [vw_Form_Header].[Remark] AS [Remark], 
-    [vw_Form_Header].[CurrentStepNo] AS [CurrentStepNo], 
-    [vw_Form_Header].[Action] AS [Action], 
-    [vw_Form_Header].[Status] AS [Status], 
-    [vw_Form_Header].[NextApproverMpID] AS [NextApproverMpID], 
-    [vw_Form_Header].[NextApproverUserID] AS [NextApproverUserID], 
-    [vw_Form_Header].[NextApproverName] AS [NextApproverName], 
-    [vw_Form_Header].[LastApproverName] AS [LastApproverName], 
-    [vw_Form_Header].[RequestUserName] AS [RequestUserName]
-    FROM [dbo].[vw_Form_Header] AS [vw_Form_Header]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="vw_Form_Waiting" EntityType="Self.vw_Form_Waiting" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [vw_Form_Waiting].[FormHeaderID] AS [FormHeaderID], 
-    [vw_Form_Waiting].[DocNo] AS [DocNo], 
-    [vw_Form_Waiting].[FormID] AS [FormID], 
-    [vw_Form_Waiting].[FormMasterID] AS [FormMasterID], 
-    [vw_Form_Waiting].[CreateDate] AS [CreateDate], 
-    [vw_Form_Waiting].[LastApproveDate] AS [LastApproveDate], 
-    [vw_Form_Waiting].[TransLastStepID] AS [TransLastStepID], 
-    [vw_Form_Waiting].[TransNextStepID] AS [TransNextStepID], 
-    [vw_Form_Waiting].[TransCurrentStepID] AS [TransCurrentStepID], 
-    [vw_Form_Waiting].[RequestUserID] AS [RequestUserID], 
-    [vw_Form_Waiting].[RequestMpID] AS [RequestMpID], 
-    [vw_Form_Waiting].[Remark] AS [Remark], 
-    [vw_Form_Waiting].[CurrentStepNo] AS [CurrentStepNo], 
-    [vw_Form_Waiting].[Action] AS [Action], 
-    [vw_Form_Waiting].[Status] AS [Status], 
-    [vw_Form_Waiting].[NextApproverUserID] AS [NextApproverUserID], 
-    [vw_Form_Waiting].[NextApproverMpID] AS [NextApproverMpID], 
-    [vw_Form_Waiting].[NextApproverName] AS [NextApproverName], 
-    [vw_Form_Waiting].[LastApproverName] AS [LastApproverName], 
-    [vw_Form_Waiting].[RequestUserName] AS [RequestUserName]
-    FROM [dbo].[vw_Form_Waiting] AS [vw_Form_Waiting]</DefiningQuery>
-          </EntitySet>
           <EntitySet Name="vw_Leave_Request" EntityType="Self.vw_Leave_Request" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_Leave_Request].[FormHeaderID] AS [FormHeaderID], 
@@ -4097,6 +3961,7 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     [vw_Leave_Request].[CancelReason] AS [CancelReason], 
     [vw_Leave_Request].[LeaveFile] AS [LeaveFile], 
     [vw_Leave_Request].[CreateDate] AS [CreateDate], 
+    [vw_Leave_Request].[CurrentStepNo] AS [CurrentStepNo], 
     [vw_Leave_Request].[LastApproveDate] AS [LastApproveDate], 
     [vw_Leave_Request].[TransLastStepID] AS [TransLastStepID], 
     [vw_Leave_Request].[TransNextStepID] AS [TransNextStepID], 
@@ -4279,41 +4144,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     [vw_Trainning_Course].[PoName] AS [PoName], 
     [vw_Trainning_Course].[PoID] AS [PoID]
     FROM [dbo].[vw_Trainning_Course] AS [vw_Trainning_Course]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="vw_Trans_Step_Route" EntityType="Self.vw_Trans_Step_Route" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [vw_Trans_Step_Route].[StepID] AS [StepID], 
-    [vw_Trans_Step_Route].[FormMasterID] AS [FormMasterID], 
-    [vw_Trans_Step_Route].[FormHeaderID] AS [FormHeaderID], 
-    [vw_Trans_Step_Route].[FormStepID] AS [FormStepID], 
-    [vw_Trans_Step_Route].[NextStepID] AS [NextStepID], 
-    [vw_Trans_Step_Route].[StepNo] AS [StepNo], 
-    [vw_Trans_Step_Route].[StepName] AS [StepName], 
-    [vw_Trans_Step_Route].[ApproveType] AS [ApproveType], 
-    [vw_Trans_Step_Route].[ExtendProc] AS [ExtendProc], 
-    [vw_Trans_Step_Route].[IsNotifyAcceptNext] AS [IsNotifyAcceptNext], 
-    [vw_Trans_Step_Route].[IsNotifyAcceptSelf] AS [IsNotifyAcceptSelf], 
-    [vw_Trans_Step_Route].[IsNotifyAcceptPrev] AS [IsNotifyAcceptPrev], 
-    [vw_Trans_Step_Route].[IsNotifyAcceptRequestor] AS [IsNotifyAcceptRequestor], 
-    [vw_Trans_Step_Route].[IsNotifyAcceptCustom] AS [IsNotifyAcceptCustom], 
-    [vw_Trans_Step_Route].[IsNotifyRejectNext] AS [IsNotifyRejectNext], 
-    [vw_Trans_Step_Route].[IsNotifyRejectSelf] AS [IsNotifyRejectSelf], 
-    [vw_Trans_Step_Route].[IsNotifyRejectPrev] AS [IsNotifyRejectPrev], 
-    [vw_Trans_Step_Route].[IsNotifyRejectRequestor] AS [IsNotifyRejectRequestor], 
-    [vw_Trans_Step_Route].[IsNotifyRejectCustom] AS [IsNotifyRejectCustom], 
-    [vw_Trans_Step_Route].[NotifyAcceptNextTemplateID] AS [NotifyAcceptNextTemplateID], 
-    [vw_Trans_Step_Route].[NotifyAcceptSelfTemplateID] AS [NotifyAcceptSelfTemplateID], 
-    [vw_Trans_Step_Route].[NotifyAcceptPrevTemplateID] AS [NotifyAcceptPrevTemplateID], 
-    [vw_Trans_Step_Route].[NotifyAcceptRequestorTemplateID] AS [NotifyAcceptRequestorTemplateID], 
-    [vw_Trans_Step_Route].[NotifyAcceptCustomTemplateID] AS [NotifyAcceptCustomTemplateID], 
-    [vw_Trans_Step_Route].[NotifyRejectNextTemplateID] AS [NotifyRejectNextTemplateID], 
-    [vw_Trans_Step_Route].[NotifyRejectSelfTemplateID] AS [NotifyRejectSelfTemplateID], 
-    [vw_Trans_Step_Route].[NotifyRejectPrevTemplateID] AS [NotifyRejectPrevTemplateID], 
-    [vw_Trans_Step_Route].[NotifyRejectRequestorTemplateID] AS [NotifyRejectRequestorTemplateID], 
-    [vw_Trans_Step_Route].[NotifyRejectCustomTemplateID] AS [NotifyRejectCustomTemplateID], 
-    [vw_Trans_Step_Route].[NotifyAcceptCustomMail] AS [NotifyAcceptCustomMail], 
-    [vw_Trans_Step_Route].[NotifyRejectCustomMail] AS [NotifyRejectCustomMail]
-    FROM [dbo].[vw_Trans_Step_Route] AS [vw_Trans_Step_Route]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_User" EntityType="Self.vw_User" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -5254,9 +5084,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <EntitySet Name="vw_Department" EntityType="SAT.HR.vw_Department" />
           <EntitySet Name="vw_Division" EntityType="SAT.HR.vw_Division" />
           <EntitySet Name="vw_Employee" EntityType="SAT.HR.vw_Employee" />
-          <EntitySet Name="vw_Form_Header" EntityType="SAT.HR.vw_Form_Header" />
-          <EntitySet Name="vw_Form_Waiting" EntityType="SAT.HR.vw_Form_Waiting" />
-          <EntitySet Name="vw_Leave_Request" EntityType="SAT.HR.vw_Leave_Request" />
           <EntitySet Name="vw_Man_Power" EntityType="SAT.HR.vw_Man_Power" />
           <EntitySet Name="vw_Menu_Role" EntityType="SAT.HR.vw_Menu_Role" />
           <EntitySet Name="vw_Move_Level_Detail" EntityType="SAT.HR.vw_Move_Level_Detail" />
@@ -5266,7 +5093,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <EntitySet Name="vw_Section" EntityType="SAT.HR.vw_Section" />
           <EntitySet Name="vw_Title" EntityType="SAT.HR.vw_Title" />
           <EntitySet Name="vw_Trainning_Course" EntityType="SAT.HR.vw_Trainning_Course" />
-          <EntitySet Name="vw_Trans_Step_Route" EntityType="SAT.HR.vw_Trans_Step_Route" />
           <EntitySet Name="vw_User" EntityType="SAT.HR.vw_User" />
           <EntitySet Name="vw_User_Certificate" EntityType="SAT.HR.vw_User_Certificate" />
           <EntitySet Name="vw_User_Education" EntityType="SAT.HR.vw_User_Education" />
@@ -5655,14 +5481,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
             <Parameter Name="UserID" Mode="In" Type="Int32" />
             <Parameter Name="StepNo" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="sp_WorkFlow_Cancel1">
-            <Parameter Name="FormHeaderID" Mode="In" Type="Int32" />
-            <Parameter Name="UserID" Mode="In" Type="Int32" />
-            <Parameter Name="StepNo" Mode="In" Type="Int32" />
-            <Parameter Name="IsAccept" Mode="In" Type="Int32" />
-            <Parameter Name="Comment" Mode="In" Type="String" />
-          </FunctionImport>
-          <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
           <FunctionImport Name="sp_Leave_Request_Waiting" ReturnType="Collection(SAT.HR.sp_Leave_Request_Waiting_Result)">
             <Parameter Name="PageSize" Mode="In" Type="String" />
             <Parameter Name="InitialPage" Mode="In" Type="String" />
@@ -5671,6 +5489,16 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
             <Parameter Name="ApproverID" Mode="In" Type="String" />
             <Parameter Name="Keyword" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="vw_Leave_Request" EntityType="SAT.HR.vw_Leave_Request" />
+          <FunctionImport Name="sp_WorkFlow_ApproveStep" ReturnType="Collection(SAT.HR.sp_WorkFlow_ApproveStep_Result)">
+            <Parameter Name="FormHeaderID" Mode="In" Type="Int32" />
+            <Parameter Name="StepApproverID" Mode="In" Type="Int32" />
+            <Parameter Name="IsAccept" Mode="In" Type="Int32" />
+            <Parameter Name="Comment" Mode="In" Type="String" />
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="StepNo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
           </EntityContainer>
         <ComplexType Name="sp_Employee_List_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -6455,6 +6283,9 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <Property Name="NotifyRejectCustomTemplateID" Type="Boolean" />
           <Property Name="NotifyAcceptCustomMail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="NotifyRejectCustomMail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MinApprover" Type="Int32" />
+          <Property Name="MaxApprover" Type="Int32" />
+          <Property Name="ReturnStepID" Type="Int32" />
         </EntityType>
         <EntityType Name="tb_Holiday">
           <Key>
@@ -7759,88 +7590,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <Property Name="SexID" Type="Int32" />
           <Property Name="RoleID" Type="Int32" />
         </EntityType>
-        <EntityType Name="vw_Form_Header">
-          <Key>
-            <PropertyRef Name="FormHeaderID" />
-          </Key>
-          <Property Name="FormHeaderID" Type="Int32" Nullable="false" />
-          <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FormID" Type="Int32" />
-          <Property Name="FormMasterID" Type="Int32" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="LastApproveDate" Type="DateTime" Precision="3" />
-          <Property Name="TransLastStepID" Type="Int32" />
-          <Property Name="TransNextStepID" Type="Int32" />
-          <Property Name="TransCurrentStepID" Type="Int32" />
-          <Property Name="RequestUserID" Type="Int32" />
-          <Property Name="RequestMpID" Type="Int32" />
-          <Property Name="Remark" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-          <Property Name="CurrentStepNo" Type="Int32" />
-          <Property Name="Action" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="NextApproverMpID" Type="Int32" />
-          <Property Name="NextApproverUserID" Type="Int32" />
-          <Property Name="NextApproverName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="LastApproverName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="RequestUserName" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="vw_Form_Waiting">
-          <Key>
-            <PropertyRef Name="FormHeaderID" />
-          </Key>
-          <Property Name="FormHeaderID" Type="Int32" Nullable="false" />
-          <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FormID" Type="Int32" />
-          <Property Name="FormMasterID" Type="Int32" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="LastApproveDate" Type="DateTime" Precision="3" />
-          <Property Name="TransLastStepID" Type="Int32" />
-          <Property Name="TransNextStepID" Type="Int32" />
-          <Property Name="TransCurrentStepID" Type="Int32" />
-          <Property Name="RequestUserID" Type="Int32" />
-          <Property Name="RequestMpID" Type="Int32" />
-          <Property Name="Remark" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-          <Property Name="CurrentStepNo" Type="Int32" />
-          <Property Name="Action" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="NextApproverUserID" Type="Int32" />
-          <Property Name="NextApproverMpID" Type="Int32" />
-          <Property Name="NextApproverName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="LastApproverName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="RequestUserName" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="vw_Leave_Request">
-          <Key>
-            <PropertyRef Name="FormHeaderID" />
-          </Key>
-          <Property Name="FormHeaderID" Type="Int32" Nullable="false" />
-          <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FormID" Type="Int32" />
-          <Property Name="FormMasterID" Type="Int32" />
-          <Property Name="LeaveYear" Type="Int32" />
-          <Property Name="LeaveType" Type="Int32" />
-          <Property Name="LeaveTypeName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="StartDate" Type="DateTime" Precision="3" />
-          <Property Name="EndDate" Type="DateTime" Precision="3" />
-          <Property Name="TotalDay" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DayTime" Type="Int32" />
-          <Property Name="LeaveReason" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-          <Property Name="CancelReason" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-          <Property Name="LeaveFile" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="LastApproveDate" Type="DateTime" Precision="3" />
-          <Property Name="TransLastStepID" Type="Int32" />
-          <Property Name="TransNextStepID" Type="Int32" />
-          <Property Name="TransCurrentStepID" Type="Int32" />
-          <Property Name="RequestMpID" Type="Int32" />
-          <Property Name="RequestUserID" Type="Int32" />
-          <Property Name="RequestUserName" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
-          <Property Name="ApproverComment" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-          <Property Name="Action" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="NextApproverName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="LastApproverName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="vw_Man_Power">
           <Key>
             <PropertyRef Name="MpID" />
@@ -8008,42 +7757,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="PoID" Type="Int32" />
-        </EntityType>
-        <EntityType Name="vw_Trans_Step_Route">
-          <Key>
-            <PropertyRef Name="StepID" />
-          </Key>
-          <Property Name="StepID" Type="Int32" Nullable="false" />
-          <Property Name="FormMasterID" Type="Int32" />
-          <Property Name="FormHeaderID" Type="Int32" />
-          <Property Name="FormStepID" Type="Int32" />
-          <Property Name="NextStepID" Type="Int32" />
-          <Property Name="StepNo" Type="Int32" />
-          <Property Name="StepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="ApproveType" Type="Int32" />
-          <Property Name="ExtendProc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IsNotifyAcceptNext" Type="Boolean" />
-          <Property Name="IsNotifyAcceptSelf" Type="Boolean" />
-          <Property Name="IsNotifyAcceptPrev" Type="Boolean" />
-          <Property Name="IsNotifyAcceptRequestor" Type="Boolean" />
-          <Property Name="IsNotifyAcceptCustom" Type="Boolean" />
-          <Property Name="IsNotifyRejectNext" Type="Boolean" />
-          <Property Name="IsNotifyRejectSelf" Type="Boolean" />
-          <Property Name="IsNotifyRejectPrev" Type="Boolean" />
-          <Property Name="IsNotifyRejectRequestor" Type="Boolean" />
-          <Property Name="IsNotifyRejectCustom" Type="Boolean" />
-          <Property Name="NotifyAcceptNextTemplateID" Type="Boolean" />
-          <Property Name="NotifyAcceptSelfTemplateID" Type="Boolean" />
-          <Property Name="NotifyAcceptPrevTemplateID" Type="Boolean" />
-          <Property Name="NotifyAcceptRequestorTemplateID" Type="Boolean" />
-          <Property Name="NotifyAcceptCustomTemplateID" Type="Boolean" />
-          <Property Name="NotifyRejectNextTemplateID" Type="Boolean" />
-          <Property Name="NotifyRejectSelfTemplateID" Type="Boolean" />
-          <Property Name="NotifyRejectPrevTemplateID" Type="Boolean" />
-          <Property Name="NotifyRejectRequestorTemplateID" Type="Boolean" />
-          <Property Name="NotifyRejectCustomTemplateID" Type="Boolean" />
-          <Property Name="NotifyAcceptCustomMail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="NotifyRejectCustomMail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="vw_User">
           <Key>
@@ -9526,24 +9239,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="vw_Organization">
-          <Key>
-            <PropertyRef Name="MpID" />
-            <PropertyRef Name="MpCode" />
-            <PropertyRef Name="DepLevel" />
-          </Key>
-          <Property Name="MpID" Type="Int32" Nullable="false" />
-          <Property Name="MpCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="ParentID" Type="Int32" />
-          <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
-          <Property Name="TypeID" Type="Int32" />
-          <Property Name="DepLevel" Type="Int32" Nullable="false" />
-          <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
         <ComplexType Name="sp_Leave_Request_Waiting_Result">
           <Property Type="Int32" Name="FormHeaderID" Nullable="false" />
           <Property Type="String" Name="DocNo" Nullable="true" MaxLength="50" />
@@ -9573,6 +9268,61 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <Property Type="Int32" Name="recordsTotal" Nullable="true" />
           <Property Type="Int32" Name="recordsFiltered" Nullable="true" />
         </ComplexType>
+        <EntityType Name="vw_Leave_Request">
+          <Key>
+            <PropertyRef Name="FormHeaderID" />
+          </Key>
+          <Property Name="FormHeaderID" Type="Int32" Nullable="false" />
+          <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FormID" Type="Int32" />
+          <Property Name="FormMasterID" Type="Int32" />
+          <Property Name="LeaveYear" Type="Int32" />
+          <Property Name="LeaveType" Type="Int32" />
+          <Property Name="LeaveTypeName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="TotalDay" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DayTime" Type="Int32" />
+          <Property Name="LeaveReason" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="CancelReason" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="LeaveFile" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CurrentStepNo" Type="Int32" />
+          <Property Name="LastApproveDate" Type="DateTime" Precision="3" />
+          <Property Name="TransLastStepID" Type="Int32" />
+          <Property Name="TransNextStepID" Type="Int32" />
+          <Property Name="TransCurrentStepID" Type="Int32" />
+          <Property Name="RequestMpID" Type="Int32" />
+          <Property Name="RequestUserID" Type="Int32" />
+          <Property Name="RequestUserName" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
+          <Property Name="ApproverComment" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="Action" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="NextApproverName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="LastApproverName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <ComplexType Name="sp_WorkFlow_ApproveStep_Result">
+          <Property Type="Int32" Name="MaxApprover" Nullable="true" />
+          <Property Type="Int32" Name="MinApprover" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="vw_Organization">
+          <Key>
+            <PropertyRef Name="MpID" />
+            <PropertyRef Name="MpCode" />
+            <PropertyRef Name="DepLevel" />
+          </Key>
+          <Property Name="MpID" Type="Int32" Nullable="false" />
+          <Property Name="MpCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ParentID" Type="Int32" />
+          <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+          <Property Name="TypeID" Type="Int32" />
+          <Property Name="DepLevel" Type="Int32" Nullable="false" />
+          <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10338,6 +10088,9 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <EntitySetMapping Name="tb_Form_Step">
             <EntityTypeMapping TypeName="SAT.HR.tb_Form_Step">
               <MappingFragment StoreEntitySet="tb_Form_Step">
+                <ScalarProperty Name="ReturnStepID" ColumnName="ReturnStepID" />
+                <ScalarProperty Name="MaxApprover" ColumnName="MaxApprover" />
+                <ScalarProperty Name="MinApprover" ColumnName="MinApprover" />
                 <ScalarProperty Name="NotifyRejectCustomMail" ColumnName="NotifyRejectCustomMail" />
                 <ScalarProperty Name="NotifyAcceptCustomMail" ColumnName="NotifyAcceptCustomMail" />
                 <ScalarProperty Name="NotifyRejectCustomTemplateID" ColumnName="NotifyRejectCustomTemplateID" />
@@ -11598,91 +11351,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="vw_Form_Header">
-            <EntityTypeMapping TypeName="SAT.HR.vw_Form_Header">
-              <MappingFragment StoreEntitySet="vw_Form_Header">
-                <ScalarProperty Name="RequestUserName" ColumnName="RequestUserName" />
-                <ScalarProperty Name="LastApproverName" ColumnName="LastApproverName" />
-                <ScalarProperty Name="NextApproverName" ColumnName="NextApproverName" />
-                <ScalarProperty Name="NextApproverUserID" ColumnName="NextApproverUserID" />
-                <ScalarProperty Name="NextApproverMpID" ColumnName="NextApproverMpID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Action" ColumnName="Action" />
-                <ScalarProperty Name="CurrentStepNo" ColumnName="CurrentStepNo" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="RequestMpID" ColumnName="RequestMpID" />
-                <ScalarProperty Name="RequestUserID" ColumnName="RequestUserID" />
-                <ScalarProperty Name="TransCurrentStepID" ColumnName="TransCurrentStepID" />
-                <ScalarProperty Name="TransNextStepID" ColumnName="TransNextStepID" />
-                <ScalarProperty Name="TransLastStepID" ColumnName="TransLastStepID" />
-                <ScalarProperty Name="LastApproveDate" ColumnName="LastApproveDate" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="FormMasterID" ColumnName="FormMasterID" />
-                <ScalarProperty Name="FormID" ColumnName="FormID" />
-                <ScalarProperty Name="DocNo" ColumnName="DocNo" />
-                <ScalarProperty Name="FormHeaderID" ColumnName="FormHeaderID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="vw_Form_Waiting">
-            <EntityTypeMapping TypeName="SAT.HR.vw_Form_Waiting">
-              <MappingFragment StoreEntitySet="vw_Form_Waiting">
-                <ScalarProperty Name="RequestUserName" ColumnName="RequestUserName" />
-                <ScalarProperty Name="LastApproverName" ColumnName="LastApproverName" />
-                <ScalarProperty Name="NextApproverName" ColumnName="NextApproverName" />
-                <ScalarProperty Name="NextApproverMpID" ColumnName="NextApproverMpID" />
-                <ScalarProperty Name="NextApproverUserID" ColumnName="NextApproverUserID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Action" ColumnName="Action" />
-                <ScalarProperty Name="CurrentStepNo" ColumnName="CurrentStepNo" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="RequestMpID" ColumnName="RequestMpID" />
-                <ScalarProperty Name="RequestUserID" ColumnName="RequestUserID" />
-                <ScalarProperty Name="TransCurrentStepID" ColumnName="TransCurrentStepID" />
-                <ScalarProperty Name="TransNextStepID" ColumnName="TransNextStepID" />
-                <ScalarProperty Name="TransLastStepID" ColumnName="TransLastStepID" />
-                <ScalarProperty Name="LastApproveDate" ColumnName="LastApproveDate" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="FormMasterID" ColumnName="FormMasterID" />
-                <ScalarProperty Name="FormID" ColumnName="FormID" />
-                <ScalarProperty Name="DocNo" ColumnName="DocNo" />
-                <ScalarProperty Name="FormHeaderID" ColumnName="FormHeaderID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="vw_Leave_Request">
-            <EntityTypeMapping TypeName="SAT.HR.vw_Leave_Request">
-              <MappingFragment StoreEntitySet="vw_Leave_Request">
-                <ScalarProperty Name="LastApproverName" ColumnName="LastApproverName" />
-                <ScalarProperty Name="NextApproverName" ColumnName="NextApproverName" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Action" ColumnName="Action" />
-                <ScalarProperty Name="ApproverComment" ColumnName="ApproverComment" />
-                <ScalarProperty Name="RequestUserName" ColumnName="RequestUserName" />
-                <ScalarProperty Name="RequestUserID" ColumnName="RequestUserID" />
-                <ScalarProperty Name="RequestMpID" ColumnName="RequestMpID" />
-                <ScalarProperty Name="TransCurrentStepID" ColumnName="TransCurrentStepID" />
-                <ScalarProperty Name="TransNextStepID" ColumnName="TransNextStepID" />
-                <ScalarProperty Name="TransLastStepID" ColumnName="TransLastStepID" />
-                <ScalarProperty Name="LastApproveDate" ColumnName="LastApproveDate" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="LeaveFile" ColumnName="LeaveFile" />
-                <ScalarProperty Name="CancelReason" ColumnName="CancelReason" />
-                <ScalarProperty Name="LeaveReason" ColumnName="LeaveReason" />
-                <ScalarProperty Name="DayTime" ColumnName="DayTime" />
-                <ScalarProperty Name="TotalDay" ColumnName="TotalDay" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="LeaveTypeName" ColumnName="LeaveTypeName" />
-                <ScalarProperty Name="LeaveType" ColumnName="LeaveType" />
-                <ScalarProperty Name="LeaveYear" ColumnName="LeaveYear" />
-                <ScalarProperty Name="FormMasterID" ColumnName="FormMasterID" />
-                <ScalarProperty Name="FormID" ColumnName="FormID" />
-                <ScalarProperty Name="DocNo" ColumnName="DocNo" />
-                <ScalarProperty Name="FormHeaderID" ColumnName="FormHeaderID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="vw_Man_Power">
             <EntityTypeMapping TypeName="SAT.HR.vw_Man_Power">
               <MappingFragment StoreEntitySet="vw_Man_Power">
@@ -11852,43 +11520,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
                 <ScalarProperty Name="CourseName" ColumnName="CourseName" />
                 <ScalarProperty Name="CourseNo" ColumnName="CourseNo" />
                 <ScalarProperty Name="CourseID" ColumnName="CourseID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="vw_Trans_Step_Route">
-            <EntityTypeMapping TypeName="SAT.HR.vw_Trans_Step_Route">
-              <MappingFragment StoreEntitySet="vw_Trans_Step_Route">
-                <ScalarProperty Name="NotifyRejectCustomMail" ColumnName="NotifyRejectCustomMail" />
-                <ScalarProperty Name="NotifyAcceptCustomMail" ColumnName="NotifyAcceptCustomMail" />
-                <ScalarProperty Name="NotifyRejectCustomTemplateID" ColumnName="NotifyRejectCustomTemplateID" />
-                <ScalarProperty Name="NotifyRejectRequestorTemplateID" ColumnName="NotifyRejectRequestorTemplateID" />
-                <ScalarProperty Name="NotifyRejectPrevTemplateID" ColumnName="NotifyRejectPrevTemplateID" />
-                <ScalarProperty Name="NotifyRejectSelfTemplateID" ColumnName="NotifyRejectSelfTemplateID" />
-                <ScalarProperty Name="NotifyRejectNextTemplateID" ColumnName="NotifyRejectNextTemplateID" />
-                <ScalarProperty Name="NotifyAcceptCustomTemplateID" ColumnName="NotifyAcceptCustomTemplateID" />
-                <ScalarProperty Name="NotifyAcceptRequestorTemplateID" ColumnName="NotifyAcceptRequestorTemplateID" />
-                <ScalarProperty Name="NotifyAcceptPrevTemplateID" ColumnName="NotifyAcceptPrevTemplateID" />
-                <ScalarProperty Name="NotifyAcceptSelfTemplateID" ColumnName="NotifyAcceptSelfTemplateID" />
-                <ScalarProperty Name="NotifyAcceptNextTemplateID" ColumnName="NotifyAcceptNextTemplateID" />
-                <ScalarProperty Name="IsNotifyRejectCustom" ColumnName="IsNotifyRejectCustom" />
-                <ScalarProperty Name="IsNotifyRejectRequestor" ColumnName="IsNotifyRejectRequestor" />
-                <ScalarProperty Name="IsNotifyRejectPrev" ColumnName="IsNotifyRejectPrev" />
-                <ScalarProperty Name="IsNotifyRejectSelf" ColumnName="IsNotifyRejectSelf" />
-                <ScalarProperty Name="IsNotifyRejectNext" ColumnName="IsNotifyRejectNext" />
-                <ScalarProperty Name="IsNotifyAcceptCustom" ColumnName="IsNotifyAcceptCustom" />
-                <ScalarProperty Name="IsNotifyAcceptRequestor" ColumnName="IsNotifyAcceptRequestor" />
-                <ScalarProperty Name="IsNotifyAcceptPrev" ColumnName="IsNotifyAcceptPrev" />
-                <ScalarProperty Name="IsNotifyAcceptSelf" ColumnName="IsNotifyAcceptSelf" />
-                <ScalarProperty Name="IsNotifyAcceptNext" ColumnName="IsNotifyAcceptNext" />
-                <ScalarProperty Name="ExtendProc" ColumnName="ExtendProc" />
-                <ScalarProperty Name="ApproveType" ColumnName="ApproveType" />
-                <ScalarProperty Name="StepName" ColumnName="StepName" />
-                <ScalarProperty Name="StepNo" ColumnName="StepNo" />
-                <ScalarProperty Name="NextStepID" ColumnName="NextStepID" />
-                <ScalarProperty Name="FormStepID" ColumnName="FormStepID" />
-                <ScalarProperty Name="FormHeaderID" ColumnName="FormHeaderID" />
-                <ScalarProperty Name="FormMasterID" ColumnName="FormMasterID" />
-                <ScalarProperty Name="StepID" ColumnName="StepID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -12270,25 +11901,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_WorkFlow_Approve_Step" FunctionName="SAT.HR.Store.sp_WorkFlow_Approve_Step" />
-          <FunctionImportMapping FunctionImportName="sp_WorkFlow_Cancel1" FunctionName="SAT.HR.Store.sp_WorkFlow_Cancel" />
-          <EntitySetMapping Name="vw_Organization">
-            <EntityTypeMapping TypeName="SAT.HR.vw_Organization">
-              <MappingFragment StoreEntitySet="vw_Organization">
-                <ScalarProperty Name="PathMpID" ColumnName="PathMpID" />
-                <ScalarProperty Name="DepLevel" ColumnName="DepLevel" />
-                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
-                <ScalarProperty Name="FullNameTh" ColumnName="FullNameTh" />
-                <ScalarProperty Name="PoName" ColumnName="PoName" />
-                <ScalarProperty Name="SecName" ColumnName="SecName" />
-                <ScalarProperty Name="DepName" ColumnName="DepName" />
-                <ScalarProperty Name="DivName" ColumnName="DivName" />
-                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
-                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
-                <ScalarProperty Name="MpID" ColumnName="MpID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_Leave_Request_Waiting" FunctionName="SAT.HR.Store.sp_Leave_Request_Waiting">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SAT.HR.sp_Leave_Request_Waiting_Result">
@@ -12322,6 +11934,65 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="vw_Leave_Request">
+            <EntityTypeMapping TypeName="SAT.HR.vw_Leave_Request">
+              <MappingFragment StoreEntitySet="vw_Leave_Request">
+                <ScalarProperty Name="LastApproverName" ColumnName="LastApproverName" />
+                <ScalarProperty Name="NextApproverName" ColumnName="NextApproverName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="ApproverComment" ColumnName="ApproverComment" />
+                <ScalarProperty Name="RequestUserName" ColumnName="RequestUserName" />
+                <ScalarProperty Name="RequestUserID" ColumnName="RequestUserID" />
+                <ScalarProperty Name="RequestMpID" ColumnName="RequestMpID" />
+                <ScalarProperty Name="TransCurrentStepID" ColumnName="TransCurrentStepID" />
+                <ScalarProperty Name="TransNextStepID" ColumnName="TransNextStepID" />
+                <ScalarProperty Name="TransLastStepID" ColumnName="TransLastStepID" />
+                <ScalarProperty Name="LastApproveDate" ColumnName="LastApproveDate" />
+                <ScalarProperty Name="CurrentStepNo" ColumnName="CurrentStepNo" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="LeaveFile" ColumnName="LeaveFile" />
+                <ScalarProperty Name="CancelReason" ColumnName="CancelReason" />
+                <ScalarProperty Name="LeaveReason" ColumnName="LeaveReason" />
+                <ScalarProperty Name="DayTime" ColumnName="DayTime" />
+                <ScalarProperty Name="TotalDay" ColumnName="TotalDay" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="LeaveTypeName" ColumnName="LeaveTypeName" />
+                <ScalarProperty Name="LeaveType" ColumnName="LeaveType" />
+                <ScalarProperty Name="LeaveYear" ColumnName="LeaveYear" />
+                <ScalarProperty Name="FormMasterID" ColumnName="FormMasterID" />
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
+                <ScalarProperty Name="DocNo" ColumnName="DocNo" />
+                <ScalarProperty Name="FormHeaderID" ColumnName="FormHeaderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_WorkFlow_ApproveStep" FunctionName="SAT.HR.Store.sp_WorkFlow_ApproveStep">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_WorkFlow_ApproveStep_Result">
+                <ScalarProperty Name="MaxApprover" ColumnName="MaxApprover" />
+                <ScalarProperty Name="MinApprover" ColumnName="MinApprover" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="vw_Organization">
+            <EntityTypeMapping TypeName="SAT.HR.vw_Organization">
+              <MappingFragment StoreEntitySet="vw_Organization">
+                <ScalarProperty Name="PathMpID" ColumnName="PathMpID" />
+                <ScalarProperty Name="DepLevel" ColumnName="DepLevel" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="FullNameTh" ColumnName="FullNameTh" />
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="SecName" ColumnName="SecName" />
+                <ScalarProperty Name="DepName" ColumnName="DepName" />
+                <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
+                <ScalarProperty Name="MpID" ColumnName="MpID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
