@@ -602,6 +602,7 @@
       <Parameter Name="Status" Mode="In" Type="String" />
       <Parameter Name="Keyword" Mode="In" Type="String" />
     </FunctionImport>
+    <EntitySet Name="vw_Leave_Request" EntityType="SAT.HR.vw_Leave_Request" />
     <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
   </EntityContainer>
   <ComplexType Name="sp_Employee_List_Result">
@@ -4325,6 +4326,38 @@
     <Property Type="Int32" Name="recordsTotal" Nullable="true" />
     <Property Type="Int32" Name="recordsFiltered" Nullable="true" />
   </ComplexType>
+  <EntityType Name="vw_Leave_Request">
+    <Key>
+      <PropertyRef Name="FormHeaderID" />
+    </Key>
+    <Property Name="FormHeaderID" Type="Int32" Nullable="false" />
+    <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FormID" Type="Int32" />
+    <Property Name="FormMasterID" Type="Int32" />
+    <Property Name="LeaveYear" Type="Int32" />
+    <Property Name="LeaveType" Type="Int32" />
+    <Property Name="LeaveTypeName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="StartDate" Type="DateTime" Precision="3" />
+    <Property Name="EndDate" Type="DateTime" Precision="3" />
+    <Property Name="TotalDay" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="DayTime" Type="Int32" />
+    <Property Name="LeaveReason" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="CancelReason" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="LeaveFile" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="LastApproveDate" Type="DateTime" Precision="3" />
+    <Property Name="TransLastStepID" Type="Int32" />
+    <Property Name="TransNextStepID" Type="Int32" />
+    <Property Name="TransCurrentStepID" Type="Int32" />
+    <Property Name="RequestMpID" Type="Int32" />
+    <Property Name="RequestUserID" Type="Int32" />
+    <Property Name="RequestUserName" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
+    <Property Name="ApproverComment" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="Action" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="NextApproverName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="LastApproverName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
   <EntityType Name="vw_Organization">
     <Key>
       <PropertyRef Name="MpID" />

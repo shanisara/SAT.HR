@@ -19,7 +19,7 @@ namespace SAT.HR.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class ResourceSAT {
@@ -61,6 +61,33 @@ namespace SAT.HR.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ทำรายการเรียบร้อยแล้ว.
+        /// </summary>
+        public static string ActionSucceed {
+            get {
+                return ResourceManager.GetString("ActionSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to อนุมัติเรียบร้อยแล้ว.
+        /// </summary>
+        public static string ApproveSucceed {
+            get {
+                return ResourceManager.GetString("ApproveSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to อนุมัติ.
+        /// </summary>
+        public static string btnApprove {
+            get {
+                return ResourceManager.GetString("btnApprove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ย้อนกลับ.
         /// </summary>
         public static string btnBack {
@@ -84,6 +111,15 @@ namespace SAT.HR.Resources {
         public static string btnClose {
             get {
                 return ResourceManager.GetString("btnClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ไม่อนุมัติ.
+        /// </summary>
+        public static string btnDisapprove {
+            get {
+                return ResourceManager.GetString("btnDisapprove", resourceCulture);
             }
         }
         
@@ -124,6 +160,15 @@ namespace SAT.HR.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ท่านต้องการอนุมัติรายการนี้ใช่หรือไม่.
+        /// </summary>
+        public static string ConfirmApprove {
+            get {
+                return ResourceManager.GetString("ConfirmApprove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ท่านต้องการยกเลิกรายการนี้ใช่หรือไม่.
         /// </summary>
         public static string ConfirmCancel {
@@ -138,6 +183,15 @@ namespace SAT.HR.Resources {
         public static string ConfirmDelete {
             get {
                 return ResourceManager.GetString("ConfirmDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ท่านต้องการไม่อนุมัติรายการนี้ใช่หรือไม่.
+        /// </summary>
+        public static string ConfirmDisapprove {
+            get {
+                return ResourceManager.GetString("ConfirmDisapprove", resourceCulture);
             }
         }
         

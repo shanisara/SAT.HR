@@ -19,6 +19,7 @@ namespace SAT.HR.Models
         public string LeaveReason { get; set; }
         public string CancelReason { get; set; }
         public string Remark { get; set; }
+        public string Comment { get; set; }
         public Nullable<int> Status { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
@@ -29,20 +30,26 @@ namespace SAT.HR.Models
         public Nullable<decimal> LeaveStandard { get; set; }
         public Nullable<decimal> LeaveUsed { get; set; }
         public Nullable<decimal> LeaveMax { get; set; }
+        public Nullable<decimal> LeavePending { get; set; }
         public Nullable<decimal> LeaveTotalDay { get; set; }
         public string Approver { get; set; }
         public string RequestName { get; set; }
         public string LeaveTypeName { get; set; }
         public string StatusName { get; set; }
         public string CreateByName { get; set; }
+        public string DayTimeName { get; set; }
         public Nullable<int> LeaveYear { get; set; }
         public string PathFile { get; set; }
         public HttpPostedFileBase LeaveFile { get; set; }
         public string CreateDateText { get; set; }
-        public string StartDateDateText { get; set; }
-        public string EndDateDateText { get; set; }
+        public string StartDateText { get; set; }
+        public string EndDateText { get; set; }
         public int recordsTotal { get; set; }
         public int recordsFiltered { get; set; }
+        public Nullable<int> FormHeaderID { get; set; }
+        public Nullable<int> FormMasterID { get; set; }
+        public Nullable<int> CurrentStepID { get; set; }
+        public Nullable<int> Accept { get; set; }
         public List<LeaveRequestViewModel> ListLeave { get; set; }
     }
 

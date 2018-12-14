@@ -30,11 +30,7 @@ namespace SAT.HR.Controllers
 
         public ActionResult LeaveApprove(int? id)
         {
-            var model = new LeaveRequestRepository().GetByID(id);
-
-            ViewBag.Employee = DropDownList.GetEmployee(model.RequestID, 1);
-            ViewBag.LeaveType = DropDownList.GetLeaveType(model.LeaveType, true, UtilityService.User.SexID, (int)model.RequestID);
-
+            var model = new LeaveRequestRepository().GetDetail(id);
             return View(model);
         }
 
@@ -58,9 +54,15 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult ApproveLeave(LeaveRequestViewModel data)
+        {
+            ResponseData result = new LeaveRequestRepository().Approve(data);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult ConfirmCancelLeaveRequest(int id, string reason)
         {
-            var result = new LeaveRequestRepository().ConfirmCancelByID(id, reason);
+            var result = new LeaveRequestRepository().Cancel(id, reason);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

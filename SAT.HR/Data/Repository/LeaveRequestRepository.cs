@@ -40,8 +40,8 @@ namespace SAT.HR.Data
                         model.RequestName = item.RequestUserName;
                         model.DocNo = item.DocNo;
                         model.LeaveTypeName = item.LeaveTypeName;
-                        model.StartDateDateText = item.StartDate.Value.ToString("dd/MM/yyyy");
-                        model.EndDateDateText = item.EndDate.Value.ToString("dd/MM/yyyy");
+                        model.StartDateText = item.StartDate.Value.ToString("dd/MM/yyyy");
+                        model.EndDateText = item.EndDate.Value.ToString("dd/MM/yyyy");
                         model.CreateDateText = item.CreateDate.Value.ToString("dd/MM/yyyy");
                         model.StatusName = item.Status;
                         model.recordsTotal = (int)item.recordsTotal;
@@ -85,13 +85,15 @@ namespace SAT.HR.Data
                         LeaveRequestViewModel model = new LeaveRequestViewModel();
                         model.RowNumber = ++i;
                         model.FormID = item.FormID;
+                        model.FormHeaderID = item.FormHeaderID;
+                        model.CurrentStepID = item.TransCurrentStepID;
                         model.RequestID = item.RequestUserID;
                         model.LeaveYear = item.LeaveYear;
                         model.RequestName = item.RequestUserName;
                         model.DocNo = item.DocNo;
                         model.LeaveTypeName = item.LeaveTypeName;
-                        model.StartDateDateText = item.StartDate.Value.ToString("dd/MM/yyyy");
-                        model.EndDateDateText = item.EndDate.Value.ToString("dd/MM/yyyy");
+                        model.StartDateText = item.StartDate.Value.ToString("dd/MM/yyyy");
+                        model.EndDateText = item.EndDate.Value.ToString("dd/MM/yyyy");
                         model.CreateDateText = item.CreateDate.Value.ToString("dd/MM/yyyy");
                         model.StatusName = item.Status;
                         model.recordsTotal = (int)item.recordsTotal;
@@ -177,6 +179,7 @@ namespace SAT.HR.Data
                         model.LeaveStandard = leaveBalance.LevStandard;
                         model.LeaveUsed = leaveBalance.LevUsed;
                         model.LeaveBalance = leaveBalance.LevBalance;
+                        model.LeavePending = leaveBalance.LevPending;
                     }
                     else
                     {
@@ -185,6 +188,55 @@ namespace SAT.HR.Data
                         model.StartDate = Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH")));
                         model.EndDate = Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH")));
                         model.TotalDay = 1;
+                    }
+
+                    return model;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public LeaveRequestViewModel GetDetail(int? id)
+        {
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    LeaveRequestViewModel model = new LeaveRequestViewModel();
+
+                    var item = db.vw_Leave_Request.Where(x => x.FormID == id).FirstOrDefault();
+                    if (item != null)
+                    {
+                        model.FormID = item.FormID;
+                        model.FormHeaderID = item.FormHeaderID;
+                        model.FormMasterID = item.FormMasterID;
+                        model.DocNo = item.DocNo;
+                        model.LeaveYear = item.LeaveYear;
+                        model.LeaveType = item.LeaveType;
+                        model.LeaveTypeName = item.LeaveTypeName;
+                        model.RequestID = item.RequestUserID;
+                        model.RequestName = item.RequestUserName;
+                        model.StartDate = item.StartDate;
+                        model.EndDate = item.EndDate;
+                        model.DayTime = item.DayTime;
+                        model.TotalDay = item.TotalDay;
+                        model.LeaveReason = item.LeaveReason;
+                        model.CancelReason = item.CancelReason;
+                        model.Remark = item.ApproverComment;
+                        model.PathFile = item.LeaveFile;
+                        model.LeaveTotalDay = item.TotalDay;
+                        if (model.DayTime == 1)
+                            model.DayTimeName = "ทั้งวัน";
+                        if (model.DayTime == 2)
+                            model.DayTimeName = "ครึ่งวันเช้า";
+                        if (model.DayTime == 3)
+                            model.DayTimeName = "ครึ่งวันบ่าย";
+                        model.StartDateText = item.StartDate.Value.ToString("dd/MM/yyyy");
+                        model.EndDateText = item.EndDate.Value.ToString("dd/MM/yyyy");
+                        model.TotalDay = item.TotalDay;
                     }
 
                     return model;
@@ -316,7 +368,7 @@ namespace SAT.HR.Data
             }
         }
 
-        public ResponseData ConfirmCancelByID(int id, string reason)
+        public ResponseData Cancel(int id, string reason)
         {
             ResponseData result = new ResponseData();
             using (SATEntities db = new SATEntities())
@@ -339,6 +391,26 @@ namespace SAT.HR.Data
                     result.MessageText = ex.Message;
                 }
                 return result;
+            }
+        }
+
+        public ResponseData Approve(LeaveRequestViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                using (var transection = db.Database.BeginTransaction())
+                {
+                    ResponseData result = new Models.ResponseData();
+                    try
+                    {
+
+                        return result;
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                }
             }
         }
 

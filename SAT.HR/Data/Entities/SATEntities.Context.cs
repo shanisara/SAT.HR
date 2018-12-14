@@ -161,6 +161,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Import_Master> tb_Import_Master { get; set; }
         public virtual DbSet<tb_Leave_Type> tb_Leave_Type { get; set; }
         public virtual DbSet<tb_Leave_Request> tb_Leave_Request { get; set; }
+        public virtual DbSet<vw_Leave_Request> vw_Leave_Request { get; set; }
         public virtual DbSet<vw_Organization> vw_Organization { get; set; }
     
         public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
