@@ -396,6 +396,11 @@ namespace SAT.HR.Data
                     //[sp_WorkFlow_Cancel] 43, 292, 0, 0,'ยกเลิก'
                     db.sp_WorkFlow_Cancel(formheaderid, userid, stepno, 0, reason);
                     db.SaveChanges();
+
+                    int year = DateTime.Now.Year;
+                    var leavebalance = db.tb_Leave_Balance.Where(x => x.UserID == userid && x.LevYear == year && x.LevID == data.LeaveType).FirstOrDefault();
+                    leavebalance.LevUsed = leavebalance.LevUsed + data.TotalDay;
+                    db.SaveChanges();
                 }
                 catch (Exception ex)
                 {
@@ -420,7 +425,9 @@ namespace SAT.HR.Data
 
                     if(data.Accept == 1)
                     {
+                        int year = DateTime.Now.Year;
                         decimal dayUse = (decimal)data.TotalDay;
+                        result = new LeaveBalanceRepository().UpdateLeaveBalance(userid, year, (int)data.LeaveType, dayUse);
                     }
                 }
                 catch (Exception ex)

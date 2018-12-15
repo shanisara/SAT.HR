@@ -106,6 +106,47 @@ namespace SAT.HR.Data
             }
         }
 
+        public ResponseData UpdateLeaveBalance(int userid, int year, int leaveid, decimal day)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                ResponseData result = new Models.ResponseData();
+                try
+                {
+                    var leavebalance = db.tb_Leave_Balance.Where(x => x.UserID == userid && x.LevYear == year && x.LevID == leaveid).FirstOrDefault();
+                    if(leavebalance == null)
+                    {
+                        var leave = db.sp_Leave_Balance_User(userid, year).ToList();
+                        foreach (var item in leave)
+                        {
+                            tb_Leave_Balance model = new tb_Leave_Balance();
+                            model.UserID = userid;
+                            model.LevYear = year;
+                            model.LevID = item.LevID;
+                            model.LevStandard = item.LevStandard;
+                            //model.LevMax = item.LevMax;
+                            model.LevUsed = item.LevUsed;
+                            model.CreateBy = UtilityService.User.UserID;
+                            model.CreateDate = DateTime.Now;
+                            model.ModifyBy = UtilityService.User.UserID;
+                            model.ModifyDate = DateTime.Now;
+                            db.tb_Leave_Balance.Add(model);
+                            db.SaveChanges();
+                        }
+                    }
+                    leavebalance.LevUsed = leavebalance.LevUsed + day;
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+
+                return result;
+            }
+        }
+
         public LeaveBalanceViewModel LeaveBalanceByUser(int userid, int leaveid)
         {
             using (SATEntities db = new SATEntities())
