@@ -29,7 +29,8 @@
                             <label class="col-sm-2 col-form-label">ชื่อผู้ลา</label>
                             <div class="col-sm-3">
                                 <div class="form-group bmd-form-group">
-                                    @Html.DropDownListFor(m => m.RequestID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Employee, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true", required = "true" })
+                                    @*@Html.DropDownListFor(m => m.RequestID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Employee, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true", required = "true" })*@
+                                    @Html.DisplayFor(m => m.RequestName, new { @class = "form-control" })
                                 </div>
                             </div>
                         </div>
@@ -111,11 +112,34 @@
                                 <input id="LeaveFile" name="LeaveFile" type="file" class="form-control file-upload">
                             </div>
                         </div>
-                        
+
+                        if (Model.Action == "Approved")
+                        {
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">ผู้อนุมัติ:</label>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group">
+                                    @Html.DisplayFor(m => m.Approver, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">เหตุผลการอนุมัติ:</label>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group">
+                                    @Html.DisplayFor(m => m.ApproverComment, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        }
+
                         <div class="row m-t-40">
                             <div class="ml-auto mr-auto">
                                 <button type="button" class="btn btn-back">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnBack)</button>
-                                <button type="button" class="btn btn-primary btn-save">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+                                @if(Model.FormID == null)
+                                {
+                                    <button type="button" class="btn btn-primary btn-save">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+                                }
                             </div>
                         </div>
                     }

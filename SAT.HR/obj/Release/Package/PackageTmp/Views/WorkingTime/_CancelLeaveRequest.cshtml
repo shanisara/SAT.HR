@@ -1,1 +1,20 @@
-﻿
+﻿@model SAT.HR.Models.LeaveRequestViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-cancel" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.FormHeaderID)
+    @Html.HiddenFor(m => m.FormID)
+    @Html.HiddenFor(m => m.FormMasterID)
+
+    <div class="form-horizontal">
+        <div class="row">
+            @Html.Label("เหตุผล: ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                <div class="form-group bmd-form-group">
+                    @Html.TextAreaFor(m => m.CancelReason, 5, 100, new { @class = "form-control", required = "true" })
+                </div>
+            </div>
+        </div>
+    </div>
+}

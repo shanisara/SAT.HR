@@ -469,6 +469,52 @@
     <Property Name="ExTID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ExTName" Type="nvarchar" MaxLength="200" />
   </EntityType>
+  <EntityType Name="tb_Form_Master">
+    <Key>
+      <PropertyRef Name="FormMasterID" />
+    </Key>
+    <Property Name="FormMasterID" Type="int" Nullable="false" />
+    <Property Name="FormMasterName" Type="nvarchar" MaxLength="200" />
+    <Property Name="FormMasterDesc" Type="nvarchar" MaxLength="200" />
+    <Property Name="FormTableName" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="tb_Form_Step">
+    <Key>
+      <PropertyRef Name="FormStepID" />
+    </Key>
+    <Property Name="FormStepID" Type="int" Nullable="false" />
+    <Property Name="FormMasterID" Type="int" />
+    <Property Name="StepNo" Type="int" />
+    <Property Name="StepName" Type="nvarchar" MaxLength="200" />
+    <Property Name="NextStepID" Type="int" />
+    <Property Name="ApproveType" Type="int" />
+    <Property Name="ExtendProc" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsNotifyAcceptNext" Type="bit" />
+    <Property Name="IsNotifyAcceptSelf" Type="bit" />
+    <Property Name="IsNotifyAcceptPrev" Type="bit" />
+    <Property Name="IsNotifyAcceptRequestor" Type="bit" />
+    <Property Name="IsNotifyAcceptCustom" Type="bit" />
+    <Property Name="IsNotifyRejectNext" Type="bit" />
+    <Property Name="IsNotifyRejectSelf" Type="bit" />
+    <Property Name="IsNotifyRejectPrev" Type="bit" />
+    <Property Name="IsNotifyRejectRequestor" Type="bit" />
+    <Property Name="IsNotifyRejectCustom" Type="bit" />
+    <Property Name="NotifyAcceptNextTemplateID" Type="bit" />
+    <Property Name="NotifyAcceptSelfTemplateID" Type="bit" />
+    <Property Name="NotifyAcceptPrevTemplateID" Type="bit" />
+    <Property Name="NotifyAcceptRequestorTemplateID" Type="bit" />
+    <Property Name="NotifyAcceptCustomTemplateID" Type="bit" />
+    <Property Name="NotifyRejectNextTemplateID" Type="bit" />
+    <Property Name="NotifyRejectSelfTemplateID" Type="bit" />
+    <Property Name="NotifyRejectPrevTemplateID" Type="bit" />
+    <Property Name="NotifyRejectRequestorTemplateID" Type="bit" />
+    <Property Name="NotifyRejectCustomTemplateID" Type="bit" />
+    <Property Name="NotifyAcceptCustomMail" Type="nvarchar" MaxLength="500" />
+    <Property Name="NotifyRejectCustomMail" Type="nvarchar" MaxLength="500" />
+    <Property Name="MinApprover" Type="int" />
+    <Property Name="MaxApprover" Type="int" />
+    <Property Name="ReturnStepID" Type="int" />
+  </EntityType>
   <EntityType Name="tb_Holiday">
     <Key>
       <PropertyRef Name="HolID" />
@@ -578,6 +624,7 @@
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
+    <Property Name="CancelDate" Type="datetime" />
   </EntityType>
   <EntityType Name="tb_Leave_Status">
     <Key>
@@ -1664,10 +1711,47 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Employee' does not have a pri
     <Property Name="StatusID" Type="int" />
     <Property Name="StatusName" Type="nvarchar" MaxLength="50" />
     <Property Name="IsActive" Type="bit" />
+    <Property Name="IsTerminate" Type="bit" />
     <Property Name="UserTypeID" Type="int" />
     <Property Name="UserTypeName" Type="nvarchar" MaxLength="50" />
     <Property Name="SexID" Type="int" />
     <Property Name="RoleID" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Leave_Request' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Leave_Request">
+    <Key>
+      <PropertyRef Name="FormHeaderID" />
+    </Key>
+    <Property Name="FormHeaderID" Type="int" Nullable="false" />
+    <Property Name="DocNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="FormID" Type="int" />
+    <Property Name="FormMasterID" Type="int" />
+    <Property Name="LeaveYear" Type="int" />
+    <Property Name="LeaveType" Type="int" />
+    <Property Name="LeaveTypeName" Type="nvarchar" MaxLength="200" />
+    <Property Name="StartDate" Type="datetime" />
+    <Property Name="EndDate" Type="datetime" />
+    <Property Name="TotalDay" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="DayTime" Type="int" />
+    <Property Name="LeaveReason" Type="nvarchar" MaxLength="400" />
+    <Property Name="CancelReason" Type="nvarchar" MaxLength="400" />
+    <Property Name="LeaveFile" Type="nvarchar" MaxLength="400" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CurrentStepNo" Type="int" />
+    <Property Name="LastApproveDate" Type="datetime" />
+    <Property Name="TransLastStepID" Type="int" />
+    <Property Name="TransNextStepID" Type="int" />
+    <Property Name="TransCurrentStepID" Type="int" />
+    <Property Name="RequestMpID" Type="int" />
+    <Property Name="RequestUserID" Type="int" />
+    <Property Name="RequestUserName" Type="nvarchar" MaxLength="501" />
+    <Property Name="ApproverComment" Type="nvarchar" MaxLength="400" />
+    <Property Name="Action" Type="varchar" MaxLength="11" />
+    <Property Name="Status" Type="nvarchar" MaxLength="1000" />
+    <Property Name="NextApproverName" Type="nvarchar" MaxLength="500" />
+    <Property Name="LastApproverName" Type="nvarchar" MaxLength="500" />
+    <Property Name="LastApproverComment" Type="nvarchar" MaxLength="2000" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Man_Power' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1936,7 +2020,7 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User' does not have a primary
     <Property Name="AgentSecID" Type="int" />
     <Property Name="AgentPoID" Type="int" />
     <Property Name="PoAName" Type="nvarchar" MaxLength="100" />
-    <Property Name="HomeAddr" Type="nvarchar" MaxLength="100" />
+    <Property Name="HomeAddr" Type="nvarchar(max)" />
     <Property Name="HomeSubDistrictID" Type="int" />
     <Property Name="HomeSubDistrictName" Type="nvarchar" MaxLength="100" />
     <Property Name="HomeDistrictID" Type="int" />
@@ -1944,7 +2028,7 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User' does not have a primary
     <Property Name="HomeProvinceID" Type="int" />
     <Property Name="HomeProvinceName" Type="nvarchar" MaxLength="100" />
     <Property Name="HomeZipCode" Type="int" />
-    <Property Name="CurrAddr" Type="nvarchar" MaxLength="100" />
+    <Property Name="CurrAddr" Type="nvarchar(max)" />
     <Property Name="CurrSubDistrictID" Type="int" />
     <Property Name="CurrSubDistrictName" Type="nvarchar" MaxLength="100" />
     <Property Name="CurrDistrictID" Type="int" />
@@ -2227,6 +2311,12 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Role' does not have a pr
     <Property Name="LastName" Type="nvarchar" MaxLength="200" />
     <Property Name="UserTID" Type="int" />
     <Property Name="UserTName" Type="nvarchar" MaxLength="50" />
+    <Property Name="DivID" Type="int" />
+    <Property Name="DivName" Type="nvarchar" MaxLength="200" />
+    <Property Name="DepID" Type="int" />
+    <Property Name="DepName" Type="nvarchar" MaxLength="200" />
+    <Property Name="SecID" Type="int" />
+    <Property Name="SecName" Type="nvarchar" MaxLength="200" />
     <Property Name="PoID" Type="int" />
     <Property Name="PoName" Type="nvarchar" MaxLength="200" />
     <Property Name="SexID" Type="int" />
@@ -3425,8 +3515,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     <Parameter Name="SortBy" Type="nvarchar" Mode="In" />
     <Parameter Name="SortrDir" Type="nvarchar" Mode="In" />
     <Parameter Name="ApproverID" Type="nvarchar" Mode="In" />
-    <Parameter Name="Year" Type="nvarchar" Mode="In" />
-    <Parameter Name="Status" Type="nvarchar" Mode="In" />
     <Parameter Name="Keyword" Type="nvarchar" Mode="In" />
   </Function>
   <Function Name="sp_Man_Power_Approval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -3469,6 +3557,21 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     <Parameter Name="TaTID" Type="int" Mode="In" />
     <Parameter Name="DateFrom" Type="int" Mode="In" />
     <Parameter Name="DateTo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_WorkFlow_ApproveStep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FormHeaderID" Type="int" Mode="In" />
+    <Parameter Name="StepApproverID" Type="int" Mode="In" />
+    <Parameter Name="IsAccept" Type="int" Mode="In" />
+    <Parameter Name="Comment" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserID" Type="int" Mode="In" />
+    <Parameter Name="StepNo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_WorkFlow_Cancel" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FormHeaderID" Type="int" Mode="In" />
+    <Parameter Name="UserID" Type="int" Mode="In" />
+    <Parameter Name="StepNo" Type="int" Mode="In" />
+    <Parameter Name="IsAccept" Type="int" Mode="In" />
+    <Parameter Name="Comment" Type="nvarchar" Mode="In" />
   </Function>
   <Function Name="sp_WorkFlow_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="FormID" Type="int" Mode="In" />
@@ -3519,6 +3622,8 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     <EntitySet Name="tb_Empower" EntityType="Self.tb_Empower" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Evaluation" EntityType="Self.tb_Evaluation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Excellent_Type" EntityType="Self.tb_Excellent_Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Form_Master" EntityType="Self.tb_Form_Master" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Form_Step" EntityType="Self.tb_Form_Step" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Holiday" EntityType="Self.tb_Holiday" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Import_Master" EntityType="Self.tb_Import_Master" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_IndividualPlan" EntityType="Self.tb_IndividualPlan" Schema="dbo" store:Type="Tables" />
@@ -3836,11 +3941,45 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     [vw_Employee].[StatusID] AS [StatusID], 
     [vw_Employee].[StatusName] AS [StatusName], 
     [vw_Employee].[IsActive] AS [IsActive], 
+    [vw_Employee].[IsTerminate] AS [IsTerminate], 
     [vw_Employee].[UserTypeID] AS [UserTypeID], 
     [vw_Employee].[UserTypeName] AS [UserTypeName], 
     [vw_Employee].[SexID] AS [SexID], 
     [vw_Employee].[RoleID] AS [RoleID]
     FROM [dbo].[vw_Employee] AS [vw_Employee]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Leave_Request" EntityType="Self.vw_Leave_Request" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Leave_Request].[FormHeaderID] AS [FormHeaderID], 
+    [vw_Leave_Request].[DocNo] AS [DocNo], 
+    [vw_Leave_Request].[FormID] AS [FormID], 
+    [vw_Leave_Request].[FormMasterID] AS [FormMasterID], 
+    [vw_Leave_Request].[LeaveYear] AS [LeaveYear], 
+    [vw_Leave_Request].[LeaveType] AS [LeaveType], 
+    [vw_Leave_Request].[LeaveTypeName] AS [LeaveTypeName], 
+    [vw_Leave_Request].[StartDate] AS [StartDate], 
+    [vw_Leave_Request].[EndDate] AS [EndDate], 
+    [vw_Leave_Request].[TotalDay] AS [TotalDay], 
+    [vw_Leave_Request].[DayTime] AS [DayTime], 
+    [vw_Leave_Request].[LeaveReason] AS [LeaveReason], 
+    [vw_Leave_Request].[CancelReason] AS [CancelReason], 
+    [vw_Leave_Request].[LeaveFile] AS [LeaveFile], 
+    [vw_Leave_Request].[CreateDate] AS [CreateDate], 
+    [vw_Leave_Request].[CurrentStepNo] AS [CurrentStepNo], 
+    [vw_Leave_Request].[LastApproveDate] AS [LastApproveDate], 
+    [vw_Leave_Request].[TransLastStepID] AS [TransLastStepID], 
+    [vw_Leave_Request].[TransNextStepID] AS [TransNextStepID], 
+    [vw_Leave_Request].[TransCurrentStepID] AS [TransCurrentStepID], 
+    [vw_Leave_Request].[RequestMpID] AS [RequestMpID], 
+    [vw_Leave_Request].[RequestUserID] AS [RequestUserID], 
+    [vw_Leave_Request].[RequestUserName] AS [RequestUserName], 
+    [vw_Leave_Request].[ApproverComment] AS [ApproverComment], 
+    [vw_Leave_Request].[Action] AS [Action], 
+    [vw_Leave_Request].[Status] AS [Status], 
+    [vw_Leave_Request].[NextApproverName] AS [NextApproverName], 
+    [vw_Leave_Request].[LastApproverName] AS [LastApproverName], 
+    [vw_Leave_Request].[LastApproverComment] AS [LastApproverComment]
+    FROM [dbo].[vw_Leave_Request] AS [vw_Leave_Request]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vw_Man_Power" EntityType="Self.vw_Man_Power" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
@@ -4322,6 +4461,12 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     [vw_User_Role].[LastName] AS [LastName], 
     [vw_User_Role].[UserTID] AS [UserTID], 
     [vw_User_Role].[UserTName] AS [UserTName], 
+    [vw_User_Role].[DivID] AS [DivID], 
+    [vw_User_Role].[DivName] AS [DivName], 
+    [vw_User_Role].[DepID] AS [DepID], 
+    [vw_User_Role].[DepName] AS [DepName], 
+    [vw_User_Role].[SecID] AS [SecID], 
+    [vw_User_Role].[SecName] AS [SecName], 
     [vw_User_Role].[PoID] AS [PoID], 
     [vw_User_Role].[PoName] AS [PoName], 
     [vw_User_Role].[SexID] AS [SexID], 

@@ -56,7 +56,7 @@ namespace SAT.HR.Data.Repository
                     tb_Role model = new tb_Role();
                     model.RoleID = data.RoleID;
                     model.RoleName = data.RoleName;
-                    data.RoleDesc = data.RoleDesc;
+                    model.RoleDesc = data.RoleDesc;
                     model.RoleStatus = (data.Status == "1") ? true : false;
                     model.CreateBy = data.ModifyBy;
                     model.CreateDate = DateTime.Now;
@@ -141,19 +141,19 @@ namespace SAT.HR.Data.Repository
                     UserID = s.UserID,
                     UserName = s.UserName,
                     FullName = s.FirstName + " " + s.LastName,
-                    //DivID = s.DivID,
-                    //DivName = s.DivName,
-                    //DepID = s.DepID,
-                    //DepName = s.DepName,
-                    //SecID = s.SecID,
-                    //SecName = s.SecName,
+                    DivID = s.DivID,
+                    DivName = s.DivName,
+                    DepID = s.DepID,
+                    DepName = s.DepName,
+                    SecID = s.SecID,
+                    SecName = s.SecName,
                     PoID = s.PoID,
                     PoName = s.PoName
                 }).OrderBy(x => x.UserName).ToList();
 
+                model.RoleID = roleid;
                 if (data.Count > 0)
                 {
-                    model.RoleID = data[0].RoleID;
                     model.RoleName = data[0].RoleName;
                     model.RoleDesc = data[0].RoleDesc;
                 }

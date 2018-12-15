@@ -1716,6 +1716,7 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Employee' does not have a pri
           <Property Name="StatusID" Type="int" />
           <Property Name="StatusName" Type="nvarchar" MaxLength="50" />
           <Property Name="IsActive" Type="bit" />
+          <Property Name="IsTerminate" Type="bit" />
           <Property Name="UserTypeID" Type="int" />
           <Property Name="UserTypeName" Type="nvarchar" MaxLength="50" />
           <Property Name="SexID" Type="int" />
@@ -1755,6 +1756,7 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Leave_Request' does not have 
           <Property Name="Status" Type="nvarchar" MaxLength="1000" />
           <Property Name="NextApproverName" Type="nvarchar" MaxLength="500" />
           <Property Name="LastApproverName" Type="nvarchar" MaxLength="500" />
+          <Property Name="LastApproverComment" Type="nvarchar" MaxLength="2000" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Man_Power' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2314,6 +2316,12 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Role' does not have a pr
           <Property Name="LastName" Type="nvarchar" MaxLength="200" />
           <Property Name="UserTID" Type="int" />
           <Property Name="UserTName" Type="nvarchar" MaxLength="50" />
+          <Property Name="DivID" Type="int" />
+          <Property Name="DivName" Type="nvarchar" MaxLength="200" />
+          <Property Name="DepID" Type="int" />
+          <Property Name="DepName" Type="nvarchar" MaxLength="200" />
+          <Property Name="SecID" Type="int" />
+          <Property Name="SecName" Type="nvarchar" MaxLength="200" />
           <Property Name="PoID" Type="int" />
           <Property Name="PoName" Type="nvarchar" MaxLength="200" />
           <Property Name="SexID" Type="int" />
@@ -3938,6 +3946,7 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     [vw_Employee].[StatusID] AS [StatusID], 
     [vw_Employee].[StatusName] AS [StatusName], 
     [vw_Employee].[IsActive] AS [IsActive], 
+    [vw_Employee].[IsTerminate] AS [IsTerminate], 
     [vw_Employee].[UserTypeID] AS [UserTypeID], 
     [vw_Employee].[UserTypeName] AS [UserTypeName], 
     [vw_Employee].[SexID] AS [SexID], 
@@ -3973,7 +3982,8 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     [vw_Leave_Request].[Action] AS [Action], 
     [vw_Leave_Request].[Status] AS [Status], 
     [vw_Leave_Request].[NextApproverName] AS [NextApproverName], 
-    [vw_Leave_Request].[LastApproverName] AS [LastApproverName]
+    [vw_Leave_Request].[LastApproverName] AS [LastApproverName], 
+    [vw_Leave_Request].[LastApproverComment] AS [LastApproverComment]
     FROM [dbo].[vw_Leave_Request] AS [vw_Leave_Request]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_Man_Power" EntityType="Self.vw_Man_Power" store:Type="Views" store:Schema="dbo">
@@ -4456,6 +4466,12 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     [vw_User_Role].[LastName] AS [LastName], 
     [vw_User_Role].[UserTID] AS [UserTID], 
     [vw_User_Role].[UserTName] AS [UserTName], 
+    [vw_User_Role].[DivID] AS [DivID], 
+    [vw_User_Role].[DivName] AS [DivName], 
+    [vw_User_Role].[DepID] AS [DepID], 
+    [vw_User_Role].[DepName] AS [DepName], 
+    [vw_User_Role].[SecID] AS [SecID], 
+    [vw_User_Role].[SecName] AS [SecName], 
     [vw_User_Role].[PoID] AS [PoID], 
     [vw_User_Role].[PoName] AS [PoName], 
     [vw_User_Role].[SexID] AS [SexID], 
@@ -5083,7 +5099,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <EntitySet Name="vw_Course" EntityType="SAT.HR.vw_Course" />
           <EntitySet Name="vw_Department" EntityType="SAT.HR.vw_Department" />
           <EntitySet Name="vw_Division" EntityType="SAT.HR.vw_Division" />
-          <EntitySet Name="vw_Employee" EntityType="SAT.HR.vw_Employee" />
           <EntitySet Name="vw_Man_Power" EntityType="SAT.HR.vw_Man_Power" />
           <EntitySet Name="vw_Menu_Role" EntityType="SAT.HR.vw_Menu_Role" />
           <EntitySet Name="vw_Move_Level_Detail" EntityType="SAT.HR.vw_Move_Level_Detail" />
@@ -5102,7 +5117,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <EntitySet Name="vw_User_Insignia" EntityType="SAT.HR.vw_User_Insignia" />
           <EntitySet Name="vw_User_NotRole" EntityType="SAT.HR.vw_User_NotRole" />
           <EntitySet Name="vw_User_Position" EntityType="SAT.HR.vw_User_Position" />
-          <EntitySet Name="vw_User_Role" EntityType="SAT.HR.vw_User_Role" />
           <EntitySet Name="vw_User_Skill" EntityType="SAT.HR.vw_User_Skill" />
           <EntitySet Name="vw_User_Training" EntityType="SAT.HR.vw_User_Training" />
           <AssociationSet Name="FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund" Association="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund">
@@ -5489,7 +5503,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
             <Parameter Name="ApproverID" Mode="In" Type="String" />
             <Parameter Name="Keyword" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="vw_Leave_Request" EntityType="SAT.HR.vw_Leave_Request" />
           <FunctionImport Name="sp_WorkFlow_ApproveStep" ReturnType="Collection(SAT.HR.sp_WorkFlow_ApproveStep_Result)">
             <Parameter Name="FormHeaderID" Mode="In" Type="Int32" />
             <Parameter Name="StepApproverID" Mode="In" Type="Int32" />
@@ -5498,7 +5511,10 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
             <Parameter Name="UserID" Mode="In" Type="Int32" />
             <Parameter Name="StepNo" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="vw_Employee" EntityType="SAT.HR.vw_Employee" />
+          <EntitySet Name="vw_User_Role" EntityType="SAT.HR.vw_User_Role" />
           <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
+          <EntitySet Name="vw_Leave_Request" EntityType="SAT.HR.vw_Leave_Request" />
           </EntityContainer>
         <ComplexType Name="sp_Employee_List_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -7555,41 +7571,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="DivStatus" Type="Boolean" />
         </EntityType>
-        <EntityType Name="vw_Employee">
-          <Key>
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IDCard" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="TiShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="TiFullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
-          <Property Name="FullNameEn" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
-          <Property Name="DivID" Type="Int32" />
-          <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="DepID" Type="Int32" />
-          <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="SecID" Type="Int32" />
-          <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PoID" Type="Int32" />
-          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="EduID" Type="Int32" />
-          <Property Name="EduName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="MpID" Type="Int32" />
-          <Property Name="SalaryLevel" Type="Int32" />
-          <Property Name="SalaryStep" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Avatar" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="StatusID" Type="Int32" />
-          <Property Name="StatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" />
-          <Property Name="UserTypeID" Type="Int32" />
-          <Property Name="UserTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SexID" Type="Int32" />
-          <Property Name="RoleID" Type="Int32" />
-        </EntityType>
         <EntityType Name="vw_Man_Power">
           <Key>
             <PropertyRef Name="MpID" />
@@ -8075,27 +8056,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <Property Name="UpForceDate" Type="DateTime" Precision="0" />
           <Property Name="UpRemark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="UpPathFile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="vw_User_Role">
-          <Key>
-            <PropertyRef Name="RoleID" />
-          </Key>
-          <Property Name="RoleID" Type="Int32" Nullable="false" />
-          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="RoleDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="UserID" Type="Int32" />
-          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="UserTID" Type="Int32" />
-          <Property Name="UserTName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PoID" Type="Int32" />
-          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="SexID" Type="Int32" />
-          <Property Name="SexName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" />
-          <Property Name="Avatar" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="vw_User_Skill">
           <Key>
@@ -9268,6 +9228,91 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <Property Type="Int32" Name="recordsTotal" Nullable="true" />
           <Property Type="Int32" Name="recordsFiltered" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="sp_WorkFlow_ApproveStep_Result">
+          <Property Type="Int32" Name="MaxApprover" Nullable="true" />
+          <Property Type="Int32" Name="MinApprover" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="vw_Employee">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IDCard" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TiShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TiFullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+          <Property Name="FullNameEn" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+          <Property Name="DivID" Type="Int32" />
+          <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DepID" Type="Int32" />
+          <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SecID" Type="Int32" />
+          <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PoID" Type="Int32" />
+          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="EduID" Type="Int32" />
+          <Property Name="EduName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MpID" Type="Int32" />
+          <Property Name="SalaryLevel" Type="Int32" />
+          <Property Name="SalaryStep" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Avatar" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="StatusID" Type="Int32" />
+          <Property Name="StatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsTerminate" Type="Boolean" />
+          <Property Name="UserTypeID" Type="Int32" />
+          <Property Name="UserTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SexID" Type="Int32" />
+          <Property Name="RoleID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="vw_User_Role">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RoleDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UserTID" Type="Int32" />
+          <Property Name="UserTName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DivID" Type="Int32" />
+          <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DepID" Type="Int32" />
+          <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SecID" Type="Int32" />
+          <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PoID" Type="Int32" />
+          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SexID" Type="Int32" />
+          <Property Name="SexName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="Avatar" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="vw_Organization">
+          <Key>
+            <PropertyRef Name="MpID" />
+            <PropertyRef Name="MpCode" />
+            <PropertyRef Name="DepLevel" />
+          </Key>
+          <Property Name="MpID" Type="Int32" Nullable="false" />
+          <Property Name="MpCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ParentID" Type="Int32" />
+          <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+          <Property Name="TypeID" Type="Int32" />
+          <Property Name="DepLevel" Type="Int32" Nullable="false" />
+          <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="vw_Leave_Request">
           <Key>
             <PropertyRef Name="FormHeaderID" />
@@ -9300,28 +9345,7 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <Property Name="Status" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="NextApproverName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="LastApproverName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <ComplexType Name="sp_WorkFlow_ApproveStep_Result">
-          <Property Type="Int32" Name="MaxApprover" Nullable="true" />
-          <Property Type="Int32" Name="MinApprover" Nullable="true" />
-        </ComplexType>
-        <EntityType Name="vw_Organization">
-          <Key>
-            <PropertyRef Name="MpID" />
-            <PropertyRef Name="MpCode" />
-            <PropertyRef Name="DepLevel" />
-          </Key>
-          <Property Name="MpID" Type="Int32" Nullable="false" />
-          <Property Name="MpCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="ParentID" Type="Int32" />
-          <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
-          <Property Name="TypeID" Type="Int32" />
-          <Property Name="DepLevel" Type="Int32" Nullable="false" />
-          <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LastApproverComment" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -11315,42 +11339,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="vw_Employee">
-            <EntityTypeMapping TypeName="SAT.HR.vw_Employee">
-              <MappingFragment StoreEntitySet="vw_Employee">
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-                <ScalarProperty Name="SexID" ColumnName="SexID" />
-                <ScalarProperty Name="UserTypeName" ColumnName="UserTypeName" />
-                <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
-                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
-                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="SalaryStep" ColumnName="SalaryStep" />
-                <ScalarProperty Name="SalaryLevel" ColumnName="SalaryLevel" />
-                <ScalarProperty Name="MpID" ColumnName="MpID" />
-                <ScalarProperty Name="EduName" ColumnName="EduName" />
-                <ScalarProperty Name="EduID" ColumnName="EduID" />
-                <ScalarProperty Name="PoName" ColumnName="PoName" />
-                <ScalarProperty Name="PoID" ColumnName="PoID" />
-                <ScalarProperty Name="SecName" ColumnName="SecName" />
-                <ScalarProperty Name="SecID" ColumnName="SecID" />
-                <ScalarProperty Name="DepName" ColumnName="DepName" />
-                <ScalarProperty Name="DepID" ColumnName="DepID" />
-                <ScalarProperty Name="DivName" ColumnName="DivName" />
-                <ScalarProperty Name="DivID" ColumnName="DivID" />
-                <ScalarProperty Name="FullNameEn" ColumnName="FullNameEn" />
-                <ScalarProperty Name="FullNameTh" ColumnName="FullNameTh" />
-                <ScalarProperty Name="TiFullName" ColumnName="TiFullName" />
-                <ScalarProperty Name="TiShortName" ColumnName="TiShortName" />
-                <ScalarProperty Name="IDCard" ColumnName="IDCard" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="vw_Man_Power">
             <EntityTypeMapping TypeName="SAT.HR.vw_Man_Power">
               <MappingFragment StoreEntitySet="vw_Man_Power">
@@ -11840,28 +11828,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="vw_User_Role">
-            <EntityTypeMapping TypeName="SAT.HR.vw_User_Role">
-              <MappingFragment StoreEntitySet="vw_User_Role">
-                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="SexName" ColumnName="SexName" />
-                <ScalarProperty Name="SexID" ColumnName="SexID" />
-                <ScalarProperty Name="PoName" ColumnName="PoName" />
-                <ScalarProperty Name="PoID" ColumnName="PoID" />
-                <ScalarProperty Name="UserTName" ColumnName="UserTName" />
-                <ScalarProperty Name="UserTID" ColumnName="UserTID" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="RoleDesc" ColumnName="RoleDesc" />
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="vw_User_Skill">
             <EntityTypeMapping TypeName="SAT.HR.vw_User_Skill">
               <MappingFragment StoreEntitySet="vw_User_Skill">
@@ -11934,9 +11900,100 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_WorkFlow_ApproveStep" FunctionName="SAT.HR.Store.sp_WorkFlow_ApproveStep">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_WorkFlow_ApproveStep_Result">
+                <ScalarProperty Name="MaxApprover" ColumnName="MaxApprover" />
+                <ScalarProperty Name="MinApprover" ColumnName="MinApprover" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="vw_Employee">
+            <EntityTypeMapping TypeName="SAT.HR.vw_Employee">
+              <MappingFragment StoreEntitySet="vw_Employee">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="SexID" ColumnName="SexID" />
+                <ScalarProperty Name="UserTypeName" ColumnName="UserTypeName" />
+                <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
+                <ScalarProperty Name="IsTerminate" ColumnName="IsTerminate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="SalaryStep" ColumnName="SalaryStep" />
+                <ScalarProperty Name="SalaryLevel" ColumnName="SalaryLevel" />
+                <ScalarProperty Name="MpID" ColumnName="MpID" />
+                <ScalarProperty Name="EduName" ColumnName="EduName" />
+                <ScalarProperty Name="EduID" ColumnName="EduID" />
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="PoID" ColumnName="PoID" />
+                <ScalarProperty Name="SecName" ColumnName="SecName" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="DepName" ColumnName="DepName" />
+                <ScalarProperty Name="DepID" ColumnName="DepID" />
+                <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="DivID" ColumnName="DivID" />
+                <ScalarProperty Name="FullNameEn" ColumnName="FullNameEn" />
+                <ScalarProperty Name="FullNameTh" ColumnName="FullNameTh" />
+                <ScalarProperty Name="TiFullName" ColumnName="TiFullName" />
+                <ScalarProperty Name="TiShortName" ColumnName="TiShortName" />
+                <ScalarProperty Name="IDCard" ColumnName="IDCard" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_User_Role">
+            <EntityTypeMapping TypeName="SAT.HR.vw_User_Role">
+              <MappingFragment StoreEntitySet="vw_User_Role">
+                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="SexName" ColumnName="SexName" />
+                <ScalarProperty Name="SexID" ColumnName="SexID" />
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="PoID" ColumnName="PoID" />
+                <ScalarProperty Name="SecName" ColumnName="SecName" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="DepName" ColumnName="DepName" />
+                <ScalarProperty Name="DepID" ColumnName="DepID" />
+                <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="DivID" ColumnName="DivID" />
+                <ScalarProperty Name="UserTName" ColumnName="UserTName" />
+                <ScalarProperty Name="UserTID" ColumnName="UserTID" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="RoleDesc" ColumnName="RoleDesc" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_Organization">
+            <EntityTypeMapping TypeName="SAT.HR.vw_Organization">
+              <MappingFragment StoreEntitySet="vw_Organization">
+                <ScalarProperty Name="PathMpID" ColumnName="PathMpID" />
+                <ScalarProperty Name="DepLevel" ColumnName="DepLevel" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="FullNameTh" ColumnName="FullNameTh" />
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="SecName" ColumnName="SecName" />
+                <ScalarProperty Name="DepName" ColumnName="DepName" />
+                <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
+                <ScalarProperty Name="MpID" ColumnName="MpID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="vw_Leave_Request">
             <EntityTypeMapping TypeName="SAT.HR.vw_Leave_Request">
               <MappingFragment StoreEntitySet="vw_Leave_Request">
+                <ScalarProperty Name="LastApproverComment" ColumnName="LastApproverComment" />
                 <ScalarProperty Name="LastApproverName" ColumnName="LastApproverName" />
                 <ScalarProperty Name="NextApproverName" ColumnName="NextApproverName" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
@@ -11965,31 +12022,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
                 <ScalarProperty Name="FormID" ColumnName="FormID" />
                 <ScalarProperty Name="DocNo" ColumnName="DocNo" />
                 <ScalarProperty Name="FormHeaderID" ColumnName="FormHeaderID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_WorkFlow_ApproveStep" FunctionName="SAT.HR.Store.sp_WorkFlow_ApproveStep">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SAT.HR.sp_WorkFlow_ApproveStep_Result">
-                <ScalarProperty Name="MaxApprover" ColumnName="MaxApprover" />
-                <ScalarProperty Name="MinApprover" ColumnName="MinApprover" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <EntitySetMapping Name="vw_Organization">
-            <EntityTypeMapping TypeName="SAT.HR.vw_Organization">
-              <MappingFragment StoreEntitySet="vw_Organization">
-                <ScalarProperty Name="PathMpID" ColumnName="PathMpID" />
-                <ScalarProperty Name="DepLevel" ColumnName="DepLevel" />
-                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
-                <ScalarProperty Name="FullNameTh" ColumnName="FullNameTh" />
-                <ScalarProperty Name="PoName" ColumnName="PoName" />
-                <ScalarProperty Name="SecName" ColumnName="SecName" />
-                <ScalarProperty Name="DepName" ColumnName="DepName" />
-                <ScalarProperty Name="DivName" ColumnName="DivName" />
-                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
-                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
-                <ScalarProperty Name="MpID" ColumnName="MpID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

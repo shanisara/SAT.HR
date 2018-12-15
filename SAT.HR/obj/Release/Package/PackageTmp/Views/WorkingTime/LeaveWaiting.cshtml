@@ -1,0 +1,114 @@
+﻿@model SAT.HR.Models.LeaveRequestViewModel
+
+@{
+    ViewBag.Title = "LeaveWaiting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">alarm_on</i>
+                    </div>
+                    <h4 class="card-title">
+                        <span>รายการรออนุมัติลา </span><small> </small>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="material-datatables">
+                        <table id="datatables" data-url="@Url.Content("~/WorkingTime/LeaveWaiting")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th style="width:4%" class="disabled-sorting">ลำดับ</th>
+                                    <th style="width:12%">เลขที่</th>
+                                    <th style="width:11%">ประเภท</th>
+                                    <th style="width:20%">ชื่อ-นามสกุล</th>
+                                    <th style="width:9%">วันที่เริ่ม</th>
+                                    <th style="width:9%">วันที่สิ้นสุด</th>
+                                    <th style="width:26%">สถานะ</th>
+                                    <th style="width:9%" class="disabled-sorting text-right">ปฏิบัติการ</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            var dataTable = {
+                table: null,
+                initializeDataTable: function () {
+                    var year = $("#LeaveYear").val();
+                    var status = $("#LeaveStatus").val();
+
+                    $table = $('#datatables');
+                    dataTable.table = $table.DataTable({
+                        "proccessing": true,
+                        "serverSide": true,
+                        responsive: true,
+                        language: {
+                            search: "_INPUT_",
+                            searchPlaceholder: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.searchPlaceholder)",
+                            zeroRecords: "ไม่พบข้อมูล",
+                        },
+                        ajax: {
+                            url: $table.data("url"),
+                            data: { year: year, status: status },
+                            type: "POST",
+                        },
+                        "columns": [
+                            { "data": "RowNumber", "orderable": false, "searchable": false },
+                            { "data": "DocNo", "orderable": true },
+                            { "data": "LeaveTypeName", "orderable": true },
+                            { "data": "RequestName", "orderable": true },
+                            { "data": "StartDateText", "orderable": true },
+                            { "data": "EndDateText", "orderable": true },
+                            { "data": "StatusName", "orderable": true }
+                        ],
+                        "columnDefs": [
+                            {
+                                "render": function (data, type, row) {
+                                    var inner = '<div class="td-actions text-right">' +
+                                                    '<button type="button" rel="tooltip" class="btn btn-round btn-warning edit" data-id="' + row.FormID + '"><i class="material-icons">search</i></button>&nbsp;&nbsp;&nbsp;' +
+                                                '</div>';
+                                    return inner;
+                                }, "targets": 7
+                            },
+                        ],
+                        "order": [[1, "desc"]],
+                        "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                        "pagingType": "full_numbers",
+                    });
+
+
+                    dataTable.table.on('click', '.edit', function () {
+                        var id = $(this).data("id");
+                        var url = '@Url.Action("LeaveApprove", "WorkingTime")/' + id;
+                        window.location.href = url;
+                    });
+
+                },
+                getData: function () {
+                    if (dataTable.table == null)
+                        dataTable.initializeDataTable();
+                    else
+                        dataTable.table.ajax.reload();
+                }
+            }
+
+            dataTable.getData();
+
+        });
+
+    </script>
+}

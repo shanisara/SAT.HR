@@ -86,7 +86,7 @@ namespace SAT.HR.Data
                         model.RowNumber = ++i;
                         model.FormID = item.FormID;
                         model.FormHeaderID = item.FormHeaderID;
-                        model.CurrentStepID = item.TransCurrentStepID;
+                        model.TransCurrentStepID = item.TransCurrentStepID;
                         model.RequestID = item.RequestUserID;
                         model.LeaveYear = item.LeaveYear;
                         model.RequestName = item.RequestUserName;
@@ -152,26 +152,27 @@ namespace SAT.HR.Data
                 {
                     LeaveRequestViewModel model = new LeaveRequestViewModel();
 
-                    var item = db.tb_Leave_Request.Where(x => x.FormID == id).FirstOrDefault();
+                    var item = db.vw_Leave_Request.Where(x => x.FormID == id).FirstOrDefault();
                     if (item != null)
                     {
                         model.FormID = item.FormID;
                         model.DocNo = item.DocNo;
                         model.LeaveYear = item.LeaveYear;
                         model.LeaveType = item.LeaveType;
-                        model.RequestID = item.RequestID;
+                        model.RequestID = item.RequestUserID;
+                        model.RequestName = item.RequestUserName;
                         model.StartDate = item.StartDate;
                         model.EndDate = item.EndDate;
                         model.DayTime = item.DayTime;
                         model.TotalDay = item.TotalDay;
                         model.LeaveReason = item.LeaveReason;
                         model.CancelReason = item.CancelReason;
-                        model.Remark = item.Remark;
-                        model.PathFile = item.PathFile;
+                        model.Action = item.Action;
+                        model.Approver = item.LastApproverName;
+                        model.ApproverComment = item.LastApproverComment;
+
+                        model.PathFile = item.LeaveFile;
                         model.CreateDate = item.CreateDate;
-                        model.CreateBy = item.CreateBy;
-                        model.ModifyDate = item.ModifyDate;
-                        model.ModifyBy = item.ModifyBy;
                         model.LeaveTotalDay = item.TotalDay;
 
                         var leaveBalance = new LeaveBalanceRepository().LeaveBalanceByUser((int)model.RequestID, (int)model.LeaveType);
@@ -225,7 +226,7 @@ namespace SAT.HR.Data
                         model.TotalDay = item.TotalDay;
                         model.LeaveReason = item.LeaveReason;
                         model.CancelReason = item.CancelReason;
-                        model.Remark = item.ApproverComment;
+                        model.ApproverComment = item.ApproverComment;
                         model.PathFile = item.LeaveFile;
                         model.LeaveTotalDay = item.TotalDay;
                         if (model.DayTime == 1)
@@ -237,6 +238,8 @@ namespace SAT.HR.Data
                         model.StartDateText = item.StartDate.Value.ToString("dd/MM/yyyy");
                         model.EndDateText = item.EndDate.Value.ToString("dd/MM/yyyy");
                         model.TotalDay = item.TotalDay;
+                        model.TransCurrentStepID = item.TransCurrentStepID;
+                        model.StepNo = item.CurrentStepNo;
                     }
 
                     return model;
@@ -378,6 +381,7 @@ namespace SAT.HR.Data
                     //[sp_WorkFlow_Cancel] 43, 296, 1, 0,'comment'
                     int userid = UtilityService.User.UserID;
                     db.sp_Workflow_Cancel(formheaderid, userid, stepno, 0, reason);
+                    db.SaveChanges();
                 }
                 catch (Exception ex)
                 {
@@ -392,21 +396,20 @@ namespace SAT.HR.Data
         {
             using (SATEntities db = new SATEntities())
             {
-                using (var transection = db.Database.BeginTransaction())
+                ResponseData result = new Models.ResponseData();
+                try
                 {
-                    ResponseData result = new Models.ResponseData();
-                    try
-                    {
-                        //exec [sp_WorkFlow_Create] 1,1,292,291,0
-                        ObjectParameter FormHeaderID = new ObjectParameter("FormHeaderID", typeof(int));
-                        db.sp_WorkFlow_Create(data.FormID, data.FormMasterID, data.RequestID, data.RequestMpID, FormHeaderID);
-                        return result;
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
+                    //exec [sp_WorkFlow_ApproveStep] 43,259,1,'comment',291,1
+                    int userid = UtilityService.User.UserID;
+                    db.sp_WorkFlow_ApproveStep(data.FormHeaderID, data.TransCurrentStepID, data.Accept, data.ApproverComment, userid, data.StepNo);
+                    db.SaveChanges();
                 }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
             }
         }
 

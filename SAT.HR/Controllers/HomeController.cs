@@ -46,17 +46,24 @@ namespace SAT.HR.Controllers
                 if (emp != null)
                 {
                     bool activate = emp.IsActive.HasValue ? (bool)emp.IsActive : false;
-                    bool inrole = true;
+                    bool terminate = emp.IsTerminate.HasValue ? (bool)emp.IsActive : false;
+                    bool inrole = emp.RoleID.HasValue ? true : false; ;
+
 
                     if (!activate)
                     {
                         result.MessageCode = "001";
-                        result.MessageText = "รหัสผู้ใช้ " + username + " ถูกปิดการใช้งาน กรุณาติดต่อผู้ดูแลระบบ!";
+                        result.MessageText = "รหัสผู้ใช้ " + username + " ถูกระงับการใช้งาน <br/> กรุณาติดต่อผู้ดูแลระบบ!";
                     }
+                    //else if(!terminate)
+                    //{
+                    //    result.MessageCode = "002";
+                    //    result.MessageText = "รหัสผู้ใช้ " + username + " ถูกยกเลิกเข้าใช้งาน <br/> กรุณาติดต่อผู้ดูแลระบบ!";
+                    //}
                     else if (!inrole)
                     {
-                        result.MessageCode = "002";
-                        result.MessageText = "รหัสผู้ใช้ " + username + " ไม่มีกลุ่มผู้ใช้งาน กรุณาติดต่อผู้ดูแลระบบ!";
+                        result.MessageCode = "003";
+                        result.MessageText = "รหัสผู้ใช้ " + username + " ไม่มีกลุ่มผู้ใช้งาน  <br/> กรุณาติดต่อผู้ดูแลระบบ!";
                     }
                     else
                     {
@@ -79,13 +86,13 @@ namespace SAT.HR.Controllers
                 }
                 else
                 {
-                    result.MessageCode = "003";
+                    result.MessageCode = "004";
                     result.MessageText = "รหัสผู้ใช้หรือรหัสผ่านไม่ถูกต้อง.";
                 }
             }
             catch (Exception e)
             {
-                result.MessageCode = "003";
+                result.MessageCode = "005";
                 result.MessageText = e.Message;
             }
 

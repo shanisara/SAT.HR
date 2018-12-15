@@ -23,7 +23,8 @@
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.FormID)
                         @Html.HiddenFor(m => m.FormHeaderID)
-                        @Html.HiddenFor(m => m.CurrentStepID)
+                        @Html.HiddenFor(m => m.TransCurrentStepID)
+                        @Html.HiddenFor(m => m.StepNo)
                         @Html.HiddenFor(m => m.Accept)
 
                         <div class="row">
@@ -96,7 +97,7 @@
                             <label class="col-sm-2 col-form-label">หมายเหตุ:</label>
                             <div class="col-md-6">
                                 <div class="form-group bmd-form-group">
-                                    @Html.TextAreaFor(m => m.Comment, 3, 100, new { @class = "form-control", required = "true" })
+                                    @Html.TextAreaFor(m => m.ApproverComment, 3, 100, new { @class = "form-control", required = "true" })
                                 </div>
                             </div>
                         </div>
@@ -172,7 +173,8 @@
                                 confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
                                 buttonsStyling: false
                             }).then(function () {
-
+                                $(".btn-approve").prop('disabled', true);
+                                $(".btn-disapprove").prop('disabled', true);
                             });
                         }
                         else {

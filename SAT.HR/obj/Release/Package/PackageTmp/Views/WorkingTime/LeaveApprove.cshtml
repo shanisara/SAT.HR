@@ -1,10 +1,8 @@
 ﻿@model SAT.HR.Models.LeaveRequestViewModel
-
 @{
-    ViewBag.Title = "LeaveApprove";
+    ViewBag.Title = "LeaveRequestDetail";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 
 <div class="content">
     <div class="row">
@@ -15,28 +13,102 @@
                         <i class="material-icons">alarm_on</i>
                     </div>
                     <h4 class="card-title">
-                        <span>รายการรออนุมัติลา </span><small> </small>
+                        <span>แบบฟอร์มการขออนุมัติลา > </span><span class="text-primary"> @Model.DocNo</span>
+                        <button type="submit" class="btn btn-round pull-right btn-back">ย้อนกลับ</button>
                     </h4>
                 </div>
                 <div class="card-body">
-                    <div class="material-datatables">
-                        <table id="datatables" data-url="@Url.Content("~/WorkingTime/LeaveWaiting")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th style="width:5%" class="disabled-sorting">ลำดับ</th>
-                                    <th style="width:5%">ปี</th>
-                                    <th style="width:10%">เลขที่</th>
-                                    <th style="width:10%">ประเภท</th>
-                                    <th style="width:15%">ชื่อ-นามสกุล</th>
-                                    <th style="width:10%">วันที่เริ่ม</th>
-                                    <th style="width:10%">วันที่สิ้นสุด</th>
-                                    <th style="width:10%">วันที่ทำรายการ</th>
-                                    <th style="width:15%">สถานะ</th>
-                                    <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form-leave" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.FormID)
+                        @Html.HiddenFor(m => m.FormHeaderID)
+                        @Html.HiddenFor(m => m.TransCurrentStepID)
+                        @Html.HiddenFor(m => m.StepNo)
+                        @Html.HiddenFor(m => m.Accept)
+
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">ชื่อผู้ลา</label>
+                            <div class="col-sm-3">
+                                <div class="form-group bmd-form-group">
+                                    @Html.DisplayFor(m => m.RequestName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">ประเภทการลา:</label>
+                            <div class="col-sm-3">
+                                <div class="form-group bmd-form-group">
+                                    @Html.DisplayFor(m => m.LeaveTypeName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">ช่วงเวลา:</label>
+                            <div class="col-sm-10">
+                                <div class="form-group bmd-form-group">
+                                    @Html.DisplayFor(m => m.DayTimeName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">วันที่เริ่ม:</label>
+                            <div class="col-md-2">
+                                <div class="form-group bmd-form-group">
+                                    @Html.DisplayFor(m => m.StartDateText, new { @class = "form-control datepicker" })
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">วันที่สิ้นสุด:</label>
+                            <div class="col-md-2">
+                                <div class="form-group bmd-form-group">
+                                    @Html.DisplayFor(m => m.EndDateText, new { @class = "form-control datepicker" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">จำนวนวัน:</label>
+                            <div class="col-md-10">
+                                <div class="form-group bmd-form-group">
+                                    @Html.DisplayFor(m => m.LeaveTotalDay, new { @class = "form-control" })
+                                    &nbsp;<label>วัน</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">เหตุผลการลา:</label>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group">
+                                    @Html.DisplayFor(m => m.LeaveReason, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        if (!string.IsNullOrEmpty(Model.PathFile))
+                        {
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">แนบไฟล์:</label>
+                            <div class="col-md-6">
+                                <div class="input-group-prepend file-path">
+                                    <a class="m-t-10 file-name" target="_blank" href=@Url.Action("DownloadFileAttach", "WorkingTime", new { id = Model.FormID, type = 1 })>@Model.PathFile</a>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">หมายเหตุ:</label>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group">
+                                    @Html.TextAreaFor(m => m.ApproverComment, 3, 100, new { @class = "form-control", required = "true" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-t-40">
+                            <div class="ml-auto mr-auto">
+                                @*<button type="button" class="btn btn-back">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnBack)</button>*@
+                                <button type="button" class="btn btn-primary btn-disapprove" value="2">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnDisapprove)</button>
+                                <button type="button" class="btn btn-primary btn-approve" value="1">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnApprove)</button>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
@@ -47,70 +119,77 @@
     <script>
         $(document).ready(function () {
 
-            var dataTable = {
-                table: null,
-                initializeDataTable: function () {
-                    var year = $("#LeaveYear").val();
-                    var status = $("#LeaveStatus").val();
+            $(".btn-back").click(function () {
+                var url = '@Url.Action("LeaveWaiting", "WorkingTime")';
+                window.location.href = url;
+            });
 
-                    $table = $('#datatables');
-                    dataTable.table = $table.DataTable({
-                        "proccessing": true,
-                        "serverSide": true,
-                        responsive: true,
-                        language: {
-                            search: "_INPUT_",
-                            searchPlaceholder: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.searchPlaceholder)",
-                            zeroRecords: "ไม่พบข้อมูล",
-                        },
-                        ajax: {
-                            url: $table.data("url"),
-                            data: { year: year, status: status },
-                            type: "POST",
-                        },
-                        "columns": [
-                            { "data": "RowNumber", "orderable": false, "searchable": false },
-                            { "data": "LeaveYear", "orderable": true },
-                            { "data": "DocNo", "orderable": true },
-                            { "data": "LeaveTypeName", "orderable": true },
-                            { "data": "RequestName", "orderable": true },
-                            { "data": "StartDateDateText", "orderable": true },
-                            { "data": "EndDateDateText", "orderable": true },
-                            { "data": "CreateDateText", "orderable": true },
-                            { "data": "StatusName", "orderable": true }
-                        ],
-                        "columnDefs": [
-                            {
-                                "render": function (data, type, row) {
-                                    var inner = '<div class="td-actions text-right">' +
-                                                    '<button type="button" rel="tooltip" class="btn btn-round btn-warning edit" data-id="' + row.FormID + '"><i class="material-icons">search</i></button>&nbsp;&nbsp;&nbsp;' +
-                                                '</div>';
-                                    return inner;
-                                }, "targets": 9
-                            },
-                        ],
-                        "order": [[1, "desc"]],
-                        "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
-                        "pagingType": "full_numbers",
-                    });
+            $(".btn-approve").click(function () {
+                $("#Accept").val(1);
+                swal({
+                    title: '',
+                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmApprove)",
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                    buttonsStyling: false
+                }).then(function () {
+                    approveLeave();
+                }).catch(swal.noop)
+            });
 
+            $(".btn-disapprove").click(function () {
+                $("#Accept").val(2);
+                swal({
+                    title: '',
+                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDisapprove)",
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                    buttonsStyling: false
+                }).then(function () {
+                    approveLeave();
+                }).catch(swal.noop)
+            });
 
-                    dataTable.table.on('click', '.edit', function () {
-                        var id = $(this).data("id");
-                        var url = '@Url.Action("LeaveRequestDetail", "WorkingTime")/' + id;
-                        window.location.href = url;
-                    });
-
-                },
-                getData: function () {
-                    if (dataTable.table == null)
-                        dataTable.initializeDataTable();
-                    else
-                        dataTable.table.ajax.reload();
-                }
+            function approveLeave() {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("ApproveLeave", "WorkingTime")',
+                    data: $("#form-leave").serialize(),
+                    success: function (res) {
+                        if (res.MessageCode == null) {
+                            swal({
+                                title: "",
+                                text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ActionSucceed)",
+                                type: "success",
+                                confirmButtonClass: "btn btn-primary",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                buttonsStyling: false
+                            }).then(function () {
+                                $(".btn-approve").prop('disabled', true);
+                                $(".btn-disapprove").prop('disabled', true);
+                            });
+                        }
+                        else {
+                            swal({
+                                title: '',
+                                text: res.MessageText,
+                                type: 'error',
+                                confirmButtonClass: "btn btn-primary",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                buttonsStyling: false
+                            }).catch(swal.noop);
+                        }
+                    }
+                });
             }
-
-            dataTable.getData();
 
         });
 

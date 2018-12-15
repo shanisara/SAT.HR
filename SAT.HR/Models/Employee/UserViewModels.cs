@@ -31,7 +31,7 @@ namespace SAT.HR.Models
         public DateTime? ModifyDate { get; set; }
 
         public string ModifyBy { get; set; }
-        
+
     }
 
     public class UserResult
@@ -59,6 +59,8 @@ namespace SAT.HR.Models
         public string Avatar { get; set; }
 
         public bool? IsActive { get; set; }
+
+        public bool? IsTerminate { get; set; }
 
         public int? StatusID { get; set; }
 

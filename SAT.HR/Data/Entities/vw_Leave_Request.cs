@@ -42,5 +42,6 @@ namespace SAT.HR.Data.Entities
         public string Status { get; set; }
         public string NextApproverName { get; set; }
         public string LastApproverName { get; set; }
+        public string LastApproverComment { get; set; }
     }
 }

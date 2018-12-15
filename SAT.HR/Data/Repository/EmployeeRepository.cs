@@ -21,7 +21,7 @@ namespace SAT.HR.Data.Repository
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    data = db.vw_Employee.Where(m => m.UserName == username && m.Password == password).Select(s => new UserProfile()
+                    data = db.vw_Employee.Where(m => m.UserName.ToLower() == username.ToLower() && m.Password.ToLower() == password.ToLower()).Select(s => new UserProfile()
                     {
                         UserID = s.UserID,
                         UserName = s.UserName,
@@ -79,6 +79,7 @@ namespace SAT.HR.Data.Repository
                     model.PoName = data.PoName;
                     model.RoleID = data.RoleID;
                     model.IsActive = data.IsActive;
+                    model.IsTerminate = data.IsTerminate;
                     model.StatusID = data.StatusID;
                     model.UserTypeID = data.UserTypeID;
                 }
@@ -156,15 +157,15 @@ namespace SAT.HR.Data.Repository
             {
                 string[] badCodes = userSelected.Split(',');
 
-                var result = db.vw_Employee.Where(x => x.StatusID == 1 && x.IsActive == true)
+                var result = db.vw_Employee.Where(x => x.StatusID == 1 && x.IsActive == true && x.RoleID == null)
                             .Select(s => new UserProfile()
                             {
                                 UserID = s.UserID,
                                 UserName = s.TiShortName + "" + s.FullNameTh
                             }).ToList();
 
-                if(userType != null)
-                    result = result.Where(x => x.UserTypeID == userType).ToList();
+                //if(userType != null)
+                //    result = result.Where(x => x.UserTypeID == userType).ToList();
 
                 if (badCodes.Length > 0 && !string.IsNullOrEmpty(badCodes[0]))
                 {

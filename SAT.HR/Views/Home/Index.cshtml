@@ -101,11 +101,26 @@
                                 window.location.href = url;
                             }
                             else {
-                                alert(res.MessageText);
+                                swal({
+                                    title: "",
+                                    text: res.MessageText,
+                                    type: "error",
+                                    buttonsStyling: false,
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                }).then(function () {
+                                });
                             }
                         },
                         error: function (req, status, err) {
-                            alert('something went wrong', status, err);
+                            swal({
+                                title: '',
+                                text: status + ' - '+ err,
+                                type: 'error',
+                                confirmButtonClass: "btn btn-primary",
+                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                buttonsStyling: false
+                            }).catch(swal.noop)
                         }
                     });
                 }

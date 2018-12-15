@@ -18,8 +18,7 @@ namespace SAT.HR.Models
         public Nullable<decimal> TotalDay { get; set; }
         public string LeaveReason { get; set; }
         public string CancelReason { get; set; }
-        public string Remark { get; set; }
-        public string Comment { get; set; }
+        public string ApproverComment { get; set; }
         public Nullable<int> Status { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
@@ -48,9 +47,11 @@ namespace SAT.HR.Models
         public int recordsFiltered { get; set; }
         public int FormHeaderID { get; set; }
         public int FormMasterID { get; set; }
-        public Nullable<int> CurrentStepID { get; set; }
+        public Nullable<int> StepNo { get; set; }
+        public Nullable<int> TransCurrentStepID { get; set; }
         public Nullable<int> Accept { get; set; }
         public Nullable<int> RequestMpID { get; set; }
+        public string Action { get; set; }
         public List<LeaveRequestViewModel> ListLeave { get; set; }
     }
 

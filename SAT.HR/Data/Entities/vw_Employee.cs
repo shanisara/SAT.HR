@@ -40,6 +40,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> StatusID { get; set; }
         public string StatusName { get; set; }
         public Nullable<bool> IsActive { get; set; }
+        public Nullable<bool> IsTerminate { get; set; }
         public Nullable<int> UserTypeID { get; set; }
         public string UserTypeName { get; set; }
         public Nullable<int> SexID { get; set; }
