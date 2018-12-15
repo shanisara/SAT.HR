@@ -117,8 +117,8 @@ namespace SAT.HR.Data
                 if (data != null)
                 {
                     //model.LevMax = data.LevMax;
-                    model.LevStandard = data.LevStandard;
-                    model.LevUsed = data.LevUsed;
+                    //model.LevStandard = data.LevStandard;
+                    //model.LevUsed = data.LevUsed;
                     model.LevBalance = data.LevStandard - data.LevUsed;
                     //model.LevPending = data.LevPending;
                 }
@@ -130,8 +130,8 @@ namespace SAT.HR.Data
                                     && m.LevID == leaveid).FirstOrDefault();
 
                     //model.LevMax = leavetype.LevMax;
-                    model.LevStandard = leavetype.LevMax;
-                    model.LevUsed = 0;
+                    //model.LevStandard = leavetype.LevMax;
+                    //model.LevUsed = 0;
                     model.LevBalance = leavetype.LevMax;
                     //model.LevPending = data.LevPending;
                 }

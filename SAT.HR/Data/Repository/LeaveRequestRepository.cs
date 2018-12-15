@@ -417,6 +417,11 @@ namespace SAT.HR.Data
                     int userid = UtilityService.User.UserID;
                     db.sp_WorkFlow_ApproveStep(data.FormHeaderID, data.TransCurrentStepID, data.Accept, data.ApproverComment, userid, data.StepNo);
                     db.SaveChanges();
+
+                    if(data.Accept == 1)
+                    {
+                        decimal dayUse = (decimal)data.TotalDay;
+                    }
                 }
                 catch (Exception ex)
                 {
