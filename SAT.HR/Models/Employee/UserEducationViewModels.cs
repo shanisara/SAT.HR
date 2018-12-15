@@ -27,8 +27,7 @@ namespace SAT.HR.Models
         public bool? UeEduOfficial { get; set; }
         public bool? UeEduOfficialLevel { get; set; }
         public string UePartFile { get; set; }
-
-
+        public string GPA { get; set; }
         public List<UserEducationViewModel> ListEducation { get; set; }
     }
 

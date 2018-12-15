@@ -37,7 +37,7 @@ namespace SAT.HR.Data
                         model.LevID = item.LevID;
                         model.LevYear = item.LevYear;
                         model.LevName = item.LevName;
-                        model.LevMax = item.LevMax;
+                        //model.LevMax = item.LevMax;
                         model.LevStandard = item.LevStandard;
                         model.LevUsed = item.LevUsed;
                         model.LevBalance = item.LevBalance;
@@ -69,7 +69,7 @@ namespace SAT.HR.Data
                             if (leavebalance != null)
                             {
                                 leavebalance.LevStandard = item.LevStandard;
-                                leavebalance.LevMax = item.LevMax;
+                                //leavebalance.LevMax = item.LevMax;
                                 leavebalance.LevUsed = item.LevUsed;
                                 leavebalance.ModifyBy = UtilityService.User.UserID;
                                 leavebalance.ModifyDate = DateTime.Now;
@@ -82,7 +82,7 @@ namespace SAT.HR.Data
                                 model.LevID = item.LevID;
                                 model.UserID = (int)item.UserID;
                                 model.LevStandard = item.LevStandard;
-                                model.LevMax = item.LevMax;
+                                //model.LevMax = item.LevMax;
                                 model.LevUsed = item.LevUsed;
                                 model.CreateBy = UtilityService.User.UserID;
                                 model.CreateDate = DateTime.Now;
@@ -116,10 +116,11 @@ namespace SAT.HR.Data
                 LeaveBalanceViewModel model = new LeaveBalanceViewModel();
                 if (data != null)
                 {
-                    model.LevMax = data.LevMax;
+                    //model.LevMax = data.LevMax;
                     model.LevStandard = data.LevStandard;
                     model.LevUsed = data.LevUsed;
-                    model.LevBalance = data.LevMax - data.LevUsed;
+                    model.LevBalance = data.LevStandard - data.LevUsed;
+                    //model.LevPending = data.LevPending;
                 }
                 else
                 {
@@ -128,10 +129,11 @@ namespace SAT.HR.Data
                                     && (m.LevEndDate.Value.Year >= curDate.Year && m.LevEndDate.Value.Month >= curDate.Month && m.LevEndDate.Value.Day >= curDate.Day)
                                     && m.LevID == leaveid).FirstOrDefault();
 
-                    model.LevMax = leavetype.LevMax;
+                    //model.LevMax = leavetype.LevMax;
                     model.LevStandard = leavetype.LevMax;
                     model.LevUsed = 0;
                     model.LevBalance = leavetype.LevMax;
+                    //model.LevPending = data.LevPending;
                 }
                 return model;
             }

@@ -162,34 +162,43 @@
             });
 
             $(".btn-cancel").click(function () {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("ConfirmCancelLeaveRequest", "WorkingTime")/' + id,
-                    success: function (res) {
-                        if (res.MessageCode == null) {
-                            swal({
-                                title: "",
-                                text: "ยกเลิกใบลาเรียบร้อย",
-                                type: "success",
-                                confirmButtonClass: "btn btn-primary",
-                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                                buttonsStyling: false
-                            }).then(function () {
-                                dataTable.getData();
-                            });
+                var $valid = $('.form-cancel').valid();
+                if (!$valid) {
+                    return false;
+                }
+                else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("ConfirmCancelLeaveRequest", "WorkingTime")',
+                        data: $(".form-cancel").serialize(),
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                swal({
+                                    title: "",
+                                    text: "ยกเลิกใบลาเรียบร้อย",
+                                    type: "success",
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                    buttonsStyling: false
+                                }).then(function () {
+                                    $('.modal-detail').modal('hide');
+                                    dataTable.getData();
+                                });
+                            }
+                            else {
+                                swal({
+                                    title: '',
+                                    text: res.MessageText,
+                                    type: 'error',
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                    buttonsStyling: false
+                                }).catch(swal.noop);
+                            }
                         }
-                        else {
-                            swal({
-                                title: '',
-                                text: res.MessageText,
-                                type: 'error',
-                                confirmButtonClass: "btn btn-primary",
-                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                                buttonsStyling: false
-                            }).catch(swal.noop);
-                        }
-                    }
-                });
+                    });
+                }
+
             });
 
 

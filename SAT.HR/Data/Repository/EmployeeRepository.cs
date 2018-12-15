@@ -1011,6 +1011,7 @@ namespace SAT.HR.Data.Repository
                         model.UeGPA = s.UeGPA;
                         model.UeEduOfficial = s.UeEduOfficial;
                         model.UeEduOfficialLevel = s.UeEduOfficialLevel;
+                        model.GPA = s.UeGPA.HasValue ? s.UeGPA.ToString() : string.Empty;
                         list.Add(model);
                     }
                 }
@@ -1220,7 +1221,7 @@ namespace SAT.HR.Data.Repository
                         model.UpForceDateText = (item.UpForceDate.HasValue) ? item.UpForceDate.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.UpRemark = item.UpRemark;
                         model.UpPathFile = item.UpPathFile;
-                        model.FullPosition = item.DivName + "/" + item.DepName + "/" + item.SecName;
+                        model.FullPosition = item.DivName + (!string.IsNullOrEmpty(item.DepName) ? "/" + item.DepName : "") + (!string.IsNullOrEmpty(item.SecName) ? "/" + item.SecName : "");
                         list.Add(model);
                     }
                 }
@@ -1867,7 +1868,7 @@ namespace SAT.HR.Data.Repository
                         model.UeProjectName = item.UeProjectName;
                         model.UeRecDateText = (item.UeRecDate.HasValue) ? item.UeRecDate.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.PoName = item.PoName;
-                        model.FullPosition = item.DivName + "/" + item.DepName + "/" + item.PoName;
+                        model.FullPosition = item.DivName + (!string.IsNullOrEmpty(item.DepName) ? "/" + item.DepName : "") + (!string.IsNullOrEmpty(item.SecName) ? "/" + item.SecName : "");
                         list.Add(model);
                     }
                 }

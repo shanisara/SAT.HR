@@ -186,6 +186,7 @@ namespace SAT.HR.Data
                     else
                     {
                         model.RequestID = UtilityService.User.UserID;
+                        model.RequestName = UtilityService.User.FullNameTh;
                         model.DayTime = 1;
                         model.StartDate = Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH")));
                         model.EndDate = Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH")));
@@ -462,6 +463,7 @@ namespace SAT.HR.Data
             string totalDays = "";
 
             /////ต้องเช็คเพิ่มนะ โดย ไม่คิด วันหยุดทำงาน และ holiday ////
+
 
             totalDays = daytime == "1" ? "1" : "0.5";
 

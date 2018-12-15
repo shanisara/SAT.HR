@@ -72,7 +72,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Language> tb_Language { get; set; }
         public virtual DbSet<tb_Language_Skill> tb_Language_Skill { get; set; }
         public virtual DbSet<tb_Language_Skill_Type> tb_Language_Skill_Type { get; set; }
-        public virtual DbSet<tb_Leave_Balance> tb_Leave_Balance { get; set; }
         public virtual DbSet<tb_Leave_Request> tb_Leave_Request { get; set; }
         public virtual DbSet<tb_Leave_Status> tb_Leave_Status { get; set; }
         public virtual DbSet<tb_Leave_Type> tb_Leave_Type { get; set; }
@@ -139,7 +138,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Benefit_Provident_Fund> vw_Benefit_Provident_Fund { get; set; }
         public virtual DbSet<vw_Capability> vw_Capability { get; set; }
         public virtual DbSet<vw_Course> vw_Course { get; set; }
-        public virtual DbSet<vw_Department> vw_Department { get; set; }
         public virtual DbSet<vw_Division> vw_Division { get; set; }
         public virtual DbSet<vw_Man_Power> vw_Man_Power { get; set; }
         public virtual DbSet<vw_Menu_Role> vw_Menu_Role { get; set; }
@@ -164,6 +162,8 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Employee> vw_Employee { get; set; }
         public virtual DbSet<vw_User_Role> vw_User_Role { get; set; }
         public virtual DbSet<vw_Leave_Request> vw_Leave_Request { get; set; }
+        public virtual DbSet<tb_Leave_Balance> tb_Leave_Balance { get; set; }
+        public virtual DbSet<vw_Department> vw_Department { get; set; }
         public virtual DbSet<vw_Organization> vw_Organization { get; set; }
     
         public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
