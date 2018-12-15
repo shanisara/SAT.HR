@@ -181,7 +181,22 @@
 
             $('.selectpicker').selectpicker();
 
-            $('.datepicker').datetimepicker({
+            //$('.datepicker').datetimepicker({
+            //    format: 'DD/MM/YYYY',
+            //    icons: {
+            //        time: "fa fa-clock-o",
+            //        date: "fa fa-calendar",
+            //        up: "fa fa-chevron-up",
+            //        down: "fa fa-chevron-down",
+            //        previous: 'fa fa-chevron-left',
+            //        next: 'fa fa-chevron-right',
+            //        today: 'fa fa-screenshot',
+            //        clear: 'fa fa-trash',
+            //        close: 'fa fa-remove'
+            //    }
+            //});
+
+            $('input[name="StartDate"],input[name="EndDate"]').datetimepicker({
                 format: 'DD/MM/YYYY',
                 icons: {
                     time: "fa fa-clock-o",
@@ -194,6 +209,8 @@
                     clear: 'fa fa-trash',
                     close: 'fa fa-remove'
                 }
+            }).on('dp.change', function (e) {
+                calculateTotalDay();
             });
 
             $("#RequestID").change(function () {
@@ -232,6 +249,15 @@
             });
 
             $('input[name="DayTime"]:radio').change(function () {
+                var daytime = $("input[name='DayTime']:checked").val();
+                if (daytime == 2 || daytime == 3) {
+                    var startdate = $("#StartDate").val();
+                    $('#EndDate').val(startdate);
+                    $('#EndDate').prop("disabled", true);
+                }
+                else {
+                    $('#EndDate').prop("disabled", false);
+                }
                 calculateTotalDay();
             });
 

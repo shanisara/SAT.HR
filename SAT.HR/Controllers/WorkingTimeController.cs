@@ -72,7 +72,7 @@ namespace SAT.HR.Controllers
             return PartialView("_CancelLeaveRequest", model);
         }
 
-        public JsonResult LeaveCalculateTotalDay(string daytime, string startdate, string entdate)
+        public JsonResult LeaveCalculateTotalDay(int daytime, DateTime startdate, DateTime entdate)
         {
             var result = new LeaveRequestRepository().CalculateTotalDay(daytime, startdate, entdate);
             return Json(new { TotalDay = result }, JsonRequestBehavior.AllowGet);

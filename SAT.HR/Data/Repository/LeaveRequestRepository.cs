@@ -188,9 +188,9 @@ namespace SAT.HR.Data
                         model.RequestID = UtilityService.User.UserID;
                         model.RequestName = UtilityService.User.FullNameTh;
                         model.DayTime = 1;
-                        model.StartDate = Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH")));
-                        model.EndDate = Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH")));
-                        model.TotalDay = 1;
+                        model.StartDate = Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyy")); //Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH")));
+                        model.EndDate = Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyy")); //Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH")));
+                        model.TotalDay = CalculateTotalDay(1, DateTime.Now, DateTime.Now);
                     }
 
                     return model;
@@ -470,16 +470,43 @@ namespace SAT.HR.Data
             return model;
         }
 
-        public string CalculateTotalDay(string daytime, string startdate, string entdate)
+        public decimal CalculateTotalDay(int daytime, DateTime startdate, DateTime entdate)
         {
-            string totalDays = "";
+            using (SATEntities db = new SATEntities())
+            {
+                decimal totalDays = 0;
+                if (daytime == 1)
+                {
+                    DateTime from = startdate; // UtilityService.ConvertDateThai2Eng(Convert.ToDateTime(startdate));
+                    DateTime to = entdate; // UtilityService.ConvertDateThai2Eng(Convert.ToDateTime(entdate));
 
-            /////ต้องเช็คเพิ่มนะ โดย ไม่คิด วันหยุดทำงาน และ holiday ////
+                    from = from.Date;
+                    to = to.Date;
+                    if (from > to)
+                        throw new ArgumentException("Incorrect last day " + to);
 
+                    var dayDifference = (int)to.Subtract(from).TotalDays;
+                    totalDays = Enumerable
+                                .Range(1, dayDifference)
+                                .Select(x => from.AddDays(x))
+                                .Count(x => x.DayOfWeek != DayOfWeek.Saturday && x.DayOfWeek != DayOfWeek.Sunday);
 
-            totalDays = daytime == "1" ? "1" : "0.5";
+                    int year = DateTime.Now.Year;
+                    var holidays = db.tb_Holiday.Where(m => m.HolDate.Value.Year == year).ToList();
+                    foreach (var item in holidays)
+                    {
+                        DateTime holDate = Convert.ToDateTime(item.HolDate);
+                        if (from <= holDate && holDate <= to)
+                            --totalDays;
+                    }
+                }
+                else
+                {
+                    totalDays = (decimal)0.5;
+                }
 
-            return totalDays;
+                return totalDays;
+            }
         }
 
     }

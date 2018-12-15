@@ -157,10 +157,10 @@ namespace SAT.HR.Data
                 LeaveBalanceViewModel model = new LeaveBalanceViewModel();
                 if (data != null)
                 {
+                    model.LevBalance = data.LevStandard - data.LevUsed;
                     //model.LevMax = data.LevMax;
                     //model.LevStandard = data.LevStandard;
                     //model.LevUsed = data.LevUsed;
-                    model.LevBalance = data.LevStandard - data.LevUsed;
                     //model.LevPending = data.LevPending;
                 }
                 else
@@ -169,11 +169,10 @@ namespace SAT.HR.Data
                     var leavetype = db.tb_Leave_Type.Where(m => (m.LevStartDate.Value.Year <= curDate.Year && m.LevStartDate.Value.Month <= curDate.Month && m.LevStartDate.Value.Day <= curDate.Day)
                                     && (m.LevEndDate.Value.Year >= curDate.Year && m.LevEndDate.Value.Month >= curDate.Month && m.LevEndDate.Value.Day >= curDate.Day)
                                     && m.LevID == leaveid).FirstOrDefault();
-
+                    model.LevBalance = leavetype.LevMax;
                     //model.LevMax = leavetype.LevMax;
                     //model.LevStandard = leavetype.LevMax;
                     //model.LevUsed = 0;
-                    model.LevBalance = leavetype.LevMax;
                     //model.LevPending = data.LevPending;
                 }
                 return model;
