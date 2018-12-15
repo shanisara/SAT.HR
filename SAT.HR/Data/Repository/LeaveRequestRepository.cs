@@ -170,6 +170,7 @@ namespace SAT.HR.Data
                         model.Action = item.Action;
                         model.Approver = item.LastApproverName;
                         model.ApproverComment = item.LastApproverComment;
+                        model.StatusName = item.Status;
 
                         model.PathFile = item.LeaveFile;
                         model.CreateDate = item.CreateDate;
@@ -371,16 +372,28 @@ namespace SAT.HR.Data
             }
         }
 
-        public ResponseData Cancel(int formheaderid, int stepno, string reason)
+        public ResponseData Cancel(LeaveRequestViewModel data)
         {
             ResponseData result = new ResponseData();
             using (SATEntities db = new SATEntities())
             {
                 try
                 {
-                    //[sp_WorkFlow_Cancel] 43, 296, 1, 0,'comment'
+                    var model = db.tb_Leave_Request.Single(x => x.FormID == data.FormID);
+                    model.CancelReason = data.CancelReason;
+                    model.CancelDate = DateTime.Now;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+
+
+                    int formheaderid = data.FormHeaderID;
+                    int stepno = (int)data.StepNo;
+                    string reason = data.CancelReason;
                     int userid = UtilityService.User.UserID;
-                    db.sp_Workflow_Cancel(formheaderid, userid, stepno, 0, reason);
+
+                    //[sp_WorkFlow_Cancel] 43, 292, 0, 0,'ยกเลิก'
+                    db.sp_WorkFlow_Cancel(formheaderid, userid, stepno, 0, reason);
                     db.SaveChanges();
                 }
                 catch (Exception ex)

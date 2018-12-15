@@ -60,15 +60,15 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult ConfirmCancelLeaveRequest(int formheaderid, int stepno, string reason)
+        public JsonResult ConfirmCancelLeaveRequest(LeaveRequestViewModel data)
         {
-            var result = new LeaveRequestRepository().Cancel(formheaderid, stepno, reason);
+            var result = new LeaveRequestRepository().Cancel(data);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult CancelLeaveRequest(int? id)
         {
-            var model = new LeaveRequestRepository().GetByID(id);
+            var model = new LeaveRequestRepository().GetDetail(id);
             return PartialView("_CancelLeaveRequest", model);
         }
 

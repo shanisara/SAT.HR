@@ -163,8 +163,8 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
         public virtual DbSet<vw_Employee> vw_Employee { get; set; }
         public virtual DbSet<vw_User_Role> vw_User_Role { get; set; }
-        public virtual DbSet<vw_Organization> vw_Organization { get; set; }
         public virtual DbSet<vw_Leave_Request> vw_Leave_Request { get; set; }
+        public virtual DbSet<vw_Organization> vw_Organization { get; set; }
     
         public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
         {
@@ -470,31 +470,6 @@ namespace SAT.HR.Data.Entities
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_WorkFlow_Create", formIDParameter, formMasterIDParameter, requestUserIDParameter, requestMpIDParameter, formHeaderID);
         }
     
-        public virtual int sp_Workflow_Cancel(Nullable<int> formHeaderID, Nullable<int> userID, Nullable<int> stepNo, Nullable<int> isAccept, string comment)
-        {
-            var formHeaderIDParameter = formHeaderID.HasValue ?
-                new ObjectParameter("FormHeaderID", formHeaderID) :
-                new ObjectParameter("FormHeaderID", typeof(int));
-    
-            var userIDParameter = userID.HasValue ?
-                new ObjectParameter("UserID", userID) :
-                new ObjectParameter("UserID", typeof(int));
-    
-            var stepNoParameter = stepNo.HasValue ?
-                new ObjectParameter("StepNo", stepNo) :
-                new ObjectParameter("StepNo", typeof(int));
-    
-            var isAcceptParameter = isAccept.HasValue ?
-                new ObjectParameter("IsAccept", isAccept) :
-                new ObjectParameter("IsAccept", typeof(int));
-    
-            var commentParameter = comment != null ?
-                new ObjectParameter("Comment", comment) :
-                new ObjectParameter("Comment", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Workflow_Cancel", formHeaderIDParameter, userIDParameter, stepNoParameter, isAcceptParameter, commentParameter);
-        }
-    
         public virtual int sp_WorkFlow_Approve_Step(Nullable<int> formHeaderID, Nullable<int> stepApproverID, Nullable<int> isAccept, string comment, Nullable<int> userID, Nullable<int> stepNo)
         {
             var formHeaderIDParameter = formHeaderID.HasValue ?
@@ -580,6 +555,31 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("StepNo", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_WorkFlow_ApproveStep_Result>("sp_WorkFlow_ApproveStep", formHeaderIDParameter, stepApproverIDParameter, isAcceptParameter, commentParameter, userIDParameter, stepNoParameter);
+        }
+    
+        public virtual int sp_WorkFlow_Cancel(Nullable<int> formHeaderID, Nullable<int> userID, Nullable<int> stepNo, Nullable<int> isAccept, string comment)
+        {
+            var formHeaderIDParameter = formHeaderID.HasValue ?
+                new ObjectParameter("FormHeaderID", formHeaderID) :
+                new ObjectParameter("FormHeaderID", typeof(int));
+    
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var stepNoParameter = stepNo.HasValue ?
+                new ObjectParameter("StepNo", stepNo) :
+                new ObjectParameter("StepNo", typeof(int));
+    
+            var isAcceptParameter = isAccept.HasValue ?
+                new ObjectParameter("IsAccept", isAccept) :
+                new ObjectParameter("IsAccept", typeof(int));
+    
+            var commentParameter = comment != null ?
+                new ObjectParameter("Comment", comment) :
+                new ObjectParameter("Comment", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_WorkFlow_Cancel", formHeaderIDParameter, userIDParameter, stepNoParameter, isAcceptParameter, commentParameter);
         }
     }
 }
