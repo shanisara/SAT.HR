@@ -15,11 +15,17 @@ namespace SAT.HR.Data.Entities
     public partial class tb_Mail_Template
     {
         public int MailID { get; set; }
-        public string MailTo { get; set; }
-        public string MailFrom { get; set; }
+        public string MailCode { get; set; }
+        public string MailName { get; set; }
         public string MailSubject { get; set; }
         public string MailBody { get; set; }
+        public string MailTo { get; set; }
+        public string MailFrom { get; set; }
         public string MailCCTo { get; set; }
         public string MailBCCTo { get; set; }
+        public Nullable<int> CreateBy { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<int> ModifyBy { get; set; }
+        public Nullable<System.DateTime> ModifyDate { get; set; }
     }
 }

@@ -705,12 +705,18 @@
             <PropertyRef Name="MailID" />
           </Key>
           <Property Name="MailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MailTo" Type="nvarchar" MaxLength="1000" />
-          <Property Name="MailFrom" Type="nvarchar" MaxLength="1000" />
+          <Property Name="MailCode" Type="nvarchar" MaxLength="1000" />
+          <Property Name="MailName" Type="nvarchar" MaxLength="1000" />
           <Property Name="MailSubject" Type="nvarchar" MaxLength="1000" />
           <Property Name="MailBody" Type="nvarchar" MaxLength="2000" />
+          <Property Name="MailTo" Type="nvarchar" MaxLength="1000" />
+          <Property Name="MailFrom" Type="nvarchar" MaxLength="1000" />
           <Property Name="MailCCTo" Type="nvarchar" MaxLength="1000" />
           <Property Name="MailBCCTo" Type="nvarchar" MaxLength="1000" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="int" />
+          <Property Name="ModifyDate" Type="datetime" />
         </EntityType>
         <EntityType Name="tb_Major">
           <Key>
@@ -2046,16 +2052,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Organization' does not have a
           <Property Name="PathMpID" Type="varchar" MaxLength="255" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV_3.dbo.vw_Salary_Level' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vw_Salary_Level">
-          <Property Name="Level" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>-->
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV_3.dbo.vw_Salary_Step' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vw_Salary_Step">
-          <Property Name="Step" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>-->
-        <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Section">
           <Key>
@@ -2159,21 +2155,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Trans_Form_Waiting' does not 
           <Property Name="LastApproverName" Type="nvarchar" MaxLength="500" />
           <Property Name="RequestUserName" Type="nvarchar" MaxLength="501" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'SATHRDB_DEV_3.dbo.vw_Trans_Step_Approver' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vw_Trans_Step_Approver">
-          <Property Name="StepID" Type="int" />
-          <Property Name="MpID" Type="int" />
-          <Property Name="ApproverID" Type="int" />
-          <Property Name="Accept" Type="int" />
-          <Property Name="AcceptDate" Type="datetime" />
-          <Property Name="Comment" Type="nvarchar" MaxLength="2000" />
-          <Property Name="NextStepID" Type="int" />
-          <Property Name="StepNo" Type="int" />
-          <Property Name="StepName" Type="nvarchar" MaxLength="200" />
-          <Property Name="FormMasterID" Type="int" />
-          <Property Name="FormHeaderID" Type="int" />
-        </EntityType>-->
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Trans_Step_Route' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Trans_Step_Route">
@@ -5407,7 +5388,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <EntitySet Name="tb_Leave_Status" EntityType="SAT.HR.tb_Leave_Status" />
           <EntitySet Name="tb_Leave_Type" EntityType="SAT.HR.tb_Leave_Type" />
           <EntitySet Name="tb_Loan_Type" EntityType="SAT.HR.tb_Loan_Type" />
-          <EntitySet Name="tb_Mail_Template" EntityType="SAT.HR.tb_Mail_Template" />
           <EntitySet Name="tb_Major" EntityType="SAT.HR.tb_Major" />
           <EntitySet Name="tb_Man_Power" EntityType="SAT.HR.tb_Man_Power" />
           <EntitySet Name="tb_Marital_Status" EntityType="SAT.HR.tb_Marital_Status" />
@@ -5872,6 +5852,7 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
             <End Role="tb_User" EntitySet="tb_User" />
             <End Role="tb_Working_Shift" EntitySet="tb_Working_Shift" />
           </AssociationSet>
+          <EntitySet Name="tb_Mail_Template" EntityType="SAT.HR.tb_Mail_Template" />
           </EntityContainer>
         <ComplexType Name="sp_Employee_List_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -6878,18 +6859,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
           <Property Name="LtID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LtName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tb_Benefit_Loan" Relationship="SAT.HR.FK_tb_Benefit_Loan_tb_Loan_Type" FromRole="tb_Loan_Type" ToRole="tb_Benefit_Loan" />
-        </EntityType>
-        <EntityType Name="tb_Mail_Template">
-          <Key>
-            <PropertyRef Name="MailID" />
-          </Key>
-          <Property Name="MailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MailTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="MailFrom" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="MailSubject" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="MailBody" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="MailCCTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="MailBCCTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="tb_Major">
           <Key>
@@ -9924,6 +9893,24 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="tb_Mail_Template">
+          <Key>
+            <PropertyRef Name="MailID" />
+          </Key>
+          <Property Name="MailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MailCode" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="MailName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="MailSubject" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="MailBody" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="MailTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="MailFrom" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="MailCCTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="MailBCCTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10955,19 +10942,6 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
               <MappingFragment StoreEntitySet="tb_Loan_Type">
                 <ScalarProperty Name="LtName" ColumnName="LtName" />
                 <ScalarProperty Name="LtID" ColumnName="LtID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tb_Mail_Template">
-            <EntityTypeMapping TypeName="SAT.HR.tb_Mail_Template">
-              <MappingFragment StoreEntitySet="tb_Mail_Template">
-                <ScalarProperty Name="MailBCCTo" ColumnName="MailBCCTo" />
-                <ScalarProperty Name="MailCCTo" ColumnName="MailCCTo" />
-                <ScalarProperty Name="MailBody" ColumnName="MailBody" />
-                <ScalarProperty Name="MailSubject" ColumnName="MailSubject" />
-                <ScalarProperty Name="MailFrom" ColumnName="MailFrom" />
-                <ScalarProperty Name="MailTo" ColumnName="MailTo" />
-                <ScalarProperty Name="MailID" ColumnName="MailID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -12831,6 +12805,25 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
                 <ScalarProperty Name="FullNameTH" ColumnName="FullNameTH" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="UtID" ColumnName="UtID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Mail_Template">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Mail_Template">
+              <MappingFragment StoreEntitySet="tb_Mail_Template">
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="MailBCCTo" ColumnName="MailBCCTo" />
+                <ScalarProperty Name="MailCCTo" ColumnName="MailCCTo" />
+                <ScalarProperty Name="MailFrom" ColumnName="MailFrom" />
+                <ScalarProperty Name="MailTo" ColumnName="MailTo" />
+                <ScalarProperty Name="MailBody" ColumnName="MailBody" />
+                <ScalarProperty Name="MailSubject" ColumnName="MailSubject" />
+                <ScalarProperty Name="MailName" ColumnName="MailName" />
+                <ScalarProperty Name="MailCode" ColumnName="MailCode" />
+                <ScalarProperty Name="MailID" ColumnName="MailID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -79,7 +79,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Leave_Status> tb_Leave_Status { get; set; }
         public virtual DbSet<tb_Leave_Type> tb_Leave_Type { get; set; }
         public virtual DbSet<tb_Loan_Type> tb_Loan_Type { get; set; }
-        public virtual DbSet<tb_Mail_Template> tb_Mail_Template { get; set; }
         public virtual DbSet<tb_Major> tb_Major { get; set; }
         public virtual DbSet<tb_Man_Power> tb_Man_Power { get; set; }
         public virtual DbSet<tb_Marital_Status> tb_Marital_Status { get; set; }
@@ -176,6 +175,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Role> vw_User_Role { get; set; }
         public virtual DbSet<vw_User_Skill> vw_User_Skill { get; set; }
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
+        public virtual DbSet<tb_Mail_Template> tb_Mail_Template { get; set; }
     
         public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
         {

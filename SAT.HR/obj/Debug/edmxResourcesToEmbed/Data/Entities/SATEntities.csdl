@@ -173,7 +173,6 @@
     <EntitySet Name="tb_Leave_Status" EntityType="SAT.HR.tb_Leave_Status" />
     <EntitySet Name="tb_Leave_Type" EntityType="SAT.HR.tb_Leave_Type" />
     <EntitySet Name="tb_Loan_Type" EntityType="SAT.HR.tb_Loan_Type" />
-    <EntitySet Name="tb_Mail_Template" EntityType="SAT.HR.tb_Mail_Template" />
     <EntitySet Name="tb_Major" EntityType="SAT.HR.tb_Major" />
     <EntitySet Name="tb_Man_Power" EntityType="SAT.HR.tb_Man_Power" />
     <EntitySet Name="tb_Marital_Status" EntityType="SAT.HR.tb_Marital_Status" />
@@ -638,6 +637,7 @@
       <End Role="tb_User" EntitySet="tb_User" />
       <End Role="tb_Working_Shift" EntitySet="tb_Working_Shift" />
     </AssociationSet>
+    <EntitySet Name="tb_Mail_Template" EntityType="SAT.HR.tb_Mail_Template" />
   </EntityContainer>
   <ComplexType Name="sp_Employee_List_Result">
     <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -1644,18 +1644,6 @@
     <Property Name="LtID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="LtName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="tb_Benefit_Loan" Relationship="SAT.HR.FK_tb_Benefit_Loan_tb_Loan_Type" FromRole="tb_Loan_Type" ToRole="tb_Benefit_Loan" />
-  </EntityType>
-  <EntityType Name="tb_Mail_Template">
-    <Key>
-      <PropertyRef Name="MailID" />
-    </Key>
-    <Property Name="MailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="MailTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-    <Property Name="MailFrom" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-    <Property Name="MailSubject" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-    <Property Name="MailBody" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-    <Property Name="MailCCTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-    <Property Name="MailBCCTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="tb_Major">
     <Key>
@@ -4690,4 +4678,22 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="tb_Mail_Template">
+    <Key>
+      <PropertyRef Name="MailID" />
+    </Key>
+    <Property Name="MailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MailCode" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="MailName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="MailSubject" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="MailBody" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="MailTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="MailFrom" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="MailCCTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="MailBCCTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+  </EntityType>
 </Schema>
