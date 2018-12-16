@@ -39,7 +39,7 @@
                     {
                         for (int i = 0; i < Model.Count; i++)
                         {
-                        <tr data-user="@Model[i].UserID">
+                        <tr id="@Model[i].UserID">
                             <td>@(i + 1)</td>
                             <td>
                                 <div class="form-check">
@@ -90,7 +90,10 @@
         });
 
         $(".btn-save-salary").click(function () {
-            alert('OK');
+            var id = $('#UserID').val();
+            var new_salary = $('#New_Salary').val();
+            $('#' + id).find("td:eq(10)").html(new_salary);
+            $('.modal-detail').modal('hide');
         });
 
 
