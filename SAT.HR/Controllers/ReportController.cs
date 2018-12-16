@@ -19,12 +19,85 @@ namespace SAT.HR.Controllers
     {
         string FileName = string.Empty;
 
+
+
         #region // รายงาน:ส่วนงานทรัพยากรบุคคล
 
         public ActionResult Resource(int id)
         {
             var data = new MenuRepository().MenuReportByRole(id);
             return View(data);
+        }
+
+        public ActionResult ReportEducation()
+        {
+            var model = new EducationRepository().GetAll();
+            ViewBag.Education = DropDownList.GetEducation(0, true);
+
+            return View("Report_Education", model); ;
+        }
+
+        public ActionResult ReportEmployee()
+        {
+            var model = new EducationRepository().GetAll();
+            ViewBag.Division = DropDownList.GetDivision(null);
+            ViewBag.Department = DropDownList.GetDepartment(null, null);
+            ViewBag.Section = DropDownList.GetSection(null, null, null);
+            ViewBag.Education = DropDownList.GetEducation(0, true);
+            ViewBag.Religion = DropDownList.GetReligion(0, true);
+            ViewBag.UserType = DropDownList.GetUserType(0);
+
+            return View("Report_Employee", model); ;
+        }
+
+        [HttpPost]
+        public JsonResult ExportReportEducation(string EduID, string ExtensionFile)
+        {
+            try
+            {
+
+                ReportClass rptH = new ReportClass();
+                FileName = "Report_Education" + "_" + DateTime.Now.ToString("yyyyMMddHHmm") + ExtensionFile;
+                rptH.FileName = Server.MapPath(@"~/Report/Master/Report_Education.rpt");
+                rptH.Load();
+                rptH.SetDatabaseLogon(SysConfig.UserName, SysConfig.Password, SysConfig.ServerName, SysConfig.DatabaseName);
+                rptH.SetParameterValue("@eduID", EduID == "" ? null : EduID);
+                rptH.ExportToDisk(ExtensionFile == ".xlsx" ? ExportFormatType.ExcelWorkbook : ExportFormatType.PortableDocFormat, Path.Combine(SysConfig.PathReport, FileName));
+
+                return Json(FileName, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        public JsonResult ExportReportEmployee(string DivID, string DepID, string SecID, string EduID, string InsName, string RelId, string UserTypeID, string ExtensionFile)
+        {
+            try
+            {
+
+                ReportClass rptH = new ReportClass();
+                FileName = "Report_Employee" + "_" + DateTime.Now.ToString("yyyyMMddHHmm") + ExtensionFile;
+                rptH.FileName = Server.MapPath(@"~/Report/Master/Report_Employee.rpt");
+                rptH.Load();
+                rptH.SetDatabaseLogon(SysConfig.UserName, SysConfig.Password, SysConfig.ServerName, SysConfig.DatabaseName);
+                rptH.SetParameterValue("@divID", DivID == "" ? null : DivID);
+                rptH.SetParameterValue("@depID", DepID == "" ? null : DepID);
+                rptH.SetParameterValue("@secID", SecID == "" ? null : SecID);
+                rptH.SetParameterValue("@eduID", EduID == "" ? null : EduID);
+                rptH.SetParameterValue("@insName", InsName == "" ? null : InsName);
+                rptH.SetParameterValue("@relID", RelId == "" ? null : RelId);
+                rptH.SetParameterValue("@utID", UserTypeID == "" ? null : UserTypeID);
+                rptH.ExportToDisk(ExtensionFile == ".xlsx" ? ExportFormatType.ExcelWorkbook : ExportFormatType.PortableDocFormat, Path.Combine(SysConfig.PathReport, FileName));
+
+                return Json(FileName, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #endregion 
@@ -49,39 +122,7 @@ namespace SAT.HR.Controllers
 
         #endregion 
 
-        public ActionResult ReportEducation()
-        {
-            var model = new EducationRepository().GetAll();
-            ViewBag.Education = DropDownList.GetEducation(0, true);
-
-            return View("Report_Education", model); ;
-        }
-
-        [HttpPost]
-        public JsonResult ExportReportEducation(string EduID, string ExtensionFile)
-        {
-            try
-            {
-                //string[] Header = new string[] { "ลำดับ", "ที่", "ชื่อ-นามสกุล"};
-                //ReportRepository Report = new ReportRepository();
-                //var fileExcel = Report.ReportExcel(Report.testExcel(EduID), Header);
-
-                ReportClass rptH = new ReportClass();
-                FileName = "Report_Education" + "_" + DateTime.Now.ToString("yyyyMMddHHmm") + ExtensionFile;
-                rptH.FileName = Server.MapPath(@"~/Report/Master/Report_Education.rpt");
-                rptH.Load();
-                rptH.SetDatabaseLogon(SysConfig.UserName, SysConfig.Password, SysConfig.ServerName, SysConfig.DatabaseName);
-                rptH.SetParameterValue("@eduID", EduID == "" ? null : EduID);
-                rptH.ExportToDisk(ExtensionFile == ".xlsx" ? ExportFormatType.ExcelWorkbook : ExportFormatType.PortableDocFormat, Path.Combine(SysConfig.PathReport, FileName));
-
-                return Json(FileName, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
+      
         [HttpGet]
         public FileResult DownloadFile(string fileName)
         {
