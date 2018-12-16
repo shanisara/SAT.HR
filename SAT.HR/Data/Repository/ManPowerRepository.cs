@@ -69,7 +69,16 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.vw_Man_Power.Where(w => w.TypeID == typeid).ToList();
+                var data = db.vw_Man_Power.ToList();
+
+                if (typeid.HasValue)
+                {
+                    if(typeid == 1)
+                        data = data.Where(w => w.TypeID == typeid || w.TypeID == null).ToList();
+                    else
+                        data = data.Where(w => w.TypeID == typeid).ToList();
+                }
+                
 
                 if (divid != null)
                     data = data.Where(w => w.DivID == divid).ToList();
