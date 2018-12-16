@@ -39,6 +39,7 @@ namespace SAT.HR.Data
                         model.LeaveYear = item.LeaveYear;
                         model.RequestName = item.RequestUserName;
                         model.DocNo = item.DocNo;
+                        model.Action = item.Action;
                         model.LeaveTypeName = item.LeaveTypeName;
                         model.StartDateText = item.StartDate.Value.ToString("dd/MM/yyyy");
                         model.EndDateText = item.EndDate.Value.ToString("dd/MM/yyyy");
@@ -387,9 +388,8 @@ namespace SAT.HR.Data
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
 
-
                     int formheaderid = data.FormHeaderID;
-                    int stepno = (int)data.StepNo;
+                    int stepno = data.StepNo.HasValue ? (int)data.StepNo : 1;
                     string reason = data.CancelReason;
                     int userid = UtilityService.User.UserID;
 
@@ -397,10 +397,33 @@ namespace SAT.HR.Data
                     db.sp_WorkFlow_Cancel(formheaderid, userid, stepno, 0, reason);
                     db.SaveChanges();
 
-                    int year = DateTime.Now.Year;
-                    var leavebalance = db.tb_Leave_Balance.Where(x => x.UserID == userid && x.LevYear == year && x.LevID == data.LeaveType).FirstOrDefault();
-                    leavebalance.LevUsed = leavebalance.LevUsed + data.TotalDay;
-                    db.SaveChanges();
+                    int yearTH = DateTime.Now.Year + 543;
+                    var leavebalance = db.tb_Leave_Balance.Where(x => x.UserID == userid && x.LevYear == yearTH && x.LevID == data.LeaveType).FirstOrDefault();
+                    if (leavebalance == null)
+                    {
+                        var insertLeaveBalance = db.sp_Leave_Balance_User(userid, yearTH).ToList();
+                        foreach (var item in insertLeaveBalance)
+                        {
+                            tb_Leave_Balance lb = new tb_Leave_Balance();
+                            lb.LevYear = item.LevYear;
+                            lb.LevID = item.LevID;
+                            lb.UserID = userid;
+                            lb.LevStandard = item.LevStandard;
+                            //lb.LevMax = item.LevMax;
+                            lb.LevUsed = (data.LeaveType == item.LevID) ? item.LevUsed : item.LevUsed;
+                            lb.CreateBy = UtilityService.User.UserID;
+                            lb.CreateDate = DateTime.Now;
+                            lb.ModifyBy = UtilityService.User.UserID;
+                            lb.ModifyDate = DateTime.Now;
+                            db.tb_Leave_Balance.Add(lb);
+                            db.SaveChanges();
+                        }
+                    }
+                    else
+                    {
+                        leavebalance.LevUsed = leavebalance.LevUsed + data.TotalDay;
+                        db.SaveChanges();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -418,7 +441,7 @@ namespace SAT.HR.Data
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    //exec [sp_WorkFlow_ApproveStep] 43,259,1,'comment',291,1
+                    //exec [sp_WorkFlow_ApproveStep] 49,263,1,'comment',291,1
                     int userid = UtilityService.User.UserID;
                     db.sp_WorkFlow_ApproveStep(data.FormHeaderID, data.TransCurrentStepID, data.Accept, data.ApproverComment, userid, data.StepNo);
                     db.SaveChanges();

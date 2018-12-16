@@ -149,8 +149,8 @@ namespace SAT.HR.Controllers
             DateTime firstDayOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             DateTime lastDayOfMount = firstDayOfMonth.AddMonths(1).AddDays(-1);
 
-            string dateFrom = firstDayOfMonth.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH"));
-            string dateTo = lastDayOfMount.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH"));
+            string dateFrom = firstDayOfMonth.ToString("dd/MM/yyy"); //firstDayOfMonth.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH"));
+            string dateTo = lastDayOfMount.ToString("dd/MM/yyy"); //lastDayOfMount.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH"));
 
             ViewBag.DateFrom = dateFrom;
             ViewBag.DateTo = dateTo;
@@ -206,8 +206,8 @@ namespace SAT.HR.Controllers
             DateTime firstDayOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             DateTime lastDayOfMount = firstDayOfMonth.AddMonths(1).AddDays(-1);
 
-            string dateFrom = firstDayOfMonth.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH"));
-            string dateTo = lastDayOfMount.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH"));
+            string dateFrom = firstDayOfMonth.ToString("dd/MM/yyy"); //firstDayOfMonth.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH"));
+            string dateTo = lastDayOfMount.ToString("dd/MM/yyy"); //lastDayOfMount.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH"));
 
             ViewBag.DateFrom = dateFrom;
             ViewBag.DateTo = dateTo;
