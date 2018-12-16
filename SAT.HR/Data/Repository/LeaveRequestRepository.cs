@@ -482,22 +482,23 @@ namespace SAT.HR.Data
 
                     from = from.Date;
                     to = to.Date;
-                    if (from > to)
-                        throw new ArgumentException("Incorrect last day " + to);
-
-                    var dayDifference = (int)to.Subtract(from).TotalDays;
-                    totalDays = Enumerable
-                                .Range(1, dayDifference)
-                                .Select(x => from.AddDays(x))
-                                .Count(x => x.DayOfWeek != DayOfWeek.Saturday && x.DayOfWeek != DayOfWeek.Sunday);
-
-                    int year = DateTime.Now.Year;
-                    var holidays = db.tb_Holiday.Where(m => m.HolDate.Value.Year == year).ToList();
-                    foreach (var item in holidays)
+                    if (from < to)
                     {
-                        DateTime holDate = Convert.ToDateTime(item.HolDate);
-                        if (from <= holDate && holDate <= to)
-                            --totalDays;
+
+                        var dayDifference = (int)to.Subtract(from).TotalDays;
+                        totalDays = Enumerable
+                                    .Range(1, dayDifference)
+                                    .Select(x => from.AddDays(x))
+                                    .Count(x => x.DayOfWeek != DayOfWeek.Saturday && x.DayOfWeek != DayOfWeek.Sunday);
+
+                        int year = DateTime.Now.Year;
+                        var holidays = db.tb_Holiday.Where(m => m.HolDate.Value.Year == year).ToList();
+                        foreach (var item in holidays)
+                        {
+                            DateTime holDate = Convert.ToDateTime(item.HolDate);
+                            if (from <= holDate && holDate <= to)
+                                --totalDays;
+                        }
                     }
                 }
                 else

@@ -88,8 +88,8 @@ namespace SAT.HR.Data
                     }
                     else
                     {
-                        model.Std_TimeIn = Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyyy") +" "+ workingshift.StartTime);
-                        model.Std_TimeOut = Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyyy") + " " + workingshift.EndTime);
+                        model.Std_TimeIn = DateTime.Now; //Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyyy") +" "+ workingshift.StartTime);
+                        model.Std_TimeOut = DateTime.Now; //Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyyy") + " " + workingshift.EndTime);
                     }
                     
                     data = model;
