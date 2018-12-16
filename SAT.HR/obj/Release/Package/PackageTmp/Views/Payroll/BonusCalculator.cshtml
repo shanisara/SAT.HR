@@ -20,6 +20,7 @@
                         <span>ประมวลผลคำนวณโบนัส</span>
                     </h3>
                 </div>
+
                 <div class="wizard-navigation" id="tabs">
                     <ul class="nav nav-pills nav-pills-warning nav-pills-icons justify-content-center" role="tablist">
                         <li class="nav-item li-step1" id="li-step1">
@@ -39,80 +40,21 @@
                         </li>
                     </ul>
                 </div>
+
                 <div class="card-body">
                     <div class="tab-content tab-subcategories">
                         <div class="tab-pane active div-step1" id="step1">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title"><span> ประมวลผล</span></h4>
-                                </div>
-                                <div class="row justify-content-center">
-                                    <div class="col-sm-6" style="margin-top:-30px">
-                                        <div class="row">
-                                            <label class="col-sm-3 col-form-label m-t-20">ปีบัญชี</label>
-                                            <div class="col-sm-3">
-                                                <div class="form-group bmd-form-group">
-                                                    @Html.TextBoxFor(m => m.Year, new { @class = "form-control text-right", type = "number" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row m-b-30">
-                                            <label class="col-sm-3 col-form-label m-t-20">อัตรา (เท่า)</label>
-                                            <div class="col-sm-3">
-                                                <div class="form-group bmd-form-group">
-                                                    @Html.TextBoxFor(m => m.Rate, new { @class = "form-control text-right", type = "number" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <div id="div-step1"></div>
                         </div>
                         <div class="tab-pane div-step2" id="step2">
                             <div id="div-step2"></div>
                         </div>
                         <div class="tab-pane div-step3" id="step3">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title"><span>ยืนยันการประมวลผลโบนัส</span></h4>
-                                    <p class="card-category text-danger">
-                                        เมือตกลงยืนยันการคำนวณโบนัสประจำปีแล้ว จะไม่สามารถกลับมาแก้ไขได้อีก กรุณาตรวจสอบข้อมูลให้ถูกต้องก่อนทำรายการนี้
-                                    </p>
-                                </div>
-                                <div class="row justify-content-center">
-                                    <div class="col-sm-7 m-b-30">
-                                        <div class="row">
-                                            <label class="col-sm-2 col-form-label m-t-15">คำสั่ง</label>
-                                            <div class="col-sm-10">
-                                                <div class="form-group bmd-form-group">
-                                                    @Html.TextBoxFor(m => m.BookCmd, new { @class = "form-control", required = "true" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label class="col-sm-2 col-form-label m-t-15">วันที่ลงคำสั่ง</label>
-                                            <div class="col-sm-10">
-                                                <div class="form-group bmd-form-group">
-                                                    @Html.TextBoxFor(m => m.DateCmd, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label class="col-sm-2 col-form-label m-t-15">ไฟล์แนบ</label>
-                                            <div class="col-sm-10">
-                                                <div class="input-group-prepend file-path">
-                                                    @*<a class="m-t-10 file-name" target="_blank" href=@Url.Action("DownloadFileAttach", "Employee", new { id = Model.ProcessID, type = 1 })>@Model.PathFile</a>*@
-                                                    <a class="btn btn-link btn-danger btn-just-icon file-delete" file-delete href="#" title="ลบ" style="margin-top:0px"><i class="material-icons">delete_forever</i></a>
-                                                </div>
-                                                <input id="FileUpload" name="FileUpload" type="file" class="form-control file-upload">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <div id="div-step3"></div>
                         </div>
                     </div>
                 </div>
+
                 <div class="card-footer">
                     <div class="mr-auto">
                         <input name="previous" class="btn btn-previous btn-fill btn-default" style="display: none;" type="button" value="ย้อนกลับ">
@@ -253,7 +195,7 @@
 </style>
 
 @section Scripts {
-<script>
+    <script>
     $(document).ready(function () {
 
         $('.datepicker').datetimepicker({
@@ -279,15 +221,12 @@
                 $(".btn-finish").hide();
             }
             else if (this.id == "li-step2") {
+                step1();
+
                 if (!$('.li-step2').find('a').hasClass('disabled')) {
                     $(".btn-previous").show();
                     $(".btn-next").show();
                     $(".btn-finish").hide();
-
-                    @*var url = '@Url.Action("GetEmpBonusCalculator", "Payroll")';
-                    $.post(url, function (data) {
-                        $("#div-step2").html(data);
-                    });*@
                 }
             }
             else if (this.id == "li-step3") {
@@ -307,7 +246,7 @@
                 $('.li-step2').find('a').removeClass('active');
                 $('.div-step2').removeClass('active');
 
-                $('.li-step1').find('a').removeClass('disabled').addClass('active');
+                $('.li-step1').find('a').addClass('active').removeClass('disabled');
                 $('.div-step1').addClass('active');
 
                 $(".btn-previous").hide();
@@ -317,7 +256,7 @@
                 $('.li-step3').find('a').removeClass('active');
                 $('.div-step3').removeClass('active');
 
-                $('.li-step2').find('a').removeClass('disabled').addClass('active');
+                $('.li-step2').find('a').addClass('active').removeClass('disabled');
                 $('.div-step2').addClass('active');
 
                 $(".btn-next").show();
@@ -329,41 +268,58 @@
             var ref_this = $("#tabs li").find(".active");
             var id = ref_this.data("id");
             if (id == "tab-step1") {
-                swal({
-                    title: '',
-                    text: "ยืนยันการปรับขั้นเงินเดือน",
-                    type: 'question',
-                    showCancelButton: true,
-                    confirmButtonClass: 'btn btn-success',
-                    cancelButtonClass: 'btn btn-danger',
-                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
-                    buttonsStyling: false
-                }).then(function () {
-                    $('.li-step1').find('a').removeClass('active');
-                    $('.div-step1').removeClass('active');
-
-                    $('.li-step2').find('a').removeClass('disabled').addClass('active');
-                    $('.div-step2').addClass('active');
-
-                    $(".btn-previous").show();
-
-                    GetEmpBonusCalculator();
-                }).catch(swal.noop)
+                step1();
             }
             else if (id == "tab-step2") {
-                $('.li-step2').find('a').removeClass('active');
-                $('.div-step2').removeClass('active');
-
-                $('.li-step3').find('a').removeClass('disabled').addClass('active');
-                $('.div-step3').addClass('active');
-
-                $(".btn-next").hide();
-                $(".btn-finish").show();
+                step2();
             }
         });
 
         $(".btn-finish").click(function () {
+            step3();
+        });
+
+
+        function step1() {
+            @*swal({
+                title: '',
+                text: "ยืนยันการปรับขั้นเงินเดือน",
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                buttonsStyling: false
+            }).then(function () {*@
+                $('.li-step1').find('a').removeClass('active');
+                $('.div-step1').removeClass('active');
+
+                $('.li-step2').find('a').addClass('active').removeClass('disabled');
+                $('.div-step2').addClass('active');
+
+                $('.li-step3').find('a').removeClass('active').removeClass('disabled');
+                $('.div-step3').removeClass('active');
+
+                $(".btn-previous").show();
+
+                BonusCalculatorStep2();
+
+            //}).catch(swal.noop)
+        }
+
+        function step2() {
+            $('.li-step2').find('a').removeClass('active');
+            $('.div-step2').removeClass('active');
+
+            $('.li-step3').find('a').addClass('active').removeClass('disabled');
+            $('.div-step3').addClass('active');
+
+            $(".btn-next").hide();
+            $(".btn-finish").show();
+        }
+
+        function step3() {
             swal({
                 title: '',
                 text: "ยืนยันการปรับขั้นเงินเดือน",
@@ -377,24 +333,34 @@
             }).then(function () {
 
             }).catch(swal.noop)
-        });
+        }
 
-        function GetEmpBonusCalculator() {
+
+        function BonusCalculatorStep2() {
             var year = parseInt($('#Year').val());
-            var rate = parseFloat($('#Rate').val());
-            var url = '@Url.Action("GetEmpBonusCalculator", "Payroll")?year=' + year + '&rate=' + rate;
+            var step = parseFloat($('#UpStep').val());
+            var url = '@Url.Action("BonusCalculatorStep2", "Payroll")?year=' + year + '&step=' + step;
             $("#div-step2").load(url);
         }
 
         function BonusCalculatorProcess() {
-            var year = parseInt($('#Year').val());
-            var rate = parseFloat($('#Rate').val());
+            var Year = parseInt($('#Year').val());
+            var UpStep = parseFloat($('#UpStep').val());
+            var BookCmd = $('#BookCmd').val();
+            var DateCmd = $('#DateCmd').val();
+
+            var form = $('.formDetail')[0];
+            var data = new FormData(form);
+            data.append(".FileUpload", FileUpload);
 
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("BonusCalculatorProcess", "Payroll")',
-                data: { year: year, rate: rate },
+                data: data,
                 dataType: 'json',
+                enctype: 'multipart/form-data',
+                processData: false,
+                contentType: false,
                 success: function (res) {
                     $("#div-step2").html(res);
                 }
@@ -403,9 +369,9 @@
 
     });
 
-</script>
+    </script>
 
-<script>
+    <script>
     $(document).ready(function () {
 
         var $validator = $('.card-wizard form').validate({
@@ -607,5 +573,5 @@
 
     });
 
-</script>
+    </script>
 }

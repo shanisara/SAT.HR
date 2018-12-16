@@ -9,6 +9,22 @@ namespace SAT.HR.Data
 {
     public class SalaryIncreaseRepository
     {
+        public SalaryIncreaseProcessViewModel SalaryIncrease()
+        {
+            try
+            {
+                SalaryIncreaseProcessViewModel model = new SalaryIncreaseProcessViewModel();
+                model.Year = DateTime.Now.Year + 543;
+                model.UpLevel = 1;
+                model.UpStep = (decimal)1.0;
+                return model;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         public List<EmpSalaryIncreaseViewModel> GetEmpSalaryIncrease(int year, int level, decimal step)
         {
             List<EmpSalaryIncreaseViewModel> list = new List<EmpSalaryIncreaseViewModel>();

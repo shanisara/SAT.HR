@@ -249,7 +249,6 @@
     <EntitySet Name="vw_Move_Level_Head" EntityType="SAT.HR.vw_Move_Level_Head" />
     <EntitySet Name="vw_Move_Man_Power_Detail" EntityType="SAT.HR.vw_Move_Man_Power_Detail" />
     <EntitySet Name="vw_Move_Man_Power_Head" EntityType="SAT.HR.vw_Move_Man_Power_Head" />
-    <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
     <EntitySet Name="vw_Section" EntityType="SAT.HR.vw_Section" />
     <EntitySet Name="vw_Title" EntityType="SAT.HR.vw_Title" />
     <EntitySet Name="vw_Trainning_Course" EntityType="SAT.HR.vw_Trainning_Course" />
@@ -638,6 +637,11 @@
     </AssociationSet>
     <EntitySet Name="tb_Mail_Template" EntityType="SAT.HR.tb_Mail_Template" />
     <EntitySet Name="vw_Menu_Role" EntityType="SAT.HR.vw_Menu_Role" />
+    <FunctionImport Name="sp_Bonus_Calculator_List" ReturnType="Collection(SAT.HR.sp_Bonus_Calculator_List_Result)">
+      <Parameter Name="Year" Mode="In" Type="Int32" />
+      <Parameter Name="Rate" Mode="In" Type="Decimal" />
+    </FunctionImport>
+    <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
   </EntityContainer>
   <ComplexType Name="sp_Employee_List_Result">
     <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -3023,24 +3027,6 @@
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
   </EntityType>
-  <EntityType Name="vw_Organization">
-    <Key>
-      <PropertyRef Name="MpID" />
-      <PropertyRef Name="MpCode" />
-      <PropertyRef Name="DepLevel" />
-    </Key>
-    <Property Name="MpID" Type="Int32" Nullable="false" />
-    <Property Name="MpCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-    <Property Name="ParentID" Type="Int32" />
-    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
-    <Property Name="TypeID" Type="Int32" />
-    <Property Name="DepLevel" Type="Int32" Nullable="false" />
-    <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-  </EntityType>
   <EntityType Name="vw_Section">
     <Key>
       <PropertyRef Name="SecID" />
@@ -4697,5 +4683,44 @@
     <Property Name="R_Edit" Type="Boolean" />
     <Property Name="R_Delete" Type="Boolean" />
     <Property Name="Sequence" Type="Int32" Nullable="false" />
+  </EntityType>
+  <ComplexType Name="sp_Bonus_Calculator_List_Result">
+    <Property Type="Int32" Name="Year" Nullable="true" />
+    <Property Type="Int32" Name="Seq" Nullable="false" />
+    <Property Type="Int32" Name="UserID" Nullable="true" />
+    <Property Type="String" Name="FullNameTh" Nullable="true" MaxLength="501" />
+    <Property Type="Decimal" Name="Salary" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="UpStep" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Bonus" Nullable="false" Precision="2" Scale="2" />
+    <Property Type="Decimal" Name="M1" Nullable="false" Precision="2" Scale="2" />
+    <Property Type="Decimal" Name="M2" Nullable="false" Precision="2" Scale="2" />
+    <Property Type="Decimal" Name="M3" Nullable="false" Precision="2" Scale="2" />
+    <Property Type="Decimal" Name="M4" Nullable="false" Precision="2" Scale="2" />
+    <Property Type="Decimal" Name="M5" Nullable="false" Precision="2" Scale="2" />
+    <Property Type="Decimal" Name="M6" Nullable="false" Precision="2" Scale="2" />
+    <Property Type="Decimal" Name="M7" Nullable="false" Precision="2" Scale="2" />
+    <Property Type="Decimal" Name="M8" Nullable="false" Precision="2" Scale="2" />
+    <Property Type="Decimal" Name="M9" Nullable="false" Precision="2" Scale="2" />
+    <Property Type="Decimal" Name="M10" Nullable="false" Precision="2" Scale="2" />
+    <Property Type="Decimal" Name="M11" Nullable="false" Precision="2" Scale="2" />
+    <Property Type="Decimal" Name="M12" Nullable="false" Precision="2" Scale="2" />
+  </ComplexType>
+  <EntityType Name="vw_Organization">
+    <Key>
+      <PropertyRef Name="MpID" />
+      <PropertyRef Name="MpCode" />
+      <PropertyRef Name="DepLevel" />
+    </Key>
+    <Property Name="MpID" Type="Int32" Nullable="false" />
+    <Property Name="MpCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ParentID" Type="Int32" />
+    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+    <Property Name="TypeID" Type="Int32" />
+    <Property Name="DepLevel" Type="Int32" Nullable="false" />
+    <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
   </EntityType>
 </Schema>

@@ -984,13 +984,13 @@ namespace SAT.HR.Data.Repository
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    BenefitChildFundViewModel model = new BenefitChildFundViewModel();
                     int index = 1;
                     var childFund = db.tb_User_Family.Where(x => x.UserID == userid && x.RecID == 5).OrderByDescending(o => o.UfName).ToList();
                     if (childFund.Count > 0)
                     {
                         foreach (var item in childFund)
                         {
+                            BenefitChildFundViewModel model = new BenefitChildFundViewModel();
                             model.RowNumber = index++;
                             model.BcfID = item.UfID;
                             model.UserID = item.UserID;
@@ -1088,13 +1088,13 @@ namespace SAT.HR.Data.Repository
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    BenefitChildEducationViewModel model = new BenefitChildEducationViewModel();
                     int index = 1;
                     var childEducation = db.tb_User_Family.Where(x => x.UserID == userid && x.RecID == 5).OrderByDescending(o => o.UfName).ToList();
                     if (childEducation.Count > 0)
                     {
                         foreach (var item in childEducation)
                         {
+                            BenefitChildEducationViewModel model = new BenefitChildEducationViewModel();
                             model.RowNumber = index++;
                             model.BceID = item.UfID;
                             model.UserID = item.UserID;
