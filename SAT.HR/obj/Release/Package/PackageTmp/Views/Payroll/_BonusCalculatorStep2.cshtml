@@ -19,7 +19,7 @@
                         <th style="width:100px">เงินเดือน</th>
                         <th style="width:75px">อัตรา</th>
                         <th style="width:100px">โบนัส</th>
-                        <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
+                        <th style="width:60px" class="disabled-sorting">แก้ไข</th>
                         <th>m10</th>
                         <th>m11</th>
                         <th>m12</th>
@@ -44,12 +44,12 @@
                                 <td>@(i + 1)</td>
                                 <td>@Model[i].Year</td>
                                 <td>@Model[i].FullNameTh</td>
-                                <td>@Model[i].Salary</td>
+                                <td style="color:blue;">@Model[i].Salary</td>
                                 <td>@Model[i].UpStep</td>
-                                <td>@Model[i].Bonus</td>
+                                <td style="color:red;">@Model[i].Bonus</td>
                                 <td>
-                                    <div class="td-actions pull-right">
-                                        <button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="@Model[i].UserID"><i class="material-icons">edit</i></button>
+                                    <div class="td-actions pull-center">
+                                        <button data-id="@Model[i].UserID" data-step="@Model[i].UpStep" data-bonus="@Model[i].Bonus" data-year="@Model[i].Year" data-fullname="@Model[i].FullNameTh" title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-success btn-edit" ><i class="material-icons">edit</i></button>
                                     </div>
                                 </td>
                                 <td>@Model[i].M10</td>
@@ -73,3 +73,30 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+
+        $("#datatables").on('click', '.btn-edit', function () {
+            var userid = $(this).data("id");
+            var step = $(this).data("step");
+            var bonus = $(this).data("bonus");
+            var year = $(this).data("year");
+            var fullname = $(this).data("fullname");
+
+            var url = '@Url.Action("BonusCalculatorEdit", "Payroll")';
+            $.post(url, { userid: userid, step: step, bonus: bonus, year: year, fullname: fullname }, function (data) {
+                $(".div-detail").html(data);
+                $('.modal-detail').modal('show');
+            });
+
+        });
+
+        $(".btn-save-bonus").click(function () {
+            alert('OK');
+        });
+
+
+    });
+
+</script>

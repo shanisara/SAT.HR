@@ -59,7 +59,7 @@
                             <td style="text-align:right;color:blue">@Model[i].Old_Salary</td>
                             <td style="text-align:right;color:red">@Model[i].New_Salary</td>
                             <td>
-                                <div class="td-actions pull-right"><button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="@Model[i].UserID"><i class="material-icons">edit</i></button></div>
+                                <div class="td-actions pull-right"><button data-id="@Model[i].UserID" data-level="@Model[i].Old_Level" data-step="@Model[i].New_Step" data-salary="@Model[i].New_Salary" data-year="@Model[i].Year" data-fullname="@Model[i].FullNameTh" title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-success btn-edit" ><i class="material-icons">edit</i></button></div>
                             </td>
                         </tr>
                         }
@@ -69,3 +69,31 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+
+        $("#datatables").on('click', '.btn-edit', function () {
+            var userid = $(this).data("id");
+            var level = $(this).data("level");
+            var step = $(this).data("step");
+            var salary = $(this).data("salary");
+            var year = $(this).data("year");
+            var fullname = $(this).data("fullname");
+
+            var url = '@Url.Action("SalaryIncreaseEdit", "Payroll")';
+            $.post(url, { userid: userid, level: level, step: step, salary: salary, year: year,fullname: fullname }, function (data) {
+                $(".div-detail").html(data);
+                $('.modal-detail').modal('show');
+            });
+
+        });
+
+        $(".btn-save-salary").click(function () {
+            alert('OK');
+        });
+
+
+    });
+
+</script>

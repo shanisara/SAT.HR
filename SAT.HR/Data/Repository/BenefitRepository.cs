@@ -820,8 +820,8 @@ namespace SAT.HR.Data.Repository
                         model.CreateBy = item.CreateBy;
                         model.ModifyDate = item.ModifyDate;
                         model.ModifyBy = item.ModifyBy;
-                        model.BhrStartDateText = (item.BhrStartDate.HasValue) ? UtilityService.ConvertDateThai(item.BhrStartDate.Value).ToString("dd/MM/yyyy") : string.Empty;
-                        model.BhrEndDateText = (item.BhrEndDate.HasValue) ? UtilityService.ConvertDateThai(item.BhrEndDate.Value).ToString("dd/MM/yyyy") : string.Empty;
+                        model.BhrStartDateText = (item.BhrStartDate.HasValue) ? item.BhrStartDate.Value.ToString("dd/MM/yyyy") : string.Empty;//(item.BhrStartDate.HasValue) ? UtilityService.ConvertDateThai(item.BhrStartDate.Value).ToString("dd/MM/yyyy") : string.Empty;
+                        model.BhrEndDateText = (item.BhrEndDate.HasValue) ? item.BhrEndDate.Value.ToString("dd/MM/yyyy") : string.Empty; //(item.BhrEndDate.HasValue) ? UtilityService.ConvertDateThai(item.BhrEndDate.Value).ToString("dd/MM/yyyy") : string.Empty;
                         list.Add(model);
                     }
                 }
