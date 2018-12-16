@@ -44,13 +44,17 @@
                 <div class="card-body">
                     <div class="tab-content tab-subcategories">
                         <div class="tab-pane active div-step1" id="step1">
-                            <div id="div-step1"></div>
+                            <div id="div-step1">
+                                @Html.Partial("_BonusCalculatorStep1")
+                            </div>
                         </div>
                         <div class="tab-pane div-step2" id="step2">
                             <div id="div-step2"></div>
                         </div>
                         <div class="tab-pane div-step3" id="step3">
-                            <div id="div-step3"></div>
+                            <div id="div-step3">
+                                @Html.Partial("_BonusCalculatorStep3")
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -221,7 +225,7 @@
                 $(".btn-finish").hide();
             }
             else if (this.id == "li-step2") {
-                step1();
+                step2();
 
                 if (!$('.li-step2').find('a').hasClass('disabled')) {
                     $(".btn-previous").show();
@@ -268,19 +272,31 @@
             var ref_this = $("#tabs li").find(".active");
             var id = ref_this.data("id");
             if (id == "tab-step1") {
-                step1();
+                step2();
             }
             else if (id == "tab-step2") {
-                step2();
+                step3();
             }
         });
 
         $(".btn-finish").click(function () {
-            step3();
+            swal({
+                title: '',
+                text: "ยืนยันการปรับขั้นเงินเดือน",
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                buttonsStyling: false
+            }).then(function () {
+
+            }).catch(swal.noop)
         });
 
 
-        function step1() {
+        function step2() {
             @*swal({
                 title: '',
                 text: "ยืนยันการปรับขั้นเงินเดือน",
@@ -308,7 +324,7 @@
             //}).catch(swal.noop)
         }
 
-        function step2() {
+        function step3() {
             $('.li-step2').find('a').removeClass('active');
             $('.div-step2').removeClass('active');
 
@@ -318,23 +334,6 @@
             $(".btn-next").hide();
             $(".btn-finish").show();
         }
-
-        function step3() {
-            swal({
-                title: '',
-                text: "ยืนยันการปรับขั้นเงินเดือน",
-                type: 'question',
-                showCancelButton: true,
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger',
-                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
-                buttonsStyling: false
-            }).then(function () {
-
-            }).catch(swal.noop)
-        }
-
 
         function BonusCalculatorStep2() {
             var year = parseInt($('#Year').val());

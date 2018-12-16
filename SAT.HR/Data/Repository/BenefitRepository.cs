@@ -219,7 +219,7 @@ namespace SAT.HR.Data.Repository
                         model.CreateBy = item.CreateBy;
                         model.ModifyDate = item.ModifyDate;
                         model.ModifyBy = item.ModifyBy;
-                        model.BpDateChangeFundText = (item.BpDateChangeFund.HasValue) ? UtilityService.ConvertDateThai(item.BpDateChangeFund.Value).ToString("dd/MM/yyyy") : string.Empty;
+                        model.BpDateChangeFundText = (item.BpDateChangeFund.HasValue) ? item.BpDateChangeFund.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.BpAccumFundCuName = item.BpAccumFundCuName;
                         model.BpAssoFundCuName = item.BpAssoFundCuName;
                         list.Add(model);
@@ -446,7 +446,7 @@ namespace SAT.HR.Data.Repository
                         model.CreateBy = item.CreateBy;
                         model.ModifyDate = item.ModifyDate;
                         model.ModifyBy = item.ModifyBy;
-                        model.BmDateText = (item.BmDate.HasValue) ? UtilityService.ConvertDateThai(item.BmDate.Value).ToString("dd/MM/yyyy") : string.Empty;
+                        model.BmDateText = (item.BmDate.HasValue) ? item.BmDate.Value.ToString("dd/MM/yyyy") : string.Empty;
                         
                         list.Add(model);
                     }

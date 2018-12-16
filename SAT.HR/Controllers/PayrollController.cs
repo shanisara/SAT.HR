@@ -50,6 +50,12 @@ namespace SAT.HR.Controllers
             return PartialView("_SalaryIncreaseEdit");
         }
 
+        public ActionResult SalaryIncreaseEdit(int userid, int level, decimal step)
+        {
+
+            ViewBag.SalaryStep = DropDownList.GetSalaryStep(step, level);
+            return PartialView("_SalaryIncreaseEdit");
+        }
 
 
         #endregion
