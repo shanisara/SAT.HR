@@ -136,6 +136,8 @@
     <EntitySet Name="tb_Benefit_Remuneration" EntityType="SAT.HR.tb_Benefit_Remuneration" />
     <EntitySet Name="tb_Benefit_Type" EntityType="SAT.HR.tb_Benefit_Type" />
     <EntitySet Name="tb_Blood_Type" EntityType="SAT.HR.tb_Blood_Type" />
+    <EntitySet Name="tb_Bonus_Calculator_Detail" EntityType="SAT.HR.tb_Bonus_Calculator_Detail" />
+    <EntitySet Name="tb_Bonus_Calculator_Header" EntityType="SAT.HR.tb_Bonus_Calculator_Header" />
     <EntitySet Name="tb_Capability" EntityType="SAT.HR.tb_Capability" />
     <EntitySet Name="tb_Capability_Detail" EntityType="SAT.HR.tb_Capability_Detail" />
     <EntitySet Name="tb_Capability_Group" EntityType="SAT.HR.tb_Capability_Group" />
@@ -171,7 +173,6 @@
     <EntitySet Name="tb_Leave_Status" EntityType="SAT.HR.tb_Leave_Status" />
     <EntitySet Name="tb_Leave_Type" EntityType="SAT.HR.tb_Leave_Type" />
     <EntitySet Name="tb_Loan_Type" EntityType="SAT.HR.tb_Loan_Type" />
-    <EntitySet Name="tb_Mail_Template" EntityType="SAT.HR.tb_Mail_Template" />
     <EntitySet Name="tb_Major" EntityType="SAT.HR.tb_Major" />
     <EntitySet Name="tb_Man_Power" EntityType="SAT.HR.tb_Man_Power" />
     <EntitySet Name="tb_Marital_Status" EntityType="SAT.HR.tb_Marital_Status" />
@@ -197,6 +198,8 @@
     <EntitySet Name="tb_Resign_Type" EntityType="SAT.HR.tb_Resign_Type" />
     <EntitySet Name="tb_Role" EntityType="SAT.HR.tb_Role" />
     <EntitySet Name="tb_Salary" EntityType="SAT.HR.tb_Salary" />
+    <EntitySet Name="tb_Salary_Increase_Detail" EntityType="SAT.HR.tb_Salary_Increase_Detail" />
+    <EntitySet Name="tb_Salary_Increase_Header" EntityType="SAT.HR.tb_Salary_Increase_Header" />
     <EntitySet Name="tb_Section" EntityType="SAT.HR.tb_Section" />
     <EntitySet Name="tb_Sex" EntityType="SAT.HR.tb_Sex" />
     <EntitySet Name="tb_SubDistrict" EntityType="SAT.HR.tb_SubDistrict" />
@@ -227,7 +230,6 @@
     <EntitySet Name="tb_Working_Shift" EntityType="SAT.HR.tb_Working_Shift" />
     <EntitySet Name="tb_Working_Time" EntityType="SAT.HR.tb_Working_Time" />
     <EntitySet Name="tb_Working_Type" EntityType="SAT.HR.tb_Working_Type" />
-    <EntitySet Name="AAtb_user" EntityType="SAT.HR.AAtb_user" />
     <EntitySet Name="vw_Benefit_Cremation" EntityType="SAT.HR.vw_Benefit_Cremation" />
     <EntitySet Name="vw_Benefit_Death_Replacement" EntityType="SAT.HR.vw_Benefit_Death_Replacement" />
     <EntitySet Name="vw_Benefit_Death_Subsidy" EntityType="SAT.HR.vw_Benefit_Death_Subsidy" />
@@ -635,6 +637,7 @@
       <End Role="tb_User" EntitySet="tb_User" />
       <End Role="tb_Working_Shift" EntitySet="tb_Working_Shift" />
     </AssociationSet>
+    <EntitySet Name="tb_Mail_Template" EntityType="SAT.HR.tb_Mail_Template" />
   </EntityContainer>
   <ComplexType Name="sp_Employee_List_Result">
     <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -769,7 +772,7 @@
     <Property Type="Int32" Name="UserID" Nullable="true" />
     <Property Type="String" Name="FullNameTh" Nullable="true" MaxLength="501" />
     <Property Type="Int32" Name="Old_Level" Nullable="true" />
-    <Property Type="Decimal" Name="New_Level" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="New_Level" Nullable="false" />
     <Property Type="Decimal" Name="Old_Step" Nullable="false" Precision="18" Scale="2" />
     <Property Type="Decimal" Name="New_Step" Nullable="false" Precision="18" Scale="2" />
     <Property Type="Decimal" Name="Old_Salary" Nullable="false" Precision="18" Scale="2" />
@@ -1152,6 +1155,41 @@
     <Property Name="BloodID" Type="Int32" Nullable="false" />
     <Property Name="BloodName" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Users_tb_Blood_Type" FromRole="tb_Blood_Type" ToRole="tb_User" />
+  </EntityType>
+  <EntityType Name="tb_Bonus_Calculator_Detail">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="HeaderID" Type="Int32" />
+    <Property Name="Year" Type="Int32" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="UpStep" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Bonus" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Salary" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M1" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M2" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M3" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M4" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M5" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M6" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M7" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M8" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M9" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M10" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M11" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M12" Type="Decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="tb_Bonus_Calculator_Header">
+    <Key>
+      <PropertyRef Name="HeaderID" />
+    </Key>
+    <Property Name="HeaderID" Type="Int32" Nullable="false" />
+    <Property Name="Year" Type="Int32" />
+    <Property Name="Rate" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="BookCmd" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="DateCmd" Type="DateTime" Precision="3" />
+    <Property Name="PathFile" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="tb_Capability">
     <Key>
@@ -1607,18 +1645,6 @@
     <Property Name="LtName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="tb_Benefit_Loan" Relationship="SAT.HR.FK_tb_Benefit_Loan_tb_Loan_Type" FromRole="tb_Loan_Type" ToRole="tb_Benefit_Loan" />
   </EntityType>
-  <EntityType Name="tb_Mail_Template">
-    <Key>
-      <PropertyRef Name="MailID" />
-    </Key>
-    <Property Name="MailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="MailTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-    <Property Name="MailFrom" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-    <Property Name="MailSubject" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-    <Property Name="MailBody" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-    <Property Name="MailCCTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-    <Property Name="MailBCCTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-  </EntityType>
   <EntityType Name="tb_Major">
     <Key>
       <PropertyRef Name="MajID" />
@@ -1960,6 +1986,36 @@
     <Property Name="CreateBy" Type="Int32" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tb_Salary_Increase_Detail">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="HeaderID" Type="Int32" />
+    <Property Name="Year" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Seq" Type="Int32" />
+    <Property Name="UpStep" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="Old_Level" Type="Int32" />
+    <Property Name="New_Level" Type="Int32" />
+    <Property Name="Old_Step" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="New_Step" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Old_Salary" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="New_Salary" Type="Decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="tb_Salary_Increase_Header">
+    <Key>
+      <PropertyRef Name="HeaderID" />
+    </Key>
+    <Property Name="HeaderID" Type="Int32" Nullable="false" />
+    <Property Name="Year" Type="Int32" />
+    <Property Name="UpLevel" Type="Int32" />
+    <Property Name="UpStep" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="BookCmd" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="DateCmd" Type="DateTime" Precision="3" />
+    <Property Name="DateEff" Type="DateTime" Precision="3" />
+    <Property Name="PathFile" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="tb_Section">
     <Key>
@@ -2542,83 +2598,6 @@
     <Property Name="WorkingTypeID" Type="Int32" Nullable="false" />
     <Property Name="WorkingTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Users_tb_Working_Type" FromRole="tb_Working_Type" ToRole="tb_User" />
-  </EntityType>
-  <EntityType Name="AAtb_user">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="UserID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="UserName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="Password" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="TitleID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="FirstNameTh" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="LastNameTh" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="FirstNameEn" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="LastNameEn" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="StatusID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="IDCard" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="TIN" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="SexID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="BloodID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="ReligionID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="EthnicityID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="NationalityID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="MaritalStatusID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="Birthday" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="RetireDate" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="StartWorkDate" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="ProbationDate" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="Remuneration" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="WorkingTypeID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="FingerScan" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="CardScan" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="SalaryLevel" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="SalaryStep" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="Salary" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="HomeAddr" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="HomeSubDistrictID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="HomeDistrictID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="HomeProvinceID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="HomeZipCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="CurrAddr" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="CurrSubDistrictID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="CurrDistrictID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="CurrProvinceID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="CurrZipCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="Telephone" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="ContactName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="ContactPhone" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="Avatar" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="IsActive" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="CreateDate" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="CreateBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="ModifyDate" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="ModifyBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="UserTID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="AgentPoAID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="ProvidentFundNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-    <Property Name="ProvidentFundDate" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="CrpID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="CrpTID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="ResignID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="ResignRemark" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
-    <Property Name="ResignDate" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="EmpowerID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="EmpowerDivID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="EmpowerDepID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="EmpowerSecID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="AgentPoID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="AgentDivID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="AgentDepID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="AgentSecID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="IsGPALower250" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="IsToeicLower300" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="IsAgeOver35" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="AgentMpID" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="FileAttach1" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-    <Property Name="FileAttach2" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="vw_Benefit_Cremation">
     <Key>
@@ -4699,4 +4678,22 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="tb_Mail_Template">
+    <Key>
+      <PropertyRef Name="MailID" />
+    </Key>
+    <Property Name="MailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MailCode" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="MailName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="MailSubject" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="MailBody" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="MailTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="MailFrom" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="MailCCTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="MailBCCTo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+  </EntityType>
 </Schema>

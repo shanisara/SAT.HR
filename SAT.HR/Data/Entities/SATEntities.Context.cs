@@ -151,7 +151,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Employee> vw_Employee { get; set; }
         public virtual DbSet<vw_Leave_Request> vw_Leave_Request { get; set; }
         public virtual DbSet<vw_Man_Power> vw_Man_Power { get; set; }
-        public virtual DbSet<vw_Menu_Role> vw_Menu_Role { get; set; }
         public virtual DbSet<vw_Move_Level_Detail> vw_Move_Level_Detail { get; set; }
         public virtual DbSet<vw_Move_Level_Head> vw_Move_Level_Head { get; set; }
         public virtual DbSet<vw_Move_Man_Power_Detail> vw_Move_Man_Power_Detail { get; set; }
@@ -176,6 +175,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Skill> vw_User_Skill { get; set; }
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
         public virtual DbSet<tb_Mail_Template> tb_Mail_Template { get; set; }
+        public virtual DbSet<vw_Menu_Role> vw_Menu_Role { get; set; }
     
         public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
         {

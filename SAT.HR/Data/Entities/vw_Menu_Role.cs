@@ -25,5 +25,6 @@ namespace SAT.HR.Data.Entities
         public Nullable<bool> R_Add { get; set; }
         public Nullable<bool> R_Edit { get; set; }
         public Nullable<bool> R_Delete { get; set; }
+        public int Sequence { get; set; }
     }
 }

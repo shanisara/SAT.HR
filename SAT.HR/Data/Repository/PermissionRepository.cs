@@ -322,7 +322,7 @@ namespace SAT.HR.Data.Repository
                         R_Add = false,
                         R_Edit = false,
                         R_Delete = false
-                    }).ToList();
+                    }).OrderBy(o => o.Sequence).ToList();
                 }
 
                 return data;
