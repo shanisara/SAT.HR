@@ -13,7 +13,7 @@
                         <i class="material-icons">alarm_on</i>
                     </div>
                     <h4 class="card-title">
-                        <span>แบบฟอร์มการขออนุมัติลา > </span><span class="text-primary"> @Model.DocNo (@Model.StatusName)</span>
+                        <span>แบบฟอร์มการขออนุมัติลา > </span><span class="text-primary"> @Model.DocNo @(!string.IsNullOrEmpty(Model.StatusName) ? "(" + Model.StatusName+ ")" : string.Empty)</span>
                         <button type="submit" class="btn btn-round pull-right btn-back">ย้อนกลับ</button>
                     </h4>
                 </div>
@@ -21,6 +21,7 @@
                     @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form-leave" }))
                     {
                         @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.RequestID)
                         @Html.HiddenFor(m => m.FormID)
                         @Html.HiddenFor(m => m.PathFile)
                         @Html.HiddenFor(m => m.LeaveTotalDay)
@@ -180,7 +181,22 @@
 
             $('.selectpicker').selectpicker();
 
-            $('.datepicker').datetimepicker({
+            //$('.datepicker').datetimepicker({
+            //    format: 'DD/MM/YYYY',
+            //    icons: {
+            //        time: "fa fa-clock-o",
+            //        date: "fa fa-calendar",
+            //        up: "fa fa-chevron-up",
+            //        down: "fa fa-chevron-down",
+            //        previous: 'fa fa-chevron-left',
+            //        next: 'fa fa-chevron-right',
+            //        today: 'fa fa-screenshot',
+            //        clear: 'fa fa-trash',
+            //        close: 'fa fa-remove'
+            //    }
+            //});
+
+            $('input[name="StartDate"],input[name="EndDate"]').datetimepicker({
                 format: 'DD/MM/YYYY',
                 icons: {
                     time: "fa fa-clock-o",
@@ -193,10 +209,12 @@
                     clear: 'fa fa-trash',
                     close: 'fa fa-remove'
                 }
+            }).on('dp.change', function (e) {
+                calculateTotalDay();
             });
 
             $("#RequestID").change(function () {
-                var userid = $('select[name=RequestID]').val();
+                var userid = $('#RequestID').val();
                 $.ajax({
                     type: 'POST',
                     url: '@Url.Action("LeaveTypeBySex", "Master")',
@@ -213,7 +231,7 @@
             });
 
             $("#LeaveType").change(function () {
-                var userid = $('select[name=RequestID]').val();
+                var userid = $('#RequestID').val();
                 var leaveid = $('select[name=LeaveType]').val();
                 $.ajax({
                     type: 'POST',
@@ -231,6 +249,15 @@
             });
 
             $('input[name="DayTime"]:radio').change(function () {
+                var daytime = $("input[name='DayTime']:checked").val();
+                if (daytime == 2 || daytime == 3) {
+                    var startdate = $("#StartDate").val();
+                    $('#EndDate').val(startdate);
+                    $('#EndDate').prop("disabled", true);
+                }
+                else {
+                    $('#EndDate').prop("disabled", false);
+                }
                 calculateTotalDay();
             });
 

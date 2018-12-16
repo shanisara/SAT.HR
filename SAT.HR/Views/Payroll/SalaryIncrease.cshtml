@@ -16,7 +16,6 @@
                     <h4 class="card-title"><span> การเลื่อนขั้นเงินเดือน > </span><small>พนักงาน</small></h4>
                 </div>
                 <div class="card-body">
-
                     <!-- Wizard container -->
                     <div class="card-header text-center">
                         <h3 class="card-title">
@@ -31,7 +30,7 @@
                                 </a>
                             </li>
                             <li class="nav-item li-step2" id="li-step2">
-                                <a class="nav-link disabled" role="tablist" href="#step2" data-toggle="tab" data-id="tab-step2">
+                                <a class="nav-link" role="tablist" href="#step2" data-toggle="tab" data-id="tab-step2">
                                     <i class="material-icons">filter_2</i> ตรวจสอบและแก้ไข
                                 </a>
                             </li>
@@ -167,8 +166,29 @@
                         <div class="clearfix"></div>
                     </div>
                     <!-- wizard container -->
-
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Classic Modal -->
+<div class="modal fade modal-detail" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
+    <div class="modal-dialog modal-large">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span>ยกเลิกใบลา</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="material-icons">clear</i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div class="div-detail"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary btn-cancel">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
             </div>
         </div>
     </div>
@@ -188,6 +208,9 @@
     <script>
 
     $(document).ready(function () {
+
+        $(".file-path").hide();
+        $(".file-upload").show();
 
         $('.datepicker').datetimepicker({
             format: 'DD/MM/YYYY',
@@ -212,10 +235,13 @@
                 $(".btn-finish").hide();
             }
             else if (this.id == "li-step2") {
+                step1();
                 if (!$('.li-step2').find('a').hasClass('disabled')) {
                     $(".btn-previous").show();
                     $(".btn-next").show();
                     $(".btn-finish").hide();
+                } else {
+
                 }
             }
             else if (this.id == "li-step3") {
@@ -257,27 +283,7 @@
             var ref_this = $("#tabs li").find(".active");
             var id = ref_this.data("id");
             if (id == "tab-step1") {
-                swal({
-                    title: '',
-                    text: "ยืนยันการปรับขั้นเงินเดือน",
-                    type: 'question',
-                    showCancelButton: true,
-                    confirmButtonClass: 'btn btn-success',
-                    cancelButtonClass: 'btn btn-danger',
-                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
-                    buttonsStyling: false
-                }).then(function () {
-                    $('.li-step1').find('a').removeClass('active');
-                    $('.div-step1').removeClass('active');
-
-                    $('.li-step2').find('a').removeClass('disabled').addClass('active');
-                    $('.div-step2').addClass('active');
-
-                    $(".btn-previous").show();
-
-                    GetEmpSalaryIncrease();
-                }).catch(swal.noop)
+                step1();
             }
             else if (id == "tab-step2") {
                 $('.li-step2').find('a').removeClass('active');
@@ -292,6 +298,41 @@
         });
 
         $(".btn-finish").click(function () {
+            step3();
+        });
+
+        function step1() {
+            //ยืนยันการปรับขั้นเงินเดือน
+            @*swal({
+                title: '',
+                text: "ตรวจสอบและแก้ไข",
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                buttonsStyling: false
+            }).then(function () {*@
+                $('.li-step1').find('a').removeClass('active');
+                $('.div-step1').removeClass('active');
+
+                $('.li-step2').find('a').removeClass('disabled').addClass('active');
+                $('.div-step2').addClass('active');
+
+                $('.li-step3').find('a').removeClass('active').removeClass('disabled');
+
+                $(".btn-previous").show();
+
+                GetEmpSalaryIncrease();
+            //}).catch(swal.noop)
+        }
+
+        function step2() {
+
+        }
+
+        function step3() {
             swal({
                 title: '',
                 text: "ยืนยันการปรับขั้นเงินเดือน",
@@ -305,7 +346,8 @@
             }).then(function () {
                 SalaryIncreaseProcess();
             }).catch(swal.noop)
-        });
+        }
+
 
         function GetEmpSalaryIncrease() {
             var level = parseInt($("input[name='salarylevel']:checked").val());
@@ -326,7 +368,7 @@
                 data: { year: year, level: level, step: step },
                 dataType: 'json',
                 success: function (res) {
-                    
+
                 }
             });
         }

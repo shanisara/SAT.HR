@@ -34,6 +34,14 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult SalaryIncreaseEdit()
+        {
+
+            return PartialView("_SalaryIncreaseEdit");
+        }
+
+
+
         #endregion
 
         #region 2. การคำนวณโบนัส
@@ -55,6 +63,12 @@ namespace SAT.HR.Controllers
         {
             var result = new BonusCalculatorRepository().BonusCalculatorConfirm(data);
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult BonusCalculatorEdit()
+        {
+
+            return PartialView("_BonusCalculatorEdit");
         }
 
         #endregion

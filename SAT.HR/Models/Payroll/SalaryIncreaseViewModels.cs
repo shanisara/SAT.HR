@@ -13,7 +13,7 @@ namespace SAT.HR.Models
         public Nullable<int> UserID { get; set; }
         public string FullNameTh { get; set; }
         public Nullable<int> Old_Level { get; set; }
-        public decimal New_Level { get; set; }
+        public Nullable<int> New_Level { get; set; }
         public decimal Old_Step { get; set; }
         public decimal New_Step { get; set; }
         public decimal Old_Salary { get; set; }
@@ -30,5 +30,7 @@ namespace SAT.HR.Models
         public DateTime? DateEff { get; set; }
         public string PathFile { get; set; }
         public HttpPostedFileBase FileUpload { get; set; }
+
+        public List<EmpSalaryIncreaseViewModel> detail { get; set; }
     }
 }

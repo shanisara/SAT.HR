@@ -10,19 +10,21 @@
 namespace SAT.HR.Data.Entities
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class sp_Salary_Increase_List_Result
+    public partial class tb_Salary_Increase_Detail
     {
-        public Nullable<int> Year { get; set; }
-        public int Seq { get; set; }
+        public int ID { get; set; }
+        public Nullable<int> HeaderID { get; set; }
+        public string Year { get; set; }
+        public Nullable<int> Seq { get; set; }
         public Nullable<decimal> UpStep { get; set; }
         public Nullable<int> UserID { get; set; }
-        public string FullNameTh { get; set; }
         public Nullable<int> Old_Level { get; set; }
-        public int New_Level { get; set; }
-        public decimal Old_Step { get; set; }
-        public decimal New_Step { get; set; }
-        public decimal Old_Salary { get; set; }
-        public decimal New_Salary { get; set; }
+        public Nullable<int> New_Level { get; set; }
+        public Nullable<decimal> Old_Step { get; set; }
+        public Nullable<decimal> New_Step { get; set; }
+        public Nullable<decimal> Old_Salary { get; set; }
+        public Nullable<decimal> New_Salary { get; set; }
     }
 }

@@ -42,6 +42,8 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Benefit_Remuneration> tb_Benefit_Remuneration { get; set; }
         public virtual DbSet<tb_Benefit_Type> tb_Benefit_Type { get; set; }
         public virtual DbSet<tb_Blood_Type> tb_Blood_Type { get; set; }
+        public virtual DbSet<tb_Bonus_Calculator_Detail> tb_Bonus_Calculator_Detail { get; set; }
+        public virtual DbSet<tb_Bonus_Calculator_Header> tb_Bonus_Calculator_Header { get; set; }
         public virtual DbSet<tb_Capability> tb_Capability { get; set; }
         public virtual DbSet<tb_Capability_Detail> tb_Capability_Detail { get; set; }
         public virtual DbSet<tb_Capability_Group> tb_Capability_Group { get; set; }
@@ -103,6 +105,8 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Resign_Type> tb_Resign_Type { get; set; }
         public virtual DbSet<tb_Role> tb_Role { get; set; }
         public virtual DbSet<tb_Salary> tb_Salary { get; set; }
+        public virtual DbSet<tb_Salary_Increase_Detail> tb_Salary_Increase_Detail { get; set; }
+        public virtual DbSet<tb_Salary_Increase_Header> tb_Salary_Increase_Header { get; set; }
         public virtual DbSet<tb_Section> tb_Section { get; set; }
         public virtual DbSet<tb_Sex> tb_Sex { get; set; }
         public virtual DbSet<tb_SubDistrict> tb_SubDistrict { get; set; }
@@ -133,7 +137,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Working_Shift> tb_Working_Shift { get; set; }
         public virtual DbSet<tb_Working_Time> tb_Working_Time { get; set; }
         public virtual DbSet<tb_Working_Type> tb_Working_Type { get; set; }
-        public virtual DbSet<AAtb_user> AAtb_user { get; set; }
         public virtual DbSet<vw_Benefit_Cremation> vw_Benefit_Cremation { get; set; }
         public virtual DbSet<vw_Benefit_Death_Replacement> vw_Benefit_Death_Replacement { get; set; }
         public virtual DbSet<vw_Benefit_Death_Subsidy> vw_Benefit_Death_Subsidy { get; set; }
