@@ -190,7 +190,7 @@ namespace SAT.HR.Data
                         model.DayTime = 1;
                         model.StartDate = Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyy")); //Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH")));
                         model.EndDate = Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyy")); //Convert.ToDateTime(DateTime.Now.ToString("dd/MM/yyy", new System.Globalization.CultureInfo("th-TH")));
-                        model.TotalDay = CalculateTotalDay(1, DateTime.Now, DateTime.Now);
+                        model.TotalDay = 1; //CalculateTotalDay(1, DateTime.Now, DateTime.Now);
                     }
 
                     return model;

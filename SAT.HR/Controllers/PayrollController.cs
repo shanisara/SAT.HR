@@ -18,14 +18,24 @@ namespace SAT.HR.Controllers
 
         public ActionResult SalaryIncrease()
         {
-            ViewBag.Year = DateTime.Now.Year + 543;
-            return View();
+            var model = new SalaryIncreaseRepository().SalaryIncrease();
+            return View(model);
         }
 
-        public ActionResult GetEmpSalaryIncrease(int year, int level, decimal step)
+        public ActionResult SalaryIncreaseStep1()
+        {
+            return PartialView("_SalaryIncreaseStep1");
+        }
+
+        public ActionResult SalaryIncreaseStep2(int year, int level, decimal step)
         {
             var model = new SalaryIncreaseRepository().GetEmpSalaryIncrease(year, level, step);
-            return PartialView("_SalaryIncrease", model);
+            return PartialView("_SalaryIncreaseStep2", model);
+        }
+
+        public ActionResult SalaryIncreaseStep3()
+        {
+            return PartialView("_SalaryIncreaseStep3");
         }
 
         public JsonResult SalaryIncreaseConfirm(SalaryIncreaseProcessViewModel data)
@@ -40,6 +50,12 @@ namespace SAT.HR.Controllers
             return PartialView("_SalaryIncreaseEdit");
         }
 
+        public ActionResult SalaryIncreaseEdit(int userid, int level, decimal step)
+        {
+
+            ViewBag.SalaryStep = DropDownList.GetSalaryStep(step, level);
+            return PartialView("_SalaryIncreaseEdit");
+        }
 
 
         #endregion
@@ -48,15 +64,24 @@ namespace SAT.HR.Controllers
 
         public ActionResult BonusCalculator()
         {
-            ViewBag.Year = DateTime.Now.Year + 543;
-            ViewBag.Rate = "1.00";
-            return View();
+            var model = new BonusCalculatorRepository().BonusCalculator();
+            return View(model);
         }
 
-        public ActionResult GetEmpBonusCalculator(int year, int rate)
+        public ActionResult BonusCalculatorStep1()
         {
-            var model = new BonusCalculatorRepository().GetEmpBonusCalculator(year, rate);
-            return PartialView("_BonusCalculator", model);
+            return PartialView("_BonusCalculatorStep1");
+        }
+
+        public ActionResult BonusCalculatorStep2(int year, int step)
+        {
+            var model = new BonusCalculatorRepository().GetEmpBonusCalculator(year, step);
+            return PartialView("_BonusCalculatorStep2", model);
+        }
+
+        public ActionResult BonusCalculatorStep3()
+        {
+            return PartialView("_BonusCalculatorStep3");
         }
 
         public JsonResult BonusCalculatorConfirm(BonusCalculatorProcessViewModel data)

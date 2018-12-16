@@ -1929,6 +1929,7 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Menu_Role' does not have a pr
     <Key>
       <PropertyRef Name="RoleID" />
       <PropertyRef Name="MenuID" />
+      <PropertyRef Name="Sequence" />
     </Key>
     <Property Name="RoleID" Type="int" Nullable="false" />
     <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
@@ -1941,6 +1942,7 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Menu_Role' does not have a pr
     <Property Name="R_Add" Type="bit" />
     <Property Name="R_Edit" Type="bit" />
     <Property Name="R_Delete" Type="bit" />
+    <Property Name="Sequence" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_Move_Level_Detail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -3705,6 +3707,10 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
   <Function Name="fn_Calculate_Age" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar">
     <Parameter Name="dob" Type="datetime" Mode="In" />
   </Function>
+  <Function Name="sp_Bonus_Calculator_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Year" Type="int" Mode="In" />
+    <Parameter Name="Rate" Type="decimal" Mode="In" />
+  </Function>
   <Function Name="sp_Employee_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="PageSize" Type="nvarchar" Mode="In" />
     <Parameter Name="InitialPage" Type="nvarchar" Mode="In" />
@@ -4263,7 +4269,8 @@ warning 6002: The table/view 'SATHRDB_DEV_3.dbo.vw_User_Training' does not have 
     [vw_Menu_Role].[R_View] AS [R_View], 
     [vw_Menu_Role].[R_Add] AS [R_Add], 
     [vw_Menu_Role].[R_Edit] AS [R_Edit], 
-    [vw_Menu_Role].[R_Delete] AS [R_Delete]
+    [vw_Menu_Role].[R_Delete] AS [R_Delete], 
+    [vw_Menu_Role].[Sequence] AS [Sequence]
     FROM [dbo].[vw_Menu_Role] AS [vw_Menu_Role]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vw_Move_Level_Detail" EntityType="Self.vw_Move_Level_Detail" store:Type="Views" store:Schema="dbo">

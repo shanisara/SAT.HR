@@ -9,30 +9,54 @@ namespace SAT.HR.Data
 {
     public class BonusCalculatorRepository
     {
-        public List<EmpBonusCalculatorViewModel> GetEmpBonusCalculator(int year, int rate)
+        public BonusCalculatorProcessViewModel BonusCalculator()
+        {
+            try
+            {
+                BonusCalculatorProcessViewModel model = new BonusCalculatorProcessViewModel();
+                model.Year = DateTime.Now.Year + 543;
+                model.UpStep = (decimal)1.00;
+                return model;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public List<EmpBonusCalculatorViewModel> GetEmpBonusCalculator(int year, decimal step)
         {
             List<EmpBonusCalculatorViewModel> list = new List<EmpBonusCalculatorViewModel>();
             using (SATEntities db = new SATEntities())
             {
                 try
                 {
-                    //var bonuscalculator = db.sp_Bonus_Calculator_List(year, rate).ToList();
-                    //foreach (var item in bonuscalculator)
-                    //{
-                    //    BonusCalculatorProcessViewModel model = new BonusCalculatorProcessViewModel();
-                    //    model.Year = item.Year;
-                    //    model.Seq = item.Seq;
-                    //    model.UpStep = item.UpStep;
-                    //    model.UserID = item.UserID;
-                    //    model.FullNameTh = item.FullNameTh;
-                    //    model.Old_Level = item.Old_Level;
-                    //    model.New_Level = item.New_Level;
-                    //    model.Old_Step = item.Old_Step;
-                    //    model.New_Step = item.New_Step;
-                    //    model.Old_Salary = item.Old_Salary;
-                    //    model.New_Salary = item.New_Salary;
-                    //    list.Add(model);
-                    //}
+                    var data = db.sp_Bonus_Calculator_List(year, step).ToList();
+                    foreach (var item in data)
+                    {
+                        EmpBonusCalculatorViewModel model = new EmpBonusCalculatorViewModel();
+                        model.Year = item.Year;
+                        model.Seq = item.Seq;
+                        model.UpStep = item.UpStep;
+                        model.UserID = item.UserID;
+                        model.FullNameTh = item.FullNameTh;
+                        model.Bonus = item.Bonus;
+                        model.Salary = item.Salary;
+                        model.M1 = item.M1;
+                        model.M2 = item.M2;
+                        model.M3 = item.M3;
+                        model.M4 = item.M4;
+                        model.M5 = item.M5;
+                        model.M6 = item.M5;
+                        model.M7 = item.M5;
+                        model.M8 = item.M5;
+                        model.M9 = item.M5;
+                        model.M10 = item.M5;
+                        model.M11 = item.M5;
+                        model.M12 = item.M5;
+                        list.Add(model);
+                    }
                 }
                 catch (Exception ex)
                 {
