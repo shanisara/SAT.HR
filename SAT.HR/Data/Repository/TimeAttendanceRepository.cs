@@ -20,8 +20,8 @@ namespace SAT.HR.Data
                 {
                     int index = 1;
 
-                    int fromdate = Convert.ToInt32(UtilityService.ConvertDateThai2Eng(Convert.ToDateTime(datefrom)).ToString("yyyyMMdd"));
-                    int todate = Convert.ToInt32(UtilityService.ConvertDateThai2Eng(Convert.ToDateTime(dateto)).ToString("yyyyMMdd"));
+                    int fromdate = Convert.ToInt32(Convert.ToDateTime(datefrom).ToString("yyyyMMdd")); //Convert.ToInt32(UtilityService.ConvertDateThai2Eng(Convert.ToDateTime(datefrom)).ToString("yyyyMMdd"));
+                    int todate = Convert.ToInt32(Convert.ToDateTime(dateto).ToString("yyyyMMdd")); //Convert.ToInt32(UtilityService.ConvertDateThai2Eng(Convert.ToDateTime(dateto)).ToString("yyyyMMdd"));
                     var timeattendance = db.sp_Time_Attendance_User(userid, type, fromdate, todate).ToList();
 
                     foreach (var item in timeattendance)
