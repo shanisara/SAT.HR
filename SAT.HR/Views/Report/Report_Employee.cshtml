@@ -96,9 +96,15 @@
     $("#btn_export").click(function () {
         $.ajax({
             type: 'POST',
-            url: '@Url.Action("ExportReportEducation", "Report")',
+            url: '@Url.Action("ExportReportEmployee", "Report")',
             data: {
+                DivID: $("#DivID").val(),
+                DepID: $("#DepID").val(),
+                SecID: $("#SecID").val(),
                 EduID: $("#EduID").val(),
+                //InsName: $("#EduID").val(), 
+                RelId: $("#RelId").val(),
+                UserTypeID: $("#UserTypeID").val(),
                 ExtensionFile: $('input[name=exporttype]:checked').val()
             },
             success: function (FileName) {
@@ -128,7 +134,10 @@
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("SectionByDep", "Master")',
-                data: { divid: $('#DepID').val() },
+                data: {
+                        divid: $('#DivID').val(),
+                        depid: $('#DepID').val()
+                        },
                 dataType: 'json',
                 success: function (res) {
                     $('#SecID').empty().append('<option value=""> -- กรุณาเลือก / Please choose -- </option>');

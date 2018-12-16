@@ -726,35 +726,21 @@
 
     $('.selectpicker').selectpicker();
 
-
-    $(".datepicker").datetimepicker({
-        timepicker: false,
-        format: 'd-m-Y',  // กำหนดรูปแบบวันที่ ที่ใช้ เป็น 00-00-0000            
-        lang: 'th',  // ต้องกำหนดเสมอถ้าใช้ภาษาไทย และ เป็นปี พ.ศ.
-        onSelectDate: function (dp, $input) {
-            var yearT = new Date(dp).getFullYear();
-            var yearTH = yearT + 543;
-            var fulldate = $input.val();
-            var fulldateTH = fulldate.replace(yearT, yearTH);
-            $input.val(fulldateTH);
-        },
+    $('.datepicker').datetimepicker({
+        format: 'DD/MM/YYYY',
+        locale: 'th', 
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-screenshot',
+            clear: 'fa fa-trash',
+            close: 'fa fa-remove'
+        }
     });
-
-    //$('.datepicker').datetimepicker({
-    //    format: 'DD/MM/YYYY',
-    //    locale: 'th', 
-        //icons: {
-        //    time: "fa fa-clock-o",
-        //    date: "fa fa-calendar",
-        //    up: "fa fa-chevron-up",
-        //    down: "fa fa-chevron-down",
-        //    previous: 'fa fa-chevron-left',
-        //    next: 'fa fa-chevron-right',
-        //    today: 'fa fa-screenshot',
-        //    clear: 'fa fa-trash',
-        //    close: 'fa fa-remove'
-        //}
-    //});
 
     $(".file-delete-attach1").click(function () {
         $("#PathFileAttach1").val('');
