@@ -44,17 +44,17 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult SalaryIncreaseEdit()
+        public ActionResult SalaryIncreaseEdit(int userid, int level, decimal step, decimal salary,int year, string fullname)
         {
-
-            return PartialView("_SalaryIncreaseEdit");
-        }
-
-        public ActionResult SalaryIncreaseEdit(int userid, int level, decimal step)
-        {
-
+            EmpSalaryIncreaseViewModel model = new EmpSalaryIncreaseViewModel();
+            model.UserID = userid;
+            model.Old_Level = level;
+            model.New_Step = step;
+            model.New_Salary = salary;
+            model.Year = year;
+            model.FullNameTh = fullname;
             ViewBag.SalaryStep = DropDownList.GetSalaryStep(step, level);
-            return PartialView("_SalaryIncreaseEdit");
+            return PartialView("_SalaryIncreaseEdit", model);
         }
 
 
@@ -90,10 +90,15 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult BonusCalculatorEdit()
+        public ActionResult BonusCalculatorEdit(int userid, decimal step, decimal bonus, int year, string fullname)
         {
-
-            return PartialView("_BonusCalculatorEdit");
+            EmpBonusCalculatorViewModel model = new EmpBonusCalculatorViewModel();
+            model.UserID = userid;
+            model.UpStep = step;
+            model.Bonus = bonus;
+            model.Year = year;
+            model.FullNameTh = fullname;
+            return PartialView("_BonusCalculatorEdit", model);
         }
 
         #endregion

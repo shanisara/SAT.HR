@@ -347,6 +347,9 @@ namespace SAT.HR.Data.Repository
                     IDCard = s.IDCard,
                     UserType = s.UserTypeID,
                     SexID = s.SexID
+                    //SalaryLevel = s.SalaryLevel,
+                    //SalaryStep = s.SalaryStep,
+                    //Salary = s.Salary
                 }).FirstOrDefault();
                 return data;
             }
