@@ -359,13 +359,19 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var list = db.vw_Employee.Where(x => x.StatusID == 1 && x.UserTypeID == userType && x.IsActive == true).Select(s => new UserProfile()
-                {
-                    UserID = s.UserID,
-                    UserName = s.UserName,
-                    FullNameTh = s.TiShortName + s.FullNameTh,
-                    IDCard = s.IDCard
-                }).ToList();
+                var data = db.vw_Employee.Where(x => x.StatusID == 1 && x.IsActive == true).ToList();
+                if (userType == 1)
+                    data = data.Where(x => x.UserTypeID == userType || x.UserTypeID == null).ToList();
+                else
+                    data = data.Where(x => x.UserTypeID == userType).ToList();
+
+                var list = data.Select(s => new UserProfile()
+                            {
+                                UserID = s.UserID,
+                                UserName = s.UserName,
+                                FullNameTh = s.TiShortName + s.FullNameTh,
+                                IDCard = s.IDCard
+                            }).ToList();
                 return list;
             }
         }

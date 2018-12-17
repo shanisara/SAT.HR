@@ -202,7 +202,7 @@ namespace SAT.HR.Controllers
 
         public ActionResult GetUserTrainning(string user)
         {
-            ViewBag.Employee = DropDownList.GetEmployeeNotSelected(null, null, user);
+            ViewBag.Employee = DropDownList.GetEmployee(null, 1);
             return PartialView("_TrainningDetail");
         }
 

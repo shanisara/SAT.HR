@@ -19,7 +19,7 @@
                             <th style="width:5%">
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox">
+                                        <input class="form-check-input check-all" type="checkbox">
                                         <span class="form-check-sign"><span class="check"></span></span>
                                     </label>
                                 </div>
@@ -44,9 +44,10 @@
                                 <tr id="@Model.Step2[i].UserID">
                                     <td>@(i + 1)</td>
                                     <td>
+
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox">
+                                                <input class="form-check-input check-item" type="checkbox">
                                                 <span class="form-check-sign"><span class="check"></span></span>
                                             </label>
                                         </div>
@@ -66,6 +67,7 @@
                                         </div>
                                     </td>
                                     <td class="hidden">
+                                        @Html.TextBoxFor(model => model.Step2[i].Selected, new { @class = "select-user" })
                                         @Html.HiddenFor(model => model.Step2[i].UserID)
                                         @Html.HiddenFor(model => model.Step2[i].Year)
                                         @Html.HiddenFor(model => model.Step2[i].Seq)
@@ -120,6 +122,27 @@
             $('.modal-detail').modal('hide');
         });
 
+        $(".check-all").change(function () {
+            var checked = $(this).is(':checked');
+            if (checked) {
+                $('.check-item').prop('checked', true);
+                $('.select-user').val(true);
+            }
+            else {
+                $('.check-item').prop('checked', false);
+                $('.select-user').val(false);
+            }
+        });
+
+        $(".check-item").click(function () {
+            if ($(".check-item").length == $(".check-item:checked").length) {
+                $(".check-all").prop("checked", true);
+                $('.select-user').val(true);
+            } else {
+                $(".check-all").prop('checked', false);
+
+            }
+        });
 
     });
 

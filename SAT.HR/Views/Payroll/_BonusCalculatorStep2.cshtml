@@ -1,4 +1,4 @@
-﻿@model List<SAT.HR.Models.BonusCalculatorStep2ViewModel>
+﻿@model SAT.HR.Models.BonusCalculatorViewModel
 
 <div class="card">
     <div class="card-header">
@@ -38,37 +38,51 @@
                 <tbody>
                     @if (Model != null)
                     {
-                        for (int i = 0; i < Model.Count; i++)
+                        for (int i = 0; i < Model.Step2.Count; i++)
                         {
-                            <tr id="@Model[i].UserID">
+                            <tr id="@Model.Step2[i].UserID">
                                 <td>@(i + 1)</td>
-                                <td>@Model[i].Year</td>
-                                <td>@Model[i].FullNameTh</td>
-                                <td style="color:blue;">@Model[i].Salary</td>
-                                <td>@Model[i].UpStep</td>
-                                <td style="color:red;">@Model[i].Bonus</td>
+                                <td>@Model.Step2[i].Year</td>
+                                <td>@Model.Step2[i].FullNameTh</td>
+                                <td style="color:blue;">@Model.Step2[i].Salary</td>
+                                <td>@Model.Step2[i].NewStep</td>
+                                <td style="color:red;">@Model.Step2[i].Bonus</td>
                                 <td>
                                     <div class="td-actions pull-center">
-                                        <button data-id="@Model[i].UserID" data-step="@Model[i].UpStep" data-bonus="@Model[i].Bonus" data-year="@Model[i].Year" data-fullname="@Model[i].FullNameTh" title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-success btn-edit" ><i class="material-icons">edit</i></button>
+                                        <button data-id="@Model.Step2[i].UserID" data-step="@Model.Step2[i].NewStep" data-bonus="@Model.Step2[i].Bonus" data-year="@Model.Step2[i].Year" data-fullname="@Model.Step2[i].FullNameTh" title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-success btn-edit" >
+                                        <i class="material-icons">edit</i></button>
                                     </div>
                                 </td>
-                                <td>@Model[i].M10</td>
-                                <td>@Model[i].M11</td>
-                                <td>@Model[i].M12</td>
-                                <td>@Model[i].M1</td>
-                                <td>@Model[i].M2</td>
-                                <td>@Model[i].M3</td>
-                                <td>@Model[i].M4</td>
-                                <td>@Model[i].M5</td>
-                                <td>@Model[i].M6</td>
-                                <td>@Model[i].M7</td>
-                                <td>@Model[i].M8</td>
-                                <td>@Model[i].M9</td>
-
+                                <td>@Model.Step2[i].M10</td>
+                                <td>@Model.Step2[i].M11</td>
+                                <td>@Model.Step2[i].M12</td>
+                                <td>@Model.Step2[i].M1</td>
+                                <td>@Model.Step2[i].M2</td>
+                                <td>@Model.Step2[i].M3</td>
+                                <td>@Model.Step2[i].M4</td>
+                                <td>@Model.Step2[i].M5</td>
+                                <td>@Model.Step2[i].M6</td>
+                                <td>@Model.Step2[i].M7</td>
+                                <td>@Model.Step2[i].M8</td>
+                                <td>@Model.Step2[i].M9</td>
                                 <td class="hidden">
-
-                                    @Html.HiddenFor(model => model[i].Salary, new { @class = "new-salary" })
-                                    @Html.HiddenFor(model => model[i].Bonus, new { @class = "new-bonus" })
+                                    @Html.HiddenFor(model => model.Step2[i].UserID)
+                                    @Html.HiddenFor(model => model.Step2[i].Year)
+                                    @Html.HiddenFor(model => model.Step2[i].FullNameTh)
+                                    @Html.HiddenFor(model => model.Step2[i].M1)
+                                    @Html.HiddenFor(model => model.Step2[i].M2)
+                                    @Html.HiddenFor(model => model.Step2[i].M3)
+                                    @Html.HiddenFor(model => model.Step2[i].M4)
+                                    @Html.HiddenFor(model => model.Step2[i].M5)
+                                    @Html.HiddenFor(model => model.Step2[i].M6)
+                                    @Html.HiddenFor(model => model.Step2[i].M7)
+                                    @Html.HiddenFor(model => model.Step2[i].M8)
+                                    @Html.HiddenFor(model => model.Step2[i].M9)
+                                    @Html.HiddenFor(model => model.Step2[i].M10)
+                                    @Html.HiddenFor(model => model.Step2[i].M11)
+                                    @Html.HiddenFor(model => model.Step2[i].M12)
+                                    @Html.HiddenFor(model => model.Step2[i].Salary, new { @class = "new-salary" })
+                                    @Html.HiddenFor(model => model.Step2[i].Bonus, new { @class = "new-bonus" })
                                 </td>
                             </tr>
                         }
@@ -98,8 +112,9 @@
         });
 
         $(".btn-save-bonus").click(function () {
+            debugger;
             var id = $('#UserID').val();
-            var new_step = $('#UpStep').val();
+            var new_step = $('#NewStep').val();
             var new_bonus = $('#Bonus').val();
 
             $('#' + id).find("td:eq(4)").html(new_step);

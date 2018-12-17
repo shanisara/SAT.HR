@@ -14,8 +14,8 @@ namespace SAT.HR.Data
             try
             {
                 BonusCalculatorViewModel model = new BonusCalculatorViewModel();
-                model.Step1 = SalaryIncreaseSep1();
-                model.Step3 = new BonusCalculatorStep3ViewModel();
+                model.Year = DateTime.Now.Year + 543;
+                model.UpStep = (decimal)1.00;
 
                 return model;
             }
@@ -58,7 +58,7 @@ namespace SAT.HR.Data
                         BonusCalculatorStep2ViewModel step2 = new BonusCalculatorStep2ViewModel();
                         step2.Year = item.Year;
                         step2.Seq = item.Seq;
-                        step2.UpStep = item.UpStep;
+                        step2.NewStep = item.UpStep;
                         step2.UserID = item.UserID;
                         step2.FullNameTh = item.FullNameTh;
                         step2.Bonus = item.Bonus;

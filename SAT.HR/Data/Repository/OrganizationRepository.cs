@@ -187,7 +187,8 @@ namespace SAT.HR.Data.Repository
                 {
                     model.ManPower = data.DivName + (!string.IsNullOrEmpty(data.DepName) ? " / " : string.Empty) + data.DepName + (!string.IsNullOrEmpty(data.SecName) ? " / " : string.Empty) + data.SecName;
                     model.MpID = data.MpID;
-                    model.Position = "(" + (data.TypeID.ToString() == "1" ? data.MpID.ToString().PadLeft(3, '0') : data.MpID.ToString().PadLeft(4, '0')) + ") " + data.PoName;
+                    model.Position = data.PoName;
+                    model.FullDepartment = data.DivName + (!string.IsNullOrEmpty(data.DepName) ? "/" + data.DepName : string.Empty) + (!string.IsNullOrEmpty(data.SecName) ? "/" + data.SecName : string.Empty);
                     model.Level = data.SalaryLevel.ToString();
                     model.Step = data.SalaryStep.ToString();
                     model.Salary = data.Salary.ToString();

@@ -14,8 +14,9 @@ namespace SAT.HR.Data
             try
             {
                 SalaryIncreaseViewModel model = new SalaryIncreaseViewModel();
-                model.Step1 = SalaryIncreaseSep1();
-                model.Step3 = new SalaryIncreaseSep3ViewModel();
+                model.Year = DateTime.Now.Year + 543;
+                model.UpLevel = 1;
+                model.UpStep = (decimal)1.0;
 
                 return model;
             }

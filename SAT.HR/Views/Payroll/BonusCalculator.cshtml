@@ -46,7 +46,7 @@
                     <div class="tab-content tab-subcategories">
                         <div class="tab-pane active div-step1" id="step1">
                             <div id="div-step1">
-                                @Html.Partial("_BonusCalculatorStep1", Model.Step1)
+                                @Html.Partial("_BonusCalculatorStep1", Model)
                             </div>
                         </div>
                         <div class="tab-pane div-step2" id="step2">
@@ -54,7 +54,7 @@
                         </div>
                         <div class="tab-pane div-step3" id="step3">
                             <div id="div-step3">
-                                @Html.Partial("_BonusCalculatorStep3", Model.Step3)
+                                @Html.Partial("_BonusCalculatorStep3")
                             </div>
                         </div>
                     </div>
@@ -305,26 +305,35 @@
         });
 
         $(".btn-finish").click(function () {
-            swal({
-                title: '',
-                text: "ยืนยันการปรับขั้นเงินเดือน",
-                type: 'question',
-                showCancelButton: true,
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger',
-                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
-                buttonsStyling: false
-            }).then(function () {
+            //var BookCmd = $('#BookCmd').val();
+            //var DateCmd = $('#DateCmd').val();
 
-            }).catch(swal.noop)
+            var status = $(".form-step").valid();
+            if (!status) {
+                return false;
+            }
+            else {
+                swal({
+                    title: '',
+                    text: "ยืนยันการประมวลผลโบนัส",
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                    buttonsStyling: false
+                }).then(function () {
+                    BonusCalculatorProcess()
+                }).catch(swal.noop)
+            }
         });
 
 
         function step2() {
             @*swal({
                 title: '',
-                text: "ยืนยันการปรับขั้นเงินเดือน",
+                text: "ยืนยันการประมวลผลโบนัส",
                 type: 'question',
                 showCancelButton: true,
                 confirmButtonClass: 'btn btn-success',
@@ -368,25 +377,28 @@
         }
 
         function BonusCalculatorProcess() {
-            var Year = parseInt($('#Year').val());
-            var UpStep = parseFloat($('#UpStep').val());
-            var BookCmd = $('#BookCmd').val();
-            var DateCmd = $('#DateCmd').val();
-
-            var form = $('.formDetail')[0];
-            var data = new FormData(form);
-            data.append(".FileUpload", FileUpload);
-
+            var form = $(".form-step")[0];
+            var formData = new FormData(form);
+            formData.append(".FileUpload", FileUpload);
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("BonusCalculatorProcess", "Payroll")',
-                data: data,
+                data: formData,
                 dataType: 'json',
                 enctype: 'multipart/form-data',
                 processData: false,
                 contentType: false,
                 success: function (res) {
-                    $("#div-step2").html(res);
+                    swal({
+                        title: "",
+                        text: "ประมวลผลโบนัสเรียบร้อยแล้ว",
+                        type: "success",
+                        confirmButtonClass: "btn btn-primary",
+                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                        buttonsStyling: false,
+                    }).then(function () {
+                        window.location.href = '@Url.Action("BonusCalculator", "Payroll")';
+                    });
                 }
             });
         }

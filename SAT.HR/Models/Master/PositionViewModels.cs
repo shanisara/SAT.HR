@@ -171,7 +171,8 @@ namespace SAT.HR.Models
         public string Level { get; set; }
         public string Step { get; set; }
         public string Salary { get; set; }
-        
+        public string FullDepartment { get; set; }
+
     }
 
 }

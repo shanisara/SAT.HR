@@ -89,7 +89,7 @@ namespace SAT.HR.Controllers
         {
             BonusCalculatorStep2ViewModel model = new BonusCalculatorStep2ViewModel();
             model.UserID = userid;
-            model.UpStep = step;
+            model.NewStep = step;
             model.Bonus = bonus;
             model.Year = year;
             model.FullNameTh = fullname;

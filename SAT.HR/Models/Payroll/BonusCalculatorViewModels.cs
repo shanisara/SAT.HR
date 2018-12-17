@@ -30,7 +30,7 @@ namespace SAT.HR.Models
         public Nullable<int> UserID { get; set; }
         public Nullable<int> Seq { get; set; }
         public string FullNameTh { get; set; }
-        public Nullable<decimal> UpStep { get; set; }
+        public Nullable<decimal> NewStep { get; set; }
         public Nullable<decimal> Bonus { get; set; }
         public Nullable<decimal> Salary { get; set; }
         public Nullable<decimal> M1 { get; set; }
