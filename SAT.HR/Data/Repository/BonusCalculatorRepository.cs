@@ -9,13 +9,14 @@ namespace SAT.HR.Data
 {
     public class BonusCalculatorRepository
     {
-        public BonusCalculatorStep1ViewModel BonusCalculator()
+        public BonusCalculatorViewModel BonusCalculator()
         {
             try
             {
-                BonusCalculatorStep1ViewModel model = new BonusCalculatorStep1ViewModel();
-                model.Year = DateTime.Now.Year + 543;
-                model.UpStep = (decimal)1.00;
+                BonusCalculatorViewModel model = new BonusCalculatorViewModel();
+                model.Step1 = SalaryIncreaseSep1();
+                model.Step3 = new BonusCalculatorStep3ViewModel();
+
                 return model;
             }
             catch (Exception)
@@ -25,48 +26,68 @@ namespace SAT.HR.Data
             }
         }
 
-        public List<BonusCalculatorStep2ViewModel> GetEmpBonusCalculator(int year, decimal step)
+        public BonusCalculatorStep1ViewModel SalaryIncreaseSep1()
         {
-            List<BonusCalculatorStep2ViewModel> list = new List<BonusCalculatorStep2ViewModel>();
+            try
+            {
+                BonusCalculatorStep1ViewModel model = new BonusCalculatorStep1ViewModel();
+                model.Year = DateTime.Now.Year + 543;
+                model.UpStep = (decimal)1.00;
+
+                return model;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public BonusCalculatorViewModel GetEmpBonusCalculator(int year, decimal step)
+        {
+            BonusCalculatorViewModel model = new BonusCalculatorViewModel();
             using (SATEntities db = new SATEntities())
             {
                 try
                 {
+                    List<BonusCalculatorStep2ViewModel> listStep2 = new List<BonusCalculatorStep2ViewModel>();
                     var data = db.sp_Bonus_Calculator_List(year, step).ToList();
+
                     foreach (var item in data)
                     {
-                        BonusCalculatorStep2ViewModel model = new BonusCalculatorStep2ViewModel();
-                        model.Year = item.Year;
-                        model.Seq = item.Seq;
-                        model.UpStep = item.UpStep;
-                        model.UserID = item.UserID;
-                        model.FullNameTh = item.FullNameTh;
-                        model.Bonus = item.Bonus;
-                        model.Salary = item.Salary;
-                        model.M1 = item.M1;
-                        model.M2 = item.M2;
-                        model.M3 = item.M3;
-                        model.M4 = item.M4;
-                        model.M5 = item.M5;
-                        model.M6 = item.M5;
-                        model.M7 = item.M5;
-                        model.M8 = item.M5;
-                        model.M9 = item.M5;
-                        model.M10 = item.M5;
-                        model.M11 = item.M5;
-                        model.M12 = item.M5;
-                        list.Add(model);
+                        BonusCalculatorStep2ViewModel step2 = new BonusCalculatorStep2ViewModel();
+                        step2.Year = item.Year;
+                        step2.Seq = item.Seq;
+                        step2.UpStep = item.UpStep;
+                        step2.UserID = item.UserID;
+                        step2.FullNameTh = item.FullNameTh;
+                        step2.Bonus = item.Bonus;
+                        step2.Salary = item.Salary;
+                        step2.M1 = item.M1;
+                        step2.M2 = item.M2;
+                        step2.M3 = item.M3;
+                        step2.M4 = item.M4;
+                        step2.M5 = item.M5;
+                        step2.M6 = item.M5;
+                        step2.M7 = item.M5;
+                        step2.M8 = item.M5;
+                        step2.M9 = item.M5;
+                        step2.M10 = item.M5;
+                        step2.M11 = item.M5;
+                        step2.M12 = item.M5;
+                        listStep2.Add(step2);
                     }
+                    model.Step2 = listStep2;
                 }
                 catch (Exception ex)
                 {
                     throw;
                 }
-                return list;
+                return model;
             }
         }
 
-        public ResponseData BonusCalculatorConfirm(BonusCalculatorStep1ViewModel step1, List<BonusCalculatorStep2ViewModel> step2, BonusCalculatorStep3ViewModel step3)
+        public ResponseData BonusCalculatorConfirm(BonusCalculatorViewModel data)
         {
             using (SATEntities db = new SATEntities())
             {

@@ -64,7 +64,12 @@
                                 <td>@Model[i].M7</td>
                                 <td>@Model[i].M8</td>
                                 <td>@Model[i].M9</td>
-                                
+
+                                <td class="hidden">
+
+                                    @Html.HiddenFor(model => model[i].Salary, new { @class = "new-salary" })
+                                    @Html.HiddenFor(model => model[i].Bonus, new { @class = "new-bonus" })
+                                </td>
                             </tr>
                         }
                     }
@@ -96,8 +101,13 @@
             var id = $('#UserID').val();
             var new_step = $('#UpStep').val();
             var new_bonus = $('#Bonus').val();
+
             $('#' + id).find("td:eq(4)").html(new_step);
             $('#' + id).find("td:eq(5)").html(new_bonus);
+
+            $('#' + id).find("input[class='new-salary']").val(new_step);
+            $('#' + id).find("input[class='new-bonus']").val(new_bonus);
+
             $('.modal-detail').modal('hide');
         });
 

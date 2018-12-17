@@ -1,7 +1,7 @@
-﻿@model List<SAT.HR.Models.SalaryIncreaseSep2ViewModel>
+﻿@model SAT.HR.Models.SalaryIncreaseViewModel
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-step2" }))
-{
+@*@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-step2" }))
+{*@
     <div class="card">
         <div class="card-header">
             <h4 class="card-title"><span>ตรวจสอบและแก้ไข</span></h4>
@@ -39,11 +39,9 @@
                     <tbody>
                         @if (Model != null)
                         {
-                            for (int i = 0; i < Model.Count; i++)
+                            for (int i = 0; i < Model.Step2.Count; i++)
                             {
-                                <tr id="@Model[i].UserID">
-                                    @Html.HiddenFor(model => model[i].UserID)
-
+                                <tr id="@Model.Step2[i].UserID">
                                     <td>@(i + 1)</td>
                                     <td>
                                         <div class="form-check">
@@ -53,17 +51,31 @@
                                             </label>
                                         </div>
                                     </td>
-                                    <td>@Model[i].Year</td>
-                                    <td>@Model[i].Seq</td>
-                                    <td>@Model[i].FullNameTh</td>
-                                    <td>@Model[i].UpStep</td>
-                                    <td>@Model[i].Old_Level</td>
-                                    <td style="color:blue">@Model[i].Old_Step</td>
-                                    <td style="color:red">@Model[i].New_Step</td>
-                                    <td style="text-align:right;color:blue">@Model[i].Old_Salary</td>
-                                    <td style="text-align:right;color:red">@Model[i].New_Salary</td>
+                                    <td>@Model.Step2[i].Year</td>
+                                    <td>@Model.Step2[i].Seq</td>
+                                    <td>@Model.Step2[i].FullNameTh</td>
+                                    <td>@Model.Step2[i].UpStep</td>
+                                    <td>@Model.Step2[i].Old_Level</td>
+                                    <td style="color:blue">@Model.Step2[i].Old_Step</td>
+                                    <td style="color:red">@Model.Step2[i].New_Step</td>
+                                    <td style="text-align:right;color:blue">@Model.Step2[i].Old_Salary</td>
+                                    <td style="text-align:right;color:red">@Model.Step2[i].New_Salary</td>
                                     <td>
-                                        <div class="td-actions pull-right"><button data-id="@Model[i].UserID" data-level="@Model[i].Old_Level" data-step="@Model[i].New_Step" data-salary="@Model[i].New_Salary" data-year="@Model[i].Year" data-fullname="@Model[i].FullNameTh" title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-success btn-edit" ><i class="material-icons">edit</i></button></div>
+                                        <div class="td-actions pull-right">
+                                            <button data-id="@Model.Step2[i].UserID" data-level="@Model.Step2[i].Old_Level" data-step="@Model.Step2[i].New_Step" data-salary="@Model.Step2[i].New_Salary" data-year="@Model.Step2[i].Year" data-fullname="@Model.Step2[i].FullNameTh" title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-success btn-edit" ><i class="material-icons">edit</i></button>
+                                        </div>
+                                    </td>
+                                    <td class="hidden">
+                                        @Html.HiddenFor(model => model.Step2[i].UserID)
+                                        @Html.HiddenFor(model => model.Step2[i].Year)
+                                        @Html.HiddenFor(model => model.Step2[i].Seq)
+                                        @Html.HiddenFor(model => model.Step2[i].UpStep)
+                                        @Html.HiddenFor(model => model.Step2[i].Old_Level)
+                                        @Html.HiddenFor(model => model.Step2[i].New_Level)
+                                        @Html.HiddenFor(model => model.Step2[i].Old_Step)
+                                        @Html.HiddenFor(model => model.Step2[i].New_Step)
+                                        @Html.HiddenFor(model => model.Step2[i].Old_Salary, new { @class = "new-step" })
+                                        @Html.HiddenFor(model => model.Step2[i].New_Salary, new { @class = "new-salary" })
                                     </td>
                                 </tr>
                             }
@@ -73,7 +85,7 @@
             </div>
         </div>
     </div>
-}
+@*}*@
 
 <script>
     $(document).ready(function () {
@@ -96,8 +108,15 @@
 
         $(".btn-save-salary").click(function () {
             var id = $('#UserID').val();
+            var new_step = $('#New_Step').val();
             var new_salary = $('#New_Salary').val();
+
+            $('#' + id).find("input[class='new-step']").val(new_step);
+            $('#' + id).find("input[class='new-salary']").val(new_salary.replace(/,/g, '-'));
+
+            $('#' + id).find("td:eq(9)").html(new_step);
             $('#' + id).find("td:eq(10)").html(new_salary);
+
             $('.modal-detail').modal('hide');
         });
 

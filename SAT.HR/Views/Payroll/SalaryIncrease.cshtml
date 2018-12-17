@@ -43,26 +43,28 @@
                         </ul>
                     </div>
 
-                    <div class="card-body">
-                        <div class="tab-content tab-subcategories">
-                            <div class="tab-pane active div-step1" id="step1">
-                                <div id="div-step1">
-                                    @Html.Partial("_SalaryIncreaseStep1", Model.Step1)
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-step" }))
+                    {
+                        <div class="card-body">
+                            <div class="tab-content tab-subcategories">
+                                <div class="tab-pane active div-step1" id="step1">
+                                    <div id="div-step1">
+                                        @Html.Partial("_SalaryIncreaseStep1", Model.Step1)
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="tab-pane div-step2" id="step2">
-                                <div id="div-step2">
+                                <div class="tab-pane div-step2" id="step2">
+                                    <div id="div-step2">
 
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="tab-pane div-step3" id="step3">
-                                <div id="div-step3">
-                                    @Html.Partial("_SalaryIncreaseStep3", Model.Step3)
+                                <div class="tab-pane div-step3" id="step3">
+                                    <div id="div-step3">
+                                        @Html.Partial("_SalaryIncreaseStep3", Model.Step3)
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
+                    }
                     <div class="card-footer">
                         <div class="mr-auto">
                             <input name="previous" class="btn btn-previous btn-fill btn-default" style="display: none;" type="button" value="ย้อนกลับ">
@@ -79,6 +81,7 @@
         </div>
     </div>
 </div>
+
 <!-- Classic Modal -->
 <div class="modal fade modal-large modal-detail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -100,7 +103,6 @@
     </div>
 </div>
 <!--  End Modal -->
-
 
 <style>
     .card .card-body .col-form-label, .card .card-body {
@@ -260,26 +262,33 @@
         }
 
         function SalaryIncreaseProcess() {
-            //var data = $(".form-step1, .form-step2, .form-step3").serialize();
-            //var data = $(".form-step1").serialize() + "&" + $(".form-step2").serialize() + "&" + $(".form-step3").serialize();
-            debugger;
+            //var Year = parseInt($('#Year').val());
+            //var UpLevel = parseFloat($('#UpLevel').val());
+            //var UpStep = parseFloat($('#UpStep').val());
+            //var BookCmd = $('#BookCmd').val();
+            //var DateCmd = $('#DateCmd').val();
+            //var DateEff = $('#DateEff').val();
 
-            var form1 = $(".form-step1")[0];
-            var formStep1 = new FormData(form3);
+            //$(".form-step2").prepend("<input type='hidden' name= 'Year' value= '" + Year + "'> ");
+            //$(".form-step2").prepend("<input type='hidden' name= 'UpLevel' value= '" + UpLevel + "'> ");
+            //$(".form-step2").prepend("<input type='hidden' name= 'UpStep' value= '" + UpStep + "'> ");
+            //$(".form-step2").prepend("<input type='hidden' name= 'BookCmd' value= '" + BookCmd + "'> ");
+            //$(".form-step2").prepend("<input type='hidden' name= 'DateCmd' value= '" + DateCmd + "'> ");
+            //$(".form-step2").prepend("<input type='hidden' name= 'DateEff' value= '" + DateEff + "'> ");
+           
+            //var form2 = $(".form-step2")[0];
+            //var formData = new FormData(form2);
+            //formData.append(".FileUpload", FileUpload);
 
-            var form2 = $(".form-step2")[0];
-            var formStep2 = new FormData(form2);
 
-            var form3 = $(".form-step3")[0];
-            var formStep3 = new FormData(form3);
-            formStep3.append(".FileUpload", FileUpload);
-
-            var data = formStep1 + formStep2 + formStep3;
-
+            var form = $(".form-step")[0];
+            var formData = new FormData(form);
+            formData.append(".FileUpload", FileUpload);
+            
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("SalaryIncreaseConfirm", "Payroll")',
-                data: formStep3,
+                data: formData,
                 //data: $(".form-step1, .form-step2, .form-step3").serialize(),
                 dataType: 'json',
                 enctype: 'multipart/form-data',

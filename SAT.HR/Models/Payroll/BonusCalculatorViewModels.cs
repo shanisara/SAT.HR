@@ -7,8 +7,14 @@ namespace SAT.HR.Models
 {
     public class BonusCalculatorViewModel
     {
+        public Nullable<int> Year { get; set; }
+        public Nullable<decimal> UpStep { get; set; }
+        public string BookCmd { get; set; }
+        public DateTime? DateCmd { get; set; }
+        public string PathFile { get; set; }
+        public HttpPostedFileBase FileUpload { get; set; }
         public BonusCalculatorStep1ViewModel Step1 { get; set; }
-        public List<BonusCalculatorStep1ViewModel> Step2 { get; set; }
+        public List<BonusCalculatorStep2ViewModel> Step2 { get; set; }
         public BonusCalculatorStep3ViewModel Step3 { get; set; }
     }
 

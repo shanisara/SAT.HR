@@ -7,6 +7,15 @@ namespace SAT.HR.Models
 {
     public class SalaryIncreaseViewModel
     {
+        public Nullable<int> Year { get; set; }
+        public Nullable<int> UpLevel { get; set; }
+        public Nullable<decimal> UpStep { get; set; }
+        public string BookCmd { get; set; }
+        public DateTime? DateCmd { get; set; }
+        public DateTime? DateEff { get; set; }
+        public string PathFile { get; set; }
+        public HttpPostedFileBase FileUpload { get; set; }
+
         public SalaryIncreaseSep1ViewModel Step1 { get; set; }
         public List<SalaryIncreaseSep2ViewModel> Step2 { get; set; }
         public SalaryIncreaseSep3ViewModel Step3 { get; set; }
@@ -21,6 +30,7 @@ namespace SAT.HR.Models
 
     public class SalaryIncreaseSep2ViewModel
     {
+        public Nullable<bool> Selected { get; set; }
         public Nullable<int> Year { get; set; }
         public int Seq { get; set; }
         public Nullable<decimal> UpStep { get; set; }

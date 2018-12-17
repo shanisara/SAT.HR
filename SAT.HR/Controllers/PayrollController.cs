@@ -51,9 +51,9 @@ namespace SAT.HR.Controllers
             return PartialView("_SalaryIncreaseEdit", model);
         }
 
-        public JsonResult SalaryIncreaseConfirm(SalaryIncreaseSep1ViewModel step1, List<SalaryIncreaseSep2ViewModel> step2, SalaryIncreaseSep3ViewModel step3)
+        public JsonResult SalaryIncreaseConfirm(SalaryIncreaseViewModel data)
         {
-            var result = new SalaryIncreaseRepository().SalaryIncreaseConfirm(step1, step2, step3);
+            var result = new SalaryIncreaseRepository().SalaryIncreaseConfirm(data);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -96,9 +96,9 @@ namespace SAT.HR.Controllers
             return PartialView("_BonusCalculatorEdit", model);
         }
 
-        public JsonResult BonusCalculatorConfirm(BonusCalculatorStep1ViewModel step1, List<BonusCalculatorStep2ViewModel> step2, BonusCalculatorStep3ViewModel step3)
+        public JsonResult BonusCalculatorConfirm(BonusCalculatorViewModel data)
         {
-            var result = new BonusCalculatorRepository().BonusCalculatorConfirm(step1, step2, step3);
+            var result = new BonusCalculatorRepository().BonusCalculatorConfirm(data);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

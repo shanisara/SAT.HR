@@ -1,4 +1,4 @@
-﻿@model SAT.HR.Models.BonusCalculatorProcessViewModel
+﻿@model SAT.HR.Models.BonusCalculatorViewModel
 @{
     ViewBag.Title = "BonusCalculator";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -40,12 +40,13 @@
                         </li>
                     </ul>
                 </div>
-
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-step" }))
+                {
                 <div class="card-body">
                     <div class="tab-content tab-subcategories">
                         <div class="tab-pane active div-step1" id="step1">
                             <div id="div-step1">
-                                @Html.Partial("_BonusCalculatorStep1")
+                                @Html.Partial("_BonusCalculatorStep1", Model.Step1)
                             </div>
                         </div>
                         <div class="tab-pane div-step2" id="step2">
@@ -53,12 +54,12 @@
                         </div>
                         <div class="tab-pane div-step3" id="step3">
                             <div id="div-step3">
-                                @Html.Partial("_BonusCalculatorStep3")
+                                @Html.Partial("_BonusCalculatorStep3", Model.Step3)
                             </div>
                         </div>
                     </div>
                 </div>
-
+                }
                 <div class="card-footer">
                     <div class="mr-auto">
                         <input name="previous" class="btn btn-previous btn-fill btn-default" style="display: none;" type="button" value="ย้อนกลับ">
