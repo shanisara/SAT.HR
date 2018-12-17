@@ -101,9 +101,6 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    var user = db.tb_User.Where(m => m.UserID == data.UserID).FirstOrDefault();
-                    string fullname = user.FirstNameTh + " " + user.LastNameTh;
-
                     tb_Benefit_Remuneration model = new tb_Benefit_Remuneration();
                     model.BrID = data.BrID;
                     model.UserID = data.UserID;
@@ -111,7 +108,7 @@ namespace SAT.HR.Data.Repository
                     if (Convert.ToDateTime(data.BrDate) > DateTime.MinValue)
                         model.BrDate = Convert.ToDateTime(data.BrDate);
                     model.RecID = data.RecID;
-                    model.RecFullName = data.RecID == 1 ? fullname: data.RecFullName;
+                    model.RecFullName = data.RecFullName;
                     model.BrAmout = data.BrAmout;
                     model.BrRemark = data.BrRemark;
                     model.CreateBy = UtilityService.User.UserID;
@@ -511,16 +508,13 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    var user = db.tb_User.Where(m => m.UserID == data.UserID).FirstOrDefault();
-                    string fullname = user.FirstNameTh + " " + user.LastNameTh;
-
                     tb_Benefit_Medical model = new tb_Benefit_Medical();
                     model.BmID = data.BmID;
                     model.UserID = data.UserID;
                     model.BmYear = data.BmYear;
                     model.ClID = data.ClID;
                     model.RecID = data.RecID;
-                    model.RecFullName = data.RecID == 1 ? fullname : data.RecFullName;
+                    model.RecFullName = data.RecFullName;
                     model.BmCardID = data.BmCardID;
                     model.BmDate = data.BmDate;
                     model.BmAmoutService = data.BmAmoutService;
@@ -1471,15 +1465,12 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    var user = db.tb_User.Where(m => m.UserID == data.UserID).FirstOrDefault();
-                    string fullname = user.FirstNameTh + " " + user.LastNameTh;
-
                     tb_Benefit_Death_Replacement model = new tb_Benefit_Death_Replacement();
                     model.BdID = data.BdID;
                     model.UserID = data.UserID;
                     model.BdYear = data.BdYear;
                     model.RecID = data.RecID;
-                    model.BdFullName = data.RecID == 1 ? fullname : data.BdFullName;
+                    model.BdFullName = data.BdFullName;
                     model.BdTime = data.BdTime;
                     model.BdPer = data.BdPer;
                     model.BdAmout = data.BdAmout;
@@ -1653,15 +1644,12 @@ namespace SAT.HR.Data.Repository
                 ResponseData result = new Models.ResponseData();
                 try
                 {
-                    var user = db.tb_User.Where(m => m.UserID == data.UserID).FirstOrDefault();
-                    string fullname = user.FirstNameTh + " " + user.LastNameTh;
-
                     tb_Benefit_Death_Subsidy model = new tb_Benefit_Death_Subsidy();
                     model.BdID = data.BdID;
                     model.UserID = data.UserID;
                     model.BdYear = data.BdYear;
                     model.RecID = data.RecID;
-                    model.BdFullName = data.RecID == 1 ? fullname : data.BdFullName;
+                    model.BdFullName = data.BdFullName;
                     model.BdTime = data.BdTime;
                     model.BdPer = data.BdPer;
                     model.BdAmout = data.BdAmout;
