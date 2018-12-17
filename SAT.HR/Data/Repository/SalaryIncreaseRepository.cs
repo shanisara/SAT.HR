@@ -9,14 +9,14 @@ namespace SAT.HR.Data
 {
     public class SalaryIncreaseRepository
     {
-        public SalaryIncreaseProcessViewModel SalaryIncrease()
+        public SalaryIncreaseViewModel SalaryIncrease()
         {
             try
             {
-                SalaryIncreaseProcessViewModel model = new SalaryIncreaseProcessViewModel();
-                model.Year = DateTime.Now.Year + 543;
-                model.UpLevel = 1;
-                model.UpStep = (decimal)1.0;
+                SalaryIncreaseViewModel model = new SalaryIncreaseViewModel();
+                model.Step1 = SalaryIncreaseSep1();
+                model.Step3 = new SalaryIncreaseSep3ViewModel();
+
                 return model;
             }
             catch (Exception)
@@ -25,9 +25,28 @@ namespace SAT.HR.Data
                 throw;
             }
         }
-        public List<EmpSalaryIncreaseViewModel> GetEmpSalaryIncrease(int year, int level, decimal step)
+
+        public SalaryIncreaseSep1ViewModel SalaryIncreaseSep1()
         {
-            List<EmpSalaryIncreaseViewModel> list = new List<EmpSalaryIncreaseViewModel>();
+            try
+            {
+                SalaryIncreaseSep1ViewModel model = new SalaryIncreaseSep1ViewModel();
+                model.Year = DateTime.Now.Year + 543;
+                model.UpLevel = 1;
+                model.UpStep = (decimal)1.0;
+
+                return model;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public List<SalaryIncreaseSep2ViewModel> GetEmpSalaryIncrease(int year, int level, decimal step)
+        {
+            List<SalaryIncreaseSep2ViewModel> list = new List<SalaryIncreaseSep2ViewModel>();
             using (SATEntities db = new SATEntities())
             {
                 try
@@ -35,7 +54,7 @@ namespace SAT.HR.Data
                     var salaryincrease = db.sp_Salary_Increase_List(year, level, step).ToList();
                     foreach (var item in salaryincrease)
                     {
-                        EmpSalaryIncreaseViewModel model = new EmpSalaryIncreaseViewModel();
+                        SalaryIncreaseSep2ViewModel model = new SalaryIncreaseSep2ViewModel();
                         model.Year = item.Year;
                         model.Seq = item.Seq;
                         model.UpStep = item.UpStep;
@@ -58,7 +77,7 @@ namespace SAT.HR.Data
             }
         }
 
-        public ResponseData SalaryIncreaseConfirm(SalaryIncreaseProcessViewModel data)
+        public ResponseData SalaryIncreaseConfirm(SalaryIncreaseSep1ViewModel step1, List<SalaryIncreaseSep2ViewModel> step2, SalaryIncreaseSep3ViewModel step3)
         {
             using (SATEntities db = new SATEntities())
             {

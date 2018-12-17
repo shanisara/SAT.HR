@@ -5,7 +5,20 @@ using System.Web;
 
 namespace SAT.HR.Models
 {
-    public class EmpBonusCalculatorViewModel
+    public class BonusCalculatorViewModel
+    {
+        public BonusCalculatorStep1ViewModel Step1 { get; set; }
+        public List<BonusCalculatorStep1ViewModel> Step2 { get; set; }
+        public BonusCalculatorStep3ViewModel Step3 { get; set; }
+    }
+
+    public class BonusCalculatorStep1ViewModel
+    {
+        public Nullable<int> Year { get; set; }
+        public Nullable<decimal> UpStep { get; set; }
+    }
+
+    public class BonusCalculatorStep2ViewModel
     {
         public Nullable<int> Year { get; set; }
         public Nullable<int> UserID { get; set; }
@@ -28,15 +41,11 @@ namespace SAT.HR.Models
         public Nullable<decimal> M12 { get; set; }
     }
 
-    public class BonusCalculatorProcessViewModel
+    public class BonusCalculatorStep3ViewModel
     {
-        public Nullable<int> Year { get; set; }
-        public Nullable<decimal> UpStep { get; set; }
         public string BookCmd { get; set; }
         public DateTime? DateCmd { get; set; }
         public string PathFile { get; set; }
         public HttpPostedFileBase FileUpload { get; set; }
-
-        public List<EmpBonusCalculatorViewModel> detail { get; set; }
     }
 }

@@ -72,7 +72,7 @@ namespace SAT.HR.Data.Repository
                     if (data != null)
                     {
                         model.MpID = data.MpID;
-                        model.MpCode = data.TypeID == 1 ? data.MpID.ToString().PadLeft(3, '0') : data.MpID.ToString().PadLeft(4, '0');
+                        model.MpCode = data.MpCode; //data.TypeID == 1 ? data.MpID.ToString().PadLeft(3, '0') : data.MpID.ToString().PadLeft(4, '0');
                         model.DivID = data.DivID;
                         model.DepID = data.DepID;
                         model.SecID = data.SecID;

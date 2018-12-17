@@ -38,15 +38,9 @@ namespace SAT.HR.Controllers
             return PartialView("_SalaryIncreaseStep3");
         }
 
-        public JsonResult SalaryIncreaseConfirm(SalaryIncreaseProcessViewModel data)
+        public ActionResult SalaryIncreaseEdit(int userid, int level, decimal step, decimal salary, int year, string fullname)
         {
-            var result = new SalaryIncreaseRepository().SalaryIncreaseConfirm(data);
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult SalaryIncreaseEdit(int userid, int level, decimal step, decimal salary,int year, string fullname)
-        {
-            EmpSalaryIncreaseViewModel model = new EmpSalaryIncreaseViewModel();
+            SalaryIncreaseSep2ViewModel model = new SalaryIncreaseSep2ViewModel();
             model.UserID = userid;
             model.Old_Level = level;
             model.New_Step = step;
@@ -56,6 +50,13 @@ namespace SAT.HR.Controllers
             ViewBag.SalaryStep = DropDownList.GetSalaryStep(step, level);
             return PartialView("_SalaryIncreaseEdit", model);
         }
+
+        public JsonResult SalaryIncreaseConfirm(SalaryIncreaseSep1ViewModel step1, List<SalaryIncreaseSep2ViewModel> step2, SalaryIncreaseSep3ViewModel step3)
+        {
+            var result = new SalaryIncreaseRepository().SalaryIncreaseConfirm(step1, step2, step3);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
 
 
         #endregion
@@ -84,15 +85,9 @@ namespace SAT.HR.Controllers
             return PartialView("_BonusCalculatorStep3");
         }
 
-        public JsonResult BonusCalculatorConfirm(BonusCalculatorProcessViewModel data)
-        {
-            var result = new BonusCalculatorRepository().BonusCalculatorConfirm(data);
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
         public ActionResult BonusCalculatorEdit(int userid, decimal step, decimal bonus, int year, string fullname)
         {
-            EmpBonusCalculatorViewModel model = new EmpBonusCalculatorViewModel();
+            BonusCalculatorStep2ViewModel model = new BonusCalculatorStep2ViewModel();
             model.UserID = userid;
             model.UpStep = step;
             model.Bonus = bonus;
@@ -100,6 +95,13 @@ namespace SAT.HR.Controllers
             model.FullNameTh = fullname;
             return PartialView("_BonusCalculatorEdit", model);
         }
+
+        public JsonResult BonusCalculatorConfirm(BonusCalculatorStep1ViewModel step1, List<BonusCalculatorStep2ViewModel> step2, BonusCalculatorStep3ViewModel step3)
+        {
+            var result = new BonusCalculatorRepository().BonusCalculatorConfirm(step1, step2, step3);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
 
         #endregion
     }

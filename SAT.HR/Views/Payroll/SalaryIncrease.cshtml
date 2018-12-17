@@ -1,4 +1,6 @@
-﻿@{
+﻿@model SAT.HR.Models.SalaryIncreaseViewModel
+
+@{
     ViewBag.Title = "SalaryIncrease";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -45,7 +47,7 @@
                         <div class="tab-content tab-subcategories">
                             <div class="tab-pane active div-step1" id="step1">
                                 <div id="div-step1">
-                                    @Html.Partial("_SalaryIncreaseStep1")
+                                    @Html.Partial("_SalaryIncreaseStep1", Model.Step1)
                                 </div>
                             </div>
                             <div class="tab-pane div-step2" id="step2">
@@ -55,7 +57,7 @@
                             </div>
                             <div class="tab-pane div-step3" id="step3">
                                 <div id="div-step3">
-                                    @Html.Partial("_SalaryIncreaseStep3")
+                                    @Html.Partial("_SalaryIncreaseStep3", Model.Step3)
                                 </div>
                             </div>
                         </div>
@@ -258,22 +260,27 @@
         }
 
         function SalaryIncreaseProcess() {
-            var UpLevel = parseFloat($('#UpLevel').val()); //parseInt($("input[name='salarylevel']:checked").val());
-            var UpStep = parseFloat($('#UpStep').val()); //parseInt($("input[name='salarystep']:checked").val());
-            var Year = parseFloat($('#Year').val());
-            var BookCmd = $('#BookCmd').val();
-            var DateCmd = $('#DateCmd').val();
-            var DateEff = $('#DateEff').val();
-            var FileUpload = '';
+            //var data = $(".form-step1, .form-step2, .form-step3").serialize();
+            //var data = $(".form-step1").serialize() + "&" + $(".form-step2").serialize() + "&" + $(".form-step3").serialize();
+            debugger;
 
-            var form = $('.formDetail')[0];
-            var data = new FormData(form);
-            data.append(".FileUpload", FileUpload);
+            var form1 = $(".form-step1")[0];
+            var formStep1 = new FormData(form3);
+
+            var form2 = $(".form-step2")[0];
+            var formStep2 = new FormData(form2);
+
+            var form3 = $(".form-step3")[0];
+            var formStep3 = new FormData(form3);
+            formStep3.append(".FileUpload", FileUpload);
+
+            var data = formStep1 + formStep2 + formStep3;
 
             $.ajax({
                 type: 'POST',
-                url: '@Url.Action("SalaryIncreaseProcess", "Payroll")',
-                data: data,
+                url: '@Url.Action("SalaryIncreaseConfirm", "Payroll")',
+                data: formStep3,
+                //data: $(".form-step1, .form-step2, .form-step3").serialize(),
                 dataType: 'json',
                 enctype: 'multipart/form-data',
                 processData: false,

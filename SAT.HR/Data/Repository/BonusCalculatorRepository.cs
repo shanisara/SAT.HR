@@ -9,11 +9,11 @@ namespace SAT.HR.Data
 {
     public class BonusCalculatorRepository
     {
-        public BonusCalculatorProcessViewModel BonusCalculator()
+        public BonusCalculatorStep1ViewModel BonusCalculator()
         {
             try
             {
-                BonusCalculatorProcessViewModel model = new BonusCalculatorProcessViewModel();
+                BonusCalculatorStep1ViewModel model = new BonusCalculatorStep1ViewModel();
                 model.Year = DateTime.Now.Year + 543;
                 model.UpStep = (decimal)1.00;
                 return model;
@@ -25,9 +25,9 @@ namespace SAT.HR.Data
             }
         }
 
-        public List<EmpBonusCalculatorViewModel> GetEmpBonusCalculator(int year, decimal step)
+        public List<BonusCalculatorStep2ViewModel> GetEmpBonusCalculator(int year, decimal step)
         {
-            List<EmpBonusCalculatorViewModel> list = new List<EmpBonusCalculatorViewModel>();
+            List<BonusCalculatorStep2ViewModel> list = new List<BonusCalculatorStep2ViewModel>();
             using (SATEntities db = new SATEntities())
             {
                 try
@@ -35,7 +35,7 @@ namespace SAT.HR.Data
                     var data = db.sp_Bonus_Calculator_List(year, step).ToList();
                     foreach (var item in data)
                     {
-                        EmpBonusCalculatorViewModel model = new EmpBonusCalculatorViewModel();
+                        BonusCalculatorStep2ViewModel model = new BonusCalculatorStep2ViewModel();
                         model.Year = item.Year;
                         model.Seq = item.Seq;
                         model.UpStep = item.UpStep;
@@ -66,7 +66,7 @@ namespace SAT.HR.Data
             }
         }
 
-        public ResponseData BonusCalculatorConfirm(BonusCalculatorProcessViewModel data)
+        public ResponseData BonusCalculatorConfirm(BonusCalculatorStep1ViewModel step1, List<BonusCalculatorStep2ViewModel> step2, BonusCalculatorStep3ViewModel step3)
         {
             using (SATEntities db = new SATEntities())
             {
