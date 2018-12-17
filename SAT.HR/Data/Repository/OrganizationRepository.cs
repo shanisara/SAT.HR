@@ -131,7 +131,7 @@ namespace SAT.HR.Data.Repository
                             emp.id = org.MpID.ToString() + "_" + org.DivID.ToString();
                             emp.text = " (" + org.MpCode + ") " + org.TiShortName + (string.IsNullOrEmpty(org.FullNameTh) ? "ตำแหน่งว่าง ✓" : org.FullNameTh) + " (" + org.PoName + ")";
                             emp.children = false;
-                            emp.state = new TreeStateViewModel() { opened = true };
+                            emp.state = new TreeStateViewModel() { opened = false };
                             emp.icon = SysConfig.ApplicationRoot + "Content/assets/img/user2.png";
                             items.Add(emp);
                         }
@@ -145,7 +145,7 @@ namespace SAT.HR.Data.Repository
                             model.id = item.MpID.ToString();
                             model.text = item.MpName;
                             model.children = true;
-                            model.state = new TreeStateViewModel() { opened = true };
+                            model.state = new TreeStateViewModel() { opened = false };
                             model.icon = SysConfig.ApplicationRoot + "Content/assets/img/department.gif";
                             items.Add(model);
                         }
@@ -162,7 +162,7 @@ namespace SAT.HR.Data.Repository
                             model.id = item.MpID.ToString() + "_" + item.PoID.ToString();
                             model.text = " (" + item.MpCode + ") " + item.TiShortName + (string.IsNullOrEmpty(item.FullNameTh) ? "ตำแหน่งว่าง ✓" : item.FullNameTh) + " (" + item.PoName + ")";
                             model.children = false;
-                            model.state = new TreeStateViewModel() { opened = true };
+                            model.state = new TreeStateViewModel() { opened = false };
                             model.icon = SysConfig.ApplicationRoot + "Content/assets/img/user2.png";
                             items.Add(model);
                         }
