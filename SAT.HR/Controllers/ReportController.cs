@@ -19,8 +19,6 @@ namespace SAT.HR.Controllers
     {
         string FileName = string.Empty;
 
-
-
         #region // รายงาน:ส่วนงานทรัพยากรบุคคล
 
         public ActionResult Resource(int id)
@@ -55,8 +53,9 @@ namespace SAT.HR.Controllers
         {
             try
             {
-
                 ReportClass rptH = new ReportClass();
+                rptH.DataSourceConnections.Clear();
+                rptH.DataSourceConnections
                 FileName = "Report_Education" + "_" + DateTime.Now.ToString("yyyyMMddHHmm") + ExtensionFile;
                 rptH.FileName = Server.MapPath(@"~/Report/Master/Report_Education.rpt");
                 rptH.Load();
