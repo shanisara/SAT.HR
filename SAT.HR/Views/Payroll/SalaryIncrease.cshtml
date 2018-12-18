@@ -74,6 +74,7 @@
                         <div class="clearfix"></div>
                     </div>
                     <!-- wizard container -->
+                    <button class="btn btn-primary btn-sm btn-export" data-toggle="modal" style="display:none">Export</button>
                 </div>
             </div>
         </div>
@@ -217,13 +218,25 @@
         });
 
         $(".btn-finish").click(function () {
-            //var BookCmd = $('#BookCmd').val();
-            //var DateCmd = $('#DateCmd').val();
-            //var DateEff = $('#DateEff').val();
+            var BookCmd = $('#BookCmd').val();
+            var DateCmd = $('#DateCmd').val();
+            var DateEff = $('#DateEff').val();
 
-            var status = $(".form-step").valid();
-            if (!status) {
-                return false;
+            //var status = $(".form-step").valid();
+            //if (!status) {
+            //    return false;
+            //}
+            if (BookCmd == '') {
+                swal({
+                    title: "",
+                    text: "กรุณาระบุคำสั่ง",
+                    type: "warning",
+                    confirmButtonClass: "btn btn-primary",
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                    buttonsStyling: false,
+                }).then(function () {
+                    $('#BookCmd').focus();
+                });
             }
             else {
                 swal({
@@ -320,15 +333,11 @@
         }
 
         $(".btn-export").click(function () {
-            debugger;
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("ExportSalaryIncreaseToExcel", "Payroll")',
                 data: $(".form-step").serialize(),
-                dataType: 'json',
-                success: function (res) {
-
-                }
+                success: function () { }
             });
         });
 

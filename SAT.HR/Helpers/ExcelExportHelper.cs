@@ -52,7 +52,7 @@ namespace SAT.HR.Helpers
 
                 if (showSrNo)
                 {
-                    DataColumn dataColumn = dataTable.Columns.Add("#", typeof(int));
+                    DataColumn dataColumn = dataTable.Columns.Add("0", typeof(int));
                     dataColumn.SetOrdinal(0);
                     int index = 1;
                     foreach (DataRow item in dataTable.Rows)

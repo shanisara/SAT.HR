@@ -70,6 +70,7 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
+                <button class="btn btn-primary btn-sm btn-export" data-toggle="modal" style="display:none">Export</button>
 
                 <div class="col-md-11 col-12 mr-auto ml-auto">
                     @*<div class="wizard-container">
@@ -325,12 +326,24 @@
         });
 
         $(".btn-finish").click(function () {
-            //var BookCmd = $('#BookCmd').val();
-            //var DateCmd = $('#DateCmd').val();
+            var BookCmd = $('#BookCmd').val();
+            var DateCmd = $('#DateCmd').val();
 
-            var status = $(".form-step").valid();
-            if (!status) {
-                return false;
+            //var status = $(".form-step").valid();
+            //if (!status) {
+            //    return false;
+            //}
+            if (BookCmd == '') {
+                swal({
+                    title: "",
+                    text: "กรุณาระบุคำสั่ง",
+                    type: "warning",
+                    confirmButtonClass: "btn btn-primary",
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                    buttonsStyling: false,
+                }).then(function () {
+                    $('#BookCmd').focus();
+                });
             }
             else {
                 swal({
@@ -424,22 +437,14 @@
             });
         }
 
-
         $(".btn-export").click(function () {
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("ExportBonusCalculatorToExcel", "Payroll")',
-                data: formData,
-                dataType: 'json',
-                enctype: 'multipart/form-data',
-                processData: false,
-                contentType: false,
-                success: function (res) {
-
-                }
+                data: $(".form-step").serialize(),
+                success: function () { }
             });
         });
-
 
     });
 

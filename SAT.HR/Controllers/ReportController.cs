@@ -55,7 +55,7 @@ namespace SAT.HR.Controllers
             {
                 ReportClass rptH = new ReportClass();
                 rptH.DataSourceConnections.Clear();
-                rptH.DataSourceConnections
+                //rptH.DataSourceConnections
                 FileName = "Report_Education" + "_" + DateTime.Now.ToString("yyyyMMddHHmm") + ExtensionFile;
                 rptH.FileName = Server.MapPath(@"~/Report/Master/Report_Education.rpt");
                 rptH.Load();
