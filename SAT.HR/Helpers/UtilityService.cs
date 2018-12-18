@@ -338,11 +338,11 @@ namespace SAT.HR.Helpers
 
         #region Report
 
-        public static string PathReport
+        public static string PathUploadReport
         {
             get
             {
-                return SysConfigRepository.GetKeyValue("PathReportFile");
+                return SysConfigRepository.GetKeyValue("PathUploadReportFile");
             }
         }
         public static string PathDownloadReport

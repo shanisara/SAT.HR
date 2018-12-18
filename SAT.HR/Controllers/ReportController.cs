@@ -11,6 +11,7 @@ using System.Data.OleDb;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 
 
@@ -80,7 +81,7 @@ namespace SAT.HR.Controllers
                 rptH.DataSourceConnections[0].SetConnection(SysConfig.ServerName, SysConfig.DatabaseName, SysConfig.UserName, SysConfig.Password);
                 //rptH.SetDatabaseLogon(SysConfig.UserName, SysConfig.Password, SysConfig.ServerName, SysConfig.DatabaseName);
                 rptH.SetParameterValue("@eduID", EduID == "" ? null : EduID);
-                rptH.ExportToDisk(ExtensionFile == ".xlsx" ? ExportFormatType.ExcelWorkbook : ExportFormatType.PortableDocFormat, Path.Combine(SysConfig.PathReport, FileName));
+                rptH.ExportToDisk(ExtensionFile == ".xlsx" ? ExportFormatType.ExcelWorkbook : ExportFormatType.PortableDocFormat, Path.Combine(SysConfig.PathUploadReport, FileName));
 
                 return Json(FileName, JsonRequestBehavior.AllowGet);
             }
@@ -111,7 +112,7 @@ namespace SAT.HR.Controllers
                 rptH.SetParameterValue("@insName", InsName == "" ? null : InsName);
                 rptH.SetParameterValue("@relID", RelId == "" ? null : RelId);
                 rptH.SetParameterValue("@utID", UserTypeID == "" ? null : UserTypeID);
-                rptH.ExportToDisk(ExtensionFile == ".xlsx" ? ExportFormatType.ExcelWorkbook : ExportFormatType.PortableDocFormat, Path.Combine(SysConfig.PathReport, FileName));
+                rptH.ExportToDisk(ExtensionFile == ".xlsx" ? ExportFormatType.ExcelWorkbook : ExportFormatType.PortableDocFormat, Path.Combine(SysConfig.PathUploadReport, FileName));
 
                 return Json(FileName, JsonRequestBehavior.AllowGet);
             }
@@ -142,8 +143,10 @@ namespace SAT.HR.Controllers
         {
             try
             {
-                var filePath = System.IO.File.ReadAllBytes(Path.Combine(SysConfig.ApplicationRoot + SysConfig.PathDownloadReport, fileName));
-                return File(filePath, "application", fileName);
+                //var filePath = System.IO.File.ReadAllBytes(Path.Combine(SysConfig.PathDownloadReport, fileName));
+                //return File(filePath, "application/pdf", fileName);
+                //http://27.254.149.155/SATHR/Upload/Report/Report_Education_201812190052.pdf
+                return new FilePathResult(Path.Combine(SysConfig.PathDownloadReport, fileName), "application/pdf");
             }
             catch (Exception ex)
             {

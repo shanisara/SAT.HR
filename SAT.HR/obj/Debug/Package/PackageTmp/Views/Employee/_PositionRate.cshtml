@@ -1,0 +1,137 @@
+﻿@model SAT.HR.Models.PositionRateViewModel
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-position" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.MpID)
+    @Html.HiddenFor(m => m.UserID)
+    @Html.HiddenFor(m => m.TypeID)
+
+    <div class="m-t-10"></div>
+    if (@Model.MpID != 0)
+    {
+    <div class="row">
+        @Html.Label("อัตรากำลัง: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-9">
+            @Html.TextBoxFor(m => m.MpCode, new { @class = "form-control disabled" })
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("ผู้ดำรงตำแหน่ง: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-9">
+            @Html.TextBoxFor(m => m.FullNameTh, new { @class = "form-control disabled" })
+        </div>
+    </div>
+    }
+    <div class="row">
+        @Html.Label("ฝ่าย: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-9">
+            @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true", required = "true" })
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("กอง: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-9">
+            @Html.DropDownListFor(n => n.DepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Department, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true" })
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("งาน: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-9">
+            @Html.DropDownListFor(n => n.SecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Section, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true" })
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("ตำแหน่ง: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-9">
+            @Html.DropDownListFor(n => n.PoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true", required = "true" })
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("ระดับสายงาน: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-9">
+            @Html.DropDownListFor(n => n.DisID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Discipline, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true" })
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("ระดับการศึกษา: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-9">
+            @Html.DropDownListFor(n => n.EduID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Education, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true" })
+        </div>
+    </div>
+}
+
+<script>
+    $('.selectpicker').selectpicker();
+
+    $('select[name=DivID]').change(function () {
+        var type = $('#usertype').val();
+        var divid = $('select[name=DivID]').val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetDepartment", "Master")', //GeDepartmentManPower
+            data: { type: type, divid: divid },
+            dataType: 'json',
+            success: function (res) {
+                $('select[name=DepID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                $.each(res, function (key, entry) {
+                    $('select[name=DepID]').append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                });
+                $('select[name=DepID]').selectpicker('refresh');
+
+                $('select[name=SecID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                $('select[name=SecID]').selectpicker('refresh');
+
+                //$('select[name=PoID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                //$('select[name=PoID]').selectpicker('refresh');
+            }
+        });
+    });
+
+    $('select[name=DepID]').change(function () {
+        var type = $('#usertype').val();
+        var divid = $('select[name=DivID]').val();
+        var depid = $('select[name=DepID]').val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetSection", "Master")', //GetSectionManPower
+            data: { type: type, divid: divid, depid: depid },
+            dataType: 'json',
+            success: function (res) {
+                $('select[name=SecID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                $.each(res, function (key, entry) {
+                    $('select[name=SecID]').append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                });
+                $('select[name=SecID]').selectpicker('refresh');
+
+                //$('select[name=PoID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                //$('select[name=PoID]').selectpicker('refresh');
+            }
+        });
+    });
+
+    @*$('select[name=SecID]').change(function () {
+        var type = $('#usertype').val();
+        var divid = $('select[name=DivID]').val();
+        var depid = $('select[name=DepID]').val();
+        var secid = $('select[name=SecID]').val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetPositionManPowerValuePo", "Master")',
+            data: { divid: divid, depid: depid, secid: secid, type: type },
+            dataType: 'json',
+            success: function (res) {
+                $('select[name=PoID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                $.each(res, function (key, entry) {
+                    $('select[name=PoID]').append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                });
+                $('select[name=PoID]').selectpicker('refresh');
+            }
+        });
+    });*@
+
+
+
+
+</script>

@@ -1,0 +1,75 @@
+﻿@model SAT.HR.Models.SalaryIncreaseSep2ViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formDetail" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.UserID)
+
+    <div class="col-md-12">
+        <div class="row">
+            @Html.Label("ปีบัญชี", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.Year, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("ชื่อ นามสกุล", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.FullNameTh, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("ระดับ", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.Old_Level, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("ขั้นใหม่", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    @Html.DropDownListFor(n => n.New_Step, new SelectList((IEnumerable<SelectListItem>)ViewBag.SalaryStep, "Value", "Text"), "  -- กรุณาเลือก --", new { @class = "form-control selectpicker", data_show_subtext = "true", data_live_search = "true", data_size = "5", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("เงินเดือนใหม่", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.New_Salary, new { @class = "form-control", required = "true" })
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+<script>
+    $(document).ready(function () {
+
+        $('.selectpicker').selectpicker();
+
+
+        $('#New_Step').change(function () {
+            var level = $('#Old_Level').val();
+            var step = $('#New_Step').val();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SalaryByStep", "Master")',
+                data: { level: level, step: step },
+                dataType: 'json',
+                success: function (res) {
+                    var salary = accounting.formatNumber(res.Salary, 2);
+                    $('#New_Salary').val(salary);
+                }
+            });
+        });
+
+    });
+</script>
+

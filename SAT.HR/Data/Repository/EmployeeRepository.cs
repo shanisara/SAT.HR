@@ -1207,7 +1207,7 @@ namespace SAT.HR.Data.Repository
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    var data = db.tb_User_Education.Where(x => x.EduID == id).FirstOrDefault();
+                    var data = db.tb_User_Education.Where(x => x.UeID == id).FirstOrDefault();
                     string filename = data.UePartFile;
 
                     string[] fileSplit = filename.Split('.');

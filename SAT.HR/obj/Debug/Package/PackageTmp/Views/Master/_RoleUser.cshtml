@@ -1,0 +1,70 @@
+﻿
+<div>
+    <div class="row">
+        <label class="col-sm-3 col-form-label">ชื่อพนักงาน</label>
+        <div class="col-sm-8">
+            @Html.DropDownList("UserID", new SelectList((IEnumerable<SelectListItem>)ViewBag.Employee, "Value", "Text"), "-- กรุณาเลือก --",
+            new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true", required = "true" })
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("ฝ่าย/กอง/งาน: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-8">
+            @Html.Hidden("CurMpID")
+            <span class="label-text user-po"></span>
+        </div>
+    </div>
+    <div class="row">
+        @Html.Label("ตำแหน่งปัจจุบัน: ", null, new { @class = "col-sm-3 col-form-label" })
+        <div class="col-sm-8">
+            <span class="label-text user-belong"></span>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.selectpicker').selectpicker();
+
+    $("#UserID").change(function () {
+        var userid = $('#UserID').val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetDetailByUser", "Master")',
+            data: { userid: userid },
+            dataType: 'json',
+            success: function (res) {
+                var belong = res.BelongTo;
+                var poname = res.Position;
+                var level = res.Level;
+                var curmpid = res.MpID;
+                $('#CurMpID').val(curmpid);
+                $('.user-belong').text(belong);
+                $('.user-po').text(poname);
+                $('.user-level').text(level);
+            }
+        });
+    });
+</script>
+
+
+@*<style>
+    .table thead tr th {
+        font-size: 15px;
+    }
+</style>
+
+<table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
+    <thead>
+        <tr>
+            <th style="width:5%" class="disabled-sorting">ลำดับ</th>
+            <th style="width:10%" class="disabled-sorting">เลือก</th>
+            <th style="width:20%">ชื่อ-นามสกุล</th>
+            <th style="width:15%">ตำแหน่ง</th>
+            <th style="width:15%">ฝ่าย</th>
+            <th style="width:15%">กอง</th>
+            <th style="width:20%">หน่วยงาน</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>*@
+
