@@ -345,6 +345,15 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathReportFile");
             }
         }
+        public static string PathDownloadReport
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathDownloadReportFile");
+            }
+        }
+
+
         public static string ServerName
         {
             get

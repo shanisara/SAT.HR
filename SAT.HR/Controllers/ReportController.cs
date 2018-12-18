@@ -142,7 +142,7 @@ namespace SAT.HR.Controllers
         {
             try
             {
-                var filePath = System.IO.File.ReadAllBytes(Path.Combine(SysConfig.PathReport, fileName));
+                var filePath = System.IO.File.ReadAllBytes(Path.Combine(SysConfig.PathDownloadReport, fileName));
                 return File(filePath, "application", fileName);
             }
             catch (Exception ex)
