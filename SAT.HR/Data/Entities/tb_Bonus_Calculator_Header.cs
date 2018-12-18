@@ -15,6 +15,7 @@ namespace SAT.HR.Data.Entities
     public partial class tb_Bonus_Calculator_Header
     {
         public int HeaderID { get; set; }
+        public Nullable<int> Seq { get; set; }
         public Nullable<int> Year { get; set; }
         public Nullable<decimal> Rate { get; set; }
         public string BookCmd { get; set; }

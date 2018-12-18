@@ -222,6 +222,20 @@
     .nav-pills .nav-item i {
        padding: 0 20px 0 20px;
     }
+
+    thead {
+        display: table;
+        table-layout:fixed;
+    }
+    tbody {
+        display: block;
+        height: 25em;
+        overflow-y: scroll;
+    }
+    tbody tr {
+        display: table;
+        table-layout:fixed;
+    }
 </style>
 
 @section Scripts {
@@ -254,7 +268,9 @@
                 $(".btn-finish").hide();
             }
             else if (this.id == "li-step2") {
-                step2();
+                if ($('.li-step3').find('a').hasClass('disabled')) {
+                    step2();
+                }
 
                 if (!$('.li-step2').find('a').hasClass('disabled')) {
                     $(".btn-previous").show();
@@ -333,7 +349,6 @@
             }
         });
 
-
         function step2() {
             @*swal({
                 title: '',
@@ -371,6 +386,8 @@
 
             $(".btn-next").hide();
             $(".btn-finish").show();
+
+            $("#BookCmd").focus();
         }
 
         function BonusCalculatorStep2() {
@@ -406,6 +423,23 @@
                 }
             });
         }
+
+
+        $(".btn-export").click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ExportBonusCalculatorToExcel", "Payroll")',
+                data: formData,
+                dataType: 'json',
+                enctype: 'multipart/form-data',
+                processData: false,
+                contentType: false,
+                success: function (res) {
+
+                }
+            });
+        });
+
 
     });
 

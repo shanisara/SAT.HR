@@ -15,6 +15,7 @@ namespace SAT.HR.Data.Entities
     public partial class tb_Salary_Increase_Header
     {
         public int HeaderID { get; set; }
+        public Nullable<int> Seq { get; set; }
         public Nullable<int> Year { get; set; }
         public Nullable<int> UpLevel { get; set; }
         public Nullable<decimal> UpStep { get; set; }

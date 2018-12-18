@@ -2,7 +2,7 @@
 
 @*@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-step2" }))
 {*@
-    <div class="card">
+    <div class="">
         <div class="card-header">
             <h4 class="card-title"><span>ตรวจสอบและแก้ไข</span></h4>
             <p class="card-category"> รายงานการปรับเงินเดือน </p>
@@ -11,12 +11,12 @@
             </div>
         </div>
         <div class="card-body">
-            <div class="level-transfer">
+            <div>
                 <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
                     <thead>
                         <tr>
-                            <th style="width:4%" class="disabled-sorting">ลำดับ</th>
-                            <th style="width:5%">
+                            <th style="width:6%; text-align:left;" class="disabled-sorting">ลำดับ</th>
+                            <th style="width:4%; text-align:left;">
                                 <div class="form-check">
                                     <label class="form-check-label">
                                         <input class="form-check-input check-all" type="checkbox">
@@ -24,16 +24,16 @@
                                     </label>
                                 </div>
                             </th>
-                            <th style="width:7%">ปีบัญชี</th>
-                            <th style="width:6%">รอบที่</th>
-                            <th style="width:25%">ชื่อ นามสกุล</th>
-                            <th style="width:5%">อัตรา</th>
-                            <th style="width:5%">ระดับ</th>
-                            <th style="width:7%">ขั้นเก่า</th>
-                            <th style="width:7%">ขั้นใหม่</th>
-                            <th style="width:11%;text-align:right;">เงินเดือนเก่า</th>
+                            <th style="width:7%; text-align:left;">ปีบัญชี</th>
+                            <th style="width:6%; text-align:left;">รอบที่</th>
+                            <th style="width:20%; text-align:left;">ชื่อ นามสกุล</th>
+                            <th style="width:6%; text-align:left;">อัตรา</th>
+                            <th style="width:5%; text-align:left;">ระดับ</th>
+                            <th style="width:7%; text-align:center;">ขั้นเก่า</th>
+                            <th style="width:7%; text-align:center;">ขั้นใหม่</th>
+                            <th style="width:12%;text-align:right;">เงินเดือนเก่า</th>
                             <th style="width:11%;text-align:right;">เงินเดือนใหม่</th>
-                            <th style="width:5%" class="disabled-sorting text-right">แก้ไข</th>
+                            <th style="width:15%;text-align:left;" class="disabled-sorting">แก้ไข</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,8 +42,8 @@
                             for (int i = 0; i < Model.Step2.Count; i++)
                             {
                                 <tr id="@Model.Step2[i].UserID">
-                                    <td>@(i + 1)</td>
-                                    <td>
+                                    <td style="width:6%">@(i + 1)</td>
+                                    <td style="width:6%">
 
                                         <div class="form-check">
                                             <label class="form-check-label">
@@ -52,16 +52,16 @@
                                             </label>
                                         </div>
                                     </td>
-                                    <td>@Model.Step2[i].Year</td>
-                                    <td>@Model.Step2[i].Seq</td>
-                                    <td>@Model.Step2[i].FullNameTh</td>
-                                    <td>@Model.Step2[i].UpStep</td>
-                                    <td>@Model.Step2[i].Old_Level</td>
-                                    <td style="color:blue">@Model.Step2[i].Old_Step</td>
-                                    <td style="color:red">@Model.Step2[i].New_Step</td>
-                                    <td style="text-align:right;color:blue">@Model.Step2[i].Old_Salary</td>
-                                    <td style="text-align:right;color:red">@Model.Step2[i].New_Salary</td>
-                                    <td>
+                                    <td style="width:7%">@Model.Step2[i].Year</td>
+                                    <td style="width:6%">@Model.Step2[i].Seq</td>
+                                    <td style="width:21%">@Model.Step2[i].FullNameTh</td>
+                                    <td style="width:6%">@Model.Step2[i].UpStep</td>
+                                    <td style="width:6%">@Model.Step2[i].Old_Level</td>
+                                    <td style="width:7%; color:blue">@Model.Step2[i].Old_Step</td>
+                                    <td style="width:7%; color:red">@Model.Step2[i].New_Step</td>
+                                    <td style="width:11%; text-align:right;color:blue">@Model.Step2[i].Old_Salary</td>
+                                    <td style="width:11%; text-align:right;color:red">@Model.Step2[i].New_Salary</td>
+                                    <td style="width:6%;">
                                         <div class="td-actions pull-right">
                                             <button data-id="@Model.Step2[i].UserID" data-level="@Model.Step2[i].Old_Level" data-step="@Model.Step2[i].New_Step" data-salary="@Model.Step2[i].New_Salary" data-year="@Model.Step2[i].Year" data-fullname="@Model.Step2[i].FullNameTh" title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-success btn-edit" ><i class="material-icons">edit</i></button>
                                         </div>

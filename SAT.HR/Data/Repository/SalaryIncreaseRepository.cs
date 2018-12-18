@@ -82,7 +82,7 @@ namespace SAT.HR.Data
             }
         }
 
-        public ResponseData SalaryIncreaseConfirm(SalaryIncreaseViewModel data)
+        public ResponseData UpdateSalaryIncrease(SalaryIncreaseViewModel data)
         {
             using (SATEntities db = new SATEntities())
             {
@@ -108,17 +108,20 @@ namespace SAT.HR.Data
                                 if (!isExists)
                                     System.IO.Directory.CreateDirectory(directory);
 
-                                string newFileName = data.PathFile + "." + fileExt;
+                                string newFileName = data.Seq + "_" + data.Year + "." + fileExt;
                                 string fileLocation = Path.Combine(directory, newFileName);
 
                                 fileUpload.SaveAs(fileLocation);
 
-                                head.PathFile = newFileName;
+                                data.PathFile = newFileName;
                             }
                         }
 
                         #endregion
 
+                        #region tb_Salary_Increase_Header
+
+                        head.Seq = data.Step2.Count > 0 ? data.Step2[0].Seq : 1;
                         head.Year = data.Year;
                         head.UpLevel = data.UpLevel;
                         head.UpStep = data.UpStep;
@@ -133,14 +136,17 @@ namespace SAT.HR.Data
                         db.tb_Salary_Increase_Header.Add(head);
                         db.SaveChanges();
 
+                        #endregion
+
                         int headerID = head.HeaderID;
                         if (data.Step2 != null)
                         {
                             foreach (var item in data.Step2)
                             {
-                                #region detail
                                 if (Convert.ToBoolean(item.Selected))
                                 {
+                                    #region tb_Salary_Increase_Detail
+
                                     tb_Salary_Increase_Detail detail = new tb_Salary_Increase_Detail();
                                     detail.HeaderID = headerID;
                                     detail.Year = item.Year;
@@ -159,9 +165,21 @@ namespace SAT.HR.Data
                                     detail.ModifyDate = DateTime.Now;
                                     db.tb_Salary_Increase_Detail.Add(detail);
                                     db.SaveChanges();
-                                }
 
-                                #endregion 
+                                    #endregion
+
+                                    #region tb_user
+
+                                    var user = db.tb_User.Where(m => m.UserID == item.UserID).FirstOrDefault();
+                                    user.SalaryLevel = item.New_Level;
+                                    user.SalaryStep = item.New_Step;
+                                    user.Salary = item.New_Salary;
+                                    user.ModifyBy = UtilityService.User.UserID;
+                                    user.ModifyDate = DateTime.Now;
+                                    db.SaveChanges();
+
+                                    #endregion
+                                }
                             }
                         }
 
@@ -208,5 +226,28 @@ namespace SAT.HR.Data
             }
             return model;
         }
+
+        public List<SalaryIncreaseToExport> GetSalaryIncreaseToExport(SalaryIncreaseViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var model = new List<SalaryIncreaseToExport>();
+                foreach (var item in data.Step2)
+                {
+                    SalaryIncreaseToExport obj = new SalaryIncreaseToExport();
+                    obj.Year = item.Year;
+                    obj.FullNameTh = item.FullNameTh;
+                    obj.UpStep = item.UpStep;
+                    obj.Old_Level = item.Old_Level;
+                    obj.Old_Step = item.Old_Step;
+                    obj.New_Step = item.New_Step;
+                    obj.Old_Salary = item.Old_Salary;
+                    obj.New_Salary = item.New_Salary;
+                    model.Add(obj);
+                }
+                return model;
+            }
+        }
+
     }
 }

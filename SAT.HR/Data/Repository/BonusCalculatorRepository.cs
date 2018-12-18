@@ -89,7 +89,7 @@ namespace SAT.HR.Data
             }
         }
 
-        public ResponseData BonusCalculatorConfirm(BonusCalculatorViewModel data)
+        public ResponseData UpdateBonusCalculator(BonusCalculatorViewModel data)
         {
             using (SATEntities db = new SATEntities())
             {
@@ -115,17 +115,20 @@ namespace SAT.HR.Data
                                 if (!isExists)
                                     System.IO.Directory.CreateDirectory(directory);
 
-                                string newFileName = data.PathFile + "." + fileExt;
+                                string newFileName = data.Seq + "_" + data.Year + "." + fileExt;
                                 string fileLocation = Path.Combine(directory, newFileName);
 
                                 fileUpload.SaveAs(fileLocation);
 
-                                head.PathFile = newFileName;
+                                data.PathFile = newFileName;
                             }
                         }
 
                         #endregion
 
+                        #region tb_Bonus_Calculator_Header
+
+                        head.Seq = data.Step2.Count > 0 ? data.Step2[0].Seq : 1;
                         head.Year = data.Year;
                         head.Rate = data.Rate;
                         head.BookCmd = data.BookCmd;
@@ -138,12 +141,14 @@ namespace SAT.HR.Data
                         db.tb_Bonus_Calculator_Header.Add(head);
                         db.SaveChanges();
 
+                        #endregion 
+
                         int headerID = head.HeaderID;
                         if (data.Step2 != null)
                         {
                             foreach (var item in data.Step2)
                             {
-                                #region detail
+                                #region tb_Bonus_Calculator_Detail
 
                                 tb_Bonus_Calculator_Detail detail = new tb_Bonus_Calculator_Detail();
                                 detail.HeaderID = headerID;
@@ -172,6 +177,7 @@ namespace SAT.HR.Data
                                 db.SaveChanges();
 
                                 #endregion 
+
                             }
                         }
 
@@ -218,5 +224,38 @@ namespace SAT.HR.Data
             }
             return model;
         }
+
+        public List<BonusCalculatorToExport> GetBonusCalculatorToExport(BonusCalculatorViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var model = new List<BonusCalculatorToExport>();
+                foreach (var item in data.Step2)
+                {
+                    BonusCalculatorToExport obj = new Models.BonusCalculatorToExport();
+                    obj.Year = item.Year;
+                    obj.FullNameTh = item.FullNameTh;
+                    obj.Salary = item.Salary;
+                    obj.UpStep = item.UpStep;
+                    obj.Bonus = item.Bonus;
+                    obj.M10 = item.M10;
+                    obj.M11 = item.M11;
+                    obj.M12 = item.M12;
+                    obj.M1 = item.M1;
+                    obj.M2 = item.M2;
+                    obj.M3 = item.M3;
+                    obj.M4 = item.M4;
+                    obj.M5 = item.M5;
+                    obj.M6 = item.M6;
+                    obj.M7 = item.M7;
+                    obj.M8 = item.M8;
+                    obj.M9 = item.M9;
+                    model.Add(obj);
+                }
+                return model;
+            }
+        }
+
+
     }
 }

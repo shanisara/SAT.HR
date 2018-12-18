@@ -77,31 +77,6 @@ namespace SAT.HR.Helpers
             }
         }
 
-        //public static List<PermissMenu> MenuInfo
-        //{
-        //    get
-        //    {
-        //        var obj = GetSessionValue<List<PermissMenu>>(EnumType.eUserLogin.SESSION_MENU);
-        //        if (obj == null)
-        //        {
-        //            try
-        //            {
-        //                obj = new PermissionModels().DoloadMenu(DebtCollection.Common.AppUtils.UserInfo.UserRoleId);
-        //                DebtCollection.Common.AppUtils.MenuInfo = obj;
-        //            }
-        //            catch
-        //            {
-        //                return null;
-        //            }
-        //        }
-        //        return obj;
-        //    }
-        //    set
-        //    {
-        //        SetSessionValue(EnumType.eUserLogin.SESSION_MENU, value);
-        //    }
-        //}
-
         public static DateTime ConvertDateThai(DateTime? date)
         {
             DateTime dateThai = Convert.ToDateTime(date.Value.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("th-TH")));

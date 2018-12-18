@@ -86,8 +86,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Month> tb_Month { get; set; }
         public virtual DbSet<tb_Move_Level_Detail> tb_Move_Level_Detail { get; set; }
         public virtual DbSet<tb_Move_Level_Head> tb_Move_Level_Head { get; set; }
-        public virtual DbSet<tb_Move_Man_Power_Detail> tb_Move_Man_Power_Detail { get; set; }
-        public virtual DbSet<tb_Move_Man_Power_Head> tb_Move_Man_Power_Head { get; set; }
         public virtual DbSet<tb_Nationality> tb_Nationality { get; set; }
         public virtual DbSet<tb_Occupation> tb_Occupation { get; set; }
         public virtual DbSet<tb_Part_Type> tb_Part_Type { get; set; }
@@ -172,10 +170,12 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Mail_Template> tb_Mail_Template { get; set; }
         public virtual DbSet<vw_Menu_Role> vw_Menu_Role { get; set; }
         public virtual DbSet<tb_Bonus_Calculator_Detail> tb_Bonus_Calculator_Detail { get; set; }
-        public virtual DbSet<tb_Bonus_Calculator_Header> tb_Bonus_Calculator_Header { get; set; }
-        public virtual DbSet<tb_Salary_Increase_Header> tb_Salary_Increase_Header { get; set; }
         public virtual DbSet<tb_Salary_Increase_Detail> tb_Salary_Increase_Detail { get; set; }
         public virtual DbSet<vw_Organization> vw_Organization { get; set; }
+        public virtual DbSet<tb_Bonus_Calculator_Header> tb_Bonus_Calculator_Header { get; set; }
+        public virtual DbSet<tb_Salary_Increase_Header> tb_Salary_Increase_Header { get; set; }
+        public virtual DbSet<tb_Move_Man_Power_Detail> tb_Move_Man_Power_Detail { get; set; }
+        public virtual DbSet<tb_Move_Man_Power_Head> tb_Move_Man_Power_Head { get; set; }
     
         public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
         {
