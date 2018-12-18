@@ -31,12 +31,12 @@
                                 </a>
                             </li>
                             <li class="nav-item li-step2" id="li-step2">
-                                <a class="nav-link" role="tablist" href="#step2" data-toggle="tab" data-id="tab-step2">
+                                <a class="nav-link" role="tablist" href="#step2" data-toggle="tab" data-id="tab-step2" style="padding-left: 20px;padding-right: 20px;">
                                     <i class="material-icons">filter_2</i> ตรวจสอบและแก้ไข
                                 </a>
                             </li>
                             <li class="nav-item li-step3" id="li-step3">
-                                <a class="nav-link disabled" role="tablist" href="#step3" data-toggle="tab" data-id="tab-step3">
+                                <a class="nav-link disabled" role="tablist" href="#step3" data-toggle="tab" data-id="tab-step3" style="padding-left: 20px;padding-right: 20px;">
                                     <i class="material-icons">filter_3</i> ยืนยันการปรับขั้นเงินเดือน
                                 </a>
                             </li>
@@ -45,22 +45,20 @@
 
                     @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-step" }))
                     {
-                        <div class="card-body">
-                            <div class="tab-content tab-subcategories">
-                                <div class="tab-pane active div-step1" id="step1">
-                                    <div id="div-step1">
-                                        @Html.Partial("_SalaryIncreaseStep1", Model)
-                                    </div>
+                        <div class="tab-content tab-subcategories">
+                            <div class="tab-pane active div-step1" id="step1">
+                                <div id="div-step1">
+                                    @Html.Partial("_SalaryIncreaseStep1", Model)
                                 </div>
-                                <div class="tab-pane div-step2" id="step2">
-                                    <div id="div-step2">
+                            </div>
+                            <div class="tab-pane div-step2" id="step2">
+                                <div id="div-step2">
 
-                                    </div>
                                 </div>
-                                <div class="tab-pane div-step3" id="step3">
-                                    <div id="div-step3">
-                                        @Html.Partial("_SalaryIncreaseStep3")
-                                    </div>
+                            </div>
+                            <div class="tab-pane div-step3" id="step3">
+                                <div id="div-step3">
+                                    @Html.Partial("_SalaryIncreaseStep3")
                                 </div>
                             </div>
                         </div>
@@ -76,6 +74,7 @@
                         <div class="clearfix"></div>
                     </div>
                     <!-- wizard container -->
+                    <button class="btn btn-primary btn-sm btn-export" data-toggle="modal" style="display:none">Export</button>
                 </div>
             </div>
         </div>
@@ -105,6 +104,7 @@
 <!--  End Modal -->
 
 <style>
+
     .card .card-body .col-form-label, .card .card-body {
         padding-top: 0px;
     }
@@ -112,6 +112,25 @@
         .card .card-body .col-form-label.label-checkbox, .card .card-body .label-on-right.label-checkbox {
             padding-top: 0px;
         }
+
+    .nav-pills .nav-item i {
+       padding: 0 20px 0 20px;
+    }
+
+    thead {
+        display: table;
+        table-layout:fixed;
+    }
+    tbody {
+        display: block;
+        height: 25em;
+        overflow-y: scroll;
+    }
+    tbody tr {
+        display: table;
+        table-layout:fixed;
+    }
+    
 </style>
 
 @section Scripts {
@@ -144,7 +163,9 @@
                 $(".btn-finish").hide();
             }
             else if (this.id == "li-step2") {
-                step2();
+                if ($('.li-step3').find('a').hasClass('disabled')) {
+                    step2();
+                }
 
                 if (!$('.li-step2').find('a').hasClass('disabled')) {
                     $(".btn-previous").show();
@@ -198,13 +219,25 @@
         });
 
         $(".btn-finish").click(function () {
-            //var BookCmd = $('#BookCmd').val();
-            //var DateCmd = $('#DateCmd').val();
-            //var DateEff = $('#DateEff').val();
+            var BookCmd = $('#BookCmd').val();
+            var DateCmd = $('#DateCmd').val();
+            var DateEff = $('#DateEff').val();
 
-            var status = $(".form-step").valid();
-            if (!status) {
-                return false;
+            //var status = $(".form-step").valid();
+            //if (!status) {
+            //    return false;
+            //}
+            if (BookCmd == '') {
+                swal({
+                    title: "",
+                    text: "กรุณาระบุคำสั่ง",
+                    type: "warning",
+                    confirmButtonClass: "btn btn-primary",
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                    buttonsStyling: false,
+                }).then(function () {
+                    $('#BookCmd').focus();
+                });
             }
             else {
                 swal({
@@ -248,6 +281,7 @@
                 $(".btn-previous").show();
 
                 SalaryIncreaseStep2();
+
             //}).catch(swal.noop)
         }
 
@@ -260,6 +294,8 @@
 
             $(".btn-next").hide();
             $(".btn-finish").show();
+
+            $("#BookCmd").focus();
         }
 
         function SalaryIncreaseStep2() {
@@ -296,6 +332,16 @@
                 }
             });
         }
+
+        $(".btn-export").click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ExportSalaryIncreaseToExcel", "Payroll")',
+                data: $(".form-step").serialize(),
+                success: function () { }
+            });
+        });
+
 
     });
 

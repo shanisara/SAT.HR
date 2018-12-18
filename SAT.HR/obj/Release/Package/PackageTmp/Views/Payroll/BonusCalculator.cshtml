@@ -29,12 +29,12 @@
                             </a>
                         </li>
                         <li class="nav-item li-step2" id="li-step2">
-                            <a class="nav-link disabled" role="tablist" href="#step2" data-toggle="tab" data-id="tab-step2">
+                            <a class="nav-link  p-l-20 p-r-20" role="tablist" href="#step2" data-toggle="tab" data-id="tab-step2" style="padding-left: 20px;padding-right: 20px;">
                                 <i class="material-icons">filter_2</i> ตรวจสอบและแก้ไข
                             </a>
                         </li>
                         <li class="nav-item li-step3" id="li-step3">
-                            <a class="nav-link disabled" role="tablist" href="#step3" data-toggle="tab" data-id="tab-step3">
+                            <a class="nav-link disabled" role="tablist" href="#step3" data-toggle="tab" data-id="tab-step3" style="padding-left: 20px;padding-right: 20px;">
                                 <i class="material-icons">filter_3</i> ยืนยันการประมวลผลโบนัส
                             </a>
                         </li>
@@ -70,6 +70,7 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
+                <button class="btn btn-primary btn-sm btn-export" data-toggle="modal" style="display:none">Export</button>
 
                 <div class="col-md-11 col-12 mr-auto ml-auto">
                     @*<div class="wizard-container">
@@ -188,6 +189,7 @@
         </div>
     </div>
 </div>
+
 <!-- Classic Modal -->
 <div class="modal fade modal-large modal-detail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -211,6 +213,7 @@
 <!--  End Modal -->
 
 <style>
+
     .card .card-body .col-form-label, .card .card-body {
         padding-top: 0px;
     }
@@ -218,6 +221,25 @@
         .card .card-body .col-form-label.label-checkbox, .card .card-body .label-on-right.label-checkbox {
             padding-top: 5px;
         }
+
+    .nav-pills .nav-item i {
+       padding: 0 20px 0 20px;
+    }
+
+    table {
+        display: block;
+        table-layout: fixed;
+        white-space: nowrap;
+        overflow-x: auto;
+        height: 428px;
+    }
+    /*tbody {
+        display: block;
+        height: 428px;
+        overflow-y: scroll;
+    }*/
+
+
 </style>
 
 @section Scripts {
@@ -250,7 +272,9 @@
                 $(".btn-finish").hide();
             }
             else if (this.id == "li-step2") {
-                step2();
+                if ($('.li-step3').find('a').hasClass('disabled')) {
+                    step2();
+                }
 
                 if (!$('.li-step2').find('a').hasClass('disabled')) {
                     $(".btn-previous").show();
@@ -305,12 +329,24 @@
         });
 
         $(".btn-finish").click(function () {
-            //var BookCmd = $('#BookCmd').val();
-            //var DateCmd = $('#DateCmd').val();
+            var BookCmd = $('#BookCmd').val();
+            var DateCmd = $('#DateCmd').val();
 
-            var status = $(".form-step").valid();
-            if (!status) {
-                return false;
+            //var status = $(".form-step").valid();
+            //if (!status) {
+            //    return false;
+            //}
+            if (BookCmd == '') {
+                swal({
+                    title: "",
+                    text: "กรุณาระบุคำสั่ง",
+                    type: "warning",
+                    confirmButtonClass: "btn btn-primary",
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                    buttonsStyling: false,
+                }).then(function () {
+                    $('#BookCmd').focus();
+                });
             }
             else {
                 swal({
@@ -328,7 +364,6 @@
                 }).catch(swal.noop)
             }
         });
-
 
         function step2() {
             @*swal({
@@ -367,11 +402,13 @@
 
             $(".btn-next").hide();
             $(".btn-finish").show();
+
+            $("#BookCmd").focus();
         }
 
         function BonusCalculatorStep2() {
             var year = parseInt($('#Year').val());
-            var step = parseFloat($('#UpStep').val());
+            var step = parseFloat($('#Rate').val());
             var url = '@Url.Action("BonusCalculatorStep2", "Payroll")?year=' + year + '&step=' + step;
             $("#div-step2").load(url);
         }
@@ -382,7 +419,7 @@
             formData.append(".FileUpload", FileUpload);
             $.ajax({
                 type: 'POST',
-                url: '@Url.Action("BonusCalculatorProcess", "Payroll")',
+                url: '@Url.Action("BonusCalculatorConfirm", "Payroll")',
                 data: formData,
                 dataType: 'json',
                 enctype: 'multipart/form-data',
@@ -402,6 +439,15 @@
                 }
             });
         }
+
+        $(".btn-export").click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ExportBonusCalculatorToExcel", "Payroll")',
+                data: $(".form-step").serialize(),
+                success: function () { }
+            });
+        });
 
     });
 

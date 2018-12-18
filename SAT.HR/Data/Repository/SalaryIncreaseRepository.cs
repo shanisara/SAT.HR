@@ -234,7 +234,7 @@ namespace SAT.HR.Data
                 var model = new List<SalaryIncreaseToExport>();
                 foreach (var item in data.Step2)
                 {
-                    if (Convert.ToBoolean(item.Selected))
+                    //if (Convert.ToBoolean(item.Selected))
                     {
                         SalaryIncreaseToExport obj = new SalaryIncreaseToExport();
                         obj.Year = item.Year;
