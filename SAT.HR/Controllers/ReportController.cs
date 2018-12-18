@@ -19,13 +19,27 @@ namespace SAT.HR.Controllers
     {
         string FileName = string.Empty;
 
-        #region // รายงาน:ส่วนงานทรัพยากรบุคคล
-
         public ActionResult Resource(int id)
         {
             var data = new MenuRepository().MenuReportByRole(id);
             return View(data);
         }
+
+        public ActionResult Benefit(int id)
+        {
+            var data = new MenuRepository().MenuReportByRole(id);
+            return View(data);
+        }
+
+        public ActionResult Human(int id)
+        {
+            var data = new MenuRepository().MenuReportByRole(id);
+            return View(data);
+        }
+
+
+        #region // รายงาน:ส่วนงานทรัพยากรบุคคล
+
 
         public ActionResult ReportEducation()
         {
@@ -34,6 +48,7 @@ namespace SAT.HR.Controllers
 
             return View("Report_Education", model); ;
         }
+
 
         public ActionResult ReportEmployee()
         {
@@ -99,29 +114,22 @@ namespace SAT.HR.Controllers
             }
         }
 
-        #endregion 
+        #endregion
+
 
         #region // รายงาน:ส่วนงานสวัสดิการ
 
-        public ActionResult Benefit(int id)
-        {
-            var data = new MenuRepository().MenuReportByRole(id);
-            return View(data);
-        }
 
-        #endregion 
+
+        #endregion
+
 
         #region // รายงาน:ส่วนงานพัฒนาบุคลากร
 
-        public ActionResult Human(int id)
-        {
-            var data = new MenuRepository().MenuReportByRole(id);
-            return View(data);
-        }
 
-        #endregion 
+        #endregion
 
-      
+
         [HttpGet]
         public FileResult DownloadFile(string fileName)
         {
@@ -130,12 +138,12 @@ namespace SAT.HR.Controllers
                 var filePath = System.IO.File.ReadAllBytes(Path.Combine(SysConfig.PathReport, fileName));
                 return File(filePath, "application", fileName);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
-       
+
         }
-        
+
     }
 }
