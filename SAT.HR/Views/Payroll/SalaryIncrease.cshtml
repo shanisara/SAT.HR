@@ -30,7 +30,7 @@
                                     <i class="material-icons">filter_1</i> ประมวลผล
                                 </a>
                             </li>
-                            <li class="nav-item li-step2" id="li-step2">
+                            <li class="nav-item li-step2 p-l-20 p-r-20" id="li-step2">
                                 <a class="nav-link" role="tablist" href="#step2" data-toggle="tab" data-id="tab-step2">
                                     <i class="material-icons">filter_2</i> ตรวจสอบและแก้ไข
                                 </a>
@@ -74,6 +74,7 @@
                         <div class="clearfix"></div>
                     </div>
                     <!-- wizard container -->
+                    <button class="btn btn-primary btn-sm btn-export" data-toggle="modal" style="display:none">Export</button>
                 </div>
             </div>
         </div>
@@ -103,6 +104,14 @@
 <!--  End Modal -->
 
 <style>
+
+    p-l-20{
+        padding-left:20px;
+    }
+    p-r-20 {
+        padding-right: 20px;
+    }
+
     .card .card-body .col-form-label, .card .card-body {
         padding-top: 0px;
     }
@@ -217,13 +226,25 @@
         });
 
         $(".btn-finish").click(function () {
-            //var BookCmd = $('#BookCmd').val();
-            //var DateCmd = $('#DateCmd').val();
-            //var DateEff = $('#DateEff').val();
+            var BookCmd = $('#BookCmd').val();
+            var DateCmd = $('#DateCmd').val();
+            var DateEff = $('#DateEff').val();
 
-            var status = $(".form-step").valid();
-            if (!status) {
-                return false;
+            //var status = $(".form-step").valid();
+            //if (!status) {
+            //    return false;
+            //}
+            if (BookCmd == '') {
+                swal({
+                    title: "",
+                    text: "กรุณาระบุคำสั่ง",
+                    type: "warning",
+                    confirmButtonClass: "btn btn-primary",
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                    buttonsStyling: false,
+                }).then(function () {
+                    $('#BookCmd').focus();
+                });
             }
             else {
                 swal({
@@ -320,15 +341,11 @@
         }
 
         $(".btn-export").click(function () {
-            debugger;
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("ExportSalaryIncreaseToExcel", "Payroll")',
                 data: $(".form-step").serialize(),
-                dataType: 'json',
-                success: function (res) {
-
-                }
+                success: function () { }
             });
         });
 

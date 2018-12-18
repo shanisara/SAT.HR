@@ -66,7 +66,6 @@ namespace SAT.HR.Controllers
             return new FilePathResult(System.IO.Path.Combine(filePath, fileName), contentType);
         }
 
-        [HttpGet]
         public FileContentResult ExportSalaryIncreaseToExcel(SalaryIncreaseViewModel data)
         {
             List<SalaryIncreaseToExport> salaryinc = new SalaryIncreaseRepository().GetSalaryIncreaseToExport(data);
@@ -137,7 +136,6 @@ namespace SAT.HR.Controllers
             return new FilePathResult(System.IO.Path.Combine(filePath, fileName), contentType);
         }
 
-        [HttpGet]
         public FileContentResult ExportBonusCalculatorToExcel(BonusCalculatorViewModel data)
         {
             List<BonusCalculatorToExport> bonuscal = new BonusCalculatorRepository().GetBonusCalculatorToExport(data);

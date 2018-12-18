@@ -115,7 +115,7 @@ namespace SAT.HR.Data
                                 if (!isExists)
                                     System.IO.Directory.CreateDirectory(directory);
 
-                                string newFileName = data.Seq + "_" + data.Year + "." + fileExt;
+                                string newFileName = (data.Step2.Count > 0 ? data.Step2[0].Seq : 1) + "_" + data.Year + "." + fileExt;
                                 string fileLocation = Path.Combine(directory, newFileName);
 
                                 fileUpload.SaveAs(fileLocation);
