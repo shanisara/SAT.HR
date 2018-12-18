@@ -234,16 +234,19 @@ namespace SAT.HR.Data
                 var model = new List<SalaryIncreaseToExport>();
                 foreach (var item in data.Step2)
                 {
-                    SalaryIncreaseToExport obj = new SalaryIncreaseToExport();
-                    obj.Year = item.Year;
-                    obj.FullNameTh = item.FullNameTh;
-                    obj.UpStep = item.UpStep;
-                    obj.Old_Level = item.Old_Level;
-                    obj.Old_Step = item.Old_Step;
-                    obj.New_Step = item.New_Step;
-                    obj.Old_Salary = item.Old_Salary;
-                    obj.New_Salary = item.New_Salary;
-                    model.Add(obj);
+                    //if (Convert.ToBoolean(item.Selected))
+                    {
+                        SalaryIncreaseToExport obj = new SalaryIncreaseToExport();
+                        obj.Year = item.Year;
+                        obj.FullNameTh = item.FullNameTh;
+                        obj.UpStep = item.UpStep;
+                        obj.Old_Level = item.Old_Level;
+                        obj.Old_Step = item.Old_Step;
+                        obj.New_Step = item.New_Step;
+                        obj.Old_Salary = item.Old_Salary;
+                        obj.New_Salary = item.New_Salary;
+                        model.Add(obj);
+                    }
                 }
                 return model;
             }
