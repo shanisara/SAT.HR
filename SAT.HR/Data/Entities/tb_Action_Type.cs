@@ -17,8 +17,8 @@ namespace SAT.HR.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tb_Action_Type()
         {
-            this.tb_Move_Man_Power_Head = new HashSet<tb_Move_Man_Power_Head>();
             this.tb_User_Position = new HashSet<tb_User_Position>();
+            this.tb_Move_Man_Power_Head = new HashSet<tb_Move_Man_Power_Head>();
         }
     
         public int ActID { get; set; }
@@ -32,8 +32,8 @@ namespace SAT.HR.Data.Entities
         public Nullable<bool> ActMove { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Move_Man_Power_Head> tb_Move_Man_Power_Head { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User_Position> tb_User_Position { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Move_Man_Power_Head> tb_Move_Man_Power_Head { get; set; }
     }
 }

@@ -77,31 +77,6 @@ namespace SAT.HR.Helpers
             }
         }
 
-        //public static List<PermissMenu> MenuInfo
-        //{
-        //    get
-        //    {
-        //        var obj = GetSessionValue<List<PermissMenu>>(EnumType.eUserLogin.SESSION_MENU);
-        //        if (obj == null)
-        //        {
-        //            try
-        //            {
-        //                obj = new PermissionModels().DoloadMenu(DebtCollection.Common.AppUtils.UserInfo.UserRoleId);
-        //                DebtCollection.Common.AppUtils.MenuInfo = obj;
-        //            }
-        //            catch
-        //            {
-        //                return null;
-        //            }
-        //        }
-        //        return obj;
-        //    }
-        //    set
-        //    {
-        //        SetSessionValue(EnumType.eUserLogin.SESSION_MENU, value);
-        //    }
-        //}
-
         public static DateTime ConvertDateThai(DateTime? date)
         {
             DateTime dateThai = Convert.ToDateTime(date.Value.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("th-TH")));
@@ -265,6 +240,20 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathUploadLeaveFile");
             }
         }
+        public static string PathUploadSalaryIncrease
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathUploadSalaryIncrease");
+            }
+        }
+        public static string PathUploadBonusCalculator
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathUploadBonusCalculator");
+            }
+        }
 
 
         public static string PathDownloadUserAvatar
@@ -328,6 +317,20 @@ namespace SAT.HR.Helpers
             get
             {
                 return SysConfigRepository.GetKeyValue("PathDownloadLeaveFile");
+            }
+        }
+        public static string PathDownloadSalaryIncrease
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathDownloadSalaryIncrease");
+            }
+        }
+        public static string PathDownloadBonusCalculator
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathDownloadBonusCalculator");
             }
         }
 

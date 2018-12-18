@@ -15,10 +15,15 @@ namespace SAT.HR.Data.Entities
     public partial class tb_Bonus_Calculator_Header
     {
         public int HeaderID { get; set; }
+        public Nullable<int> Seq { get; set; }
         public Nullable<int> Year { get; set; }
         public Nullable<decimal> Rate { get; set; }
         public string BookCmd { get; set; }
         public Nullable<System.DateTime> DateCmd { get; set; }
         public string PathFile { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<int> CreateBy { get; set; }
+        public Nullable<System.DateTime> ModifyDate { get; set; }
+        public Nullable<int> ModifyBy { get; set; }
     }
 }

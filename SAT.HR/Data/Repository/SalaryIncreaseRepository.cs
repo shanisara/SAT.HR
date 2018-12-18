@@ -1,7 +1,9 @@
 ﻿using SAT.HR.Data.Entities;
+using SAT.HR.Helpers;
 using SAT.HR.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -80,22 +82,172 @@ namespace SAT.HR.Data
             }
         }
 
-        public ResponseData SalaryIncreaseConfirm(SalaryIncreaseViewModel data)
+        public ResponseData UpdateSalaryIncrease(SalaryIncreaseViewModel data)
         {
             using (SATEntities db = new SATEntities())
             {
-                ResponseData result = new ResponseData();
-                try
+                using (var transection = db.Database.BeginTransaction())
                 {
-                    
+                    ResponseData result = new ResponseData();
+                    try
+                    {
+                        tb_Salary_Increase_Header head = new tb_Salary_Increase_Header();
+
+                        #region FileUpload
+
+                        if (data.FileUpload != null)
+                        {
+                            HttpPostedFileBase fileUpload = data.FileUpload;
+                            if (fileUpload != null && fileUpload.ContentLength > 0)
+                            {
+                                var fileName = Path.GetFileName(fileUpload.FileName);
+                                var fileExt = System.IO.Path.GetExtension(fileUpload.FileName).Substring(1);
+
+                                string directory = SysConfig.PathUploadSalaryIncrease;
+                                bool isExists = System.IO.Directory.Exists(directory);
+                                if (!isExists)
+                                    System.IO.Directory.CreateDirectory(directory);
+
+                                string newFileName = data.Seq + "_" + data.Year + "." + fileExt;
+                                string fileLocation = Path.Combine(directory, newFileName);
+
+                                fileUpload.SaveAs(fileLocation);
+
+                                data.PathFile = newFileName;
+                            }
+                        }
+
+                        #endregion
+
+                        #region tb_Salary_Increase_Header
+
+                        head.Seq = data.Step2.Count > 0 ? data.Step2[0].Seq : 1;
+                        head.Year = data.Year;
+                        head.UpLevel = data.UpLevel;
+                        head.UpStep = data.UpStep;
+                        head.BookCmd = data.BookCmd;
+                        head.DateCmd = data.DateCmd;
+                        head.DateEff = data.DateEff;
+                        head.PathFile = data.PathFile;
+                        head.CreateBy = UtilityService.User.UserID;
+                        head.CreateDate = DateTime.Now;
+                        head.ModifyBy = UtilityService.User.UserID;
+                        head.ModifyDate = DateTime.Now;
+                        db.tb_Salary_Increase_Header.Add(head);
+                        db.SaveChanges();
+
+                        #endregion
+
+                        int headerID = head.HeaderID;
+                        if (data.Step2 != null)
+                        {
+                            foreach (var item in data.Step2)
+                            {
+                                if (Convert.ToBoolean(item.Selected))
+                                {
+                                    #region tb_Salary_Increase_Detail
+
+                                    tb_Salary_Increase_Detail detail = new tb_Salary_Increase_Detail();
+                                    detail.HeaderID = headerID;
+                                    detail.Year = item.Year;
+                                    detail.Seq = item.Seq;
+                                    detail.UpStep = item.UpStep;
+                                    detail.UserID = item.UserID;
+                                    detail.Old_Level = item.Old_Level;
+                                    detail.New_Level = item.New_Level;
+                                    detail.Old_Step = item.Old_Step;
+                                    detail.New_Step = item.New_Step;
+                                    detail.Old_Salary = item.Old_Salary;
+                                    detail.New_Salary = item.New_Salary;
+                                    detail.CreateBy = UtilityService.User.UserID;
+                                    detail.CreateDate = DateTime.Now;
+                                    detail.ModifyBy = UtilityService.User.UserID;
+                                    detail.ModifyDate = DateTime.Now;
+                                    db.tb_Salary_Increase_Detail.Add(detail);
+                                    db.SaveChanges();
+
+                                    #endregion
+
+                                    #region tb_user
+
+                                    var user = db.tb_User.Where(m => m.UserID == item.UserID).FirstOrDefault();
+                                    user.SalaryLevel = item.New_Level;
+                                    user.SalaryStep = item.New_Step;
+                                    user.Salary = item.New_Salary;
+                                    user.ModifyBy = UtilityService.User.UserID;
+                                    user.ModifyDate = DateTime.Now;
+                                    db.SaveChanges();
+
+                                    #endregion
+                                }
+                            }
+                        }
+
+                        transection.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transection.Rollback();
+                        result.MessageCode = "";
+                        result.MessageText = ex.Message;
+                    }
+                    return result;
                 }
-                catch (Exception ex)
-                {
-                    result.MessageCode = "";
-                    result.MessageText = ex.Message;
-                }
-                return result;
             }
         }
+
+        public FileViewModel DownloadSalaryIncrease(int? id)
+        {
+            FileViewModel model = new FileViewModel();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var data = db.tb_Salary_Increase_Header.Where(x => x.HeaderID == id).FirstOrDefault();
+                    string filename = data.PathFile;
+
+                    string[] fileSplit = filename.Split('.');
+                    int length = fileSplit.Length - 1;
+                    string fileExt = fileSplit[length].ToUpper();
+
+                    var doctype = db.tb_Document_Type.Where(x => x.DocType == fileExt).FirstOrDefault();
+                    string Contenttype = doctype.ContentType;
+
+                    string filepath = SysConfig.PathDownloadSalaryIncrease;
+
+                    model.FileName = filename;
+                    model.FilePath = filepath;
+                    model.ContentType = Contenttype;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return model;
+        }
+
+        public List<SalaryIncreaseToExport> GetSalaryIncreaseToExport(SalaryIncreaseViewModel data)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var model = new List<SalaryIncreaseToExport>();
+                foreach (var item in data.Step2)
+                {
+                    SalaryIncreaseToExport obj = new SalaryIncreaseToExport();
+                    obj.Year = item.Year;
+                    obj.FullNameTh = item.FullNameTh;
+                    obj.UpStep = item.UpStep;
+                    obj.Old_Level = item.Old_Level;
+                    obj.Old_Step = item.Old_Step;
+                    obj.New_Step = item.New_Step;
+                    obj.Old_Salary = item.Old_Salary;
+                    obj.New_Salary = item.New_Salary;
+                    model.Add(obj);
+                }
+                return model;
+            }
+        }
+
     }
 }

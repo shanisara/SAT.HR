@@ -45,22 +45,20 @@
 
                     @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-step" }))
                     {
-                        <div class="card-body">
-                            <div class="tab-content tab-subcategories">
-                                <div class="tab-pane active div-step1" id="step1">
-                                    <div id="div-step1">
-                                        @Html.Partial("_SalaryIncreaseStep1", Model)
-                                    </div>
+                        <div class="tab-content tab-subcategories">
+                            <div class="tab-pane active div-step1" id="step1">
+                                <div id="div-step1">
+                                    @Html.Partial("_SalaryIncreaseStep1", Model)
                                 </div>
-                                <div class="tab-pane div-step2" id="step2">
-                                    <div id="div-step2">
+                            </div>
+                            <div class="tab-pane div-step2" id="step2">
+                                <div id="div-step2">
 
-                                    </div>
                                 </div>
-                                <div class="tab-pane div-step3" id="step3">
-                                    <div id="div-step3">
-                                        @Html.Partial("_SalaryIncreaseStep3")
-                                    </div>
+                            </div>
+                            <div class="tab-pane div-step3" id="step3">
+                                <div id="div-step3">
+                                    @Html.Partial("_SalaryIncreaseStep3")
                                 </div>
                             </div>
                         </div>
@@ -112,6 +110,25 @@
         .card .card-body .col-form-label.label-checkbox, .card .card-body .label-on-right.label-checkbox {
             padding-top: 0px;
         }
+
+    .nav-pills .nav-item i {
+       padding: 0 20px 0 20px;
+    }
+
+    thead {
+        display: table;
+        table-layout:fixed;
+    }
+    tbody {
+        display: block;
+        height: 25em;
+        overflow-y: scroll;
+    }
+    tbody tr {
+        display: table;
+        table-layout:fixed;
+    }
+    
 </style>
 
 @section Scripts {
@@ -144,7 +161,9 @@
                 $(".btn-finish").hide();
             }
             else if (this.id == "li-step2") {
-                step2();
+                if ($('.li-step3').find('a').hasClass('disabled')) {
+                    step2();
+                }
 
                 if (!$('.li-step2').find('a').hasClass('disabled')) {
                     $(".btn-previous").show();
@@ -248,6 +267,7 @@
                 $(".btn-previous").show();
 
                 SalaryIncreaseStep2();
+
             //}).catch(swal.noop)
         }
 
@@ -260,6 +280,8 @@
 
             $(".btn-next").hide();
             $(".btn-finish").show();
+
+            $("#BookCmd").focus();
         }
 
         function SalaryIncreaseStep2() {
@@ -296,6 +318,20 @@
                 }
             });
         }
+
+        $(".btn-export").click(function () {
+            debugger;
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ExportSalaryIncreaseToExcel", "Payroll")',
+                data: $(".form-step").serialize(),
+                dataType: 'json',
+                success: function (res) {
+
+                }
+            });
+        });
+
 
     });
 

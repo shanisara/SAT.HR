@@ -53,10 +53,36 @@ namespace SAT.HR.Controllers
 
         public JsonResult SalaryIncreaseConfirm(SalaryIncreaseViewModel data)
         {
-            var result = new SalaryIncreaseRepository().SalaryIncreaseConfirm(data);
+            var result = new SalaryIncreaseRepository().UpdateSalaryIncrease(data);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public FileResult DownloadSalaryIncrease(int id)
+        {
+            var result = new SalaryIncreaseRepository().DownloadSalaryIncrease(id);
+            string fileName = result.FileName;
+            string filePath = result.FilePath;
+            string contentType = result.ContentType;
+            return new FilePathResult(System.IO.Path.Combine(filePath, fileName), contentType);
+        }
+
+        [HttpGet]
+        public FileContentResult ExportSalaryIncreaseToExcel(SalaryIncreaseViewModel data)
+        {
+            List<SalaryIncreaseToExport> salaryinc = new SalaryIncreaseRepository().GetSalaryIncreaseToExport(data);
+            string[] columns = { "ปีบัญชี", "รอบที่", "ชื่อ นามสกุล", "อัตรา", "ระดับ", "ขั้นเก่า", "ขั้นใหม่", "เงินเดือนเก่า", "เงินเดือนใหม่" };
+            byte[] filecontent = ExcelExportHelper.ExportExcel(salaryinc, "SalaryIncrease", true, columns);
+            return File(filecontent, ExcelExportHelper.ExcelContentType, "SalaryIncrease.xlsx");
+        }
+					
+        //public FileResult ExportSalaryIncrease(SalaryIncreaseViewModel data)
+        //{
+        //    var result = new SalaryIncreaseRepository().ExportSalaryIncrease(data);
+        //    string fileName = result.FileName;
+        //    string filePath = result.FilePath;
+        //    string contentType = result.ContentType;
+        //    return new FilePathResult(System.IO.Path.Combine(filePath, fileName), contentType);
+        //}
 
 
         #endregion
@@ -89,7 +115,7 @@ namespace SAT.HR.Controllers
         {
             BonusCalculatorStep2ViewModel model = new BonusCalculatorStep2ViewModel();
             model.UserID = userid;
-            model.NewStep = step;
+            model.UpStep = step;
             model.Bonus = bonus;
             model.Year = year;
             model.FullNameTh = fullname;
@@ -98,10 +124,36 @@ namespace SAT.HR.Controllers
 
         public JsonResult BonusCalculatorConfirm(BonusCalculatorViewModel data)
         {
-            var result = new BonusCalculatorRepository().BonusCalculatorConfirm(data);
+            var result = new BonusCalculatorRepository().UpdateBonusCalculator(data);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public FileResult DownloadBonusCalculator(int id)
+        {
+            var result = new BonusCalculatorRepository().DownloadBonusCalculator(id);
+            string fileName = result.FileName;
+            string filePath = result.FilePath;
+            string contentType = result.ContentType;
+            return new FilePathResult(System.IO.Path.Combine(filePath, fileName), contentType);
+        }
+
+        [HttpGet]
+        public FileContentResult ExportBonusCalculatorToExcel(BonusCalculatorViewModel data)
+        {
+            List<BonusCalculatorToExport> bonuscal = new BonusCalculatorRepository().GetBonusCalculatorToExport(data);
+            string[] columns = { "ปีบัญชี", "ชื่อ นามสกุล", "เงินเดือน", "อัตรา", "โบนัส", "M10", "M11", "M12", "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9" };
+            byte[] filecontent = ExcelExportHelper.ExportExcel(bonuscal, "BonusCalculator", true, columns);
+            return File(filecontent, ExcelExportHelper.ExcelContentType, "BonusCalculator.xlsx");
+        }
+
+        //public FileResult ExportBonusCalculatore(BonusCalculatorViewModel data)
+        //{
+        //    var result = new BonusCalculatorRepository().ExportBonusCalculator(data);
+        //    string fileName = result.FileName;
+        //    string filePath = result.FilePath;
+        //    string contentType = result.ContentType;
+        //    return new FilePathResult(System.IO.Path.Combine(filePath, fileName), contentType);
+        //}
 
         #endregion
     }

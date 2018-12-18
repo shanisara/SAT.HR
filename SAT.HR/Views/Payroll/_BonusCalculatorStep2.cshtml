@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="card-body">
-        <div class="level-transfer">
+        <div style="overflow:auto; height:407px;">
             <table id="datatables" data-url="@Url.Content("~/payroll/BonusCalculator")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:1500px; height:500px">
                 <thead>
                     <tr>
@@ -32,7 +32,7 @@
                         <th>m7</th>
                         <th>m8</th>
                         <th>m9</th>
-                        
+
                     </tr>
                 </thead>
                 <tbody>
@@ -45,12 +45,13 @@
                                 <td>@Model.Step2[i].Year</td>
                                 <td>@Model.Step2[i].FullNameTh</td>
                                 <td style="color:blue;">@Model.Step2[i].Salary</td>
-                                <td>@Model.Step2[i].NewStep</td>
+                                <td>@Model.Step2[i].UpStep</td>
                                 <td style="color:red;">@Model.Step2[i].Bonus</td>
                                 <td>
                                     <div class="td-actions pull-center">
-                                        <button data-id="@Model.Step2[i].UserID" data-step="@Model.Step2[i].NewStep" data-bonus="@Model.Step2[i].Bonus" data-year="@Model.Step2[i].Year" data-fullname="@Model.Step2[i].FullNameTh" title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-success btn-edit" >
-                                        <i class="material-icons">edit</i></button>
+                                        <button data-id="@Model.Step2[i].UserID" data-step="@Model.Step2[i].UpStep" data-bonus="@Model.Step2[i].Bonus" data-year="@Model.Step2[i].Year" data-fullname="@Model.Step2[i].FullNameTh" title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-success btn-edit">
+                                            <i class="material-icons">edit</i>
+                                        </button>
                                     </div>
                                 </td>
                                 <td>@Model.Step2[i].M10</td>
@@ -114,7 +115,7 @@
         $(".btn-save-bonus").click(function () {
             debugger;
             var id = $('#UserID').val();
-            var new_step = $('#NewStep').val();
+            var new_step = $('#UpStep').val();
             var new_bonus = $('#Bonus').val();
 
             $('#' + id).find("td:eq(4)").html(new_step);

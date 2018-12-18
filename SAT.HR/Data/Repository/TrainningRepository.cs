@@ -163,6 +163,8 @@ namespace SAT.HR.Data.Repository
                     {
                         tb_Course head = new tb_Course();
 
+                        #region
+
                         if (data.fileUpload != null)
                         {
                             HttpPostedFileBase fileUpload = data.fileUpload;
@@ -184,6 +186,8 @@ namespace SAT.HR.Data.Repository
                                 head.PathFile = newFileName;
                             }
                         }
+
+                        #endregion
 
                         head.CourseNo = DocumentNumberRepository.GetNextNumber("COURSE");
                         head.CourseTID = data.CourseTID;
