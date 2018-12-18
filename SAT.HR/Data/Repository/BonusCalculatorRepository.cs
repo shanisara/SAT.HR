@@ -234,6 +234,7 @@ namespace SAT.HR.Data
                 {
                     BonusCalculatorToExport obj = new Models.BonusCalculatorToExport();
                     obj.Year = item.Year;
+                    obj.Seq = item.Seq;
                     obj.FullNameTh = item.FullNameTh;
                     obj.Salary = item.Salary;
                     obj.UpStep = item.UpStep;
