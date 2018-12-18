@@ -248,6 +248,14 @@ namespace SAT.HR.Controllers
             return Json(new { data = list.ListEducation }, JsonRequestBehavior.AllowGet);
         }
 
+        public FileResult DownloadEducation(int id)
+        {
+            var result = new EmployeeRepository().DownloadEducation(id);
+            string fileName = result.FileName;
+            string filePath = result.FilePath;
+            string contentType = result.ContentType;
+            return new FilePathResult(Path.Combine(filePath, fileName), contentType);
+        }
 
         #endregion
 

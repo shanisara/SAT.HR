@@ -1200,6 +1200,38 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public FileViewModel DownloadEducation(int? id)
+        {
+            FileViewModel model = new FileViewModel();
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    var data = db.tb_User_Education.Where(x => x.EduID == id).FirstOrDefault();
+                    string filename = data.UePartFile;
+
+                    string[] fileSplit = filename.Split('.');
+                    int length = fileSplit.Length - 1;
+                    string fileExt = fileSplit[length].ToUpper();
+
+                    var doctype = db.tb_Document_Type.Where(x => x.DocType == fileExt).FirstOrDefault();
+                    string Contenttype = doctype.ContentType;
+
+                    string filepath = SysConfig.PathDownloadUserEducation;
+
+                    model.FileName = filename;
+                    model.FilePath = filepath;
+                    model.ContentType = Contenttype;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return model;
+        }
+
+
         #endregion
 
         #region 1.4 Tab: User-Position
