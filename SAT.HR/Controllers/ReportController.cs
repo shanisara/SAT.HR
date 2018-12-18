@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Data.OleDb;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -53,13 +54,16 @@ namespace SAT.HR.Controllers
         {
             try
             {
+                string myConnString = "Provider=SQLOLEDB;Data Source=" + SysConfig.ServerName + ";Initial Catalog=" + SysConfig.DatabaseName + ";user id=" + SysConfig.UserName + ";password=" + SysConfig.Password + ";Connect Timeout=30";
+                OleDbConnection myConnection = new OleDbConnection(myConnString);
+                myConnection.Open();
+
                 ReportClass rptH = new ReportClass();
-                rptH.DataSourceConnections.Clear();
-                rptH.DataSourceConnections
                 FileName = "Report_Education" + "_" + DateTime.Now.ToString("yyyyMMddHHmm") + ExtensionFile;
                 rptH.FileName = Server.MapPath(@"~/Report/Master/Report_Education.rpt");
                 rptH.Load();
-                rptH.SetDatabaseLogon(SysConfig.UserName, SysConfig.Password, SysConfig.ServerName, SysConfig.DatabaseName);
+                rptH.DataSourceConnections[0].SetConnection(SysConfig.ServerName, SysConfig.DatabaseName, SysConfig.UserName, SysConfig.Password);
+                //rptH.SetDatabaseLogon(SysConfig.UserName, SysConfig.Password, SysConfig.ServerName, SysConfig.DatabaseName);
                 rptH.SetParameterValue("@eduID", EduID == "" ? null : EduID);
                 rptH.ExportToDisk(ExtensionFile == ".xlsx" ? ExportFormatType.ExcelWorkbook : ExportFormatType.PortableDocFormat, Path.Combine(SysConfig.PathReport, FileName));
 
@@ -76,6 +80,9 @@ namespace SAT.HR.Controllers
         {
             try
             {
+                string myConnString = "Provider=SQLOLEDB;Data Source=" + SysConfig.ServerName + ";Initial Catalog=" + SysConfig.DatabaseName + ";user id=" + SysConfig.UserName + ";password=" + SysConfig.Password + ";Connect Timeout=30";
+                OleDbConnection myConnection = new OleDbConnection(myConnString);
+                myConnection.Open();
 
                 ReportClass rptH = new ReportClass();
                 FileName = "Report_Employee" + "_" + DateTime.Now.ToString("yyyyMMddHHmm") + ExtensionFile;
