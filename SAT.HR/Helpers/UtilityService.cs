@@ -349,14 +349,14 @@ namespace SAT.HR.Helpers
         {
             get
             {
-                return ConfigurationManager.AppSettings["ReportServerName"];
+                return SysConfigRepository.GetKeyValue("ReportServerName");
             }
         }
         public static string DatabaseName
         {
             get
             {
-                return ConfigurationManager.AppSettings["ReportDatabaseName"];
+                return SysConfigRepository.GetKeyValue("ReportDatabaseName");
 
             }
 
@@ -365,7 +365,7 @@ namespace SAT.HR.Helpers
         {
             get
             {
-                return ConfigurationManager.AppSettings["ReportUserID"];
+                return SysConfigRepository.GetKeyValue("ReportUserID");
             }
 
         }
@@ -373,7 +373,7 @@ namespace SAT.HR.Helpers
         {
             get
             {
-                return ConfigurationManager.AppSettings["ReportPassword"];
+                return SysConfigRepository.GetKeyValue("ReportPassword");
             }
         }
 
