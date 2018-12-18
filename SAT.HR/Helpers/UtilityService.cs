@@ -265,6 +265,20 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathUploadLeaveFile");
             }
         }
+        public static string PathUploadSalaryIncrease
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathUploadSalaryIncrease");
+            }
+        }
+        public static string PathUploadBonusCalculator
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathUploadBonusCalculator");
+            }
+        }
 
 
         public static string PathDownloadUserAvatar
@@ -328,6 +342,20 @@ namespace SAT.HR.Helpers
             get
             {
                 return SysConfigRepository.GetKeyValue("PathDownloadLeaveFile");
+            }
+        }
+        public static string PathDownloadSalaryIncrease
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathDownloadSalaryIncrease");
+            }
+        }
+        public static string PathDownloadBonusCalculator
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathDownloadBonusCalculator");
             }
         }
 

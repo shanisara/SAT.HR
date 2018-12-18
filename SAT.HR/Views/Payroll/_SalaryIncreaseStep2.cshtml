@@ -67,7 +67,7 @@
                                         </div>
                                     </td>
                                     <td class="hidden">
-                                        @Html.TextBoxFor(model => model.Step2[i].Selected, new { @class = "select-user" })
+                                        @Html.HiddenFor(model => model.Step2[i].Selected, new { @class = "select-user" })
                                         @Html.HiddenFor(model => model.Step2[i].UserID)
                                         @Html.HiddenFor(model => model.Step2[i].Year)
                                         @Html.HiddenFor(model => model.Step2[i].Seq)
@@ -122,7 +122,7 @@
             $('.modal-detail').modal('hide');
         });
 
-        $(".check-all").change(function () {
+        $(".check-all").click(function () {
             var checked = $(this).is(':checked');
             if (checked) {
                 $('.check-item').prop('checked', true);
@@ -135,12 +135,17 @@
         });
 
         $(".check-item").click(function () {
+            var checked = $(this).is(':checked');
+            var tr = $(this).parent().parent().parent().parent();
+            tr.find("input[class='select-user']").val(checked);
+
             if ($(".check-item").length == $(".check-item:checked").length) {
                 $(".check-all").prop("checked", true);
-                $('.select-user').val(true);
             } else {
-                $(".check-all").prop('checked', false);
-
+                var checkAll = $(".check-all").is(':checked');
+                if (checkAll) {
+                    $(".check-all").prop('checked', false);
+                }
             }
         });
 

@@ -16,7 +16,7 @@ namespace SAT.HR.Data.Entities
     {
         public int ID { get; set; }
         public Nullable<int> HeaderID { get; set; }
-        public string Year { get; set; }
+        public Nullable<int> Year { get; set; }
         public Nullable<int> Seq { get; set; }
         public Nullable<decimal> UpStep { get; set; }
         public Nullable<int> UserID { get; set; }
@@ -26,5 +26,9 @@ namespace SAT.HR.Data.Entities
         public Nullable<decimal> New_Step { get; set; }
         public Nullable<decimal> Old_Salary { get; set; }
         public Nullable<decimal> New_Salary { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<int> CreateBy { get; set; }
+        public Nullable<System.DateTime> ModifyDate { get; set; }
+        public Nullable<int> ModifyBy { get; set; }
     }
 }

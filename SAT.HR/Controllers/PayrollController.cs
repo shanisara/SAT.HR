@@ -57,7 +57,14 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-
+        public FileResult DownloadSalaryIncrease(int id)
+        {
+            var result = new SalaryIncreaseRepository().DownloadSalaryIncrease(id);
+            string fileName = result.FileName;
+            string filePath = result.FilePath;
+            string contentType = result.ContentType;
+            return new FilePathResult(System.IO.Path.Combine(filePath, fileName), contentType);
+        }
 
         #endregion
 
@@ -89,7 +96,7 @@ namespace SAT.HR.Controllers
         {
             BonusCalculatorStep2ViewModel model = new BonusCalculatorStep2ViewModel();
             model.UserID = userid;
-            model.NewStep = step;
+            model.UpStep = step;
             model.Bonus = bonus;
             model.Year = year;
             model.FullNameTh = fullname;
@@ -102,6 +109,14 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public FileResult DownloadBonusCalculator(int id)
+        {
+            var result = new BonusCalculatorRepository().DownloadBonusCalculator(id);
+            string fileName = result.FileName;
+            string filePath = result.FilePath;
+            string contentType = result.ContentType;
+            return new FilePathResult(System.IO.Path.Combine(filePath, fileName), contentType);
+        }
 
         #endregion
     }
