@@ -70,10 +70,10 @@
                 </div>
 
                 <div class="card-footer">
-                    <div class="mr-auto">
+                    <div class="mr-auto" style="margin-left:10px">
                         <input name="previous" class="btn btn-previous btn-fill btn-default" style="display: none;" type="button" value="ย้อนกลับ">
                     </div>
-                    <div class="ml-auto">
+                    <div class="ml-auto" style="margin-right:10px">
                         <input name="next" class="btn btn-next btn-fill btn-primary" type="button" value="ถัดไป">
                         <input name="finish" class="btn btn-finish btn-fill btn-primary" style="display: none;" type="button" value="ยืนยัน">
                     </div>
@@ -109,6 +109,13 @@
 <!--  End Modal -->
 
 <style>
+    m-l-10{
+        margin-left:10px;
+    }
+     m-l-10{
+        margin-right:10px;
+    }
+
     .card .card-body .col-form-label, .card .card-body {
         padding-top: 0px;
     }
@@ -169,8 +176,6 @@
                     $(".btn-finish").hide();
                 }
                 else if (this.id == "li-step2") {
-                    $(".btn-export").css("display", "block");
-
                     if ($('.li-step3').find('a').hasClass('disabled')) {
                         step2();
                     }
@@ -180,6 +185,7 @@
                         $(".btn-next").show();
                         $(".btn-finish").hide();
                     }
+                    $(".btn-export").css("display", "block");
                 }
                 else if (this.id == "li-step3") {
                     $(".btn-export").css("display", "none");
@@ -282,7 +288,6 @@
                 cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
                 buttonsStyling: false
             }).then(function () {*@
-                $(".btn-export").css("display", "block");
 
                 $('.li-step1').find('a').removeClass('active');
                 $('.div-step1').removeClass('active');
@@ -321,6 +326,7 @@
                 var year = parseFloat($('#Year').val());
                 var url = '@Url.Action("SalaryIncreaseStep2", "Payroll")?level=' + level + '&step=' + step + '&year=' + year;
                 $("#div-step2").load(url);
+                $(".btn-export").css("display", "block");
             }
 
             function SalaryIncreaseProcess() {

@@ -60,7 +60,7 @@ namespace SAT.HR.Models
         public Nullable<int> Year { get; set; }
         public int Seq { get; set; }
         public string FullNameTh { get; set; }
-        public Nullable<int> Old_Level { get; set; }
+        public Nullable<int> Level { get; set; }
         public Nullable<decimal> UpStep { get; set; }
         public decimal Old_Step { get; set; }
         public decimal New_Step { get; set; }

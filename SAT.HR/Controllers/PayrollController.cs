@@ -57,10 +57,19 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public FileResult DownloadSalaryIncrease(int id)
+        {
+            var result = new SalaryIncreaseRepository().DownloadSalaryIncrease(id);
+            string fileName = result.FileName;
+            string filePath = result.FilePath;
+            string contentType = result.ContentType;
+            return new FilePathResult(System.IO.Path.Combine(filePath, fileName), contentType);
+        }
+
         public ActionResult ExportSalaryIncreaseToExcel(SalaryIncreaseViewModel data)
         {
             List<SalaryIncreaseToExport> salaryinc = new SalaryIncreaseRepository().GetSalaryIncreaseToExport(data);
-            string[] columns = { "Year", "Seq", "FullNameTh", "UpStep", "Old_Level", "Old_Level", "Old_Step", "Old_Salary", "New_Salary" }; // { "ปีบัญชี", "รอบที่", "ชื่อ นามสกุล", "อัตรา", "ระดับ", "ขั้นเก่า", "ขั้นใหม่", "เงินเดือนเก่า", "เงินเดือนใหม่" };
+            string[] columns = { "Year", "Seq", "FullNameTh", "UpStep", "Level", "Old_Step", "New_Step", "Old_Salary", "New_Salary" }; // { "ปีบัญชี", "รอบที่", "ชื่อ นามสกุล", "อัตรา", "ระดับ", "ขั้นเก่า", "ขั้นใหม่", "เงินเดือนเก่า", "เงินเดือนใหม่" };
             byte[] filecontent = ExcelExportHelper.ExportExcel(salaryinc, string.Empty, true, columns);
 
             string handleSalary = Guid.NewGuid().ToString();
@@ -73,7 +82,6 @@ namespace SAT.HR.Controllers
             };
         }
 
-        [HttpGet]
         public virtual ActionResult Download(string fileGuid, string fileName)
         {
             if (TempData[fileGuid] != null)
@@ -87,14 +95,6 @@ namespace SAT.HR.Controllers
             }
         }
 
-        //public FileResult ExportSalaryIncrease(SalaryIncreaseViewModel data)
-        //{
-        //    var result = new SalaryIncreaseRepository().ExportSalaryIncrease(data);
-        //    string fileName = result.FileName;
-        //    string filePath = result.FilePath;
-        //    string contentType = result.ContentType;
-        //    return new FilePathResult(System.IO.Path.Combine(filePath, fileName), contentType);
-        //}
 
         #endregion
 
