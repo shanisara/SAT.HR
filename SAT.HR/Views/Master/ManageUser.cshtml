@@ -100,7 +100,7 @@
                             {
                                 "render": function (data, type, row) {
                                     if (row.UserName == '')
-                                        return '<div class="td-actions text-left"><button class="btn btn-facebook create-user" type="button" data-id="' + row.UserID + '">สร้างผู้ใช้งาน</button></div>';
+                                        return '<div class="td-actions text-left div-' + row.UserID +'"><button class="btn btn-facebook create-user" type="button" data-id="' + row.UserID + '">สร้างผู้ใช้งาน</button></div>';
                                     else
                                         return '<div class="td-actions text-left">' + row.UserName + '</div>';
                                 }, "targets": 3
@@ -134,23 +134,45 @@
 
 
             $table.on('click', '.create-user', function () {
+                debugger;
                 var id = $(this).data("id");
+
+                var username = 'User001';
+                $(".div-" + id).text(username);
+
+                $(this).remove();
+
+                @*var id = $(this).data("id");
                 var url = '@Url.Action("CreateUserName", "Employee")';
                 $.post(url, { id: id }, function (data) {
                     $(".detail-detail").html(data);
                     $('.modal-detail').modal('show');
-                });
+                });*@
+
+                //UpdateUserName
             });
 
-             // Terminate User
+            
             $table.on('click', '.terminate-user', function () {
-                debugger;
+                if ($(this).attr('data-type') == '1') {
+                    $(this).attr('data-type', '2');
+                    $(this).removeClass("btn-danger").addClass("btn-success");
+                    $(".terminate-user").prop('value', 'ระงับการใช้งาน');
 
+                    //TerminateUser
+                }
+                else {
+                    $(this).attr('data-type', '1');
+                    $(this).removeClass("btn-success").addClass("btn-danger");
+                    $(".terminate-user").prop('value', 'ยกเลิกการระงับ');
 
-                var id = $(this).data("id");
+                    //
+                }
+
+                @*var id = $(this).data("id");
                 var name = $(this).data("name");
                 var type = $(this).data("type");
-                var msgconfirm = (type == 1 ? 'ยกเลิกการระงับผู้ใช้งาน ' : 'ยืนยันระงับผู้ใช้งาน ') + name;
+                var msgconfirm = (type == '1' ? 'ยกเลิกการระงับผู้ใช้งาน ' : 'ยืนยันระงับผู้ใช้งาน ') + name;
                 var url = '@Url.Action("TerminateUser", "Employee")/' + id;
                 swal({
                     title: '',
@@ -193,7 +215,7 @@
                             }
                         }
                     });
-                }).catch(swal.noop)
+                }).catch(swal.noop)*@
             });
 
         });
