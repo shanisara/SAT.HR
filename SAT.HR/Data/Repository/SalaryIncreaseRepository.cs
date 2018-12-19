@@ -153,6 +153,7 @@ namespace SAT.HR.Data
                                     detail.Seq = item.Seq;
                                     detail.UpStep = item.UpStep;
                                     detail.UserID = item.UserID;
+                                    detail.FullNameTh = item.FullNameTh;
                                     detail.Old_Level = item.Old_Level;
                                     detail.New_Level = item.New_Level;
                                     detail.Old_Step = item.Old_Step;

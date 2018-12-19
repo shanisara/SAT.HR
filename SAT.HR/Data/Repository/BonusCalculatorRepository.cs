@@ -154,6 +154,7 @@ namespace SAT.HR.Data
                                 detail.HeaderID = headerID;
                                 detail.Year = item.Year;
                                 detail.UserID = item.UserID;
+                                detail.FullNameTh = item.FullNameTh;
                                 detail.UpStep = item.UpStep;
                                 detail.Bonus = item.Bonus;
                                 detail.Salary = item.Salary;

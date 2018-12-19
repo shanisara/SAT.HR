@@ -20,6 +20,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> Seq { get; set; }
         public Nullable<decimal> UpStep { get; set; }
         public Nullable<int> UserID { get; set; }
+        public string FullNameTh { get; set; }
         public Nullable<int> Old_Level { get; set; }
         public Nullable<int> New_Level { get; set; }
         public Nullable<decimal> Old_Step { get; set; }
