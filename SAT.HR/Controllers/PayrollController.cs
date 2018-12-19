@@ -165,5 +165,25 @@ namespace SAT.HR.Controllers
         }
 
         #endregion
+
+        #region 3. ประวัติการเลื่อนขั้นเงินเดือน
+
+        public ActionResult SalaryIncreaseHistory()
+        {
+            //var model = new SalaryIncreaseRepository().SalaryIncreaseHistory();
+            return View();
+        }
+
+        #endregion
+
+        #region 4. ประวัติการคำนวณโบนัส
+
+        public ActionResult BonusCalculatorHistory()
+        {
+            //var model = new BonusCalculatorRepository().BonusCalculatorHistory();
+            return View();
+        }
+
+        #endregion
     }
 }

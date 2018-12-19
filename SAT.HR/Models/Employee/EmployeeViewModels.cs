@@ -100,9 +100,11 @@ namespace SAT.HR.Models
         public string PathFileAttach2 { get; set; }
 
 
+        public Nullable<bool> IsTerminate { get; set; }
         public Nullable<bool> IsGPALower250 { get; set; }
         public Nullable<bool> IsToeicLower300 { get; set; }
         public Nullable<bool> IsAgeOver35 { get; set; }
+
 
         public HttpPostedFileBase FileAvatar { get; set; }
         public HttpPostedFileBase FileAttach1 { get; set; }

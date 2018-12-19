@@ -45,24 +45,17 @@ namespace SAT.HR.Controllers
                 var emp = new EmployeeRepository().Login(username, password);
                 if (emp != null)
                 {
-                    bool activate = emp.IsActive.HasValue ? (bool)emp.IsActive : false;
                     bool terminate = emp.IsTerminate.HasValue ? (bool)emp.IsActive : false;
                     bool inrole = emp.RoleID.HasValue ? true : false; ;
 
-
-                    if (!activate)
+                    if (terminate)
                     {
-                        result.MessageCode = "001";
+                        result.MessageCode = "002";
                         result.MessageText = "รหัสผู้ใช้ " + username + " ถูกระงับการใช้งาน <br/> กรุณาติดต่อผู้ดูแลระบบ!";
                     }
-                    //else if(!terminate)
-                    //{
-                    //    result.MessageCode = "002";
-                    //    result.MessageText = "รหัสผู้ใช้ " + username + " ถูกยกเลิกเข้าใช้งาน <br/> กรุณาติดต่อผู้ดูแลระบบ!";
-                    //}
                     else if (!inrole)
                     {
-                        result.MessageCode = "003";
+                        result.MessageCode = "002";
                         result.MessageText = "รหัสผู้ใช้ " + username + " ไม่มีกลุ่มผู้ใช้งาน  <br/> กรุณาติดต่อผู้ดูแลระบบ!";
                     }
                     else
