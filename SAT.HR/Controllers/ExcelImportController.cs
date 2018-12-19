@@ -8,6 +8,8 @@ using System.Data.OleDb;
 using System.Data;
 using System.Data.Entity.Validation;
 using SAT.HR.Data.Entities;
+using NPOI.SS.Formula.Functions;
+using SAT.HR.Models;
 
 namespace SAT.HR.Controllers
 {
@@ -21,13 +23,12 @@ namespace SAT.HR.Controllers
 
 
         [HttpPost]
-        public JsonResult UploadExcel(HttpPostedFileBase FileUpload, tb_Benefit_Cremation cremation)
+        public JsonResult UploadExcel(HttpPostedFileBase FileUpload,string modelMapping)
         {
-
+            ResponseData result = new ResponseData();
             List<string> data = new List<string>();
             if (FileUpload != null)
             {
-                // tdata.ExecuteCommand("truncate table OtherCompanyAssets");  
                 if (FileUpload.ContentType == "application/vnd.ms-excel" || FileUpload.ContentType == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                 {
                     string filename = FileUpload.FileName;
@@ -51,50 +52,30 @@ namespace SAT.HR.Controllers
 
                     DataTable dtable = ds.Tables["ExcelTable"];
 
-                    string sheetName = "Sheet1";
-
                     var excelFile = new ExcelQueryFactory(pathToExcelFile);
+                    //var worksheetsList = excelFile.GetWorksheetNames();
 
                     #region
 
-                    var result = from a in excelFile.Worksheet<tb_Benefit_Cremation>(sheetName) select a;
-                    foreach (var a in result)
-                    {
-                        try
-                        {
-                            //if (a.UserID != "" && a.BcYear != "" && a.MID != "")
-                            //{
-                            //    tb_Benefit_Cremation BC = new tb_Benefit_Cremation();
-                            //    BC.UserID = a.UserID;
-                            //    BC.BcYear = a.BcYear;
-                            //    BC.MID = a.MID;
-                            //    db.tb_Benefit_Cremation.Add(BC);
-                            //    db.SaveChanges();
-                            //}
-                            //else
-                            //{
-                            //    data.Add("<ul>");
-                            //    if (a.UserID == "" || a.UserID == null) data.Add("<li> name is required</li>");
-                            //    if (a.BcYear == "" || a.BcYear == null) data.Add("<li> Address is required</li>");
-                            //    if (a.MID == "" || a.MID == null) data.Add("<li>ContactNo is required</li>");
+                    string sheetName = "Sheet1";
+                    var xxx = from a in excelFile.Worksheet(1) select a;
 
-                            //    data.Add("</ul>");
-                            //    data.ToArray();
-                            //    return Json(data, JsonRequestBehavior.AllowGet);
-                            //}
-                        }
+                    //var list = new List<tb_Benefit>();
+                    //foreach (var line in query)
+                    //{
+                    //    try
+                    //    {
+                    //        var surname = line[0].ToString();  
+                    //        var name = line[1].ToString();  
+                    //        var date = line[2].ToString();  
+                    //        list.Add(new Benefit(surname, name, date));
+                    //    }
+                    //    catch (Exception exception)
+                    //    {
 
-                        catch (DbEntityValidationException ex)
-                        {
-                            foreach (var entityValidationErrors in ex.EntityValidationErrors)
-                            {
-                                foreach (var validationError in entityValidationErrors.ValidationErrors)
-                                {
-                                    Response.Write("Property: " + validationError.PropertyName + " Error: " + validationError.ErrorMessage);
-                                }
-                            }
-                        }
-                    }
+                    //    }
+                    //}
+                    //return list;
 
                     #endregion
 
@@ -103,26 +84,18 @@ namespace SAT.HR.Controllers
                     {
                         System.IO.File.Delete(pathToExcelFile);
                     }
-                    return Json("success", JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    //alert message for invalid file format  
-                    data.Add("<ul>");
-                    data.Add("<li>Only Excel file format is allowed</li>");
-                    data.Add("</ul>");
-                    data.ToArray();
-                    return Json(data, JsonRequestBehavior.AllowGet);
+                    result.MessageText = "Only Excel file format is allowed";
                 }
             }
             else
             {
-                data.Add("<ul>");
-                if (FileUpload == null) data.Add("<li>Please choose Excel file</li>");
-                data.Add("</ul>");
-                data.ToArray();
-                return Json(data, JsonRequestBehavior.AllowGet);
+                result.MessageText = "Please choose Excel file";
             }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }  
