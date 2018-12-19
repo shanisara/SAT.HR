@@ -42,6 +42,9 @@
                             </li>
                         </ul>
                     </div>
+                    <div class="toolbar pull-right" style="margin-top:20px;padding-right:20px;">
+                        <button class="btn btn-primary btn-sm btn-export" style="display: none;">Export</button>
+                    </div>
 
                     @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-step" }))
                     {
@@ -74,7 +77,6 @@
                         <div class="clearfix"></div>
                     </div>
                     <!-- wizard container -->
-                    <button class="btn btn-primary btn-sm btn-export" data-toggle="modal" style="display:none">Export</button>
                 </div>
             </div>
         </div>
@@ -158,11 +160,14 @@
 
         $("#tabs li").click(function () {
             if (this.id == "li-step1") {
+                $(".btn-export").css("display", "none");
                 $(".btn-previous").hide();
                 $(".btn-next").show();
                 $(".btn-finish").hide();
             }
             else if (this.id == "li-step2") {
+                $(".btn-export").css("display", "block");
+
                 if ($('.li-step3').find('a').hasClass('disabled')) {
                     step2();
                 }
@@ -174,6 +179,7 @@
                 }
             }
             else if (this.id == "li-step3") {
+                $(".btn-export").css("display", "none");
                 if (!$('.li-step3').find('a').hasClass('disabled')) {
                     $(".btn-previous").show();
                     $(".btn-next").hide();
@@ -186,6 +192,8 @@
             var ref_this = $("#tabs li").find(".active");
             var id = ref_this.data("id");
             if (id == "tab-step2") {
+                $(".btn-export").css("display", "block");
+
                 $('.li-step2').find('a').removeClass('active');
                 $('.div-step2').removeClass('active');
 
@@ -196,6 +204,8 @@
                 $(".btn-next").show();
             }
             else if (id == "tab-step3") {
+                $(".btn-export").css("display", "none");
+
                 $('.li-step3').find('a').removeClass('active');
                 $('.div-step3').removeClass('active');
 
@@ -269,6 +279,8 @@
                 cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
                 buttonsStyling: false
             }).then(function () {*@
+                $(".btn-export").css("display", "block");
+
                 $('.li-step1').find('a').removeClass('active');
                 $('.div-step1').removeClass('active');
 
@@ -286,6 +298,8 @@
         }
 
         function step3() {
+            $(".btn-export").css("display", "none");
+
             $('.li-step2').find('a').removeClass('active');
             $('.div-step2').removeClass('active');
 
@@ -338,7 +352,9 @@
                 type: 'POST',
                 url: '@Url.Action("ExportSalaryIncreaseToExcel", "Payroll")',
                 data: $(".form-step").serialize(),
-                success: function () { }
+                success: function () {
+                    //debugger;
+                }
             });
         });
 

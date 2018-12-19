@@ -96,6 +96,7 @@ namespace SAT.HR.Controllers
         {
             try
             {
+                Log.LogMessageToFile("start");
                 string myConnString = "Provider=SQLOLEDB;Data Source=" + SysConfig.ServerName + ";Initial Catalog=" + SysConfig.DatabaseName + ";user id=" + SysConfig.UserName + ";password=" + SysConfig.Password + ";Connect Timeout=30";
                 OleDbConnection myConnection = new OleDbConnection(myConnString);
                 myConnection.Open();
@@ -114,6 +115,7 @@ namespace SAT.HR.Controllers
                 rptH.SetParameterValue("@utID", UserTypeID == "" ? null : UserTypeID);
                 rptH.ExportToDisk(ExtensionFile == ".xlsx" ? ExportFormatType.ExcelWorkbook : ExportFormatType.PortableDocFormat, Path.Combine(SysConfig.PathUploadReport, FileName));
 
+                Log.LogMessageToFile("GenFile");
                 return Json(FileName, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -143,7 +145,7 @@ namespace SAT.HR.Controllers
         {
             try
             {
-                
+                Log.LogMessageToFile("DownloadFile");
 
 
                 //var filePath = System.IO.File.ReadAllBytes(Path.Combine(SysConfig.PathDownloadReport, fileName));
