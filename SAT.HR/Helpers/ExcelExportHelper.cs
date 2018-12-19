@@ -14,7 +14,7 @@ namespace SAT.HR.Helpers
         public static string ExcelContentType
         {
             get
-            { return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"; }
+            { return "application/ms-excel"; }
         }
 
         public static DataTable ListToDataTable<T>(List<T> data)

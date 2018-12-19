@@ -143,10 +143,21 @@ namespace SAT.HR.Controllers
         {
             try
             {
+                
+
+
                 //var filePath = System.IO.File.ReadAllBytes(Path.Combine(SysConfig.PathDownloadReport, fileName));
                 //return File(filePath, "application/pdf", fileName);
                 //http://27.254.149.155/SATHR/Upload/Report/Report_Education_201812190052.pdf
-                return new FilePathResult(Path.Combine(SysConfig.PathDownloadReport, fileName), "application/pdf");
+
+                string path = SysConfig.PathUploadReport + "/" + fileName; //Server.MapPath("~"+ SysConfig.PathDownloadReport+ "/" + fileName);
+
+                Log.LogMessageToFile(path);
+
+
+                return new FilePathResult(path, "application/pdf");
+
+
             }
             catch (Exception ex)
             {

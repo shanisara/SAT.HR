@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.SessionState;
@@ -389,4 +390,31 @@ namespace SAT.HR.Helpers
 
         #endregion 
     }
+
+    public class Log
+    {
+        private static string GetTempPath()
+        {
+            string path = SysConfigRepository.GetKeyValue("PathLog"); //System.Environment.GetEnvironmentVariable("TEMP");
+            if (!System.IO.Directory.Exists(path)) System.IO.Directory.CreateDirectory(path);
+            if (!path.EndsWith("\\")) path += "\\";
+            return path;
+        }
+
+        public static void LogMessageToFile(string msg)
+        {
+            string logPath = "Logs_" + DateTime.Now.ToString("yyyyMMddHHmm") + ".txt";
+            System.IO.StreamWriter sw = System.IO.File.AppendText(GetTempPath() + logPath);
+            try
+            {
+                string logLine = System.String.Format( "{0:G}: {1}.", System.DateTime.Now, msg);
+                sw.WriteLine(logLine);
+            }
+            finally
+            {
+                sw.Close();
+            }
+        }
+    }
+        
 }
