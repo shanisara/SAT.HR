@@ -238,9 +238,10 @@ namespace SAT.HR.Data
                     {
                         SalaryIncreaseToExport obj = new SalaryIncreaseToExport();
                         obj.Year = item.Year;
+                        obj.Seq = item.Seq;
                         obj.FullNameTh = item.FullNameTh;
                         obj.UpStep = item.UpStep;
-                        obj.Old_Level = item.Old_Level;
+                        obj.Level = item.Old_Level;
                         obj.Old_Step = item.Old_Step;
                         obj.New_Step = item.New_Step;
                         obj.Old_Salary = item.Old_Salary;

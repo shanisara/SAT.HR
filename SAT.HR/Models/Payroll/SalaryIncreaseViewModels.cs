@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -57,14 +59,31 @@ namespace SAT.HR.Models
 
     public class SalaryIncreaseToExport
     {
+        [DisplayName("ปีบัญชี")]
         public Nullable<int> Year { get; set; }
+
+        [DisplayName("รอบที่")]
         public int Seq { get; set; }
+
+        [DisplayName("ชื่อ นามสกุล")]
         public string FullNameTh { get; set; }
-        public Nullable<int> Old_Level { get; set; }
+
+        [DisplayName("อัตรา")]
+        public Nullable<int> Level { get; set; }
+
+        [DisplayName("ระดับ")]
         public Nullable<decimal> UpStep { get; set; }
+
+        [DisplayName("ขั้นเก่า")]
         public decimal Old_Step { get; set; }
+
+        [DisplayName("ขั้นใหม่")]
         public decimal New_Step { get; set; }
+
+        [DisplayName("เงินเดือนเก่า")]
         public decimal Old_Salary { get; set; }
+
+        [DisplayName("เงินเดือนใหม่")]
         public decimal New_Salary { get; set; }
     }
 }

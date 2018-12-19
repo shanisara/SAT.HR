@@ -177,7 +177,6 @@ namespace SAT.HR.Data
                                 db.SaveChanges();
 
                                 #endregion 
-
                             }
                         }
 

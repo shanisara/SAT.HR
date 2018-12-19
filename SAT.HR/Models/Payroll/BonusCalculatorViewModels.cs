@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
@@ -59,12 +60,24 @@ namespace SAT.HR.Models
 
     public class BonusCalculatorToExport
     {
+        [DisplayName("ปีบัญชี")]
         public Nullable<int> Year { get; set; }
+
+        [DisplayName("รอบที่")]
         public Nullable<int> Seq { get; set; }
+
+        [DisplayName("ชื่อ นามสกุล")]
         public string FullNameTh { get; set; }
+
+        [DisplayName("อัตรา")]
         public Nullable<decimal> UpStep { get; set; }
+
+        [DisplayName("โบนัส")]
         public Nullable<decimal> Bonus { get; set; }
+
+        [DisplayName("เงินเดือน")]
         public Nullable<decimal> Salary { get; set; }
+
         public Nullable<decimal> M1 { get; set; }
         public Nullable<decimal> M2 { get; set; }
         public Nullable<decimal> M3 { get; set; }

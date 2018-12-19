@@ -66,38 +66,34 @@ namespace SAT.HR.Controllers
             return new FilePathResult(System.IO.Path.Combine(filePath, fileName), contentType);
         }
 
-        public FileContentResult ExportSalaryIncreaseToExcel(SalaryIncreaseViewModel data)
+        public ActionResult ExportSalaryIncreaseToExcel(SalaryIncreaseViewModel data)
         {
             List<SalaryIncreaseToExport> salaryinc = new SalaryIncreaseRepository().GetSalaryIncreaseToExport(data);
-            string[] columns = { "ปีบัญชี", "รอบที่", "ชื่อ นามสกุล", "อัตรา", "ระดับ", "ขั้นเก่า", "ขั้นใหม่", "เงินเดือนเก่า", "เงินเดือนใหม่" };
-            byte[] filecontent = ExcelExportHelper.ExportExcel(salaryinc, "Salary Increase", true, columns);
+            string[] columns = { "Year", "Seq", "FullNameTh", "UpStep", "Level", "Old_Step", "New_Step", "Old_Salary", "New_Salary" }; 
+            byte[] filecontent = ExcelWorksheetExtension.ExportExcel(salaryinc, string.Empty, true, columns);
 
-            //HttpContext.Response.AddHeader("content-disposition", "attachment; filename=" + FileName);
+            string handleSalary = Guid.NewGuid().ToString();
+            TempData[handleSalary] = filecontent;
 
-            Response.AppendHeader("content-disposition", "attachment;filename=SalaryIncrease.txt");
-
-            //var filresult = File(filecontent, ExcelExportHelper.ExcelContentType);
-            //return filresult;
-
-            //Response.Clear();
-            //Response.Buffer = true;
-            //Response.ContentType = "application/vnd.ms-excel";
-            //Response.AddHeader("content-disposition", "attachment; filename=Statement_" + "SalaryIncrease" + ".xlsx");
-            //Response.Write(filecontent);
-            //Response.Flush();
-
-            return new FileContentResult(filecontent, "application/vnd.ms-excel");
-
+            //return File(filecontent, ExcelExportHelper.ExcelContentType, "SalaryIncrease.xlsx");
+            return new JsonResult()
+            {
+                Data = new { FileGuid = handleSalary, FileName = "SalaryIncrease.xlsx" }
+            };
         }
-					
-        //public FileResult ExportSalaryIncrease(SalaryIncreaseViewModel data)
-        //{
-        //    var result = new SalaryIncreaseRepository().ExportSalaryIncrease(data);
-        //    string fileName = result.FileName;
-        //    string filePath = result.FilePath;
-        //    string contentType = result.ContentType;
-        //    return new FilePathResult(System.IO.Path.Combine(filePath, fileName), contentType);
-        //}
+
+        public virtual ActionResult Download(string fileGuid, string fileName)
+        {
+            if (TempData[fileGuid] != null)
+            {
+                byte[] data = TempData[fileGuid] as byte[];
+                return File(data, "application/vnd.ms-excel", fileName);
+            }
+            else
+            {
+                return new EmptyResult();
+            }
+        }
 
 
         #endregion
@@ -152,22 +148,21 @@ namespace SAT.HR.Controllers
             return new FilePathResult(System.IO.Path.Combine(filePath, fileName), contentType);
         }
 
-        public FileContentResult ExportBonusCalculatorToExcel(BonusCalculatorViewModel data)
+        public ActionResult ExportBonusCalculatorToExcel(BonusCalculatorViewModel data)
         {
             List<BonusCalculatorToExport> bonuscal = new BonusCalculatorRepository().GetBonusCalculatorToExport(data);
-            string[] columns = { "ปีบัญชี", "ชื่อ นามสกุล", "เงินเดือน", "อัตรา", "โบนัส", "M10", "M11", "M12", "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9" };
-            byte[] filecontent = ExcelExportHelper.ExportExcel(bonuscal, "BonusCalculator", true, columns);
-            return File(filecontent, ExcelExportHelper.ExcelContentType, "BonusCalculator.xlsx");
-        }
+            string[] columns = { "Year", "Seq", "FullNameTh", "Salary", "UpStep", "Bonus", "M10", "M11", "M12", "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9" };
+            byte[] filecontent = ExcelWorksheetExtension.ExportExcel(bonuscal, string.Empty, true, columns);
 
-        //public FileResult ExportBonusCalculatore(BonusCalculatorViewModel data)
-        //{
-        //    var result = new BonusCalculatorRepository().ExportBonusCalculator(data);
-        //    string fileName = result.FileName;
-        //    string filePath = result.FilePath;
-        //    string contentType = result.ContentType;
-        //    return new FilePathResult(System.IO.Path.Combine(filePath, fileName), contentType);
-        //}
+            string handleBonus = Guid.NewGuid().ToString();
+            TempData[handleBonus] = filecontent;
+
+            //return File(filecontent, ExcelExportHelper.ExcelContentType, "BonusCalculator.xlsx");
+            return new JsonResult()
+            {
+                Data = new { FileGuid = handleBonus, FileName = "BonusCalculator.xlsx" }
+            };
+        }
 
         #endregion
     }
