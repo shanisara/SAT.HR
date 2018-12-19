@@ -70,16 +70,18 @@ namespace SAT.HR.Controllers
         {
             try
             {
+                //Log.LogMessageToFile("start");
+
                 string myConnString = "Provider=SQLOLEDB;Data Source=" + SysConfig.ServerName + ";Initial Catalog=" + SysConfig.DatabaseName + ";user id=" + SysConfig.UserName + ";password=" + SysConfig.Password + ";Connect Timeout=30";
                 OleDbConnection myConnection = new OleDbConnection(myConnString);
-                myConnection.Open();
+                myConnection.Open();                
 
                 ReportClass rptH = new ReportClass();
                 FileName = "Report_Education" + "_" + DateTime.Now.ToString("yyyyMMddHHmm") + ExtensionFile;
                 rptH.FileName = Server.MapPath(@"~/Report/Master/Report_Education.rpt");
                 rptH.Load();
                 rptH.DataSourceConnections[0].SetConnection(SysConfig.ServerName, SysConfig.DatabaseName, SysConfig.UserName, SysConfig.Password);
-                //rptH.SetDatabaseLogon(SysConfig.UserName, SysConfig.Password, SysConfig.ServerName, SysConfig.DatabaseName);
+
                 rptH.SetParameterValue("@eduID", EduID == "" ? null : EduID);
                 rptH.ExportToDisk(ExtensionFile == ".xlsx" ? ExportFormatType.ExcelWorkbook : ExportFormatType.PortableDocFormat, Path.Combine(SysConfig.PathUploadReport, FileName));
 
@@ -96,7 +98,7 @@ namespace SAT.HR.Controllers
         {
             try
             {
-                Log.LogMessageToFile("start");
+                //Log.LogMessageToFile("start");
                 string myConnString = "Provider=SQLOLEDB;Data Source=" + SysConfig.ServerName + ";Initial Catalog=" + SysConfig.DatabaseName + ";user id=" + SysConfig.UserName + ";password=" + SysConfig.Password + ";Connect Timeout=30";
                 OleDbConnection myConnection = new OleDbConnection(myConnString);
                 myConnection.Open();
@@ -105,7 +107,8 @@ namespace SAT.HR.Controllers
                 FileName = "Report_Employee" + "_" + DateTime.Now.ToString("yyyyMMddHHmm") + ExtensionFile;
                 rptH.FileName = Server.MapPath(@"~/Report/Master/Report_Employee.rpt");
                 rptH.Load();
-                rptH.SetDatabaseLogon(SysConfig.UserName, SysConfig.Password, SysConfig.ServerName, SysConfig.DatabaseName);
+                rptH.DataSourceConnections[0].SetConnection(SysConfig.ServerName, SysConfig.DatabaseName, SysConfig.UserName, SysConfig.Password);
+
                 rptH.SetParameterValue("@divID", DivID == "" ? null : DivID);
                 rptH.SetParameterValue("@depID", DepID == "" ? null : DepID);
                 rptH.SetParameterValue("@secID", SecID == "" ? null : SecID);
@@ -115,7 +118,7 @@ namespace SAT.HR.Controllers
                 rptH.SetParameterValue("@utID", UserTypeID == "" ? null : UserTypeID);
                 rptH.ExportToDisk(ExtensionFile == ".xlsx" ? ExportFormatType.ExcelWorkbook : ExportFormatType.PortableDocFormat, Path.Combine(SysConfig.PathUploadReport, FileName));
 
-                Log.LogMessageToFile("GenFile");
+                //Log.LogMessageToFile("GenFile");
                 return Json(FileName, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -145,19 +148,19 @@ namespace SAT.HR.Controllers
         {
             try
             {
-                Log.LogMessageToFile("DownloadFile");
+                //Log.LogMessageToFile("DownloadFile");
 
 
-                //var filePath = System.IO.File.ReadAllBytes(Path.Combine(SysConfig.PathDownloadReport, fileName));
-                //return File(filePath, "application/pdf", fileName);
-                //http://27.254.149.155/SATHR/Upload/Report/Report_Education_201812190052.pdf
-
-                string path = SysConfig.PathUploadReport + "/" + fileName; //Server.MapPath("~"+ SysConfig.PathDownloadReport+ "/" + fileName);
-
-                Log.LogMessageToFile(path);
+                var filePath = System.IO.File.ReadAllBytes(Path.Combine(SysConfig.PathDownloadReport, fileName));
+                return File(filePath, "application", fileName);
 
 
-                return new FilePathResult(path, "application/pdf");
+                //string path = SysConfig.PathUploadReport + "/" + fileName; //Server.MapPath("~"+ SysConfig.PathDownloadReport+ "/" + fileName);
+
+                //Log.LogMessageToFile(filePath.ToString());
+
+
+                //return new FilePathResult(path, "application/pdf");
 
 
             }
