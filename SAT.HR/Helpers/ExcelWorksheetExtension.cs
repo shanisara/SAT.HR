@@ -3,19 +3,35 @@ using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 
 namespace SAT.HR.Helpers
 {
-    public class ExcelExportHelper
+    public class ExcelWorksheetExtension
     {
         public static string ExcelContentType
         {
             get
             { return "application/ms-excel"; }
         }
+
+        //public static string[] GetHeaderColumns(this ExcelWorksheet sheet)
+        //{
+        //    List<string> columnNames = new List<string>();
+        //    foreach (var firstRowCell in sheet.Cells[sheet.Dimension.Start.Row, sheet.Dimension.Start.Column, 1, sheet.Dimension.End.Column])
+        //        columnNames.Add(firstRowCell.Text);
+        //    return columnNames.ToArray();
+        //}
+
+        //public static string[] GetHeaderColumns(this ExcelWorksheet sheet)
+        //{
+        //    return sheet.Cells[sheet.Dimension.Start.Row, sheet.Dimension.Start.Column, 1, sheet.Dimension.End.Column]
+        //        .Select(firstRowCell => firstRowCell.Text).ToArray();
+        //}
 
         public static DataTable ListToDataTable<T>(List<T> data)
         {
@@ -49,7 +65,7 @@ namespace SAT.HR.Helpers
                 string nameSheet = DateTime.Now.ToString("yyyyMMdd");
                 ExcelWorksheet workSheet = package.Workbook.Worksheets.Add(String.Format("{0}"+ nameSheet, heading));
                 int startRowFrom = String.IsNullOrEmpty(heading) ? 1 : 3;
-
+                
                 if (showSrNo)
                 {
                     DataColumn dataColumn = dataTable.Columns.Add("#", typeof(int));
@@ -61,7 +77,6 @@ namespace SAT.HR.Helpers
                         index++;
                     }
                 }
-
 
                 // add the content into the Excel file  
                 workSheet.Cells["A" + startRowFrom].LoadFromDataTable(dataTable, true);

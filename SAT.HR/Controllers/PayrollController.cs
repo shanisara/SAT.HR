@@ -69,8 +69,8 @@ namespace SAT.HR.Controllers
         public ActionResult ExportSalaryIncreaseToExcel(SalaryIncreaseViewModel data)
         {
             List<SalaryIncreaseToExport> salaryinc = new SalaryIncreaseRepository().GetSalaryIncreaseToExport(data);
-            string[] columns = { "Year", "Seq", "FullNameTh", "UpStep", "Level", "Old_Step", "New_Step", "Old_Salary", "New_Salary" }; // { "ปีบัญชี", "รอบที่", "ชื่อ นามสกุล", "อัตรา", "ระดับ", "ขั้นเก่า", "ขั้นใหม่", "เงินเดือนเก่า", "เงินเดือนใหม่" };
-            byte[] filecontent = ExcelExportHelper.ExportExcel(salaryinc, string.Empty, true, columns);
+            string[] columns = { "Year", "Seq", "FullNameTh", "UpStep", "Level", "Old_Step", "New_Step", "Old_Salary", "New_Salary" }; 
+            byte[] filecontent = ExcelWorksheetExtension.ExportExcel(salaryinc, string.Empty, true, columns);
 
             string handleSalary = Guid.NewGuid().ToString();
             TempData[handleSalary] = filecontent;
@@ -152,7 +152,7 @@ namespace SAT.HR.Controllers
         {
             List<BonusCalculatorToExport> bonuscal = new BonusCalculatorRepository().GetBonusCalculatorToExport(data);
             string[] columns = { "Year", "Seq", "FullNameTh", "Salary", "UpStep", "Bonus", "M10", "M11", "M12", "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9" };//{ "ปีบัญชี", "ชื่อ นามสกุล", "เงินเดือน", "อัตรา", "โบนัส", "M10", "M11", "M12", "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9" };
-            byte[] filecontent = ExcelExportHelper.ExportExcel(bonuscal, string.Empty, true, columns);
+            byte[] filecontent = ExcelWorksheetExtension.ExportExcel(bonuscal, string.Empty, true, columns);
 
             string handleBonus = Guid.NewGuid().ToString();
             TempData[handleBonus] = filecontent;
