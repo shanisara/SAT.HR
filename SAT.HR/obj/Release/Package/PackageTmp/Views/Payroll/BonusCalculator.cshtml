@@ -14,6 +14,7 @@
                     </div>
                     <h4 class="card-title"><span> การคำนวณโบนัส > </span><small>พนักงาน</small></h4>
                 </div>
+
                 <!-- Wizard container -->
                 <div class="card-header text-center">
                     <h3 class="card-title">
@@ -40,9 +41,14 @@
                         </li>
                     </ul>
                 </div>
-                @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-step" }))
-                {
+
                 <div class="card-body">
+                    <div class="toolbar pull-right" style="margin-top:10px;padding-right:5px;">
+                        <button class="btn btn-primary btn-sm btn-export" style="display: none;">Export</button>
+                    </div>
+
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-step" }))
+                    {
                     <div class="tab-content tab-subcategories">
                         <div class="tab-pane active div-step1" id="step1">
                             <div id="div-step1">
@@ -58,19 +64,19 @@
                             </div>
                         </div>
                     </div>
+                    }
                 </div>
-                }
+               
                 <div class="card-footer">
-                    <div class="mr-auto">
+                    <div class="mr-auto" style="margin-left:10px">
                         <input name="previous" class="btn btn-previous btn-fill btn-default" style="display: none;" type="button" value="ย้อนกลับ">
                     </div>
-                    <div class="ml-auto">
+                    <div class="ml-auto" style="margin-right:10px">
                         <input name="next" class="btn btn-next btn-fill btn-primary" type="button" value="ถัดไป">
                         <input name="finish" class="btn btn-finish btn-fill btn-primary" style="display: none;" type="button" value="ยืนยัน">
                     </div>
                     <div class="clearfix"></div>
                 </div>
-                <button class="btn btn-primary btn-sm btn-export" data-toggle="modal" style="display:none">Export</button>
 
                 <div class="col-md-11 col-12 mr-auto ml-auto">
                     @*<div class="wizard-container">
@@ -185,6 +191,7 @@
                         </div>*@
                 </div>
                 <!-- wizard container -->
+
             </div>
         </div>
     </div>
@@ -213,6 +220,12 @@
 <!--  End Modal -->
 
 <style>
+    m-l-10{
+        margin-left:10px;
+    }
+     m-l-10{
+        margin-right:10px;
+    }
 
     .card .card-body .col-form-label, .card .card-body {
         padding-top: 0px;
@@ -267,6 +280,7 @@
 
         $("#tabs li").click(function () {
             if (this.id == "li-step1") {
+                $(".btn-export").css("display", "none");
                 $(".btn-previous").hide();
                 $(".btn-next").show();
                 $(".btn-finish").hide();
@@ -281,8 +295,10 @@
                     $(".btn-next").show();
                     $(".btn-finish").hide();
                 }
+                $(".btn-export").css("display", "block");
             }
             else if (this.id == "li-step3") {
+                $(".btn-export").css("display", "none");
                 if (!$('.li-step3').find('a').hasClass('disabled')) {
                     $(".btn-previous").show();
                     $(".btn-next").hide();
@@ -291,11 +307,11 @@
             }
         });
 
-
         $(".btn-previous").click(function () {
             var ref_this = $("#tabs li").find(".active");
             var id = ref_this.data("id");
             if (id == "tab-step2") {
+                $(".btn-export").css("display", "block");
                 $('.li-step2').find('a').removeClass('active');
                 $('.div-step2').removeClass('active');
 
@@ -306,6 +322,7 @@
                 $(".btn-next").show();
             }
             else if (id == "tab-step3") {
+                $(".btn-export").css("display", "none");
                 $('.li-step3').find('a').removeClass('active');
                 $('.div-step3').removeClass('active');
 
@@ -377,6 +394,7 @@
                 cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
                 buttonsStyling: false
             }).then(function () {*@
+                
                 $('.li-step1').find('a').removeClass('active');
                 $('.div-step1').removeClass('active');
 
@@ -394,6 +412,8 @@
         }
 
         function step3() {
+            $(".btn-export").css("display", "none");
+
             $('.li-step2').find('a').removeClass('active');
             $('.div-step2').removeClass('active');
 
@@ -411,6 +431,7 @@
             var step = parseFloat($('#Rate').val());
             var url = '@Url.Action("BonusCalculatorStep2", "Payroll")?year=' + year + '&step=' + step;
             $("#div-step2").load(url);
+            $(".btn-export").css("display", "block");
         }
 
         function BonusCalculatorProcess() {
@@ -445,7 +466,9 @@
                 type: 'POST',
                 url: '@Url.Action("ExportBonusCalculatorToExcel", "Payroll")',
                 data: $(".form-step").serialize(),
-                success: function () { }
+                success: function (res) {
+                    window.location = '/Payroll/Download?fileGuid=' + res.FileGuid + '&filename=' + res.FileName;
+                }
             });
         });
 

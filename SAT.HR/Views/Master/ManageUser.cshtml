@@ -108,9 +108,9 @@
                             {
                                 "render": function (data, type, row) {
                                     if (row.IsTerminate == true)
-                                        return '<div class="td-actions text-center"><button class="btn btn-danger btn-action terminate-user" type="button" data-type="1" data-id="' + row.UserID + '" data-name="' + row.UserName + '">ยกเลิกการระงับ</button></div>';
+                                        return '<div class="td-actions text-center"><button class="btn btn-danger" type="button" data-type="1" data-id="' + row.UserID + '" data-name="' + row.UserName + '">ยกเลิกการระงับ</button></div>';
                                     else
-                                        return '<div class="td-actions text-center"><button class="btn btn-success btn-action terminate-user" type="button" data-type="2" data-id="' + row.UserID + '" data-name="' + row.UserName + '">ระงับการใช้งาน</button></div>';
+                                        return '<div class="td-actions text-center"><button class="btn btn-success" type="button" data-type="2" data-id="' + row.UserID + '" data-name="' + row.UserName + '">ระงับการใช้งาน</button></div>';
                                 }, "targets": 4
                             },
                         ],
@@ -157,16 +157,12 @@
                 if ($(this).attr('data-type') == '1') {
                     $(this).attr('data-type', '2');
                     $(this).removeClass("btn-danger").addClass("btn-success");
-                    $(".terminate-user").prop('value', 'ระงับการใช้งาน');
-
-                    //TerminateUser
+                    $(this).html('ระงับการใช้งาน');
                 }
                 else {
                     $(this).attr('data-type', '1');
                     $(this).removeClass("btn-success").addClass("btn-danger");
-                    $(".terminate-user").prop('value', 'ยกเลิกการระงับ');
-
-                    //
+                    $(this).html('ยกเลิกการระงับ');
                 }
 
                 @*var id = $(this).data("id");
