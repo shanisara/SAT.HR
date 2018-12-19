@@ -43,11 +43,11 @@ namespace SAT.HR.Helpers
 
         public static byte[] ExportExcel(DataTable dataTable, string heading = "", bool showSrNo = false, params string[] columnsToTake)
         {
-
             byte[] result = null;
             using (ExcelPackage package = new ExcelPackage())
             {
-                ExcelWorksheet workSheet = package.Workbook.Worksheets.Add(String.Format("{0} Data", heading));
+                string nameSheet = DateTime.Now.ToString("yyyyMMdd");
+                ExcelWorksheet workSheet = package.Workbook.Worksheets.Add(String.Format("{0}"+ nameSheet, heading));
                 int startRowFrom = String.IsNullOrEmpty(heading) ? 1 : 3;
 
                 if (showSrNo)
@@ -76,7 +76,6 @@ namespace SAT.HR.Helpers
                     {
                         workSheet.Column(columnIndex).AutoFit();
                     }
-
 
                     columnIndex++;
                 }

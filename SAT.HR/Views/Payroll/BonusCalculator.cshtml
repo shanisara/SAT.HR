@@ -14,6 +14,7 @@
                     </div>
                     <h4 class="card-title"><span> การคำนวณโบนัส > </span><small>พนักงาน</small></h4>
                 </div>
+
                 <!-- Wizard container -->
                 <div class="card-header text-center">
                     <h3 class="card-title">
@@ -41,13 +42,13 @@
                     </ul>
                 </div>
 
-                <div class="toolbar pull-right" style="margin-top:20px;padding-right:20px;">
-                    <button class="btn btn-primary btn-sm btn-export" style="display: none;">Export</button>
-                </div>
-
-                @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-step" }))
-                {
                 <div class="card-body">
+                    <div class="toolbar pull-right" style="margin-top:10px;padding-right:5px;">
+                        <button class="btn btn-primary btn-sm btn-export" style="display: none;">Export</button>
+                    </div>
+
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-step" }))
+                    {
                     <div class="tab-content tab-subcategories">
                         <div class="tab-pane active div-step1" id="step1">
                             <div id="div-step1">
@@ -63,8 +64,9 @@
                             </div>
                         </div>
                     </div>
+                    }
                 </div>
-                }
+               
                 <div class="card-footer">
                     <div class="mr-auto">
                         <input name="previous" class="btn btn-previous btn-fill btn-default" style="display: none;" type="button" value="ย้อนกลับ">
@@ -190,6 +192,7 @@
                         </div>*@
                 </div>
                 <!-- wizard container -->
+
             </div>
         </div>
     </div>
@@ -298,7 +301,6 @@
                 }
             }
         });
-
 
         $(".btn-previous").click(function () {
             var ref_this = $("#tabs li").find(".active");
@@ -459,7 +461,9 @@
                 type: 'POST',
                 url: '@Url.Action("ExportBonusCalculatorToExcel", "Payroll")',
                 data: $(".form-step").serialize(),
-                success: function () { }
+                success: function (res) {
+                    window.location = '/Payroll/Download?fileGuid=' + res.FileGuid + '&filename=' + res.FileName;
+                }
             });
         });
 
