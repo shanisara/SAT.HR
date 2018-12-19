@@ -151,7 +151,7 @@ namespace SAT.HR.Controllers
         public ActionResult ExportBonusCalculatorToExcel(BonusCalculatorViewModel data)
         {
             List<BonusCalculatorToExport> bonuscal = new BonusCalculatorRepository().GetBonusCalculatorToExport(data);
-            string[] columns = { "Year", "Seq", "FullNameTh", "Salary", "UpStep", "Bonus", "M10", "M11", "M12", "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9" };//{ "ปีบัญชี", "ชื่อ นามสกุล", "เงินเดือน", "อัตรา", "โบนัส", "M10", "M11", "M12", "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9" };
+            string[] columns = { "Year", "Seq", "FullNameTh", "Salary", "UpStep", "Bonus", "M10", "M11", "M12", "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9" };
             byte[] filecontent = ExcelWorksheetExtension.ExportExcel(bonuscal, string.Empty, true, columns);
 
             string handleBonus = Guid.NewGuid().ToString();
