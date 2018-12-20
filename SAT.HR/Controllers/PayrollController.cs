@@ -12,8 +12,6 @@ namespace SAT.HR.Controllers
 {
     public class PayrollController : BaseController
     {
-        // ระบบเงินเดือนและโบนัส
-
         #region 1. การเลื่อนขั้นเงินเดือน
 
         public ActionResult SalaryIncrease()
@@ -57,7 +55,7 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public FileResult DownloadSalaryIncrease(int id)
+        public FileResult DownloadFileSalaryIncrease(int id)
         {
             var result = new SalaryIncreaseRepository().DownloadSalaryIncrease(id);
             string fileName = result.FileName;
@@ -68,12 +66,17 @@ namespace SAT.HR.Controllers
 
         public ActionResult ExportSalaryIncreaseToExcel(SalaryIncreaseViewModel data)
         {
+            Logs.LogMessageToFile("Start...ExportSalaryIncreaseToExcel");
+
             List<SalaryIncreaseToExport> salaryinc = new SalaryIncreaseRepository().GetSalaryIncreaseToExport(data);
-            string[] columns = { "Year", "Seq", "FullNameTh", "UpStep", "Level", "Old_Step", "New_Step", "Old_Salary", "New_Salary" }; 
+            string[] columns = { "Year", "Seq", "FullNameTh", "UpStep", "Level", "Old_Step", "New_Step", "Old_Salary", "New_Salary" };
             byte[] filecontent = ExcelWorksheetExtension.ExportExcel(salaryinc, string.Empty, true, columns);
 
             string handleSalary = Guid.NewGuid().ToString();
             TempData[handleSalary] = filecontent;
+
+            Logs.LogMessageToFile("fileGuid=" + handleSalary.ToString());
+            Logs.LogMessageToFile("filecontent=" + filecontent.Length.ToString());
 
             //return File(filecontent, ExcelExportHelper.ExcelContentType, "SalaryIncrease.xlsx");
             return new JsonResult()
@@ -86,8 +89,15 @@ namespace SAT.HR.Controllers
         {
             if (TempData[fileGuid] != null)
             {
+                Logs.LogMessageToFile("Start...Download");
+                Logs.LogMessageToFile("fileGuid=" + fileGuid);
+
                 byte[] data = TempData[fileGuid] as byte[];
-                return File(data, "application/vnd.ms-excel", fileName);
+                Logs.LogMessageToFile("filecontent" + data.Length.ToString());
+
+                HttpContext.Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+
+                return File(data, "application/vnd.ms-excel");
             }
             else
             {
@@ -139,7 +149,7 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public FileResult DownloadBonusCalculator(int id)
+        public FileResult DownloadFileBonusCalculator(int id)
         {
             var result = new BonusCalculatorRepository().DownloadBonusCalculator(id);
             string fileName = result.FileName;
@@ -162,6 +172,59 @@ namespace SAT.HR.Controllers
             {
                 Data = new { FileGuid = handleBonus, FileName = "BonusCalculator.xlsx" }
             };
+        }
+
+        #endregion
+
+        #region 3. ประวัติการเลื่อนขั้นเงินเดือน
+
+        public ActionResult SalaryIncreaseHistory()
+        {
+            //var model = new SalaryIncreaseRepository().SalaryIncreaseHistory();
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult SalaryIncreaseHistory(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        {
+            var search = Request["search[value]"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
+            var dataTableData = new SalaryIncreaseRepository().GetSalaryIncreaseHistory(search, draw, start, length, dir, column);
+            return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult SalaryIncreaseHistoryDetail(int id)
+        {
+            var model = new SalaryIncreaseRepository().GetSalaryIncreaseHistoryDetail(id);
+            return View(model);
+        }
+
+
+        #endregion
+
+        #region 4. ประวัติการคำนวณโบนัส
+
+        public ActionResult BonusCalculatorHistory()
+        {
+            //var model = new BonusCalculatorRepository().BonusCalculatorHistory();
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult BonusCalculatorHistory(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        {
+            var search = Request["search[value]"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
+            var dataTableData = new BonusCalculatorRepository().GetBonusCalculatorHistory(search, draw, start, length, dir, column);
+            return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult BonusCalculatorHistoryDetail(int id)
+        {
+            var model = new BonusCalculatorRepository().GetBonusCalculatorHistoryDetail(id);
+            return View(model);
         }
 
         #endregion

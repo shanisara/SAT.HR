@@ -200,6 +200,7 @@ namespace SAT.HR.Data.Repository
                         EmployeeViewModel model = new EmployeeViewModel();
                         model.RowNumber = ++i;
                         model.UserID = item.UserID;
+                        model.UserName = item.UserName;
                         model.IDCard = item.IDCard;
                         model.FullNameTh = item.TiShortName + item.FirstNameTh + " " + item.LastNameTh;
                         model.MpID = item.MpID;
@@ -207,6 +208,7 @@ namespace SAT.HR.Data.Repository
                         model.FullDepartment = item.DivName + (!string.IsNullOrEmpty(item.DepName) ? " / " : "") + item.DepName + (!string.IsNullOrEmpty(item.SecName) ? " / " : "") + item.SecName;
                         model.DisName = item.DisName;
                         model.PoName = item.PoName;
+                        model.IsTerminate = item.IsTerminate.HasValue ? item.IsTerminate : true;
                         model.recordsTotal = (int)item.recordsTotal;
                         model.recordsFiltered = (int)item.recordsFiltered;
                         list.Add(model);

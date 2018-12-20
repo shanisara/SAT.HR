@@ -9,6 +9,7 @@ namespace SAT.HR.Models
 {
     public class SalaryIncreaseViewModel
     {
+        public Nullable<int> HeaderID { get; set; }
         public Nullable<int> Seq { get; set; }
         public Nullable<int> Year { get; set; }
         public Nullable<int> UpLevel { get; set; }
@@ -16,6 +17,8 @@ namespace SAT.HR.Models
         public string BookCmd { get; set; }
         public DateTime? DateCmd { get; set; }
         public DateTime? DateEff { get; set; }
+        public Nullable<int> CreateBy { get; set; }
+        public DateTime? CreateDate { get; set; }
         public string PathFile { get; set; }
         public HttpPostedFileBase FileUpload { get; set; }
 
@@ -46,6 +49,8 @@ namespace SAT.HR.Models
         public decimal New_Step { get; set; }
         public decimal Old_Salary { get; set; }
         public decimal New_Salary { get; set; }
+        public Nullable<int> CreateBy { get; set; }
+        public DateTime? CreateDate { get; set; }
     }
 
     public class SalaryIncreaseSep3ViewModel
@@ -86,4 +91,30 @@ namespace SAT.HR.Models
         [DisplayName("เงินเดือนใหม่")]
         public decimal New_Salary { get; set; }
     }
+
+    public class SalaryIncreaseHeader
+    {
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+        public List<SalaryIncreaseHeaderViewModel> data { get; set; }
+    }
+
+    public class SalaryIncreaseHeaderViewModel
+    {
+        public int RowNumber { get; set; }
+        public int HeaderID { get; set; }
+        public Nullable<int> Seq { get; set; }
+        public Nullable<int> Year { get; set; }
+        public Nullable<int> UpLevel { get; set; }
+        public Nullable<decimal> UpStep { get; set; }
+        public string BookCmd { get; set; }
+        public DateTime? DateCmd { get; set; }
+        public DateTime? DateEff { get; set; }
+        public string PathFile { get; set; }
+        public string DateCmdText { get; set; }
+        public string DateEffText { get; set; }
+    }
+
+
 }

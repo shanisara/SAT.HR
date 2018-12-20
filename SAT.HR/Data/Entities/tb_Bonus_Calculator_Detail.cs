@@ -18,6 +18,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> HeaderID { get; set; }
         public Nullable<int> Year { get; set; }
         public Nullable<int> UserID { get; set; }
+        public string FullNameTh { get; set; }
         public Nullable<decimal> UpStep { get; set; }
         public Nullable<decimal> Bonus { get; set; }
         public Nullable<decimal> Salary { get; set; }

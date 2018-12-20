@@ -140,7 +140,7 @@ namespace SAT.HR.Data.Repository
                 {
                     var model = db.tb_Mail_Template.Single(x => x.MailID == newdata.MailID);
                     model.MailID = newdata.MailID;
-                    model.MailCode = newdata.MailCode;
+                    //model.MailCode = newdata.MailCode;
                     model.MailName = newdata.MailName;
                     model.MailSubject = newdata.MailSubject;
                     model.MailBody = newdata.MailBody;

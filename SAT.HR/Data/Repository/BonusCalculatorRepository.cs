@@ -154,6 +154,7 @@ namespace SAT.HR.Data
                                 detail.HeaderID = headerID;
                                 detail.Year = item.Year;
                                 detail.UserID = item.UserID;
+                                detail.FullNameTh = item.FullNameTh;
                                 detail.UpStep = item.UpStep;
                                 detail.Bonus = item.Bonus;
                                 detail.Salary = item.Salary;
@@ -256,6 +257,125 @@ namespace SAT.HR.Data
             }
         }
 
+        public BonusCalculatorHeader GetBonusCalculatorHistory(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.tb_Bonus_Calculator_Header.ToList();
+
+                int recordsTotal = data.Count();
+
+                if (!string.IsNullOrEmpty(filter))
+                {
+                    data = data.Where(x => x.Year.ToString().Contains(filter) || x.Seq.ToString().Contains(filter) || x.Rate.ToString().Contains(filter) || x.BookCmd.Contains(filter)).ToList();
+                }
+
+                int recordsFiltered = data.Count();
+
+                switch (sortBy)
+                {
+                    #region
+
+                    case "Year":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.Year).ToList() : data.OrderByDescending(x => x.Year).ToList();
+                        break;
+                    case "Seq":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.Seq).ToList() : data.OrderByDescending(x => x.Seq).ToList();
+                        break;
+                    case "Rate":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.Rate).ToList() : data.OrderByDescending(x => x.Rate).ToList();
+                        break;
+                    case "BookCmd":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.BookCmd).ToList() : data.OrderByDescending(x => x.BookCmd).ToList();
+                        break;
+                    case "DateCmdText":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.DateCmd).ToList() : data.OrderByDescending(x => x.DateCmd).ToList();
+                        break;
+
+                        #endregion
+                }
+
+                int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
+                int length = pageSize ?? 10;
+
+                var list = data.Select((s, i) => new BonusCalculatorHeaderViewModel()
+                {
+                    RowNumber = ++i,
+                    HeaderID = s.HeaderID,
+                    Year = s.Year,
+                    Seq = s.Seq,
+                    Rate = s.Rate,
+                    BookCmd = s.BookCmd,
+                    DateCmd = s.DateCmd,
+                    PathFile = s.PathFile,
+                    DateCmdText = s.DateCmd.Value.ToString("dd/MM/yyy"),
+                }).Skip(start * length).Take(length).ToList();
+
+                BonusCalculatorHeader result = new BonusCalculatorHeader();
+                result.draw = draw ?? 0;
+                result.recordsTotal = recordsTotal;
+                result.recordsFiltered = recordsFiltered;
+                result.data = list;
+
+                return result;
+            }
+        }
+
+        public BonusCalculatorViewModel GetBonusCalculatorHistoryDetail(int id)
+        {
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    BonusCalculatorViewModel model = new BonusCalculatorViewModel();
+
+                    var header = db.tb_Bonus_Calculator_Header.Where(m => m.HeaderID == id).FirstOrDefault();
+                    model.HeaderID = header.HeaderID;
+                    model.Year = header.Year;
+                    model.Rate = header.Rate;
+                    model.BookCmd = header.BookCmd;
+                    model.DateCmd = header.DateCmd;
+                    model.PathFile = header.PathFile;
+                    model.CreateBy = header.CreateBy;
+                    model.CreateDate = header.CreateDate;
+
+                    var list = new List<BonusCalculatorStep2ViewModel>();
+                    var detail = db.tb_Bonus_Calculator_Detail.Where(m => m.HeaderID == id).ToList();
+                    foreach (var item in detail)
+                    {
+                        BonusCalculatorStep2ViewModel obj = new BonusCalculatorStep2ViewModel();
+                        obj.Year = item.Year;
+                        obj.FullNameTh = item.FullNameTh;
+                        obj.Salary = item.Salary;
+                        obj.UpStep = item.UpStep;
+                        obj.Bonus = item.Bonus;
+                        obj.M10 = item.M10;
+                        obj.M11 = item.M11;
+                        obj.M12 = item.M12;
+                        obj.M1 = item.M1;
+                        obj.M2 = item.M2;
+                        obj.M3 = item.M3;
+                        obj.M4 = item.M4;
+                        obj.M5 = item.M5;
+                        obj.M6 = item.M6;
+                        obj.M7 = item.M7;
+                        obj.M8 = item.M8;
+                        obj.M9 = item.M9;
+                        obj.CreateBy = item.CreateBy;
+                        obj.CreateDate = item.CreateDate;
+                        list.Add(obj);
+                    }
+                    model.Step2 = list;
+
+                    return model;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 
     }
 }

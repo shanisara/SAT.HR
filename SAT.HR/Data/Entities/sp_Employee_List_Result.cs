@@ -42,5 +42,6 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> recordsFiltered { get; set; }
         public string DivName { get; set; }
         public string SecName { get; set; }
+        public Nullable<bool> IsTerminate { get; set; }
     }
 }

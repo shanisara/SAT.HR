@@ -808,5 +808,29 @@ namespace SAT.HR.Controllers
         //}
 
         #endregion
+
+        #region Manage User
+
+        public ActionResult CreateUserName(int userid)
+        {
+            ViewBag.UserID = userid;
+            return PartialView("_CreateUserName");
+        }
+
+        public JsonResult UpdateUserName(int userid, string username, string password)
+        {
+            //var result = new EmployeeRepository().CreateUserName(userid, username, password);
+            return Json(0, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult TerminateUser(int userid, bool terminate)
+        {
+            //var result = new EmployeeRepository().TerminateUser(userid,terminate);
+            return View();
+        }
+
+
+        #endregion
+
     }
 }
