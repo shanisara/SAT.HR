@@ -58,25 +58,24 @@ namespace SAT.HR.Controllers
         public FileResult DownloadFileSalaryIncrease(int id)
         {
             var result = new SalaryIncreaseRepository().DownloadSalaryIncrease(id);
-            string fileName = result.FileName;
-            string filePath = result.FilePath;
-            string contentType = result.ContentType;
-            return new FilePathResult(System.IO.Path.Combine(filePath, fileName), contentType);
+            if (result != null)
+            {
+                string fileName = result.FileName;
+                string filePath = result.FilePath;
+                string contentType = result.ContentType;
+                return new FilePathResult(System.IO.Path.Combine(filePath, fileName), contentType);
+            }
+            return null;
         }
 
         public ActionResult ExportSalaryIncreaseToExcel(SalaryIncreaseViewModel data)
         {
-            Logs.LogMessageToFile("Start...ExportSalaryIncreaseToExcel");
-
             List<SalaryIncreaseToExport> salaryinc = new SalaryIncreaseRepository().GetSalaryIncreaseToExport(data);
             string[] columns = { "Year", "Seq", "FullNameTh", "UpStep", "Level", "Old_Step", "New_Step", "Old_Salary", "New_Salary" };
             byte[] filecontent = ExcelWorksheetExtension.ExportExcel(salaryinc, string.Empty, true, columns);
 
             string handleSalary = Guid.NewGuid().ToString();
             TempData[handleSalary] = filecontent;
-
-            Logs.LogMessageToFile("fileGuid=" + handleSalary.ToString());
-            Logs.LogMessageToFile("filecontent=" + filecontent.Length.ToString());
 
             //return File(filecontent, ExcelExportHelper.ExcelContentType, "SalaryIncrease.xlsx");
             return new JsonResult()
@@ -89,12 +88,7 @@ namespace SAT.HR.Controllers
         {
             if (TempData[fileGuid] != null)
             {
-                Logs.LogMessageToFile("Start...Download");
-                Logs.LogMessageToFile("fileGuid=" + fileGuid);
-
                 byte[] data = TempData[fileGuid] as byte[];
-                Logs.LogMessageToFile("filecontent" + data.Length.ToString());
-
                 HttpContext.Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
 
                 return File(data, "application/vnd.ms-excel");

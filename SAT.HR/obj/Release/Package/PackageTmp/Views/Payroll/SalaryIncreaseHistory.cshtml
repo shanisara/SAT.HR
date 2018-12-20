@@ -4,17 +4,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <div class="content">
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header card-header-primary card-header-icon">
                     <div class="card-icon">
-                        <i class="material-icons">accessibility</i>
+                        <i class="material-icons">local_atm</i>
                     </div>
                     <h4 class="card-title">
-                        <span> ประวัติการเลื่อนขั้นเงินเดือน: </span>
+                        <span> ประวัติการเลื่อนขั้นเงินเดือน </span>
                     </h4>
                 </div>
                 <div class="card-body">
@@ -25,14 +24,13 @@
                         <table class="table table-detail">
                             <thead class="text-primary">
                                 <tr>
-                                    <th style="width:5%;" class="text-center">ลำดับ</th>
-                                    <th style="width:7%;" class="text-left">ปีบัญชี</th>
-                                    <th style="width:5%;" class="text-left">ระดับ</th>
-                                    <th style="width:10%;" class="text-left">ขั้นที่ปรับขึ้น</th>
-                                    <th style="width:33%;" class="text-left">คำสั่ง</th>
-                                    <th style="width:10%;" class="text-left">วันที่ลงคำสั่ง</th>
+                                    <th style="width:8%;" class="text-left">ปีบัญชี</th>
+                                    <th style="width:35%;" class="text-left">คำสั่ง</th>
+                                    <th style="width:7%;" class="text-left">ระดับ</th>
+                                    <th style="width:12%;" class="text-left">ขั้นที่ปรับขึ้น</th>
+                                    <th style="width:11%;" class="text-left">วันที่ลงคำสั่ง</th>
                                     <th style="width:10%;" class="text-left">วันที่มีผล</th>
-                                    <th style="width:10%;" class="text-left">ไฟล์แนบ</th>
+                                    <th style="width:7%;" class="text-left">ไฟล์แนบ</th>
                                     <th style="width:10%;" class="text-right">ปฏิบัติการ</th>
                                 </tr>
                             </thead>
@@ -45,28 +43,6 @@
     </div>
 </div>
 
-<!-- Classic Modal -->
-<div class="modal fade modal-large modal-detail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title"><span>ประวัติการเลื่อนขั้นเงินเดือน</span></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
-            </div>
-            <div class="modal-body">
-                <div class="content">
-                    <div class="div-detail"></div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-close" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
-            </div>
-        </div>
-    </div>
-</div>
-<!--  End Modal -->
-
-
 @section Scripts {
     <script>
     $(document).ready(function () {
@@ -76,51 +52,57 @@
             initializeDataTable: function () {
                 $table = $('.table-detail');
                 dataTable.table = $table.DataTable({
-                    "proccessing": true,
                     "serverSide": true,
-                    paging: false,
-                    bFilter: false,
-                    ordering: false,
-                    searching: true,
-                    language: { zeroRecords: "ไม่พบข้อมูล" },
-                    dom: 't',
+                    responsive: true,
+                    language: {
+                        search: "_INPUT_",
+                        searchPlaceholder: "ค้นหา",
+                        zeroRecords: "ไม่พบข้อมูล",
+                    },
                     ajax: {
-                        url: '@Url.Action("SalaryIncreaseHistory", "Payroll")/' + id,
+                        url: '@Url.Action("SalaryIncreaseHistory", "Payroll")',
                         type: "POST",
                     },
                     "columns": [
-                        { "data": "RowNumber", "orderable": false, "searchable": false },
-                        { "data": "PlanName", "orderable": true },
-                        { "data": "StartDateText", "orderable": true },
-                        { "data": "EndDateText", "orderable": true },
-                        { "data": "Amount", "orderable": true },
-                        { "data": "CreateDateText", "orderable": true },
+                        { "data": "Year", "orderable": true },
+                        { "data": "BookCmd", "orderable": true },
+                        { "data": "UpLevel", "orderable": true },
+                        { "data": "UpStep", "orderable": true },
+                        { "data": "DateCmdText", "orderable": true },
+                        { "data": "DateEffText", "orderable": true },
                     ],
                     "columnDefs": [
-                        {
-                            "render": function (data, type, row) {
-                                return '<div class="text-right">' + accounting.formatNumber(data, 2) + '</div>';
-                            }, "targets": [4]
-                        },
+                        //{
+                        //    "render": function (data, type, row) {
+                        //        return '<div class="text-center">' + data + '</div>';
+                        //    }, "targets": [0,1,2,4,5]
+                        //},
                         {
                             "render": function (data, type, row) {
                                 var inner = '<div class="td-actions pull-right">' +
-                                                '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.PlanID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;' +
+                                                //'<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.HeaderID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;' +
                                             '</div>';
                                 return inner;
                             }, "targets": 6
                         },
-                    ]
+                        {
+                            "render": function (data, type, row) {
+                                var inner = '<div class="td-actions pull-right">' +
+                                                '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-warning view" data-id="' + row.HeaderID + '"><i class="material-icons">search</i></button>&nbsp;&nbsp;' +
+                                            '</div>';
+                                return inner;
+                            }, "targets": 7
+                        },
+                    ],
+                    "order": [[1, "asc"]],
+                    "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                    "pagingType": "full_numbers",
                 });
 
-                dataTable.table.on('click', '.edit', function () {
-                    var userid = $("#UserID").val();
+                dataTable.table.on('click', '.view', function () {
                     var id = $(this).data("id");
-                    var url = '@Url.Action("SalaryIncreaseHistory", "Payroll")';
-                    $.post(url, { userid: userid, id: id }, function (data) {
-                        $(".div-detail").html(data);
-                        $('.modal-detail').modal('show');
-                    });
+                    var url = '@Url.Action("SalaryIncreaseHistoryDetail", "Payroll")/'+id;
+                    window.location.href = url;
                 });
             },
             getData: function () {
@@ -131,8 +113,8 @@
             }
         }
 
-        //dataTable.getData();
-        
+        dataTable.getData();
+
     });
     </script>
 }

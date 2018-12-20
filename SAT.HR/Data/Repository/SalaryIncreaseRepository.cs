@@ -213,13 +213,16 @@ namespace SAT.HR.Data
                     string fileExt = fileSplit[length].ToUpper();
 
                     var doctype = db.tb_Document_Type.Where(x => x.DocType == fileExt).FirstOrDefault();
-                    string Contenttype = doctype.ContentType;
+                    if (doctype != null)
+                    {
+                        string Contenttype = doctype.ContentType;
 
-                    string filepath = SysConfig.PathDownloadSalaryIncrease;
+                        string filepath = SysConfig.PathDownloadSalaryIncrease;
 
-                    model.FileName = filename;
-                    model.FilePath = filepath;
-                    model.ContentType = Contenttype;
+                        model.FileName = filename;
+                        model.FilePath = filepath;
+                        model.ContentType = Contenttype;
+                    }
                 }
             }
             catch (Exception)

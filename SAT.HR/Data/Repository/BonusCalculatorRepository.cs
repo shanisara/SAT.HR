@@ -308,7 +308,7 @@ namespace SAT.HR.Data
                     BookCmd = s.BookCmd,
                     DateCmd = s.DateCmd,
                     PathFile = s.PathFile,
-                    DateCmdText = s.DateCmd.Value.ToString("dd/MM/yyy"),
+                    DateCmdText = s.DateCmd.HasValue ? s.DateCmd.Value.ToString("dd/MM/yyy") : string.Empty,
                 }).Skip(start * length).Take(length).ToList();
 
                 BonusCalculatorHeader result = new BonusCalculatorHeader();
