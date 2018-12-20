@@ -69,19 +69,7 @@ namespace SAT.HR.Controllers
                     adapter.Fill(ds, "ExcelTable");
 
                     DataTable dtable = ds.Tables["ExcelTable"];
-
-
-                    //13  2   เงินกู้ tb_Benefit_Loan
-                    //14  2   เงินช่วยเหลือบุตร tb_User_Family
-                    //15  2   เงินสมทบกองทุนสำรองเลี้ยงชีพ tb_Benefit_Provident_Fund
-                    //16  2   ค่าเช่าบ้าน tb_Benefit_Home_Rental
-                    //17  2   รักษาพยาบาล tb_Benefit_Medical
-                    //18  2   ฌาปนกิจสงเคราะห์ tb_Benefit_Cremation
-                    //19  2   ค่าทำศพ กรณีตายอันมิใช่เนื่องจากการทำงาน (เงินช่วยเหลือพิเศษกรณีเสียชีวิต)tb_Benefit_Death_Subsidy
-                    //20  2   เงินทดแทนกรณีเสียชีวิต  tb_Benefit_Death_Replacement
-                    //21  2   เงินตอบแทนความชอบ   tb_Benefit_Remuneration
-                    //22  2   เงินช่วยเหลือการศึกษาบุตร   tb_User_Family
-                    //23  2   สวัสดิการอื่นๆ   tb_Benefit_Other_Welfare
+                    
 
                     if (!ValidHeader.ValidateColumnHeader(dtable, modelMapping == 13 ? LoanHeader : 
                                                                 ( modelMapping == 14 ? UserFamilyHeader : 
@@ -98,12 +86,8 @@ namespace SAT.HR.Controllers
                     }
 
                     var excelFile = new ExcelQueryFactory(pathToExcelFile);
-                    //var worksheetsList = excelFile.GetWorksheetNames();
 
-                    #region
-
-                    //string sheetName = "Sheet1";
-                    //var xxx = from a in excelFile.Worksheet(1) select a;                    
+                    #region      
 
                     #region เงินกู้
                     if (modelMapping.Equals(13))
