@@ -214,6 +214,15 @@ namespace SAT.HR.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to กรุณาอัพโหลดไฟล์ Excel เท่านั้น.
+        /// </summary>
+        public static string ExcelError {
+            get {
+                return ResourceManager.GetString("ExcelError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to บันทึกรายการเรียบร้อย.
         /// </summary>
         public static string SaveSucceed {

@@ -416,5 +416,26 @@ namespace SAT.HR.Helpers
             }
         }
     }
-        
+
+    public class ValidHeader
+    {
+        public static bool ValidateColumnHeader(DataTable dtData, string[] columnHeader)
+        {
+            if (dtData == null
+                || columnHeader == null
+                || dtData.Columns.Count < columnHeader.Length)
+                return false;
+
+            for (int i = 0; i < columnHeader.Length; i++)
+            {
+                if (String.Compare(columnHeader[i], dtData.Columns[i].ColumnName, StringComparison.OrdinalIgnoreCase) != 0)
+                    return false;
+            }
+
+
+            return true;
+        }
+
+    }
+
 }
