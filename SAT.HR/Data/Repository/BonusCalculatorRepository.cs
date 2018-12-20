@@ -330,6 +330,7 @@ namespace SAT.HR.Data
                     BonusCalculatorViewModel model = new BonusCalculatorViewModel();
 
                     var header = db.tb_Bonus_Calculator_Header.Where(m => m.HeaderID == id).FirstOrDefault();
+                    model.HeaderID = header.HeaderID;
                     model.Year = header.Year;
                     model.Rate = header.Rate;
                     model.BookCmd = header.BookCmd;

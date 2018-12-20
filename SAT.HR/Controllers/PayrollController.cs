@@ -55,7 +55,7 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public FileResult DownloadSalaryIncrease(int id)
+        public FileResult DownloadFileSalaryIncrease(int id)
         {
             var result = new SalaryIncreaseRepository().DownloadSalaryIncrease(id);
             string fileName = result.FileName;
@@ -149,7 +149,7 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public FileResult DownloadBonusCalculator(int id)
+        public FileResult DownloadFileBonusCalculator(int id)
         {
             var result = new BonusCalculatorRepository().DownloadBonusCalculator(id);
             string fileName = result.FileName;

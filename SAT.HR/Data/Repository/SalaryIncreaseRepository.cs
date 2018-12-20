@@ -338,6 +338,7 @@ namespace SAT.HR.Data
                     SalaryIncreaseViewModel model = new SalaryIncreaseViewModel();
 
                     var header = db.tb_Salary_Increase_Header.Where(m => m.HeaderID == id).FirstOrDefault();
+                    model.HeaderID = header.HeaderID;
                     model.Year = header.Year;
                     model.UpLevel = header.UpLevel;
                     model.UpStep = header.UpStep;

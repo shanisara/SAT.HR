@@ -4,17 +4,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <div class="content">
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header card-header-primary card-header-icon">
                     <div class="card-icon">
-                        <i class="material-icons">accessibility</i>
+                        <i class="material-icons">local_atm</i>
                     </div>
                     <h4 class="card-title">
-                        <span> ประวัติการเลื่อนขั้นเงินเดือน: </span>
+                        <span> ประวัติการเลื่อนขั้นเงินเดือน </span>
                     </h4>
                 </div>
                 <div class="card-body">
@@ -43,28 +42,6 @@
         </div>
     </div>
 </div>
-
-<!-- Classic Modal -->
-<div class="modal fade modal-large modal-detail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title"><span>ประวัติการเลื่อนขั้นเงินเดือน</span></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
-            </div>
-            <div class="modal-body">
-                <div class="content">
-                    <div class="div-detail"></div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-close" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
-            </div>
-        </div>
-    </div>
-</div>
-<!--  End Modal -->
-
 
 @section Scripts {
     <script>
@@ -111,7 +88,7 @@
                         {
                             "render": function (data, type, row) {
                                 var inner = '<div class="td-actions pull-right">' +
-                                                '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-warning edit" data-id="' + row.HeaderID + '"><i class="material-icons">search</i></button>&nbsp;&nbsp;' +
+                                                '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-warning view" data-id="' + row.HeaderID + '"><i class="material-icons">search</i></button>&nbsp;&nbsp;' +
                                             '</div>';
                                 return inner;
                             }, "targets": 7
@@ -122,14 +99,10 @@
                     "pagingType": "full_numbers",
                 });
 
-                dataTable.table.on('click', '.edit', function () {
-                    var userid = $("#UserID").val();
+                dataTable.table.on('click', '.view', function () {
                     var id = $(this).data("id");
-                    var url = '@Url.Action("SalaryIncreaseHistory", "Payroll")';
-                    $.post(url, { userid: userid, id: id }, function (data) {
-                        $(".div-detail").html(data);
-                        $('.modal-detail').modal('show');
-                    });
+                    var url = '@Url.Action("SalaryIncreaseHistory", "Payroll")/'+id;
+                    window.location.href = url;
                 });
             },
             getData: function () {
