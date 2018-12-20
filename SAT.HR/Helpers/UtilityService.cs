@@ -391,7 +391,7 @@ namespace SAT.HR.Helpers
         #endregion 
     }
 
-    public class Log
+    public class Logs
     {
         private static string GetTempPath()
         {

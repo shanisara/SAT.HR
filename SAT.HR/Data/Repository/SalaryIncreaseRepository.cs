@@ -70,6 +70,7 @@ namespace SAT.HR.Data
                         step2.New_Step = item.New_Step;
                         step2.Old_Salary = item.Old_Salary;
                         step2.New_Salary = item.New_Salary;
+                        step2.Selected = true;
                         listStep2.Add(step2);
                     }
                     model.Step2 = listStep2;
@@ -108,7 +109,7 @@ namespace SAT.HR.Data
                                 if (!isExists)
                                     System.IO.Directory.CreateDirectory(directory);
 
-                                string newFileName = data.Seq + "_" + data.Year + "." + fileExt;
+                                string newFileName = (data.Step2.Count > 0 ? data.Step2[0].Seq : 1) + "_" + data.Year + "." + fileExt;
                                 string fileLocation = Path.Combine(directory, newFileName);
 
                                 fileUpload.SaveAs(fileLocation);

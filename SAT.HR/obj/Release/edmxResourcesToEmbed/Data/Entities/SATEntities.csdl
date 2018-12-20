@@ -627,9 +627,6 @@
       <Parameter Name="Year" Mode="In" Type="Int32" />
       <Parameter Name="Rate" Mode="In" Type="Decimal" />
     </FunctionImport>
-    <EntitySet Name="tb_Bonus_Calculator_Detail" EntityType="SAT.HR.tb_Bonus_Calculator_Detail" />
-    <EntitySet Name="tb_Salary_Increase_Detail" EntityType="SAT.HR.tb_Salary_Increase_Detail" />
-    <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
     <EntitySet Name="tb_Bonus_Calculator_Header" EntityType="SAT.HR.tb_Bonus_Calculator_Header" />
     <EntitySet Name="tb_Salary_Increase_Header" EntityType="SAT.HR.tb_Salary_Increase_Header" />
     <EntitySet Name="tb_Move_Man_Power_Detail" EntityType="SAT.HR.tb_Move_Man_Power_Detail" />
@@ -642,6 +639,9 @@
       <End Role="tb_Move_Man_Power_Head" EntitySet="tb_Move_Man_Power_Head" />
       <End Role="tb_Move_Man_Power_Detail" EntitySet="tb_Move_Man_Power_Detail" />
     </AssociationSet>
+    <EntitySet Name="tb_Bonus_Calculator_Detail" EntityType="SAT.HR.tb_Bonus_Calculator_Detail" />
+    <EntitySet Name="tb_Salary_Increase_Detail" EntityType="SAT.HR.tb_Salary_Increase_Detail" />
+    <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
   </EntityContainer>
   <ComplexType Name="sp_Employee_List_Result">
     <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -4576,73 +4576,6 @@
     <Property Type="Decimal" Name="M11" Nullable="false" Precision="2" Scale="2" />
     <Property Type="Decimal" Name="M12" Nullable="false" Precision="2" Scale="2" />
   </ComplexType>
-  <EntityType Name="tb_Bonus_Calculator_Detail">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="HeaderID" Type="Int32" />
-    <Property Name="Year" Type="Int32" />
-    <Property Name="UserID" Type="Int32" />
-    <Property Name="UpStep" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="Bonus" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="Salary" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="M1" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="M2" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="M3" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="M4" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="M5" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="M6" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="M7" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="M8" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="M9" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="M10" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="M11" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="M12" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="CreateDate" Type="DateTime" Precision="3" />
-    <Property Name="CreateBy" Type="Int32" />
-    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifyBy" Type="Int32" />
-  </EntityType>
-  <EntityType Name="tb_Salary_Increase_Detail">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="HeaderID" Type="Int32" />
-    <Property Name="Year" Type="Int32" />
-    <Property Name="Seq" Type="Int32" />
-    <Property Name="UpStep" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="UserID" Type="Int32" />
-    <Property Name="Old_Level" Type="Int32" />
-    <Property Name="New_Level" Type="Int32" />
-    <Property Name="Old_Step" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="New_Step" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="Old_Salary" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="New_Salary" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="CreateDate" Type="DateTime" Precision="3" />
-    <Property Name="CreateBy" Type="Int32" />
-    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifyBy" Type="Int32" />
-  </EntityType>
-  <EntityType Name="vw_Organization">
-    <Key>
-      <PropertyRef Name="MpID" />
-      <PropertyRef Name="MpCode" />
-      <PropertyRef Name="DepLevel" />
-    </Key>
-    <Property Name="MpID" Type="Int32" Nullable="false" />
-    <Property Name="MpCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-    <Property Name="ParentID" Type="Int32" />
-    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
-    <Property Name="TypeID" Type="Int32" />
-    <Property Name="DepLevel" Type="Int32" Nullable="false" />
-    <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-  </EntityType>
   <EntityType Name="tb_Bonus_Calculator_Header">
     <Key>
       <PropertyRef Name="HeaderID" />
@@ -4742,4 +4675,73 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="tb_Bonus_Calculator_Detail">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="HeaderID" Type="Int32" />
+    <Property Name="Year" Type="Int32" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="FullNameTh" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="UpStep" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Bonus" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Salary" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M1" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M2" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M3" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M4" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M5" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M6" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M7" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M8" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M9" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M10" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M11" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="M12" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tb_Salary_Increase_Detail">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="HeaderID" Type="Int32" />
+    <Property Name="Year" Type="Int32" />
+    <Property Name="Seq" Type="Int32" />
+    <Property Name="UpStep" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="FullNameTh" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="Old_Level" Type="Int32" />
+    <Property Name="New_Level" Type="Int32" />
+    <Property Name="Old_Step" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="New_Step" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Old_Salary" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="New_Salary" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+  </EntityType>
+  <EntityType Name="vw_Organization">
+    <Key>
+      <PropertyRef Name="MpID" />
+      <PropertyRef Name="MpCode" />
+      <PropertyRef Name="DepLevel" />
+    </Key>
+    <Property Name="MpID" Type="Int32" Nullable="false" />
+    <Property Name="MpCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ParentID" Type="Int32" />
+    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+    <Property Name="TypeID" Type="Int32" />
+    <Property Name="DepLevel" Type="Int32" Nullable="false" />
+    <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
 </Schema>
