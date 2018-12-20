@@ -14,6 +14,8 @@ namespace SAT.HR.Models
         public string BookCmd { get; set; }
         public DateTime? DateCmd { get; set; }
         public string PathFile { get; set; }
+        public Nullable<int> CreateBy { get; set; }
+        public DateTime? CreateDate { get; set; }
         public HttpPostedFileBase FileUpload { get; set; }
         public BonusCalculatorStep1ViewModel Step1 { get; set; }
         public List<BonusCalculatorStep2ViewModel> Step2 { get; set; }
@@ -48,6 +50,8 @@ namespace SAT.HR.Models
         public Nullable<decimal> M10 { get; set; }
         public Nullable<decimal> M11 { get; set; }
         public Nullable<decimal> M12 { get; set; }
+        public Nullable<int> CreateBy { get; set; }
+        public DateTime? CreateDate { get; set; }
     }
 
     public class BonusCalculatorStep3ViewModel
@@ -91,4 +95,26 @@ namespace SAT.HR.Models
         public Nullable<decimal> M11 { get; set; }
         public Nullable<decimal> M12 { get; set; }
     }
+
+    public class BonusCalculatorHeader
+    {
+        public int draw { get; set; }
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
+        public List<BonusCalculatorHeaderViewModel> data { get; set; }
+    }
+
+    public class BonusCalculatorHeaderViewModel
+    {
+        public int RowNumber { get; set; }
+        public int HeaderID { get; set; }
+        public Nullable<int> Seq { get; set; }
+        public Nullable<int> Year { get; set; }
+        public Nullable<decimal> Rate { get; set; }
+        public string BookCmd { get; set; }
+        public DateTime? DateCmd { get; set; }
+        public string PathFile { get; set; }
+        public string DateCmdText { get; set; }
+    }
+
 }

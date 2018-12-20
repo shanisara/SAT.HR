@@ -12,8 +12,6 @@ namespace SAT.HR.Controllers
 {
     public class PayrollController : BaseController
     {
-        // ระบบเงินเดือนและโบนัส
-
         #region 1. การเลื่อนขั้นเงินเดือน
 
         public ActionResult SalaryIncrease()
@@ -186,6 +184,23 @@ namespace SAT.HR.Controllers
             return View();
         }
 
+        [HttpPost]
+        public JsonResult SalaryIncreaseHistory(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        {
+            var search = Request["search[value]"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
+            var dataTableData = new SalaryIncreaseRepository().GetSalaryIncreaseHistory(search, draw, start, length, dir, column);
+            return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SalaryIncreaseHistoryDetail(int id)
+        {
+            var result = new SalaryIncreaseRepository().GetSalaryIncreaseHistoryDetail(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
         #endregion
 
         #region 4. ประวัติการคำนวณโบนัส
@@ -194,6 +209,22 @@ namespace SAT.HR.Controllers
         {
             //var model = new BonusCalculatorRepository().BonusCalculatorHistory();
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult BonusCalculatorHistory(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        {
+            var search = Request["search[value]"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
+            var dataTableData = new BonusCalculatorRepository().GetBonusCalculatorHistory(search, draw, start, length, dir, column);
+            return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult BonusCalculatorHistoryDetail(int id)
+        {
+            var result = new BonusCalculatorRepository().GetBonusCalculatorHistoryDetail(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion

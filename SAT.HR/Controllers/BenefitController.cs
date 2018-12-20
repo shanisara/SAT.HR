@@ -464,7 +464,6 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-
         #region ความปลอดภัยในการทำงาน
 
         public ActionResult Security()

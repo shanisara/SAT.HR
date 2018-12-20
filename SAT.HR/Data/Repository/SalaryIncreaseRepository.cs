@@ -255,5 +255,132 @@ namespace SAT.HR.Data
             }
         }
 
+        public SalaryIncreaseHeader GetSalaryIncreaseHistory(string filter, int? draw, int? initialPage, int? pageSize, string sortDir, string sortBy)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.tb_Salary_Increase_Header.ToList();
+
+                int recordsTotal = data.Count();
+
+                if (!string.IsNullOrEmpty(filter))
+                {
+                    data = data.Where(x => x.Year.ToString().Contains(filter) || x.Seq.ToString().Contains(filter) || x.UpLevel.ToString().Contains(filter) 
+                    || x.UpStep.ToString().Contains(filter) || x.BookCmd.Contains(filter)).ToList();
+                }
+
+                int recordsFiltered = data.Count();
+
+                switch (sortBy)
+                {
+                    #region
+
+                    case "Year":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.Year).ToList() : data.OrderByDescending(x => x.Year).ToList();
+                        break;
+                    case "Seq":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.Seq).ToList() : data.OrderByDescending(x => x.Seq).ToList();
+                        break;
+                    case "UpLevel":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.UpLevel).ToList() : data.OrderByDescending(x => x.UpLevel).ToList();
+                        break;
+                    case "UpStep":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.UpStep).ToList() : data.OrderByDescending(x => x.UpStep).ToList();
+                        break;
+                    case "BookCmd":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.BookCmd).ToList() : data.OrderByDescending(x => x.BookCmd).ToList();
+                        break;
+                    case "DateCmdText":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.DateCmd).ToList() : data.OrderByDescending(x => x.DateCmd).ToList();
+                        break;
+                    case "DateEffText":
+                        data = (sortDir == "asc") ? data.OrderBy(x => x.DateEff).ToList() : data.OrderByDescending(x => x.DateEff).ToList();
+                        break;
+
+                   #endregion
+                }
+
+                int start = initialPage.HasValue ? (int)initialPage / (int)pageSize : 0;
+                int length = pageSize ?? 10;
+
+                var list = data.Select((s, i) => new SalaryIncreaseHeaderViewModel()
+                {
+                    RowNumber = ++i,
+                    HeaderID = s.HeaderID,
+                    Year = s.Year,
+                    Seq = s.Seq,
+                    UpLevel = s.UpLevel,
+                    UpStep = s.UpStep,
+                    BookCmd = s.BookCmd,
+                    DateCmd = s.DateCmd,
+                    DateEff = s.DateEff,
+                    PathFile = s.PathFile,
+                    DateCmdText = s.DateCmd.Value.ToString("dd/MM/yyy"),
+                    DateEffText = s.DateEff.Value.ToString("dd/MM/yyy"),
+                }).Skip(start * length).Take(length).ToList();
+
+                SalaryIncreaseHeader result = new SalaryIncreaseHeader();
+                result.draw = draw ?? 0;
+                result.recordsTotal = recordsTotal;
+                result.recordsFiltered = recordsFiltered;
+                result.data = list;
+
+                return result;
+            }
+        }
+
+        public SalaryIncreaseViewModel GetSalaryIncreaseHistoryDetail(int id)
+        {
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    SalaryIncreaseViewModel model = new SalaryIncreaseViewModel();
+
+                    var header = db.tb_Salary_Increase_Header.Where(m => m.HeaderID == id).FirstOrDefault();
+                    model.Year = header.Year;
+                    model.UpLevel = header.UpLevel;
+                    model.UpStep = header.UpStep;
+                    model.UpLevel = header.UpLevel;
+                    model.UpStep = header.UpStep;
+                    model.BookCmd = header.BookCmd;
+                    model.DateCmd = header.DateCmd;
+                    model.DateEff = header.DateEff;
+                    model.PathFile = header.PathFile;
+                    model.CreateBy = header.CreateBy;
+                    model.CreateDate = header.CreateDate;
+
+                    var list = new List<SalaryIncreaseSep2ViewModel>();
+                    var detail = db.tb_Salary_Increase_Detail.Where(m => m.HeaderID == id).ToList();
+                    foreach (var item in detail)
+                    {
+                        SalaryIncreaseSep2ViewModel objDetail = new SalaryIncreaseSep2ViewModel();
+                        objDetail.Year = item.Year;
+                        objDetail.Seq = (int)item.Seq;
+                        objDetail.UpStep = item.UpStep;
+                        objDetail.UserID = item.UserID;
+                        objDetail.FullNameTh = item.FullNameTh;
+                        objDetail.Old_Level = item.Old_Level;
+                        objDetail.New_Level = item.New_Level;
+                        objDetail.Old_Step = (decimal)item.Old_Step;
+                        objDetail.New_Step = (decimal)item.New_Step;
+                        objDetail.Old_Salary = (decimal)item.Old_Salary;
+                        objDetail.New_Salary = (decimal)item.New_Salary;
+                        objDetail.CreateBy = item.CreateBy;
+                        objDetail.CreateDate = item.CreateDate;
+                        list.Add(objDetail);
+                    }
+                    model.Step2 = list;
+
+                    return model;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }

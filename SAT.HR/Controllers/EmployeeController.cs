@@ -809,7 +809,6 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-
         #region Manage User
 
         public ActionResult CreateUserName(int userid)
