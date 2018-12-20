@@ -17,7 +17,7 @@ namespace SAT.HR.Data.Repository
             {
                 List<SelectListItem> list = new List<SelectListItem>();
 
-                var data = db.tb_Import_Master.Where(m => m.ID == 2).ToList();
+                var data = db.tb_Import_Master.Where(m => m.ParentID == null).ToList();
                 foreach (var item in data)
                 {
                     SelectListItem select = new SelectListItem();
@@ -34,7 +34,7 @@ namespace SAT.HR.Data.Repository
             {
                 List<SelectListItem> list = new List<SelectListItem>();
 
-                var data = db.tb_Import_Master.Where(m => m.ParentID == 2).ToList();
+                var data = db.tb_Import_Master.Where(m => m.ParentID == parentid).ToList();
                 foreach (var item in data)
                 {
                     SelectListItem select = new SelectListItem();
