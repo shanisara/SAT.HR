@@ -194,10 +194,10 @@ namespace SAT.HR.Controllers
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult SalaryIncreaseHistoryDetail(int id)
+        public ActionResult SalaryIncreaseHistoryDetail(int id)
         {
-            var result = new SalaryIncreaseRepository().GetSalaryIncreaseHistoryDetail(id);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var model = new SalaryIncreaseRepository().GetSalaryIncreaseHistoryDetail(id);
+            return View(model);
         }
 
 
@@ -221,10 +221,10 @@ namespace SAT.HR.Controllers
             return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult BonusCalculatorHistoryDetail(int id)
+        public ActionResult BonusCalculatorHistoryDetail(int id)
         {
-            var result = new BonusCalculatorRepository().GetBonusCalculatorHistoryDetail(id);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var model = new BonusCalculatorRepository().GetBonusCalculatorHistoryDetail(id);
+            return View(model);
         }
 
         #endregion
