@@ -4,7 +4,9 @@ using SAT.HR.Helpers;
 using SAT.HR.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 
@@ -12,8 +14,6 @@ namespace SAT.HR.Controllers
 {
     public class WorkingTimeController : BaseController
     {
-        // การเข้าปฏิบัติงาน
-
         #region ทำรายการลา
 
         public ActionResult LeaveRequest()
@@ -260,6 +260,5 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        
     }
 }
