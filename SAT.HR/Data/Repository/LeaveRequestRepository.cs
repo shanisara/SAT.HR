@@ -312,7 +312,8 @@ namespace SAT.HR.Data
 
                         int formid = model.FormID;
                         var step = db.vw_Trans_Step_Route.Where(m => m.FormStepID == formid && m.FormMasterID == 1 && m.StepNo == 0).FirstOrDefault();
-                        int stepid = step.StepID;
+                        if((bool)step.IsNotifyAcceptNext)
+                        //int templateid = step.NotifyAcceptNextTemplateID;
 
 
                         transection.Commit();
