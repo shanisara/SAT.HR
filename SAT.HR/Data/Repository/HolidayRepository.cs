@@ -100,7 +100,8 @@ namespace SAT.HR.Data.Repository
                 {
                     tb_Holiday model = new tb_Holiday();
                     model.HolID = data.HolID;
-                    model.HolDate = Convert.ToDateTime(data.HolDateText);
+                    if(model.HolDate.HasValue)
+                        model.HolDate = data.HolDate;
                     model.HolDescription = data.HolDescription;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
@@ -125,7 +126,8 @@ namespace SAT.HR.Data.Repository
                 try
                 {
                     var data = db.tb_Holiday.Single(x => x.HolID == newdata.HolID);
-                    data.HolDate = Convert.ToDateTime(newdata.HolDateText);
+                    if (data.HolDate.HasValue)
+                        data.HolDate = data.HolDate;
                     data.HolDescription = newdata.HolDescription;
                     data.ModifyBy = UtilityService.User.UserID;
                     data.ModifyDate = DateTime.Now;
