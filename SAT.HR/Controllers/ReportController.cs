@@ -48,7 +48,7 @@ namespace SAT.HR.Controllers
             var model = new EducationRepository().GetAll();
             ViewBag.Education = DropDownList.GetEducation(0, true);
 
-            return View("~/Views/Report/Benefit/Report_Education.cshtml", model); ;
+            return View("~/Views/Report/Resource/Report_Education.cshtml", model); ;
         }
 
 
@@ -62,7 +62,7 @@ namespace SAT.HR.Controllers
             ViewBag.Religion = DropDownList.GetReligion(0, true);
             ViewBag.UserType = DropDownList.GetUserType(0);
 
-            return View("~/Views/Report/Benefit/Report_Employee.cshtml", model); ;
+            return View("~/Views/Report/Resource/Report_Employee.cshtml", model); ;
         }
 
         [HttpPost]
@@ -250,7 +250,6 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-
         #region // รายงาน:ส่วนงานพัฒนาบุคลากร
 
 
@@ -265,7 +264,7 @@ namespace SAT.HR.Controllers
                 //Log.LogMessageToFile("DownloadFile");
 
 
-                var filePath = Server.MapPath("~" + SysConfig.PathDownloadReport + "/" + fileName);//System.IO.File.ReadAllBytes(Path.Combine(SysConfig.PathDownloadReport, fileName));
+                var filePath = System.IO.File.ReadAllBytes(Path.Combine(SysConfig.PathDownloadReport, fileName));
                 return File(filePath, "application", fileName);
 
 
