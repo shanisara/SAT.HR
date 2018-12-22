@@ -99,6 +99,26 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public MailTemplateViewModel GetByCode(string code)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.tb_Mail_Template.Where(x => x.MailCode == code).FirstOrDefault();
+                MailTemplateViewModel model = new Models.MailTemplateViewModel();
+                model.MailID = data.MailID;
+                model.MailCode = data.MailCode;
+                model.MailName = data.MailName;
+                model.MailSubject = data.MailSubject;
+                model.MailBody = data.MailBody;
+                model.MailTo = data.MailTo;
+                model.MailFrom = data.MailFrom;
+                model.MailCCTo = data.MailCCTo;
+                model.MailBCCTo = data.MailBCCTo;
+                return model;
+            }
+        }
+
+
         public ResponseData AddByEntity(MailTemplateViewModel data)
         {
             using (SATEntities db = new SATEntities())

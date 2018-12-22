@@ -7,6 +7,9 @@ using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.SessionState;
 
@@ -143,11 +146,11 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("SMTPUSER");
             }
         }
-        public static string SMTPPORT
+        public static int SMTPPORT
         {
             get
             {
-                return SysConfigRepository.GetKeyValue("SMTPPORT");
+                return Convert.ToInt32(SysConfigRepository.GetKeyValue("SMTPPORT"));
             }
         }
         public static string SMTPPASS
@@ -415,6 +418,54 @@ namespace SAT.HR.Helpers
                 sw.Close();
             }
         }
+    }
+
+    public class Mails
+    {
+        public static bool SentMail(MailMessage msg)
+        {
+            try
+            {
+                var smtp = new System.Net.Mail.SmtpClient();
+                {
+                    smtp.Host = "smtp.gmail.com";
+                    smtp.Port = 587;
+                    //smtp.Host = SysConfig.SMTPSERVER; //noreplysat2019@gmail.com/satsat2019
+                    //smtp.Port = SysConfig.SMTPPORT;
+                    smtp.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
+                    if (!string.IsNullOrEmpty(smtp.Host) && smtp.Host.Equals("smtp.gmail.com"))
+                    {
+                        smtp.EnableSsl = true;
+                        //smtp.Credentials = new NetworkCredential(SysConfig.SMTPUSER, SysConfig.SMTPPASS);
+                        smtp.Credentials = new NetworkCredential("noreplysat2019@gmail.com", "satsat2019");
+                    }
+                    smtp.Send(msg);
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public static bool IsValidEmail(string email)
+        {
+            string expresion = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
+            if (Regex.IsMatch(email, expresion))
+            {
+                if (Regex.Replace(email, expresion, string.Empty).Length == 0)
+                    return true;
+                else
+                    return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 
     public class ValidHeader

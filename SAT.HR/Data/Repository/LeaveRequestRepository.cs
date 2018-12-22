@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity.Core.Objects;
 using static SAT.HR.Helpers.EnumType;
+using System.Net.Mail;
 
 namespace SAT.HR.Data
 {
@@ -269,6 +270,8 @@ namespace SAT.HR.Data
                         tb_Leave_Request model = new tb_Leave_Request();
                         model.PathFile = data.PathFile;
 
+                        #region LeaveFile
+
                         if (data.LeaveFile != null && data.LeaveFile.ContentLength > 0)
                         {
                             var fileName = Path.GetFileName(data.LeaveFile.FileName);
@@ -286,17 +289,17 @@ namespace SAT.HR.Data
                             model.PathFile = newFileName;
                         }
 
-                        //model.FormID = (int)data.FormID;
+                        #endregion
+
                         model.DocNo = DocumentNumberRepository.GetNextNumber("LEAVE");
                         model.LeaveYear = DateTime.Now.Year;
                         model.LeaveType = data.LeaveType;
-                        model.RequestID = data.RequestID; //requestUserID
+                        model.RequestID = data.RequestID;
                         model.StartDate = data.StartDate;
                         model.EndDate = data.EndDate;
                         model.DayTime = data.DayTime;
                         model.TotalDay = Convert.ToDecimal((data.DayTime == 1) ? 1 : 0.5);
                         model.LeaveReason = data.LeaveReason;
-                        //model.Status = (int)EnumType.LeaveStatus.Waiting;
                         model.CreateBy = UtilityService.User.UserID;
                         model.CreateDate = DateTime.Now;
                         model.ModifyBy = UtilityService.User.UserID;
@@ -307,8 +310,14 @@ namespace SAT.HR.Data
                         ObjectParameter formHeaderID = new ObjectParameter("FormHeaderID", typeof(int));
                         db.sp_WorkFlow_Create(model.FormID, 1, model.RequestID, requestMpID, formHeaderID);
 
+                        int formid = model.FormID;
+                        var step = db.vw_Trans_Step_Route.Where(m => m.FormStepID == formid && m.FormMasterID == 1 && m.StepNo == 0).FirstOrDefault();
+                        if((bool)step.IsNotifyAcceptNext)
+                        //int templateid = step.NotifyAcceptNextTemplateID;
+
+
                         transection.Commit();
-                        result.ID = model.FormID;
+                        result.ID = formid;
                     }
                     catch (Exception ex)
                     {
@@ -532,6 +541,119 @@ namespace SAT.HR.Data
                 return totalDays;
             }
         }
+
+
+        #region Send Mail
+
+        private void GetMailTemplate(int formid)
+        {
+            try
+            {
+                using (SATEntities db = new SATEntities())
+                {
+                    
+                    
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private MailMessage SendMail(int formid)
+        {
+            try
+            {
+                string code = "";
+                var mt = new MailTemplateRepository().GetByCode(code);
+
+                #region Mail From/To/Bcc/Subject
+
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress(SysConfig.SMTPMAILSENDER);
+
+                if (!string.IsNullOrEmpty(mt.MailTo))
+                {
+                    string[] toAddress = mt.MailTo.Split(';');
+                    foreach (string to in toAddress)
+                    {
+                        string mailto = to.Trim();
+
+                        if (!string.IsNullOrEmpty(mailto) && Mails.IsValidEmail(mailto))
+                        {
+                            mail.To.Add(new MailAddress(mailto));
+                        }
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(mt.MailCCTo))
+                {
+                    string[] ccAddress = mt.MailCCTo.Split(';');
+                    foreach (string ccTo in ccAddress)
+                    {
+                        string cc = ccTo.Trim();
+                        if (!string.IsNullOrEmpty(cc) && Mails.IsValidEmail(cc))
+                        {
+                            mail.CC.Add(new MailAddress(cc));
+                        }
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(mt.MailBCCTo))
+                {
+                    string[] bccAddress = mt.MailBCCTo.Split(';');
+                    foreach (string bccTo in bccAddress)
+                    {
+                        string bcc = bccTo.Trim();
+                        if (!string.IsNullOrEmpty(bcc) && Mails.IsValidEmail(bcc))
+                        {
+                            mail.Bcc.Add(new MailAddress(bcc));
+                        }
+                    }
+                }
+
+                mail.Subject = mt.MailSubject;
+                mail.SubjectEncoding = System.Text.Encoding.UTF8;
+
+                #endregion
+
+                #region Mail Body
+
+                string FormatBody = mt.MailBody;
+
+                mail.Body = string.Format(FormatBody);
+                mail.BodyEncoding = System.Text.Encoding.UTF8;
+                mail.IsBodyHtml = false;
+
+                #endregion
+
+                #region Mail Attachments
+
+                FileStream fileStream;
+                if (1 != 1)
+                {
+                    string fileSavePath = Path.Combine("", "");
+                    fileStream = System.IO.File.Open(fileSavePath, FileMode.Open, FileAccess.Read, FileShare.None);
+                    fileStream.Close();
+                    fileStream.Dispose();
+
+                    Attachment file = new Attachment(fileSavePath);
+                    mail.Attachments.Add(file);
+                }
+
+                #endregion
+
+                return mail;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        #endregion 
 
     }
 }
