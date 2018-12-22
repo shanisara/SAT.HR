@@ -308,16 +308,13 @@ namespace SAT.HR.Data
                         db.SaveChanges();
 
                         ObjectParameter formHeaderID = new ObjectParameter("FormHeaderID", typeof(int));
-                        db.sp_WorkFlow_Create(model.FormID, 1, model.RequestID, requestMpID, formHeaderID);
+                        int formheaderid = db.sp_WorkFlow_Create(model.FormID, 1, model.RequestID, requestMpID, formHeaderID);
 
                         int formid = model.FormID;
-                        var step = db.vw_Trans_Step_Route.Where(m => m.FormStepID == formid && m.FormMasterID == 1 && m.StepNo == 0).FirstOrDefault();
-                        if((bool)step.IsNotifyAcceptNext)
-                        //int templateid = step.NotifyAcceptNextTemplateID;
-
-
-                        transection.Commit();
                         result.ID = formid;
+                        transection.Commit();
+
+                        SendEMail(formheaderid);
                     }
                     catch (Exception ex)
                     {
@@ -433,6 +430,8 @@ namespace SAT.HR.Data
                         leavebalance.LevUsed = leavebalance.LevUsed + data.TotalDay;
                         db.SaveChanges();
                     }
+
+                    SendEMail(formheaderid);
                 }
                 catch (Exception ex)
                 {
@@ -461,6 +460,8 @@ namespace SAT.HR.Data
                         decimal dayUse = (decimal)data.TotalDay;
                         result = new LeaveBalanceRepository().UpdateLeaveBalance(userid, year, (int)data.LeaveType, dayUse);
                     }
+
+                    SendEMail(data.FormHeaderID);
                 }
                 catch (Exception ex)
                 {
@@ -545,14 +546,44 @@ namespace SAT.HR.Data
 
         #region Send Mail
 
-        private void GetMailTemplate(int formid)
+
+        private void SendEMail(int formheaderid)
         {
             try
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    
-                    
+                    var mailtemplate = new MailTemplateViewModel();
+                    int templateid = 0;
+                    string mailto = string.Empty;
+
+                    var step = db.vw_Trans_Step_Route.Where(m => m.FormHeaderID == formheaderid && m.FormMasterID == 1 && m.StepNo == 0).FirstOrDefault();
+                    if ((bool)step.IsNotifyAcceptNext)
+                    {
+                        templateid = (int)step.NotifyAcceptNextTemplateID;
+
+                        var notify = db.sp_Workflow_Notify_GetNextMail(formheaderid).ToList();
+                        mailto = notify[0].Email;
+                    }
+
+                    if ((bool)step.IsNotifyAcceptRequestor)
+                    {
+                        templateid = (int)step.NotifyAcceptRequestorTemplateID;
+
+                        var notify = db.sp_Workflow_Notify_GetReqMail(formheaderid).ToList();
+                        mailto = notify[0].Email;
+                    }
+
+                    if ((bool)step.IsNotifyRejectRequestor)
+                    {
+                        templateid = (int)step.NotifyRejectRequestorTemplateID;
+
+                        var notify = db.sp_Workflow_Notify_GetReqMail(formheaderid).ToList();
+                        mailto = notify[0].Email;
+                    }
+
+                    mailtemplate = GetMailTemplate(templateid, formheaderid, mailto);
+                    SendMail(mailtemplate, null);
                 }
             }
             catch (Exception)
@@ -562,21 +593,55 @@ namespace SAT.HR.Data
             }
         }
 
-        private MailMessage SendMail(int formid)
+        private MailTemplateViewModel GetMailTemplate(int templateid, int formheaderid, string mailto)
         {
             try
             {
-                string code = "";
-                var mt = new MailTemplateRepository().GetByCode(code);
+                using (SATEntities db = new SATEntities())
+                {
+                    var form = db.vw_Leave_Request.Where(m => m.FormHeaderID == formheaderid).FirstOrDefault();
 
+                    var data = new MailTemplateRepository().GetByID(templateid);
+                    MailTemplateViewModel model = new MailTemplateViewModel();
+                    model.MailSubject = data.MailSubject;
+                    model.MailBody = ReplaceMailTemplate(data.MailBody, form);
+                    model.MailTo = mailto + ";" + data.MailTo;
+                    model.MailCCTo = data.MailCCTo;
+                    model.MailBCCTo = data.MailBCCTo;
+                    return model;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private string ReplaceMailTemplate(string mailbody, vw_Leave_Request form)
+        {
+            string template = mailbody.Replace("[{LeaveTypeName}]", form.LeaveTypeName)
+                                    .Replace("[{TimeType}]", GetTimeType(form.DayTime))
+                                    .Replace("[{StartDate}]", form.StartDate.ToString())
+                                    .Replace("[{EndDate}]", form.EndDate.ToString())
+                                    .Replace("[{TotalDay}]", form.TotalDay.ToString())
+                                    .Replace("[{LeaveReason}]", form.LeaveReason)
+                                    .Replace("[{CancelReason}]", form.CancelReason);
+            return template;
+        }
+
+        private MailMessage SendMail(MailTemplateViewModel template, List<string> file)
+        {
+            try
+            {
                 #region Mail From/To/Bcc/Subject
 
                 MailMessage mail = new MailMessage();
                 mail.From = new MailAddress(SysConfig.SMTPMAILSENDER);
 
-                if (!string.IsNullOrEmpty(mt.MailTo))
+                if (!string.IsNullOrEmpty(template.MailTo))
                 {
-                    string[] toAddress = mt.MailTo.Split(';');
+                    string[] toAddress = template.MailTo.Split(';');
                     foreach (string to in toAddress)
                     {
                         string mailto = to.Trim();
@@ -588,9 +653,9 @@ namespace SAT.HR.Data
                     }
                 }
 
-                if (!string.IsNullOrEmpty(mt.MailCCTo))
+                if (!string.IsNullOrEmpty(template.MailCCTo))
                 {
-                    string[] ccAddress = mt.MailCCTo.Split(';');
+                    string[] ccAddress = template.MailCCTo.Split(';');
                     foreach (string ccTo in ccAddress)
                     {
                         string cc = ccTo.Trim();
@@ -601,9 +666,9 @@ namespace SAT.HR.Data
                     }
                 }
 
-                if (!string.IsNullOrEmpty(mt.MailBCCTo))
+                if (!string.IsNullOrEmpty(template.MailBCCTo))
                 {
-                    string[] bccAddress = mt.MailBCCTo.Split(';');
+                    string[] bccAddress = template.MailBCCTo.Split(';');
                     foreach (string bccTo in bccAddress)
                     {
                         string bcc = bccTo.Trim();
@@ -614,14 +679,14 @@ namespace SAT.HR.Data
                     }
                 }
 
-                mail.Subject = mt.MailSubject;
+                mail.Subject = template.MailSubject;
                 mail.SubjectEncoding = System.Text.Encoding.UTF8;
 
                 #endregion
 
                 #region Mail Body
 
-                string FormatBody = mt.MailBody;
+                string FormatBody = template.MailBody;
 
                 mail.Body = string.Format(FormatBody);
                 mail.BodyEncoding = System.Text.Encoding.UTF8;
@@ -639,8 +704,8 @@ namespace SAT.HR.Data
                     fileStream.Close();
                     fileStream.Dispose();
 
-                    Attachment file = new Attachment(fileSavePath);
-                    mail.Attachments.Add(file);
+                    Attachment attachment = new Attachment(fileSavePath);
+                    mail.Attachments.Add(attachment);
                 }
 
                 #endregion
@@ -651,6 +716,19 @@ namespace SAT.HR.Data
             {
                 throw;
             }
+        }
+
+        private string GetTimeType(int? daytime)
+        {
+            string result = string.Empty;
+            if (daytime == 1)
+                result = "ทั้งวัน";
+            else if (daytime == 2)
+                result = "ครึ่งวันเช้า";
+            else if (daytime == 3)
+                result = "ครึ่งวันบ่าย";
+
+            return result;
         }
 
         #endregion 

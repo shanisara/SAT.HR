@@ -118,7 +118,6 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-
         public ResponseData AddByEntity(MailTemplateViewModel data)
         {
             using (SATEntities db = new SATEntities())

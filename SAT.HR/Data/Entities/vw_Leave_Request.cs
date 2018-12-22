@@ -43,5 +43,7 @@ namespace SAT.HR.Data.Entities
         public string NextApproverName { get; set; }
         public string LastApproverName { get; set; }
         public string LastApproverComment { get; set; }
+        public Nullable<int> NextApproverMpID { get; set; }
+        public Nullable<int> NextApproverUserID { get; set; }
     }
 }

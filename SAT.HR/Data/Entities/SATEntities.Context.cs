@@ -64,7 +64,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Evaluation> tb_Evaluation { get; set; }
         public virtual DbSet<tb_Excellent_Type> tb_Excellent_Type { get; set; }
         public virtual DbSet<tb_Form_Master> tb_Form_Master { get; set; }
-        public virtual DbSet<tb_Form_Step> tb_Form_Step { get; set; }
         public virtual DbSet<tb_Holiday> tb_Holiday { get; set; }
         public virtual DbSet<tb_Import_Master> tb_Import_Master { get; set; }
         public virtual DbSet<tb_IndividualPlan> tb_IndividualPlan { get; set; }
@@ -111,7 +110,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Training_Type> tb_Training_Type { get; set; }
         public virtual DbSet<tb_Trans_Form_Header> tb_Trans_Form_Header { get; set; }
         public virtual DbSet<tb_Trans_Step_Approver> tb_Trans_Step_Approver { get; set; }
-        public virtual DbSet<tb_Trans_Step_Route> tb_Trans_Step_Route { get; set; }
         public virtual DbSet<tb_Trans_Step_Tracking> tb_Trans_Step_Tracking { get; set; }
         public virtual DbSet<tb_Transfer_Type> tb_Transfer_Type { get; set; }
         public virtual DbSet<tb_User> tb_User { get; set; }
@@ -143,7 +141,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Department> vw_Department { get; set; }
         public virtual DbSet<vw_Division> vw_Division { get; set; }
         public virtual DbSet<vw_Employee> vw_Employee { get; set; }
-        public virtual DbSet<vw_Leave_Request> vw_Leave_Request { get; set; }
         public virtual DbSet<vw_Man_Power> vw_Man_Power { get; set; }
         public virtual DbSet<vw_Move_Level_Detail> vw_Move_Level_Detail { get; set; }
         public virtual DbSet<vw_Move_Level_Head> vw_Move_Level_Head { get; set; }
@@ -154,7 +151,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Trainning_Course> vw_Trainning_Course { get; set; }
         public virtual DbSet<vw_Trans_Form_Header> vw_Trans_Form_Header { get; set; }
         public virtual DbSet<vw_Trans_Form_Waiting> vw_Trans_Form_Waiting { get; set; }
-        public virtual DbSet<vw_Trans_Step_Route> vw_Trans_Step_Route { get; set; }
         public virtual DbSet<vw_User> vw_User { get; set; }
         public virtual DbSet<vw_User_Certificate> vw_User_Certificate { get; set; }
         public virtual DbSet<vw_User_Education> vw_User_Education { get; set; }
@@ -175,6 +171,10 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Move_Man_Power_Head> tb_Move_Man_Power_Head { get; set; }
         public virtual DbSet<tb_Bonus_Calculator_Detail> tb_Bonus_Calculator_Detail { get; set; }
         public virtual DbSet<tb_Salary_Increase_Detail> tb_Salary_Increase_Detail { get; set; }
+        public virtual DbSet<tb_Form_Step> tb_Form_Step { get; set; }
+        public virtual DbSet<tb_Trans_Step_Route> tb_Trans_Step_Route { get; set; }
+        public virtual DbSet<vw_Trans_Step_Route> vw_Trans_Step_Route { get; set; }
+        public virtual DbSet<vw_Leave_Request> vw_Leave_Request { get; set; }
         public virtual DbSet<vw_Organization> vw_Organization { get; set; }
     
         public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
@@ -727,6 +727,107 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("empID", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Remuneration_Result>("sp_Report_Remuneration", empIDParameter);
+        }
+    
+        public virtual int sp_Leave_Balance_Update(Nullable<int> userID, Nullable<int> levYear, Nullable<int> leaveID, Nullable<decimal> used)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var levYearParameter = levYear.HasValue ?
+                new ObjectParameter("LevYear", levYear) :
+                new ObjectParameter("LevYear", typeof(int));
+    
+            var leaveIDParameter = leaveID.HasValue ?
+                new ObjectParameter("LeaveID", leaveID) :
+                new ObjectParameter("LeaveID", typeof(int));
+    
+            var usedParameter = used.HasValue ?
+                new ObjectParameter("Used", used) :
+                new ObjectParameter("Used", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Leave_Balance_Update", userIDParameter, levYearParameter, leaveIDParameter, usedParameter);
+        }
+    
+        public virtual int sp_WorkFlow_ClearTrans(Nullable<int> formHeaderID)
+        {
+            var formHeaderIDParameter = formHeaderID.HasValue ?
+                new ObjectParameter("FormHeaderID", formHeaderID) :
+                new ObjectParameter("FormHeaderID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_WorkFlow_ClearTrans", formHeaderIDParameter);
+        }
+    
+        public virtual int sp_WorkFlow_ExtendLeaveStep1(Nullable<int> transStepID, Nullable<int> formID, Nullable<int> formHeaderID)
+        {
+            var transStepIDParameter = transStepID.HasValue ?
+                new ObjectParameter("TransStepID", transStepID) :
+                new ObjectParameter("TransStepID", typeof(int));
+    
+            var formIDParameter = formID.HasValue ?
+                new ObjectParameter("FormID", formID) :
+                new ObjectParameter("FormID", typeof(int));
+    
+            var formHeaderIDParameter = formHeaderID.HasValue ?
+                new ObjectParameter("FormHeaderID", formHeaderID) :
+                new ObjectParameter("FormHeaderID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_WorkFlow_ExtendLeaveStep1", transStepIDParameter, formIDParameter, formHeaderIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_Workflow_IsStepCompleted_Result> sp_Workflow_IsStepCompleted(Nullable<int> transStepID, ObjectParameter isCompleted, ObjectParameter isAccept)
+        {
+            var transStepIDParameter = transStepID.HasValue ?
+                new ObjectParameter("TransStepID", transStepID) :
+                new ObjectParameter("TransStepID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Workflow_IsStepCompleted_Result>("sp_Workflow_IsStepCompleted", transStepIDParameter, isCompleted, isAccept);
+        }
+    
+        public virtual ObjectResult<sp_WorkFlow_UpdateNextStep_Result> sp_WorkFlow_UpdateNextStep(Nullable<int> formHeaderID)
+        {
+            var formHeaderIDParameter = formHeaderID.HasValue ?
+                new ObjectParameter("FormHeaderID", formHeaderID) :
+                new ObjectParameter("FormHeaderID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_WorkFlow_UpdateNextStep_Result>("sp_WorkFlow_UpdateNextStep", formHeaderIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_Workflow_Notify_GetNextMail_Result> sp_Workflow_Notify_GetNextMail(Nullable<int> formHeaderID)
+        {
+            var formHeaderIDParameter = formHeaderID.HasValue ?
+                new ObjectParameter("FormHeaderID", formHeaderID) :
+                new ObjectParameter("FormHeaderID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Workflow_Notify_GetNextMail_Result>("sp_Workflow_Notify_GetNextMail", formHeaderIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_Workflow_Notify_GetPrevMail_Result> sp_Workflow_Notify_GetPrevMail(Nullable<int> formHeaderID)
+        {
+            var formHeaderIDParameter = formHeaderID.HasValue ?
+                new ObjectParameter("FormHeaderID", formHeaderID) :
+                new ObjectParameter("FormHeaderID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Workflow_Notify_GetPrevMail_Result>("sp_Workflow_Notify_GetPrevMail", formHeaderIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_Workflow_Notify_GetReqMail_Result> sp_Workflow_Notify_GetReqMail(Nullable<int> formHeaderID)
+        {
+            var formHeaderIDParameter = formHeaderID.HasValue ?
+                new ObjectParameter("FormHeaderID", formHeaderID) :
+                new ObjectParameter("FormHeaderID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Workflow_Notify_GetReqMail_Result>("sp_Workflow_Notify_GetReqMail", formHeaderIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_Workflow_Notify_GetSelfMail_Result> sp_Workflow_Notify_GetSelfMail(Nullable<int> formHeaderID)
+        {
+            var formHeaderIDParameter = formHeaderID.HasValue ?
+                new ObjectParameter("FormHeaderID", formHeaderID) :
+                new ObjectParameter("FormHeaderID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Workflow_Notify_GetSelfMail_Result>("sp_Workflow_Notify_GetSelfMail", formHeaderIDParameter);
         }
     }
 }

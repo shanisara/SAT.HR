@@ -544,17 +544,17 @@
     <Property Name="IsNotifyRejectPrev" Type="bit" />
     <Property Name="IsNotifyRejectRequestor" Type="bit" />
     <Property Name="IsNotifyRejectCustom" Type="bit" />
-    <Property Name="NotifyAcceptNextTemplateID" Type="bit" />
-    <Property Name="NotifyAcceptSelfTemplateID" Type="bit" />
-    <Property Name="NotifyAcceptPrevTemplateID" Type="bit" />
-    <Property Name="NotifyAcceptRequestorTemplateID" Type="bit" />
-    <Property Name="NotifyAcceptCustomTemplateID" Type="bit" />
-    <Property Name="NotifyRejectNextTemplateID" Type="bit" />
-    <Property Name="NotifyRejectSelfTemplateID" Type="bit" />
-    <Property Name="NotifyRejectPrevTemplateID" Type="bit" />
-    <Property Name="NotifyRejectRequestorTemplateID" Type="bit" />
-    <Property Name="NotifyRejectCustomTemplateID" Type="bit" />
+    <Property Name="NotifyAcceptNextTemplateID" Type="int" />
+    <Property Name="NotifyAcceptSelfTemplateID" Type="int" />
+    <Property Name="NotifyAcceptPrevTemplateID" Type="int" />
+    <Property Name="NotifyAcceptRequestorTemplateID" Type="int" />
+    <Property Name="NotifyAcceptCustomTemplateID" Type="int" />
     <Property Name="NotifyAcceptCustomMail" Type="nvarchar" MaxLength="500" />
+    <Property Name="NotifyRejectNextTemplateID" Type="int" />
+    <Property Name="NotifyRejectSelfTemplateID" Type="int" />
+    <Property Name="NotifyRejectPrevTemplateID" Type="int" />
+    <Property Name="NotifyRejectRequestorTemplateID" Type="int" />
+    <Property Name="NotifyRejectCustomTemplateID" Type="int" />
     <Property Name="NotifyRejectCustomMail" Type="nvarchar" MaxLength="500" />
     <Property Name="MinApprover" Type="int" />
     <Property Name="MaxApprover" Type="int" />
@@ -1903,11 +1903,13 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Leave_Request' does not have a 
     <Property Name="RequestUserID" Type="int" />
     <Property Name="RequestUserName" Type="nvarchar" MaxLength="501" />
     <Property Name="ApproverComment" Type="nvarchar" MaxLength="400" />
-    <Property Name="Action" Type="varchar" MaxLength="11" />
+    <Property Name="Action" Type="varchar" MaxLength="8" />
     <Property Name="Status" Type="nvarchar" MaxLength="1000" />
     <Property Name="NextApproverName" Type="nvarchar" MaxLength="500" />
     <Property Name="LastApproverName" Type="nvarchar" MaxLength="500" />
     <Property Name="LastApproverComment" Type="nvarchar" MaxLength="2000" />
+    <Property Name="NextApproverMpID" Type="int" />
+    <Property Name="NextApproverUserID" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Man_Power' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2177,6 +2179,16 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Trans_Step_Route' does not have
   <EntityType Name="vw_Trans_Step_Route">
     <Key>
       <PropertyRef Name="StepID" />
+      <PropertyRef Name="NotifyAcceptNextTemplateID" />
+      <PropertyRef Name="NotifyAcceptSelfTemplateID" />
+      <PropertyRef Name="NotifyAcceptPrevTemplateID" />
+      <PropertyRef Name="NotifyAcceptRequestorTemplateID" />
+      <PropertyRef Name="NotifyAcceptCustomTemplateID" />
+      <PropertyRef Name="NotifyRejectNextTemplateID" />
+      <PropertyRef Name="NotifyRejectSelfTemplateID" />
+      <PropertyRef Name="NotifyRejectPrevTemplateID" />
+      <PropertyRef Name="NotifyRejectRequestorTemplateID" />
+      <PropertyRef Name="NotifyRejectCustomTemplateID" />
     </Key>
     <Property Name="StepID" Type="int" Nullable="false" />
     <Property Name="FormMasterID" Type="int" />
@@ -2197,16 +2209,16 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Trans_Step_Route' does not have
     <Property Name="IsNotifyRejectPrev" Type="bit" />
     <Property Name="IsNotifyRejectRequestor" Type="bit" />
     <Property Name="IsNotifyRejectCustom" Type="bit" />
-    <Property Name="NotifyAcceptNextTemplateID" Type="bit" />
-    <Property Name="NotifyAcceptSelfTemplateID" Type="bit" />
-    <Property Name="NotifyAcceptPrevTemplateID" Type="bit" />
-    <Property Name="NotifyAcceptRequestorTemplateID" Type="bit" />
-    <Property Name="NotifyAcceptCustomTemplateID" Type="bit" />
-    <Property Name="NotifyRejectNextTemplateID" Type="bit" />
-    <Property Name="NotifyRejectSelfTemplateID" Type="bit" />
-    <Property Name="NotifyRejectPrevTemplateID" Type="bit" />
-    <Property Name="NotifyRejectRequestorTemplateID" Type="bit" />
-    <Property Name="NotifyRejectCustomTemplateID" Type="bit" />
+    <Property Name="NotifyAcceptNextTemplateID" Type="int" Nullable="false" />
+    <Property Name="NotifyAcceptSelfTemplateID" Type="int" Nullable="false" />
+    <Property Name="NotifyAcceptPrevTemplateID" Type="int" Nullable="false" />
+    <Property Name="NotifyAcceptRequestorTemplateID" Type="int" Nullable="false" />
+    <Property Name="NotifyAcceptCustomTemplateID" Type="int" Nullable="false" />
+    <Property Name="NotifyRejectNextTemplateID" Type="int" Nullable="false" />
+    <Property Name="NotifyRejectSelfTemplateID" Type="int" Nullable="false" />
+    <Property Name="NotifyRejectPrevTemplateID" Type="int" Nullable="false" />
+    <Property Name="NotifyRejectRequestorTemplateID" Type="int" Nullable="false" />
+    <Property Name="NotifyRejectCustomTemplateID" Type="int" Nullable="false" />
     <Property Name="NotifyAcceptCustomMail" Type="nvarchar" MaxLength="500" />
     <Property Name="NotifyRejectCustomMail" Type="nvarchar" MaxLength="500" />
     <Property Name="MinApprover" Type="int" />
@@ -3727,6 +3739,28 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
   <Function Name="fn_Calculate_Age" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar">
     <Parameter Name="dob" Type="datetime" Mode="In" />
   </Function>
+  <Function Name="fn_Convert_Thai_Calendar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar">
+    <Parameter Name="date" Type="date" Mode="In" />
+  </Function>
+  <Function Name="fn_Convert_Thai_Month" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar">
+    <Parameter Name="month" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="fn_ConvertHourToMinutes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
+    <Parameter Name="TotalHour" Type="decimal" Mode="In" />
+    <Parameter Name="FormMasterOID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="fn_ConvertMinutesToHour" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="TotalMinutes" Type="int" Mode="In" />
+  </Function>
+  <Function Name="fn_WorkFlow_GetApproverName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar">
+    <Parameter Name="ApproverMpID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="fn_WorkFlow_GetWaitingPosition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar">
+    <Parameter Name="StepNo" Type="int" Mode="In" />
+    <Parameter Name="TransCurrentStepID" Type="int" Mode="In" />
+    <Parameter Name="Accept" Type="nvarchar" Mode="In" />
+    <Parameter Name="FormHeaderID" Type="int" Mode="In" />
+  </Function>
   <Function Name="sp_Bonus_Calculator_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="Year" Type="int" Mode="In" />
     <Parameter Name="Rate" Type="decimal" Mode="In" />
@@ -3752,6 +3786,12 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
   <Function Name="sp_Evaluation_User" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="UserID" Type="int" Mode="In" />
     <Parameter Name="CapID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_Leave_Balance_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserID" Type="int" Mode="In" />
+    <Parameter Name="LevYear" Type="int" Mode="In" />
+    <Parameter Name="LeaveID" Type="int" Mode="In" />
+    <Parameter Name="Used" Type="decimal" Mode="In" />
   </Function>
   <Function Name="sp_Leave_Balance_User" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="UserID" Type="int" Mode="In" />
@@ -3870,12 +3910,35 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <Parameter Name="IsAccept" Type="int" Mode="In" />
     <Parameter Name="Comment" Type="nvarchar" Mode="In" />
   </Function>
+  <Function Name="sp_WorkFlow_ClearTrans" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FormHeaderID" Type="int" Mode="In" />
+  </Function>
   <Function Name="sp_WorkFlow_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="FormID" Type="int" Mode="In" />
     <Parameter Name="FormMasterID" Type="int" Mode="In" />
     <Parameter Name="RequestUserID" Type="int" Mode="In" />
     <Parameter Name="RequestMpID" Type="int" Mode="In" />
     <Parameter Name="FormHeaderID" Type="int" Mode="InOut" />
+  </Function>
+  <Function Name="sp_Workflow_IsStepCompleted" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TransStepID" Type="int" Mode="In" />
+    <Parameter Name="IsCompleted" Type="int" Mode="InOut" />
+    <Parameter Name="IsAccept" Type="int" Mode="InOut" />
+  </Function>
+  <Function Name="sp_Workflow_Notify_GetNextMail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FormHeaderID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_Workflow_Notify_GetPrevMail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FormHeaderID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_Workflow_Notify_GetReqMail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FormHeaderID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_Workflow_Notify_GetSelfMail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FormHeaderID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_WorkFlow_UpdateNextStep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FormHeaderID" Type="int" Mode="In" />
   </Function>
   <Function Name="sp_Working_Shift_User" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="UserID" Type="int" Mode="In" />
@@ -4283,7 +4346,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Leave_Request].[Status] AS [Status], 
     [vw_Leave_Request].[NextApproverName] AS [NextApproverName], 
     [vw_Leave_Request].[LastApproverName] AS [LastApproverName], 
-    [vw_Leave_Request].[LastApproverComment] AS [LastApproverComment]
+    [vw_Leave_Request].[LastApproverComment] AS [LastApproverComment], 
+    [vw_Leave_Request].[NextApproverMpID] AS [NextApproverMpID], 
+    [vw_Leave_Request].[NextApproverUserID] AS [NextApproverUserID]
     FROM [dbo].[vw_Leave_Request] AS [vw_Leave_Request]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vw_Man_Power" EntityType="Self.vw_Man_Power" store:Type="Views" store:Schema="dbo">

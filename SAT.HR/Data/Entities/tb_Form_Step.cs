@@ -31,17 +31,17 @@ namespace SAT.HR.Data.Entities
         public Nullable<bool> IsNotifyRejectPrev { get; set; }
         public Nullable<bool> IsNotifyRejectRequestor { get; set; }
         public Nullable<bool> IsNotifyRejectCustom { get; set; }
-        public Nullable<bool> NotifyAcceptNextTemplateID { get; set; }
-        public Nullable<bool> NotifyAcceptSelfTemplateID { get; set; }
-        public Nullable<bool> NotifyAcceptPrevTemplateID { get; set; }
-        public Nullable<bool> NotifyAcceptRequestorTemplateID { get; set; }
-        public Nullable<bool> NotifyAcceptCustomTemplateID { get; set; }
-        public Nullable<bool> NotifyRejectNextTemplateID { get; set; }
-        public Nullable<bool> NotifyRejectSelfTemplateID { get; set; }
-        public Nullable<bool> NotifyRejectPrevTemplateID { get; set; }
-        public Nullable<bool> NotifyRejectRequestorTemplateID { get; set; }
-        public Nullable<bool> NotifyRejectCustomTemplateID { get; set; }
+        public Nullable<int> NotifyAcceptNextTemplateID { get; set; }
+        public Nullable<int> NotifyAcceptSelfTemplateID { get; set; }
+        public Nullable<int> NotifyAcceptPrevTemplateID { get; set; }
+        public Nullable<int> NotifyAcceptRequestorTemplateID { get; set; }
+        public Nullable<int> NotifyAcceptCustomTemplateID { get; set; }
         public string NotifyAcceptCustomMail { get; set; }
+        public Nullable<int> NotifyRejectNextTemplateID { get; set; }
+        public Nullable<int> NotifyRejectSelfTemplateID { get; set; }
+        public Nullable<int> NotifyRejectPrevTemplateID { get; set; }
+        public Nullable<int> NotifyRejectRequestorTemplateID { get; set; }
+        public Nullable<int> NotifyRejectCustomTemplateID { get; set; }
         public string NotifyRejectCustomMail { get; set; }
         public Nullable<int> MinApprover { get; set; }
         public Nullable<int> MaxApprover { get; set; }
