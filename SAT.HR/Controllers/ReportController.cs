@@ -132,6 +132,121 @@ namespace SAT.HR.Controllers
 
         #region // รายงาน:ส่วนงานสวัสดิการ
 
+        #region รายงาน : เงินตอบแทนความชอบ
+        public ActionResult ReportRemuneration()
+        {            
+            ViewBag.Employee = DropDownList.GetEmployee(0,1);
+            return View("Report_Remuneration"); ;
+        }
+        #endregion
+
+        #region รายงาน : กองทุน
+        public ActionResult ReportProvidentFund()
+        {            
+            ViewBag.Employee = DropDownList.GetEmployee(0, 1);
+            return View("Report_ProvidentFund");
+        }
+        #endregion
+
+        #region รายงาน : รักษาพยาบาล
+        public ActionResult ReportMedicalTreatment()
+        {            
+            ViewBag.Employee = DropDownList.GetEmployee(0, 1);
+            return View("Report_MedicalTreatment");
+        }
+        #endregion
+
+        #region รายงาน : เงินกู้
+        public ActionResult ReportLoan()
+        {            
+            ViewBag.Employee = DropDownList.GetEmployee(0, 1);
+            return View("Report_Loan");
+        }
+        #endregion
+
+        #region รายงาน : ค่าเช่าบ้าน
+        public ActionResult ReportHomeRental()
+        {           
+            ViewBag.Employee = DropDownList.GetEmployee(0, 1);
+            return View("Report_HomeRental");
+        }
+        #endregion
+
+        #region รายงาน : เงินช่วยเหลือบุตร
+        public ActionResult ReportChildFund()
+        {
+            ViewBag.Employee = DropDownList.GetEmployee(0, 1);
+            return View("Report_ChildFund");
+        }
+        #endregion
+
+        #region รายงาน : เงินช่วยเหลือการศึกษาบุตร
+        public ActionResult ReportChildEducation()
+        {
+            ViewBag.Employee = DropDownList.GetEmployee(0, 1);
+            return View("Report_ChildEducation");
+        }
+        #endregion
+
+        #region รายงาน : ฌาปนกิจสงเคราะห์
+        public ActionResult ReportCremation()
+        {
+            ViewBag.Employee = DropDownList.GetEmployee(0, 1);
+            return View("Report_Cremation");
+        }
+        #endregion
+
+        #region รายงาน : เงินทดแทนกรณีเสียชีวิต
+        public ActionResult ReportDeathReplacement()
+        {
+            ViewBag.Employee = DropDownList.GetEmployee(0, 1);
+            return View("Report_DeathReplacement");
+        }
+        #endregion
+
+        #region รายงาน : เงินช่วยเหลือพิเศษกรณีเสียชีวิต
+        public ActionResult ReportDeathSubsidy()
+        {
+            ViewBag.Employee = DropDownList.GetEmployee(0, 1);
+            return View("Report_DeathSubsidy");
+        }
+        #endregion
+
+        #region รายงาน : สวัสดิการอื่นๆ
+        public ActionResult ReportOtherWelfare()
+        {
+            ViewBag.Employee = DropDownList.GetEmployee(0, 1);
+            return View("Report_OtherWelfare");
+        }
+        #endregion
+
+        [HttpPost]
+        public JsonResult ExportReportBenefit(string EmpID, string ExtensionFile, string ReportName)
+        {
+            try
+            {
+                //Log.LogMessageToFile("start");
+
+                string myConnString = "Provider=SQLOLEDB;Data Source=" + SysConfig.ServerName + ";Initial Catalog=" + SysConfig.DatabaseName + ";user id=" + SysConfig.UserName + ";password=" + SysConfig.Password + ";Connect Timeout=30";
+                OleDbConnection myConnection = new OleDbConnection(myConnString);
+                myConnection.Open();
+
+                ReportClass rptH = new ReportClass();
+                FileName = ReportName + "_" + DateTime.Now.ToString("yyyyMMddHHmm") + ExtensionFile;
+                rptH.FileName = Server.MapPath(@"~/Report/Master/"+ ReportName + ".rpt");
+                rptH.Load();
+                rptH.DataSourceConnections[0].SetConnection(SysConfig.ServerName, SysConfig.DatabaseName, SysConfig.UserName, SysConfig.Password);
+
+                rptH.SetParameterValue("@empID", EmpID == "" ? null : EmpID);
+                rptH.ExportToDisk(ExtensionFile == ".xlsx" ? ExportFormatType.ExcelWorkbook : ExportFormatType.PortableDocFormat, Path.Combine(SysConfig.PathUploadReport, FileName));
+
+                return Json(FileName, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
         #endregion
