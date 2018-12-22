@@ -150,7 +150,7 @@ namespace SAT.HR.Helpers
         {
             get
             {
-                return Convert.ToUInt32(SysConfigRepository.GetKeyValue("SMTPPORT"));
+                return Convert.ToInt32(SysConfigRepository.GetKeyValue("SMTPPORT"));
             }
         }
         public static string SMTPPASS
