@@ -132,6 +132,7 @@ namespace SAT.HR.Data
                             model.ModifyDate = DateTime.Now;
                             db.tb_Leave_Balance.Add(model);
                             db.SaveChanges();
+                            leavebalance.LevUsed = 0;
                         }
                     }
                     leavebalance.LevUsed = leavebalance.LevUsed + day;

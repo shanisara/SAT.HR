@@ -174,8 +174,8 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Form_Step> tb_Form_Step { get; set; }
         public virtual DbSet<tb_Trans_Step_Route> tb_Trans_Step_Route { get; set; }
         public virtual DbSet<vw_Leave_Request> vw_Leave_Request { get; set; }
-        public virtual DbSet<vw_Organization> vw_Organization { get; set; }
         public virtual DbSet<vw_Trans_Step_Route> vw_Trans_Step_Route { get; set; }
+        public virtual DbSet<vw_Organization> vw_Organization { get; set; }
     
         public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
         {
@@ -828,6 +828,15 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("FormHeaderID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Workflow_Notify_GetSelfMail_Result>("sp_Workflow_Notify_GetSelfMail", formHeaderIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_Workflow_Notify_GetCancelMail_Result> sp_Workflow_Notify_GetCancelMail(Nullable<int> formHeaderID)
+        {
+            var formHeaderIDParameter = formHeaderID.HasValue ?
+                new ObjectParameter("FormHeaderID", formHeaderID) :
+                new ObjectParameter("FormHeaderID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Workflow_Notify_GetCancelMail_Result>("sp_Workflow_Notify_GetCancelMail", formHeaderIDParameter);
         }
     }
 }

@@ -428,16 +428,13 @@ namespace SAT.HR.Helpers
             {
                 var smtp = new System.Net.Mail.SmtpClient();
                 {
-                    smtp.Host = "smtp.gmail.com";
-                    smtp.Port = 587;
-                    //smtp.Host = SysConfig.SMTPSERVER; //noreplysat2019@gmail.com/satsat2019
-                    //smtp.Port = SysConfig.SMTPPORT;
+                    smtp.Host = SysConfig.SMTPSERVER; //noreplysat2019@gmail.com/satsat2019
+                    smtp.Port = SysConfig.SMTPPORT;
                     smtp.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
                     if (!string.IsNullOrEmpty(smtp.Host) && smtp.Host.Equals("smtp.gmail.com"))
                     {
                         smtp.EnableSsl = true;
-                        //smtp.Credentials = new NetworkCredential(SysConfig.SMTPUSER, SysConfig.SMTPPASS);
-                        smtp.Credentials = new NetworkCredential("noreplysat2019@gmail.com", "satsat2019");
+                        smtp.Credentials = new NetworkCredential(SysConfig.SMTPUSER, SysConfig.SMTPPASS);
                     }
                     smtp.Send(msg);
 

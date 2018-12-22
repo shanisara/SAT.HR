@@ -377,7 +377,7 @@ namespace SAT.HR.Data
                         result.MessageText = ex.Message;
                     }
 
-                    SendEmail(Convert.ToInt32(formheaderid), 0);
+                    SendEmail(Convert.ToInt32(formheaderid), 0, null);
                     return result;
                 }
             }
@@ -434,7 +434,7 @@ namespace SAT.HR.Data
                         db.SaveChanges();
                     }
 
-                    SendEmail(formheaderid,0);
+                    SendEmail(formheaderid, 0, -1);
                 }
                 catch (Exception ex)
                 {
@@ -459,12 +459,12 @@ namespace SAT.HR.Data
 
                     if(data.Accept == 1)
                     {
-                        int year = DateTime.Now.Year;
+                        int yearTH = DateTime.Now.Year + 543;
                         decimal dayUse = (decimal)data.TotalDay;
-                        result = new LeaveBalanceRepository().UpdateLeaveBalance(userid, year, (int)data.LeaveType, dayUse);
+                        result = new LeaveBalanceRepository().UpdateLeaveBalance(userid, yearTH, (int)data.LeaveType, dayUse);
                     }
 
-                    SendEmail(data.FormHeaderID,1);
+                    SendEmail(data.FormHeaderID, 1, data.Accept);
                 }
                 catch (Exception ex)
                 {
@@ -550,7 +550,7 @@ namespace SAT.HR.Data
         #region Send Mail
 
 
-        private void SendEmail(int formheaderid, int stepno)
+        private void SendEmail(int formheaderid, int stepno, int? action)
         {
             try
             {
@@ -559,33 +559,52 @@ namespace SAT.HR.Data
                     var mailtemplate = new MailTemplateViewModel();
                     int templateid = 0;
                     string mailto = string.Empty;
+                    string mailname = string.Empty;
 
                     var step = db.vw_Trans_Step_Route.Where(m => m.FormHeaderID == formheaderid && m.StepNo == stepno).FirstOrDefault();
-                    if (step.IsNotifyAcceptNext.HasValue ? (bool)step.IsNotifyAcceptNext : false)
-                    {
-                        templateid = (int)step.NotifyAcceptNextTemplateID;
 
-                        var notify = db.sp_Workflow_Notify_GetNextMail(formheaderid).ToList();
-                        mailto = notify[0].Email;
+                    if (action.HasValue)
+                    {
+                        if (action == 1)
+                        {
+                            if (step.IsNotifyAcceptRequestor.HasValue ? (bool)step.IsNotifyAcceptRequestor : false)
+                            {
+                                templateid = (int)step.NotifyAcceptRequestorTemplateID;
+                                var notify = db.sp_Workflow_Notify_GetReqMail(formheaderid).ToList();
+                                mailto = notify[0].Email;
+                                mailname = notify[0].FirstNameTh + " " + notify[0].LastNameTh;
+                            }
+                        }
+                        else if (action == 2 || action == -1)
+                        {
+                            if (step.IsNotifyRejectRequestor.HasValue ? (bool)step.IsNotifyRejectRequestor : false)
+                            {
+                                templateid = (int)step.NotifyRejectRequestorTemplateID;
+                                var notify = db.sp_Workflow_Notify_GetReqMail(formheaderid).ToList();
+                                mailto = notify[0].Email;
+                                mailname = notify[0].FirstNameTh + " " + notify[0].LastNameTh;
+                            }
+                            if (step.IsNotifyRejectNext.HasValue ? (bool)step.IsNotifyRejectNext : false)
+                            {
+                                templateid = (int)step.NotifyRejectNextTemplateID;
+                                var notify = db.sp_Workflow_Notify_GetCancelMail(formheaderid).ToList();
+                                mailto = notify[0].Email;
+                                mailname = notify[0].FirstNameTh + " " + notify[0].LastNameTh;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (step.IsNotifyAcceptNext.HasValue ? (bool)step.IsNotifyAcceptNext : false)
+                        {
+                            templateid = (int)step.NotifyAcceptNextTemplateID;
+                            var notify = db.sp_Workflow_Notify_GetNextMail(formheaderid).ToList();
+                            mailto = notify[0].Email;
+                            mailname = notify[0].FirstNameTh + " " + notify[0].LastNameTh;
+                        }
                     }
 
-                    if (step.IsNotifyAcceptRequestor.HasValue ? (bool)step.IsNotifyAcceptRequestor : false)
-                    {
-                        templateid = (int)step.NotifyAcceptRequestorTemplateID;
-
-                        var notify = db.sp_Workflow_Notify_GetReqMail(formheaderid).ToList();
-                        mailto = notify[0].Email;
-                    }
-
-                    if (step.IsNotifyRejectRequestor.HasValue ? (bool)step.IsNotifyRejectRequestor : false)
-                    {
-                        templateid = (int)step.NotifyRejectRequestorTemplateID;
-
-                        var notify = db.sp_Workflow_Notify_GetReqMail(formheaderid).ToList();
-                        mailto = notify[0].Email;
-                    }
-
-                    mailtemplate = GetMailTemplate(templateid, formheaderid, mailto);
+                    mailtemplate = GetMailTemplate(templateid, formheaderid, mailto, mailname);
                     SendMail(mailtemplate, null);
                 }
             }
@@ -595,7 +614,7 @@ namespace SAT.HR.Data
             }
         }
 
-        private MailTemplateViewModel GetMailTemplate(int templateid, int formheaderid, string mailto)
+        private MailTemplateViewModel GetMailTemplate(int templateid, int formheaderid, string mailto, string mailname)
         {
             try
             {
@@ -605,8 +624,9 @@ namespace SAT.HR.Data
 
                     var data = new MailTemplateRepository().GetByID(templateid);
                     MailTemplateViewModel model = new MailTemplateViewModel();
+                    model.MailID = data.MailID;
                     model.MailSubject = data.MailSubject;
-                    model.MailBody = ReplaceMailTemplate(data.MailBody, form);
+                    model.MailBody = ReplaceMailTemplate(mailname, data.MailBody, form);
                     model.MailTo = "shanisara555@gmail.com"; //mailto + ";" + data.MailTo;
                     model.MailCCTo = data.MailCCTo;
                     model.MailBCCTo = data.MailBCCTo;
@@ -620,18 +640,26 @@ namespace SAT.HR.Data
             }
         }
 
-        private string ReplaceMailTemplate(string mailbody, vw_Leave_Request form)
+        private string ReplaceMailTemplate(string mailname, string mailbody, vw_Leave_Request form)
         {
             string template = mailbody.Replace("[{DocNo}]", form.DocNo)
-                                    .Replace("[{NextApproverName}]", form.NextApproverName)
-                                    .Replace("[{RequestUserID}]", form.RequestUserName)
+                                    .Replace("[{CreateDate}]", form.CreateDate.ToString())
+                                    .Replace("[{RequestUserName}]", form.RequestUserName)
                                     .Replace("[{LeaveTypeName}]", form.LeaveTypeName)
                                     .Replace("[{TimeType}]", GetTimeType(form.DayTime))
                                     .Replace("[{StartDate}]", form.StartDate.ToString())
                                     .Replace("[{EndDate}]", form.EndDate.ToString())
                                     .Replace("[{TotalDay}]", form.TotalDay.ToString())
                                     .Replace("[{LeaveReason}]", form.LeaveReason)
-                                    .Replace("[{CancelReason}]", form.CancelReason);
+                                    .Replace("[{CancelReason}]", form.CancelReason)
+                                    .Replace("[{NextApproverName}]", form.NextApproverName)
+                                    .Replace("[{Action}]", form.Status);
+
+            if(form.Action == "Canceled")
+            {
+                template = mailbody.Replace("[{NextApproverName}]", mailname);
+            }
+
             return template;
         }
 
@@ -639,7 +667,7 @@ namespace SAT.HR.Data
         {
             try
             {
-                #region Mail From/To/Bcc/Subject
+                #region Mail From/To/Bcc
 
                 MailMessage mail = new MailMessage();
                 mail.From = new MailAddress(SysConfig.SMTPMAILSENDER);
@@ -684,13 +712,12 @@ namespace SAT.HR.Data
                     }
                 }
 
-                mail.Subject = template.MailSubject;
-                mail.SubjectEncoding = System.Text.Encoding.UTF8;
-
                 #endregion
 
-                #region Mail Body
+                #region Mail Body/Subject
 
+                mail.Subject = template.MailSubject;
+                mail.SubjectEncoding = System.Text.Encoding.UTF8;
                 mail.Body = template.MailBody;
                 mail.BodyEncoding = System.Text.Encoding.UTF8;
                 mail.IsBodyHtml = false;
@@ -713,6 +740,7 @@ namespace SAT.HR.Data
 
                 #endregion
 
+                Mails.SentMail(mail);
                 return mail;
             }
             catch (Exception)
