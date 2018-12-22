@@ -39,6 +39,7 @@ namespace SAT.HR.Data.Repository
                         PoName = s.PoName,
                         RoleID = s.RoleID,
                         IsActive = s.IsActive,
+                        IsTerminate = s.IsTerminate,
                         StatusID = s.StatusID,
                         UserTypeID = s.UserTypeID
                     }).FirstOrDefault();
@@ -2534,6 +2535,60 @@ namespace SAT.HR.Data.Repository
                 return result;
             }
         }
+
+        #endregion
+
+        #region Manage User
+
+        public ResponseData CreateUserName(int userid)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    string userName = userid.ToString();
+                    string password = "P@ssw0rd";
+                    result.Code = userName;
+
+                    var model = db.tb_User.SingleOrDefault(x => x.UserID == userid);
+                    //model.UserName = userName;
+                    //model.Password = password;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
+        public ResponseData TerminateUser(int userid, bool terminate)
+        {
+            ResponseData result = new Models.ResponseData();
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var model = db.tb_User.SingleOrDefault(x => x.UserID == userid);
+                    model.IsTerminate = terminate;
+                    model.ModifyBy = UtilityService.User.UserID;
+                    model.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    result.MessageCode = "";
+                    result.MessageText = ex.Message;
+                }
+                return result;
+            }
+        }
+
+
 
         #endregion
 

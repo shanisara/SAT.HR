@@ -21,10 +21,11 @@
                             <table id="datatables" data-url="@Url.Content("~/Employee/Index")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th style="width:5%">ลำดับ</th>
-                                        <th style="width:20%">ชื่อ-นามสกุล</th>
-                                        <th style="width:45%">ตำแหน่ง</th>
-                                        <th style="width:10%" class="disabled-sorting text-left">สร้างผู้ใช้งาน</th>
+                                        <th style="width:4%">ลำดับ</th>
+                                        <th style="width:16%">เลขประจำตัวประชาชน</th>
+                                        <th style="width:19%">ชื่อ-นามสกุล</th>
+                                        <th style="width:32%">ตำแหน่ง</th>
+                                        <th style="width:9%" class="disabled-sorting text-left">สร้างผู้ใช้งาน</th>
                                         <th style="width:20%" class="disabled-sorting text-center">ระงับการใช้งาน/ยกเลิกการระงับ</th>
                                     </tr>
                                 </thead>
@@ -37,27 +38,7 @@
         </div>
     </div>
 </div>
-<!-- Classic Modal -->
-<div class="modal fade modal-large modal-detail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title"><span>สร้างผู้ใช้งาน</span></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
-            </div>
-            <div class="modal-body">
-                <div class="content">
-                    <div class="div-detail"></div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default close-trainning" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn btn-primary save-trainning">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!--  End Modal -->
+
 
 @section Scripts {
     <script>
@@ -85,6 +66,7 @@
                         },
                         "columns": [
                             { "data": "RowNumber", "orderable": false, "searchable": false },
+                            { "data": "IDCard", "orderable": true },
                             { "data": "FullNameTh", "orderable": true },
                             { "data": "PoName", "orderable": true },
                         ],
@@ -92,15 +74,15 @@
                             {
                                 "render": function (data, type, row) {
                                     return '<div title="สังกัด" style="font-size: 12px; color: #0000ff; margin-bottom: 5px; cursor: pointer"><i class="fa fa-home"></i> ' + row.FullDepartment + '</div><span> ' + row.PoName + '</span> ';
-                                }, "targets": 2
+                                }, "targets": 3
                             },
                             {
                                 "render": function (data, type, row) {
                                     if (row.UserName == '')
-                                        return '<div class="td-actions text-left div-' + row.UserID +'"><button class="btn btn-facebook create-user" type="button" data-id="' + row.UserID + '">สร้างผู้ใช้งาน</button></div>';
+                                        return '<div class="td-actions text-left" id="div-' + row.UserID +'"><button class="btn btn-facebook create-user" type="button" data-id="' + row.UserID + '">สร้างผู้ใช้งาน</button></div>';
                                     else
                                         return '<div class="td-actions text-left">' + row.UserName + '</div>';
-                                }, "targets": 3
+                                }, "targets": 4
                             },
                             {
                                 "render": function (data, type, row) {
@@ -108,7 +90,7 @@
                                         return '<div class="td-actions text-center"><button class="btn btn-danger terminate-user" type="button" data-type="1" data-id="' + row.UserID + '" data-name="' + row.UserName + '">ยกเลิกการระงับ</button></div>';
                                     else
                                         return '<div class="td-actions text-center"><button class="btn btn-success terminate-user" type="button" data-type="2" data-id="' + row.UserID + '" data-name="' + row.UserName + '">ระงับการใช้งาน</button></div>';
-                                }, "targets": 4
+                                }, "targets": 5
                             },
                         ],
                         "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
@@ -133,42 +115,65 @@
 
 
             $table.on('click', '.create-user', function () {
-                debugger;
-                var id = $(this).data("id");
-
-                var username = 'User001';
-                $(".div-" + id).text(username);
-
-                $(this).remove();
-
-                @*var id = $(this).data("id");
-                var url = '@Url.Action("CreateUserName", "Employee")';
-                $.post(url, { id: id }, function (data) {
-                    $(".detail-detail").html(data);
-                    $('.modal-detail').modal('show');
-                });*@
-
-                //UpdateUserName
+                var $button = $(this);
+                var userid = $button.data("id");
+                var url = '@Url.Action("CreateUserName", "Employee")?userid=' + userid;
+                swal({
+                    title: '',
+                    text: "สร้างผู้ใช้งาน",
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                    buttonsStyling: false
+                }).then(function () {
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        success: function (res) {
+                            var username = res.UserName;
+                            if (res.MessageCode == null) {
+                                swal({
+                                    title: '',
+                                    text: "สร้างผู้ใช้งานเรียบร้อยแล้ว",
+                                    type: 'success',
+                                    confirmButtonClass: "btn btn-success",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                    buttonsStyling: false
+                                }).then(function () {
+                                    $button.remove();
+                                    $("#div-" + userid).append('<div class="td-actions text-left">' + username + '</div>');
+                                }).catch(swal.noop)
+                            }
+                            else {
+                                alert();
+                                swal({
+                                    title: '',
+                                    text: res.MessageText,
+                                    type: 'success',
+                                    confirmButtonClass: "btn btn-success",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                    buttonsStyling: false
+                                }).then(function () {
+                                }).catch(swal.noop)
+                            }
+                        }
+                    });
+                }).catch(swal.noop)
             });
 
-            
-            $table.on('click', '.terminate-user', function () {
-                if ($(this).attr('data-type') == '1') {
-                    $(this).attr('data-type', '2');
-                    $(this).removeClass("btn-danger").addClass("btn-success");
-                    $(this).html('ระงับการใช้งาน');
-                }
-                else {
-                    $(this).attr('data-type', '1');
-                    $(this).removeClass("btn-success").addClass("btn-danger");
-                    $(this).html('ยกเลิกการระงับ');
-                }
 
-                @*var id = $(this).data("id");
-                var name = $(this).data("name");
-                var type = $(this).data("type");
-                var msgconfirm = (type == '1' ? 'ยกเลิกการระงับผู้ใช้งาน ' : 'ยืนยันระงับผู้ใช้งาน ') + name;
-                var url = '@Url.Action("TerminateUser", "Employee")/' + id;
+
+            $table.on('click', '.terminate-user', function () {
+                var $button = $(this);
+                var userid = $button.data("id");
+                var name = $button.data("name");
+                var type = $button.data('type');
+                var msgconfirm = (type == '1' ? 'ยกเลิกการระงับผู้ใช้งาน ' : 'ระงับผู้ใช้งาน ') + name;
+                var isterminate = type == '1' ? false : true;
+                var url = '@Url.Action("TerminateUser", "Employee")?userid=' + userid + "&terminate=" + isterminate;
                 swal({
                     title: '',
                     text: msgconfirm,
@@ -186,14 +191,23 @@
                         success: function (res) {
                             if (res.MessageCode == null) {
                                 swal({
-                                    title: 'OK',
-                                    text: '',
+                                    title: '',
+                                    text: msgconfirm + " เรียบร้อยแล้ว",
                                     type: 'success',
                                     confirmButtonClass: "btn btn-success",
                                     confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
                                     buttonsStyling: false
                                 }).then(function () {
-
+                                    if (type == '1') {
+                                        $button.data('type', 2);
+                                        $button.removeClass("btn-danger").addClass("btn-success");
+                                        $button.html('ระงับการใช้งาน');
+                                    }
+                                    else {
+                                        $button.data('type', 1);
+                                        $button.removeClass("btn-success").addClass("btn-danger");
+                                        $button.html('ยกเลิกการระงับ');
+                                    }
                                 }).catch(swal.noop)
                             }
                             else {
@@ -210,7 +224,7 @@
                             }
                         }
                     });
-                }).catch(swal.noop)*@
+                }).catch(swal.noop)
             });
 
         });
