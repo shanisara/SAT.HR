@@ -255,6 +255,59 @@ namespace SAT.HR.Data
             }
         }
 
+        public ResponseData UpdateByEntity(LeaveRequestViewModel newdata)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                using (var transection = db.Database.BeginTransaction())
+                {
+                    ResponseData result = new Models.ResponseData();
+                    try
+                    {
+                        var model = db.tb_Leave_Request.Single(x => x.FormID == newdata.FormID);
+                        model.PathFile = newdata.PathFile;
+
+                        if (newdata.LeaveFile != null && newdata.LeaveFile.ContentLength > 0)
+                        {
+                            var fileName = Path.GetFileName(newdata.LeaveFile.FileName);
+                            var fileExt = System.IO.Path.GetExtension(newdata.LeaveFile.FileName).Substring(1);
+
+                            string directory = SysConfig.PathUploadLeaveFile;
+                            bool isExists = System.IO.Directory.Exists(directory);
+                            if (!isExists)
+                                System.IO.Directory.CreateDirectory(directory);
+
+                            string newFileName = newdata.RequestID.ToString() + DateTime.Now.ToString("_yyyyMMdd_hhmmss") + "." + fileExt;
+                            string fileLocation = Path.Combine(directory, newFileName);
+
+                            newdata.LeaveFile.SaveAs(fileLocation);
+                            model.PathFile = newFileName;
+                        }
+
+                        model.LeaveType = newdata.LeaveType;
+                        model.RequestID = newdata.RequestID;
+                        model.StartDate = newdata.StartDate;
+                        model.EndDate = newdata.EndDate;
+                        model.DayTime = newdata.DayTime;
+                        model.TotalDay = newdata.LeaveTotalDay;
+                        model.LeaveReason = newdata.LeaveReason;
+                        model.ModifyBy = UtilityService.User.UserID;
+                        model.ModifyDate = DateTime.Now;
+                        db.SaveChanges();
+
+                        transection.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transection.Rollback();
+                        result.MessageCode = "";
+                        result.MessageText = ex.Message;
+                    }
+                    return result;
+                }
+            }
+        }
+
         public ResponseData AddByEntity(LeaveRequestViewModel data)
         {
             using (SATEntities db = new SATEntities())
@@ -308,66 +361,14 @@ namespace SAT.HR.Data
                         db.SaveChanges();
 
                         ObjectParameter formHeaderID = new ObjectParameter("FormHeaderID", typeof(int));
-                        int formheaderid = db.sp_WorkFlow_Create(model.FormID, 1, model.RequestID, requestMpID, formHeaderID);
+                        db.sp_WorkFlow_Create(model.FormID, 1, model.RequestID, requestMpID, formHeaderID);
 
                         int formid = model.FormID;
                         result.ID = formid;
                         transection.Commit();
 
-                        SendEMail(formheaderid);
-                    }
-                    catch (Exception ex)
-                    {
-                        transection.Rollback();
-                        result.MessageCode = "";
-                        result.MessageText = ex.Message;
-                    }
-                    return result;
-                }
-            }
-        }
-
-        public ResponseData UpdateByEntity(LeaveRequestViewModel newdata)
-        {
-            using (SATEntities db = new SATEntities())
-            {
-                using (var transection = db.Database.BeginTransaction())
-                {
-                    ResponseData result = new Models.ResponseData();
-                    try
-                    {
-                        var model = db.tb_Leave_Request.Single(x => x.FormID == newdata.FormID);
-                        model.PathFile = newdata.PathFile;
-
-                        if (newdata.LeaveFile != null && newdata.LeaveFile.ContentLength > 0)
-                        {
-                            var fileName = Path.GetFileName(newdata.LeaveFile.FileName);
-                            var fileExt = System.IO.Path.GetExtension(newdata.LeaveFile.FileName).Substring(1);
-
-                            string directory = SysConfig.PathUploadLeaveFile;
-                            bool isExists = System.IO.Directory.Exists(directory);
-                            if (!isExists)
-                                System.IO.Directory.CreateDirectory(directory);
-
-                            string newFileName = newdata.RequestID.ToString() + DateTime.Now.ToString("_yyyyMMdd_hhmmss") + "." + fileExt;
-                            string fileLocation = Path.Combine(directory, newFileName);
-
-                            newdata.LeaveFile.SaveAs(fileLocation);
-                            model.PathFile = newFileName;
-                        }
-
-                        model.LeaveType = newdata.LeaveType;
-                        model.RequestID = newdata.RequestID;
-                        model.StartDate = newdata.StartDate;
-                        model.EndDate = newdata.EndDate;
-                        model.DayTime = newdata.DayTime;
-                        model.TotalDay = newdata.LeaveTotalDay;
-                        model.LeaveReason = newdata.LeaveReason;
-                        model.ModifyBy = UtilityService.User.UserID;
-                        model.ModifyDate = DateTime.Now;
-                        db.SaveChanges();
-
-                        transection.Commit();
+                        string formheaderid = formHeaderID.Value.ToString();
+                        SendEmail(Convert.ToInt32(formheaderid), 0);
                     }
                     catch (Exception ex)
                     {
@@ -431,7 +432,7 @@ namespace SAT.HR.Data
                         db.SaveChanges();
                     }
 
-                    SendEMail(formheaderid);
+                    SendEmail(formheaderid,0);
                 }
                 catch (Exception ex)
                 {
@@ -461,7 +462,7 @@ namespace SAT.HR.Data
                         result = new LeaveBalanceRepository().UpdateLeaveBalance(userid, year, (int)data.LeaveType, dayUse);
                     }
 
-                    SendEMail(data.FormHeaderID);
+                    SendEmail(data.FormHeaderID,1);
                 }
                 catch (Exception ex)
                 {
@@ -547,7 +548,7 @@ namespace SAT.HR.Data
         #region Send Mail
 
 
-        private void SendEMail(int formheaderid)
+        private void SendEmail(int formheaderid, int stepno)
         {
             try
             {
@@ -557,7 +558,7 @@ namespace SAT.HR.Data
                     int templateid = 0;
                     string mailto = string.Empty;
 
-                    var step = db.vw_Trans_Step_Route.Where(m => m.FormHeaderID == formheaderid && m.FormMasterID == 1 && m.StepNo == 0).FirstOrDefault();
+                    var step = db.vw_Trans_Step_Route.Where(m => m.FormHeaderID == formheaderid && m.StepNo == stepno).FirstOrDefault();
                     if ((bool)step.IsNotifyAcceptNext)
                     {
                         templateid = (int)step.NotifyAcceptNextTemplateID;
@@ -586,9 +587,8 @@ namespace SAT.HR.Data
                     SendMail(mailtemplate, null);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
                 throw;
             }
         }

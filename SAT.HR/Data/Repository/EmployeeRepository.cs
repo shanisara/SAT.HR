@@ -2547,7 +2547,7 @@ namespace SAT.HR.Data.Repository
             {
                 try
                 {
-                    string userName = userid.ToString();
+                    string userName = "Waiting connect AD";
                     string password = "P@ssw0rd";
                     result.Code = userName;
 

@@ -700,7 +700,6 @@
     <FunctionImport Name="sp_WorkFlow_UpdateNextStep" ReturnType="Collection(SAT.HR.sp_WorkFlow_UpdateNextStep_Result)">
       <Parameter Name="FormHeaderID" Mode="In" Type="Int32" />
     </FunctionImport>
-    <EntitySet Name="vw_Trans_Step_Route" EntityType="SAT.HR.vw_Trans_Step_Route" />
     <EntitySet Name="vw_Leave_Request" EntityType="SAT.HR.vw_Leave_Request" />
     <FunctionImport Name="sp_Workflow_Notify_GetNextMail" ReturnType="Collection(SAT.HR.sp_Workflow_Notify_GetNextMail_Result)">
       <Parameter Name="FormHeaderID" Mode="In" Type="Int32" />
@@ -715,6 +714,7 @@
       <Parameter Name="FormHeaderID" Mode="In" Type="Int32" />
     </FunctionImport>
     <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
+    <EntitySet Name="vw_Trans_Step_Route" EntityType="SAT.HR.vw_Trans_Step_Route" />
   </EntityContainer>
   <ComplexType Name="sp_Employee_List_Result">
     <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -4900,55 +4900,6 @@
     <Property Type="Int32" Name="MaxApprover" Nullable="true" />
     <Property Type="Int32" Name="MinApprover" Nullable="true" />
   </ComplexType>
-  <EntityType Name="vw_Trans_Step_Route">
-    <Key>
-      <PropertyRef Name="StepID" />
-      <PropertyRef Name="NotifyAcceptNextTemplateID" />
-      <PropertyRef Name="NotifyAcceptSelfTemplateID" />
-      <PropertyRef Name="NotifyAcceptPrevTemplateID" />
-      <PropertyRef Name="NotifyAcceptRequestorTemplateID" />
-      <PropertyRef Name="NotifyAcceptCustomTemplateID" />
-      <PropertyRef Name="NotifyRejectNextTemplateID" />
-      <PropertyRef Name="NotifyRejectSelfTemplateID" />
-      <PropertyRef Name="NotifyRejectPrevTemplateID" />
-      <PropertyRef Name="NotifyRejectRequestorTemplateID" />
-      <PropertyRef Name="NotifyRejectCustomTemplateID" />
-    </Key>
-    <Property Name="StepID" Type="Int32" Nullable="false" />
-    <Property Name="FormMasterID" Type="Int32" />
-    <Property Name="FormHeaderID" Type="Int32" />
-    <Property Name="FormStepID" Type="Int32" />
-    <Property Name="NextStepID" Type="Int32" />
-    <Property Name="StepNo" Type="Int32" />
-    <Property Name="StepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="ApproveType" Type="Int32" />
-    <Property Name="ExtendProc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="IsNotifyAcceptNext" Type="Boolean" />
-    <Property Name="IsNotifyAcceptSelf" Type="Boolean" />
-    <Property Name="IsNotifyAcceptPrev" Type="Boolean" />
-    <Property Name="IsNotifyAcceptRequestor" Type="Boolean" />
-    <Property Name="IsNotifyAcceptCustom" Type="Boolean" />
-    <Property Name="IsNotifyRejectNext" Type="Boolean" />
-    <Property Name="IsNotifyRejectSelf" Type="Boolean" />
-    <Property Name="IsNotifyRejectPrev" Type="Boolean" />
-    <Property Name="IsNotifyRejectRequestor" Type="Boolean" />
-    <Property Name="IsNotifyRejectCustom" Type="Boolean" />
-    <Property Name="NotifyAcceptNextTemplateID" Type="Int32" Nullable="false" />
-    <Property Name="NotifyAcceptSelfTemplateID" Type="Int32" Nullable="false" />
-    <Property Name="NotifyAcceptPrevTemplateID" Type="Int32" Nullable="false" />
-    <Property Name="NotifyAcceptRequestorTemplateID" Type="Int32" Nullable="false" />
-    <Property Name="NotifyAcceptCustomTemplateID" Type="Int32" Nullable="false" />
-    <Property Name="NotifyRejectNextTemplateID" Type="Int32" Nullable="false" />
-    <Property Name="NotifyRejectSelfTemplateID" Type="Int32" Nullable="false" />
-    <Property Name="NotifyRejectPrevTemplateID" Type="Int32" Nullable="false" />
-    <Property Name="NotifyRejectRequestorTemplateID" Type="Int32" Nullable="false" />
-    <Property Name="NotifyRejectCustomTemplateID" Type="Int32" Nullable="false" />
-    <Property Name="NotifyAcceptCustomMail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-    <Property Name="NotifyRejectCustomMail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-    <Property Name="MinApprover" Type="Int32" />
-    <Property Name="MaxApprover" Type="Int32" />
-    <Property Name="ReturnStepID" Type="Int32" />
-  </EntityType>
   <EntityType Name="vw_Leave_Request">
     <Key>
       <PropertyRef Name="FormHeaderID" />
@@ -5034,5 +4985,44 @@
     <Property Name="TypeID" Type="Int32" />
     <Property Name="DepLevel" Type="Int32" Nullable="false" />
     <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="vw_Trans_Step_Route">
+    <Key>
+      <PropertyRef Name="StepID" />
+    </Key>
+    <Property Name="StepID" Type="Int32" Nullable="false" />
+    <Property Name="FormMasterID" Type="Int32" />
+    <Property Name="FormHeaderID" Type="Int32" />
+    <Property Name="FormStepID" Type="Int32" />
+    <Property Name="NextStepID" Type="Int32" />
+    <Property Name="StepNo" Type="Int32" />
+    <Property Name="StepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ApproveType" Type="Int32" />
+    <Property Name="ExtendProc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsNotifyAcceptNext" Type="Boolean" />
+    <Property Name="IsNotifyAcceptSelf" Type="Boolean" />
+    <Property Name="IsNotifyAcceptPrev" Type="Boolean" />
+    <Property Name="IsNotifyAcceptRequestor" Type="Boolean" />
+    <Property Name="IsNotifyAcceptCustom" Type="Boolean" />
+    <Property Name="IsNotifyRejectNext" Type="Boolean" />
+    <Property Name="IsNotifyRejectSelf" Type="Boolean" />
+    <Property Name="IsNotifyRejectPrev" Type="Boolean" />
+    <Property Name="IsNotifyRejectRequestor" Type="Boolean" />
+    <Property Name="IsNotifyRejectCustom" Type="Boolean" />
+    <Property Name="NotifyAcceptNextTemplateID" Type="Int32" />
+    <Property Name="NotifyAcceptSelfTemplateID" Type="Int32" />
+    <Property Name="NotifyAcceptPrevTemplateID" Type="Int32" />
+    <Property Name="NotifyAcceptRequestorTemplateID" Type="Int32" />
+    <Property Name="NotifyAcceptCustomTemplateID" Type="Int32" />
+    <Property Name="NotifyRejectNextTemplateID" Type="Int32" />
+    <Property Name="NotifyRejectSelfTemplateID" Type="Int32" />
+    <Property Name="NotifyRejectPrevTemplateID" Type="Int32" />
+    <Property Name="NotifyRejectRequestorTemplateID" Type="Int32" />
+    <Property Name="NotifyRejectCustomTemplateID" Type="Int32" />
+    <Property Name="NotifyAcceptCustomMail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="NotifyRejectCustomMail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="MinApprover" Type="Int32" />
+    <Property Name="MaxApprover" Type="Int32" />
+    <Property Name="ReturnStepID" Type="Int32" />
   </EntityType>
 </Schema>
