@@ -315,6 +315,7 @@ namespace SAT.HR.Data
                 using (var transection = db.Database.BeginTransaction())
                 {
                     ResponseData result = new Models.ResponseData();
+                    int formheaderid = 0;
                     try
                     {
                         var requestUserID = UtilityService.User.UserID;
@@ -362,13 +363,12 @@ namespace SAT.HR.Data
 
                         ObjectParameter formHeaderID = new ObjectParameter("FormHeaderID", typeof(int));
                         db.sp_WorkFlow_Create(model.FormID, 1, model.RequestID, requestMpID, formHeaderID);
+                        formheaderid = Convert.ToInt32(formHeaderID.Value);
+
 
                         int formid = model.FormID;
                         result.ID = formid;
                         transection.Commit();
-
-                        string formheaderid = formHeaderID.Value.ToString();
-                        SendEmail(Convert.ToInt32(formheaderid), 0);
                     }
                     catch (Exception ex)
                     {
@@ -376,6 +376,8 @@ namespace SAT.HR.Data
                         result.MessageCode = "";
                         result.MessageText = ex.Message;
                     }
+
+                    SendEmail(Convert.ToInt32(formheaderid), 0);
                     return result;
                 }
             }
@@ -559,7 +561,7 @@ namespace SAT.HR.Data
                     string mailto = string.Empty;
 
                     var step = db.vw_Trans_Step_Route.Where(m => m.FormHeaderID == formheaderid && m.StepNo == stepno).FirstOrDefault();
-                    if ((bool)step.IsNotifyAcceptNext)
+                    if (step.IsNotifyAcceptNext.HasValue ? (bool)step.IsNotifyAcceptNext : false)
                     {
                         templateid = (int)step.NotifyAcceptNextTemplateID;
 
@@ -567,7 +569,7 @@ namespace SAT.HR.Data
                         mailto = notify[0].Email;
                     }
 
-                    if ((bool)step.IsNotifyAcceptRequestor)
+                    if (step.IsNotifyAcceptRequestor.HasValue ? (bool)step.IsNotifyAcceptRequestor : false)
                     {
                         templateid = (int)step.NotifyAcceptRequestorTemplateID;
 
@@ -575,7 +577,7 @@ namespace SAT.HR.Data
                         mailto = notify[0].Email;
                     }
 
-                    if ((bool)step.IsNotifyRejectRequestor)
+                    if (step.IsNotifyRejectRequestor.HasValue ? (bool)step.IsNotifyRejectRequestor : false)
                     {
                         templateid = (int)step.NotifyRejectRequestorTemplateID;
 
@@ -605,7 +607,7 @@ namespace SAT.HR.Data
                     MailTemplateViewModel model = new MailTemplateViewModel();
                     model.MailSubject = data.MailSubject;
                     model.MailBody = ReplaceMailTemplate(data.MailBody, form);
-                    model.MailTo = mailto + ";" + data.MailTo;
+                    model.MailTo = "shanisara555@gmail.com"; //mailto + ";" + data.MailTo;
                     model.MailCCTo = data.MailCCTo;
                     model.MailBCCTo = data.MailBCCTo;
                     return model;
@@ -620,7 +622,10 @@ namespace SAT.HR.Data
 
         private string ReplaceMailTemplate(string mailbody, vw_Leave_Request form)
         {
-            string template = mailbody.Replace("[{LeaveTypeName}]", form.LeaveTypeName)
+            string template = mailbody.Replace("[{DocNo}]", form.DocNo)
+                                    .Replace("[{NextApproverName}]", form.NextApproverName)
+                                    .Replace("[{RequestUserID}]", form.RequestUserName)
+                                    .Replace("[{LeaveTypeName}]", form.LeaveTypeName)
                                     .Replace("[{TimeType}]", GetTimeType(form.DayTime))
                                     .Replace("[{StartDate}]", form.StartDate.ToString())
                                     .Replace("[{EndDate}]", form.EndDate.ToString())
@@ -686,9 +691,7 @@ namespace SAT.HR.Data
 
                 #region Mail Body
 
-                string FormatBody = template.MailBody;
-
-                mail.Body = string.Format(FormatBody);
+                mail.Body = template.MailBody;
                 mail.BodyEncoding = System.Text.Encoding.UTF8;
                 mail.IsBodyHtml = false;
 
