@@ -127,7 +127,7 @@ namespace SAT.HR.Data.Repository
                 {
                     var data = db.tb_Holiday.Single(x => x.HolID == newdata.HolID);
                     if (data.HolDate.HasValue)
-                        data.HolDate = data.HolDate;
+                        data.HolDate = newdata.HolDate;
                     data.HolDescription = newdata.HolDescription;
                     data.ModifyBy = UtilityService.User.UserID;
                     data.ModifyDate = DateTime.Now;

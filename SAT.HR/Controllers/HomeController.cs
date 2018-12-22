@@ -45,7 +45,7 @@ namespace SAT.HR.Controllers
                 var emp = new EmployeeRepository().Login(username, password);
                 if (emp != null)
                 {
-                    bool terminate = emp.IsTerminate.HasValue ? (bool)emp.IsActive : false;
+                    bool terminate = emp.IsTerminate.HasValue ? (bool)emp.IsTerminate : false;
                     bool inrole = emp.RoleID.HasValue ? true : false; ;
 
                     if (terminate)
