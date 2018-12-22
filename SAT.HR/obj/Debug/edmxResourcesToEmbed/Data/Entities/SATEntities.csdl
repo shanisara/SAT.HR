@@ -642,6 +642,45 @@
     <EntitySet Name="tb_Bonus_Calculator_Detail" EntityType="SAT.HR.tb_Bonus_Calculator_Detail" />
     <EntitySet Name="tb_Salary_Increase_Detail" EntityType="SAT.HR.tb_Salary_Increase_Detail" />
     <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
+    <FunctionImport Name="sp_Report_Child" ReturnType="Collection(SAT.HR.sp_Report_Child_Result)">
+      <Parameter Name="empID" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Report_Cremation" ReturnType="Collection(SAT.HR.sp_Report_Cremation_Result)">
+      <Parameter Name="empID" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Report_Death_Replacement" ReturnType="Collection(SAT.HR.sp_Report_Death_Replacement_Result)">
+      <Parameter Name="empID" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Report_Death_Subsidy" ReturnType="Collection(SAT.HR.sp_Report_Death_Subsidy_Result)">
+      <Parameter Name="empID" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Report_Employee_History" ReturnType="Collection(SAT.HR.sp_Report_Employee_History_Result)">
+      <Parameter Name="divID" Mode="In" Type="String" />
+      <Parameter Name="depID" Mode="In" Type="String" />
+      <Parameter Name="secID" Mode="In" Type="String" />
+      <Parameter Name="eduID" Mode="In" Type="String" />
+      <Parameter Name="insName" Mode="In" Type="String" />
+      <Parameter Name="relID" Mode="In" Type="String" />
+      <Parameter Name="utID" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Report_HomeRental" ReturnType="Collection(SAT.HR.sp_Report_HomeRental_Result)">
+      <Parameter Name="empID" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Report_Loan" ReturnType="Collection(SAT.HR.sp_Report_Loan_Result)">
+      <Parameter Name="empID" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Report_MedicalTreatment" ReturnType="Collection(SAT.HR.sp_Report_MedicalTreatment_Result)">
+      <Parameter Name="empID" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Report_Other_Welfare" ReturnType="Collection(SAT.HR.sp_Report_Other_Welfare_Result)">
+      <Parameter Name="empID" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Report_ProvidentFund" ReturnType="Collection(SAT.HR.sp_Report_ProvidentFund_Result)">
+      <Parameter Name="empID" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Report_Remuneration" ReturnType="Collection(SAT.HR.sp_Report_Remuneration_Result)">
+      <Parameter Name="empID" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_Employee_List_Result">
     <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -4744,4 +4783,170 @@
     <Property Name="DepLevel" Type="Int32" Nullable="false" />
     <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
   </EntityType>
+  <ComplexType Name="sp_Report_Child_Result">
+    <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
+    <Property Type="Int32" Name="UserID" Nullable="false" />
+    <Property Type="String" Name="UfName" Nullable="true" MaxLength="200" />
+    <Property Type="Decimal" Name="UfCardID" Nullable="true" Precision="18" Scale="0" />
+    <Property Type="String" Name="UfDOB" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="ChildFundAmout" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="ChildEducationAmout" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="CExpireDate" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="sp_Report_Cremation_Result">
+    <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
+    <Property Type="Int32" Name="UserID" Nullable="false" />
+    <Property Type="Int32" Name="BcYear" Nullable="true" />
+    <Property Type="Int32" Name="MID" Nullable="true" />
+    <Property Type="String" Name="MName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="BcMemberNo" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BcDate" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BcRecFullName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="BcBeneficiary1" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="BcBeneficiary2" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="BcBeneficiary3" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="BcBeneficiary4" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="BcBeneficiary5" Nullable="true" MaxLength="200" />
+  </ComplexType>
+  <ComplexType Name="sp_Report_Death_Replacement_Result">
+    <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
+    <Property Type="Int32" Name="UserID" Nullable="false" />
+    <Property Type="Int32" Name="BdYear" Nullable="true" />
+    <Property Type="Int32" Name="RecID" Nullable="true" />
+    <Property Type="String" Name="RecName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BdFullName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="BdTime" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="BdPer" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BdAmout" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="BdDate" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BdRemark" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_Report_Death_Subsidy_Result">
+    <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
+    <Property Type="Int32" Name="UserID" Nullable="false" />
+    <Property Type="Int32" Name="BdYear" Nullable="true" />
+    <Property Type="Int32" Name="RecID" Nullable="true" />
+    <Property Type="String" Name="RecName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BdFullName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="BdTime" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="BdPer" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BdAmout" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="BdDate" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BdRemark" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_Report_Employee_History_Result">
+    <Property Type="Decimal" Name="IDCard" Nullable="true" Precision="18" Scale="0" />
+    <Property Type="String" Name="MpCode" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="FullName" Nullable="true" MaxLength="502" />
+    <Property Type="String" Name="MaritalName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="DivName" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="DepName" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="SecName" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="Age" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="WorkAge" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Religion" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="EduName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="UeInstituteName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="SalaryLevel" Nullable="true" />
+    <Property Type="Decimal" Name="SalaryStep" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Salary" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="StatusName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="TypeName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SexName" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="Birthday" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="StartWorkDate" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
+  </ComplexType>
+  <ComplexType Name="sp_Report_HomeRental_Result">
+    <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
+    <Property Type="Int32" Name="UserID" Nullable="false" />
+    <Property Type="Int32" Name="BhrYear" Nullable="true" />
+    <Property Type="String" Name="RName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="PName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="BhrLevel" Nullable="true" />
+    <Property Type="Int32" Name="BhrStep" Nullable="true" />
+    <Property Type="String" Name="BhrStartDate" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BhrEndDate" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="BhrAmout" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="BhrRemark" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_Report_Loan_Result">
+    <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
+    <Property Type="Int32" Name="UserID" Nullable="false" />
+    <Property Type="Int32" Name="BlID" Nullable="false" />
+    <Property Type="Int32" Name="BlYear" Nullable="true" />
+    <Property Type="Int32" Name="BID" Nullable="true" />
+    <Property Type="String" Name="BName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="LtID" Nullable="true" />
+    <Property Type="String" Name="LtName" Nullable="true" MaxLength="200" />
+    <Property Type="Decimal" Name="BlAccountNo" Nullable="true" Precision="18" Scale="0" />
+    <Property Type="String" Name="BlStartDate" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BlEndDate" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BlCloseDate" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="BlPeriod" Nullable="true" Precision="18" Scale="0" />
+    <Property Type="Decimal" Name="BlPeriodPay" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BISummaryAmout" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="BlRemark" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_Report_MedicalTreatment_Result">
+    <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
+    <Property Type="Int32" Name="UserID" Nullable="false" />
+    <Property Type="Int32" Name="BmID" Nullable="false" />
+    <Property Type="Int32" Name="BmYear" Nullable="true" />
+    <Property Type="Int32" Name="ClID" Nullable="true" />
+    <Property Type="String" Name="ClName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="RecID" Nullable="true" />
+    <Property Type="String" Name="RecName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="RecFullName" Nullable="true" MaxLength="200" />
+    <Property Type="Decimal" Name="BmCardID" Nullable="true" Precision="18" Scale="0" />
+    <Property Type="String" Name="BmDate" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="BmAmoutService" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BmAmoutCare" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="BmRemark" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_Report_Other_Welfare_Result">
+    <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
+    <Property Type="Int32" Name="UserID" Nullable="false" />
+    <Property Type="Int32" Name="BoID" Nullable="false" />
+    <Property Type="Int32" Name="BoYear" Nullable="true" />
+    <Property Type="Int32" Name="BenTID" Nullable="true" />
+    <Property Type="String" Name="BenTName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="BoRecID" Nullable="true" />
+    <Property Type="String" Name="RecName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BoRecFullName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="BoOptRecID" Nullable="true" />
+    <Property Type="String" Name="RecName1" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BoOptFullName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="BoTime" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="BoPer" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BoAmout" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="BoDate" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BoRemark" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_Report_ProvidentFund_Result">
+    <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
+    <Property Type="Int32" Name="UserID" Nullable="false" />
+    <Property Type="Int32" Name="BpYear" Nullable="true" />
+    <Property Type="String" Name="BpDateChangeFund" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="BpAccumFundCuID" Nullable="true" />
+    <Property Type="String" Name="AccumFund" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="BpAssoFundCuID" Nullable="true" />
+    <Property Type="String" Name="AssoFund" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BpBeneficiary1" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="BpBeneficiary2" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="BpBeneficiary3" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="BpBeneficiary4" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="BpBeneficiary5" Nullable="true" MaxLength="200" />
+  </ComplexType>
+  <ComplexType Name="sp_Report_Remuneration_Result">
+    <Property Type="Int32" Name="UserID" Nullable="false" />
+    <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
+    <Property Type="Int32" Name="BrYear" Nullable="true" />
+    <Property Type="Int32" Name="RecID" Nullable="true" />
+    <Property Type="String" Name="RecName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="RecFullName" Nullable="true" MaxLength="200" />
+    <Property Type="Decimal" Name="BrAmout" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="BrDate" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BrRemark" Nullable="true" />
+  </ComplexType>
 </Schema>

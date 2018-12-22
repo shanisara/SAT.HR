@@ -605,5 +605,128 @@ namespace SAT.HR.Data.Entities
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Bonus_Calculator_List_Result>("sp_Bonus_Calculator_List", yearParameter, rateParameter);
         }
+    
+        public virtual ObjectResult<sp_Report_Child_Result> sp_Report_Child(string empID)
+        {
+            var empIDParameter = empID != null ?
+                new ObjectParameter("empID", empID) :
+                new ObjectParameter("empID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Child_Result>("sp_Report_Child", empIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_Report_Cremation_Result> sp_Report_Cremation(string empID)
+        {
+            var empIDParameter = empID != null ?
+                new ObjectParameter("empID", empID) :
+                new ObjectParameter("empID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Cremation_Result>("sp_Report_Cremation", empIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_Report_Death_Replacement_Result> sp_Report_Death_Replacement(string empID)
+        {
+            var empIDParameter = empID != null ?
+                new ObjectParameter("empID", empID) :
+                new ObjectParameter("empID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Death_Replacement_Result>("sp_Report_Death_Replacement", empIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_Report_Death_Subsidy_Result> sp_Report_Death_Subsidy(string empID)
+        {
+            var empIDParameter = empID != null ?
+                new ObjectParameter("empID", empID) :
+                new ObjectParameter("empID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Death_Subsidy_Result>("sp_Report_Death_Subsidy", empIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_Report_Employee_History_Result> sp_Report_Employee_History(string divID, string depID, string secID, string eduID, string insName, string relID, string utID)
+        {
+            var divIDParameter = divID != null ?
+                new ObjectParameter("divID", divID) :
+                new ObjectParameter("divID", typeof(string));
+    
+            var depIDParameter = depID != null ?
+                new ObjectParameter("depID", depID) :
+                new ObjectParameter("depID", typeof(string));
+    
+            var secIDParameter = secID != null ?
+                new ObjectParameter("secID", secID) :
+                new ObjectParameter("secID", typeof(string));
+    
+            var eduIDParameter = eduID != null ?
+                new ObjectParameter("eduID", eduID) :
+                new ObjectParameter("eduID", typeof(string));
+    
+            var insNameParameter = insName != null ?
+                new ObjectParameter("insName", insName) :
+                new ObjectParameter("insName", typeof(string));
+    
+            var relIDParameter = relID != null ?
+                new ObjectParameter("relID", relID) :
+                new ObjectParameter("relID", typeof(string));
+    
+            var utIDParameter = utID != null ?
+                new ObjectParameter("utID", utID) :
+                new ObjectParameter("utID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Employee_History_Result>("sp_Report_Employee_History", divIDParameter, depIDParameter, secIDParameter, eduIDParameter, insNameParameter, relIDParameter, utIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_Report_HomeRental_Result> sp_Report_HomeRental(string empID)
+        {
+            var empIDParameter = empID != null ?
+                new ObjectParameter("empID", empID) :
+                new ObjectParameter("empID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_HomeRental_Result>("sp_Report_HomeRental", empIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_Report_Loan_Result> sp_Report_Loan(string empID)
+        {
+            var empIDParameter = empID != null ?
+                new ObjectParameter("empID", empID) :
+                new ObjectParameter("empID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Loan_Result>("sp_Report_Loan", empIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_Report_MedicalTreatment_Result> sp_Report_MedicalTreatment(string empID)
+        {
+            var empIDParameter = empID != null ?
+                new ObjectParameter("empID", empID) :
+                new ObjectParameter("empID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_MedicalTreatment_Result>("sp_Report_MedicalTreatment", empIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_Report_Other_Welfare_Result> sp_Report_Other_Welfare(string empID)
+        {
+            var empIDParameter = empID != null ?
+                new ObjectParameter("empID", empID) :
+                new ObjectParameter("empID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Other_Welfare_Result>("sp_Report_Other_Welfare", empIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_Report_ProvidentFund_Result> sp_Report_ProvidentFund(string empID)
+        {
+            var empIDParameter = empID != null ?
+                new ObjectParameter("empID", empID) :
+                new ObjectParameter("empID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_ProvidentFund_Result>("sp_Report_ProvidentFund", empIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_Report_Remuneration_Result> sp_Report_Remuneration(string empID)
+        {
+            var empIDParameter = empID != null ?
+                new ObjectParameter("empID", empID) :
+                new ObjectParameter("empID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Remuneration_Result>("sp_Report_Remuneration", empIDParameter);
+        }
     }
 }
