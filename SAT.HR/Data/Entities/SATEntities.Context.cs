@@ -173,9 +173,9 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Salary_Increase_Detail> tb_Salary_Increase_Detail { get; set; }
         public virtual DbSet<tb_Form_Step> tb_Form_Step { get; set; }
         public virtual DbSet<tb_Trans_Step_Route> tb_Trans_Step_Route { get; set; }
-        public virtual DbSet<vw_Trans_Step_Route> vw_Trans_Step_Route { get; set; }
         public virtual DbSet<vw_Leave_Request> vw_Leave_Request { get; set; }
         public virtual DbSet<vw_Organization> vw_Organization { get; set; }
+        public virtual DbSet<vw_Trans_Step_Route> vw_Trans_Step_Route { get; set; }
     
         public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
         {
