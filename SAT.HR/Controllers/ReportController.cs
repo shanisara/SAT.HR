@@ -48,7 +48,7 @@ namespace SAT.HR.Controllers
             var model = new EducationRepository().GetAll();
             ViewBag.Education = DropDownList.GetEducation(0, true);
 
-            return View("Report_Education", model); ;
+            return View("~/Views/Report/Benefit/Report_Education.cshtml", model); ;
         }
 
 
@@ -62,7 +62,7 @@ namespace SAT.HR.Controllers
             ViewBag.Religion = DropDownList.GetReligion(0, true);
             ViewBag.UserType = DropDownList.GetUserType(0);
 
-            return View("Report_Employee", model); ;
+            return View("~/Views/Report/Benefit/Report_Employee.cshtml", model); ;
         }
 
         [HttpPost]
@@ -129,22 +129,21 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-
         #region // รายงาน:ส่วนงานสวัสดิการ
 
         #region รายงาน : เงินตอบแทนความชอบ
         public ActionResult ReportRemuneration()
         {            
             ViewBag.Employee = DropDownList.GetEmployee(0,1);
-            return View("Report_Remuneration"); ;
+            return View("~/Views/Report/Benefit/Report_Remuneration.cshtml");
         }
         #endregion
 
         #region รายงาน : กองทุน
         public ActionResult ReportProvidentFund()
         {            
-            ViewBag.Employee = DropDownList.GetEmployee(0, 1);
-            return View("Report_ProvidentFund");
+            ViewBag.Employee = DropDownList.GetEmployee(0, null);
+            return View("~/Views/Report/Benefit/Report_ProvidentFund.cshtml");
         }
         #endregion
 
@@ -152,7 +151,7 @@ namespace SAT.HR.Controllers
         public ActionResult ReportMedicalTreatment()
         {            
             ViewBag.Employee = DropDownList.GetEmployee(0, 1);
-            return View("Report_MedicalTreatment");
+            return View("~/Views/Report/Benefit/Report_MedicalTreatment.cshtml");
         }
         #endregion
 
@@ -160,7 +159,7 @@ namespace SAT.HR.Controllers
         public ActionResult ReportLoan()
         {            
             ViewBag.Employee = DropDownList.GetEmployee(0, 1);
-            return View("Report_Loan");
+            return View("~/Views/Report/Benefit/Report_Loan.cshtml");
         }
         #endregion
 
@@ -168,7 +167,7 @@ namespace SAT.HR.Controllers
         public ActionResult ReportHomeRental()
         {           
             ViewBag.Employee = DropDownList.GetEmployee(0, 1);
-            return View("Report_HomeRental");
+            return View("~/Views/Report/Benefit/Report_HomeRental.cshtml");
         }
         #endregion
 
@@ -176,7 +175,7 @@ namespace SAT.HR.Controllers
         public ActionResult ReportChildFund()
         {
             ViewBag.Employee = DropDownList.GetEmployee(0, 1);
-            return View("Report_ChildFund");
+            return View("~/Views/Report/Benefit/Report_ChildFund.cshtml");
         }
         #endregion
 
@@ -184,7 +183,7 @@ namespace SAT.HR.Controllers
         public ActionResult ReportChildEducation()
         {
             ViewBag.Employee = DropDownList.GetEmployee(0, 1);
-            return View("Report_ChildEducation");
+            return View("~/Views/Report/Benefit/Report_ChildEducation.cshtml");
         }
         #endregion
 
@@ -192,7 +191,7 @@ namespace SAT.HR.Controllers
         public ActionResult ReportCremation()
         {
             ViewBag.Employee = DropDownList.GetEmployee(0, 1);
-            return View("Report_Cremation");
+            return View("~/Views/Report/Benefit/Report_Cremation.cshtml");
         }
         #endregion
 
@@ -200,7 +199,7 @@ namespace SAT.HR.Controllers
         public ActionResult ReportDeathReplacement()
         {
             ViewBag.Employee = DropDownList.GetEmployee(0, 1);
-            return View("Report_DeathReplacement");
+            return View("~/Views/Report/Benefit/Report_DeathReplacement.cshtml");
         }
         #endregion
 
@@ -208,7 +207,7 @@ namespace SAT.HR.Controllers
         public ActionResult ReportDeathSubsidy()
         {
             ViewBag.Employee = DropDownList.GetEmployee(0, 1);
-            return View("Report_DeathSubsidy");
+            return View("~/Views/Report/Benefit/Report_DeathSubsidy.cshtml");
         }
         #endregion
 
@@ -216,7 +215,7 @@ namespace SAT.HR.Controllers
         public ActionResult ReportOtherWelfare()
         {
             ViewBag.Employee = DropDownList.GetEmployee(0, 1);
-            return View("Report_OtherWelfare");
+            return View("~/Views/Report/Benefit/Report_OtherWelfare.cshtml");
         }
         #endregion
 
@@ -266,7 +265,7 @@ namespace SAT.HR.Controllers
                 //Log.LogMessageToFile("DownloadFile");
 
 
-                var filePath = System.IO.File.ReadAllBytes(Path.Combine(SysConfig.PathDownloadReport, fileName));
+                var filePath = Server.MapPath("~" + SysConfig.PathDownloadReport + "/" + fileName);//System.IO.File.ReadAllBytes(Path.Combine(SysConfig.PathDownloadReport, fileName));
                 return File(filePath, "application", fileName);
 
 
