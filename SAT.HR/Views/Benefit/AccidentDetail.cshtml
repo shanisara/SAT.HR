@@ -1,7 +1,7 @@
-﻿@model SAT.HR.Models.IndividualPlanViewModel
+﻿@model SAT.HR.Models.AccidentViewModel
 
 @{
-    ViewBag.Title = "IndividualPlanDetail";
+    ViewBag.Title = "AccidentDetail";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -14,7 +14,7 @@
                         <i class="material-icons">accessibility</i>
                     </div>
                     <h4 class="card-title">
-                        <span> การวางแผนพัฒนารายบุคคล: </span>
+                        <span>อุบัติเหตุ: </span>
                         @Html.HiddenFor(m => m.UserID)
                         <span class="text-primary">@Model.FullNameTh (@Model.IDCard)</span>
                         <button type="button" class="btn btn-round pull-right btn-back">ย้อนกลับ</button>
@@ -22,19 +22,16 @@
                 </div>
                 <div class="card-body">
                     <div class="toolbar pull-right">
-                        <button class="btn btn-primary btn-sm btn-add" data-toggle="modal"><i class="material-icons">add</i> เพิ่มแผนพัฒนา</button>
-                        @*<button class="btn btn-primary btn-sm btn-export" data-toggle="modal"><i class="material-icons"></i> Export</button>*@
+                        <button class="btn btn-primary btn-sm btn-add" data-toggle="modal"><i class="material-icons">add</i> เพิ่มอุบัติเหตุ</button>
                     </div>
                     <div class="material-datatables">
                         <table class="table table-detail">
                             <thead class="text-primary">
                                 <tr>
                                     <th style="width:5%;" class="text-center">ลำดับ</th>
-                                    <th style="width:35%;" class="text-left">ชื่อแผน</th>
-                                    <th style="width:10%;" class="text-left">วันเริ่ม</th>
-                                    <th style="width:10%;" class="text-left">วันสิ้นสุด</th>
-                                    <th style="width:10%;" class="text-right">ค่าใช้จ่าย</th>
-                                    <th style="width:10%;" class="text-left">วันที่ทำรายการ</th>
+                                    <th style="width:15%;" class="text-left">วันที่เกิดอุบัติเหตุ</th>
+                                    <th style="width:30%;" class="text-left">สถานที่เกิดเหตุ</th>
+                                    <th style="width:40%;" class="text-left">สาเหตุ</th>
                                     <th style="width:10%;" class="text-right">ปฏิบัติการ</th>
                                 </tr>
                             </thead>
@@ -52,7 +49,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title"><span>การวางแผนพัฒนารายบุคคล</span></h4>
+                <h4 class="modal-title"><span>อุบัติเหตุ</span></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
             </div>
             <div class="modal-body">
@@ -71,7 +68,7 @@
 
 
 @section Scripts {
-<script>
+    <script>
     $(document).ready(function () {
 
         var dataTable = {
@@ -90,31 +87,24 @@
                     language: { zeroRecords: "ไม่พบข้อมูล" },
                     dom: 't',
                     ajax: {
-                        url: '@Url.Action("IndividualPlanByUser", "HumanResource")/' + id,
+                        url: '@Url.Action("AccidentByUser", "Benefit")/' + id,
                         type: "POST",
                     },
                     "columns": [
                         { "data": "RowNumber", "orderable": false, "searchable": false },
-                        { "data": "PlanName", "orderable": true },
-                        { "data": "StartDateText", "orderable": true },
-                        { "data": "EndDateText", "orderable": true },
-                        { "data": "Amount", "orderable": true },
-                        { "data": "CreateDateText", "orderable": true },
+                        { "data": "ActDateText", "orderable": true },
+                        { "data": "ActPlace", "orderable": true },
+                        { "data": "ActDesc", "orderable": true },
                     ],
                     "columnDefs": [
                         {
                             "render": function (data, type, row) {
-                                return '<div class="text-right">' + accounting.formatNumber(data, 2) + '</div>';
-                            }, "targets": [4]
-                        },
-                        {
-                            "render": function (data, type, row) {
                                 var inner = '<div class="td-actions pull-right">' +
-                                                '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.PlanID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;' +
-                                                '<button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.PlanID + '"><i class="material-icons">close</i></button>' +
+                                                '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.ActID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;' +
+                                                '<button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.ActID + '"><i class="material-icons">close</i></button>' +
                                             '</div>';
                                 return inner;
-                            }, "targets": 6
+                            }, "targets": 4
                         },
                     ]
                 });
@@ -122,7 +112,7 @@
                 dataTable.table.on('click', '.edit', function () {
                     var userid = $("#UserID").val();
                     var id = $(this).data("id");
-                    var url = '@Url.Action("IndividualPlanDetailByID", "HumanResource")';
+                    var url = '@Url.Action("AccidentDetailByID", "Benefit")';
                     $.post(url, { userid: userid, id: id }, function (data) {
                         $(".div-detail").html(data);
                         $('.modal-detail').modal('show');
@@ -144,7 +134,7 @@
                     }).then(function () {
                         $.ajax({
                             type: 'POST',
-                            url: '@Url.Action("DeleteIndividualPlanDetail", "HumanResource")/' + id,
+                            url: '@Url.Action("DeleteAccident", "Benefit")/' + id,
                             success: function (res) {
                                 if (res.MessageCode == null) {
                                     swal({
@@ -185,7 +175,7 @@
 
         $(".btn-add").click(function () {
             var userid = $("#UserID").val();
-            var url = '@Url.Action("IndividualPlanDetailByID", "HumanResource")';
+            var url = '@Url.Action("AccidentDetailByID", "Benefit")';
             $.post(url, { userid: userid, id: 0 }, function (data) {
                 $(".div-detail").html(data);
                 $('.modal-detail').modal('show');
@@ -202,7 +192,7 @@
             else {
                 $.ajax({
                     type: 'POST',
-                    url: '@Url.Action("SaveIndividualPlanDetail", "HumanResource")',
+                    url: '@Url.Action("SaveAccident", "Benefit")',
                     data: $(".form-detail").serialize(),
                     success: function (res) {
                         if (res.MessageCode == null) {
@@ -234,10 +224,10 @@
         });
 
         $(".btn-back").click(function () {
-            var url = '@Url.Action("IndividualPlan", "HumanResource")';
+            var url = '@Url.Action("Accident", "Benefit")';
             window.location.href = url;
         });
 
     });
-</script>
+    </script>
 }

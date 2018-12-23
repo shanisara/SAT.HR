@@ -56,33 +56,97 @@ namespace SAT.HR.Data.Repository
             }
         }
 
-        public List<AccidentViewModel> GetAll()
+        public AccidentViewModel AccidentDetail(int? userid)
         {
-            using (SATEntities db = new SATEntities())
+            try
             {
-                var list = db.tb_Accident.Select(s => new AccidentViewModel()
+                AccidentViewModel model = new AccidentViewModel();
+
+                using (SATEntities db = new SATEntities())
                 {
-                    ActID = s.ActID,
-                    UserID = s.UserID,
-                    ActDate = s.ActDate,
-                    ActPlace = s.ActPlace,
-                    ActDesc = s.ActDesc,
-                }).ToList();
-                return list;
+                    var user = db.vw_Employee.Where(x => x.UserID == userid).FirstOrDefault();
+                    model.UserID = user.UserID;
+                    model.IDCard = user.IDCard;
+                    model.FullNameTh = user.TiShortName + user.FullNameTh;
+
+                    return model;
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
 
-        public AccidentViewModel GetByID(int id)
+        public AccidentViewModel AccidentByUser(int? userid)
         {
-            using (SATEntities db = new SATEntities())
+            try
             {
-                var data = db.tb_Accident.Where(x => x.ActID == id).FirstOrDefault();
-                AccidentViewModel model = new Models.AccidentViewModel();
-                model.ActID = data.ActID;
-                model.UserID = data.UserID;
-                model.ActDate = data.ActDate;
-                model.ActPlace = data.ActPlace;
+                AccidentViewModel model = new AccidentViewModel();
+
+                using (SATEntities db = new SATEntities())
+                {
+                    List<AccidentViewModel> lists = new List<AccidentViewModel>();
+                    var items = db.tb_Accident.Where(x => x.UserID == userid).ToList();
+                    if (items.Count > 0)
+                    {
+                        int index = 0;
+                        foreach (var item in items)
+                        {
+                            AccidentViewModel obj = new AccidentViewModel();
+                            obj.RowNumber = ++index;
+                            obj.ActID = item.ActID;
+                            obj.UserID = item.UserID;
+                            obj.ActPlace = item.ActPlace;
+                            obj.ActDesc = item.ActDesc;
+                            obj.ActDate = item.ActDate;
+                            obj.ActDateText = Convert.ToDateTime(item.ActDate).ToString("dd/MM/yyyy");
+                            lists.Add(obj);
+                        }
+                    }
+                    model.listAccident = lists;
+
+                    return model;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public AccidentViewModel AccidentDetailByID(int? id, int userid)
+        {
+            try
+            {
+                AccidentViewModel model = new AccidentViewModel();
+
+                using (SATEntities db = new SATEntities())
+                {
+                    var obj = db.tb_Accident.Where(x => x.ActID == id).FirstOrDefault();
+                    if (obj != null)
+                    {
+                        model.ActID = obj.ActID;
+                        model.UserID = obj.UserID;
+                        model.ActDate = obj.ActDate;
+                        model.ActPlace = obj.ActPlace;
+                        model.ActDesc = obj.ActDesc;
+                        model.CreateDate = obj.CreateDate;
+                        model.CreateBy = obj.CreateBy;
+                        model.ModifyDate = obj.ModifyDate;
+                        model.ModifyBy = obj.ModifyBy;
+                    }
+                    else
+                    {
+                        model.UserID = userid;
+                    }
+                }
                 return model;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
@@ -159,6 +223,8 @@ namespace SAT.HR.Data.Repository
                 return result;
             }
         }
+
+
 
     }
 }

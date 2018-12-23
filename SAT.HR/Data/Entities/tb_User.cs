@@ -38,9 +38,9 @@ namespace SAT.HR.Data.Entities
             this.tb_User_Skill = new HashSet<tb_User_Skill>();
             this.tb_User_Training = new HashSet<tb_User_Training>();
             this.tb_Working_Shift = new HashSet<tb_Working_Shift>();
-            this.tb_Accident = new HashSet<tb_Accident>();
             this.tb_Benefit_Loan = new HashSet<tb_Benefit_Loan>();
             this.tb_Benefit_Provident_Fund = new HashSet<tb_Benefit_Provident_Fund>();
+            this.tb_Accident = new HashSet<tb_Accident>();
         }
     
         public int UserID { get; set; }
@@ -173,10 +173,10 @@ namespace SAT.HR.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Working_Shift> tb_Working_Shift { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Accident> tb_Accident { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Benefit_Loan> tb_Benefit_Loan { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Benefit_Provident_Fund> tb_Benefit_Provident_Fund { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Accident> tb_Accident { get; set; }
     }
 }

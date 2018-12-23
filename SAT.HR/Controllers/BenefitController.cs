@@ -467,8 +467,45 @@ namespace SAT.HR.Controllers
 
         public ActionResult Accident()
         {
+            ViewBag.UserType = DropDownList.GetUserType(1);
             return View();
         }
+
+        public ActionResult AccidentDetail(int id)
+        {
+            var model = new AccidentRepository().AccidentDetail(id);
+            return View(model);
+        }
+
+        public ActionResult AccidentDetailByID(int? id, int userid)
+        {
+            var model = new AccidentRepository().AccidentDetailByID(id, userid);
+            return PartialView("_AccidentDetail", model);
+        }
+
+        [HttpPost]
+        public JsonResult AccidentByUser(int id)
+        {
+            var list = new AccidentRepository().AccidentByUser(id);
+            return Json(new { data = list.listAccident }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SaveAccident(AccidentViewModel data)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (data.ActID != 0)
+                result = new AccidentRepository().UpdateByEntity(data);
+            else
+                result = new AccidentRepository().AddByEntity(data);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteAccident(int id)
+        {
+            var result = new AccidentRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
 
 
         #endregion

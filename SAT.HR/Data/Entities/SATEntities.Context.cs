@@ -172,12 +172,12 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Leave_Request> vw_Leave_Request { get; set; }
         public virtual DbSet<vw_Trans_Step_Route> vw_Trans_Step_Route { get; set; }
         public virtual DbSet<vw_Organization> vw_Organization { get; set; }
-        public virtual DbSet<tb_Accident> tb_Accident { get; set; }
         public virtual DbSet<tb_Benefit_Loan> tb_Benefit_Loan { get; set; }
         public virtual DbSet<tb_Benefit_Provident_Fund> tb_Benefit_Provident_Fund { get; set; }
         public virtual DbSet<vw_Benefit_Loan> vw_Benefit_Loan { get; set; }
         public virtual DbSet<vw_Benefit_Provident_Fund> vw_Benefit_Provident_Fund { get; set; }
         public virtual DbSet<tb_Loan_Status> tb_Loan_Status { get; set; }
+        public virtual DbSet<tb_Accident> tb_Accident { get; set; }
     
         public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
         {
