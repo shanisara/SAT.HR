@@ -21,6 +21,9 @@ namespace SAT.HR.Models
         public Nullable<decimal> BlPeriodPay { get; set; }
         public Nullable<decimal> BISummaryAmout { get; set; }
         public string BlRemark { get; set; }
+        public Nullable<int> CardID { get; set; }
+        public Nullable<int> BlStatus { get; set; }
+        public Nullable<decimal> Outstanding { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
@@ -28,6 +31,7 @@ namespace SAT.HR.Models
         public string FullNameTh { get; set; }
         public string BName { get; set; }
         public string LtName { get; set; }
+        public string BlStatusName { get; set; }
 
         public List<BenefitLoanViewModel> ListLoan { get; set; }
     }

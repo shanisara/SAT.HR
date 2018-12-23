@@ -68,7 +68,6 @@ namespace SAT.HR.Controllers
         #endregion
 
         #region  2. กองทุน
-
         
         public ActionResult ProvidentFundByUser(int id)
         {
@@ -157,7 +156,6 @@ namespace SAT.HR.Controllers
         #endregion
 
         #region  4. เงินกู้
-
         public ActionResult LoanByUser()
         {
             return PartialView("_Loan");
@@ -168,6 +166,7 @@ namespace SAT.HR.Controllers
             var model = new BenefitRepository().GetLoanByID(userid, id);
             ViewBag.BankLoan = DropDownList.GetBankLoan(model.BID);
             ViewBag.LoanType = DropDownList.GetLoanType(model.LtID);
+            ViewBag.BlStatus = new BenefitRepository().GetLoanStatus(model.BlStatus);
             return PartialView("_LoanDetail", model);
         }
 
@@ -466,7 +465,7 @@ namespace SAT.HR.Controllers
 
         #region ความปลอดภัยในการทำงาน
 
-        public ActionResult Security()
+        public ActionResult Accident()
         {
             return View();
         }

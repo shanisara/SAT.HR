@@ -31,6 +31,9 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
+        public Nullable<int> CardID { get; set; }
+        public Nullable<decimal> Outstanding { get; set; }
+        public Nullable<int> BlStatus { get; set; }
     
         public virtual tb_Bank_Loan tb_Bank_Loan { get; set; }
         public virtual tb_Loan_Type tb_Loan_Type { get; set; }

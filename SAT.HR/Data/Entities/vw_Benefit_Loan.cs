@@ -29,6 +29,9 @@ namespace SAT.HR.Data.Entities
         public Nullable<decimal> BlPeriodPay { get; set; }
         public Nullable<decimal> BISummaryAmout { get; set; }
         public string BlRemark { get; set; }
+        public Nullable<int> CardID { get; set; }
+        public Nullable<decimal> Outstanding { get; set; }
+        public Nullable<int> BlStatus { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }

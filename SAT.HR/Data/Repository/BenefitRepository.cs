@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Globalization;
+using System.Web.Mvc;
 
 namespace SAT.HR.Data.Repository
 {
@@ -214,6 +215,11 @@ namespace SAT.HR.Data.Repository
                         model.BpBeneficiary3 = item.BpBeneficiary3;
                         model.BpBeneficiary4 = item.BpBeneficiary4;
                         model.BpBeneficiary5 = item.BpBeneficiary5;
+                        model.BpBeneficiary1Percent = item.BpBeneficiary1Percent;
+                        model.BpBeneficiary2Percent = item.BpBeneficiary2Percent;
+                        model.BpBeneficiary3Percent = item.BpBeneficiary3Percent;
+                        model.BpBeneficiary4Percent = item.BpBeneficiary4Percent;
+                        model.BpBeneficiary5Percent = item.BpBeneficiary5Percent;
                         model.BpBeneficiary = GetAllBpBeneficiary(item.BpBeneficiary1, item.BpBeneficiary2, item.BpBeneficiary3, item.BpBeneficiary4, item.BpBeneficiary5);
                         model.CreateDate = item.CreateDate;
                         model.CreateBy = item.CreateBy;
@@ -258,6 +264,11 @@ namespace SAT.HR.Data.Repository
                     model.BpBeneficiary3 = item.BpBeneficiary3;
                     model.BpBeneficiary4 = item.BpBeneficiary4;
                     model.BpBeneficiary5 = item.BpBeneficiary5;
+                    model.BpBeneficiary1Percent = item.BpBeneficiary1Percent;
+                    model.BpBeneficiary2Percent = item.BpBeneficiary2Percent;
+                    model.BpBeneficiary3Percent = item.BpBeneficiary3Percent;
+                    model.BpBeneficiary4Percent = item.BpBeneficiary4Percent;
+                    model.BpBeneficiary5Percent = item.BpBeneficiary5Percent;
                     model.CreateDate = item.CreateDate;
                     model.CreateBy = item.CreateBy;
                     model.ModifyDate = item.ModifyDate;
@@ -292,8 +303,13 @@ namespace SAT.HR.Data.Repository
                     model.BpBeneficiary3 = data.BpBeneficiary3;
                     model.BpBeneficiary4 = data.BpBeneficiary4;
                     model.BpBeneficiary5 = data.BpBeneficiary5;
-                    if (Convert.ToDateTime(data.BpDateChangeFund) > DateTime.MinValue)
-                        model.BpDateChangeFund = Convert.ToDateTime(data.BpDateChangeFund);
+                    model.BpBeneficiary1Percent = data.BpBeneficiary1Percent;
+                    model.BpBeneficiary2Percent = data.BpBeneficiary2Percent;
+                    model.BpBeneficiary3Percent = data.BpBeneficiary3Percent;
+                    model.BpBeneficiary4Percent = data.BpBeneficiary4Percent;
+                    model.BpBeneficiary5Percent = data.BpBeneficiary5Percent;
+                    if (data.BpDateChangeFund.HasValue)
+                        model.BpDateChangeFund = data.BpDateChangeFund;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -328,8 +344,13 @@ namespace SAT.HR.Data.Repository
                     model.BpBeneficiary3 = newdata.BpBeneficiary3;
                     model.BpBeneficiary4 = newdata.BpBeneficiary4;
                     model.BpBeneficiary5 = newdata.BpBeneficiary5;
-                    if (Convert.ToDateTime(newdata.BpDateChangeFund) > DateTime.MinValue)
-                        model.BpDateChangeFund = Convert.ToDateTime(newdata.BpDateChangeFund);
+                    model.BpBeneficiary1Percent = newdata.BpBeneficiary1Percent;
+                    model.BpBeneficiary2Percent = newdata.BpBeneficiary2Percent;
+                    model.BpBeneficiary3Percent = newdata.BpBeneficiary3Percent;
+                    model.BpBeneficiary4Percent = newdata.BpBeneficiary4Percent;
+                    model.BpBeneficiary5Percent = newdata.BpBeneficiary5Percent;
+                    if(newdata.BpDateChangeFund.HasValue)
+                        model.BpDateChangeFund = newdata.BpDateChangeFund;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
@@ -633,6 +654,9 @@ namespace SAT.HR.Data.Repository
                         model.ModifyBy = item.ModifyBy;
                         model.BName = item.BName;
                         model.LtName = item.LtName;
+                        model.CardID = item.CardID;
+                        model.Outstanding = item.Outstanding;
+                        model.BlStatus = item.BlStatus;
                         list.Add(model);
                     }
                 }
@@ -671,6 +695,9 @@ namespace SAT.HR.Data.Repository
                     model.BlPeriodPay = item.BlPeriodPay;
                     model.BISummaryAmout = item.BISummaryAmout;
                     model.BlRemark = item.BlRemark;
+                    model.CardID = item.CardID;
+                    model.Outstanding = item.Outstanding;
+                    model.BlStatus = item.BlStatus;
                     model.CreateDate = item.CreateDate;
                     model.CreateBy = item.CreateBy;
                     model.ModifyDate = item.ModifyDate;
@@ -705,12 +732,15 @@ namespace SAT.HR.Data.Repository
                     model.BlPeriodPay = data.BlPeriodPay;
                     model.BISummaryAmout = data.BISummaryAmout;
                     model.BlRemark = data.BlRemark;
-                    if (Convert.ToDateTime(data.BlStartDate) > DateTime.MinValue)
-                        model.BlStartDate = Convert.ToDateTime(data.BlStartDate);
-                    if (Convert.ToDateTime(data.BlEndDate) > DateTime.MinValue)
-                        model.BlEndDate = Convert.ToDateTime(data.BlEndDate);
-                    if (Convert.ToDateTime(data.BlCloseDate) > DateTime.MinValue)
-                        model.BlCloseDate = Convert.ToDateTime(data.BlCloseDate);
+                    if (data.BlStartDate.HasValue)
+                        model.BlStartDate = data.BlStartDate;
+                    if (data.BlEndDate.HasValue)
+                        model.BlEndDate = data.BlEndDate;
+                    if (data.BlCloseDate.HasValue)
+                        model.BlCloseDate = data.BlCloseDate;
+                    model.CardID = data.CardID;
+                    model.Outstanding = data.Outstanding;
+                    model.Outstanding = data.BlStatus;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -745,12 +775,15 @@ namespace SAT.HR.Data.Repository
                     model.BlPeriodPay = newdata.BlPeriodPay;
                     model.BISummaryAmout = newdata.BISummaryAmout;
                     model.BlRemark = newdata.BlRemark;
-                    if (Convert.ToDateTime(newdata.BlStartDate) > DateTime.MinValue)
-                        model.BlStartDate = Convert.ToDateTime(newdata.BlStartDate);
-                    if (Convert.ToDateTime(newdata.BlEndDate) > DateTime.MinValue)
-                        model.BlEndDate = Convert.ToDateTime(newdata.BlEndDate);
-                    if (Convert.ToDateTime(newdata.BlCloseDate) > DateTime.MinValue)
-                        model.BlCloseDate = Convert.ToDateTime(newdata.BlCloseDate);
+                    if (newdata.BlStartDate.HasValue)
+                        model.BlStartDate = newdata.BlStartDate;
+                    if (newdata.BlEndDate.HasValue)
+                        model.BlEndDate = newdata.BlEndDate;
+                    if (newdata.BlCloseDate.HasValue)
+                        model.BlCloseDate = newdata.BlCloseDate;
+                    model.CardID = newdata.CardID;
+                    model.Outstanding = newdata.Outstanding;
+                    model.BlStatus = newdata.BlStatus;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
@@ -784,6 +817,26 @@ namespace SAT.HR.Data.Repository
                     result.MessageText = ex.Message;
                 }
                 return result;
+            }
+        }
+
+        public List<SelectListItem> GetLoanStatus(int? defaultValue)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                List<SelectListItem> list = new List<SelectListItem>();
+
+                var data = db.tb_Loan_Status.ToList();
+
+                foreach (var item in data)
+                {
+                    SelectListItem select = new SelectListItem();
+                    select.Value = item.StatusID.ToString();
+                    select.Text = item.StatusName;
+                    select.Selected = defaultValue.HasValue ? (item.StatusID == defaultValue ? true : false) : false;
+                    list.Add(select);
+                }
+                return list;
             }
         }
 

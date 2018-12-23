@@ -27,6 +27,11 @@ namespace SAT.HR.Data.Entities
         public string BpBeneficiary3 { get; set; }
         public string BpBeneficiary4 { get; set; }
         public string BpBeneficiary5 { get; set; }
+        public Nullable<int> BpBeneficiary1Percent { get; set; }
+        public Nullable<int> BpBeneficiary2Percent { get; set; }
+        public Nullable<int> BpBeneficiary3Percent { get; set; }
+        public Nullable<int> BpBeneficiary4Percent { get; set; }
+        public Nullable<int> BpBeneficiary5Percent { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }

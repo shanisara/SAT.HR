@@ -29,6 +29,11 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
+        public Nullable<int> BpBeneficiary1Percent { get; set; }
+        public Nullable<int> BpBeneficiary2Percent { get; set; }
+        public Nullable<int> BpBeneficiary3Percent { get; set; }
+        public Nullable<int> BpBeneficiary4Percent { get; set; }
+        public Nullable<int> BpBeneficiary5Percent { get; set; }
     
         public virtual tb_Accumulative_Fund tb_Accumulative_Fund { get; set; }
         public virtual tb_Accumulative_Fund tb_Accumulative_Fund1 { get; set; }

@@ -5,6 +5,20 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="SAT.HR.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tb_Accident">
+          <Key>
+            <PropertyRef Name="ActID" />
+          </Key>
+          <Property Name="ActID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="ActDate" Type="date" />
+          <Property Name="ActPlace" Type="nvarchar" MaxLength="200" />
+          <Property Name="ActDesc" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="int" />
+        </EntityType>
         <EntityType Name="tb_Accumulative_Fund">
           <Key>
             <PropertyRef Name="CuID" />
@@ -145,6 +159,9 @@
           <Property Name="CreateBy" Type="int" />
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
+          <Property Name="CardID" Type="int" />
+          <Property Name="Outstanding" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="BlStatus" Type="int" />
         </EntityType>
         <EntityType Name="tb_Benefit_Medical">
           <Key>
@@ -210,6 +227,11 @@
           <Property Name="CreateBy" Type="int" />
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
+          <Property Name="BpBeneficiary1Percent" Type="int" />
+          <Property Name="BpBeneficiary2Percent" Type="int" />
+          <Property Name="BpBeneficiary3Percent" Type="int" />
+          <Property Name="BpBeneficiary4Percent" Type="int" />
+          <Property Name="BpBeneficiary5Percent" Type="int" />
         </EntityType>
         <EntityType Name="tb_Benefit_Remuneration">
           <Key>
@@ -702,6 +724,13 @@
           <Property Name="CreateBy" Type="int" />
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
+        </EntityType>
+        <EntityType Name="tb_Loan_Status">
+          <Key>
+            <PropertyRef Name="StatusID" />
+          </Key>
+          <Property Name="StatusID" Type="int" Nullable="false" />
+          <Property Name="StatusName" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="tb_Loan_Type">
           <Key>
@@ -1688,6 +1717,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Benefit_Loan' does not have a p
           <Property Name="BlPeriodPay" Type="decimal" Precision="18" Scale="2" />
           <Property Name="BISummaryAmout" Type="decimal" Precision="18" Scale="2" />
           <Property Name="BlRemark" Type="nvarchar(max)" />
+          <Property Name="CardID" Type="int" />
+          <Property Name="Outstanding" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="BlStatus" Type="int" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="int" />
           <Property Name="ModifyDate" Type="datetime" />
@@ -1765,6 +1797,11 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Benefit_Provident_Fund' does no
           <Property Name="BpBeneficiary3" Type="nvarchar" MaxLength="200" />
           <Property Name="BpBeneficiary4" Type="nvarchar" MaxLength="200" />
           <Property Name="BpBeneficiary5" Type="nvarchar" MaxLength="200" />
+          <Property Name="BpBeneficiary1Percent" Type="int" />
+          <Property Name="BpBeneficiary2Percent" Type="int" />
+          <Property Name="BpBeneficiary3Percent" Type="int" />
+          <Property Name="BpBeneficiary4Percent" Type="int" />
+          <Property Name="BpBeneficiary5Percent" Type="int" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="int" />
           <Property Name="ModifyDate" Type="datetime" />
@@ -2627,6 +2664,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
         </EntityType>
+        <Association Name="FK_tb_Accident_tb_User">
+          <End Role="tb_User" Type="Self.tb_User" Multiplicity="0..1" />
+          <End Role="tb_Accident" Type="Self.tb_Accident" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tb_Accident">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tb_Benefit_Cremation_tb_Member_Type">
           <End Role="tb_Member_Type" Type="Self.tb_Member_Type" Multiplicity="0..1" />
           <End Role="tb_Benefit_Cremation" Type="Self.tb_Benefit_Cremation" Multiplicity="*" />
@@ -3944,6 +3993,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Parameter Name="DateTo" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="SATHRStoreContainer">
+          <EntitySet Name="tb_Accident" EntityType="Self.tb_Accident" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Accumulative_Fund" EntityType="Self.tb_Accumulative_Fund" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Action_Type" EntityType="Self.tb_Action_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Agent_Type" EntityType="Self.tb_Agent_Type" Schema="dbo" store:Type="Tables" />
@@ -3995,6 +4045,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_Leave_Request" EntityType="Self.tb_Leave_Request" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Leave_Status" EntityType="Self.tb_Leave_Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Leave_Type" EntityType="Self.tb_Leave_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Loan_Status" EntityType="Self.tb_Loan_Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Loan_Type" EntityType="Self.tb_Loan_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Mail_Template" EntityType="Self.tb_Mail_Template" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Major" EntityType="Self.tb_Major" Schema="dbo" store:Type="Tables" />
@@ -4151,6 +4202,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Benefit_Loan].[BlPeriodPay] AS [BlPeriodPay], 
     [vw_Benefit_Loan].[BISummaryAmout] AS [BISummaryAmout], 
     [vw_Benefit_Loan].[BlRemark] AS [BlRemark], 
+    [vw_Benefit_Loan].[CardID] AS [CardID], 
+    [vw_Benefit_Loan].[Outstanding] AS [Outstanding], 
+    [vw_Benefit_Loan].[BlStatus] AS [BlStatus], 
     [vw_Benefit_Loan].[CreateDate] AS [CreateDate], 
     [vw_Benefit_Loan].[CreateBy] AS [CreateBy], 
     [vw_Benefit_Loan].[ModifyDate] AS [ModifyDate], 
@@ -4216,6 +4270,11 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Benefit_Provident_Fund].[BpBeneficiary3] AS [BpBeneficiary3], 
     [vw_Benefit_Provident_Fund].[BpBeneficiary4] AS [BpBeneficiary4], 
     [vw_Benefit_Provident_Fund].[BpBeneficiary5] AS [BpBeneficiary5], 
+    [vw_Benefit_Provident_Fund].[BpBeneficiary1Percent] AS [BpBeneficiary1Percent], 
+    [vw_Benefit_Provident_Fund].[BpBeneficiary2Percent] AS [BpBeneficiary2Percent], 
+    [vw_Benefit_Provident_Fund].[BpBeneficiary3Percent] AS [BpBeneficiary3Percent], 
+    [vw_Benefit_Provident_Fund].[BpBeneficiary4Percent] AS [BpBeneficiary4Percent], 
+    [vw_Benefit_Provident_Fund].[BpBeneficiary5Percent] AS [BpBeneficiary5Percent], 
     [vw_Benefit_Provident_Fund].[CreateDate] AS [CreateDate], 
     [vw_Benefit_Provident_Fund].[CreateBy] AS [CreateBy], 
     [vw_Benefit_Provident_Fund].[ModifyDate] AS [ModifyDate], 
@@ -4966,6 +5025,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_User_Training].[ModifyBy] AS [ModifyBy]
     FROM [dbo].[vw_User_Training] AS [vw_User_Training]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_tb_Accident_tb_User" Association="Self.FK_tb_Accident_tb_User">
+            <End Role="tb_User" EntitySet="tb_User" />
+            <End Role="tb_Accident" EntitySet="tb_Accident" />
+          </AssociationSet>
           <AssociationSet Name="FK_tb_Benefit_Cremation_tb_Member_Type" Association="Self.FK_tb_Benefit_Cremation_tb_Member_Type">
             <End Role="tb_Member_Type" EntitySet="tb_Member_Type" />
             <End Role="tb_Benefit_Cremation" EntitySet="tb_Benefit_Cremation" />
@@ -5468,10 +5531,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_Benefit_Death_Replacement" EntityType="SAT.HR.tb_Benefit_Death_Replacement" />
           <EntitySet Name="tb_Benefit_Death_Subsidy" EntityType="SAT.HR.tb_Benefit_Death_Subsidy" />
           <EntitySet Name="tb_Benefit_Home_Rental" EntityType="SAT.HR.tb_Benefit_Home_Rental" />
-          <EntitySet Name="tb_Benefit_Loan" EntityType="SAT.HR.tb_Benefit_Loan" />
           <EntitySet Name="tb_Benefit_Medical" EntityType="SAT.HR.tb_Benefit_Medical" />
           <EntitySet Name="tb_Benefit_Other_Welfare" EntityType="SAT.HR.tb_Benefit_Other_Welfare" />
-          <EntitySet Name="tb_Benefit_Provident_Fund" EntityType="SAT.HR.tb_Benefit_Provident_Fund" />
           <EntitySet Name="tb_Benefit_Remuneration" EntityType="SAT.HR.tb_Benefit_Remuneration" />
           <EntitySet Name="tb_Benefit_Type" EntityType="SAT.HR.tb_Benefit_Type" />
           <EntitySet Name="tb_Blood_Type" EntityType="SAT.HR.tb_Blood_Type" />
@@ -5565,10 +5626,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="vw_Benefit_Death_Replacement" EntityType="SAT.HR.vw_Benefit_Death_Replacement" />
           <EntitySet Name="vw_Benefit_Death_Subsidy" EntityType="SAT.HR.vw_Benefit_Death_Subsidy" />
           <EntitySet Name="vw_Benefit_Home_Rental" EntityType="SAT.HR.vw_Benefit_Home_Rental" />
-          <EntitySet Name="vw_Benefit_Loan" EntityType="SAT.HR.vw_Benefit_Loan" />
           <EntitySet Name="vw_Benefit_Medical" EntityType="SAT.HR.vw_Benefit_Medical" />
           <EntitySet Name="vw_Benefit_Other_Welfare" EntityType="SAT.HR.vw_Benefit_Other_Welfare" />
-          <EntitySet Name="vw_Benefit_Provident_Fund" EntityType="SAT.HR.vw_Benefit_Provident_Fund" />
           <EntitySet Name="vw_Capability" EntityType="SAT.HR.vw_Capability" />
           <EntitySet Name="vw_Course" EntityType="SAT.HR.vw_Course" />
           <EntitySet Name="vw_Department" EntityType="SAT.HR.vw_Department" />
@@ -5596,21 +5655,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="vw_User_Role" EntityType="SAT.HR.vw_User_Role" />
           <EntitySet Name="vw_User_Skill" EntityType="SAT.HR.vw_User_Skill" />
           <EntitySet Name="vw_User_Training" EntityType="SAT.HR.vw_User_Training" />
-          <AssociationSet Name="FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund" Association="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund">
-            <End Role="tb_Accumulative_Fund" EntitySet="tb_Accumulative_Fund" />
-            <End Role="tb_Benefit_Provident_Fund" EntitySet="tb_Benefit_Provident_Fund" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund1" Association="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund1">
-            <End Role="tb_Accumulative_Fund" EntitySet="tb_Accumulative_Fund" />
-            <End Role="tb_Benefit_Provident_Fund" EntitySet="tb_Benefit_Provident_Fund" />
-          </AssociationSet>
           <AssociationSet Name="FK_tb_User_Position_tb_Action_Type" Association="SAT.HR.FK_tb_User_Position_tb_Action_Type">
             <End Role="tb_Action_Type" EntitySet="tb_Action_Type" />
             <End Role="tb_User_Position" EntitySet="tb_User_Position" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tb_Benefit_Loan_tb_Bank_Loan" Association="SAT.HR.FK_tb_Benefit_Loan_tb_Bank_Loan">
-            <End Role="tb_Bank_Loan" EntitySet="tb_Bank_Loan" />
-            <End Role="tb_Benefit_Loan" EntitySet="tb_Benefit_Loan" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_Benefit_Cremation_tb_Member_Type" Association="SAT.HR.FK_tb_Benefit_Cremation_tb_Member_Type">
             <End Role="tb_Member_Type" EntitySet="tb_Member_Type" />
@@ -5648,14 +5695,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <End Role="tb_User" EntitySet="tb_User" />
             <End Role="tb_Benefit_Home_Rental" EntitySet="tb_Benefit_Home_Rental" />
           </AssociationSet>
-          <AssociationSet Name="FK_tb_Benefit_Loan_tb_Loan_Type" Association="SAT.HR.FK_tb_Benefit_Loan_tb_Loan_Type">
-            <End Role="tb_Loan_Type" EntitySet="tb_Loan_Type" />
-            <End Role="tb_Benefit_Loan" EntitySet="tb_Benefit_Loan" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tb_Benefit_Loan_tb_User" Association="SAT.HR.FK_tb_Benefit_Loan_tb_User">
-            <End Role="tb_User" EntitySet="tb_User" />
-            <End Role="tb_Benefit_Loan" EntitySet="tb_Benefit_Loan" />
-          </AssociationSet>
           <AssociationSet Name="FK_tb_Benefit_Medical_tb_Claim_Type" Association="SAT.HR.FK_tb_Benefit_Medical_tb_Claim_Type">
             <End Role="tb_Claim_Type" EntitySet="tb_Claim_Type" />
             <End Role="tb_Benefit_Medical" EntitySet="tb_Benefit_Medical" />
@@ -5683,10 +5722,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <AssociationSet Name="FK_tb_Benefit_Other_Welfare_tb_User" Association="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_User">
             <End Role="tb_User" EntitySet="tb_User" />
             <End Role="tb_Benefit_Other_Welfare" EntitySet="tb_Benefit_Other_Welfare" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tb_Benefit_Provident_Fund_tb_User" Association="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_User">
-            <End Role="tb_User" EntitySet="tb_User" />
-            <End Role="tb_Benefit_Provident_Fund" EntitySet="tb_Benefit_Provident_Fund" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_Benefit_Remuneration_tb_Recieve_Type" Association="SAT.HR.FK_tb_Benefit_Remuneration_tb_Recieve_Type">
             <End Role="tb_Recieve_Type" EntitySet="tb_Recieve_Type" />
@@ -6057,6 +6092,40 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Parameter Name="FormHeaderID" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
+          <EntitySet Name="tb_Accident" EntityType="SAT.HR.tb_Accident" />
+          <AssociationSet Name="FK_tb_Accident_tb_User" Association="SAT.HR.FK_tb_Accident_tb_User">
+            <End Role="tb_User" EntitySet="tb_User" />
+            <End Role="tb_Accident" EntitySet="tb_Accident" />
+          </AssociationSet>
+          <EntitySet Name="tb_Benefit_Loan" EntityType="SAT.HR.tb_Benefit_Loan" />
+          <EntitySet Name="tb_Benefit_Provident_Fund" EntityType="SAT.HR.tb_Benefit_Provident_Fund" />
+          <AssociationSet Name="FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund" Association="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund">
+            <End Role="tb_Accumulative_Fund" EntitySet="tb_Accumulative_Fund" />
+            <End Role="tb_Benefit_Provident_Fund" EntitySet="tb_Benefit_Provident_Fund" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund1" Association="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund1">
+            <End Role="tb_Accumulative_Fund" EntitySet="tb_Accumulative_Fund" />
+            <End Role="tb_Benefit_Provident_Fund" EntitySet="tb_Benefit_Provident_Fund" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Benefit_Loan_tb_Bank_Loan" Association="SAT.HR.FK_tb_Benefit_Loan_tb_Bank_Loan">
+            <End Role="tb_Bank_Loan" EntitySet="tb_Bank_Loan" />
+            <End Role="tb_Benefit_Loan" EntitySet="tb_Benefit_Loan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Benefit_Loan_tb_Loan_Type" Association="SAT.HR.FK_tb_Benefit_Loan_tb_Loan_Type">
+            <End Role="tb_Loan_Type" EntitySet="tb_Loan_Type" />
+            <End Role="tb_Benefit_Loan" EntitySet="tb_Benefit_Loan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Benefit_Loan_tb_User" Association="SAT.HR.FK_tb_Benefit_Loan_tb_User">
+            <End Role="tb_User" EntitySet="tb_User" />
+            <End Role="tb_Benefit_Loan" EntitySet="tb_Benefit_Loan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Benefit_Provident_Fund_tb_User" Association="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_User">
+            <End Role="tb_User" EntitySet="tb_User" />
+            <End Role="tb_Benefit_Provident_Fund" EntitySet="tb_Benefit_Provident_Fund" />
+          </AssociationSet>
+          <EntitySet Name="vw_Benefit_Loan" EntityType="SAT.HR.vw_Benefit_Loan" />
+          <EntitySet Name="vw_Benefit_Provident_Fund" EntityType="SAT.HR.vw_Benefit_Provident_Fund" />
+          <EntitySet Name="tb_Loan_Status" EntityType="SAT.HR.tb_Loan_Status" />
           </EntityContainer>
         <ComplexType Name="sp_Employee_List_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -6316,7 +6385,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="CuAmoutPer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tb_Benefit_Provident_Fund" Relationship="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund" FromRole="tb_Accumulative_Fund" ToRole="tb_Benefit_Provident_Fund" />
           <NavigationProperty Name="tb_Benefit_Provident_Fund1" Relationship="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund1" FromRole="tb_Accumulative_Fund" ToRole="tb_Benefit_Provident_Fund" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="tb_Action_Type">
           <Key>
             <PropertyRef Name="ActID" />
@@ -6440,32 +6509,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <NavigationProperty Name="tb_Rent_Type" Relationship="SAT.HR.FK_tb_Benefit_Home_Rental_tb_Rent_Type" FromRole="tb_Benefit_Home_Rental" ToRole="tb_Rent_Type" />
           <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Benefit_Home_Rental_tb_User" FromRole="tb_Benefit_Home_Rental" ToRole="tb_User" />
         </EntityType>
-        <EntityType Name="tb_Benefit_Loan">
-          <Key>
-            <PropertyRef Name="BlID" />
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="BlID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="BlYear" Type="Int32" />
-          <Property Name="BID" Type="Int32" />
-          <Property Name="LtID" Type="Int32" />
-          <Property Name="BlAccountNo" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="BlStartDate" Type="DateTime" Precision="0" />
-          <Property Name="BlEndDate" Type="DateTime" Precision="0" />
-          <Property Name="BlCloseDate" Type="DateTime" Precision="0" />
-          <Property Name="BlPeriod" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="BlPeriodPay" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BISummaryAmout" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BlRemark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="Int32" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="Int32" />
-          <NavigationProperty Name="tb_Bank_Loan" Relationship="SAT.HR.FK_tb_Benefit_Loan_tb_Bank_Loan" FromRole="tb_Benefit_Loan" ToRole="tb_Bank_Loan" />
-          <NavigationProperty Name="tb_Loan_Type" Relationship="SAT.HR.FK_tb_Benefit_Loan_tb_Loan_Type" FromRole="tb_Benefit_Loan" ToRole="tb_Loan_Type" />
-          <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Benefit_Loan_tb_User" FromRole="tb_Benefit_Loan" ToRole="tb_User" />
-        </EntityType>
         <EntityType Name="tb_Benefit_Medical">
           <Key>
             <PropertyRef Name="BmID" />
@@ -6516,30 +6559,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <NavigationProperty Name="tb_Recieve_Type" Relationship="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Recieve_Type" FromRole="tb_Benefit_Other_Welfare" ToRole="tb_Recieve_Type" />
           <NavigationProperty Name="tb_Recieve_Type1" Relationship="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Recieve_Type1" FromRole="tb_Benefit_Other_Welfare" ToRole="tb_Recieve_Type" />
           <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_User" FromRole="tb_Benefit_Other_Welfare" ToRole="tb_User" />
-        </EntityType>
-        <EntityType Name="tb_Benefit_Provident_Fund">
-          <Key>
-            <PropertyRef Name="BpID" />
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="BpID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="BpYear" Type="Int32" />
-          <Property Name="BpDateChangeFund" Type="DateTime" Precision="0" />
-          <Property Name="BpAccumFundCuID" Type="Int32" />
-          <Property Name="BpAssoFundCuID" Type="Int32" />
-          <Property Name="BpBeneficiary1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="BpBeneficiary2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="BpBeneficiary3" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="BpBeneficiary4" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="BpBeneficiary5" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="Int32" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="Int32" />
-          <NavigationProperty Name="tb_Accumulative_Fund" Relationship="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund" FromRole="tb_Benefit_Provident_Fund" ToRole="tb_Accumulative_Fund" />
-          <NavigationProperty Name="tb_Accumulative_Fund1" Relationship="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund1" FromRole="tb_Benefit_Provident_Fund" ToRole="tb_Accumulative_Fund" />
-          <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_User" FromRole="tb_Benefit_Provident_Fund" ToRole="tb_User" />
         </EntityType>
         <EntityType Name="tb_Benefit_Remuneration">
           <Key>
@@ -7557,10 +7576,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <NavigationProperty Name="tb_Benefit_Death_Replacement" Relationship="SAT.HR.FK_tb_Benefit_Death_Replacement_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Death_Replacement" />
           <NavigationProperty Name="tb_Benefit_Death_Subsidy" Relationship="SAT.HR.FK_tb_Benefit_Death_Subsidy_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Death_Subsidy" />
           <NavigationProperty Name="tb_Benefit_Home_Rental" Relationship="SAT.HR.FK_tb_Benefit_Home_Rental_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Home_Rental" />
-          <NavigationProperty Name="tb_Benefit_Loan" Relationship="SAT.HR.FK_tb_Benefit_Loan_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Loan" />
           <NavigationProperty Name="tb_Benefit_Medical" Relationship="SAT.HR.FK_tb_Benefit_Medical_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Medical" />
           <NavigationProperty Name="tb_Benefit_Other_Welfare" Relationship="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Other_Welfare" />
-          <NavigationProperty Name="tb_Benefit_Provident_Fund" Relationship="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Provident_Fund" />
           <NavigationProperty Name="tb_Blood_Type" Relationship="SAT.HR.FK_tb_Users_tb_Blood_Type" FromRole="tb_User" ToRole="tb_Blood_Type" />
           <NavigationProperty Name="tb_Cripple" Relationship="SAT.HR.FK_tb_User_tb_Cripple" FromRole="tb_User" ToRole="tb_Cripple" />
           <NavigationProperty Name="tb_Cripple_Type" Relationship="SAT.HR.FK_tb_User_tb_Cripple_Type" FromRole="tb_User" ToRole="tb_Cripple_Type" />
@@ -7589,6 +7606,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <NavigationProperty Name="tb_User_Status" Relationship="SAT.HR.FK_tb_Users_tb_User_Status" FromRole="tb_User" ToRole="tb_User_Status" />
           <NavigationProperty Name="tb_Working_Type" Relationship="SAT.HR.FK_tb_Users_tb_Working_Type" FromRole="tb_User" ToRole="tb_Working_Type" />
           <NavigationProperty Name="tb_Working_Shift" Relationship="SAT.HR.FK_tb_Working_Shift_tb_User" FromRole="tb_User" ToRole="tb_Working_Shift" />
+          <NavigationProperty Name="tb_Accident" Relationship="SAT.HR.FK_tb_Accident_tb_User" FromRole="tb_User" ToRole="tb_Accident" />
+          <NavigationProperty Name="tb_Benefit_Loan" Relationship="SAT.HR.FK_tb_Benefit_Loan_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Loan" />
+          <NavigationProperty Name="tb_Benefit_Provident_Fund" Relationship="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Provident_Fund" />
         </EntityType>
         <EntityType Name="tb_User_Certificate">
           <Key>
@@ -7954,31 +7974,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="Int32" />
         </EntityType>
-        <EntityType Name="vw_Benefit_Loan">
-          <Key>
-            <PropertyRef Name="BlID" />
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="BlID" Type="Int32" Nullable="false" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="BlYear" Type="Int32" />
-          <Property Name="BID" Type="Int32" />
-          <Property Name="BName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="LtName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="LtID" Type="Int32" />
-          <Property Name="BlAccountNo" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="BlStartDate" Type="DateTime" Precision="0" />
-          <Property Name="BlEndDate" Type="DateTime" Precision="0" />
-          <Property Name="BlCloseDate" Type="DateTime" Precision="0" />
-          <Property Name="BlPeriod" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="BlPeriodPay" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BISummaryAmout" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BlRemark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="Int32" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="Int32" />
-        </EntityType>
         <EntityType Name="vw_Benefit_Medical">
           <Key>
             <PropertyRef Name="BmID" />
@@ -8022,29 +8017,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="BoAmout" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="BoDate" Type="DateTime" Precision="0" />
           <Property Name="BoRemark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="Int32" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="Int32" />
-        </EntityType>
-        <EntityType Name="vw_Benefit_Provident_Fund">
-          <Key>
-            <PropertyRef Name="BpID" />
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="BpID" Type="Int32" Nullable="false" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="BpYear" Type="Int32" />
-          <Property Name="BpDateChangeFund" Type="DateTime" Precision="0" />
-          <Property Name="BpAccumFundCuID" Type="Int32" />
-          <Property Name="BpAccumFundCuName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="BpAssoFundCuID" Type="Int32" />
-          <Property Name="BpAssoFundCuName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="BpBeneficiary1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="BpBeneficiary2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="BpBeneficiary3" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="BpBeneficiary4" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="BpBeneficiary5" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="CreateBy" Type="Int32" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
@@ -8733,30 +8705,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="Int32" />
         </EntityType>
-        <Association Name="FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund">
-          <End Type="SAT.HR.tb_Accumulative_Fund" Role="tb_Accumulative_Fund" Multiplicity="0..1" />
-          <End Type="SAT.HR.tb_Benefit_Provident_Fund" Role="tb_Benefit_Provident_Fund" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_Accumulative_Fund">
-              <PropertyRef Name="CuID" />
-            </Principal>
-            <Dependent Role="tb_Benefit_Provident_Fund">
-              <PropertyRef Name="BpAccumFundCuID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund1">
-          <End Type="SAT.HR.tb_Accumulative_Fund" Role="tb_Accumulative_Fund" Multiplicity="0..1" />
-          <End Type="SAT.HR.tb_Benefit_Provident_Fund" Role="tb_Benefit_Provident_Fund" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_Accumulative_Fund">
-              <PropertyRef Name="CuID" />
-            </Principal>
-            <Dependent Role="tb_Benefit_Provident_Fund">
-              <PropertyRef Name="BpAssoFundCuID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tb_User_Position_tb_Action_Type">
           <End Type="SAT.HR.tb_Action_Type" Role="tb_Action_Type" Multiplicity="0..1" />
           <End Type="SAT.HR.tb_User_Position" Role="tb_User_Position" Multiplicity="*" />
@@ -8766,18 +8714,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Principal>
             <Dependent Role="tb_User_Position">
               <PropertyRef Name="ActID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tb_Benefit_Loan_tb_Bank_Loan">
-          <End Type="SAT.HR.tb_Bank_Loan" Role="tb_Bank_Loan" Multiplicity="0..1" />
-          <End Type="SAT.HR.tb_Benefit_Loan" Role="tb_Benefit_Loan" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_Bank_Loan">
-              <PropertyRef Name="BID" />
-            </Principal>
-            <Dependent Role="tb_Benefit_Loan">
-              <PropertyRef Name="BID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8889,30 +8825,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tb_Benefit_Loan_tb_Loan_Type">
-          <End Type="SAT.HR.tb_Loan_Type" Role="tb_Loan_Type" Multiplicity="0..1" />
-          <End Type="SAT.HR.tb_Benefit_Loan" Role="tb_Benefit_Loan" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_Loan_Type">
-              <PropertyRef Name="LtID" />
-            </Principal>
-            <Dependent Role="tb_Benefit_Loan">
-              <PropertyRef Name="LtID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tb_Benefit_Loan_tb_User">
-          <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
-          <End Type="SAT.HR.tb_Benefit_Loan" Role="tb_Benefit_Loan" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_User">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="tb_Benefit_Loan">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tb_Benefit_Medical_tb_Claim_Type">
           <End Type="SAT.HR.tb_Claim_Type" Role="tb_Claim_Type" Multiplicity="0..1" />
           <End Type="SAT.HR.tb_Benefit_Medical" Role="tb_Benefit_Medical" Multiplicity="*" />
@@ -8993,18 +8905,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               <PropertyRef Name="UserID" />
             </Principal>
             <Dependent Role="tb_Benefit_Other_Welfare">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tb_Benefit_Provident_Fund_tb_User">
-          <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
-          <End Type="SAT.HR.tb_Benefit_Provident_Fund" Role="tb_Benefit_Provident_Fund" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_User">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="tb_Benefit_Provident_Fund">
               <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
@@ -10375,6 +10275,226 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="DepLevel" Type="Int32" Nullable="false" />
           <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="tb_Accident">
+          <Key>
+            <PropertyRef Name="ActID" />
+          </Key>
+          <Property Name="ActID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="ActDate" Type="DateTime" Precision="0" />
+          <Property Name="ActPlace" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ActDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+          <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Accident_tb_User" FromRole="tb_Accident" ToRole="tb_User" />
+        </EntityType>
+        <Association Name="FK_tb_Accident_tb_User">
+          <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Accident" Role="tb_Accident" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tb_Accident">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tb_Benefit_Loan">
+          <Key>
+            <PropertyRef Name="BlID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="BlID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="BlYear" Type="Int32" />
+          <Property Name="BID" Type="Int32" />
+          <Property Name="LtID" Type="Int32" />
+          <Property Name="BlAccountNo" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="BlStartDate" Type="DateTime" Precision="0" />
+          <Property Name="BlEndDate" Type="DateTime" Precision="0" />
+          <Property Name="BlCloseDate" Type="DateTime" Precision="0" />
+          <Property Name="BlPeriod" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="BlPeriodPay" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BISummaryAmout" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BlRemark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+          <Property Name="CardID" Type="Int32" />
+          <Property Name="Outstanding" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BlStatus" Type="Int32" />
+          <NavigationProperty Name="tb_Bank_Loan" Relationship="SAT.HR.FK_tb_Benefit_Loan_tb_Bank_Loan" FromRole="tb_Benefit_Loan" ToRole="tb_Bank_Loan" />
+          <NavigationProperty Name="tb_Loan_Type" Relationship="SAT.HR.FK_tb_Benefit_Loan_tb_Loan_Type" FromRole="tb_Benefit_Loan" ToRole="tb_Loan_Type" />
+          <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Benefit_Loan_tb_User" FromRole="tb_Benefit_Loan" ToRole="tb_User" />
+        </EntityType>
+        <EntityType Name="tb_Benefit_Provident_Fund">
+          <Key>
+            <PropertyRef Name="BpID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="BpID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="BpYear" Type="Int32" />
+          <Property Name="BpDateChangeFund" Type="DateTime" Precision="0" />
+          <Property Name="BpAccumFundCuID" Type="Int32" />
+          <Property Name="BpAssoFundCuID" Type="Int32" />
+          <Property Name="BpBeneficiary1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="BpBeneficiary2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="BpBeneficiary3" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="BpBeneficiary4" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="BpBeneficiary5" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+          <Property Name="BpBeneficiary1Percent" Type="Int32" />
+          <Property Name="BpBeneficiary2Percent" Type="Int32" />
+          <Property Name="BpBeneficiary3Percent" Type="Int32" />
+          <Property Name="BpBeneficiary4Percent" Type="Int32" />
+          <Property Name="BpBeneficiary5Percent" Type="Int32" />
+          <NavigationProperty Name="tb_Accumulative_Fund" Relationship="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund" FromRole="tb_Benefit_Provident_Fund" ToRole="tb_Accumulative_Fund" />
+          <NavigationProperty Name="tb_Accumulative_Fund1" Relationship="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund1" FromRole="tb_Benefit_Provident_Fund" ToRole="tb_Accumulative_Fund" />
+          <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_User" FromRole="tb_Benefit_Provident_Fund" ToRole="tb_User" />
+        </EntityType>
+        <Association Name="FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund">
+          <End Type="SAT.HR.tb_Accumulative_Fund" Role="tb_Accumulative_Fund" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Benefit_Provident_Fund" Role="tb_Benefit_Provident_Fund" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Accumulative_Fund">
+              <PropertyRef Name="CuID" />
+            </Principal>
+            <Dependent Role="tb_Benefit_Provident_Fund">
+              <PropertyRef Name="BpAccumFundCuID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund1">
+          <End Type="SAT.HR.tb_Accumulative_Fund" Role="tb_Accumulative_Fund" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Benefit_Provident_Fund" Role="tb_Benefit_Provident_Fund" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Accumulative_Fund">
+              <PropertyRef Name="CuID" />
+            </Principal>
+            <Dependent Role="tb_Benefit_Provident_Fund">
+              <PropertyRef Name="BpAssoFundCuID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Benefit_Loan_tb_Bank_Loan">
+          <End Type="SAT.HR.tb_Bank_Loan" Role="tb_Bank_Loan" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Benefit_Loan" Role="tb_Benefit_Loan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Bank_Loan">
+              <PropertyRef Name="BID" />
+            </Principal>
+            <Dependent Role="tb_Benefit_Loan">
+              <PropertyRef Name="BID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Benefit_Loan_tb_Loan_Type">
+          <End Type="SAT.HR.tb_Loan_Type" Role="tb_Loan_Type" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Benefit_Loan" Role="tb_Benefit_Loan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Loan_Type">
+              <PropertyRef Name="LtID" />
+            </Principal>
+            <Dependent Role="tb_Benefit_Loan">
+              <PropertyRef Name="LtID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Benefit_Loan_tb_User">
+          <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
+          <End Type="SAT.HR.tb_Benefit_Loan" Role="tb_Benefit_Loan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tb_Benefit_Loan">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Benefit_Provident_Fund_tb_User">
+          <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
+          <End Type="SAT.HR.tb_Benefit_Provident_Fund" Role="tb_Benefit_Provident_Fund" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tb_Benefit_Provident_Fund">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="vw_Benefit_Loan">
+          <Key>
+            <PropertyRef Name="BlID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="BlID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="BlYear" Type="Int32" />
+          <Property Name="BID" Type="Int32" />
+          <Property Name="BName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LtName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LtID" Type="Int32" />
+          <Property Name="BlAccountNo" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="BlStartDate" Type="DateTime" Precision="0" />
+          <Property Name="BlEndDate" Type="DateTime" Precision="0" />
+          <Property Name="BlCloseDate" Type="DateTime" Precision="0" />
+          <Property Name="BlPeriod" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="BlPeriodPay" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BISummaryAmout" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BlRemark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CardID" Type="Int32" />
+          <Property Name="Outstanding" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BlStatus" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+        </EntityType>
+        <EntityType Name="vw_Benefit_Provident_Fund">
+          <Key>
+            <PropertyRef Name="BpID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="BpID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="BpYear" Type="Int32" />
+          <Property Name="BpDateChangeFund" Type="DateTime" Precision="0" />
+          <Property Name="BpAccumFundCuID" Type="Int32" />
+          <Property Name="BpAccumFundCuName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BpAssoFundCuID" Type="Int32" />
+          <Property Name="BpAssoFundCuName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BpBeneficiary1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="BpBeneficiary2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="BpBeneficiary3" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="BpBeneficiary4" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="BpBeneficiary5" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="BpBeneficiary1Percent" Type="Int32" />
+          <Property Name="BpBeneficiary2Percent" Type="Int32" />
+          <Property Name="BpBeneficiary3Percent" Type="Int32" />
+          <Property Name="BpBeneficiary4Percent" Type="Int32" />
+          <Property Name="BpBeneficiary5Percent" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tb_Loan_Status">
+          <Key>
+            <PropertyRef Name="StatusID" />
+          </Key>
+          <Property Name="StatusID" Type="Int32" Nullable="false" />
+          <Property Name="StatusName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10797,29 +10917,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tb_Benefit_Loan">
-            <EntityTypeMapping TypeName="SAT.HR.tb_Benefit_Loan">
-              <MappingFragment StoreEntitySet="tb_Benefit_Loan">
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="BlRemark" ColumnName="BlRemark" />
-                <ScalarProperty Name="BISummaryAmout" ColumnName="BISummaryAmout" />
-                <ScalarProperty Name="BlPeriodPay" ColumnName="BlPeriodPay" />
-                <ScalarProperty Name="BlPeriod" ColumnName="BlPeriod" />
-                <ScalarProperty Name="BlCloseDate" ColumnName="BlCloseDate" />
-                <ScalarProperty Name="BlEndDate" ColumnName="BlEndDate" />
-                <ScalarProperty Name="BlStartDate" ColumnName="BlStartDate" />
-                <ScalarProperty Name="BlAccountNo" ColumnName="BlAccountNo" />
-                <ScalarProperty Name="LtID" ColumnName="LtID" />
-                <ScalarProperty Name="BID" ColumnName="BID" />
-                <ScalarProperty Name="BlYear" ColumnName="BlYear" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="BlID" ColumnName="BlID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tb_Benefit_Medical">
             <EntityTypeMapping TypeName="SAT.HR.tb_Benefit_Medical">
               <MappingFragment StoreEntitySet="tb_Benefit_Medical">
@@ -10861,27 +10958,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="BoYear" ColumnName="BoYear" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="BoID" ColumnName="BoID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tb_Benefit_Provident_Fund">
-            <EntityTypeMapping TypeName="SAT.HR.tb_Benefit_Provident_Fund">
-              <MappingFragment StoreEntitySet="tb_Benefit_Provident_Fund">
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="BpBeneficiary5" ColumnName="BpBeneficiary5" />
-                <ScalarProperty Name="BpBeneficiary4" ColumnName="BpBeneficiary4" />
-                <ScalarProperty Name="BpBeneficiary3" ColumnName="BpBeneficiary3" />
-                <ScalarProperty Name="BpBeneficiary2" ColumnName="BpBeneficiary2" />
-                <ScalarProperty Name="BpBeneficiary1" ColumnName="BpBeneficiary1" />
-                <ScalarProperty Name="BpAssoFundCuID" ColumnName="BpAssoFundCuID" />
-                <ScalarProperty Name="BpAccumFundCuID" ColumnName="BpAccumFundCuID" />
-                <ScalarProperty Name="BpDateChangeFund" ColumnName="BpDateChangeFund" />
-                <ScalarProperty Name="BpYear" ColumnName="BpYear" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="BpID" ColumnName="BpID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -12216,31 +12292,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="vw_Benefit_Loan">
-            <EntityTypeMapping TypeName="SAT.HR.vw_Benefit_Loan">
-              <MappingFragment StoreEntitySet="vw_Benefit_Loan">
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="BlRemark" ColumnName="BlRemark" />
-                <ScalarProperty Name="BISummaryAmout" ColumnName="BISummaryAmout" />
-                <ScalarProperty Name="BlPeriodPay" ColumnName="BlPeriodPay" />
-                <ScalarProperty Name="BlPeriod" ColumnName="BlPeriod" />
-                <ScalarProperty Name="BlCloseDate" ColumnName="BlCloseDate" />
-                <ScalarProperty Name="BlEndDate" ColumnName="BlEndDate" />
-                <ScalarProperty Name="BlStartDate" ColumnName="BlStartDate" />
-                <ScalarProperty Name="BlAccountNo" ColumnName="BlAccountNo" />
-                <ScalarProperty Name="LtID" ColumnName="LtID" />
-                <ScalarProperty Name="LtName" ColumnName="LtName" />
-                <ScalarProperty Name="BName" ColumnName="BName" />
-                <ScalarProperty Name="BID" ColumnName="BID" />
-                <ScalarProperty Name="BlYear" ColumnName="BlYear" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="BlID" ColumnName="BlID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="vw_Benefit_Medical">
             <EntityTypeMapping TypeName="SAT.HR.vw_Benefit_Medical">
               <MappingFragment StoreEntitySet="vw_Benefit_Medical">
@@ -12286,29 +12337,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="BoYear" ColumnName="BoYear" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="BoID" ColumnName="BoID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="vw_Benefit_Provident_Fund">
-            <EntityTypeMapping TypeName="SAT.HR.vw_Benefit_Provident_Fund">
-              <MappingFragment StoreEntitySet="vw_Benefit_Provident_Fund">
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="BpBeneficiary5" ColumnName="BpBeneficiary5" />
-                <ScalarProperty Name="BpBeneficiary4" ColumnName="BpBeneficiary4" />
-                <ScalarProperty Name="BpBeneficiary3" ColumnName="BpBeneficiary3" />
-                <ScalarProperty Name="BpBeneficiary2" ColumnName="BpBeneficiary2" />
-                <ScalarProperty Name="BpBeneficiary1" ColumnName="BpBeneficiary1" />
-                <ScalarProperty Name="BpAssoFundCuName" ColumnName="BpAssoFundCuName" />
-                <ScalarProperty Name="BpAssoFundCuID" ColumnName="BpAssoFundCuID" />
-                <ScalarProperty Name="BpAccumFundCuName" ColumnName="BpAccumFundCuName" />
-                <ScalarProperty Name="BpAccumFundCuID" ColumnName="BpAccumFundCuID" />
-                <ScalarProperty Name="BpDateChangeFund" ColumnName="BpDateChangeFund" />
-                <ScalarProperty Name="BpYear" ColumnName="BpYear" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="BpID" ColumnName="BpID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -13624,6 +13652,137 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="ParentID" ColumnName="ParentID" />
                 <ScalarProperty Name="MpCode" ColumnName="MpCode" />
                 <ScalarProperty Name="MpID" ColumnName="MpID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Accident">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Accident">
+              <MappingFragment StoreEntitySet="tb_Accident">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ActDesc" ColumnName="ActDesc" />
+                <ScalarProperty Name="ActPlace" ColumnName="ActPlace" />
+                <ScalarProperty Name="ActDate" ColumnName="ActDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ActID" ColumnName="ActID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Benefit_Loan">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Benefit_Loan">
+              <MappingFragment StoreEntitySet="tb_Benefit_Loan">
+                <ScalarProperty Name="BlStatus" ColumnName="BlStatus" />
+                <ScalarProperty Name="Outstanding" ColumnName="Outstanding" />
+                <ScalarProperty Name="CardID" ColumnName="CardID" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="BlRemark" ColumnName="BlRemark" />
+                <ScalarProperty Name="BISummaryAmout" ColumnName="BISummaryAmout" />
+                <ScalarProperty Name="BlPeriodPay" ColumnName="BlPeriodPay" />
+                <ScalarProperty Name="BlPeriod" ColumnName="BlPeriod" />
+                <ScalarProperty Name="BlCloseDate" ColumnName="BlCloseDate" />
+                <ScalarProperty Name="BlEndDate" ColumnName="BlEndDate" />
+                <ScalarProperty Name="BlStartDate" ColumnName="BlStartDate" />
+                <ScalarProperty Name="BlAccountNo" ColumnName="BlAccountNo" />
+                <ScalarProperty Name="LtID" ColumnName="LtID" />
+                <ScalarProperty Name="BID" ColumnName="BID" />
+                <ScalarProperty Name="BlYear" ColumnName="BlYear" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="BlID" ColumnName="BlID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Benefit_Provident_Fund">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Benefit_Provident_Fund">
+              <MappingFragment StoreEntitySet="tb_Benefit_Provident_Fund">
+                <ScalarProperty Name="BpBeneficiary5Percent" ColumnName="BpBeneficiary5Percent" />
+                <ScalarProperty Name="BpBeneficiary4Percent" ColumnName="BpBeneficiary4Percent" />
+                <ScalarProperty Name="BpBeneficiary3Percent" ColumnName="BpBeneficiary3Percent" />
+                <ScalarProperty Name="BpBeneficiary2Percent" ColumnName="BpBeneficiary2Percent" />
+                <ScalarProperty Name="BpBeneficiary1Percent" ColumnName="BpBeneficiary1Percent" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="BpBeneficiary5" ColumnName="BpBeneficiary5" />
+                <ScalarProperty Name="BpBeneficiary4" ColumnName="BpBeneficiary4" />
+                <ScalarProperty Name="BpBeneficiary3" ColumnName="BpBeneficiary3" />
+                <ScalarProperty Name="BpBeneficiary2" ColumnName="BpBeneficiary2" />
+                <ScalarProperty Name="BpBeneficiary1" ColumnName="BpBeneficiary1" />
+                <ScalarProperty Name="BpAssoFundCuID" ColumnName="BpAssoFundCuID" />
+                <ScalarProperty Name="BpAccumFundCuID" ColumnName="BpAccumFundCuID" />
+                <ScalarProperty Name="BpDateChangeFund" ColumnName="BpDateChangeFund" />
+                <ScalarProperty Name="BpYear" ColumnName="BpYear" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="BpID" ColumnName="BpID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_Benefit_Loan">
+            <EntityTypeMapping TypeName="SAT.HR.vw_Benefit_Loan">
+              <MappingFragment StoreEntitySet="vw_Benefit_Loan">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="BlStatus" ColumnName="BlStatus" />
+                <ScalarProperty Name="Outstanding" ColumnName="Outstanding" />
+                <ScalarProperty Name="CardID" ColumnName="CardID" />
+                <ScalarProperty Name="BlRemark" ColumnName="BlRemark" />
+                <ScalarProperty Name="BISummaryAmout" ColumnName="BISummaryAmout" />
+                <ScalarProperty Name="BlPeriodPay" ColumnName="BlPeriodPay" />
+                <ScalarProperty Name="BlPeriod" ColumnName="BlPeriod" />
+                <ScalarProperty Name="BlCloseDate" ColumnName="BlCloseDate" />
+                <ScalarProperty Name="BlEndDate" ColumnName="BlEndDate" />
+                <ScalarProperty Name="BlStartDate" ColumnName="BlStartDate" />
+                <ScalarProperty Name="BlAccountNo" ColumnName="BlAccountNo" />
+                <ScalarProperty Name="LtID" ColumnName="LtID" />
+                <ScalarProperty Name="LtName" ColumnName="LtName" />
+                <ScalarProperty Name="BName" ColumnName="BName" />
+                <ScalarProperty Name="BID" ColumnName="BID" />
+                <ScalarProperty Name="BlYear" ColumnName="BlYear" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="BlID" ColumnName="BlID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_Benefit_Provident_Fund">
+            <EntityTypeMapping TypeName="SAT.HR.vw_Benefit_Provident_Fund">
+              <MappingFragment StoreEntitySet="vw_Benefit_Provident_Fund">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="BpBeneficiary5Percent" ColumnName="BpBeneficiary5Percent" />
+                <ScalarProperty Name="BpBeneficiary4Percent" ColumnName="BpBeneficiary4Percent" />
+                <ScalarProperty Name="BpBeneficiary3Percent" ColumnName="BpBeneficiary3Percent" />
+                <ScalarProperty Name="BpBeneficiary2Percent" ColumnName="BpBeneficiary2Percent" />
+                <ScalarProperty Name="BpBeneficiary1Percent" ColumnName="BpBeneficiary1Percent" />
+                <ScalarProperty Name="BpBeneficiary5" ColumnName="BpBeneficiary5" />
+                <ScalarProperty Name="BpBeneficiary4" ColumnName="BpBeneficiary4" />
+                <ScalarProperty Name="BpBeneficiary3" ColumnName="BpBeneficiary3" />
+                <ScalarProperty Name="BpBeneficiary2" ColumnName="BpBeneficiary2" />
+                <ScalarProperty Name="BpBeneficiary1" ColumnName="BpBeneficiary1" />
+                <ScalarProperty Name="BpAssoFundCuName" ColumnName="BpAssoFundCuName" />
+                <ScalarProperty Name="BpAssoFundCuID" ColumnName="BpAssoFundCuID" />
+                <ScalarProperty Name="BpAccumFundCuName" ColumnName="BpAccumFundCuName" />
+                <ScalarProperty Name="BpAccumFundCuID" ColumnName="BpAccumFundCuID" />
+                <ScalarProperty Name="BpDateChangeFund" ColumnName="BpDateChangeFund" />
+                <ScalarProperty Name="BpYear" ColumnName="BpYear" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="BpID" ColumnName="BpID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Loan_Status">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Loan_Status">
+              <MappingFragment StoreEntitySet="tb_Loan_Status">
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -1,5 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="SAT.HR.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tb_Accident">
+    <Key>
+      <PropertyRef Name="ActID" />
+    </Key>
+    <Property Name="ActID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="ActDate" Type="date" />
+    <Property Name="ActPlace" Type="nvarchar" MaxLength="200" />
+    <Property Name="ActDesc" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
   <EntityType Name="tb_Accumulative_Fund">
     <Key>
       <PropertyRef Name="CuID" />
@@ -140,6 +154,9 @@
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
+    <Property Name="CardID" Type="int" />
+    <Property Name="Outstanding" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BlStatus" Type="int" />
   </EntityType>
   <EntityType Name="tb_Benefit_Medical">
     <Key>
@@ -205,6 +222,11 @@
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
+    <Property Name="BpBeneficiary1Percent" Type="int" />
+    <Property Name="BpBeneficiary2Percent" Type="int" />
+    <Property Name="BpBeneficiary3Percent" Type="int" />
+    <Property Name="BpBeneficiary4Percent" Type="int" />
+    <Property Name="BpBeneficiary5Percent" Type="int" />
   </EntityType>
   <EntityType Name="tb_Benefit_Remuneration">
     <Key>
@@ -697,6 +719,13 @@
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Loan_Status">
+    <Key>
+      <PropertyRef Name="StatusID" />
+    </Key>
+    <Property Name="StatusID" Type="int" Nullable="false" />
+    <Property Name="StatusName" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="tb_Loan_Type">
     <Key>
@@ -1683,6 +1712,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Benefit_Loan' does not have a p
     <Property Name="BlPeriodPay" Type="decimal" Precision="18" Scale="2" />
     <Property Name="BISummaryAmout" Type="decimal" Precision="18" Scale="2" />
     <Property Name="BlRemark" Type="nvarchar(max)" />
+    <Property Name="CardID" Type="int" />
+    <Property Name="Outstanding" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BlStatus" Type="int" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -1760,6 +1792,11 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Benefit_Provident_Fund' does no
     <Property Name="BpBeneficiary3" Type="nvarchar" MaxLength="200" />
     <Property Name="BpBeneficiary4" Type="nvarchar" MaxLength="200" />
     <Property Name="BpBeneficiary5" Type="nvarchar" MaxLength="200" />
+    <Property Name="BpBeneficiary1Percent" Type="int" />
+    <Property Name="BpBeneficiary2Percent" Type="int" />
+    <Property Name="BpBeneficiary3Percent" Type="int" />
+    <Property Name="BpBeneficiary4Percent" Type="int" />
+    <Property Name="BpBeneficiary5Percent" Type="int" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -2622,6 +2659,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
+  <Association Name="FK_tb_Accident_tb_User">
+    <End Role="tb_User" Type="Self.tb_User" Multiplicity="0..1" />
+    <End Role="tb_Accident" Type="Self.tb_Accident" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_Accident">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tb_Benefit_Cremation_tb_Member_Type">
     <End Role="tb_Member_Type" Type="Self.tb_Member_Type" Multiplicity="0..1" />
     <End Role="tb_Benefit_Cremation" Type="Self.tb_Benefit_Cremation" Multiplicity="*" />
@@ -3939,6 +3988,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <Parameter Name="DateTo" Type="int" Mode="In" />
   </Function>
   <EntityContainer Name="SATHRStoreContainer">
+    <EntitySet Name="tb_Accident" EntityType="Self.tb_Accident" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Accumulative_Fund" EntityType="Self.tb_Accumulative_Fund" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Action_Type" EntityType="Self.tb_Action_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Agent_Type" EntityType="Self.tb_Agent_Type" Schema="dbo" store:Type="Tables" />
@@ -3990,6 +4040,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_Leave_Request" EntityType="Self.tb_Leave_Request" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Leave_Status" EntityType="Self.tb_Leave_Status" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Leave_Type" EntityType="Self.tb_Leave_Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Loan_Status" EntityType="Self.tb_Loan_Status" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Loan_Type" EntityType="Self.tb_Loan_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Mail_Template" EntityType="Self.tb_Mail_Template" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Major" EntityType="Self.tb_Major" Schema="dbo" store:Type="Tables" />
@@ -4146,6 +4197,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Benefit_Loan].[BlPeriodPay] AS [BlPeriodPay], 
     [vw_Benefit_Loan].[BISummaryAmout] AS [BISummaryAmout], 
     [vw_Benefit_Loan].[BlRemark] AS [BlRemark], 
+    [vw_Benefit_Loan].[CardID] AS [CardID], 
+    [vw_Benefit_Loan].[Outstanding] AS [Outstanding], 
+    [vw_Benefit_Loan].[BlStatus] AS [BlStatus], 
     [vw_Benefit_Loan].[CreateDate] AS [CreateDate], 
     [vw_Benefit_Loan].[CreateBy] AS [CreateBy], 
     [vw_Benefit_Loan].[ModifyDate] AS [ModifyDate], 
@@ -4211,6 +4265,11 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Benefit_Provident_Fund].[BpBeneficiary3] AS [BpBeneficiary3], 
     [vw_Benefit_Provident_Fund].[BpBeneficiary4] AS [BpBeneficiary4], 
     [vw_Benefit_Provident_Fund].[BpBeneficiary5] AS [BpBeneficiary5], 
+    [vw_Benefit_Provident_Fund].[BpBeneficiary1Percent] AS [BpBeneficiary1Percent], 
+    [vw_Benefit_Provident_Fund].[BpBeneficiary2Percent] AS [BpBeneficiary2Percent], 
+    [vw_Benefit_Provident_Fund].[BpBeneficiary3Percent] AS [BpBeneficiary3Percent], 
+    [vw_Benefit_Provident_Fund].[BpBeneficiary4Percent] AS [BpBeneficiary4Percent], 
+    [vw_Benefit_Provident_Fund].[BpBeneficiary5Percent] AS [BpBeneficiary5Percent], 
     [vw_Benefit_Provident_Fund].[CreateDate] AS [CreateDate], 
     [vw_Benefit_Provident_Fund].[CreateBy] AS [CreateBy], 
     [vw_Benefit_Provident_Fund].[ModifyDate] AS [ModifyDate], 
@@ -4961,6 +5020,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_User_Training].[ModifyBy] AS [ModifyBy]
     FROM [dbo].[vw_User_Training] AS [vw_User_Training]</DefiningQuery>
     </EntitySet>
+    <AssociationSet Name="FK_tb_Accident_tb_User" Association="Self.FK_tb_Accident_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_Accident" EntitySet="tb_Accident" />
+    </AssociationSet>
     <AssociationSet Name="FK_tb_Benefit_Cremation_tb_Member_Type" Association="Self.FK_tb_Benefit_Cremation_tb_Member_Type">
       <End Role="tb_Member_Type" EntitySet="tb_Member_Type" />
       <End Role="tb_Benefit_Cremation" EntitySet="tb_Benefit_Cremation" />

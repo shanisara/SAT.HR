@@ -549,7 +549,6 @@ namespace SAT.HR.Data
 
         #region Send Mail
 
-
         private void SendEmail(int formheaderid, int stepno, int? action)
         {
             try
