@@ -125,6 +125,11 @@ namespace SAT.HR.Data.Repository
                     l.CreateDate = DateTime.Now;
                     l.ModifyBy = UtilityService.User.UserID;
                     l.ModifyDate = DateTime.Now;
+                    l.BpBeneficiary1Percent = item.BpBeneficiary1Percent;
+                    l.BpBeneficiary2Percent = item.BpBeneficiary2Percent;
+                    l.BpBeneficiary3Percent = item.BpBeneficiary3Percent;
+                    l.BpBeneficiary4Percent = item.BpBeneficiary4Percent;
+                    l.BpBeneficiary5Percent = item.BpBeneficiary5Percent;
 
                     _list.Add(l);
                     db.tb_Benefit_Provident_Fund.Add(l);
