@@ -1,4 +1,4 @@
-﻿
+﻿@model SAT.HR.Models.DashboardViewModel
 @{
     ViewBag.Title = "DashBoard";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,14 +6,26 @@
 
 <div class="content">
     <div class="row">
-
         <div class="col-md-12">
             <div class="card m-t-15">
                 <div class="card-body">
-                    <div class="row">
-                        <br /><br /><br /><br /><br /><br /><br />
-                        <br /><br /><br /><br /><br /><br /><br />
-                        <br /><br /><br /><br /><br /><br /><br />
+                    <h4 class="card-title"><span>ประกาศ</span></h4>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                                @if (Model.Announcement != null)
+                                {
+                                    for (int i = 0; i < Model.Announcement.Count; i++)
+                                    {
+                                        <tr>
+                                            <td class="text-center">&#9679;</td>
+                                            <td><a href="@Url.Action("Announcement", "Home", new { id = Model.Announcement[i].AnnID })">@Model.Announcement[i].AnnTopic</a></td>
+                                            <td class="w-10">@Convert.ToDateTime(Model.Announcement[i].AnnDate).ToString("dd/MM/yyyy")</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -120,3 +132,14 @@
             </div>
         </div>*@
 </div>
+
+<style>
+    .w-10 {
+        width: 10%;
+        vertical-align: top;
+    }
+
+    .m-t7 {
+        margin-top: -7px;
+    }
+</style>

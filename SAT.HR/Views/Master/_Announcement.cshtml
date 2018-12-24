@@ -1,0 +1,108 @@
+﻿@model SAT.HR.Models.AnnouncementViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formDetail" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.AnnID)
+    @Html.HiddenFor(m => m.AnnFilePath)
+
+    <div class="col-md-12">
+        <div class="row">
+            @Html.Label("วันที่ประกาศ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.AnnDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("หัวข้อ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.AnnTopic, new { @class = "form-control", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("รายละเอียด", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                <div class="form-group bmd-form-group">
+                    @Html.TextAreaFor(m => m.AnnDescription, 10, 100, new { @class = "form-control", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("วันที่เริ่มแสดง", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-4">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.StartDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
+                </div>
+            </div>
+            @Html.Label("วันที่สิ้นสุด", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-4">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.ExpireDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("ชื่อไฟล์แนบ: ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-4">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.AnnFileName, new { @class = "form-control" })
+                </div>
+            </div>
+            @Html.Label("ไฟล์แนบ: ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-4" style="margin-top:5px;">
+                <div class="input-group-prepend file-path">
+                    <a style="margin-top:15px;" class="file-name" target="_blank" href="@Url.Action("DownloadAnnouncement", "Home", new { id = Model.AnnID })">@Model.AnnFilePath</a>
+                    <a class="btn btn-link btn-danger btn-just-icon file-delete" file-delete href="#" title="ลบ"><i class="material-icons">delete_forever</i></a>
+                </div>
+                <input id="fileUpload" name="fileUpload" type="file" class="form-control file-upload">
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    
+    if ('@Model.AnnFilePath' != '') {
+        $(".file-path").show();
+        $(".file-upload").hide();
+    }
+    else {
+        $(".file-path").hide();
+        $(".file-upload").show();
+    }
+
+    $('.selectpicker').selectpicker();
+
+    $('.datepicker').datetimepicker({
+        format: 'DD/MM/YYYY',
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-screenshot',
+            clear: 'fa fa-trash',
+            close: 'fa fa-remove'
+        }
+    });
+
+    $(".file-delete").click(function () {
+        $("#AnnFilePath").val('');
+        $(".file-upload").val('');
+        $(".file-upload").show();
+        $(".file-path").hide();
+    });
+
+    $(".file-upload").change(function () {
+        var name = "";
+        $("#MopPathFile").val(name);
+    });
+
+
+</script>

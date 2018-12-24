@@ -5,6 +5,7 @@ using SAT.HR.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web;
@@ -22,7 +23,25 @@ namespace SAT.HR.Controllers
 
         public ActionResult Dashboard()
         {
-            return View();
+            var model = new DashboardViewModel();
+            model.Announcement = new AnnouncementRepository().GetAnnouncement();
+
+            return View(model);
+        }
+
+        public ActionResult Announcement(int id)
+        {
+            var model = new AnnouncementRepository().AnnouncementByID(id);
+            return View(model);
+        }
+
+        public ActionResult DownloadAnnouncement(int id)
+        {
+            var result = new AnnouncementRepository().DownloadAnnouncement(id);
+            string fileName = result.FileName;
+            string filePath = result.FilePath;
+            string contentType = result.ContentType;
+            return new FilePathResult(Path.Combine(filePath, fileName), contentType);
         }
 
         public ActionResult LockScreen()

@@ -47,6 +47,24 @@
           <Property Name="AgentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AgentName" Type="nvarchar" MaxLength="200" />
         </EntityType>
+        <EntityType Name="tb_Announcement">
+          <Key>
+            <PropertyRef Name="AnnID" />
+          </Key>
+          <Property Name="AnnID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AnnTopic" Type="nvarchar" MaxLength="400" />
+          <Property Name="AnnSubTopic" Type="nvarchar" MaxLength="4000" />
+          <Property Name="AnnDescription" Type="nvarchar(max)" />
+          <Property Name="AnnDate" Type="date" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="ExpireDate" Type="date" />
+          <Property Name="CreateDate" Type="date" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="ModifyDate" Type="date" />
+          <Property Name="ModifyBy" Type="int" />
+          <Property Name="AnnFileName" Type="nvarchar" MaxLength="400" />
+          <Property Name="AnnFilePath" Type="nvarchar" MaxLength="400" />
+        </EntityType>
         <EntityType Name="tb_Bank_Loan">
           <Key>
             <PropertyRef Name="BID" />
@@ -3997,6 +4015,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_Accumulative_Fund" EntityType="Self.tb_Accumulative_Fund" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Action_Type" EntityType="Self.tb_Action_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Agent_Type" EntityType="Self.tb_Agent_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Announcement" EntityType="Self.tb_Announcement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Bank_Loan" EntityType="Self.tb_Bank_Loan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Benefit_Cremation" EntityType="Self.tb_Benefit_Cremation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Benefit_Death_Replacement" EntityType="Self.tb_Benefit_Death_Replacement" Schema="dbo" store:Type="Tables" />
@@ -6126,6 +6145,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <End Role="tb_User" EntitySet="tb_User" />
             <End Role="tb_Accident" EntitySet="tb_Accident" />
           </AssociationSet>
+          <EntitySet Name="tb_Announcement" EntityType="SAT.HR.tb_Announcement" />
           </EntityContainer>
         <ComplexType Name="sp_Employee_List_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -10495,6 +10515,24 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="tb_Announcement">
+          <Key>
+            <PropertyRef Name="AnnID" />
+          </Key>
+          <Property Name="AnnID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AnnTopic" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="AnnSubTopic" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="AnnDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AnnDate" Type="DateTime" Precision="0" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="ExpireDate" Type="DateTime" Precision="0" />
+          <Property Name="CreateDate" Type="DateTime" Precision="0" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="0" />
+          <Property Name="ModifyBy" Type="Int32" />
+          <Property Name="AnnFileName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="AnnFilePath" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -13783,6 +13821,25 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="ActDate" ColumnName="ActDate" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="ActID" ColumnName="ActID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Announcement">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Announcement">
+              <MappingFragment StoreEntitySet="tb_Announcement">
+                <ScalarProperty Name="AnnFilePath" ColumnName="AnnFilePath" />
+                <ScalarProperty Name="AnnFileName" ColumnName="AnnFileName" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="AnnDate" ColumnName="AnnDate" />
+                <ScalarProperty Name="AnnDescription" ColumnName="AnnDescription" />
+                <ScalarProperty Name="AnnSubTopic" ColumnName="AnnSubTopic" />
+                <ScalarProperty Name="AnnTopic" ColumnName="AnnTopic" />
+                <ScalarProperty Name="AnnID" ColumnName="AnnID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -258,6 +258,15 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathUploadBonusCalculator");
             }
         }
+        public static string PathUploadAnnouncement
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathUploadAnnouncement");
+            }
+        }
+
+        
 
 
         public static string PathDownloadUserAvatar
@@ -337,6 +346,14 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathDownloadBonusCalculator");
             }
         }
+        public static string PathDownloadAnnouncement
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathDownloadAnnouncement");
+            }
+        }
+
 
         #endregion
 
