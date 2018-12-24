@@ -21,6 +21,8 @@ namespace SAT.HR.Models
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
+        public string AnnDateText { get; set; }
+        public HttpPostedFileBase fileUpload { get; set; }
     }
 
     public class AnnouncementResult
