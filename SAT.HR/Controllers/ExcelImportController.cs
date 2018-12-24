@@ -113,6 +113,9 @@ namespace SAT.HR.Controllers
                                     l.BlPeriodPay = Convert.ToInt32(line[9].ToString());
                                     l.BISummaryAmout = Convert.ToInt32(line[10].ToString());
                                     l.BlRemark = line[11].ToString();
+                                    l.CardID = Convert.ToInt32(line[12].ToString());
+                                    l.Outstanding = Convert.ToDecimal(line[13].ToString());
+                                    l.BlStatus = Convert.ToInt32(line[14].ToString());
 
                                     list.Add(l);
                                 }

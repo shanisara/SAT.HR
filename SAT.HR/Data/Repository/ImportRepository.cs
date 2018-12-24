@@ -70,6 +70,9 @@ namespace SAT.HR.Data.Repository
                     l.CreateDate = DateTime.Now;
                     l.ModifyBy = UtilityService.User.UserID;
                     l.ModifyDate = DateTime.Now;
+                    l.Outstanding = item.Outstanding;
+                    l.BlStatus = item.BlStatus;
+                    l.CardID = item.CardID;
 
                     _list.Add(l);
                     db.tb_Benefit_Loan.Add(l);
