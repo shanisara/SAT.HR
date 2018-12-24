@@ -4,6 +4,7 @@
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.AnnID)
+    @Html.HiddenFor(m => m.AnnFilePath)
 
     <div class="col-md-12">
         <div class="row">
@@ -54,8 +55,7 @@
             @Html.Label("ไฟล์แนบ: ", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-4" style="margin-top:5px;">
                 <div class="input-group-prepend file-path">
-                    <i class="fa fa-cloud-download m-t-15"></i>&nbsp;&nbsp;
-                    <a style="margin-top:5px;" class="file-name" target="_blank" href="@Url.Action("DownloadInsignia", "Employee", new { id = Model.AnnID })">@Model.AnnFilePath</a>
+                    <a style="margin-top:15px;" class="file-name" target="_blank" href="@Url.Action("DownloadAnnouncement", "Home", new { id = Model.AnnID })">@Model.AnnFilePath</a>
                     <a class="btn btn-link btn-danger btn-just-icon file-delete" file-delete href="#" title="ลบ"><i class="material-icons">delete_forever</i></a>
                 </div>
                 <input id="fileUpload" name="fileUpload" type="file" class="form-control file-upload">
@@ -93,7 +93,7 @@
     });
 
     $(".file-delete").click(function () {
-        $("#UiPartFile").val('');
+        $("#AnnFilePath").val('');
         $(".file-upload").val('');
         $(".file-upload").show();
         $(".file-path").hide();

@@ -238,22 +238,20 @@ namespace SAT.HR.Data.Repository
                             System.IO.Directory.CreateDirectory(directory);
 
                         string newFilePath = newdata.AnnID.ToString() + DateTime.Now.ToString("_yyyyMMdd_hhmmss") + "." + fileExt;
-                        model.AnnFilePath = newFilePath;
+                        newdata.AnnFilePath = newFilePath;
 
                         string fileLocation = Path.Combine(directory, newFilePath);
                         newdata.fileUpload.SaveAs(fileLocation);
 
-                        model.AnnFileName = newdata.AnnFileName;
-                        
+                        newdata.AnnFileName = newdata.AnnFileName;
                     }
 
-                    model.AnnID = newdata.AnnID;
+                    model.AnnFileName = !string.IsNullOrEmpty(newdata.AnnFilePath) ? newdata.AnnFileName : string.Empty;
+                    model.AnnFilePath = newdata.AnnFilePath;
                     model.AnnDate = newdata.AnnDate;
                     model.AnnTopic = newdata.AnnTopic;
                     model.AnnSubTopic = newdata.AnnSubTopic;
                     model.AnnDescription = newdata.AnnDescription;
-                    model.AnnFileName = newdata.AnnFileName;
-                    model.AnnFilePath = newdata.AnnFilePath;
                     model.StartDate = newdata.StartDate;
                     model.ExpireDate = newdata.ExpireDate;
                     model.ModifyBy = UtilityService.User.UserID;
