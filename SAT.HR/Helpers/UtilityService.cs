@@ -265,8 +265,15 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathUploadAnnouncement");
             }
         }
+        public static string PathUploadBenefitDoc
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathUploadBenefitDoc");
+            }
+        }
 
-        
+
 
 
         public static string PathDownloadUserAvatar
@@ -351,6 +358,13 @@ namespace SAT.HR.Helpers
             get
             {
                 return SysConfigRepository.GetKeyValue("PathDownloadAnnouncement");
+            }
+        }
+        public static string PathDownloadBenefitDoc
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathDownloadBenefitDoc");
             }
         }
 

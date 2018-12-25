@@ -7,6 +7,7 @@ using SAT.HR.Models;
 using SAT.HR.Data.Repository;
 using SAT.HR.Helpers;
 using SAT.HR.Data;
+using System.IO;
 
 namespace SAT.HR.Controllers
 {
@@ -1032,12 +1033,59 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region 22 Benefit
+        #region 22 Benefit Document
         public ActionResult Benefit()
         {
-
-            return View();
+            var model = new BenefitDocRepository().GetAll();
+            return View(model);
         }
+
+        public ActionResult BenefitDetail(int? id)
+        {
+            BenefitDocViewModel model = new BenefitDocViewModel();
+            if (id.HasValue)
+            {
+                model = new BenefitDocRepository().GetByID((int)id);
+            }
+            return PartialView("_Benefit", model);
+        }
+
+        [HttpPost]
+        public JsonResult Benefit(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        {
+            var search = Request["search[value]"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
+            var dataTableData = new BenefitDocRepository().GetPage(search, draw, start, length, dir, column);
+            return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SaveBenefit(BenefitDocViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (model.BdID != 0)
+                result = new BenefitDocRepository().UpdateByEntity(model);
+            else
+                result = new BenefitDocRepository().AddByEntity(model);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteBenefit(int id)
+        {
+            var result = new BenefitDocRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult DownloadBenefit(int id)
+        {
+            var result = new BenefitDocRepository().DownloadBenefit(id);
+            string fileName = result.FileName;
+            string filePath = result.FilePath;
+            string contentType = result.ContentType;
+            return new FilePathResult(Path.Combine(filePath, fileName), contentType);
+        }
+
 
         #endregion
 

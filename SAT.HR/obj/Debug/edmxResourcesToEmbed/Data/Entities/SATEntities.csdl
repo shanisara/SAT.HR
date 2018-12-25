@@ -689,7 +689,6 @@
     <FunctionImport Name="sp_Workflow_Notify_GetCancelMail" ReturnType="Collection(SAT.HR.sp_Workflow_Notify_GetCancelMail_Result)">
       <Parameter Name="FormHeaderID" Mode="In" Type="Int32" />
     </FunctionImport>
-    <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
     <EntitySet Name="tb_Benefit_Loan" EntityType="SAT.HR.tb_Benefit_Loan" />
     <EntitySet Name="tb_Benefit_Provident_Fund" EntityType="SAT.HR.tb_Benefit_Provident_Fund" />
     <AssociationSet Name="FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund" Association="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_Accumulative_Fund">
@@ -725,6 +724,8 @@
       <End Role="tb_Accident" EntitySet="tb_Accident" />
     </AssociationSet>
     <EntitySet Name="tb_Announcement" EntityType="SAT.HR.tb_Announcement" />
+    <EntitySet Name="tb_Benefit_Document" EntityType="SAT.HR.tb_Benefit_Document" />
+    <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
   </EntityContainer>
   <ComplexType Name="sp_Employee_List_Result">
     <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -4856,24 +4857,6 @@
     <Property Type="String" Name="Email" Nullable="true" MaxLength="200" />
     <Property Type="Int32" Name="UserID" Nullable="true" />
   </ComplexType>
-  <EntityType Name="vw_Organization">
-    <Key>
-      <PropertyRef Name="MpID" />
-      <PropertyRef Name="MpCode" />
-      <PropertyRef Name="DepLevel" />
-    </Key>
-    <Property Name="MpID" Type="Int32" Nullable="false" />
-    <Property Name="MpCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-    <Property Name="ParentID" Type="Int32" />
-    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
-    <Property Name="TypeID" Type="Int32" />
-    <Property Name="DepLevel" Type="Int32" Nullable="false" />
-    <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-  </EntityType>
   <EntityType Name="tb_Benefit_Loan">
     <Key>
       <PropertyRef Name="BlID" />
@@ -5111,5 +5094,35 @@
     <Property Name="ModifyBy" Type="Int32" />
     <Property Name="AnnFileName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
     <Property Name="AnnFilePath" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tb_Benefit_Document">
+    <Key>
+      <PropertyRef Name="BdID" />
+    </Key>
+    <Property Name="BdID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BdDocName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="BdDocPath" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+  </EntityType>
+  <EntityType Name="vw_Organization">
+    <Key>
+      <PropertyRef Name="MpID" />
+      <PropertyRef Name="MpCode" />
+      <PropertyRef Name="DepLevel" />
+    </Key>
+    <Property Name="MpID" Type="Int32" Nullable="false" />
+    <Property Name="MpCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ParentID" Type="Int32" />
+    <Property Name="DivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="FullNameTh" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+    <Property Name="TypeID" Type="Int32" />
+    <Property Name="DepLevel" Type="Int32" Nullable="false" />
+    <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
   </EntityType>
 </Schema>
