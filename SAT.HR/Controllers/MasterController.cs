@@ -977,6 +977,12 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetEmployeeByType(int? type)
+        {
+            var result = DropDownList.GetEmployee(0, type);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
 
 
         #endregion

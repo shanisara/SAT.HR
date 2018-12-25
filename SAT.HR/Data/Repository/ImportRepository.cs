@@ -356,7 +356,31 @@ namespace SAT.HR.Data.Repository
                 }
             }
         }
+        public void Add_Accident(List<tb_Accident> data)
+        {
+            List<tb_Accident> _list = new List<tb_Accident>();
+            using (SATEntities db = new SATEntities())
+            {
+                foreach (tb_Accident item in data)
+                {
+                    tb_Accident l = new tb_Accident();
 
+                    l.UserID = item.UserID;
+                    l.ActDate = item.ActDate;
+                    l.ActDesc = item.ActDesc;
+                    l.ActPlace = item.ActPlace;
+                    l.CreateBy = UtilityService.User.UserID;
+                    l.CreateDate = DateTime.Now;
+                    l.ModifyBy = UtilityService.User.UserID;
+                    l.ModifyDate = DateTime.Now;
+
+                    _list.Add(l);
+                    db.tb_Accident.Add(l);
+                    db.SaveChanges();
+
+                }
+            }
+        }
 
     }
 }

@@ -134,7 +134,7 @@ namespace SAT.HR.Controllers
         #region รายงาน : เงินตอบแทนความชอบ
         public ActionResult ReportRemuneration()
         {            
-            ViewBag.Employee = DropDownList.GetEmployee(0,1);
+            ViewBag.Employee = DropDownList.GetEmployee(0, null);
             return View("~/Views/Report/Benefit/Report_Remuneration.cshtml");
         }
         #endregion
@@ -219,8 +219,17 @@ namespace SAT.HR.Controllers
         }
         #endregion
 
+        #region รายงาน : อุบัติเหตุ
+        public ActionResult ReportAccident()
+        {
+            ViewBag.Employee = DropDownList.GetEmployee(0, 1);
+            ViewBag.UserType = DropDownList.GetUserType(0);
+            return View("~/Views/Report/Benefit/Report_Accident.cshtml");
+        }
+        #endregion
+
         [HttpPost]
-        public JsonResult ExportReportBenefit(string EmpID, string ExtensionFile, string ReportName)
+        public JsonResult ExportReportBenefit(string EmpID, string ExtensionFile, string ReportName, string userType)
         {
             try
             {
@@ -237,6 +246,12 @@ namespace SAT.HR.Controllers
                 rptH.DataSourceConnections[0].SetConnection(SysConfig.ServerName, SysConfig.DatabaseName, SysConfig.UserName, SysConfig.Password);
 
                 rptH.SetParameterValue("@empID", EmpID == "" ? null : EmpID);
+
+                if (userType != null)
+                {
+                    rptH.SetParameterValue("@userTypeID", userType == "" ? null : userType);
+                }
+
                 rptH.ExportToDisk(ExtensionFile == ".xlsx" ? ExportFormatType.ExcelWorkbook : ExportFormatType.PortableDocFormat, Path.Combine(SysConfig.PathUploadReport, FileName));
 
                 return Json(FileName, JsonRequestBehavior.AllowGet);

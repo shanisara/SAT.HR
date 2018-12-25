@@ -44,6 +44,7 @@ namespace SAT.HR.Controllers
             string[] RemunerationHeader = { "รหัสพนักงาน", "ปีบัญชี", "รหัสผู้รับ", "ชื่อผู้รับ", "จำนวนเงิน", "วันที่", "หมายเหตุ" };
             string[] UserFamily2Header = { "รหัสพนักงาน", "เลขบัตรประชาชน", "ชื่อ-นามสกุล", "วันเกิด", "วันที่หมดสิทธิ", "เงินทุนการศึกษา" };
             string[] OtherWelFareHeader = { "รหัสพนักงาน", "ปีบัญชี", "รหัสประเภทสวัสดิการ", "รหัสผู้รับผลประโยชน์", "ชื่อ-สกุล", "รหัสขอรับสวัสดิการ", "ชื่อ-สกุล", "ระยะเวลา", "ร้อยละ/เท่า", "จำนวนเงิน", "วันที่", "หมายเหตุ" };
+            string[] AccidentHeader = { "รหัสพนักงาน", "วันที่เกิดอุบัติเหตุ", "สถานที่เกิดเหตุ", "สาเหตุ"};
             if (FileUpload != null)
             {
                 if (FileUpload.ContentType == "application/vnd.ms-excel" || FileUpload.ContentType == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
@@ -71,16 +72,17 @@ namespace SAT.HR.Controllers
                     DataTable dtable = ds.Tables["ExcelTable"];
                     
 
-                    if (!ValidHeader.ValidateColumnHeader(dtable, modelMapping == 13 ? LoanHeader : 
-                                                                ( modelMapping == 14 ? UserFamilyHeader : 
-                                                                ( modelMapping == 15 ? ProvidentFundHeader : 
-                                                                ( modelMapping == 16 ? HomeRentalHeader : 
-                                                                ( modelMapping == 17 ? MedicalHeader : 
-                                                                ( modelMapping == 18 ? CremationHeader :
-                                                                ( modelMapping == 19 ? DeathSubsidyHeader :
-                                                                ( modelMapping == 20 ? DeathReplacementHeader :
-                                                                ( modelMapping == 21 ? RemunerationHeader :
-                                                                ( modelMapping == 22 ? UserFamily2Header : OtherWelFareHeader)))))))))))
+                    if (!ValidHeader.ValidateColumnHeader(dtable, modelMapping == 2 ? LoanHeader : 
+                                                                ( modelMapping == 3 ? UserFamilyHeader : 
+                                                                ( modelMapping == 4 ? ProvidentFundHeader : 
+                                                                ( modelMapping == 5 ? HomeRentalHeader : 
+                                                                ( modelMapping == 6 ? MedicalHeader : 
+                                                                ( modelMapping == 7 ? CremationHeader :
+                                                                ( modelMapping == 8 ? DeathSubsidyHeader :
+                                                                ( modelMapping == 9 ? DeathReplacementHeader :
+                                                                ( modelMapping == 10 ? RemunerationHeader :
+                                                                ( modelMapping == 11 ? UserFamily2Header : 
+                                                                (modelMapping == 12 ? OtherWelFareHeader : AccidentHeader))))))))))))
                     {
                         return Json(new { success = false, messegecode = "0001", messagetext = "รูปแบบไฟล์ไม่ถูกต้อง" }, JsonRequestBehavior.AllowGet);
                     }
@@ -90,7 +92,7 @@ namespace SAT.HR.Controllers
                     #region      
 
                     #region เงินกู้
-                    if (modelMapping.Equals(13))
+                    if (modelMapping.Equals(2))
                     {
                         List<tb_Benefit_Loan> list = new List<tb_Benefit_Loan>();
                         foreach (DataRow line in dtable.Rows)
@@ -132,7 +134,7 @@ namespace SAT.HR.Controllers
                     #endregion
 
                     #region เงินช่วยเหลือบุตร
-                    if (modelMapping.Equals(14))
+                    if (modelMapping.Equals(3))
                     {
                         var list = new List<tb_User_Family>();
                         foreach (DataRow line in dtable.Rows)
@@ -162,7 +164,7 @@ namespace SAT.HR.Controllers
                     #endregion
 
                     #region เงินสมทบกองทุนสำรองเลี้ยงชีพ
-                    if (modelMapping.Equals(15))
+                    if (modelMapping.Equals(4))
                     {
                         var list = new List<tb_Benefit_Provident_Fund>();
                         foreach (DataRow line in dtable.Rows)
@@ -204,7 +206,7 @@ namespace SAT.HR.Controllers
                     #endregion
 
                     #region ค่าเช่าบ้าน
-                    if (modelMapping.Equals(16))
+                    if (modelMapping.Equals(5))
                     {
                         var list = new List<tb_Benefit_Home_Rental>();
                         foreach (DataRow line in dtable.Rows)
@@ -241,7 +243,7 @@ namespace SAT.HR.Controllers
                     #endregion
 
                     #region รักษาพยาบาล
-                    if (modelMapping.Equals(17))
+                    if (modelMapping.Equals(6))
                     {
                         var list = new List<tb_Benefit_Medical>();
                         foreach (DataRow line in dtable.Rows)
@@ -278,7 +280,7 @@ namespace SAT.HR.Controllers
                     #endregion
 
                     #region ฌาปนกิจสงเคราะห์
-                    if (modelMapping.Equals(18))
+                    if (modelMapping.Equals(7))
                     {
                         var list = new List<tb_Benefit_Cremation>();
                         foreach (DataRow line in dtable.Rows)
@@ -316,7 +318,7 @@ namespace SAT.HR.Controllers
                     #endregion
 
                     #region เงินช่วยเหลือพิเศษกรณีเสียชีวิต
-                    if (modelMapping.Equals(19))
+                    if (modelMapping.Equals(8))
                     {
                         var list = new List<tb_Benefit_Death_Subsidy>();
                         foreach (DataRow line in dtable.Rows)
@@ -352,7 +354,7 @@ namespace SAT.HR.Controllers
                     #endregion
 
                     #region เงินทดแทนกรณีเสียชีวิต
-                    if (modelMapping.Equals(20))
+                    if (modelMapping.Equals(9))
                     {
                         var list = new List<tb_Benefit_Death_Replacement>();
                         foreach (DataRow line in dtable.Rows)
@@ -388,7 +390,7 @@ namespace SAT.HR.Controllers
                     #endregion
 
                     #region เงินตอบแทนความชอบ
-                    if (modelMapping.Equals(21))
+                    if (modelMapping.Equals(10))
                     {
                         var list = new List<tb_Benefit_Remuneration>();
                         foreach (DataRow line in dtable.Rows)
@@ -422,7 +424,7 @@ namespace SAT.HR.Controllers
                     #endregion
 
                     #region เงินช่วยเหลือการศึกษาบุตร
-                    if (modelMapping.Equals(21))
+                    if (modelMapping.Equals(11))
                     {
                         var list = new List<tb_User_Family>();
                         foreach (DataRow line in dtable.Rows)
@@ -452,7 +454,7 @@ namespace SAT.HR.Controllers
                     #endregion
 
                     #region สวัสดิการอื่นๆ
-                    if (modelMapping.Equals(18))
+                    if (modelMapping.Equals(12))
                     {
                         var list = new List<tb_Benefit_Other_Welfare>();
                         foreach (DataRow line in dtable.Rows)
@@ -486,6 +488,37 @@ namespace SAT.HR.Controllers
                         }
 
                         import.Add_Other_Welfare(list);
+                    }
+
+                    #endregion
+
+                    #region อุบัติเหตุ
+                    if (modelMapping.Equals(14))
+                    {
+                        var list = new List<tb_Accident>();
+                        foreach (DataRow line in dtable.Rows)
+                        {
+                            try
+                            {
+                                if (!String.IsNullOrEmpty(line[0].ToString()))
+                                {
+                                    tb_Accident l = new tb_Accident();
+
+                                    l.UserID = Convert.ToInt32(line[0].ToString());
+                                    l.ActDate = Convert.ToDateTime(Convert.ToDateTime(line[1].ToString()).ToString("yyyy-MM-dd"));
+                                    l.ActPlace = line[2].ToString();
+                                    l.ActDesc = line[3].ToString();
+
+                                    list.Add(l);
+                                }
+                            }
+                            catch (Exception exception)
+                            {
+
+                            }
+                        }
+
+                        import.Add_Accident(list);
                     }
 
                     #endregion
