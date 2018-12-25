@@ -134,6 +134,18 @@
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
         </EntityType>
+        <EntityType Name="tb_Benefit_Document">
+          <Key>
+            <PropertyRef Name="BdID" />
+          </Key>
+          <Property Name="BdID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BdDocName" Type="nvarchar" MaxLength="400" />
+          <Property Name="BdDocPath" Type="nvarchar" MaxLength="400" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="int" />
+        </EntityType>
         <EntityType Name="tb_Benefit_Home_Rental">
           <Key>
             <PropertyRef Name="BhrID" />
@@ -2111,15 +2123,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Move_Man_Power_Head' does not h
           <Property Name="ModifyBy" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Organization' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Organization' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
         <EntityType Name="vw_Organization">
-          <Key>
-            <PropertyRef Name="MpID" />
-            <PropertyRef Name="MpCode" />
-            <PropertyRef Name="DepLevel" />
-          </Key>
-          <Property Name="MpID" Type="int" Nullable="false" />
-          <Property Name="MpCode" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="MpID" Type="int" />
+          <Property Name="MpCode" Type="nvarchar" MaxLength="20" />
           <Property Name="ParentID" Type="int" />
           <Property Name="DivName" Type="nvarchar" MaxLength="200" />
           <Property Name="DepName" Type="nvarchar" MaxLength="200" />
@@ -2127,9 +2134,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Organization' does not have a p
           <Property Name="PoName" Type="nvarchar" MaxLength="200" />
           <Property Name="FullNameTh" Type="nvarchar" MaxLength="401" />
           <Property Name="TypeID" Type="int" />
-          <Property Name="DepLevel" Type="int" Nullable="false" />
+          <Property Name="DepLevel" Type="int" />
           <Property Name="PathMpID" Type="varchar" MaxLength="255" />
-        </EntityType>
+        </EntityType>-->
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Section">
@@ -4020,6 +4027,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_Benefit_Cremation" EntityType="Self.tb_Benefit_Cremation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Benefit_Death_Replacement" EntityType="Self.tb_Benefit_Death_Replacement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Benefit_Death_Subsidy" EntityType="Self.tb_Benefit_Death_Subsidy" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Benefit_Document" EntityType="Self.tb_Benefit_Document" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Benefit_Home_Rental" EntityType="Self.tb_Benefit_Home_Rental" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Benefit_Loan" EntityType="Self.tb_Benefit_Loan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Benefit_Medical" EntityType="Self.tb_Benefit_Medical" Schema="dbo" store:Type="Tables" />
@@ -4542,21 +4550,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Move_Man_Power_Head].[ModifyDate] AS [ModifyDate], 
     [vw_Move_Man_Power_Head].[ModifyBy] AS [ModifyBy]
     FROM [dbo].[vw_Move_Man_Power_Head] AS [vw_Move_Man_Power_Head]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="vw_Organization" EntityType="Self.vw_Organization" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [vw_Organization].[MpID] AS [MpID], 
-    [vw_Organization].[MpCode] AS [MpCode], 
-    [vw_Organization].[ParentID] AS [ParentID], 
-    [vw_Organization].[DivName] AS [DivName], 
-    [vw_Organization].[DepName] AS [DepName], 
-    [vw_Organization].[SecName] AS [SecName], 
-    [vw_Organization].[PoName] AS [PoName], 
-    [vw_Organization].[FullNameTh] AS [FullNameTh], 
-    [vw_Organization].[TypeID] AS [TypeID], 
-    [vw_Organization].[DepLevel] AS [DepLevel], 
-    [vw_Organization].[PathMpID] AS [PathMpID]
-    FROM [dbo].[vw_Organization] AS [vw_Organization]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_Section" EntityType="Self.vw_Section" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -6146,6 +6139,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <End Role="tb_Accident" EntitySet="tb_Accident" />
           </AssociationSet>
           <EntitySet Name="tb_Announcement" EntityType="SAT.HR.tb_Announcement" />
+          <EntitySet Name="tb_Benefit_Document" EntityType="SAT.HR.tb_Benefit_Document" />
           </EntityContainer>
         <ComplexType Name="sp_Employee_List_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -10533,6 +10527,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="AnnFileName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
           <Property Name="AnnFilePath" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="tb_Benefit_Document">
+          <Key>
+            <PropertyRef Name="BdID" />
+          </Key>
+          <Property Name="BdID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BdDocName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="BdDocPath" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -13676,23 +13682,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="vw_Organization">
-            <EntityTypeMapping TypeName="SAT.HR.vw_Organization">
-              <MappingFragment StoreEntitySet="vw_Organization">
-                <ScalarProperty Name="PathMpID" ColumnName="PathMpID" />
-                <ScalarProperty Name="DepLevel" ColumnName="DepLevel" />
-                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
-                <ScalarProperty Name="FullNameTh" ColumnName="FullNameTh" />
-                <ScalarProperty Name="PoName" ColumnName="PoName" />
-                <ScalarProperty Name="SecName" ColumnName="SecName" />
-                <ScalarProperty Name="DepName" ColumnName="DepName" />
-                <ScalarProperty Name="DivName" ColumnName="DivName" />
-                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
-                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
-                <ScalarProperty Name="MpID" ColumnName="MpID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tb_Benefit_Loan">
             <EntityTypeMapping TypeName="SAT.HR.tb_Benefit_Loan">
               <MappingFragment StoreEntitySet="tb_Benefit_Loan">
@@ -13840,6 +13829,19 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="AnnSubTopic" ColumnName="AnnSubTopic" />
                 <ScalarProperty Name="AnnTopic" ColumnName="AnnTopic" />
                 <ScalarProperty Name="AnnID" ColumnName="AnnID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Benefit_Document">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Benefit_Document">
+              <MappingFragment StoreEntitySet="tb_Benefit_Document">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="BdDocPath" ColumnName="BdDocPath" />
+                <ScalarProperty Name="BdDocName" ColumnName="BdDocName" />
+                <ScalarProperty Name="BdID" ColumnName="BdID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

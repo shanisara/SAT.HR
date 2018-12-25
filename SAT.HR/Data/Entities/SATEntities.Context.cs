@@ -179,6 +179,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Loan_Status> tb_Loan_Status { get; set; }
         public virtual DbSet<tb_Accident> tb_Accident { get; set; }
         public virtual DbSet<tb_Announcement> tb_Announcement { get; set; }
+        public virtual DbSet<tb_Benefit_Document> tb_Benefit_Document { get; set; }
     
         public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
         {
