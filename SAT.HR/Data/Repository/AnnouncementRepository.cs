@@ -199,8 +199,8 @@ namespace SAT.HR.Data.Repository
                     model.AnnTopic = data.AnnTopic;
                     model.AnnSubTopic = data.AnnSubTopic;
                     model.AnnDescription = data.AnnDescription;
-                    model.AnnFileName = data.AnnFileName;
-                    model.AnnFilePath = data.AnnFilePath;
+                    //model.AnnFileName = data.AnnFileName;
+                    //model.AnnFilePath = data.AnnFilePath;
                     model.StartDate = data.StartDate;
                     model.ExpireDate = data.ExpireDate;
                     model.CreateBy = UtilityService.User.UserID;

@@ -3,6 +3,7 @@ using SAT.HR.Helpers;
 using SAT.HR.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -96,9 +97,29 @@ namespace SAT.HR.Data.Repository
                 try
                 {
                     tb_Benefit_Document model = new tb_Benefit_Document();
+
+                    if (data.fileUpload != null && data.fileUpload.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(data.fileUpload.FileName);
+                        var fileExt = System.IO.Path.GetExtension(data.fileUpload.FileName).Substring(1);
+
+                        string directory = SysConfig.PathUploadBenefitDoc;
+                        bool isExists = System.IO.Directory.Exists(directory);
+                        if (!isExists)
+                            System.IO.Directory.CreateDirectory(directory);
+
+                        string newFilePath = data.BdID.ToString() + DateTime.Now.ToString("_yyyyMMdd_hhmmss") + "." + fileExt;
+                        string fileLocation = Path.Combine(directory, newFilePath);
+
+                        data.fileUpload.SaveAs(fileLocation);
+
+                        model.BdDocName = data.BdDocName;
+                        model.BdDocPath = newFilePath;
+                    }
+
                     model.BdID = data.BdID;
-                    model.BdDocName = data.BdDocName;
-                    model.BdDocPath = data.BdDocPath;
+                    //model.BdDocName = data.BdDocName;
+                    //model.BdDocPath = data.BdDocPath;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -122,7 +143,26 @@ namespace SAT.HR.Data.Repository
                 try
                 {
                     var model = db.tb_Benefit_Document.Single(x => x.BdID == newdata.BdID);
-                    model.BdID = newdata.BdID;
+
+                    if (newdata.fileUpload != null && newdata.fileUpload.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(newdata.fileUpload.FileName);
+                        var fileExt = System.IO.Path.GetExtension(newdata.fileUpload.FileName).Substring(1);
+
+                        string directory = SysConfig.PathUploadBenefitDoc;
+                        bool isExists = System.IO.Directory.Exists(directory);
+                        if (!isExists)
+                            System.IO.Directory.CreateDirectory(directory);
+
+                        string newFilePath = newdata.BdID.ToString() + DateTime.Now.ToString("_yyyyMMdd_hhmmss") + "." + fileExt;
+                        newdata.BdDocPath = newFilePath;
+
+                        string fileLocation = Path.Combine(directory, newFilePath);
+                        newdata.fileUpload.SaveAs(fileLocation);
+
+                        newdata.BdDocName = newdata.BdDocName;
+                    }
+
                     model.BdDocName = newdata.BdDocName;
                     model.BdDocPath = newdata.BdDocPath;
                     model.ModifyBy = UtilityService.User.UserID;

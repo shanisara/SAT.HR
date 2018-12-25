@@ -17,8 +17,11 @@
                         <h4 class="card-title"><span>อัพโหลด > </span><small>เอกสารสวัสดิการ</small></h4>
                     </div>
                     <div class="card-body">
+                        <div class="toolbar">
+                            <button class="btn btn-primary btn-sm pull-right" data-toggle="modal" id="btnAdd"><i class="material-icons">add</i> เพิ่ม</button>
+                        </div>
                         <div class="table-responsive">
-                            <table class="table">
+                            <table id="datatables" class="table">
                                 <thead>
                                     <tr>
                                         <th colspan="2" style="width:70%">ชื่อเอกสาร</th>
@@ -52,6 +55,94 @@
         </div>
     </div>
 </div>
+<!-- Classic Modal -->
+<div class="modal fade modal-large" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-detail">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span>อัพโหลดเอกสารสวัสดิการ</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="material-icons">clear</i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div class="container-fluid">
+                        <div id="detail"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary" id="btnSave">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  End Modal -->
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            $("#datatables").on('click', '.btn-edit', function () {
+                debugger;
+                var id = $(this)[0].dataset["id"];
+                var url = '@Url.Action("BenefitDetail", "Master")/'+ id;
+                $.post(url, function (data) {
+                    $("#detail").html(data);
+                    $('#modalDetail').modal('show');
+                });
+            });
+
+            $("#btnAdd").click(function () {
+                var url = '@Url.Action("BenefitDetail", "Master")';
+                $.post(url, function (data) {
+                    $("#detail").html(data);
+                    $('#modalDetail').modal('show');
+                });
+            });
+
+            $("#btnSave").click(function () {
+                var $valid = $('#formDetail').valid();
+                if (!$valid) {
+                    return false;
+                }
+                else {
+                    var form = $('#formDetail')[0];
+                    var data = new FormData(form);
+                    data.append(".fileUpload", fileUpload);
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("SaveBenefit", "Master")',
+                        data: data,
+                        enctype: 'multipart/form-data',
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                showSwal.saveMessage();
+                                dataTable.getData();
+                                $('#modalDetail').modal('hide');
+                            }
+                            else {
+                                alert(res.MessageText);
+                            }
+                        }
+                    });
+                }
+            });
+
+
+        });
+</script>
+}
+
+
+
 
 @*<div class="content">
         <div class="container-fluid">
