@@ -1477,6 +1477,8 @@ namespace SAT.HR.Data.Repository
         {
             BenefitDeathReplacementViewModel data = new BenefitDeathReplacementViewModel();
             data.UserID = userid;
+            data.BdAmout = CalculateBenefitDeath(userid);
+            data.BdPer = 3;
 
             try
             {
@@ -1656,6 +1658,8 @@ namespace SAT.HR.Data.Repository
         {
             BenefitDeathSubsidyViewModel data = new BenefitDeathSubsidyViewModel();
             data.UserID = userid;
+            data.BdAmout = CalculateBenefitDeath(userid);
+            data.BdPer = 3;
 
             try
             {
@@ -2002,5 +2006,24 @@ namespace SAT.HR.Data.Repository
 
 
         #endregion
+
+        public decimal CalculateBenefitDeath(int userID)
+        {
+            decimal Amount = 0;
+            using (SATEntities db = new SATEntities())
+            {
+                try
+                {
+                    var salary = db.tb_User.AsEnumerable().Where(x => x.UserID == userID).FirstOrDefault().Salary;
+                    Amount = Convert.ToDecimal(salary) * 3;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }                    
+            }
+
+            return Amount;
+        }
     }
 }
