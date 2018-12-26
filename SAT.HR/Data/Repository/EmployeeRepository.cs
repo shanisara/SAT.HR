@@ -722,7 +722,7 @@ namespace SAT.HR.Data.Repository
                     var doctype = db.tb_Document_Type.Where(x => x.DocType == fileExt).FirstOrDefault();
                     string Contenttype = doctype.ContentType;
 
-                    string filepath = SysConfig.PathDownloadUserAttach;
+                    string filepath = SysConfig.PathUploadUserAttach;
 
                     model.FileName = filename;
                     model.FilePath = filepath;
@@ -1233,7 +1233,7 @@ namespace SAT.HR.Data.Repository
                     var doctype = db.tb_Document_Type.Where(x => x.DocType == fileExt).FirstOrDefault();
                     string Contenttype = doctype.ContentType;
 
-                    string filepath = SysConfig.PathDownloadUserEducation;
+                    string filepath = SysConfig.PathUploadUserEducation;
 
                     model.FileName = filename;
                     model.FilePath = filepath;
@@ -1488,7 +1488,7 @@ namespace SAT.HR.Data.Repository
                     var doctype = db.tb_Document_Type.Where(x => x.DocType == fileExt).FirstOrDefault();
                     string Contenttype = doctype.ContentType;
 
-                    string filepath = SysConfig.PathDownloadUserPosition;
+                    string filepath = SysConfig.PathUploadUserPosition;
 
                     model.FileName = filename;
                     model.FilePath = filepath;
@@ -1884,7 +1884,7 @@ namespace SAT.HR.Data.Repository
                     var doctype = db.tb_Document_Type.Where(x => x.DocType == fileExt).FirstOrDefault();
                     string Contenttype = doctype.ContentType;
 
-                    string filepath = SysConfig.PathDownloadUserInsignia;
+                    string filepath = SysConfig.PathUploadUserInsignia;
 
                     model.FileName = filename;
                     model.FilePath = filepath;

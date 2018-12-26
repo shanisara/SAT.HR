@@ -186,7 +186,21 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("MaxFileSizeUpload");
             }
         }
+        public static string FileExtensionsUpload
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("FileExtensionsUpload");
+            }
+        }
 
+        public static string PathDownloadUserAvatar
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("PathDownloadUserAvatar");
+            }
+        }
 
         public static string PathUploadUserAvatar
         {
@@ -279,102 +293,6 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("PathUploadBenefitDoc");
             }
         }
-
-
-
-
-        public static string PathDownloadUserAvatar
-        {
-            get
-            {
-                return SysConfigRepository.GetKeyValue("PathDownloadUserAvatar");
-            }
-        }
-        public static string PathDownloadUserAttach
-        {
-            get
-            {
-                return SysConfigRepository.GetKeyValue("PathDownloadUserAttach");
-            }
-        }
-        public static string PathDownloadLevelTransfer
-        {
-            get
-            {
-                return SysConfigRepository.GetKeyValue("PathDownloadLevelTransfer");
-            }
-        }
-        public static string PathDownloadPositionTransfer
-        {
-            get
-            {
-                return SysConfigRepository.GetKeyValue("PathDownloadPositionTransfer");
-            }
-        }
-        public static string PathDownloadUserInsignia
-        {
-            get
-            {
-                return SysConfigRepository.GetKeyValue("PathDownloadUserInsignia");
-            }
-        }
-        public static string PathDownloadUserEducation
-        {
-            get
-            {
-                return SysConfigRepository.GetKeyValue("PathDownloadUserEducation");
-            }
-        }
-        public static string PathDownloadUserPosition
-        {
-            get
-            {
-                return SysConfigRepository.GetKeyValue("PathDownloadUserPosition");
-            }
-        }
-        public static string PathDownloadCourse
-        {
-            get
-            {
-                return SysConfigRepository.GetKeyValue("PathDownloadCourse");
-            }
-        }
-        public static string PathDownloadLeaveFile
-        {
-            get
-            {
-                return SysConfigRepository.GetKeyValue("PathDownloadLeaveFile");
-            }
-        }
-        public static string PathDownloadSalaryIncrease
-        {
-            get
-            {
-                return SysConfigRepository.GetKeyValue("PathDownloadSalaryIncrease");
-            }
-        }
-        public static string PathDownloadBonusCalculator
-        {
-            get
-            {
-                return SysConfigRepository.GetKeyValue("PathDownloadBonusCalculator");
-            }
-        }
-        public static string PathDownloadAnnouncement
-        {
-            get
-            {
-                return SysConfigRepository.GetKeyValue("PathDownloadAnnouncement");
-            }
-        }
-        public static string PathDownloadBenefitDoc
-        {
-            get
-            {
-                return SysConfigRepository.GetKeyValue("PathDownloadBenefitDoc");
-            }
-        }
-
 
         #endregion
 

@@ -217,7 +217,7 @@ namespace SAT.HR.Data
                     {
                         string Contenttype = doctype.ContentType;
 
-                        string filepath = SysConfig.PathDownloadSalaryIncrease;
+                        string filepath = SysConfig.PathUploadSalaryIncrease;
 
                         model.FileName = filename;
                         model.FilePath = filepath;

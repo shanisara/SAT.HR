@@ -492,7 +492,7 @@ namespace SAT.HR.Data
                     var doctype = db.tb_Document_Type.Where(x => x.DocType == fileExt).FirstOrDefault();
                     string Contenttype = doctype.ContentType;
 
-                    string filepath = SysConfig.PathDownloadLeaveFile;
+                    string filepath = SysConfig.PathUploadLeaveFile;
 
                     model.FileName = filename;
                     model.FilePath = filepath;
