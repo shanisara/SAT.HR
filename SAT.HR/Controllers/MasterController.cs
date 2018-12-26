@@ -1037,6 +1037,7 @@ namespace SAT.HR.Controllers
         public ActionResult Benefit()
         {
             var model = new BenefitDocRepository().GetAll();
+            ViewBag.MaxFileSizeUpload = Helpers.SysConfig.MaxFileSizeUpload;
             return View(model);
         }
 
@@ -1083,6 +1084,7 @@ namespace SAT.HR.Controllers
             string fileName = result.FileName;
             string filePath = result.FilePath;
             string contentType = result.ContentType;
+
             return new FilePathResult(Path.Combine(filePath, fileName), contentType);
         }
 

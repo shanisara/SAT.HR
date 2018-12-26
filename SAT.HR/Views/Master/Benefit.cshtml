@@ -40,8 +40,8 @@
                                             <td><a href="@Url.Action("DownloadBenefit", "Master", new { id = Model[i].BdID })">ไฟล์แนบ</a></td>
                                             <td>
                                                 <div class="td-actions text-right">
-                                                    <button type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="+@Model[i].BdID+"><i class="material-icons">edit</i></button>&nbsp;
-                                                    <button type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="+@Model[i].BdID+"><i class="material-icons">close</i></button>
+                                                    <button type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="@Model[i].BdID"><i class="material-icons">edit</i></button>&nbsp;
+                                                    <button type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="@Model[i].BdID"><i class="material-icons">close</i></button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -55,6 +55,8 @@
         </div>
     </div>
 </div>
+@Html.Hidden("maxFileSize", (string)ViewBag.MaxFileSizeUpload)
+
 <!-- Classic Modal -->
 <div class="modal fade modal-large" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-detail">
@@ -86,14 +88,48 @@
     <script>
         $(document).ready(function () {
 
-            $("#datatables").on('click', '.btn-edit', function () {
-                debugger;
+            $("#datatables").on('click', '.edit', function () {
                 var id = $(this)[0].dataset["id"];
                 var url = '@Url.Action("BenefitDetail", "Master")/'+ id;
                 $.post(url, function (data) {
                     $("#detail").html(data);
                     $('#modalDetail').modal('show');
                 });
+            });
+
+            $("#datatables").on('click', '.delete', function () {
+                var id = $(this)[0].dataset["id"];
+                 swal({
+                    title: '',
+                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                    buttonsStyling: false
+                }).then(function () {
+                    var url = '@Url.Action("DeleteBenefit", "Master")/' + id;
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                swal({
+                                    title: '',
+                                    text: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.DeleteSucceed)',
+                                    type: 'success',
+                                    confirmButtonClass: "btn btn-success",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                    buttonsStyling: false
+                                }).then(function () {
+                                    window.location = '@Url.Action("Benefit", "Master")';
+                                }).catch(swal.noop)
+                            }
+                        }
+                    });
+                }).catch(swal.noop)
             });
 
             $("#btnAdd").click(function () {
@@ -104,37 +140,83 @@
                 });
             });
 
+
             $("#btnSave").click(function () {
                 var $valid = $('#formDetail').valid();
                 if (!$valid) {
                     return false;
                 }
                 else {
-                    var form = $('#formDetail')[0];
-                    var data = new FormData(form);
-                    data.append(".fileUpload", fileUpload);
+                    var allowExtensions = ['.xls', '.xlsx', '.doc', '.docx', '.pdf'];
+                    var maxFileSize = $('#maxFileSize').val();
+                    var fileSize = $('#fileUpload')[0].files[0].size;
 
-                    $.ajax({
-                        type: 'POST',
-                        url: '@Url.Action("SaveBenefit", "Master")',
-                        data: data,
-                        enctype: 'multipart/form-data',
-                        processData: false,
-                        contentType: false,
-                        cache: false,
-                        success: function (res) {
-                            if (res.MessageCode == null) {
-                                showSwal.saveMessage();
-                                dataTable.getData();
-                                $('#modalDetail').modal('hide');
+                    if (!hasExtension('fileUpload', allowExtensions)) {
+                        swal({
+                            title: '',
+                            text: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ValidateFileExtensionUpload)' + ' .xls, .xlsx, .doc, .docx และ .pdf ',
+                            type: "warning",
+                            showCancelButton: false,
+                            confirmButtonClass: 'btn btn-success btn-w-m btn-lg',
+                            confirmButtonText: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)",
+                            closeOnConfirm: false,
+                            allowOutsideClick: false,
+                            buttonsStyling: false
+                        }).catch(swal.noop)
+                    }
+                    else if (parseInt(fileSize) > parseInt(maxFileSize)) {
+                        swal({
+                            title: '',
+                            text: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ValidateMaxFileSizeUpload) ' +  parseInt(maxFileSize) / 1048576 + ' MB',
+                            type: "warning",
+                            showCancelButton: false,
+                            confirmButtonClass: 'btn btn-success btn-w-m btn-lg',
+                            confirmButtonText: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)",
+                            closeOnConfirm: false,
+                            allowOutsideClick: false,
+                            buttonsStyling: false
+                        }).catch(swal.noop)
+                    }
+                    else {
+                        var form = $('#formDetail')[0];
+                        var data = new FormData(form);
+                        data.append(".fileUpload", fileUpload);
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Url.Action("SaveBenefit", "Master")',
+                            data: data,
+                            enctype: 'multipart/form-data',
+                            processData: false,
+                            contentType: false,
+                            cache: false,
+                            success: function (res) {
+                                if (res.MessageCode == null) {
+                                    swal({
+                                        title: '',
+                                        text: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)',
+                                        type: 'success',
+                                        confirmButtonClass: "btn btn-success",
+                                        confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                        buttonsStyling: false
+                                    }).then(function () {
+                                        $('#modalDetail').modal('hide');
+                                        window.location = '@Url.Action("Benefit", "Master")';
+                                    }).catch(swal.noop)
+                                }
+                                else {
+                                    alert(res.MessageText);
+                                }
                             }
-                            else {
-                                alert(res.MessageText);
-                            }
-                        }
-                    });
+                        });
+                    }
                 }
             });
+
+            function hasExtension(inputID, exts) {
+                var fileName = document.getElementById(inputID).value.toLowerCase();
+                return (new RegExp('(' + exts.join('|').replace(/\./g, '\\.') + ')$')).test(fileName);
+            }
 
 
         });
