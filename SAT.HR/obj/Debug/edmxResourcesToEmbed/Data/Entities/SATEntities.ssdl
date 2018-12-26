@@ -453,6 +453,25 @@
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
   </EntityType>
+  <EntityType Name="tb_Delegate">
+    <Key>
+      <PropertyRef Name="DelegateID" />
+    </Key>
+    <Property Name="DelegateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DelegateType" Type="int" />
+    <Property Name="FormMasterID" Type="int" />
+    <Property Name="FromMpID" Type="int" />
+    <Property Name="FromUserID" Type="int" />
+    <Property Name="ToMpID" Type="int" />
+    <Property Name="ToUserID" Type="int" />
+    <Property Name="StartDate" Type="date" />
+    <Property Name="EndDate" Type="date" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
   <EntityType Name="tb_Department">
     <Key>
       <PropertyRef Name="DepID" />
@@ -1875,6 +1894,33 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Course' does not have a primary
     <Property Name="Status" Type="nvarchar" MaxLength="50" />
     <Property Name="StatusName" Type="varchar" MaxLength="11" Nullable="false" />
     <Property Name="Total" Type="int" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Delegate' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Delegate">
+    <Key>
+      <PropertyRef Name="DelegateID" />
+      <PropertyRef Name="DelegateTypeName" />
+    </Key>
+    <Property Name="DelegateID" Type="int" Nullable="false" />
+    <Property Name="DelegateTypeName" Type="varchar" MaxLength="12" Nullable="false" />
+    <Property Name="FromMp" Type="nvarchar" MaxLength="223" />
+    <Property Name="ToMp" Type="nvarchar" MaxLength="223" />
+    <Property Name="FromUser" Type="nvarchar" MaxLength="903" />
+    <Property Name="ToUser" Type="nvarchar" MaxLength="903" />
+    <Property Name="StartDate" Type="date" />
+    <Property Name="EndDate" Type="date" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="DelegateType" Type="int" />
+    <Property Name="FormMasterID" Type="int" />
+    <Property Name="FromMpID" Type="int" />
+    <Property Name="FromUserID" Type="int" />
+    <Property Name="ToMpID" Type="int" />
+    <Property Name="ToUserID" Type="int" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -4055,6 +4101,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_Cripple" EntityType="Self.tb_Cripple" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Cripple_Type" EntityType="Self.tb_Cripple_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Degree" EntityType="Self.tb_Degree" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Delegate" EntityType="Self.tb_Delegate" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Department" EntityType="Self.tb_Department" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Discipline" EntityType="Self.tb_Discipline" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_District" EntityType="Self.tb_District" Schema="dbo" store:Type="Tables" />
@@ -4351,6 +4398,29 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Course].[ModifyDate] AS [ModifyDate], 
     [vw_Course].[ModifyBy] AS [ModifyBy]
     FROM [dbo].[vw_Course] AS [vw_Course]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Delegate" EntityType="Self.vw_Delegate" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Delegate].[DelegateID] AS [DelegateID], 
+    [vw_Delegate].[DelegateTypeName] AS [DelegateTypeName], 
+    [vw_Delegate].[FromMp] AS [FromMp], 
+    [vw_Delegate].[ToMp] AS [ToMp], 
+    [vw_Delegate].[FromUser] AS [FromUser], 
+    [vw_Delegate].[ToUser] AS [ToUser], 
+    [vw_Delegate].[StartDate] AS [StartDate], 
+    [vw_Delegate].[EndDate] AS [EndDate], 
+    [vw_Delegate].[IsActive] AS [IsActive], 
+    [vw_Delegate].[DelegateType] AS [DelegateType], 
+    [vw_Delegate].[FormMasterID] AS [FormMasterID], 
+    [vw_Delegate].[FromMpID] AS [FromMpID], 
+    [vw_Delegate].[FromUserID] AS [FromUserID], 
+    [vw_Delegate].[ToMpID] AS [ToMpID], 
+    [vw_Delegate].[ToUserID] AS [ToUserID], 
+    [vw_Delegate].[CreateDate] AS [CreateDate], 
+    [vw_Delegate].[CreateBy] AS [CreateBy], 
+    [vw_Delegate].[ModifyDate] AS [ModifyDate], 
+    [vw_Delegate].[ModifyBy] AS [ModifyBy]
+    FROM [dbo].[vw_Delegate] AS [vw_Delegate]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vw_Department" EntityType="Self.vw_Department" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 

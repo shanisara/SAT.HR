@@ -1223,6 +1223,5 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-
     }
 }

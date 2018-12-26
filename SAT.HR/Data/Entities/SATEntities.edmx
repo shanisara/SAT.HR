@@ -458,6 +458,25 @@
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
         </EntityType>
+        <EntityType Name="tb_Delegate">
+          <Key>
+            <PropertyRef Name="DelegateID" />
+          </Key>
+          <Property Name="DelegateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DelegateType" Type="int" />
+          <Property Name="FormMasterID" Type="int" />
+          <Property Name="FromMpID" Type="int" />
+          <Property Name="FromUserID" Type="int" />
+          <Property Name="ToMpID" Type="int" />
+          <Property Name="ToUserID" Type="int" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="EndDate" Type="date" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="int" />
+        </EntityType>
         <EntityType Name="tb_Department">
           <Key>
             <PropertyRef Name="DepID" />
@@ -1880,6 +1899,33 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Course' does not have a primary
           <Property Name="Status" Type="nvarchar" MaxLength="50" />
           <Property Name="StatusName" Type="varchar" MaxLength="11" Nullable="false" />
           <Property Name="Total" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Delegate' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_Delegate">
+          <Key>
+            <PropertyRef Name="DelegateID" />
+            <PropertyRef Name="DelegateTypeName" />
+          </Key>
+          <Property Name="DelegateID" Type="int" Nullable="false" />
+          <Property Name="DelegateTypeName" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="FromMp" Type="nvarchar" MaxLength="223" />
+          <Property Name="ToMp" Type="nvarchar" MaxLength="223" />
+          <Property Name="FromUser" Type="nvarchar" MaxLength="903" />
+          <Property Name="ToUser" Type="nvarchar" MaxLength="903" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="EndDate" Type="date" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="DelegateType" Type="int" />
+          <Property Name="FormMasterID" Type="int" />
+          <Property Name="FromMpID" Type="int" />
+          <Property Name="FromUserID" Type="int" />
+          <Property Name="ToMpID" Type="int" />
+          <Property Name="ToUserID" Type="int" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="int" />
           <Property Name="ModifyDate" Type="datetime" />
@@ -4060,6 +4106,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_Cripple" EntityType="Self.tb_Cripple" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Cripple_Type" EntityType="Self.tb_Cripple_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Degree" EntityType="Self.tb_Degree" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Delegate" EntityType="Self.tb_Delegate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Department" EntityType="Self.tb_Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Discipline" EntityType="Self.tb_Discipline" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_District" EntityType="Self.tb_District" Schema="dbo" store:Type="Tables" />
@@ -4356,6 +4403,29 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Course].[ModifyDate] AS [ModifyDate], 
     [vw_Course].[ModifyBy] AS [ModifyBy]
     FROM [dbo].[vw_Course] AS [vw_Course]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_Delegate" EntityType="Self.vw_Delegate" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_Delegate].[DelegateID] AS [DelegateID], 
+    [vw_Delegate].[DelegateTypeName] AS [DelegateTypeName], 
+    [vw_Delegate].[FromMp] AS [FromMp], 
+    [vw_Delegate].[ToMp] AS [ToMp], 
+    [vw_Delegate].[FromUser] AS [FromUser], 
+    [vw_Delegate].[ToUser] AS [ToUser], 
+    [vw_Delegate].[StartDate] AS [StartDate], 
+    [vw_Delegate].[EndDate] AS [EndDate], 
+    [vw_Delegate].[IsActive] AS [IsActive], 
+    [vw_Delegate].[DelegateType] AS [DelegateType], 
+    [vw_Delegate].[FormMasterID] AS [FormMasterID], 
+    [vw_Delegate].[FromMpID] AS [FromMpID], 
+    [vw_Delegate].[FromUserID] AS [FromUserID], 
+    [vw_Delegate].[ToMpID] AS [ToMpID], 
+    [vw_Delegate].[ToUserID] AS [ToUserID], 
+    [vw_Delegate].[CreateDate] AS [CreateDate], 
+    [vw_Delegate].[CreateBy] AS [CreateBy], 
+    [vw_Delegate].[ModifyDate] AS [ModifyDate], 
+    [vw_Delegate].[ModifyBy] AS [ModifyBy]
+    FROM [dbo].[vw_Delegate] AS [vw_Delegate]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_Department" EntityType="Self.vw_Department" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -6168,7 +6238,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <End Role="tb_User_Family" EntitySet="tb_User_Family" />
           </AssociationSet>
           <EntitySet Name="vw_User_Family" EntityType="SAT.HR.vw_User_Family" />
+          <EntitySet Name="tb_Delegate" EntityType="SAT.HR.tb_Delegate" />
           <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
+          <EntitySet Name="vw_Delegate" EntityType="SAT.HR.vw_Delegate" />
           </EntityContainer>
         <ComplexType Name="sp_Employee_List_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -10556,6 +10628,25 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="DepID" Type="Int32" />
           <Property Name="SecID" Type="Int32" />
         </EntityType>
+        <EntityType Name="tb_Delegate">
+          <Key>
+            <PropertyRef Name="DelegateID" />
+          </Key>
+          <Property Name="DelegateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DelegateType" Type="Int32" />
+          <Property Name="FormMasterID" Type="Int32" />
+          <Property Name="FromMpID" Type="Int32" />
+          <Property Name="FromUserID" Type="Int32" />
+          <Property Name="ToMpID" Type="Int32" />
+          <Property Name="ToUserID" Type="Int32" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+        </EntityType>
         <EntityType Name="vw_Organization">
           <Key>
             <PropertyRef Name="MpID" />
@@ -10573,6 +10664,31 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="TypeID" Type="Int32" />
           <Property Name="DepLevel" Type="Int32" Nullable="false" />
           <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vw_Delegate">
+          <Key>
+            <PropertyRef Name="DelegateID" />
+            <PropertyRef Name="DelegateTypeName" />
+          </Key>
+          <Property Name="DelegateID" Type="Int32" Nullable="false" />
+          <Property Name="DelegateTypeName" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="FromMp" Type="String" MaxLength="223" FixedLength="false" Unicode="true" />
+          <Property Name="ToMp" Type="String" MaxLength="223" FixedLength="false" Unicode="true" />
+          <Property Name="FromUser" Type="String" MaxLength="903" FixedLength="false" Unicode="true" />
+          <Property Name="ToUser" Type="String" MaxLength="903" FixedLength="false" Unicode="true" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="DelegateType" Type="Int32" />
+          <Property Name="FormMasterID" Type="Int32" />
+          <Property Name="FromMpID" Type="Int32" />
+          <Property Name="FromUserID" Type="Int32" />
+          <Property Name="ToMpID" Type="Int32" />
+          <Property Name="ToUserID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -13886,6 +14002,26 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tb_Delegate">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Delegate">
+              <MappingFragment StoreEntitySet="tb_Delegate">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="ToUserID" ColumnName="ToUserID" />
+                <ScalarProperty Name="ToMpID" ColumnName="ToMpID" />
+                <ScalarProperty Name="FromUserID" ColumnName="FromUserID" />
+                <ScalarProperty Name="FromMpID" ColumnName="FromMpID" />
+                <ScalarProperty Name="FormMasterID" ColumnName="FormMasterID" />
+                <ScalarProperty Name="DelegateType" ColumnName="DelegateType" />
+                <ScalarProperty Name="DelegateID" ColumnName="DelegateID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="vw_Organization">
             <EntityTypeMapping TypeName="SAT.HR.vw_Organization">
               <MappingFragment StoreEntitySet="vw_Organization">
@@ -13900,6 +14036,31 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="ParentID" ColumnName="ParentID" />
                 <ScalarProperty Name="MpCode" ColumnName="MpCode" />
                 <ScalarProperty Name="MpID" ColumnName="MpID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_Delegate">
+            <EntityTypeMapping TypeName="SAT.HR.vw_Delegate">
+              <MappingFragment StoreEntitySet="vw_Delegate">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ToUserID" ColumnName="ToUserID" />
+                <ScalarProperty Name="ToMpID" ColumnName="ToMpID" />
+                <ScalarProperty Name="FromUserID" ColumnName="FromUserID" />
+                <ScalarProperty Name="FromMpID" ColumnName="FromMpID" />
+                <ScalarProperty Name="FormMasterID" ColumnName="FormMasterID" />
+                <ScalarProperty Name="DelegateType" ColumnName="DelegateType" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="ToUser" ColumnName="ToUser" />
+                <ScalarProperty Name="FromUser" ColumnName="FromUser" />
+                <ScalarProperty Name="ToMp" ColumnName="ToMp" />
+                <ScalarProperty Name="FromMp" ColumnName="FromMp" />
+                <ScalarProperty Name="DelegateTypeName" ColumnName="DelegateTypeName" />
+                <ScalarProperty Name="DelegateID" ColumnName="DelegateID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
