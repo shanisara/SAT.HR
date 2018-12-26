@@ -38,6 +38,9 @@ namespace SAT.HR.Models
         public string UfDOBText { get; set; }
         public int CountFather { get; set; }
         public int CountMother { get; set; }
+        public Nullable<int> DivID { get; set; }
+        public Nullable<int> DepID { get; set; }
+        public Nullable<int> SecID { get; set; }
 
         public List<UserFamilyViewModel> ListFamily { get; set; }
         public List<UserFamilyViewModel> ListFather { get; set; }

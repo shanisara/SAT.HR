@@ -114,7 +114,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_User_Certificate> tb_User_Certificate { get; set; }
         public virtual DbSet<tb_User_Education> tb_User_Education { get; set; }
         public virtual DbSet<tb_User_Excellent> tb_User_Excellent { get; set; }
-        public virtual DbSet<tb_User_Family> tb_User_Family { get; set; }
         public virtual DbSet<tb_User_History> tb_User_History { get; set; }
         public virtual DbSet<tb_User_Insignia> tb_User_Insignia { get; set; }
         public virtual DbSet<tb_User_Position> tb_User_Position { get; set; }
@@ -151,7 +150,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Certificate> vw_User_Certificate { get; set; }
         public virtual DbSet<vw_User_Education> vw_User_Education { get; set; }
         public virtual DbSet<vw_User_Excellent> vw_User_Excellent { get; set; }
-        public virtual DbSet<vw_User_Family> vw_User_Family { get; set; }
         public virtual DbSet<vw_User_History> vw_User_History { get; set; }
         public virtual DbSet<vw_User_Insignia> vw_User_Insignia { get; set; }
         public virtual DbSet<vw_User_NotRole> vw_User_NotRole { get; set; }
@@ -179,6 +177,8 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Accident> tb_Accident { get; set; }
         public virtual DbSet<tb_Announcement> tb_Announcement { get; set; }
         public virtual DbSet<tb_Benefit_Document> tb_Benefit_Document { get; set; }
+        public virtual DbSet<tb_User_Family> tb_User_Family { get; set; }
+        public virtual DbSet<vw_User_Family> vw_User_Family { get; set; }
         public virtual DbSet<vw_Organization> vw_Organization { get; set; }
     
         public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)

@@ -178,6 +178,9 @@ namespace SAT.HR.Controllers
             ViewBag.MaritalStatus = DropDownList.GetMaritalStatus(model != null ? model.MaritalStatusID : null);
             ViewBag.Occupation = DropDownList.GetOccupation(model != null ? model.OcID : null);
             ViewBag.Position = DropDownList.GetPosition(usertype, model != null ? model.PoID : null);
+            ViewBag.Division = DropDownList.GetDivision(model != null ? model.DivID : null);
+            ViewBag.Department = DropDownList.GetDepartment(model.DivID, null);
+            ViewBag.Section = DropDownList.GetSection(model.DivID, model.DepID, null);
 
             return PartialView("_FamilyDetail", model);
         }

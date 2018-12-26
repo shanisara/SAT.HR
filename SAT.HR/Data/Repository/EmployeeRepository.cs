@@ -794,6 +794,10 @@ namespace SAT.HR.Data.Repository
                         model.UfStudyStatusName = s.UfStudyStatusName;
                         model.RecID = s.RecID;
                         model.UserID = s.UserID;
+                        model.DivID = s.DivID;
+                        model.DepID = s.DepID;
+                        model.SecID = s.SecID;
+
                         list.Add(model);
                     }
 
@@ -871,6 +875,9 @@ namespace SAT.HR.Data.Repository
                     model.UfStudyStatus = obj.UfStudyStatus;
                     model.RecID = obj.RecID;
                     model.OcID = obj.OcID;
+                    model.DivID = obj.DivID;
+                    model.DepID = obj.DepID;
+                    model.SecID = obj.SecID;
 
                     if (model != null)
                         data = model;
@@ -913,6 +920,9 @@ namespace SAT.HR.Data.Repository
                     model.UfStudyStatus = data.UfStudyStatus;
                     model.OcID = data.OcID;
                     model.RecID = data.RecID;
+                    model.DivID = data.DivID;
+                    model.DepID = data.DepID;
+                    model.SecID = data.SecID;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -957,6 +967,9 @@ namespace SAT.HR.Data.Repository
                     model.UfStudyStatus = newdata.UfStudyStatus;
                     model.OcID = newdata.OcID;
                     model.RecID = newdata.RecID;
+                    model.DivID = newdata.DivID;
+                    model.DepID = newdata.DepID;
+                    model.SecID = newdata.SecID;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();

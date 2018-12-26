@@ -34,6 +34,9 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> ModifyBy { get; set; }
         public Nullable<decimal> ChildEducationAmout { get; set; }
         public Nullable<decimal> ChildFundAmout { get; set; }
+        public Nullable<int> DivID { get; set; }
+        public Nullable<int> DepID { get; set; }
+        public Nullable<int> SecID { get; set; }
     
         public virtual tb_Marital_Status tb_Marital_Status { get; set; }
         public virtual tb_Occupation tb_Occupation { get; set; }

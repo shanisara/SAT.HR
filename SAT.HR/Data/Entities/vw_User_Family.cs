@@ -41,5 +41,8 @@ namespace SAT.HR.Data.Entities
         public Nullable<decimal> ChildEducationAmout { get; set; }
         public Nullable<decimal> ChildFundAmout { get; set; }
         public string Age { get; set; }
+        public Nullable<int> DivID { get; set; }
+        public Nullable<int> DepID { get; set; }
+        public Nullable<int> SecID { get; set; }
     }
 }
