@@ -37,10 +37,9 @@ namespace SAT.HR.Controllers
         public ActionResult LeaveRequestDetail(int? id)
         {
             var model = new LeaveRequestRepository().GetByID(id);
-
             ViewBag.Employee = DropDownList.GetEmployee(model.RequestID, 1);
             ViewBag.LeaveType = DropDownList.GetLeaveType(model.LeaveType, true, UtilityService.User.SexID, (int)model.RequestID);
-
+            ViewBag.MaxFileSizeUpload = Helpers.SysConfig.MaxFileSizeUpload;
             return View(model);
         }
 

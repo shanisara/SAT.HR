@@ -1001,6 +1001,7 @@ namespace SAT.HR.Controllers
             AnnouncementViewModel model = new AnnouncementViewModel();
             if (id.HasValue)
                 model = new AnnouncementRepository().GetByID((int)id);
+            ViewBag.MaxFileSizeUpload = Helpers.SysConfig.MaxFileSizeUpload;
             return PartialView("_Announcement", model);
         }
 

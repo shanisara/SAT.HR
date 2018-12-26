@@ -1,0 +1,210 @@
+﻿@model SAT.HR.Models.UserHistoryViewModel
+
+<style>
+    .modal-dialog-history { max-width: 850px; }
+</style>
+<button class="btn btn-primary btn-sm pull-right add-history" data-toggle="modal"> เพิ่มรายการ </button>
+<div class="material-datatables">
+    <table class="table table-history">
+        <thead class="text-primary">
+            <tr>
+                <th style="width:5%">ลำดับ</th>
+                <th style="width:10%">วันที่แก้ไข</th>
+                <th style="width:15%">ชื่อ-สกุล (ไทย) เก่า</th>
+                <th style="width:18%">ชื่อ-สกุล (อังกฤษ) เก่า</th>
+                <th style="width:15%">ชื่อ-สกุล (ไทย) ใหม่</th>
+                <th style="width:17%">ชื่อ-สกุล (อังกฤษ) ใหม่</th>
+                <th style="width:13%">หมายเหตุ</th>
+                <th style="width:10%" class="text-right">ปฏิบัติการ</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<!-- Classic Modal -->
+<div class="modal fade modal-large modal-history" tabindex="-1" role="dialog" aria-labelledby="modalHistoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-history">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span>ประวัติแก้ไขชื่อ</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div class="detail-history"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default close-history" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary save-history">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  End Modal -->
+
+<script>
+    var dataTable = {
+        table: null,
+        initializeDataTable: function () {
+            var id = $("#UserID").val();
+            $table = $('.table-history');
+
+            dataTable.table = $table.DataTable({
+                "proccessing": true,
+                "serverSide": true,
+                paging: false,
+                bFilter: false,
+                ordering: false,
+                searching: true,
+                language: { zeroRecords: "ไม่พบข้อมูล" },
+                dom: 't',
+                ajax: {
+                    url: '@Url.Action("History", "Employee")/' + id,
+                    type: "POST",
+                },
+                "columns": [
+                    { "data": "RowNumber", "orderable": false, "searchable": false },
+                    { "data": "UhEditDateText", "orderable": false, "searchable": false },
+                    { "data": "OldFullNameTh", "orderable": true },
+                    { "data": "OldFullNameEn", "orderable": true },
+                    { "data": "NewFullNameTh", "orderable": true },
+                    { "data": "NewFullNameEn", "orderable": true },
+                    { "data": "Remark", "orderable": true }
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            var inner = '<div class="td-actions pull-right">' +
+                                '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.UhID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;' +
+                                '<button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.UhID + '"><i class="material-icons">close</i></button>' +
+                                        '</div>';
+                            return inner;
+                        }, "targets": 7
+                    },
+                ]
+            });
+
+            dataTable.table.on('click', '.edit', function () {
+                var userid = $("#UserID").val();
+                var id = $(this).data("id");
+                var url = '@Url.Action("HistoryDetail", "Employee")';
+                $.post(url, { userid: userid, id: id }, function (data) {
+                    $(".detail-history").html(data);
+                    $('.modal-history').modal('show');
+                });
+            });
+
+            dataTable.table.on('click', '.delete', function () {
+                var id = $(this).data("id");
+                swal({
+                    title: '',
+                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                    buttonsStyling: false
+                }).then(function () {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("DeleteHistory", "Employee")/' + id,
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                swal({
+                                    title: "",
+                                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.DeleteSucceed)",
+                                    type: "success",
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                    buttonsStyling: false
+                                }).then(function () {
+                                    dataTable.getData();
+                                });
+                            }
+                            else {
+                                swal({
+                                    title: '',
+                                    text: res.MessageText,
+                                    type: 'error',
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                    buttonsStyling: false
+                                }).catch(swal.noop);
+                            }
+                        }
+                    });
+                }).catch(swal.noop)
+            });
+        },
+        getData: function () {
+            if (dataTable.table == null)
+                dataTable.initializeDataTable();
+            else
+                dataTable.table.ajax.reload();
+        }
+    }
+
+    dataTable.getData();
+
+    $(".add-history").click(function () {
+        var userid = $("#UserID").val();
+        var url = '@Url.Action("HistoryDetail", "Employee")';
+        $.post(url, { userid: userid, id: 0 }, function (data) {
+            $(".detail-history").html(data);
+            $('.modal-history').modal('show');
+        });
+    });
+
+    $(".save-history").click(function () {
+        var $valid = $('.form-history').valid();
+        if (!$valid) {
+            //if ($("#UhEditDateText").val() == '') {
+            //    $('#UhEditDateText-error').text(''); //กรุณาระบุวันที่แก้ไข
+            //}
+            //if ($("#NewFirstNameTh").val() == '') {
+            //    $('#NewFirstNameTh-error').text(''); //กรุณาระบุชื่อ(ไทย)
+            //}
+            //if ($("#NewLastNameTh").val() == '') {
+            //    $('#NewLastNameTh-error').text(''); //กรุณาระบุนามสกุล(ไทย)
+            //}
+            //return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SaveHistory", "Employee")',
+                data: $(".form-history").serialize(),
+                success: function (res) {
+                    if (res.MessageCode == null) {
+                        swal({
+                            title: "",
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                            type: "success",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                        }).then(function () {
+                            $('.modal-history').modal('hide');
+                            dataTable.getData();
+                        });
+                    }
+                    else {
+                        swal({
+                            title: '',
+                            text: res.MessageText,
+                            type: 'error',
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                            buttonsStyling: false
+                        }).catch(swal.noop)
+                    }
+                }
+            });
+        }
+    });
+
+</script>

@@ -1,0 +1,225 @@
+﻿@model SAT.HR.Models.UserPositionViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-position" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.UserID)
+    @Html.HiddenFor(m => m.UpID)
+    @Html.HiddenFor(m => m.UpPathFile)
+
+    <div class="form-horizontal">
+
+        <div class="row">
+            <label class="col-sm-2 col-form-label" for="PoTID">ประเภทตำแหน่ง:<span class="text-danger"> *</span> </label>
+            <div class="col-sm-3">
+                @Html.DropDownListFor(n => n.PoTID, new SelectList((IEnumerable<SelectListItem>)ViewBag.PositionType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control selectpicker", data_show_subtext = "true", data_live_search = "true", data_size = "5", required = "true" })
+            </div>
+            <label class="col-sm-2 col-form-label" for="ActID">การเคลื่อนไหว:<span class="text-danger"> *</span> </label>
+            <div class="col-sm-5">
+                @Html.DropDownListFor(n => n.ActID, new SelectList((IEnumerable<SelectListItem>)ViewBag.ActionType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control selectpicker", data_show_subtext = "true", data_live_search = "true", data_size = "5", required = "true" })
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-sm-2 col-form-label" for="UpCmd">คำสั่ง:<span class="text-danger"> *</span> </label>
+            <div class="col-sm-10">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.UpCmd, new { @class = "form-control", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-sm-2 col-form-label" for="DivID">ฝ่าย:<span class="text-danger"> *</span> </label>
+            <div class="col-sm-10">
+                @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control selectpicker", data_show_subtext = "true", data_live_search = "true", data_size = "5" })
+            </div>
+        </div>
+        <div class="row occupation">
+            <label class="col-sm-2 col-form-label" for="DepID">กอง:<span class="text-danger"> *</span> </label>
+            <div class="col-sm-10 m-t-10">
+                @Html.DropDownListFor(n => n.DepID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Department, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control selectpicker", data_show_subtext = "true", data_live_search = "true", data_size = "5" })
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-sm-2 col-form-label" for="SecID">งาน:<span class="text-danger"> *</span> </label>
+            <div class="col-sm-10 m-t-10">
+                @Html.DropDownListFor(n => n.SecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Section, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control selectpicker", data_show_subtext = "true", data_live_search = "true", data_size = "5" })
+            </div>
+        </div>
+        <div class="row m-t-10">
+            <label class="col-sm-2 col-form-label" for="PoID">ตำแหน่ง:<span class="text-danger"> *</span> </label>
+            <div class="col-sm-10">
+                @Html.DropDownListFor(n => n.PoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "form-control selectpicker", data_show_subtext = "true", data_live_search = "true", data_size = "5", required = "true" })
+            </div>
+        </div>
+        <div class="row m-t-10">
+            @Html.Label("ตำแหน่ง (รักษาการ): ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-4">
+                @Html.DropDownListFor(n => n.PoAID, new SelectList((IEnumerable<SelectListItem>)ViewBag.PositionAgent, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition" })
+            </div>
+            @Html.Label("ระดับ: ", null, new { @class = "col-sm-1 col-form-label" })
+            <div class="col-sm-2">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.UpLevel, new { @class = "form-control", type = "number" })
+                </div>
+            </div>
+            @Html.Label("เงินเดือน: ", null, new { @class = "col-sm-1 col-form-label" })
+            <div class="col-sm-2">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.UpSalary, new { @class = "form-control", type = "number", min = "0", step = "0.01" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("วันที่ลงคำส่ง: ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.UpCmdDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
+            </div>
+            @Html.Label("วันที่มีผลบังคับใช้: ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-5">
+                @Html.TextBoxFor(m => m.UpForceDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("หมายเหตุ: ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.UpRemark, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("ไฟล์แนบ: ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                <div class="input-group-prepend file-path">
+                    <i class="fa fa-cloud-download m-t-15"></i>&nbsp;&nbsp;
+                    <a style="margin-top:8px;" class="m-t-15 file-name" target="_blank" href=@Url.Action("DownloadPosition", "Employee", new { id = Model.UpID })>@Model.UpPathFile</a>
+                    <a class="btn btn-link btn-danger btn-just-icon file-delete" file-delete href="#" title="ลบ"><i class="material-icons">delete_forever</i></a>
+                </div>
+                <input id="fileUpload" name="fileUpload" type="file" class="form-control file-upload">
+            </div>
+        </div>
+    </div>
+
+}
+
+<style>
+    .bootstrap-select .dropdown-toggle[title="-- กรุณาเลือก --"] .filter-option-inner-inner {
+        color: red;
+    }
+</style>
+
+<script>
+    $(".form-position").validate({
+        errorPlacement: $.noop
+    });
+
+    if ('@Model.UpPathFile' != '') {
+        $(".file-path").show();
+        $(".file-upload").hide();
+    }
+    else {
+        $(".file-path").hide();
+        $(".file-upload").show();
+    }
+
+    $('.selectpicker').selectpicker();
+
+    $('.datepicker').datetimepicker({
+        format: 'DD/MM/YYYY',
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-screenshot',
+            clear: 'fa fa-trash',
+            close: 'fa fa-remove'
+        }
+    });
+
+    $('select[name=DivID]').change(function () {
+        var type = $("#UserType").val();
+        var divid = $('select[name=DivID]').val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetDepartment", "Master")',
+            data: { divid: divid, type: type },
+            dataType: 'json',
+            success: function (res) {
+                $('select[name=DepID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                $.each(res, function (key, entry) {
+                    $('select[name=DepID]').append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                });
+                $('select[name=DepID]').selectpicker('refresh');
+
+                $('select[name=SecID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                $('select[name=SecID]').selectpicker('refresh');
+                $('select[name=PoID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                $('select[name=PoID]').selectpicker('refresh');
+            }
+        });
+    });
+
+    $('select[name=DepID]').change(function () {
+        var type = $("#UserType").val();
+        var divid = $('select[name=DivID]').val();
+        var depid = $('select[name=DepID]').val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetSection", "Master")',
+            data: { divid: divid, depid: depid, type: type },
+            dataType: 'json',
+            success: function (res) {
+                $('select[name=SecID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                $.each(res, function (key, entry) {
+                    $('select[name=SecID]').append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                });
+                $('select[name=SecID]').selectpicker('refresh');
+
+                $('select[name=PoID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                $('select[name=PoID]').selectpicker('refresh');
+            }
+        });
+    });
+
+    $('select[name=SecID]').change(function () {
+        var type = $("#UserType").val();
+        var divid = $('select[name=DivID]').val();
+        var depid = $('select[name=DepID]').val();
+        var secid = $('select[name=SecID]').val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetPosition", "Master")',
+            data: { divid: divid, depid: depid, secid: secid, type: type },
+            dataType: 'json',
+            success: function (res) {
+                $('select[name=PoID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                $.each(res, function (key, entry) {
+                    $('select[name=PoID]').append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                });
+                $('select[name=PoID]').selectpicker('refresh');
+            }
+        });
+    });
+
+
+    $(".file-delete").click(function () {
+        $("#UpPathFile").val('');
+        $(".file-upload").val('');
+        $(".file-upload").show();
+        $(".file-path").hide();
+    });
+
+    $(".file-upload").change(function () {
+        var name = "";
+        $("#MopPathFile").val(name);
+    });
+
+
+
+
+
+
+</script>

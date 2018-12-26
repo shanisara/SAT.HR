@@ -1,0 +1,65 @@
+﻿@model SAT.HR.Models.HolidayViewModel
+
+<style>
+    .datepicker{ z-index:99999 !important; }
+</style>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formDetail" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.HolID)
+
+    <div class="col-md-12">
+        <div class="row">
+            @Html.Label("วันที่", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating">ใส่ข้อมูลวันที่</label>
+                    @Html.TextBoxFor(m => m.HolDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("วันหยุด", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating">ใส่ข้อมูลวันหยุด</label>
+                    <div class="form-group">
+                        @Html.TextBoxFor(m => m.HolDescription, new { @class = "form-control", required = "true" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="row">
+            @Html.Label("สถานะ", null, new { @class = "col-sm-3 col-form-label label-checkbox" })
+            <div class="col-sm-9">
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value="" checked="">
+                        <span class="form-check-sign"><span class="check"></span></span>
+                    </label>
+                </div>
+            </div>
+        </div>*@       
+    </div>
+}
+<script>
+    $(document).ready(function () {
+
+        $('.datepicker').datetimepicker({
+            format: 'DD/MM/YYYY',
+            icons: {
+                time: "fa fa-clock-o",
+                date: "fa fa-calendar",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            }
+        });
+
+    });
+</script>

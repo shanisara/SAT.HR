@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewBag.Title = "TimeAttendance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">                
+                <div class="card-header card-header-primary card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">alarm_on</i>
+                    </div>
+                    <h4 class="card-title"><span> รายงานวุฒิ </span><button type="submit" class="btn btn-round pull-right btn-back">ย้อนกลับ</button></h4>
+                    
+                    @*<div class="ml-auto mr-auto">
+                        
+                    </div>*@
+                </div>                
+                <div class="card-body">
+                    <div class="row">
+                        @Html.Label("วุฒิการศึกษา: ", null, new { @class = "col-sm-2 col-form-label" })
+                        <div class="col-sm-6 m-t-6">
+                            @Html.DropDownList("EduID", new SelectList(ViewBag.Education, "Value", "Text"), "-- เลือกทั้งหมด --", new { @class = "form-control custom-select select-with-transition selectpicker", data_show_subtext = "true", data_live_search = "true" })
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="row m-t-10">
+                        @Html.Label("เลือกรูปแบบรายงาน: ", null, new { @class = "col-sm-2 col-form-label" })
+                        <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input name="exporttype" class="form-check-input exporttype" type="radio" value=".xlsx"> EXCEL
+                                    <span class="circle">
+                                        <span class="check"></span>
+                                    </span>
+                                </label>
+                            </div>
+                        <div class="col-sm-8 checkbox-radios">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input name="exporttype" class="form-check-input exporttype" type="radio" value=".pdf"> PDF
+                                    <span class="circle">
+                                        <span class="check"></span>
+                                    </span>
+                                </label>
+                            </div>
+                            
+                        </div>                        
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-10">
+                            <button type="button" class="btn btn-sm btn-primary" id="btn_export">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnPrint)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    $("#btn_export").click(function () {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("ExportReportEducation", "Report")',
+            data: {
+                EduID: $("#EduID").val(),
+                ExtensionFile: $('input[name=exporttype]:checked').val()
+            },
+            success: function (FileName) {               
+                //window.location = '/Report/DownloadFile?fileName=' + FileName;
+                
+                window.location.href = FileName;
+
+                //window.open('/Report/DownloadFile?fileName=' + FileName, '_blank');
+
+                //window.open('/Report/DownloadFile?fileName=' + FileName, '_blank');
+            }          
+        });
+    });
+
+    $(function () {
+        $('.exporttype').attr('checked', 'checked');        
+    });
+
+    $(".btn-back").click(function () {
+        var url = '@Url.Action("Resource/8", "Report")';
+        window.location.href = url;
+    });
+</script>
+}

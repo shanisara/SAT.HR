@@ -1,0 +1,108 @@
+﻿@model SAT.HR.Models.UserHistoryViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-history" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.UserID)
+    @Html.HiddenFor(m => m.UhID)
+    @Html.HiddenFor(m => m.UhStatus)
+
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-9">
+                <div class="form-check mr-auto">
+                    <label class="form-check-label">
+                        <input class="form-check-input uhIsChange" type="checkbox" aria-required="true">
+                        <span class="form-check-sign" style="margin-top:-15px;"><span class="check"></span></span>
+                    </label>
+                    @Html.Label("ปรับปรุงข้อมูลนี้เป็นปัจจุบัน: ", null, new { @class = "col-form-label" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-sm-2 col-form-label" for="UhEditDateText">วันที่แก้ไข<span class="text-danger"> *</span> </label>
+            <div class="col-sm-4">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.UhEditDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
+                </div>
+            </div>
+            @Html.Label("คำนำหน้า: ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-4 m-t-10">
+                @Html.DropDownListFor(n => n.NewTiID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Title, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true" })
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-sm-2 col-form-label" for="NewFirstNameTh">ชื่อ(ไทย):<span class="text-danger"> *</span> </label>
+            <div class="col-sm-4">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.NewFirstNameTh, new { @class = "form-control", required = "true" })
+                </div>
+            </div>
+            <label class="col-sm-2 col-form-label" for="NewLastNameTh">นามสกุล(ไทย):<span class="text-danger"> *</span> </label>
+            <div class="col-sm-4">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.NewLastNameTh, new { @class = "form-control", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("ชื่อ (อังกฤษ): ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-4">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.NewFirstNameEn, new { @class = "form-control" })
+                </div>
+            </div>
+            @Html.Label("นามสกุล (อังกฤษ): ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-4">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.NewLastNameEn, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("หมายเหตุ: ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.Remark, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    if ('@Model' != null) {
+        if ('@Model.UhStatus' == 'True') {
+            $(".uhIsChange").prop("checked", true);
+        }
+    }
+
+    $('.selectpicker').selectpicker();
+
+    $('.datepicker').datetimepicker({
+        format: 'DD/MM/YYYY',
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-screenshot',
+            clear: 'fa fa-trash',
+            close: 'fa fa-remove'
+        }
+    });
+
+    $(".uhIsChange").click(function () {
+        var checked = $(this).is(':checked');
+        if (checked) {
+            $('#UhStatus').val(true);
+        }
+        else {
+            $('#UhStatus').val(false);
+        }
+    });
+
+</script>

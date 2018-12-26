@@ -1,0 +1,53 @@
+﻿@model List<SAT.HR.Models.BenefitDocViewModel>
+@{
+    ViewBag.Title = "Document";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">cloud_download</i>
+                    </div>
+                    <h4 class="card-title"><span>ดาวน์โหลด > </span><small>เอกสารสวัสดิการ</small></h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" style="width:78%">เอกสาร</th>
+                                    <th style="width:12%">วันที่</th>
+                                    <th style="width:10%">ดาวน์โหลด</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.Count(); i++)
+                                {
+                                    <tr>
+                                        <td class="text-center">&#9679;</td>
+                                        <td>@Model[i].BdDocName</td>
+                                        <td>@Convert.ToDateTime(Model[i].ModifyDate).ToString("dd/MM/yyyy")</td>
+                                        <td class="td-actions">
+                                            @*<i class="material-icons m-t7">get_app</i>*@
+                                            <a href="@Url.Action("DownloadBenefit", "Master", new { id = Model[i].BdID })">ดาวน์โหลด</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .m-t7 {
+        margin-top: -7px;
+    }
+</style>

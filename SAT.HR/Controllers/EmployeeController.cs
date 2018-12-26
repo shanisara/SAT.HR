@@ -110,6 +110,8 @@ namespace SAT.HR.Controllers
             ViewBag.ResignType = DropDownList.GetResignType(model.ResignID);
 
             ViewBag.UserTypeID = model.UserType;
+            ViewBag.MaxFileSizeUpload = Helpers.SysConfig.MaxFileSizeUpload;
+
             return PartialView("_Employee", model);
         }
 
@@ -225,6 +227,7 @@ namespace SAT.HR.Controllers
             ViewBag.Degree = DropDownList.GetDegree(model.DegID, true);
             ViewBag.Major = DropDownList.GetMajor(model.MajID, true);
             ViewBag.Country = DropDownList.GetCountry(model.CountryID);
+            ViewBag.MaxFileSizeUpload = Helpers.SysConfig.MaxFileSizeUpload;
             return PartialView("_EducationDetail", model);
         }
 
@@ -279,6 +282,7 @@ namespace SAT.HR.Controllers
             ViewBag.Department = DropDownList.GetDepartment(model.DivID, model.DepID);
             ViewBag.Section = DropDownList.GetSection(model.DivID, model.DepID, model.SecID);
             ViewBag.Position = DropDownList.GetPosition(usertype, model.PoID);
+            ViewBag.MaxFileSizeUpload = Helpers.SysConfig.MaxFileSizeUpload;
             return PartialView("_PositionDetail", model);
         }
 
@@ -368,6 +372,7 @@ namespace SAT.HR.Controllers
         {
             var model = new EmployeeRepository().GetInsigniaByID(userid, id);
             ViewBag.Insignia = DropDownList.GetInsignia(model.InsID, true);
+            ViewBag.MaxFileSizeUpload = Helpers.SysConfig.MaxFileSizeUpload;
             return PartialView("_InsigniaDetail", model);
         }
 
@@ -630,6 +635,7 @@ namespace SAT.HR.Controllers
         public ActionResult LevelTransferDetail(int? id)
         {
             var model = new LevelTransferRepository().GetByID(id);
+            ViewBag.MaxFileSizeUpload = Helpers.SysConfig.MaxFileSizeUpload;
             return View(model);
         }
 
@@ -699,6 +705,7 @@ namespace SAT.HR.Controllers
             ViewBag.UserTypeID = type;
             ViewBag.UserType = DropDownList.GetUserType(model != null ? model.UserTID : null);
             ViewBag.MoveType = DropDownList.GetMoveType(model != null ? model.MtID : null);
+            ViewBag.MaxFileSizeUpload = Helpers.SysConfig.MaxFileSizeUpload;
             return View(model);
         }
 

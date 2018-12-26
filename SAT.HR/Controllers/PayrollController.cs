@@ -17,6 +17,7 @@ namespace SAT.HR.Controllers
         public ActionResult SalaryIncrease()
         {
             var model = new SalaryIncreaseRepository().SalaryIncrease();
+            ViewBag.MaxFileSizeUpload = Helpers.SysConfig.MaxFileSizeUpload;
             return View(model);
         }
 
@@ -107,6 +108,7 @@ namespace SAT.HR.Controllers
         public ActionResult BonusCalculator()
         {
             var model = new BonusCalculatorRepository().BonusCalculator();
+            ViewBag.MaxFileSizeUpload = Helpers.SysConfig.MaxFileSizeUpload;
             return View(model);
         }
 

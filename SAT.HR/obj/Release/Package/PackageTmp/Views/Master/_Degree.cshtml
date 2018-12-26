@@ -1,0 +1,50 @@
+﻿@model SAT.HR.Models.DegreeViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formDetail" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.DegID)
+    @Html.Hidden("Status")
+
+    <div class="col-md-12">
+        <div class="row">
+            @Html.Label("หลักสูตรปริญญา", null, new { @class = "col-sm-3 col-form-label" })
+            <div class="col-sm-9">
+                <div class="form-group bmd-form-group">
+                    <label class="bmd-label-floating">ใส่ข้อมูลหลักสูตรปริญญา</label>
+                    @Html.TextBoxFor(m => m.DegName, new { @class = "form-control", required = "true" })
+                    @Html.ValidationMessageFor(m => m.DegName)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("สถานะ", null, new { @class = "col-sm-3 col-form-label label-checkbox" })
+            <div class="col-sm-9">
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input checkbox" type="checkbox">
+                        <span class="form-check-sign" style="top:0px"><span class="check"></span></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+
+        if ('@Model.DegStatus' == 'True') {
+            $(".checkbox").prop("checked", true);
+        }
+
+        $(".checkbox").click(function () {
+            var checked = $(this).is(':checked');
+            if (checked) {
+                $('#Status').val('1');
+            }
+            else {
+                $('#Status').val('0');
+            }
+        });
+    });
+</script>

@@ -1,0 +1,237 @@
+﻿@model SAT.HR.Models.BenefitLoanViewModel
+
+<style>
+    .table thead tr th {
+        font-size: 14px;
+    }
+</style>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-warning card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">attach_money</i>
+                        </div>
+                        <h4 class="card-title">
+                            <span>เงินกู้</span>
+                            <button class="btn btn-primary btn-sm pull-right btn-add" data-toggle="modal"><i class="material-icons">add</i> เพิ่มรายการ</button>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="material-datatables">
+                            <table class="table table-detail">
+                                <thead class="text-primary">
+                                    <tr>
+                                        <th style="width:5%;" class="text-center">#</th>
+                                        <th style="width:20%;" class="text-left">แหล่งเงินกู้</th>
+                                        <th style="width:15%;" class="text-lg-left">ประเภทเงินกู้</th>
+                                        <th style="width:15%;" class="text-left">หมายเลขบัญชีเงินกู้</th>
+                                        <th style="width:10%;" class="text-right">จำนวนงวด</th>
+                                        <th style="width:10%;" class="text-right">ชำระต่องวด</th>
+                                        <th style="width:15%;" class="text-right">ยอดเงินกู้</th>
+                                        <th style="width:10%;" class="text-right">ปฏิบัติการ</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Classic Modal -->
+<div class="modal fade modal-large modal-detail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span>เงินกู้</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div class="div-detail"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-close" data-dismiss="modal">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)</button>&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary btn-save">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  End Modal -->
+
+<script>
+
+    var dataTable = {
+        table: null,
+        initializeDataTable: function () {
+            var id = $("#UserID").val();
+
+            $table = $('.table-detail');
+            dataTable.table = $table.DataTable({
+                "proccessing": true,
+                "serverSide": true,
+                paging: false,
+                bFilter: false,
+                ordering: false,
+                searching: true,
+                language: { zeroRecords: "ไม่พบข้อมูล" },
+                dom: 't',
+                ajax: {
+                    url: '@Url.Action("Loan", "Benefit")/' + id,
+                    type: "POST",
+                },
+                "columns": [
+                    { "data": "RowNumber", "orderable": false, "searchable": false },
+                    { "data": "BName", "orderable": true },
+                    { "data": "LtName", "orderable": true },
+                    { "data": "BlAccountNo", "orderable": true },
+                    { "data": "BlPeriod", "orderable": true },
+                    { "data": "BlPeriodPay", "orderable": true },
+                    { "data": "BISummaryAmout", "orderable": true },
+                ],
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return '<div class="text-right">' + data + '</div>';
+                        }, "targets": [4]
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            return '<div class="text-right">' + accounting.formatNumber(data, 2) + '</div>';
+                        }, "targets": [5,6]
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            var inner = '<div class="td-actions pull-right">' +
+                                            '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.BlID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;' +
+                                            '<button title="ลบ" type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.BlID + '"><i class="material-icons">close</i></button>' +
+                                        '</div>';
+                            return inner;
+                        }, "targets": 7
+                    },
+                ]
+            });
+
+            dataTable.table.on('click', '.edit', function () {
+                var userid = $("#UserID").val();
+                var id = $(this).data("id");
+                var url = '@Url.Action("LoanDetail", "Benefit")';
+                $.post(url, { userid: userid, id: id }, function (data) {
+                    $(".div-detail").html(data);
+                    $('.modal-detail').modal('show');
+                });
+            });
+
+            dataTable.table.on('click', '.delete', function () {
+                var id = $(this).data("id");
+                swal({
+                    title: '',
+                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ConfirmDelete)",
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                    cancelButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnNo)',
+                    buttonsStyling: false
+                }).then(function () {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("DeleteLoan", "Benefit")/' + id,
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                swal({
+                                    title: "",
+                                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.DeleteSucceed)",
+                                    type: "success",
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                    buttonsStyling: false
+                                }).then(function () {
+                                    dataTable.getData();
+                                });
+                            }
+                            else {
+                                swal({
+                                    title: '',
+                                    text: res.MessageText,
+                                    type: 'error',
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                    buttonsStyling: false
+                                }).catch(swal.noop);
+                            }
+                        }
+                    });
+                }).catch(swal.noop)
+            });
+        },
+        getData: function () {
+            if (dataTable.table == null)
+                dataTable.initializeDataTable();
+            else
+                dataTable.table.ajax.reload();
+        }
+    }
+
+    dataTable.getData();
+
+
+    $(".btn-add").click(function () {
+        var userid = $("#UserID").val();
+        var url = '@Url.Action("LoanDetail", "Benefit")';
+        $.post(url, { userid: userid, id: 0 }, function (data) {
+            $(".div-detail").html(data);
+            $('.modal-detail').modal('show');
+        });
+    });
+
+    $(".btn-save").click(function () {
+        var $valid = $('.form-detail').valid();
+        if (!$valid) {
+
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SaveLoan", "Benefit")',
+                data: $(".form-detail").serialize(),
+                success: function (res) {
+                    if (res.MessageCode == null) {
+                        swal({
+                            title: "",
+                            text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                            type: "success",
+                            buttonsStyling: false,
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                        }).then(function () {
+                            $('.modal-detail').modal('hide');
+                            dataTable.getData();
+                        });
+                    }
+                    else {
+                        swal({
+                            title: '',
+                            text: res.MessageText,
+                            type: 'error',
+                            confirmButtonClass: "btn btn-primary",
+                            confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                            buttonsStyling: false
+                        }).catch(swal.noop)
+                    }
+                }
+            });
+        }
+    });
+
+</script>

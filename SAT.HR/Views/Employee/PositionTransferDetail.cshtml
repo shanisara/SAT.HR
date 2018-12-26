@@ -21,6 +21,7 @@
                 <div class="card-body">
                     @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "formDetail" }))
                     {
+                        @Html.Hidden("maxFileSize", (string)ViewBag.MaxFileSizeUpload)
                         @Html.HiddenFor(m => m.MopID)
                         @Html.HiddenFor(m => m.MopStatus)
                         @Html.HiddenFor(m => m.MopPathFile)
@@ -344,66 +345,84 @@
                 return false;
             }
             else {
-                var qtd = 0;
-                $("#tb-detail tbody tr").each(function () {
-                    var userid = $(this).data("userid");
-                    var curmpid = $(this).data("curmpid");
-                    var movmpid = $(this).data("movmpid");
-                    var agentpotid = $(this).data("agentpotid");
-                    var agentmpid = $(this).data("agentmpid");
-                    var remark = $(this).data("remark");
-                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].UserID' value= '" + userid + "' > ");
-                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].CurMpID' value= '" + curmpid + "' > ");
-                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].MovMpID' value= '" + movmpid + "' > ");
-                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].AgentPoTID' value= '" + agentpotid + "' > ");
-                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].AgentMpID' value= '" + agentmpid + "' > ");
-                    $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].MovRemark' value= '" + remark + "' > ");
-                    qtd += 1;
-                });
+                var maxFileSize = $('#maxFileSize').val();
+                var fileSize = ($('#fileUpload').val() != '') ? $('#fileUpload')[0].files[0].size : 0;
 
-                var form = $('.formDetail')[0];
-                var data = new FormData(form);
-                data.append(".fileUpload", fileUpload);
+                if (parseInt(fileSize) > parseInt(maxFileSize)) {
+                    swal({
+                        title: '',
+                        text: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ValidateMaxFileSizeUpload) ' +  parseInt(maxFileSize) / 1048576 + ' MB',
+                        type: "warning",
+                        showCancelButton: false,
+                        confirmButtonClass: 'btn btn-success btn-w-m btn-lg',
+                        confirmButtonText: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)",
+                        closeOnConfirm: false,
+                        allowOutsideClick: false,
+                        buttonsStyling: false
+                    }).catch(swal.noop)
+                }
+                else {
+                    var qtd = 0;
+                    $("#tb-detail tbody tr").each(function () {
+                        var userid = $(this).data("userid");
+                        var curmpid = $(this).data("curmpid");
+                        var movmpid = $(this).data("movmpid");
+                        var agentpotid = $(this).data("agentpotid");
+                        var agentmpid = $(this).data("agentmpid");
+                        var remark = $(this).data("remark");
+                        $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].UserID' value= '" + userid + "' > ");
+                        $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].CurMpID' value= '" + curmpid + "' > ");
+                        $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].MovMpID' value= '" + movmpid + "' > ");
+                        $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].AgentPoTID' value= '" + agentpotid + "' > ");
+                        $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].AgentMpID' value= '" + agentmpid + "' > ");
+                        $(".formDetail").prepend("<input type='hidden' name= 'ListDetail[" + qtd + "].MovRemark' value= '" + remark + "' > ");
+                        qtd += 1;
+                    });
 
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("SavePositionTransfer", "Employee")',
-                    data: data,
-                    dataType: 'json',
-                    enctype: 'multipart/form-data',
-                    processData: false,
-                    contentType: false,
-                    success: function (res) {
-                        if (res.MessageCode == null) {
-                            swal({
-                                title: "",
-                                text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
-                                type: "success",
-                                confirmButtonClass: "btn btn-primary",
-                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
-                                buttonsStyling: false,
-                            }).then(function () {
-                                if ($("#MopID").val() == 0)
-                                    $("#MopID").val(res.ID);
-                                if ($("#MopPathFile").val() != '') {
-                                    $(".file-name").text($("#MopPathFile").val());
-                                    $(".file-upload").hide();
-                                    $(".file-path").show();
-                                }
-                            });
+                    var form = $('.formDetail')[0];
+                    var data = new FormData(form);
+                    data.append(".fileUpload", fileUpload);
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("SavePositionTransfer", "Employee")',
+                        data: data,
+                        dataType: 'json',
+                        enctype: 'multipart/form-data',
+                        processData: false,
+                        contentType: false,
+                        success: function (res) {
+                            if (res.MessageCode == null) {
+                                swal({
+                                    title: "",
+                                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                                    type: "success",
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                    buttonsStyling: false,
+                                }).then(function () {
+                                    if ($("#MopID").val() == 0)
+                                        $("#MopID").val(res.ID);
+                                    if ($("#MopPathFile").val() != '') {
+                                        $(".file-name").text($("#MopPathFile").val());
+                                        $(".file-upload").hide();
+                                        $(".file-path").show();
+                                    }
+                                });
+                            }
+                            else {
+                                swal({
+                                    title: '',
+                                    text: res.MessageText,
+                                    type: 'error',
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                    buttonsStyling: false
+                                }).catch(swal.noop);
+                            }
                         }
-                        else {
-                            swal({
-                                title: '',
-                                text: res.MessageText,
-                                type: 'error',
-                                confirmButtonClass: "btn btn-primary",
-                                confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
-                                buttonsStyling: false
-                            }).catch(swal.noop);
-                        }
-                    }
-                });
+                    });
+                }
             }
         });
 

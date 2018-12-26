@@ -13,6 +13,7 @@
     @Html.HiddenFor(m => m.UserID)
     @Html.HiddenFor(m => m.UiID)
     @Html.HiddenFor(m => m.UiPartFile)
+    @Html.Hidden("maxFileSize", (string)ViewBag.MaxFileSizeUpload)
 
     <div class="form-horizontal">
         <div class="row">
@@ -26,7 +27,7 @@
         <div class="row">
             <label class="col-sm-3 col-form-label" for="NewLastNameTh">เครื่องราชฯ/วิริยะ:<span class="text-danger"> *</span> </label>
             <div class="col-sm-9 m-t-5">
-                @Html.DropDownListFor(n => n.InsID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Insignia, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true", required = "true" })
+                @Html.DropDownListFor(n => n.InsID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Insignia, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true", data_size = "5", required = "true" })
             </div>
         </div>
         <div class="row">
@@ -75,8 +76,7 @@
             @Html.Label("ไฟล์แนบ: ", null, new { @class = "col-sm-3 col-form-label" })
             <div class="col-sm-9" style="margin-top:5px;">
                 <div class="input-group-prepend file-path">
-                    <i class="fa fa-cloud-download m-t-15"></i>&nbsp;&nbsp;
-                    <a style="margin-top:5px;" class="file-name" target="_blank" href="@Url.Action("DownloadInsignia", "Employee", new { id = Model.UiID })">@Model.UiPartFile</a>
+                    <a style="margin-top:15px;" class="file-name" target="_blank" href="@Url.Action("DownloadInsignia", "Employee", new { id = Model.UiID })">@Model.UiPartFile</a>
                     <a class="btn btn-link btn-danger btn-just-icon file-delete" file-delete href="#" title="ลบ"><i class="material-icons">delete_forever</i></a>
                 </div>
                 <input id="fileUpload" name="fileUpload" type="file" class="form-control file-upload">

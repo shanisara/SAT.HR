@@ -1,0 +1,350 @@
+﻿@model SAT.HR.Models.LeaveRequestViewModel
+@{
+    ViewBag.Title = "LeaveRequestDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">alarm_on</i>
+                    </div>
+                    <h4 class="card-title">
+                        <span>แบบฟอร์มการขออนุมัติลา > </span><span class="text-primary"> @Model.DocNo @(!string.IsNullOrEmpty(Model.StatusName) ? "(" + Model.StatusName+ ")" : string.Empty)</span>
+                        <button type="submit" class="btn btn-round pull-right btn-back">ย้อนกลับ</button>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form-leave" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.RequestID)
+                        @Html.HiddenFor(m => m.FormID)
+                        @Html.HiddenFor(m => m.PathFile)
+                        @Html.HiddenFor(m => m.LeaveTotalDay)
+
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">ชื่อผู้ลา</label>
+                            <div class="col-sm-3">
+                                <div class="form-group bmd-form-group">
+                                    @*@Html.DropDownListFor(m => m.RequestID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Employee, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true", required = "true" })*@
+                                    @Html.DisplayFor(m => m.RequestName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">ประเภทการลา:</label>
+                            <div class="col-sm-3">
+                                <div class="form-group bmd-form-group">
+                                    @Html.DropDownListFor(m => m.LeaveType, new SelectList((IEnumerable<SelectListItem>)ViewBag.LeaveType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true", data_size = "5", required = "true" })
+                                </div>
+                            </div>
+                            <label class="col-sm-2 col-form-label">วันลาคงเหลือ <label id="LeaveBalance">@Model.LeaveBalance</label> วัน</label>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">ช่วงเวลา:</label>
+                            <div class="col-sm-10 m-t-15">
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        @Html.RadioButtonFor(m => m.DayTime, 1, new { @class = "form-check-input" }) ทั้งวัน
+                                        <span class="circle">
+                                            <span class="check"></span>
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        @Html.RadioButtonFor(m => m.DayTime, 2, new { @class = "form-check-input" }) ครึ่งวันเช้า
+                                        <span class="circle">
+                                            <span class="check"></span>
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        @Html.RadioButtonFor(m => m.DayTime, 3, new { @class = "form-check-input" }) ครึ่งวันบ่าย
+                                        <span class="circle">
+                                            <span class="check"></span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">วันที่เริ่ม:</label>
+                            <div class="col-md-2">
+                                <div class="form-group bmd-form-group">
+                                    @Html.TextBoxFor(m => m.StartDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">วันที่สิ้นสุด:</label>
+                            <div class="col-md-2">
+                                <div class="form-group bmd-form-group">
+                                    @Html.TextBoxFor(m => m.EndDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">จำนวนวัน:</label>
+                            <div class="col-md-10">
+                                <div class="form-group bmd-form-group">
+                                    <label id="TotalDay">@Model.TotalDay </label> &nbsp;<label>วัน</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">เหตุผลการลา:</label>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group">
+                                    @Html.TextAreaFor(m => m.LeaveReason, 3, 100, new { @class = "form-control", required = "true" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">แนบไฟล์:</label>
+                            <div class="col-md-6">
+                                <div class="input-group-prepend file-path">
+                                    <a class="m-t-10 file-name" target="_blank" href=@Url.Action("DownloadFileAttach", "WorkingTime", new { id = Model.FormID, type = 1 })>@Model.PathFile</a>
+                                    <a class="btn btn-link btn-danger btn-just-icon file-delete" file-delete href="#" title="ลบ" style="margin-top:0px"><i class="material-icons">delete_forever</i></a>
+                                </div>
+                                <input id="LeaveFile" name="LeaveFile" type="file" class="form-control file-upload">
+                            </div>
+                        </div>
+
+                        if (Model.Action == "Approved" || Model.Action == "Rejected")
+                        {
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">ผู้อนุมัติ:</label>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group">
+                                    @Html.DisplayFor(m => m.Approver, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">เหตุผลการอนุมัติ:</label>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group">
+                                    @Html.DisplayFor(m => m.ApproverComment, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        }
+                        else if (Model.Action == "Canceled")
+                        {
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label">เหตุผลการยกเลิก:</label>
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group">
+                                        @Html.DisplayFor(m => m.CancelReason, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="row m-t-40">
+                            <div class="ml-auto mr-auto">
+                                <button type="button" class="btn btn-back">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnBack)</button>
+                                @if(Model.FormID == null)
+                                {
+                                    <button type="button" class="btn btn-primary btn-save">@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnSave)</button>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            if ('@Model.PathFile' != '') {
+                $(".file-path").show();
+                $(".file-upload").hide();
+            }
+            else {
+                $(".file-path").hide();
+                $(".file-upload").show();
+            }
+
+            if ('@Model.LeaveType' != '') {
+                $('select[name=LeaveType]').val('@Model.LeaveType');
+                $('select[name=LeaveType]').selectpicker('refresh');
+            }
+
+            $('.selectpicker').selectpicker();
+
+            //$('.datepicker').datetimepicker({
+            //    format: 'DD/MM/YYYY',
+            //    icons: {
+            //        time: "fa fa-clock-o",
+            //        date: "fa fa-calendar",
+            //        up: "fa fa-chevron-up",
+            //        down: "fa fa-chevron-down",
+            //        previous: 'fa fa-chevron-left',
+            //        next: 'fa fa-chevron-right',
+            //        today: 'fa fa-screenshot',
+            //        clear: 'fa fa-trash',
+            //        close: 'fa fa-remove'
+            //    }
+            //});
+
+            $('input[name="StartDate"],input[name="EndDate"]').datetimepicker({
+                format: 'DD/MM/YYYY',
+                icons: {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-chevron-up",
+                    down: "fa fa-chevron-down",
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-screenshot',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-remove'
+                }
+            }).on('dp.change', function (e) {
+                calculateTotalDay();
+            });
+
+            $("#RequestID").change(function () {
+                var userid = $('#RequestID').val();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("LeaveTypeBySex", "Master")',
+                    data: { userid: userid },
+                    dataType: 'json',
+                    success: function (res) {
+                        $('select[name=LeaveType]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                        $.each(res, function (key, entry) {
+                            $('select[name=LeaveType]').append($('<option>', { value: entry.Value, text: entry.Text, selected: entry.Selected }));
+                        });
+                        $('select[name=LeaveType]').selectpicker('refresh');
+                    }
+                });
+            });
+
+            $("#LeaveType").change(function () {
+                var userid = $('#RequestID').val();
+                var leaveid = $('select[name=LeaveType]').val();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("LeaveBalanceByUser", "Master")',
+                    data: { userid: userid, leaveid: leaveid },
+                    dataType: 'json',
+                    success: function (res) {
+                        var max = res.LevMax;
+                        var standard = res.LevStandard;
+                        var used = res.LevUsed;
+                        var balance = res.LevBalance;
+                        $('#LeaveBalance').text(balance);
+                    }
+                });
+            });
+
+            $('input[name="DayTime"]:radio').change(function () {
+                var daytime = $("input[name='DayTime']:checked").val();
+                if (daytime == 2 || daytime == 3) {
+                    var startdate = $("#StartDate").val();
+                    $('#EndDate').val(startdate);
+                    $('#EndDate').prop("disabled", true);
+                }
+                else {
+                    $('#EndDate').prop("disabled", false);
+                }
+                calculateTotalDay();
+            });
+
+
+            function calculateTotalDay() {
+                var daytime = $("input[name='DayTime']:checked").val();
+                var startdate = $("#StartDate").val();
+                var entdate = $("#EndDate").val();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("LeaveCalculateTotalDay", "WorkingTime")',
+                    data: { daytime: daytime, startdate: startdate, entdate: entdate },
+                    dataType: 'json',
+                    success: function (res) {
+                        var days = res.TotalDay;
+                        $('#TotalDay').text(days);
+                        $('#LeaveTotalDay').val(days);
+                    }
+                });
+            }
+
+
+            $(".btn-back").click(function () {
+                var url = '@Url.Action("LeaveRequest", "WorkingTime")';
+                window.location.href = url;
+            });
+
+            $(".btn-save").click(function () {
+                var $valid = $('#form-leave').valid();
+                if (!$valid) {
+
+                    return false;
+                }
+                else {
+                    var form = $('#form-leave')[0];
+                    var data = new FormData(form);
+                    data.append(".LeaveFile", LeaveFile);
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("SaveLeaveRequest", "WorkingTime")',
+                        data: data, /*$(".form-detail").serialize(),*/
+                        enctype: 'multipart/form-data',
+                        processData: false,
+                        contentType: false,
+                        success: function (res) {
+                            var id = res.ID;
+                            if (res.MessageCode == null) {
+                                swal({
+                                    title: "",
+                                    text: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.SaveSucceed)",
+                                    type: "success",
+                                    buttonsStyling: false,
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)',
+                                }).then(function () {
+                                    debugger;
+                                    if (id != '') {
+                                        var url = '@Url.Action("LeaveRequestDetail", "WorkingTime")/' + id;
+                                        window.location.href = url;
+                                    }
+                                });
+                            }
+                            else {
+                                swal({
+                                    title: '',
+                                    text: res.MessageText,
+                                    type: 'error',
+                                    confirmButtonClass: "btn btn-primary",
+                                    confirmButtonText: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnYes)',
+                                    buttonsStyling: false
+                                }).catch(swal.noop)
+                            }
+                        }
+                    });
+                }
+            });
+
+
+            $(".file-delete").click(function () {
+                $("#PathFile").val('');
+                $(".file-upload").val('');
+                $(".file-upload").show();
+                $(".file-path").hide();
+            });
+
+        });
+
+    </script>
+}

@@ -1,0 +1,222 @@
+﻿@model SAT.HR.Models.EmployeeViewModel
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-icon card-header-primary">
+                    <div class="card-icon">
+                        <i class="material-icons">card_giftcard</i>
+                    </div>
+                    <h4 class="card-title">
+                        @Html.HiddenFor(m => m.UserID)
+                        @Html.HiddenFor(m => m.UserType, new { Value = @ViewBag.UserTypeID })
+
+                        <span>สวัสดิการพนักงาน: </span><span class="text-primary">@Model.FullNameTh (@Model.IDCard)</span>
+                        <button type="submit" class="btn btn-round pull-right btn-back">ย้อนกลับ</button>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row m-b-20">
+                        <div id="tabs" class="col-md-2 m-t-10">
+                            <ul class="nav nav-pills nav-pills-warning flex-column" role="tablist">
+                                <li class="nav-item" id="remuneration">
+                                    <a class="nav-link active text-left show" data-id="remuneration" data-toggle="tab" href="#" role="tablist">
+                                        เงินตอบแทนความชอบ
+                                    </a>
+                                </li>
+                                <li class="nav-item" id="providentFund">
+                                    <a class="nav-link text-left" data-id="providentFund" data-toggle="tab" href="#" role="tablist">
+                                        กองทุน
+                                    </a>
+                                </li>
+                                <li class="nav-item" id="medicalTreatment">
+                                    <a class="nav-link text-left" data-id="medicalTreatment" data-toggle="tab" href="#" role="tablist">
+                                        รักษาพยาบาล
+                                    </a>
+                                </li>
+                                <li class="nav-item" id="loan">
+                                    <a class="nav-link text-left" data-id="loan" data-toggle="tab" href="#" role="tablist">
+                                        เงินกู้
+                                    </a>
+                                </li>
+                                <li class="nav-item" id="homeRental">
+                                    <a class="nav-link text-left" data-id="homeRental" data-toggle="tab" href="#" role="tablist">
+                                        ค่าเช่าบ้าน
+                                    </a>
+                                </li>
+                                <li class="nav-item" id="childFund">
+                                    <a class="nav-link text-left" data-id="childFund" data-toggle="tab" href="#" role="tablist">
+                                        เงินช่วยเหลือบุตร
+                                    </a>
+                                </li>
+                                <li class="nav-item" id="childEducation">
+                                    <a class="nav-link text-left" data-id="childEducation" data-toggle="tab" href="#" role="tablist">
+                                        เงินช่วยเหลือการศึกษาบุตร
+                                    </a>
+                                </li>
+                                <li class="nav-item" id="cremation">
+                                    <a class="nav-link text-left" data-id="cremation" data-toggle="tab" href="#" role="tablist">
+                                        ฌาปนกิจสงเคราะห์
+                                    </a>
+                                </li>
+                                <li class="nav-item" id="deathReplacement">
+                                    <a class="nav-link text-left" data-id="deathReplacement" data-toggle="tab" href="#" role="tablist">
+                                        เงินทดแทนกรณีเสียชีวิต
+                                    </a>
+                                </li>
+                                <li class="nav-item" id="deathSubsidy">
+                                    <a class="nav-link text-left" data-id="deathSubsidy" data-toggle="tab" href="#" role="tablist">
+                                        เงินช่วยเหลือพิเศษกรณีเสียชีวิต
+                                    </a>
+                                </li>
+                                <li class="nav-item" id="otherWelfare">
+                                    <a class="nav-link text-left" data-id="otherWelfare" data-toggle="tab" href="#" role="tablist">
+                                        สวัสดิการอื่นๆ
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="tab-content">
+                                <div class="tab-pane active show" id="tab-detail">
+                                    <div id="div-detail"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .nav-pills .nav-item .nav-link {
+        font-size: 13px;
+        padding-left: 10px;
+    }
+
+    .nav-pills.nav-pills-warning .nav-item .nav-link.active, .nav-pills.nav-pills-warning .nav-item .nav-link.active:focus, .nav-pills.nav-pills-warning .nav-item .nav-link.active:hover {
+        font-size: 13px;
+        padding-left: 10px;
+    }
+
+    .nav-pills {
+        border: 0;
+        border-radius: 3px;
+        padding: 0px;
+    }
+
+        .nav-pills .nav-item .nav-link {
+            padding: 8px 3px 7px 10px;
+        }
+
+    .col-md-2, .col-md-10 {
+        position: relative;
+        width: 100%;
+        min-height: 1px;
+        padding-right: 7px;
+        padding-left: 5px;
+    }
+</style>
+
+@section Scripts {
+    <script>
+
+        $(document).ready(function () {
+
+            var ref_this = $("#tabs li").find(".active");
+            if (ref_this.data("id") == "remuneration") {
+                var userid = $("#UserID").val();
+                var type = $("#UserTypeID").val();
+                var url = '@Url.Action("RemunerationByUser", "Benefit")/' + userid;
+                $.post(url, function (data) {
+                    $("#div-detail").html(data);
+                });
+            }
+
+            $("#tabs li").click(function () {
+                var userid = $("#UserID").val();
+                var type = $("#UserTypeID").val();
+                if (this.id == "remuneration") {
+                    var url = '@Url.Action("RemunerationByUser", "Benefit")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "providentFund") {
+                    var url = '@Url.Action("ProvidentFundByUser", "Benefit")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "medicalTreatment") {
+                    var url = '@Url.Action("MedicalTreatmentByUser", "Benefit")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "loan") {
+                    var url = '@Url.Action("LoanByUser", "Benefit")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "homeRental") {
+                    var url = '@Url.Action("HomeRentalByUser", "Benefit")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "childFund") {
+                    var url = '@Url.Action("ChildFundByUser", "Benefit")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "childEducation") {
+                    var url = '@Url.Action("ChildEducationByUser", "Benefit")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "cremation") {
+                    var url = '@Url.Action("CremationByUser", "Benefit")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "deathReplacement") {
+                    var url = '@Url.Action("DeathReplacementByUser", "Benefit")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "deathSubsidy") {
+                    var url = '@Url.Action("DeathSubsidyByUser", "Benefit")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+                else if (this.id == "otherWelfare") {
+                    var url = '@Url.Action("OtherWelfareByUser", "Benefit")/' + userid;
+                    $.post(url, function (data) {
+                        $("#div-detail").html(data);
+                    });
+                }
+            });
+
+            $(".btn-back").click(function () {
+                var url = '@Url.Action("Index", "Benefit")';
+                window.location.href = url;
+            });
+
+
+        });
+    </script>
+}

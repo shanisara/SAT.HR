@@ -1,0 +1,115 @@
+﻿@model SAT.HR.Models.BenefitDeathSubsidyViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-detail" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.UserID)
+    @Html.HiddenFor(m => m.BdID)
+
+    <div class="form-horizontal">
+        <div class="row">
+            <label class="col-sm-2 col-form-label">ปีบัญชี<span class="text-danger"> *</span></label>
+            <div class="col-sm-3">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BdYear, new { @class = "form-control", type = "number", required = "true" })
+                </div>
+            </div>
+            <label class="col-sm-2 col-form-label">วันที่<span class="text-danger"> *</span></label>
+            <div class="col-sm-5">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BdDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-sm-2 col-form-label">ผู้รับผลประโยชน์<span class="text-danger"> *</span></label>
+            <div class="col-sm-3">
+                <div class="dropdown bootstrap-select dropup">
+                    @Html.DropDownListFor(x => x.RecID, new SelectList((IEnumerable<SelectListItem>)ViewBag.RecieveType, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
+                </div>
+            </div>
+            <label class="col-sm-2 col-form-label">ชื่อ-สกุล<span class="text-danger"> *</span></label>
+            <div class="col-sm-5">
+                <div class="dropdown bootstrap-select dropup">
+                    @Html.DropDownListFor(x => x.BdFullName, new SelectList((IEnumerable<SelectListItem>)ViewBag.BdFullName, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("ระยะเวลา", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-3">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BdTime, new { @class = "form-control", type = "number" })
+                </div>
+            </div>
+            @Html.Label("ร้อยละ/เท่า", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-5">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BdPer, new { @class = "form-control", type = "number" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-sm-2 col-form-label">จำนวนเงิน<span class="text-danger"> *</span></label>
+            <div class="col-sm-10">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BdAmout, new { @class = "form-control", type = "number", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Label("หมายเหตุ", null, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BdRemark, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    if ('@Model.BdFullName' != '') {
+        $('select[name=BdFullName]').val('@Model.BdFullName');
+        $('select[name=BdFullName]').selectpicker('refresh');
+    }
+
+    $('.selectpicker').selectpicker();
+
+    $('.datepicker').datetimepicker({
+        format: 'DD/MM/YYYY',
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-screenshot',
+            clear: 'fa fa-trash',
+            close: 'fa fa-remove'
+        }
+    });
+
+    $('select[name=RecID]').change(function () {
+        var recid = $('select[name=RecID]').val();
+        var userid = $("#UserID").val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetUserFamilyByRec", "Employee")',
+            data: { recid: recid, userid: userid },
+            dataType: 'json',
+            success: function (res) {
+                if (recid == '1' || recid == '2' || recid == '3') {
+                    $('select[name=BdFullName]').empty().append('<option value=' + res[0].UfName + '>' + res[0].UfName + '</option>');
+                }
+                else {
+                    $('select[name=BdFullName]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                    $.each(res, function (key, entry) {
+                        $('select[name=BdFullName]').append($('<option>', { value: entry.UfName, text: entry.UfName }));
+                    });
+                }
+                $('select[name=BdFullName]').selectpicker('refresh');
+            }
+        });
+    });
+</script>

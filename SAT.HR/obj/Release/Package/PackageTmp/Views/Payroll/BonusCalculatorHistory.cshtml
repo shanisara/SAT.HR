@@ -1,0 +1,119 @@
+﻿
+@{
+    ViewBag.Title = "BonusCalculatorHistory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">local_atm</i>
+                    </div>
+                    <h4 class="card-title">
+                        <span> ประวัติการคำนวณโบนัส </span>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    @*<div class="toolbar pull-right">
+                        <button class="btn btn-primary btn-sm btn-export" data-toggle="modal"><i class="material-icons"></i> Export</button>
+                    </div>*@
+                    <div class="material-datatables">
+                        <table class="table table-detail">
+                            <thead class="text-primary">
+                                <tr>
+                                    <th style="width:10%;" class="text-left">ปีบัญชี</th>
+                                    <th style="width:49%;" class="text-left">คำสั่ง</th>
+                                    <th style="width:11%;" class="text-left">อัตรา(เท่า)</th>
+                                    <th style="width:12%;" class="text-left">วันที่ลงคำสั่ง</th>
+                                    <th style="width:8%;" class="text-left">ไฟล์แนบ</th>
+                                    <th style="width:10%;" class="text-right">ปฏิบัติการ</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+    $(document).ready(function () {
+
+        var dataTable = {
+            table: null,
+            initializeDataTable: function () {
+                $table = $('.table-detail');
+                dataTable.table = $table.DataTable({
+                    "proccessing": true,
+                    "serverSide": true,
+                    responsive: true,
+                    language: {
+                        search: "_INPUT_",
+                        searchPlaceholder: "ค้นหา",
+                        zeroRecords: "ไม่พบข้อมูล",
+                    },
+                    ajax: {
+                        url: '@Url.Action("BonusCalculatorHistory", "Payroll")',
+                        type: "POST",
+                    },
+                    "columns": [
+                        { "data": "Year", "orderable": true },
+                        { "data": "BookCmd", "orderable": true },
+                        { "data": "Rate", "orderable": true },
+                        { "data": "DateCmdText", "orderable": true },
+                    ],
+                    "columnDefs": [
+                        //{
+                        //    "render": function (data, type, row) {
+                        //        return '<div class="text-center">' + accounting.formatNumber(data, 2) + '</div>';
+                        //    }, "targets": [0,1]
+                        //},
+                        {
+                            "render": function (data, type, row) {
+                                var inner = '<div class="td-actions pull-right">' +
+                                                //'<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.PlanID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;' +
+                                            '</div>';
+                                return inner;
+                            }, "targets": 4
+                        },
+                        {
+                            "render": function (data, type, row) {
+                                var inner = '<div class="td-actions pull-right">' +
+                                                '<button title="แก้ไข" type="button" rel="tooltip" class="btn btn-round btn-warning view" data-id="' + row.HeaderID + '"><i class="material-icons">search</i></button>&nbsp;&nbsp;' +
+                                            '</div>';
+                                return inner;
+                            }, "targets": 5
+                        },
+                    ],
+                    "order": [[1, "asc"]],
+                    "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                    "pagingType": "full_numbers",
+                });
+
+                dataTable.table.on('click', '.view', function () {
+                    var id = $(this).data("id");
+                    var url = '@Url.Action("BonusCalculatorHistoryDetail", "Payroll")/' + id;
+                    window.location.href = url;
+                });
+
+            },
+            getData: function () {
+                if (dataTable.table == null)
+                    dataTable.initializeDataTable();
+                else
+                    dataTable.table.ajax.reload();
+            }
+        }
+
+        dataTable.getData();
+
+    });
+    </script>
+}
