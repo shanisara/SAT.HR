@@ -514,7 +514,8 @@ namespace SAT.HR.Controllers
 
         public ActionResult Document()
         {
-            return View();
+            var model = new BenefitDocRepository().GetAll();
+            return View(model);
         }
 
 

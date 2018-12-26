@@ -179,6 +179,13 @@ namespace SAT.HR.Helpers
                 return SysConfigRepository.GetKeyValue("ApplicationRoot");
             }
         }
+        public static string MaxFileSizeUpload
+        {
+            get
+            {
+                return SysConfigRepository.GetKeyValue("MaxFileSizeUpload");
+            }
+        }
 
 
         public static string PathUploadUserAvatar

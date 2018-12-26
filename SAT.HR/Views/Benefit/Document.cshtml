@@ -1,4 +1,4 @@
-﻿
+﻿@model List<SAT.HR.Models.BenefitDocViewModel>
 @{
     ViewBag.Title = "Document";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -25,30 +25,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="text-center">&#9679;</td>
-                                    <td>เงินช่วยเหลือพิเศษกรณีเสียชีวิต</td>
-                                    <td>14/12/2561</td>
-                                    <td class="td-actions">
-                                        <i class="material-icons m-t7">get_app</i> ดาวน์โหลด
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center">&#9679;</td>
-                                    <td>เงินทดแทนกรณีเสียชีวิต</td>
-                                    <td>14/12/2561</td>
-                                    <td class="td-actions">
-                                        <i class="material-icons m-t7">get_app</i> ดาวน์โหลด
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center">&#9679;</td>
-                                    <td>เงินช่วยเหลือการศึกษาบุตร</td>
-                                    <td>14/12/2561</td>
-                                    <td class="td-actions">
-                                        <i class="material-icons m-t7">get_app</i> ดาวน์โหลด
-                                    </td>
-                                </tr>
+                                @for (int i = 0; i < Model.Count(); i++)
+                                {
+                                    <tr>
+                                        <td class="text-center">&#9679;</td>
+                                        <td>@Model[i].BdDocName</td>
+                                        <td>@Convert.ToDateTime(Model[i].ModifyDate).ToString("dd/MM/yyyy")</td>
+                                        <td class="td-actions">
+                                            @*<i class="material-icons m-t7">get_app</i>*@
+                                            <a href="@Url.Action("DownloadBenefit", "Master", new { id = Model[i].BdID })">ดาวน์โหลด</a>
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -60,6 +48,6 @@
 
 <style>
     .m-t7 {
-        margin-top:-7px;
+        margin-top: -7px;
     }
 </style>
