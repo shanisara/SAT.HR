@@ -84,6 +84,8 @@ demo = {
     initDateTimePicker: function () {
         $('.datetimepicker').datetimepicker({
             format: 'DD/MM/YYYY',
+            locale: 'th',
+            date: moment().add(543, 'years'),
             icons: {
                 time: "fa fa-clock-o",
                 date: "fa fa-calendar",
