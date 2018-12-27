@@ -5,26 +5,128 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.DelegateID)
 
-    <div class="col-md-12">
+    <div>
         <div class="row">
-            @Html.Label("วันที่เริ่ม", null, new { @class = "col-sm-3 col-form-label" })
-            <div class="col-sm-3">
-                <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.StartDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
+            <label class="col-sm-2 col-form-label" for="NewLastNameTh">ประเภท:<span class="text-danger"> *</span> </label>
+            <div class="col-sm-9">
+                <div class="col-sm-10 checkbox-radios">
+                    <div class="col-sm-4 form-check form-check-inline">
+                        <label class="form-check-label">
+                            @Html.RadioButtonFor(m => m.DelegateType, 1, new { @class = "form-check-input", @checked="checked" }) บุคคล
+                            <span class="circle">
+                                <span class="check"></span>
+                            </span>
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                            @Html.RadioButtonFor(m => m.DelegateType, 2, new { @class = "form-check-input" }) ตำแหน่ง
+                            <span class="circle">
+                                <span class="check"></span>
+                            </span>
+                        </label>
+                    </div>
                 </div>
             </div>
-            @Html.Label("วันที่สิ้นสุด", null, new { @class = "col-sm-3 col-form-label" })
-            <div class="col-sm-3">
-                <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.EndDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
+        </div>
+
+        <div class="div-user">
+            <div class="row m-t-5">
+                <label class="col-sm-2 col-form-label" for="UserID">จากพนักงาน:<span class="text-danger"> *</span> </label>
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(n => n.FromUserID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Employee, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true", data_size = "5", required = "true" })
                 </div>
+                @Html.Label("ตำแหน่ง: ", null, new { @class = "col-sm-1 col-form-label" })
+                <div class="col-sm-5 m-t-10">
+                    <span class="label-text from-user-po"></span>
+                </div>
+            </div>
+            <div class="row m-t-5">
+                @Html.Label("ฝ่าย/กอง/งาน: ", null, new { @class = "col-sm-2 col-form-label" })
+                <div class="col-sm-10 m-t-10">
+                    <span class="label-text from-user-mp"></span>
+                </div>
+            </div>
+
+            <div class="row m-t-5">
+                <label class="col-sm-2 col-form-label" for="UserID">มอบให้พนักงาน:<span class="text-danger"> *</span> </label>
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(n => n.ToUserID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Employee, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true", data_size = "5", required = "true" })
+                </div>
+                @Html.Label("ตำแหน่ง: ", null, new { @class = "col-sm-1 col-form-label" })
+                <div class="col-sm-5 m-t-10">
+                    <span class="label-text to-user-po"></span>
+                </div>
+            </div>
+            <div class="row m-t-5">
+                @Html.Label("ฝ่าย/กอง/งาน: ", null, new { @class = "col-sm-2 col-form-label" })
+                <div class="col-sm-10 m-t-10">
+                    <span class="label-text to-user-mp"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="div-mp">
+            <div class="row m-t-5">
+                <label class="col-sm-2 col-form-label" for="MovMpID">จากตำแหน่ง:<span class="text-danger"> *</span> </label>
+                <div class="col-sm-6">
+                    @Html.DropDownListFor(n => n.FromMpID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true", data_size = "5", required = "true" })
+                </div>
+                <div class="col-sm-4 m-t-10">
+                    @Html.Label("ผู้ดำรงตำแหน่ง: ", null, new { @class = "col-form-label" })
+                    <span class="label-text from-mp-user"></span>
+                </div>
+            </div>
+            <div class="row m-t-5">
+                @Html.Label("ฝ่าย/กอง/งาน: ", null, new { @class = "col-sm-2 col-form-label" })
+                <div class="col-sm-10 m-t-10">
+                    <span class="label-text from-mp-name"></span>
+                </div>
+            </div>
+            <div class="row m-t-5">
+                <label class="col-sm-2 col-form-label" for="MovMpID">มอบให้ตำแหน่ง:<span class="text-danger"> *</span> </label>
+                <div class="col-sm-6">
+                    @Html.DropDownListFor(n => n.ToMpID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true", data_size = "5", required = "true" })
+                </div>
+                <div class="col-sm-4 m-t-10">
+                    @Html.Label("ผู้ดำรงตำแหน่ง: ", null, new { @class = "col-form-label" })
+                    <span class="label-text to-mp-user"></span>
+                </div>
+            </div>
+            <div class="row m-t-5">
+                @Html.Label("ฝ่าย/กอง/งาน: ", null, new { @class = "col-sm-2 col-form-label" })
+                <div class="col-sm-10 m-t-10">
+                    <span class="label-text to-mp-name"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row m-t-10">
+            <label class="col-sm-2 col-form-label" for="NewLastNameTh">วันที่เริ่ม:<span class="text-danger"> *</span> </label>
+            <div class="col-sm-4">
+                @Html.TextBoxFor(m => m.StartDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
+            </div>
+            <label class="col-sm-2 col-form-label" for="NewLastNameTh">วันที่สิ้นสุด:<span class="text-danger"> *</span> </label>
+            <div class="col-sm-4">
+                @Html.TextBoxFor(m => m.EndDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
             </div>
         </div>
     </div>
 }
 
+<style>
+    .label-text {
+        font-size: 14px;
+        color:blue;
+    }
+    .col-form-label {
+        font-size: 14px;
+    }
+</style>
 <script>
     $(document).ready(function () {
+
+        $('.selectpicker').selectpicker();
 
         $('.datepicker').datetimepicker({
             format: 'DD/MM/YYYY',
@@ -39,6 +141,97 @@
                 clear: 'fa fa-trash',
                 close: 'fa fa-remove'
             }
+        });
+
+        
+        if ($("#DelegateType").val() == 1) {
+            $('.div-user').show();
+            $('.div-mp').hide();
+        }
+        else {
+            $('.div-user').hide();
+            $('.div-mp').show();
+        }
+
+
+        $('input[type=radio][name=DelegateType]').change(function () {
+            if (this.value == '1') {
+                $('.div-user').show();
+                $('.div-mp').hide();
+            }
+            else if (this.value == '2') {
+                $('.div-user').hide();
+                $('.div-mp').show();
+            }
+        });
+
+
+        $("#FromUserID").change(function () {
+            var userid = $('#FromUserID').val();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetDetailByUser", "Master")',
+                data: { userid: userid },
+                dataType: 'json',
+                success: function (res) {
+                    var mpid = res.MpID;
+                    var manpower = res.ManPower;
+                    var poname = res.Position;
+                    var level = res.Level;
+                    $('.from-user-mp').text(manpower);
+                    $('.from-user-po').text(poname);
+                }
+            });
+        });
+
+        $("#ToUserID").change(function () {
+            var userid = $('#ToUserID').val();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetDetailByUser", "Master")',
+                data: { userid: userid },
+                dataType: 'json',
+                success: function (res) {
+                    var mpid = res.MpID;
+                    var manpower = res.ManPower;
+                    var poname = res.Position;
+                    var level = res.Level;
+                    $('.to-user-mp').text(manpower);
+                    $('.to-user-po').text(poname);
+                }
+            });
+        });
+
+        $("#FromMpID").change(function () {
+            var mpid = $('#FromMpID').val();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetDetailByMp", "Master")',
+                data: { mpid: mpid },
+                dataType: 'json',
+                success: function (res) {
+                    var manpower = res.ManPower;
+                    var username = res.FullNameTh;
+                    $('.from-mp-user').text(username);
+                    $('.from-mp-name').text(manpower);
+                }
+            });
+        });
+
+        $("#ToMpID").change(function () {
+            var mpid = $('#ToMpID').val();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetDetailByMp", "Master")',
+                data: { mpid: mpid },
+                dataType: 'json',
+                success: function (res) {
+                    var manpower = res.ManPower;
+                    var username = res.FullNameTh;
+                    $('.to-mp-user').text(username);
+                    $('.to-mp-name').text(manpower);
+                }
+            });
         });
 
     });

@@ -37,9 +37,10 @@ namespace SAT.HR.Controllers
         {
             DelegateViewModel model = new DelegateViewModel();
             if (id.HasValue)
-            {
                 model = new DelegateRepository().GetByID((int)id);
-            }
+
+            ViewBag.Position = DropDownList.GetPositionTransfer(1);
+            ViewBag.Employee = DropDownList.GetEmployee(null, 1);
             return PartialView("_Delegate", model);
         }
 
