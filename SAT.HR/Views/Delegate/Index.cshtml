@@ -17,20 +17,18 @@
                     </div>
                     <div class="card-body">
                         <div class="toolbar">
-                            <button class="btn btn-primary btn-sm pull-right" data-toggle="modal" id="btnAdd"><i class="material-icons">add</i> เพิ่มสิทธิอนุมัติแทน</button>
+                            <button class="btn btn-primary btn-sm pull-right" data-toggle="modal" id="btnAdd"><i class="material-icons">add</i> เพิ่ม</button>
                         </div>
                         <div class="material-datatables">
                             <table id="datatables" data-url="@Url.Content("~/Delegate/Index")" class="table table-striped table-no-bordered table-hover" cellspacing="0" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th style="width:10%">ลำดับ</th>
-                                        <th style="width:15%">สาขาวิชา</th>
-                                        <th style="width:15%">สาขาวิชา</th>
-                                        <th style="width:15%">สาขาวิชา</th>
-                                        <th style="width:15%">สาขาวิชา</th>
-                                        <th style="width:15%">สาขาวิชา</th>
-                                        <th style="width:15%">สาขาวิชา</th>
-                                        <th style="width:10%">สถานะ</th>
+                                        <th style="width:15%">ประเภท</th>
+                                        <th style="width:15%">FromMp</th>
+                                        <th style="width:15%">ToMp</th>
+                                        <th style="width:15%">FromUser</th>
+                                        <th style="width:15%">ToUser</th>
                                         <th style="width:10%" class="disabled-sorting text-right">ปฏิบัติการ</th>
                                     </tr>
                                 </thead>
@@ -74,8 +72,6 @@
 </div>
 <!--  End Modal -->
 
-
-
 @section Scripts {
     <script>
         $(document).ready(function () {
@@ -100,18 +96,21 @@
                         },
                         "columns": [
                             { "data": "RowNumber", "orderable": true },
-                            { "data": "MajName", "orderable": true },
-                            { "data": "Status", "orderable": true }
+                            { "data": "DelegateTypeName", "orderable": true },
+                            { "data": "FromMp", "orderable": true },
+                            { "data": "FromUser", "orderable": true },
+                            { "data": "ToMp", "orderable": true },
+                            { "data": "ToUser", "orderable": true }
                         ],
                         "columnDefs": [
                             {
                                 "render": function (data, type, row) {
                                     var inner = '<div class="td-actions text-right">' +
-                                        '<button type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.MajID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;' +
-                                        '<button type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.MajID + '"><i class="material-icons">close</i></button>' +
+                                        '<button type="button" rel="tooltip" class="btn btn-round btn-success edit" data-id="' + row.DelegateID + '"><i class="material-icons">edit</i></button>&nbsp;&nbsp;&nbsp;' +
+                                        '<button type="button" rel="tooltip" class="btn btn-round btn-danger delete" data-id="' + row.DelegateID + '"><i class="material-icons">close</i></button>' +
                                         '</div>';
                                     return inner;
-                                }, "targets": 3
+                                }, "targets": 6
                             },
                         ],
                         "order": [[1, "asc"]],
