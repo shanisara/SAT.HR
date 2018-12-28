@@ -34,7 +34,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
         public string FromUserDivName { get; set; }
-        public string FromUserPDepName { get; set; }
+        public string FromUserDepName { get; set; }
         public string FromUserSecName { get; set; }
         public string FromUserPoName { get; set; }
         public string ToUserDivName { get; set; }
@@ -48,6 +48,6 @@ namespace SAT.HR.Data.Entities
         public string ToMPDivName { get; set; }
         public string ToMPDepName { get; set; }
         public string ToMPSecName { get; set; }
-        public string FromFullName { get; set; }
+        public string ToMPFullName { get; set; }
     }
 }

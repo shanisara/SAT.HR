@@ -120,7 +120,7 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.tb_Delegate.Where(x => x.DelegateID == id).FirstOrDefault();
+                var data = db.vw_Delegate.Where(x => x.DelegateID == id).FirstOrDefault();
                 DelegateViewModel model = new Models.DelegateViewModel();
                 model.DelegateID = data.DelegateID;
                 model.StartDate = data.StartDate;
@@ -136,6 +136,33 @@ namespace SAT.HR.Data.Repository
                 model.CreateBy = data.CreateBy;
                 model.ModifyDate = data.ModifyDate;
                 model.ModifyBy = data.ModifyBy;
+
+                model.FromUserDivName = data.FromUserDivName;
+                model.FromUserDepName = data.FromUserDepName;
+                model.FromUserSecName = data.FromUserSecName;
+                model.FromUserPoName = data.FromUserPoName;
+
+                model.ToUserDivName = data.ToUserDivName;
+                model.ToUserDepName = data.ToUserDepName;
+                model.ToUserSecName = data.ToUserSecName;
+                model.ToUserPoName = data.ToUserPoName;
+
+                model.FromMPDivName = data.FromMPDivName;
+                model.FromMPDepName = data.FromMPDepName;
+                model.FromMPSecName = data.FromMPSecName;
+                model.FromMPFullName = data.FromMPFullName;
+
+                model.ToMPDivName = data.ToMPDivName;
+                model.ToMPDepName = data.ToMPDepName;
+                model.ToMPSecName = data.ToMPSecName;
+                model.ToMPFullName = data.ToMPFullName;
+
+                model.FromUserDepartment = data.FromUserDivName + (!string.IsNullOrEmpty(data.FromUserDepName) ? " / " : string.Empty) + data.FromUserDepName + (!string.IsNullOrEmpty(data.FromUserSecName) ? " / " : string.Empty) + data.FromUserSecName;
+                model.ToUserDepartment = data.ToUserDivName + (!string.IsNullOrEmpty(data.ToUserDepName) ? " / " : string.Empty) + data.ToUserDepName + (!string.IsNullOrEmpty(data.ToUserSecName) ? " / " : string.Empty) + data.ToUserSecName;
+                model.FromMPDepartment = data.FromMPDivName + (!string.IsNullOrEmpty(data.FromMPDepName) ? " / " : string.Empty) + data.FromMPDepName + (!string.IsNullOrEmpty(data.FromMPSecName) ? " / " : string.Empty) + data.FromMPSecName;
+                model.ToMPDepartment = data.ToMPDivName + (!string.IsNullOrEmpty(data.ToMPDepName) ? " / " : string.Empty) + data.ToMPDepName + (!string.IsNullOrEmpty(data.ToMPSecName) ? " / " : string.Empty) + data.ToMPSecName;
+
+
                 return model;
             }
         }
