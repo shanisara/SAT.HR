@@ -179,17 +179,17 @@ namespace SAT.HR.Data.Repository
                     model.EndDate = data.EndDate;
                     model.FormMasterID = data.FormMasterID;
                     model.DelegateType = data.DelegateType;
-                    if (newdata.DelegateType == 1)
+                    if (data.DelegateType == 1)
                     {
-                        model.FromUserID = newdata.FromUserID;
-                        model.ToUserID = newdata.ToUserID;
+                        model.FromUserID = data.FromUserID;
+                        model.ToUserID = data.ToUserID;
                         model.FromMpID = null;
                         model.ToMpID = null;
                     }
                     else
                     {
-                        model.FromMpID = newdata.FromMpID;
-                        model.ToMpID = newdata.ToMpID;
+                        model.FromMpID = data.FromMpID;
+                        model.ToMpID = data.ToMpID;
                         model.FromUserID = null;
                         model.ToUserID = null;
                     }
