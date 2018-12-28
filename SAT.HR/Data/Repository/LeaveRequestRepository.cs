@@ -506,7 +506,7 @@ namespace SAT.HR.Data
             return model;
         }
 
-        public decimal CalculateTotalDay(int daytime, DateTime startdate, DateTime enddate)
+        public decimal CalculateTotalDay(int daytime, DateTime startdate, DateTime entdate)
         {
             using (SATEntities db = new SATEntities())
             {
@@ -514,17 +514,18 @@ namespace SAT.HR.Data
                 if (daytime == 1)
                 {
                     DateTime from = startdate; // UtilityService.ConvertDateThai2Eng(Convert.ToDateTime(startdate));
-                    DateTime to = enddate; // UtilityService.ConvertDateThai2Eng(Convert.ToDateTime(entdate));
+                    DateTime to = entdate; // UtilityService.ConvertDateThai2Eng(Convert.ToDateTime(entdate));
 
                     from = from.Date;
                     to = to.Date;
                     if (from < to)
                     {
+
                         var dayDifference = (int)to.Subtract(from).TotalDays;
                         totalDays = Enumerable
                                     .Range(1, dayDifference)
                                     .Select(x => from.AddDays(x))
-                                    .Count(x => x.DayOfWeek != DayOfWeek.Saturday && x.DayOfWeek != DayOfWeek.Sunday) + 1;
+                                    .Count(x => x.DayOfWeek != DayOfWeek.Saturday && x.DayOfWeek != DayOfWeek.Sunday);
 
                         int year = DateTime.Now.Year;
                         var holidays = db.tb_Holiday.Where(m => m.HolDate.Value.Year == year).ToList();
@@ -534,10 +535,6 @@ namespace SAT.HR.Data
                             if (from <= holDate && holDate <= to)
                                 --totalDays;
                         }
-                    }
-                    else if (from == to)
-                    {
-                        totalDays = 1;
                     }
                 }
                 else

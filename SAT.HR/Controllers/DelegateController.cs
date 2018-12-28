@@ -18,7 +18,7 @@ namespace SAT.HR.Controllers
         }
 
         [HttpPost]
-        public JsonResult Delegate(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        public JsonResult Index(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
         {
             var search = Request["search[value]"];
             var dir = order[0]["dir"].ToLower();
@@ -37,9 +37,10 @@ namespace SAT.HR.Controllers
         {
             DelegateViewModel model = new DelegateViewModel();
             if (id.HasValue)
-            {
                 model = new DelegateRepository().GetByID((int)id);
-            }
+
+            ViewBag.Position = DropDownList.GetPositionTransfer(1);
+            ViewBag.Employee = DropDownList.GetEmployee(null, 1);
             return PartialView("_Delegate", model);
         }
 

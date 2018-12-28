@@ -856,7 +856,7 @@ namespace SAT.HR.Data.Repository
             {
                 using (SATEntities db = new SATEntities())
                 {
-                    var obj = db.tb_User_Family.Where(x => x.UfID == ufid && x.UserID == userid).FirstOrDefault();
+                    var obj = db.tb_User_Family.Where(x => x.UfID == ufid).FirstOrDefault();
                     UserFamilyViewModel model = new UserFamilyViewModel();
                     model.UfID = obj.UfID;
                     model.UserID = obj.UserID;
