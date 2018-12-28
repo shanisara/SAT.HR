@@ -39,7 +39,7 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> SecID { get; set; }
         public Nullable<decimal> PayRateEdu { get; set; }
         public Nullable<decimal> TimeRequestEdu { get; set; }
-        public Nullable<decimal> TypeFund { get; set; }
+        public string TypeFund { get; set; }
         public Nullable<decimal> PayRateFund { get; set; }
         public string InvNoFund { get; set; }
         public Nullable<System.DateTime> DateFund { get; set; }

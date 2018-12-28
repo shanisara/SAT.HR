@@ -132,7 +132,6 @@
     <EntitySet Name="tb_Benefit_Medical" EntityType="SAT.HR.tb_Benefit_Medical" />
     <EntitySet Name="tb_Benefit_Other_Welfare" EntityType="SAT.HR.tb_Benefit_Other_Welfare" />
     <EntitySet Name="tb_Benefit_Remuneration" EntityType="SAT.HR.tb_Benefit_Remuneration" />
-    <EntitySet Name="tb_Benefit_Type" EntityType="SAT.HR.tb_Benefit_Type" />
     <EntitySet Name="tb_Blood_Type" EntityType="SAT.HR.tb_Blood_Type" />
     <EntitySet Name="tb_Capability" EntityType="SAT.HR.tb_Capability" />
     <EntitySet Name="tb_Capability_Detail" EntityType="SAT.HR.tb_Capability_Detail" />
@@ -302,10 +301,6 @@
     <AssociationSet Name="FK_tb_Benefit_Medical_tb_User" Association="SAT.HR.FK_tb_Benefit_Medical_tb_User">
       <End Role="tb_User" EntitySet="tb_User" />
       <End Role="tb_Benefit_Medical" EntitySet="tb_Benefit_Medical" />
-    </AssociationSet>
-    <AssociationSet Name="FK_tb_Benefit_Other_Welfare_tb_Benefit_Type" Association="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Benefit_Type">
-      <End Role="tb_Benefit_Type" EntitySet="tb_Benefit_Type" />
-      <End Role="tb_Benefit_Other_Welfare" EntitySet="tb_Benefit_Other_Welfare" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_Benefit_Other_Welfare_tb_Recieve_Type" Association="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Recieve_Type">
       <End Role="tb_Recieve_Type" EntitySet="tb_Recieve_Type" />
@@ -707,6 +702,15 @@
     </AssociationSet>
     <EntitySet Name="tb_Announcement" EntityType="SAT.HR.tb_Announcement" />
     <EntitySet Name="tb_Benefit_Document" EntityType="SAT.HR.tb_Benefit_Document" />
+    <EntitySet Name="vw_User_Family" EntityType="SAT.HR.vw_User_Family" />
+    <EntitySet Name="tb_Delegate" EntityType="SAT.HR.tb_Delegate" />
+    <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
+    <EntitySet Name="vw_Delegate" EntityType="SAT.HR.vw_Delegate" />
+    <EntitySet Name="tb_Benefit_Type" EntityType="SAT.HR.tb_Benefit_Type" />
+    <AssociationSet Name="FK_tb_Benefit_Other_Welfare_tb_Benefit_Type" Association="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Benefit_Type">
+      <End Role="tb_Benefit_Type" EntitySet="tb_Benefit_Type" />
+      <End Role="tb_Benefit_Other_Welfare" EntitySet="tb_Benefit_Other_Welfare" />
+    </AssociationSet>
     <EntitySet Name="tb_User_Family" EntityType="SAT.HR.tb_User_Family" />
     <AssociationSet Name="FK_tb_User_Family_tb_Marital_Status" Association="SAT.HR.FK_tb_User_Family_tb_Marital_Status">
       <End Role="tb_Marital_Status" EntitySet="tb_Marital_Status" />
@@ -724,10 +728,6 @@
       <End Role="tb_User" EntitySet="tb_User" />
       <End Role="tb_User_Family" EntitySet="tb_User_Family" />
     </AssociationSet>
-    <EntitySet Name="vw_User_Family" EntityType="SAT.HR.vw_User_Family" />
-    <EntitySet Name="tb_Delegate" EntityType="SAT.HR.tb_Delegate" />
-    <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
-    <EntitySet Name="vw_Delegate" EntityType="SAT.HR.vw_Delegate" />
   </EntityContainer>
   <ComplexType Name="sp_Employee_List_Result">
     <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -1157,10 +1157,10 @@
     <Property Name="CreateBy" Type="Int32" />
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
-    <NavigationProperty Name="tb_Benefit_Type" Relationship="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Benefit_Type" FromRole="tb_Benefit_Other_Welfare" ToRole="tb_Benefit_Type" />
     <NavigationProperty Name="tb_Recieve_Type" Relationship="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Recieve_Type" FromRole="tb_Benefit_Other_Welfare" ToRole="tb_Recieve_Type" />
     <NavigationProperty Name="tb_Recieve_Type1" Relationship="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Recieve_Type1" FromRole="tb_Benefit_Other_Welfare" ToRole="tb_Recieve_Type" />
     <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_User" FromRole="tb_Benefit_Other_Welfare" ToRole="tb_User" />
+    <NavigationProperty Name="tb_Benefit_Type" Relationship="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Benefit_Type" FromRole="tb_Benefit_Other_Welfare" ToRole="tb_Benefit_Type" />
   </EntityType>
   <EntityType Name="tb_Benefit_Remuneration">
     <Key>
@@ -1180,14 +1180,6 @@
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
     <NavigationProperty Name="tb_Recieve_Type" Relationship="SAT.HR.FK_tb_Benefit_Remuneration_tb_Recieve_Type" FromRole="tb_Benefit_Remuneration" ToRole="tb_Recieve_Type" />
-  </EntityType>
-  <EntityType Name="tb_Benefit_Type">
-    <Key>
-      <PropertyRef Name="BenTID" />
-    </Key>
-    <Property Name="BenTID" Type="Int32" Nullable="false" />
-    <Property Name="BenTName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="tb_Benefit_Other_Welfare" Relationship="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Benefit_Type" FromRole="tb_Benefit_Type" ToRole="tb_Benefit_Other_Welfare" />
   </EntityType>
   <EntityType Name="tb_Blood_Type">
     <Key>
@@ -3397,18 +3389,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tb_Benefit_Other_Welfare_tb_Benefit_Type">
-    <End Type="SAT.HR.tb_Benefit_Type" Role="tb_Benefit_Type" Multiplicity="0..1" />
-    <End Type="SAT.HR.tb_Benefit_Other_Welfare" Role="tb_Benefit_Other_Welfare" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Benefit_Type">
-        <PropertyRef Name="BenTID" />
-      </Principal>
-      <Dependent Role="tb_Benefit_Other_Welfare">
-        <PropertyRef Name="BenTID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_tb_Benefit_Other_Welfare_tb_Recieve_Type">
     <End Type="SAT.HR.tb_Recieve_Type" Role="tb_Recieve_Type" Multiplicity="0..1" />
     <End Type="SAT.HR.tb_Benefit_Other_Welfare" Role="tb_Benefit_Other_Welfare" Multiplicity="*" />
@@ -4995,87 +4975,6 @@
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
   </EntityType>
-  <EntityType Name="tb_User_Family">
-    <Key>
-      <PropertyRef Name="UfID" />
-      <PropertyRef Name="UserID" />
-    </Key>
-    <Property Name="UfID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="UserID" Type="Int32" Nullable="false" />
-    <Property Name="UfName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="UfCardID" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="UfDOB" Type="DateTime" Precision="3" />
-    <Property Name="UfLifeStatus" Type="Boolean" />
-    <Property Name="TdStatus" Type="Boolean" />
-    <Property Name="PoID" Type="Int32" />
-    <Property Name="OcID" Type="Int32" />
-    <Property Name="UfWeddingDate" Type="DateTime" Precision="3" />
-    <Property Name="DivorceDate" Type="DateTime" Precision="3" />
-    <Property Name="UfStudyStatus" Type="Boolean" />
-    <Property Name="RecID" Type="Int32" />
-    <Property Name="MaritalStatusID" Type="Int32" />
-    <Property Name="CreateDate" Type="DateTime" Precision="3" />
-    <Property Name="CreateBy" Type="Int32" />
-    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifyBy" Type="Int32" />
-    <Property Name="ChildEducationAmout" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="ChildFundAmout" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="DivID" Type="Int32" />
-    <Property Name="DepID" Type="Int32" />
-    <Property Name="SecID" Type="Int32" />
-    <NavigationProperty Name="tb_Marital_Status" Relationship="SAT.HR.FK_tb_User_Family_tb_Marital_Status" FromRole="tb_User_Family" ToRole="tb_Marital_Status" />
-    <NavigationProperty Name="tb_Occupation" Relationship="SAT.HR.FK_tb_User_Family_tb_Occupation" FromRole="tb_User_Family" ToRole="tb_Occupation" />
-    <NavigationProperty Name="tb_Recieve_Type" Relationship="SAT.HR.FK_tb_User_Family_tb_Recieve_Type" FromRole="tb_User_Family" ToRole="tb_Recieve_Type" />
-    <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_User_Family_tb_User" FromRole="tb_User_Family" ToRole="tb_User" />
-  </EntityType>
-  <Association Name="FK_tb_User_Family_tb_Marital_Status">
-    <End Type="SAT.HR.tb_Marital_Status" Role="tb_Marital_Status" Multiplicity="0..1" />
-    <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Marital_Status">
-        <PropertyRef Name="MaritalID" />
-      </Principal>
-      <Dependent Role="tb_User_Family">
-        <PropertyRef Name="MaritalStatusID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_User_Family_tb_Occupation">
-    <End Type="SAT.HR.tb_Occupation" Role="tb_Occupation" Multiplicity="0..1" />
-    <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Occupation">
-        <PropertyRef Name="OcID" />
-      </Principal>
-      <Dependent Role="tb_User_Family">
-        <PropertyRef Name="OcID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_User_Family_tb_Recieve_Type">
-    <End Type="SAT.HR.tb_Recieve_Type" Role="tb_Recieve_Type" Multiplicity="0..1" />
-    <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Recieve_Type">
-        <PropertyRef Name="RecID" />
-      </Principal>
-      <Dependent Role="tb_User_Family">
-        <PropertyRef Name="RecID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_tb_User_Family_tb_User">
-    <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
-    <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_User">
-        <PropertyRef Name="UserID" />
-      </Principal>
-      <Dependent Role="tb_User_Family">
-        <PropertyRef Name="UserID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityType Name="vw_User_Family">
     <Key>
       <PropertyRef Name="UfID" />
@@ -5177,4 +5076,116 @@
     <Property Name="ModifyDate" Type="DateTime" Precision="3" />
     <Property Name="ModifyBy" Type="Int32" />
   </EntityType>
+  <EntityType Name="tb_Benefit_Type">
+    <Key>
+      <PropertyRef Name="BenTID" />
+    </Key>
+    <Property Name="BenTID" Type="Int32" Nullable="false" />
+    <Property Name="BenTName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="DateTime" Precision="3" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tb_Benefit_Other_Welfare" Relationship="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Benefit_Type" FromRole="tb_Benefit_Type" ToRole="tb_Benefit_Other_Welfare" />
+  </EntityType>
+  <Association Name="FK_tb_Benefit_Other_Welfare_tb_Benefit_Type">
+    <End Type="SAT.HR.tb_Benefit_Type" Role="tb_Benefit_Type" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_Benefit_Other_Welfare" Role="tb_Benefit_Other_Welfare" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Benefit_Type">
+        <PropertyRef Name="BenTID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Other_Welfare">
+        <PropertyRef Name="BenTID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="tb_User_Family">
+    <Key>
+      <PropertyRef Name="UfID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UfID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="UfName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="UfCardID" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="UfDOB" Type="DateTime" Precision="3" />
+    <Property Name="UfLifeStatus" Type="Boolean" />
+    <Property Name="TdStatus" Type="Boolean" />
+    <Property Name="PoID" Type="Int32" />
+    <Property Name="OcID" Type="Int32" />
+    <Property Name="UfWeddingDate" Type="DateTime" Precision="3" />
+    <Property Name="DivorceDate" Type="DateTime" Precision="3" />
+    <Property Name="UfStudyStatus" Type="Boolean" />
+    <Property Name="RecID" Type="Int32" />
+    <Property Name="MaritalStatusID" Type="Int32" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+    <Property Name="ChildEducationAmout" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="ChildFundAmout" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="DivID" Type="Int32" />
+    <Property Name="DepID" Type="Int32" />
+    <Property Name="SecID" Type="Int32" />
+    <Property Name="PayRateEdu" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="TimeRequestEdu" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="TypeFund" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="PayRateFund" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="InvNoFund" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="DateFund" Type="DateTime" Precision="0" />
+    <Property Name="SchoolYear" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tb_Marital_Status" Relationship="SAT.HR.FK_tb_User_Family_tb_Marital_Status" FromRole="tb_User_Family" ToRole="tb_Marital_Status" />
+    <NavigationProperty Name="tb_Occupation" Relationship="SAT.HR.FK_tb_User_Family_tb_Occupation" FromRole="tb_User_Family" ToRole="tb_Occupation" />
+    <NavigationProperty Name="tb_Recieve_Type" Relationship="SAT.HR.FK_tb_User_Family_tb_Recieve_Type" FromRole="tb_User_Family" ToRole="tb_Recieve_Type" />
+    <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_User_Family_tb_User" FromRole="tb_User_Family" ToRole="tb_User" />
+  </EntityType>
+  <Association Name="FK_tb_User_Family_tb_Marital_Status">
+    <End Type="SAT.HR.tb_Marital_Status" Role="tb_Marital_Status" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Marital_Status">
+        <PropertyRef Name="MaritalID" />
+      </Principal>
+      <Dependent Role="tb_User_Family">
+        <PropertyRef Name="MaritalStatusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Family_tb_Occupation">
+    <End Type="SAT.HR.tb_Occupation" Role="tb_Occupation" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Occupation">
+        <PropertyRef Name="OcID" />
+      </Principal>
+      <Dependent Role="tb_User_Family">
+        <PropertyRef Name="OcID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Family_tb_Recieve_Type">
+    <End Type="SAT.HR.tb_Recieve_Type" Role="tb_Recieve_Type" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Recieve_Type">
+        <PropertyRef Name="RecID" />
+      </Principal>
+      <Dependent Role="tb_User_Family">
+        <PropertyRef Name="RecID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_User_Family_tb_User">
+    <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
+    <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_User_Family">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>
