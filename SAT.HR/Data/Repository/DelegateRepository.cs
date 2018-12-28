@@ -120,7 +120,7 @@ namespace SAT.HR.Data.Repository
         {
             using (SATEntities db = new SATEntities())
             {
-                var data = db.tb_Delegate.Where(x => x.DelegateID == id).FirstOrDefault();
+                var data = db.vw_Delegate.Where(x => x.DelegateID == id).FirstOrDefault();
                 DelegateViewModel model = new Models.DelegateViewModel();
                 model.DelegateID = data.DelegateID;
                 model.StartDate = data.StartDate;
@@ -136,6 +136,33 @@ namespace SAT.HR.Data.Repository
                 model.CreateBy = data.CreateBy;
                 model.ModifyDate = data.ModifyDate;
                 model.ModifyBy = data.ModifyBy;
+
+                model.FromUserDivName = data.FromUserDivName;
+                model.FromUserDepName = data.FromUserDepName;
+                model.FromUserSecName = data.FromUserSecName;
+                model.FromUserPoName = data.FromUserPoName;
+
+                model.ToUserDivName = data.ToUserDivName;
+                model.ToUserDepName = data.ToUserDepName;
+                model.ToUserSecName = data.ToUserSecName;
+                model.ToUserPoName = data.ToUserPoName;
+
+                model.FromMPDivName = data.FromMPDivName;
+                model.FromMPDepName = data.FromMPDepName;
+                model.FromMPSecName = data.FromMPSecName;
+                model.FromMPFullName = data.FromMPFullName;
+
+                model.ToMPDivName = data.ToMPDivName;
+                model.ToMPDepName = data.ToMPDepName;
+                model.ToMPSecName = data.ToMPSecName;
+                model.ToMPFullName = data.ToMPFullName;
+
+                model.FromUserDepartment = data.FromUserDivName + (!string.IsNullOrEmpty(data.FromUserDepName) ? " / " : string.Empty) + data.FromUserDepName + (!string.IsNullOrEmpty(data.FromUserSecName) ? " / " : string.Empty) + data.FromUserSecName;
+                model.ToUserDepartment = data.ToUserDivName + (!string.IsNullOrEmpty(data.ToUserDepName) ? " / " : string.Empty) + data.ToUserDepName + (!string.IsNullOrEmpty(data.ToUserSecName) ? " / " : string.Empty) + data.ToUserSecName;
+                model.FromMPDepartment = data.FromMPDivName + (!string.IsNullOrEmpty(data.FromMPDepName) ? " / " : string.Empty) + data.FromMPDepName + (!string.IsNullOrEmpty(data.FromMPSecName) ? " / " : string.Empty) + data.FromMPSecName;
+                model.ToMPDepartment = data.ToMPDivName + (!string.IsNullOrEmpty(data.ToMPDepName) ? " / " : string.Empty) + data.ToMPDepName + (!string.IsNullOrEmpty(data.ToMPSecName) ? " / " : string.Empty) + data.ToMPSecName;
+
+
                 return model;
             }
         }
@@ -150,13 +177,23 @@ namespace SAT.HR.Data.Repository
                     tb_Delegate model = new tb_Delegate();
                     model.StartDate = data.StartDate;
                     model.EndDate = data.EndDate;
-                    model.IsActive = data.IsActive;
-                    model.DelegateType = data.DelegateType;
                     model.FormMasterID = data.FormMasterID;
-                    model.FromMpID = data.FromMpID;
-                    model.FromUserID = data.FromUserID;
-                    model.ToMpID = data.ToMpID;
-                    model.ToUserID = data.ToUserID;
+                    model.DelegateType = data.DelegateType;
+                    if (data.DelegateType == 1)
+                    {
+                        model.FromUserID = data.FromUserID;
+                        model.ToUserID = data.ToUserID;
+                        model.FromMpID = null;
+                        model.ToMpID = null;
+                    }
+                    else
+                    {
+                        model.FromMpID = data.FromMpID;
+                        model.ToMpID = data.ToMpID;
+                        model.FromUserID = null;
+                        model.ToUserID = null;
+                    }
+                    model.IsActive = data.IsActive;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -182,13 +219,23 @@ namespace SAT.HR.Data.Repository
                     var model = db.tb_Delegate.Single(x => x.DelegateID == newdata.DelegateID);
                     model.StartDate = newdata.StartDate;
                     model.EndDate = newdata.EndDate;
-                    model.IsActive = newdata.IsActive;
-                    model.DelegateType = newdata.DelegateType;
                     model.FormMasterID = newdata.FormMasterID;
-                    model.FromMpID = newdata.FromMpID;
-                    model.FromUserID = newdata.FromUserID;
-                    model.ToMpID = newdata.ToMpID;
-                    model.ToUserID = newdata.ToUserID;
+                    model.DelegateType = newdata.DelegateType;
+                    if (newdata.DelegateType == 1)
+                    {
+                        model.FromUserID = newdata.FromUserID;
+                        model.ToUserID = newdata.ToUserID;
+                        model.FromMpID = null;
+                        model.ToMpID = null;
+                    }
+                    else
+                    {
+                        model.FromMpID = newdata.FromMpID;
+                        model.ToMpID = newdata.ToMpID;
+                        model.FromUserID = null;
+                        model.ToUserID = null;
+                    }
+                    model.IsActive = newdata.IsActive;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();

@@ -287,6 +287,10 @@
           </Key>
           <Property Name="BenTID" Type="int" Nullable="false" />
           <Property Name="BenTName" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="datetime" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="datetime" />
         </EntityType>
         <EntityType Name="tb_Blood_Type">
           <Key>
@@ -1484,6 +1488,13 @@
           <Property Name="DivID" Type="int" />
           <Property Name="DepID" Type="int" />
           <Property Name="SecID" Type="int" />
+          <Property Name="PayRateEdu" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="TimeRequestEdu" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="TypeFund" Type="nvarchar" MaxLength="100" />
+          <Property Name="PayRateFund" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="InvNoFund" Type="nvarchar" MaxLength="100" />
+          <Property Name="DateFund" Type="date" />
+          <Property Name="SchoolYear" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="tb_User_History">
           <Key>
@@ -1912,11 +1923,11 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Delegate' does not have a prima
             <PropertyRef Name="DelegateTypeName" />
           </Key>
           <Property Name="DelegateID" Type="int" Nullable="false" />
-          <Property Name="DelegateTypeName" Type="varchar" MaxLength="12" Nullable="false" />
-          <Property Name="FromMp" Type="nvarchar" MaxLength="223" />
-          <Property Name="ToMp" Type="nvarchar" MaxLength="223" />
+          <Property Name="DelegateTypeName" Type="varchar" MaxLength="7" Nullable="false" />
           <Property Name="FromUser" Type="nvarchar" MaxLength="903" />
           <Property Name="ToUser" Type="nvarchar" MaxLength="903" />
+          <Property Name="FromMp" Type="nvarchar" MaxLength="223" />
+          <Property Name="ToMp" Type="nvarchar" MaxLength="223" />
           <Property Name="StartDate" Type="date" />
           <Property Name="EndDate" Type="date" />
           <Property Name="IsActive" Type="bit" />
@@ -1930,6 +1941,22 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Delegate' does not have a prima
           <Property Name="CreateBy" Type="int" />
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
+          <Property Name="FromUserDivName" Type="nvarchar" MaxLength="200" />
+          <Property Name="FromUserDepName" Type="nvarchar" MaxLength="200" />
+          <Property Name="FromUserSecName" Type="nvarchar" MaxLength="200" />
+          <Property Name="FromUserPoName" Type="nvarchar" MaxLength="200" />
+          <Property Name="ToUserDivName" Type="nvarchar" MaxLength="200" />
+          <Property Name="ToUserDepName" Type="nvarchar" MaxLength="200" />
+          <Property Name="ToUserSecName" Type="nvarchar" MaxLength="200" />
+          <Property Name="ToUserPoName" Type="nvarchar" MaxLength="200" />
+          <Property Name="FromMPDivName" Type="nvarchar" MaxLength="200" />
+          <Property Name="FromMPDepName" Type="nvarchar" MaxLength="200" />
+          <Property Name="FromMPSecName" Type="nvarchar" MaxLength="200" />
+          <Property Name="FromMPFullName" Type="nvarchar" MaxLength="501" />
+          <Property Name="ToMPDivName" Type="nvarchar" MaxLength="200" />
+          <Property Name="ToMPDepName" Type="nvarchar" MaxLength="200" />
+          <Property Name="ToMPSecName" Type="nvarchar" MaxLength="200" />
+          <Property Name="ToMPFullName" Type="nvarchar" MaxLength="501" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Department' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -4408,10 +4435,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <DefiningQuery>SELECT 
     [vw_Delegate].[DelegateID] AS [DelegateID], 
     [vw_Delegate].[DelegateTypeName] AS [DelegateTypeName], 
-    [vw_Delegate].[FromMp] AS [FromMp], 
-    [vw_Delegate].[ToMp] AS [ToMp], 
     [vw_Delegate].[FromUser] AS [FromUser], 
     [vw_Delegate].[ToUser] AS [ToUser], 
+    [vw_Delegate].[FromMp] AS [FromMp], 
+    [vw_Delegate].[ToMp] AS [ToMp], 
     [vw_Delegate].[StartDate] AS [StartDate], 
     [vw_Delegate].[EndDate] AS [EndDate], 
     [vw_Delegate].[IsActive] AS [IsActive], 
@@ -4424,7 +4451,23 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Delegate].[CreateDate] AS [CreateDate], 
     [vw_Delegate].[CreateBy] AS [CreateBy], 
     [vw_Delegate].[ModifyDate] AS [ModifyDate], 
-    [vw_Delegate].[ModifyBy] AS [ModifyBy]
+    [vw_Delegate].[ModifyBy] AS [ModifyBy], 
+    [vw_Delegate].[FromUserDivName] AS [FromUserDivName], 
+    [vw_Delegate].[FromUserDepName] AS [FromUserDepName], 
+    [vw_Delegate].[FromUserSecName] AS [FromUserSecName], 
+    [vw_Delegate].[FromUserPoName] AS [FromUserPoName], 
+    [vw_Delegate].[ToUserDivName] AS [ToUserDivName], 
+    [vw_Delegate].[ToUserDepName] AS [ToUserDepName], 
+    [vw_Delegate].[ToUserSecName] AS [ToUserSecName], 
+    [vw_Delegate].[ToUserPoName] AS [ToUserPoName], 
+    [vw_Delegate].[FromMPDivName] AS [FromMPDivName], 
+    [vw_Delegate].[FromMPDepName] AS [FromMPDepName], 
+    [vw_Delegate].[FromMPSecName] AS [FromMPSecName], 
+    [vw_Delegate].[FromMPFullName] AS [FromMPFullName], 
+    [vw_Delegate].[ToMPDivName] AS [ToMPDivName], 
+    [vw_Delegate].[ToMPDepName] AS [ToMPDepName], 
+    [vw_Delegate].[ToMPSecName] AS [ToMPSecName], 
+    [vw_Delegate].[ToMPFullName] AS [ToMPFullName]
     FROM [dbo].[vw_Delegate] AS [vw_Delegate]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_Department" EntityType="Self.vw_Department" store:Type="Views" store:Schema="dbo">
@@ -5645,7 +5688,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_Benefit_Medical" EntityType="SAT.HR.tb_Benefit_Medical" />
           <EntitySet Name="tb_Benefit_Other_Welfare" EntityType="SAT.HR.tb_Benefit_Other_Welfare" />
           <EntitySet Name="tb_Benefit_Remuneration" EntityType="SAT.HR.tb_Benefit_Remuneration" />
-          <EntitySet Name="tb_Benefit_Type" EntityType="SAT.HR.tb_Benefit_Type" />
           <EntitySet Name="tb_Blood_Type" EntityType="SAT.HR.tb_Blood_Type" />
           <EntitySet Name="tb_Capability" EntityType="SAT.HR.tb_Capability" />
           <EntitySet Name="tb_Capability_Detail" EntityType="SAT.HR.tb_Capability_Detail" />
@@ -5815,10 +5857,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <AssociationSet Name="FK_tb_Benefit_Medical_tb_User" Association="SAT.HR.FK_tb_Benefit_Medical_tb_User">
             <End Role="tb_User" EntitySet="tb_User" />
             <End Role="tb_Benefit_Medical" EntitySet="tb_Benefit_Medical" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tb_Benefit_Other_Welfare_tb_Benefit_Type" Association="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Benefit_Type">
-            <End Role="tb_Benefit_Type" EntitySet="tb_Benefit_Type" />
-            <End Role="tb_Benefit_Other_Welfare" EntitySet="tb_Benefit_Other_Welfare" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_Benefit_Other_Welfare_tb_Recieve_Type" Association="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Recieve_Type">
             <End Role="tb_Recieve_Type" EntitySet="tb_Recieve_Type" />
@@ -6220,6 +6258,14 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           </AssociationSet>
           <EntitySet Name="tb_Announcement" EntityType="SAT.HR.tb_Announcement" />
           <EntitySet Name="tb_Benefit_Document" EntityType="SAT.HR.tb_Benefit_Document" />
+          <EntitySet Name="vw_User_Family" EntityType="SAT.HR.vw_User_Family" />
+          <EntitySet Name="tb_Delegate" EntityType="SAT.HR.tb_Delegate" />
+          <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
+          <EntitySet Name="tb_Benefit_Type" EntityType="SAT.HR.tb_Benefit_Type" />
+          <AssociationSet Name="FK_tb_Benefit_Other_Welfare_tb_Benefit_Type" Association="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Benefit_Type">
+            <End Role="tb_Benefit_Type" EntitySet="tb_Benefit_Type" />
+            <End Role="tb_Benefit_Other_Welfare" EntitySet="tb_Benefit_Other_Welfare" />
+          </AssociationSet>
           <EntitySet Name="tb_User_Family" EntityType="SAT.HR.tb_User_Family" />
           <AssociationSet Name="FK_tb_User_Family_tb_Marital_Status" Association="SAT.HR.FK_tb_User_Family_tb_Marital_Status">
             <End Role="tb_Marital_Status" EntitySet="tb_Marital_Status" />
@@ -6237,9 +6283,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <End Role="tb_User" EntitySet="tb_User" />
             <End Role="tb_User_Family" EntitySet="tb_User_Family" />
           </AssociationSet>
-          <EntitySet Name="vw_User_Family" EntityType="SAT.HR.vw_User_Family" />
-          <EntitySet Name="tb_Delegate" EntityType="SAT.HR.tb_Delegate" />
-          <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
           <EntitySet Name="vw_Delegate" EntityType="SAT.HR.vw_Delegate" />
           </EntityContainer>
         <ComplexType Name="sp_Employee_List_Result">
@@ -6670,10 +6713,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="CreateBy" Type="Int32" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="Int32" />
-          <NavigationProperty Name="tb_Benefit_Type" Relationship="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Benefit_Type" FromRole="tb_Benefit_Other_Welfare" ToRole="tb_Benefit_Type" />
           <NavigationProperty Name="tb_Recieve_Type" Relationship="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Recieve_Type" FromRole="tb_Benefit_Other_Welfare" ToRole="tb_Recieve_Type" />
           <NavigationProperty Name="tb_Recieve_Type1" Relationship="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Recieve_Type1" FromRole="tb_Benefit_Other_Welfare" ToRole="tb_Recieve_Type" />
           <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_User" FromRole="tb_Benefit_Other_Welfare" ToRole="tb_User" />
+          <NavigationProperty Name="tb_Benefit_Type" Relationship="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Benefit_Type" FromRole="tb_Benefit_Other_Welfare" ToRole="tb_Benefit_Type" />
         </EntityType>
         <EntityType Name="tb_Benefit_Remuneration">
           <Key>
@@ -6693,14 +6736,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="Int32" />
           <NavigationProperty Name="tb_Recieve_Type" Relationship="SAT.HR.FK_tb_Benefit_Remuneration_tb_Recieve_Type" FromRole="tb_Benefit_Remuneration" ToRole="tb_Recieve_Type" />
-        </EntityType>
-        <EntityType Name="tb_Benefit_Type">
-          <Key>
-            <PropertyRef Name="BenTID" />
-          </Key>
-          <Property Name="BenTID" Type="Int32" Nullable="false" />
-          <Property Name="BenTName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tb_Benefit_Other_Welfare" Relationship="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Benefit_Type" FromRole="tb_Benefit_Type" ToRole="tb_Benefit_Other_Welfare" />
         </EntityType>
         <EntityType Name="tb_Blood_Type">
           <Key>
@@ -8910,18 +8945,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tb_Benefit_Other_Welfare_tb_Benefit_Type">
-          <End Type="SAT.HR.tb_Benefit_Type" Role="tb_Benefit_Type" Multiplicity="0..1" />
-          <End Type="SAT.HR.tb_Benefit_Other_Welfare" Role="tb_Benefit_Other_Welfare" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_Benefit_Type">
-              <PropertyRef Name="BenTID" />
-            </Principal>
-            <Dependent Role="tb_Benefit_Other_Welfare">
-              <PropertyRef Name="BenTID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tb_Benefit_Other_Welfare_tb_Recieve_Type">
           <End Type="SAT.HR.tb_Recieve_Type" Role="tb_Recieve_Type" Multiplicity="0..1" />
           <End Type="SAT.HR.tb_Benefit_Other_Welfare" Role="tb_Benefit_Other_Welfare" Multiplicity="*" />
@@ -10508,87 +10531,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="Int32" />
         </EntityType>
-        <EntityType Name="tb_User_Family">
-          <Key>
-            <PropertyRef Name="UfID" />
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="UfID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="UfName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="UfCardID" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="UfDOB" Type="DateTime" Precision="3" />
-          <Property Name="UfLifeStatus" Type="Boolean" />
-          <Property Name="TdStatus" Type="Boolean" />
-          <Property Name="PoID" Type="Int32" />
-          <Property Name="OcID" Type="Int32" />
-          <Property Name="UfWeddingDate" Type="DateTime" Precision="3" />
-          <Property Name="DivorceDate" Type="DateTime" Precision="3" />
-          <Property Name="UfStudyStatus" Type="Boolean" />
-          <Property Name="RecID" Type="Int32" />
-          <Property Name="MaritalStatusID" Type="Int32" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="Int32" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="Int32" />
-          <Property Name="ChildEducationAmout" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ChildFundAmout" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DivID" Type="Int32" />
-          <Property Name="DepID" Type="Int32" />
-          <Property Name="SecID" Type="Int32" />
-          <NavigationProperty Name="tb_Marital_Status" Relationship="SAT.HR.FK_tb_User_Family_tb_Marital_Status" FromRole="tb_User_Family" ToRole="tb_Marital_Status" />
-          <NavigationProperty Name="tb_Occupation" Relationship="SAT.HR.FK_tb_User_Family_tb_Occupation" FromRole="tb_User_Family" ToRole="tb_Occupation" />
-          <NavigationProperty Name="tb_Recieve_Type" Relationship="SAT.HR.FK_tb_User_Family_tb_Recieve_Type" FromRole="tb_User_Family" ToRole="tb_Recieve_Type" />
-          <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_User_Family_tb_User" FromRole="tb_User_Family" ToRole="tb_User" />
-        </EntityType>
-        <Association Name="FK_tb_User_Family_tb_Marital_Status">
-          <End Type="SAT.HR.tb_Marital_Status" Role="tb_Marital_Status" Multiplicity="0..1" />
-          <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_Marital_Status">
-              <PropertyRef Name="MaritalID" />
-            </Principal>
-            <Dependent Role="tb_User_Family">
-              <PropertyRef Name="MaritalStatusID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tb_User_Family_tb_Occupation">
-          <End Type="SAT.HR.tb_Occupation" Role="tb_Occupation" Multiplicity="0..1" />
-          <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_Occupation">
-              <PropertyRef Name="OcID" />
-            </Principal>
-            <Dependent Role="tb_User_Family">
-              <PropertyRef Name="OcID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tb_User_Family_tb_Recieve_Type">
-          <End Type="SAT.HR.tb_Recieve_Type" Role="tb_Recieve_Type" Multiplicity="0..1" />
-          <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_Recieve_Type">
-              <PropertyRef Name="RecID" />
-            </Principal>
-            <Dependent Role="tb_User_Family">
-              <PropertyRef Name="RecID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tb_User_Family_tb_User">
-          <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
-          <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_User">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="tb_User_Family">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="vw_User_Family">
           <Key>
             <PropertyRef Name="UfID" />
@@ -10665,17 +10607,129 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="DepLevel" Type="Int32" Nullable="false" />
           <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="tb_Benefit_Type">
+          <Key>
+            <PropertyRef Name="BenTID" />
+          </Key>
+          <Property Name="BenTID" Type="Int32" Nullable="false" />
+          <Property Name="BenTName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="DateTime" Precision="3" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tb_Benefit_Other_Welfare" Relationship="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Benefit_Type" FromRole="tb_Benefit_Type" ToRole="tb_Benefit_Other_Welfare" />
+        </EntityType>
+        <Association Name="FK_tb_Benefit_Other_Welfare_tb_Benefit_Type">
+          <End Type="SAT.HR.tb_Benefit_Type" Role="tb_Benefit_Type" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Benefit_Other_Welfare" Role="tb_Benefit_Other_Welfare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Benefit_Type">
+              <PropertyRef Name="BenTID" />
+            </Principal>
+            <Dependent Role="tb_Benefit_Other_Welfare">
+              <PropertyRef Name="BenTID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tb_User_Family">
+          <Key>
+            <PropertyRef Name="UfID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UfID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="UfName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UfCardID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="UfDOB" Type="DateTime" Precision="3" />
+          <Property Name="UfLifeStatus" Type="Boolean" />
+          <Property Name="TdStatus" Type="Boolean" />
+          <Property Name="PoID" Type="Int32" />
+          <Property Name="OcID" Type="Int32" />
+          <Property Name="UfWeddingDate" Type="DateTime" Precision="3" />
+          <Property Name="DivorceDate" Type="DateTime" Precision="3" />
+          <Property Name="UfStudyStatus" Type="Boolean" />
+          <Property Name="RecID" Type="Int32" />
+          <Property Name="MaritalStatusID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" />
+          <Property Name="ChildEducationAmout" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ChildFundAmout" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DivID" Type="Int32" />
+          <Property Name="DepID" Type="Int32" />
+          <Property Name="SecID" Type="Int32" />
+          <Property Name="PayRateEdu" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TimeRequestEdu" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TypeFund" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PayRateFund" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="InvNoFund" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DateFund" Type="DateTime" Precision="0" />
+          <Property Name="SchoolYear" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tb_Marital_Status" Relationship="SAT.HR.FK_tb_User_Family_tb_Marital_Status" FromRole="tb_User_Family" ToRole="tb_Marital_Status" />
+          <NavigationProperty Name="tb_Occupation" Relationship="SAT.HR.FK_tb_User_Family_tb_Occupation" FromRole="tb_User_Family" ToRole="tb_Occupation" />
+          <NavigationProperty Name="tb_Recieve_Type" Relationship="SAT.HR.FK_tb_User_Family_tb_Recieve_Type" FromRole="tb_User_Family" ToRole="tb_Recieve_Type" />
+          <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_User_Family_tb_User" FromRole="tb_User_Family" ToRole="tb_User" />
+        </EntityType>
+        <Association Name="FK_tb_User_Family_tb_Marital_Status">
+          <End Type="SAT.HR.tb_Marital_Status" Role="tb_Marital_Status" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Marital_Status">
+              <PropertyRef Name="MaritalID" />
+            </Principal>
+            <Dependent Role="tb_User_Family">
+              <PropertyRef Name="MaritalStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_User_Family_tb_Occupation">
+          <End Type="SAT.HR.tb_Occupation" Role="tb_Occupation" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Occupation">
+              <PropertyRef Name="OcID" />
+            </Principal>
+            <Dependent Role="tb_User_Family">
+              <PropertyRef Name="OcID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_User_Family_tb_Recieve_Type">
+          <End Type="SAT.HR.tb_Recieve_Type" Role="tb_Recieve_Type" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Recieve_Type">
+              <PropertyRef Name="RecID" />
+            </Principal>
+            <Dependent Role="tb_User_Family">
+              <PropertyRef Name="RecID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_User_Family_tb_User">
+          <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="1" />
+          <End Type="SAT.HR.tb_User_Family" Role="tb_User_Family" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tb_User_Family">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="vw_Delegate">
           <Key>
             <PropertyRef Name="DelegateID" />
             <PropertyRef Name="DelegateTypeName" />
           </Key>
           <Property Name="DelegateID" Type="Int32" Nullable="false" />
-          <Property Name="DelegateTypeName" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
-          <Property Name="FromMp" Type="String" MaxLength="223" FixedLength="false" Unicode="true" />
-          <Property Name="ToMp" Type="String" MaxLength="223" FixedLength="false" Unicode="true" />
+          <Property Name="DelegateTypeName" Type="String" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
           <Property Name="FromUser" Type="String" MaxLength="903" FixedLength="false" Unicode="true" />
           <Property Name="ToUser" Type="String" MaxLength="903" FixedLength="false" Unicode="true" />
+          <Property Name="FromMp" Type="String" MaxLength="223" FixedLength="false" Unicode="true" />
+          <Property Name="ToMp" Type="String" MaxLength="223" FixedLength="false" Unicode="true" />
           <Property Name="StartDate" Type="DateTime" Precision="0" />
           <Property Name="EndDate" Type="DateTime" Precision="0" />
           <Property Name="IsActive" Type="Boolean" />
@@ -10689,6 +10743,22 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="CreateBy" Type="Int32" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="Int32" />
+          <Property Name="FromUserDivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FromUserDepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FromUserSecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FromUserPoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ToUserDivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ToUserDepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ToUserSecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ToUserPoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FromMPDivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FromMPDepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FromMPSecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FromMPFullName" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
+          <Property Name="ToMPDivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ToMPDepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ToMPSecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ToMPFullName" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -11171,14 +11241,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="BrYear" ColumnName="BrYear" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="BrID" ColumnName="BrID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tb_Benefit_Type">
-            <EntityTypeMapping TypeName="SAT.HR.tb_Benefit_Type">
-              <MappingFragment StoreEntitySet="tb_Benefit_Type">
-                <ScalarProperty Name="BenTName" ColumnName="BenTName" />
-                <ScalarProperty Name="BenTID" ColumnName="BenTID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -13937,35 +13999,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tb_User_Family">
-            <EntityTypeMapping TypeName="SAT.HR.tb_User_Family">
-              <MappingFragment StoreEntitySet="tb_User_Family">
-                <ScalarProperty Name="SecID" ColumnName="SecID" />
-                <ScalarProperty Name="DepID" ColumnName="DepID" />
-                <ScalarProperty Name="DivID" ColumnName="DivID" />
-                <ScalarProperty Name="ChildFundAmout" ColumnName="ChildFundAmout" />
-                <ScalarProperty Name="ChildEducationAmout" ColumnName="ChildEducationAmout" />
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="MaritalStatusID" ColumnName="MaritalStatusID" />
-                <ScalarProperty Name="RecID" ColumnName="RecID" />
-                <ScalarProperty Name="UfStudyStatus" ColumnName="UfStudyStatus" />
-                <ScalarProperty Name="DivorceDate" ColumnName="DivorceDate" />
-                <ScalarProperty Name="UfWeddingDate" ColumnName="UfWeddingDate" />
-                <ScalarProperty Name="OcID" ColumnName="OcID" />
-                <ScalarProperty Name="PoID" ColumnName="PoID" />
-                <ScalarProperty Name="TdStatus" ColumnName="TdStatus" />
-                <ScalarProperty Name="UfLifeStatus" ColumnName="UfLifeStatus" />
-                <ScalarProperty Name="UfDOB" ColumnName="UfDOB" />
-                <ScalarProperty Name="UfCardID" ColumnName="UfCardID" />
-                <ScalarProperty Name="UfName" ColumnName="UfName" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="UfID" ColumnName="UfID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="vw_User_Family">
             <EntityTypeMapping TypeName="SAT.HR.vw_User_Family">
               <MappingFragment StoreEntitySet="vw_User_Family">
@@ -14039,9 +14072,73 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tb_Benefit_Type">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Benefit_Type">
+              <MappingFragment StoreEntitySet="tb_Benefit_Type">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="BenTName" ColumnName="BenTName" />
+                <ScalarProperty Name="BenTID" ColumnName="BenTID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_User_Family">
+            <EntityTypeMapping TypeName="SAT.HR.tb_User_Family">
+              <MappingFragment StoreEntitySet="tb_User_Family">
+                <ScalarProperty Name="SchoolYear" ColumnName="SchoolYear" />
+                <ScalarProperty Name="DateFund" ColumnName="DateFund" />
+                <ScalarProperty Name="InvNoFund" ColumnName="InvNoFund" />
+                <ScalarProperty Name="PayRateFund" ColumnName="PayRateFund" />
+                <ScalarProperty Name="TypeFund" ColumnName="TypeFund" />
+                <ScalarProperty Name="TimeRequestEdu" ColumnName="TimeRequestEdu" />
+                <ScalarProperty Name="PayRateEdu" ColumnName="PayRateEdu" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="DepID" ColumnName="DepID" />
+                <ScalarProperty Name="DivID" ColumnName="DivID" />
+                <ScalarProperty Name="ChildFundAmout" ColumnName="ChildFundAmout" />
+                <ScalarProperty Name="ChildEducationAmout" ColumnName="ChildEducationAmout" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="MaritalStatusID" ColumnName="MaritalStatusID" />
+                <ScalarProperty Name="RecID" ColumnName="RecID" />
+                <ScalarProperty Name="UfStudyStatus" ColumnName="UfStudyStatus" />
+                <ScalarProperty Name="DivorceDate" ColumnName="DivorceDate" />
+                <ScalarProperty Name="UfWeddingDate" ColumnName="UfWeddingDate" />
+                <ScalarProperty Name="OcID" ColumnName="OcID" />
+                <ScalarProperty Name="PoID" ColumnName="PoID" />
+                <ScalarProperty Name="TdStatus" ColumnName="TdStatus" />
+                <ScalarProperty Name="UfLifeStatus" ColumnName="UfLifeStatus" />
+                <ScalarProperty Name="UfDOB" ColumnName="UfDOB" />
+                <ScalarProperty Name="UfCardID" ColumnName="UfCardID" />
+                <ScalarProperty Name="UfName" ColumnName="UfName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UfID" ColumnName="UfID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="vw_Delegate">
             <EntityTypeMapping TypeName="SAT.HR.vw_Delegate">
               <MappingFragment StoreEntitySet="vw_Delegate">
+                <ScalarProperty Name="ToMPFullName" ColumnName="ToMPFullName" />
+                <ScalarProperty Name="ToMPSecName" ColumnName="ToMPSecName" />
+                <ScalarProperty Name="ToMPDepName" ColumnName="ToMPDepName" />
+                <ScalarProperty Name="ToMPDivName" ColumnName="ToMPDivName" />
+                <ScalarProperty Name="FromMPFullName" ColumnName="FromMPFullName" />
+                <ScalarProperty Name="FromMPSecName" ColumnName="FromMPSecName" />
+                <ScalarProperty Name="FromMPDepName" ColumnName="FromMPDepName" />
+                <ScalarProperty Name="FromMPDivName" ColumnName="FromMPDivName" />
+                <ScalarProperty Name="ToUserPoName" ColumnName="ToUserPoName" />
+                <ScalarProperty Name="ToUserSecName" ColumnName="ToUserSecName" />
+                <ScalarProperty Name="ToUserDepName" ColumnName="ToUserDepName" />
+                <ScalarProperty Name="ToUserDivName" ColumnName="ToUserDivName" />
+                <ScalarProperty Name="FromUserPoName" ColumnName="FromUserPoName" />
+                <ScalarProperty Name="FromUserSecName" ColumnName="FromUserSecName" />
+                <ScalarProperty Name="FromUserDepName" ColumnName="FromUserDepName" />
+                <ScalarProperty Name="FromUserDivName" ColumnName="FromUserDivName" />
                 <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
                 <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
@@ -14055,10 +14152,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="ToUser" ColumnName="ToUser" />
-                <ScalarProperty Name="FromUser" ColumnName="FromUser" />
                 <ScalarProperty Name="ToMp" ColumnName="ToMp" />
                 <ScalarProperty Name="FromMp" ColumnName="FromMp" />
+                <ScalarProperty Name="ToUser" ColumnName="ToUser" />
+                <ScalarProperty Name="FromUser" ColumnName="FromUser" />
                 <ScalarProperty Name="DelegateTypeName" ColumnName="DelegateTypeName" />
                 <ScalarProperty Name="DelegateID" ColumnName="DelegateID" />
               </MappingFragment>

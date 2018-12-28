@@ -463,7 +463,7 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region ความปลอดภัยในการทำงาน
+        #region อุบัติเหตุ
 
         public ActionResult Accident()
         {
@@ -510,7 +510,7 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region รายละเอียดสวัสดิการ
+        #region ดาวน์โหลดเอกสารสวัสดิการ
 
         public ActionResult Document()
         {

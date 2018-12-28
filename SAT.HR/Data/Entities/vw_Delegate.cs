@@ -16,10 +16,10 @@ namespace SAT.HR.Data.Entities
     {
         public int DelegateID { get; set; }
         public string DelegateTypeName { get; set; }
-        public string FromMp { get; set; }
-        public string ToMp { get; set; }
         public string FromUser { get; set; }
         public string ToUser { get; set; }
+        public string FromMp { get; set; }
+        public string ToMp { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
         public Nullable<System.DateTime> EndDate { get; set; }
         public Nullable<bool> IsActive { get; set; }
@@ -33,5 +33,21 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
+        public string FromUserDivName { get; set; }
+        public string FromUserDepName { get; set; }
+        public string FromUserSecName { get; set; }
+        public string FromUserPoName { get; set; }
+        public string ToUserDivName { get; set; }
+        public string ToUserDepName { get; set; }
+        public string ToUserSecName { get; set; }
+        public string ToUserPoName { get; set; }
+        public string FromMPDivName { get; set; }
+        public string FromMPDepName { get; set; }
+        public string FromMPSecName { get; set; }
+        public string FromMPFullName { get; set; }
+        public string ToMPDivName { get; set; }
+        public string ToMPDepName { get; set; }
+        public string ToMPSecName { get; set; }
+        public string ToMPFullName { get; set; }
     }
 }
