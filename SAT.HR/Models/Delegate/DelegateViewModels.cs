@@ -49,7 +49,6 @@ namespace SAT.HR.Models
         public string FromMPDepartment { get; set; }
         public string ToMPDepartment { get; set; }
     }
-}
 
 
     public class DelegateResult

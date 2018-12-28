@@ -705,7 +705,6 @@
     <EntitySet Name="vw_User_Family" EntityType="SAT.HR.vw_User_Family" />
     <EntitySet Name="tb_Delegate" EntityType="SAT.HR.tb_Delegate" />
     <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
-    <EntitySet Name="vw_Delegate" EntityType="SAT.HR.vw_Delegate" />
     <EntitySet Name="tb_Benefit_Type" EntityType="SAT.HR.tb_Benefit_Type" />
     <AssociationSet Name="FK_tb_Benefit_Other_Welfare_tb_Benefit_Type" Association="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Benefit_Type">
       <End Role="tb_Benefit_Type" EntitySet="tb_Benefit_Type" />
@@ -728,6 +727,7 @@
       <End Role="tb_User" EntitySet="tb_User" />
       <End Role="tb_User_Family" EntitySet="tb_User_Family" />
     </AssociationSet>
+    <EntitySet Name="vw_Delegate" EntityType="SAT.HR.vw_Delegate" />
   </EntityContainer>
   <ComplexType Name="sp_Employee_List_Result">
     <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -5051,31 +5051,6 @@
     <Property Name="DepLevel" Type="Int32" Nullable="false" />
     <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
   </EntityType>
-  <EntityType Name="vw_Delegate">
-    <Key>
-      <PropertyRef Name="DelegateID" />
-      <PropertyRef Name="DelegateTypeName" />
-    </Key>
-    <Property Name="DelegateID" Type="Int32" Nullable="false" />
-    <Property Name="DelegateTypeName" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
-    <Property Name="FromMp" Type="String" MaxLength="223" FixedLength="false" Unicode="true" />
-    <Property Name="ToMp" Type="String" MaxLength="223" FixedLength="false" Unicode="true" />
-    <Property Name="FromUser" Type="String" MaxLength="903" FixedLength="false" Unicode="true" />
-    <Property Name="ToUser" Type="String" MaxLength="903" FixedLength="false" Unicode="true" />
-    <Property Name="StartDate" Type="DateTime" Precision="0" />
-    <Property Name="EndDate" Type="DateTime" Precision="0" />
-    <Property Name="IsActive" Type="Boolean" />
-    <Property Name="DelegateType" Type="Int32" />
-    <Property Name="FormMasterID" Type="Int32" />
-    <Property Name="FromMpID" Type="Int32" />
-    <Property Name="FromUserID" Type="Int32" />
-    <Property Name="ToMpID" Type="Int32" />
-    <Property Name="ToUserID" Type="Int32" />
-    <Property Name="CreateDate" Type="DateTime" Precision="3" />
-    <Property Name="CreateBy" Type="Int32" />
-    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifyBy" Type="Int32" />
-  </EntityType>
   <EntityType Name="tb_Benefit_Type">
     <Key>
       <PropertyRef Name="BenTID" />
@@ -5188,4 +5163,45 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="vw_Delegate">
+    <Key>
+      <PropertyRef Name="DelegateID" />
+      <PropertyRef Name="DelegateTypeName" />
+    </Key>
+    <Property Name="DelegateID" Type="Int32" Nullable="false" />
+    <Property Name="DelegateTypeName" Type="String" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
+    <Property Name="FromUser" Type="String" MaxLength="903" FixedLength="false" Unicode="true" />
+    <Property Name="ToUser" Type="String" MaxLength="903" FixedLength="false" Unicode="true" />
+    <Property Name="FromMp" Type="String" MaxLength="223" FixedLength="false" Unicode="true" />
+    <Property Name="ToMp" Type="String" MaxLength="223" FixedLength="false" Unicode="true" />
+    <Property Name="StartDate" Type="DateTime" Precision="0" />
+    <Property Name="EndDate" Type="DateTime" Precision="0" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="DelegateType" Type="Int32" />
+    <Property Name="FormMasterID" Type="Int32" />
+    <Property Name="FromMpID" Type="Int32" />
+    <Property Name="FromUserID" Type="Int32" />
+    <Property Name="ToMpID" Type="Int32" />
+    <Property Name="ToUserID" Type="Int32" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+    <Property Name="FromUserDivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="FromUserDepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="FromUserSecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="FromUserPoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ToUserDivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ToUserDepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ToUserSecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ToUserPoName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="FromMPDivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="FromMPDepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="FromMPSecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="FromMPFullName" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
+    <Property Name="ToMPDivName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ToMPDepName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ToMPSecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ToMPFullName" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
+  </EntityType>
 </Schema>
