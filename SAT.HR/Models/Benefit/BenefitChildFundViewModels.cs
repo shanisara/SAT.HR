@@ -21,6 +21,11 @@ namespace SAT.HR.Models
         public Nullable<int> ModifyBy { get; set; }
         public string BcfBirthDateText { get; set; }
         public string BcfExpireDateText { get; set; }
+        public Nullable<decimal> TypeFund { get; set; }
+        public Nullable<decimal> PayRateFund { get; set; }
+        public string InvNoFund { get; set; }
+        public Nullable<System.DateTime> DateFund { get; set; }
+        public string SchoolYear { get; set; }
         public List<BenefitChildFundViewModel> ListChildFund { get; set; }
     }
 }

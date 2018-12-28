@@ -22,6 +22,10 @@ namespace SAT.HR.Data.Entities
     
         public int BenTID { get; set; }
         public string BenTName { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<System.DateTime> CreateBy { get; set; }
+        public Nullable<System.DateTime> ModifyDate { get; set; }
+        public Nullable<System.DateTime> ModifyBy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Benefit_Other_Welfare> tb_Benefit_Other_Welfare { get; set; }

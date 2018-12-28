@@ -21,6 +21,9 @@ namespace SAT.HR.Models
         public Nullable<int> ModifyBy { get; set; }
         public string BcdBirthDateText { get; set; }
         public string BcdExpireDateText { get; set; }
+        public Nullable<decimal> PayRateEdu { get; set; }
+        public Nullable<decimal> TimeRequestEdu { get; set; }
+
         public List<BenefitChildEducationViewModel> ListChildEducation { get; set; }
 }
 }

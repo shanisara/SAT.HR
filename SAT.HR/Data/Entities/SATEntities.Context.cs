@@ -38,7 +38,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Benefit_Medical> tb_Benefit_Medical { get; set; }
         public virtual DbSet<tb_Benefit_Other_Welfare> tb_Benefit_Other_Welfare { get; set; }
         public virtual DbSet<tb_Benefit_Remuneration> tb_Benefit_Remuneration { get; set; }
-        public virtual DbSet<tb_Benefit_Type> tb_Benefit_Type { get; set; }
         public virtual DbSet<tb_Blood_Type> tb_Blood_Type { get; set; }
         public virtual DbSet<tb_Capability> tb_Capability { get; set; }
         public virtual DbSet<tb_Capability_Detail> tb_Capability_Detail { get; set; }
@@ -182,6 +181,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Delegate> tb_Delegate { get; set; }
         public virtual DbSet<vw_Organization> vw_Organization { get; set; }
         public virtual DbSet<vw_Delegate> vw_Delegate { get; set; }
+        public virtual DbSet<tb_Benefit_Type> tb_Benefit_Type { get; set; }
     
         public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
         {

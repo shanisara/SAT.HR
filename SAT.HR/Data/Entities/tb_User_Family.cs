@@ -37,6 +37,13 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> DivID { get; set; }
         public Nullable<int> DepID { get; set; }
         public Nullable<int> SecID { get; set; }
+        public Nullable<decimal> PayRateEdu { get; set; }
+        public Nullable<decimal> TimeRequestEdu { get; set; }
+        public Nullable<decimal> TypeFund { get; set; }
+        public Nullable<decimal> PayRateFund { get; set; }
+        public string InvNoFund { get; set; }
+        public Nullable<System.DateTime> DateFund { get; set; }
+        public string SchoolYear { get; set; }
     
         public virtual tb_Marital_Status tb_Marital_Status { get; set; }
         public virtual tb_Occupation tb_Occupation { get; set; }
