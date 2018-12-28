@@ -1117,6 +1117,13 @@ namespace SAT.HR.Data.Repository
                 {
                     var model = db.tb_User_Family.Single(x => x.UserID == newdata.UserID && x.UfID == newdata.BcfID);
                     model.ChildFundAmout = newdata.BcfAmout;
+
+                    model.TypeFund = newdata.TypeFund;
+                    model.PayRateFund = newdata.PayRateFund;
+                    model.InvNoFund = newdata.InvNoFund;
+                    model.DateFund = newdata.DateFund;
+                    model.SchoolYear = newdata.SchoolYear;
+
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
@@ -1224,6 +1231,8 @@ namespace SAT.HR.Data.Repository
                 {
                     var model = db.tb_User_Family.Single(x => x.UserID == newdata.UserID && x.UfID == newdata.BceID);
                     model.ChildEducationAmout = newdata.BcdAmout;
+                    model.PayRateEdu = newdata.PayRateEdu;
+                    model.TimeRequestEdu = newdata.TimeRequestEdu;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
