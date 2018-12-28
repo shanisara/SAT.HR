@@ -177,13 +177,23 @@ namespace SAT.HR.Data.Repository
                     tb_Delegate model = new tb_Delegate();
                     model.StartDate = data.StartDate;
                     model.EndDate = data.EndDate;
-                    model.IsActive = data.IsActive;
-                    model.DelegateType = data.DelegateType;
                     model.FormMasterID = data.FormMasterID;
-                    model.FromMpID = data.FromMpID;
-                    model.FromUserID = data.FromUserID;
-                    model.ToMpID = data.ToMpID;
-                    model.ToUserID = data.ToUserID;
+                    model.DelegateType = data.DelegateType;
+                    if (newdata.DelegateType == 1)
+                    {
+                        model.FromUserID = newdata.FromUserID;
+                        model.ToUserID = newdata.ToUserID;
+                        model.FromMpID = null;
+                        model.ToMpID = null;
+                    }
+                    else
+                    {
+                        model.FromMpID = newdata.FromMpID;
+                        model.ToMpID = newdata.ToMpID;
+                        model.FromUserID = null;
+                        model.ToUserID = null;
+                    }
+                    model.IsActive = data.IsActive;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -209,13 +219,23 @@ namespace SAT.HR.Data.Repository
                     var model = db.tb_Delegate.Single(x => x.DelegateID == newdata.DelegateID);
                     model.StartDate = newdata.StartDate;
                     model.EndDate = newdata.EndDate;
-                    model.IsActive = newdata.IsActive;
-                    model.DelegateType = newdata.DelegateType;
                     model.FormMasterID = newdata.FormMasterID;
-                    model.FromMpID = newdata.FromMpID;
-                    model.FromUserID = newdata.FromUserID;
-                    model.ToMpID = newdata.ToMpID;
-                    model.ToUserID = newdata.ToUserID;
+                    model.DelegateType = newdata.DelegateType;
+                    if (newdata.DelegateType == 1)
+                    {
+                        model.FromUserID = newdata.FromUserID;
+                        model.ToUserID = newdata.ToUserID;
+                        model.FromMpID = null;
+                        model.ToMpID = null;
+                    }
+                    else
+                    {
+                        model.FromMpID = newdata.FromMpID;
+                        model.ToMpID = newdata.ToMpID;
+                        model.FromUserID = null;
+                        model.ToUserID = null;
+                    }
+                    model.IsActive = newdata.IsActive;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
