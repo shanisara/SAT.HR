@@ -1055,6 +1055,11 @@ namespace SAT.HR.Data.Repository
                             model.BcfAmout = item.ChildFundAmout;
                             model.BcfBirthDateText = (item.UfDOB.HasValue) ? item.UfDOB.Value.ToString("dd/MM/yyyy", new CultureInfo("th-TH")) : string.Empty;
                             model.BcfExpireDateText = (item.UfDOB.HasValue) ? item.UfDOB.Value.AddYears(18).ToString("dd/MM/yyyy", new CultureInfo("th-TH")) : string.Empty;
+                            model.TypeFund = item.TypeFund;
+                            model.PayRateFund = item.PayRateFund;
+                            model.InvNoFund = item.InvNoFund;
+                            model.DateFund = item.DateFund;
+                            model.SchoolYear = item.SchoolYear;
                             list.Add(model);
                         }
                     }
@@ -1097,6 +1102,11 @@ namespace SAT.HR.Data.Repository
                         model.ModifyBy = item.ModifyBy;
                         model.BcfBirthDateText = (item.UfDOB.HasValue) ? item.UfDOB.Value.ToString("dd/MM/yyyy", new CultureInfo("th-TH")) : string.Empty;
                         model.BcfExpireDateText = (item.UfDOB.HasValue) ? item.UfDOB.Value.AddYears(18).ToString("dd/MM/yyyy", new CultureInfo("th-TH")) : string.Empty;
+                        model.TypeFund = item.TypeFund;
+                        model.PayRateFund = item.PayRateFund;
+                        model.InvNoFund = item.InvNoFund;
+                        model.DateFund = item.DateFund;
+                        model.SchoolYear = item.SchoolYear;
                         data = model;
                     }
                 }
@@ -1117,13 +1127,11 @@ namespace SAT.HR.Data.Repository
                 {
                     var model = db.tb_User_Family.Single(x => x.UserID == newdata.UserID && x.UfID == newdata.BcfID);
                     model.ChildFundAmout = newdata.BcfAmout;
-
                     model.TypeFund = newdata.TypeFund;
                     model.PayRateFund = newdata.PayRateFund;
                     model.InvNoFund = newdata.InvNoFund;
                     model.DateFund = newdata.DateFund;
                     model.SchoolYear = newdata.SchoolYear;
-
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
@@ -1170,6 +1178,8 @@ namespace SAT.HR.Data.Repository
                             model.ModifyBy = item.ModifyBy;
                             model.BcdBirthDateText = (item.UfDOB.HasValue) ? item.UfDOB.Value.ToString("dd/MM/yyyy", new CultureInfo("th-TH")) : string.Empty;
                             model.BcdExpireDateText = (item.UfDOB.HasValue) ? item.UfDOB.Value.AddYears(18).ToString("dd/MM/yyyy", new CultureInfo("th-TH")) : string.Empty;
+                            model.PayRateEdu = item.PayRateEdu;
+                            model.TimeRequestEdu = item.TimeRequestEdu;
                             list.Add(model);
                         }
                     }
@@ -1211,6 +1221,8 @@ namespace SAT.HR.Data.Repository
                         model.ModifyBy = item.ModifyBy;
                         model.BcdBirthDateText = (item.UfDOB.HasValue) ? item.UfDOB.Value.ToString("dd/MM/yyyy") : string.Empty;
                         model.BcdExpireDateText = (item.UfDOB.HasValue) ? item.UfDOB.Value.AddYears(18).ToString("dd/MM/yyyy") : string.Empty;
+                        model.PayRateEdu = item.PayRateEdu;
+                        model.TimeRequestEdu = item.TimeRequestEdu;
                         data = model;
                     }
                 }
