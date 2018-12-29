@@ -38,6 +38,7 @@ namespace SAT.HR.Data.Repository
                 var list = data.Select((s, i) => new BenefitTypeViewModel()
                 {
                     RowNumber = ++i,
+                    BenTID = s.BenTID,
                     BenTName = s.BenTName
                 }).Skip(start * length).Take(length).ToList();
 

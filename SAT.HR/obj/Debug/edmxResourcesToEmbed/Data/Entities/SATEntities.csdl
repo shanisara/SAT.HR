@@ -695,11 +695,6 @@
     <EntitySet Name="vw_User_Family" EntityType="SAT.HR.vw_User_Family" />
     <EntitySet Name="tb_Delegate" EntityType="SAT.HR.tb_Delegate" />
     <EntitySet Name="vw_Organization" EntityType="SAT.HR.vw_Organization" />
-    <EntitySet Name="tb_Benefit_Type" EntityType="SAT.HR.tb_Benefit_Type" />
-    <AssociationSet Name="FK_tb_Benefit_Other_Welfare_tb_Benefit_Type" Association="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Benefit_Type">
-      <End Role="tb_Benefit_Type" EntitySet="tb_Benefit_Type" />
-      <End Role="tb_Benefit_Other_Welfare" EntitySet="tb_Benefit_Other_Welfare" />
-    </AssociationSet>
     <EntitySet Name="tb_User_Family" EntityType="SAT.HR.tb_User_Family" />
     <AssociationSet Name="FK_tb_User_Family_tb_Marital_Status" Association="SAT.HR.FK_tb_User_Family_tb_Marital_Status">
       <End Role="tb_Marital_Status" EntitySet="tb_Marital_Status" />
@@ -727,6 +722,11 @@
     <AssociationSet Name="FK_tb_Benefit_Remuneration_tb_Recieve_Type" Association="SAT.HR.FK_tb_Benefit_Remuneration_tb_Recieve_Type">
       <End Role="tb_Recieve_Type" EntitySet="tb_Recieve_Type" />
       <End Role="tb_Benefit_Remuneration" EntitySet="tb_Benefit_Remuneration" />
+    </AssociationSet>
+    <EntitySet Name="tb_Benefit_Type" EntityType="SAT.HR.tb_Benefit_Type" />
+    <AssociationSet Name="FK_tb_Benefit_Other_Welfare_tb_Benefit_Type" Association="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Benefit_Type">
+      <End Role="tb_Benefit_Type" EntitySet="tb_Benefit_Type" />
+      <End Role="tb_Benefit_Other_Welfare" EntitySet="tb_Benefit_Other_Welfare" />
     </AssociationSet>
   </EntityContainer>
   <ComplexType Name="sp_Employee_List_Result">
@@ -4993,30 +4993,6 @@
     <Property Name="DepLevel" Type="Int32" Nullable="false" />
     <Property Name="PathMpID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
   </EntityType>
-  <EntityType Name="tb_Benefit_Type">
-    <Key>
-      <PropertyRef Name="BenTID" />
-    </Key>
-    <Property Name="BenTID" Type="Int32" Nullable="false" />
-    <Property Name="BenTName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="CreateDate" Type="DateTime" Precision="3" />
-    <Property Name="CreateBy" Type="DateTime" Precision="3" />
-    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifyBy" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="tb_Benefit_Other_Welfare" Relationship="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Benefit_Type" FromRole="tb_Benefit_Type" ToRole="tb_Benefit_Other_Welfare" />
-  </EntityType>
-  <Association Name="FK_tb_Benefit_Other_Welfare_tb_Benefit_Type">
-    <End Type="SAT.HR.tb_Benefit_Type" Role="tb_Benefit_Type" Multiplicity="0..1" />
-    <End Type="SAT.HR.tb_Benefit_Other_Welfare" Role="tb_Benefit_Other_Welfare" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_Benefit_Type">
-        <PropertyRef Name="BenTID" />
-      </Principal>
-      <Dependent Role="tb_Benefit_Other_Welfare">
-        <PropertyRef Name="BenTID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityType Name="tb_User_Family">
     <Key>
       <PropertyRef Name="UfID" />
@@ -5112,8 +5088,8 @@
     </Key>
     <Property Name="DelegateID" Type="Int32" Nullable="false" />
     <Property Name="DelegateTypeName" Type="String" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
-    <Property Name="FromUser" Type="String" MaxLength="903" FixedLength="false" Unicode="true" />
-    <Property Name="ToUser" Type="String" MaxLength="903" FixedLength="false" Unicode="true" />
+    <Property Name="FromUser" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
+    <Property Name="ToUser" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
     <Property Name="FromMp" Type="String" MaxLength="223" FixedLength="false" Unicode="true" />
     <Property Name="ToMp" Type="String" MaxLength="223" FixedLength="false" Unicode="true" />
     <Property Name="StartDate" Type="DateTime" Precision="0" />
@@ -5203,6 +5179,30 @@
       </Principal>
       <Dependent Role="tb_Benefit_Remuneration">
         <PropertyRef Name="RecID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="tb_Benefit_Type">
+    <Key>
+      <PropertyRef Name="BenTID" />
+    </Key>
+    <Property Name="BenTID" Type="Int32" Nullable="false" />
+    <Property Name="BenTName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyBy" Type="Int32" />
+    <NavigationProperty Name="tb_Benefit_Other_Welfare" Relationship="SAT.HR.FK_tb_Benefit_Other_Welfare_tb_Benefit_Type" FromRole="tb_Benefit_Type" ToRole="tb_Benefit_Other_Welfare" />
+  </EntityType>
+  <Association Name="FK_tb_Benefit_Other_Welfare_tb_Benefit_Type">
+    <End Type="SAT.HR.tb_Benefit_Type" Role="tb_Benefit_Type" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_Benefit_Other_Welfare" Role="tb_Benefit_Other_Welfare" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Benefit_Type">
+        <PropertyRef Name="BenTID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Other_Welfare">
+        <PropertyRef Name="BenTID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
