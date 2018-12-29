@@ -963,7 +963,7 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region 20.Import
+        #region 20.Import - นำข้อมูลเข้า
 
         public ActionResult Import()
         {
@@ -985,10 +985,9 @@ namespace SAT.HR.Controllers
         }
 
 
-
         #endregion
 
-        #region 21 Announcement
+        #region 21 Announcement - ประกาศ
 
         public ActionResult Announcement()
         {
@@ -1034,7 +1033,7 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region 22 Benefit Document
+        #region 22 Benefit Document - เอกสารสวิสดิการ
         public ActionResult Benefit()
         {
             var model = new BenefitDocRepository().GetAll();
@@ -1092,7 +1091,7 @@ namespace SAT.HR.Controllers
 
         #endregion
 
-        #region 23 MailTemplate
+        #region 23 MailTemplate - รูปแบบอีเมล
 
         public ActionResult MailTemplate()
         {
@@ -1136,6 +1135,52 @@ namespace SAT.HR.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+
+        #endregion
+
+        #region 24. Benefit Type - ประเภทสวัสดิการ
+
+        public ActionResult BenefitType()
+        {
+            return View();
+        }
+
+        public ActionResult BenefitTypeDetail(int? id)
+        {
+            BenefitTypeViewModel model = new BenefitTypeViewModel();
+            if (id.HasValue)
+            {
+                model = new BenefitTypeRepository().GetByID((int)id);
+            }
+            return PartialView("_BenefitType", model);
+        }
+
+        [HttpPost]
+        public JsonResult BenefitType(int? draw, int? start, int? length, List<Dictionary<string, string>> order, List<Dictionary<string, string>> columns)
+        {
+            var search = Request["search[value]"];
+            var dir = order[0]["dir"].ToLower();
+            var column = columns[int.Parse(order[0]["column"])]["data"];
+            var dataTableData = new BenefitTypeRepository().GetPage(search, draw, start, length, dir, column);
+            return Json(dataTableData, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SaveBenefitType(BenefitTypeViewModel model)
+        {
+            ResponseData result = new Models.ResponseData();
+            if (model.BenTID != 0)
+                result = new BenefitTypeRepository().UpdateByEntity(model);
+            else
+                result = new BenefitTypeRepository().AddByEntity(model);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteBenefitType(int id)
+        {
+            var result = new BenefitTypeRepository().RemoveByID(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
 
