@@ -50,23 +50,10 @@ namespace SAT.HR.Data.Repository
                     RowNumber = ++i,
                     DelegateID = s.DelegateID,
                     DelegateTypeName = s.DelegateTypeName,
-                    FromMp = s.FromMp,
-                    ToMp = s.ToMp,
-                    FromUser = s.FromUser,
-                    ToUser = s.ToUser,
-                    StartDate = s.StartDate,
-                    EndDate = s.EndDate,
-                    IsActive = s.IsActive,
-                    DelegateType = s.DelegateType,
-                    FormMasterID = s.FormMasterID,
-                    FromMpID = s.FromMpID,
-                    FromUserID = s.FromUserID,
-                    ToMpID = s.ToMpID,
-                    ToUserID = s.ToUserID,
-                    CreateDate = s.CreateDate,
-                    CreateBy = s.CreateBy,
-                    ModifyDate = s.ModifyDate,
-                    ModifyBy = s.ModifyBy
+                    FromDelegate= (s.DelegateType == 1) ? s.FromUser : s.FromMp,
+                    ToDelegate = (s.DelegateType == 1) ? s.ToUser : s.ToMp,
+                    StartDateText = (s.StartDate.HasValue) ? s.StartDate.Value.ToString("dd/MM/yyyy") : string.Empty,
+                    EndDateText = (s.EndDate.HasValue) ? s.EndDate.Value.ToString("dd/MM/yyyy") : string.Empty
                 }).Skip(start * length).Take(length).ToList();
 
                 DelegateResult result = new DelegateResult();

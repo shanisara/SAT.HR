@@ -43,11 +43,14 @@ namespace SAT.HR.Models
         public string ToMPDepName { get; set; }
         public string ToMPSecName { get; set; }
         public string ToMPFullName { get; set; }
-
         public string FromUserDepartment { get; set; }
         public string ToUserDepartment { get; set; }
         public string FromMPDepartment { get; set; }
         public string ToMPDepartment { get; set; }
+        public string StartDateText { get; set; }
+        public string EndDateText { get; set; }
+        public string FromDelegate { get; set; }
+        public string ToDelegate { get; set; }
     }
 
 
