@@ -695,11 +695,6 @@
     <EntitySet Name="vw_Benefit_Loan" EntityType="SAT.HR.vw_Benefit_Loan" />
     <EntitySet Name="vw_Benefit_Provident_Fund" EntityType="SAT.HR.vw_Benefit_Provident_Fund" />
     <EntitySet Name="tb_Loan_Status" EntityType="SAT.HR.tb_Loan_Status" />
-    <EntitySet Name="tb_Accident" EntityType="SAT.HR.tb_Accident" />
-    <AssociationSet Name="FK_tb_Accident_tb_User" Association="SAT.HR.FK_tb_Accident_tb_User">
-      <End Role="tb_User" EntitySet="tb_User" />
-      <End Role="tb_Accident" EntitySet="tb_Accident" />
-    </AssociationSet>
     <EntitySet Name="tb_Announcement" EntityType="SAT.HR.tb_Announcement" />
     <EntitySet Name="tb_Benefit_Document" EntityType="SAT.HR.tb_Benefit_Document" />
     <EntitySet Name="vw_User_Family" EntityType="SAT.HR.vw_User_Family" />
@@ -728,6 +723,11 @@
       <End Role="tb_User_Family" EntitySet="tb_User_Family" />
     </AssociationSet>
     <EntitySet Name="vw_Delegate" EntityType="SAT.HR.vw_Delegate" />
+    <EntitySet Name="tb_Accident" EntityType="SAT.HR.tb_Accident" />
+    <AssociationSet Name="FK_tb_Accident_tb_User" Association="SAT.HR.FK_tb_Accident_tb_User">
+      <End Role="tb_User" EntitySet="tb_User" />
+      <End Role="tb_Accident" EntitySet="tb_Accident" />
+    </AssociationSet>
   </EntityContainer>
   <ComplexType Name="sp_Employee_List_Result">
     <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -2201,8 +2201,8 @@
     <NavigationProperty Name="tb_Working_Shift" Relationship="SAT.HR.FK_tb_Working_Shift_tb_User" FromRole="tb_User" ToRole="tb_Working_Shift" />
     <NavigationProperty Name="tb_Benefit_Loan" Relationship="SAT.HR.FK_tb_Benefit_Loan_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Loan" />
     <NavigationProperty Name="tb_Benefit_Provident_Fund" Relationship="SAT.HR.FK_tb_Benefit_Provident_Fund_tb_User" FromRole="tb_User" ToRole="tb_Benefit_Provident_Fund" />
-    <NavigationProperty Name="tb_Accident" Relationship="SAT.HR.FK_tb_Accident_tb_User" FromRole="tb_User" ToRole="tb_Accident" />
     <NavigationProperty Name="tb_User_Family" Relationship="SAT.HR.FK_tb_User_Family_tb_User" FromRole="tb_User" ToRole="tb_User_Family" />
+    <NavigationProperty Name="tb_Accident" Relationship="SAT.HR.FK_tb_Accident_tb_User" FromRole="tb_User" ToRole="tb_Accident" />
   </EntityType>
   <EntityType Name="tb_User_Certificate">
     <Key>
@@ -4918,33 +4918,6 @@
     <Property Name="StatusID" Type="Int32" Nullable="false" />
     <Property Name="StatusName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
   </EntityType>
-  <EntityType Name="tb_Accident">
-    <Key>
-      <PropertyRef Name="ActID" />
-    </Key>
-    <Property Name="ActID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="UserID" Type="Int32" />
-    <Property Name="ActDate" Type="DateTime" Precision="0" />
-    <Property Name="ActPlace" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="ActDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="CreateDate" Type="DateTime" Precision="3" />
-    <Property Name="CreateBy" Type="Int32" />
-    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifyBy" Type="Int32" />
-    <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Accident_tb_User" FromRole="tb_Accident" ToRole="tb_User" />
-  </EntityType>
-  <Association Name="FK_tb_Accident_tb_User">
-    <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="0..1" />
-    <End Type="SAT.HR.tb_Accident" Role="tb_Accident" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tb_User">
-        <PropertyRef Name="UserID" />
-      </Principal>
-      <Dependent Role="tb_Accident">
-        <PropertyRef Name="UserID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityType Name="tb_Announcement">
     <Key>
       <PropertyRef Name="AnnID" />
@@ -5204,4 +5177,32 @@
     <Property Name="ToMPSecName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="ToMPFullName" Type="String" MaxLength="501" FixedLength="false" Unicode="true" />
   </EntityType>
+  <EntityType Name="tb_Accident">
+    <Key>
+      <PropertyRef Name="ActID" />
+    </Key>
+    <Property Name="ActID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="ActDate" Type="DateTime" Precision="0" />
+    <Property Name="ActPlace" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ActDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyBy" Type="Int32" />
+    <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
+    <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Accident_tb_User" FromRole="tb_Accident" ToRole="tb_User" />
+  </EntityType>
+  <Association Name="FK_tb_Accident_tb_User">
+    <End Type="SAT.HR.tb_User" Role="tb_User" Multiplicity="0..1" />
+    <End Type="SAT.HR.tb_Accident" Role="tb_Accident" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tb_Accident">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

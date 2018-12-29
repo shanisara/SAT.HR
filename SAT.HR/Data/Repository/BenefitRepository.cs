@@ -36,6 +36,8 @@ namespace SAT.HR.Data.Repository
                         model.RecFullName = item.RecFullName;
                         model.BrAmout = item.BrAmout;
                         model.BrRemark = item.BrRemark;
+                        model.BrDate = item.BrDate;
+                        model.BrEndDate = item.BrEndDate;
                         model.CreateDate = item.CreateDate;
                         model.CreateBy = item.CreateBy;
                         model.ModifyDate = item.ModifyDate;
@@ -72,6 +74,7 @@ namespace SAT.HR.Data.Repository
                         model.UserID = item.UserID;
                         model.BrYear = item.BrYear;
                         model.BrDate = item.BrDate;
+                        model.BrEndDate = item.BrEndDate;
                         model.RecID = item.RecID;
                         model.RecFullName = item.RecFullName;
                         model.BrAmout = item.BrAmout;
@@ -106,8 +109,10 @@ namespace SAT.HR.Data.Repository
                     model.BrID = data.BrID;
                     model.UserID = data.UserID;
                     model.BrYear = data.BrYear;
-                    if (Convert.ToDateTime(data.BrDate) > DateTime.MinValue)
-                        model.BrDate = Convert.ToDateTime(data.BrDate);
+                    if (data.BrDate.HasValue)
+                        model.BrDate = data.BrDate;
+                    if (data.BrEndDate.HasValue)
+                        model.BrEndDate = data.BrEndDate;
                     model.RecID = data.RecID;
                     model.RecFullName = data.RecFullName;
                     model.BrAmout = data.BrAmout;
@@ -139,8 +144,10 @@ namespace SAT.HR.Data.Repository
                     model.BrID = newdata.BrID;
                     model.UserID = newdata.UserID;
                     model.BrYear = newdata.BrYear;
-                    if (Convert.ToDateTime(newdata.BrDate) > DateTime.MinValue)
-                        model.BrDate = Convert.ToDateTime(newdata.BrDate);
+                    if (newdata.BrDate.HasValue)
+                        model.BrDate = newdata.BrDate;
+                    if (newdata.BrEndDate.HasValue)
+                        model.BrEndDate = newdata.BrEndDate;
                     model.RecID = newdata.RecID;
                     model.RecFullName = newdata.RecFullName;
                     model.BrAmout = newdata.BrAmout;

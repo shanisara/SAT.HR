@@ -39,8 +39,8 @@ namespace SAT.HR.Data.Entities
             this.tb_Working_Shift = new HashSet<tb_Working_Shift>();
             this.tb_Benefit_Loan = new HashSet<tb_Benefit_Loan>();
             this.tb_Benefit_Provident_Fund = new HashSet<tb_Benefit_Provident_Fund>();
-            this.tb_Accident = new HashSet<tb_Accident>();
             this.tb_User_Family = new HashSet<tb_User_Family>();
+            this.tb_Accident = new HashSet<tb_Accident>();
         }
     
         public int UserID { get; set; }
@@ -175,8 +175,8 @@ namespace SAT.HR.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Benefit_Provident_Fund> tb_Benefit_Provident_Fund { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Accident> tb_Accident { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_User_Family> tb_User_Family { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Accident> tb_Accident { get; set; }
     }
 }

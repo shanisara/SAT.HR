@@ -20,7 +20,7 @@ namespace SAT.HR.Models
         public Nullable<DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
         public string ActDateText { get; set; }
-        
+        public Nullable<decimal> Amount { get; set; }
         public List<AccidentViewModel> listAccident { get; set; }
     }
 
