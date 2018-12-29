@@ -164,7 +164,6 @@ namespace SAT.HR.Data.Repository
                     tb_Delegate model = new tb_Delegate();
                     model.StartDate = data.StartDate;
                     model.EndDate = data.EndDate;
-                    model.FormMasterID = data.FormMasterID;
                     model.DelegateType = data.DelegateType;
                     if (data.DelegateType == 1)
                     {
@@ -180,7 +179,9 @@ namespace SAT.HR.Data.Repository
                         model.FromUserID = null;
                         model.ToUserID = null;
                     }
-                    model.IsActive = data.IsActive;
+
+                    model.FormMasterID = 1; // newdata.FormMasterID;
+                    model.IsActive = true; // data.IsActive;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -206,7 +207,6 @@ namespace SAT.HR.Data.Repository
                     var model = db.tb_Delegate.Single(x => x.DelegateID == newdata.DelegateID);
                     model.StartDate = newdata.StartDate;
                     model.EndDate = newdata.EndDate;
-                    model.FormMasterID = newdata.FormMasterID;
                     model.DelegateType = newdata.DelegateType;
                     if (newdata.DelegateType == 1)
                     {
@@ -222,7 +222,8 @@ namespace SAT.HR.Data.Repository
                         model.FromUserID = null;
                         model.ToUserID = null;
                     }
-                    model.IsActive = newdata.IsActive;
+                    model.FormMasterID = 1; // newdata.FormMasterID;
+                    model.IsActive = true; // data.IsActive;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();
