@@ -26,6 +26,10 @@ namespace SAT.HR.Models
         public string InvNoFund { get; set; }
         public Nullable<System.DateTime> DateFund { get; set; }
         public string SchoolYear { get; set; }
+        public string ReportDOB { get; set; }
+        public int ReportAge { get; set; }
+        public bool ReportChk { get; set; }
         public List<BenefitChildFundViewModel> ListChildFund { get; set; }
+        
     }
 }

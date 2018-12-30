@@ -175,7 +175,14 @@ namespace SAT.HR.Controllers
         public ActionResult ReportChildFund()
         {
             ViewBag.Employee = DropDownList.GetEmployee(0, 1);
+            
             return View("~/Views/Report/Benefit/Report_ChildFund.cshtml");
+        }
+
+        public JsonResult GetChildFund(int userid)
+        {
+            var data = new BenefitRepository().GetChildFundForReport(userid).ListChildFund;
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
         #endregion
 

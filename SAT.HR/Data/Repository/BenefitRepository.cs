@@ -1029,7 +1029,6 @@ namespace SAT.HR.Data.Repository
         #endregion
 
         #region  6. เงินช่วยเหลือบุตร
-
         public BenefitChildFundViewModel GetChildFundByUser(int userid)
         {
             var data = new BenefitChildFundViewModel();
@@ -1073,7 +1072,6 @@ namespace SAT.HR.Data.Repository
                 throw;
             }
         }
-
         public BenefitChildFundViewModel GetChildFundByID(int userid, int id)
         {
             BenefitChildFundViewModel data = new BenefitChildFundViewModel();
@@ -1117,7 +1115,6 @@ namespace SAT.HR.Data.Repository
             }
             return data;
         }
-
         public ResponseData UpdateChildFundByEntity(BenefitChildFundViewModel newdata)
         {
             using (SATEntities db = new SATEntities())
@@ -1143,6 +1140,44 @@ namespace SAT.HR.Data.Repository
                 }
                 return result;
             }
+        }
+
+        public BenefitChildFundViewModel GetChildFundForReport(int userid)
+        {
+            BenefitChildFundViewModel data = new BenefitChildFundViewModel();
+            try
+            {
+                var list = new List<BenefitChildFundViewModel>();
+                using (SATEntities db = new SATEntities())
+                {
+                    int index = 1;
+                    var childFund = db.vw_Child.Where(x => x.UserID == userid).OrderByDescending(o => o.UfName).ToList();
+                    if (childFund.Count > 0)
+                    {
+                        foreach (var item in childFund)
+                        {
+                            BenefitChildFundViewModel model = new BenefitChildFundViewModel();
+                            model.RowNumber = index++;
+                            model.BcfID = item.UfID;
+                            model.UserID = item.UserID;
+                            model.BcfName = item.UfName;
+                            model.ReportAge = (int)item.Age;
+                            model.ReportDOB = item.BirthDate;
+
+                            list.Add(model);                            
+                        }
+                    }
+
+                    data.ListChildFund = list;
+                }              
+                
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return data;
         }
 
         #endregion
