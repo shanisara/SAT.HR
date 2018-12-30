@@ -37,7 +37,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Benefit_Home_Rental> tb_Benefit_Home_Rental { get; set; }
         public virtual DbSet<tb_Benefit_Medical> tb_Benefit_Medical { get; set; }
         public virtual DbSet<tb_Benefit_Other_Welfare> tb_Benefit_Other_Welfare { get; set; }
-        public virtual DbSet<tb_Benefit_Remuneration> tb_Benefit_Remuneration { get; set; }
         public virtual DbSet<tb_Blood_Type> tb_Blood_Type { get; set; }
         public virtual DbSet<tb_Capability> tb_Capability { get; set; }
         public virtual DbSet<tb_Capability_Detail> tb_Capability_Detail { get; set; }
@@ -173,15 +172,16 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Benefit_Loan> vw_Benefit_Loan { get; set; }
         public virtual DbSet<vw_Benefit_Provident_Fund> vw_Benefit_Provident_Fund { get; set; }
         public virtual DbSet<tb_Loan_Status> tb_Loan_Status { get; set; }
-        public virtual DbSet<tb_Accident> tb_Accident { get; set; }
         public virtual DbSet<tb_Announcement> tb_Announcement { get; set; }
         public virtual DbSet<tb_Benefit_Document> tb_Benefit_Document { get; set; }
         public virtual DbSet<vw_User_Family> vw_User_Family { get; set; }
         public virtual DbSet<tb_Delegate> tb_Delegate { get; set; }
         public virtual DbSet<vw_Organization> vw_Organization { get; set; }
-        public virtual DbSet<tb_Benefit_Type> tb_Benefit_Type { get; set; }
         public virtual DbSet<tb_User_Family> tb_User_Family { get; set; }
         public virtual DbSet<vw_Delegate> vw_Delegate { get; set; }
+        public virtual DbSet<tb_Accident> tb_Accident { get; set; }
+        public virtual DbSet<tb_Benefit_Remuneration> tb_Benefit_Remuneration { get; set; }
+        public virtual DbSet<tb_Benefit_Type> tb_Benefit_Type { get; set; }
     
         public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
         {

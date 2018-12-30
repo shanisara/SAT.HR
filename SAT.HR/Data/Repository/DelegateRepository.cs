@@ -50,23 +50,10 @@ namespace SAT.HR.Data.Repository
                     RowNumber = ++i,
                     DelegateID = s.DelegateID,
                     DelegateTypeName = s.DelegateTypeName,
-                    FromMp = s.FromMp,
-                    ToMp = s.ToMp,
-                    FromUser = s.FromUser,
-                    ToUser = s.ToUser,
-                    StartDate = s.StartDate,
-                    EndDate = s.EndDate,
-                    IsActive = s.IsActive,
-                    DelegateType = s.DelegateType,
-                    FormMasterID = s.FormMasterID,
-                    FromMpID = s.FromMpID,
-                    FromUserID = s.FromUserID,
-                    ToMpID = s.ToMpID,
-                    ToUserID = s.ToUserID,
-                    CreateDate = s.CreateDate,
-                    CreateBy = s.CreateBy,
-                    ModifyDate = s.ModifyDate,
-                    ModifyBy = s.ModifyBy
+                    FromDelegate= (s.DelegateType == 1) ? s.FromUser : s.FromMp,
+                    ToDelegate = (s.DelegateType == 1) ? s.ToUser : s.ToMp,
+                    StartDateText = (s.StartDate.HasValue) ? s.StartDate.Value.ToString("dd/MM/yyyy") : string.Empty,
+                    EndDateText = (s.EndDate.HasValue) ? s.EndDate.Value.ToString("dd/MM/yyyy") : string.Empty
                 }).Skip(start * length).Take(length).ToList();
 
                 DelegateResult result = new DelegateResult();
@@ -177,7 +164,6 @@ namespace SAT.HR.Data.Repository
                     tb_Delegate model = new tb_Delegate();
                     model.StartDate = data.StartDate;
                     model.EndDate = data.EndDate;
-                    model.FormMasterID = data.FormMasterID;
                     model.DelegateType = data.DelegateType;
                     if (data.DelegateType == 1)
                     {
@@ -193,7 +179,9 @@ namespace SAT.HR.Data.Repository
                         model.FromUserID = null;
                         model.ToUserID = null;
                     }
-                    model.IsActive = data.IsActive;
+
+                    model.FormMasterID = 1; // newdata.FormMasterID;
+                    model.IsActive = true; // data.IsActive;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -219,7 +207,6 @@ namespace SAT.HR.Data.Repository
                     var model = db.tb_Delegate.Single(x => x.DelegateID == newdata.DelegateID);
                     model.StartDate = newdata.StartDate;
                     model.EndDate = newdata.EndDate;
-                    model.FormMasterID = newdata.FormMasterID;
                     model.DelegateType = newdata.DelegateType;
                     if (newdata.DelegateType == 1)
                     {
@@ -235,7 +222,8 @@ namespace SAT.HR.Data.Repository
                         model.FromUserID = null;
                         model.ToUserID = null;
                     }
-                    model.IsActive = newdata.IsActive;
+                    model.FormMasterID = 1; // newdata.FormMasterID;
+                    model.IsActive = true; // data.IsActive;
                     model.ModifyBy = UtilityService.User.UserID;
                     model.ModifyDate = DateTime.Now;
                     db.SaveChanges();

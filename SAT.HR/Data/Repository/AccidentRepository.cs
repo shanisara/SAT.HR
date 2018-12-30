@@ -102,6 +102,7 @@ namespace SAT.HR.Data.Repository
                             obj.ActDesc = item.ActDesc;
                             obj.ActDate = item.ActDate;
                             obj.ActDateText = Convert.ToDateTime(item.ActDate).ToString("dd/MM/yyyy");
+                            obj.Amount = item.Amount;
                             lists.Add(obj);
                         }
                     }
@@ -136,6 +137,7 @@ namespace SAT.HR.Data.Repository
                         model.CreateBy = obj.CreateBy;
                         model.ModifyDate = obj.ModifyDate;
                         model.ModifyBy = obj.ModifyBy;
+                        model.Amount = obj.Amount;
                     }
                     else
                     {
@@ -162,6 +164,7 @@ namespace SAT.HR.Data.Repository
                     model.ActDate = data.ActDate;
                     model.ActPlace = data.ActPlace;
                     model.ActDesc = data.ActDesc;
+                    model.Amount = data.Amount;
                     model.CreateBy = UtilityService.User.UserID;
                     model.CreateDate = DateTime.Now;
                     model.ModifyBy = UtilityService.User.UserID;
@@ -189,6 +192,7 @@ namespace SAT.HR.Data.Repository
                     data.ActDate = newdata.ActDate;
                     data.ActPlace = newdata.ActPlace;
                     data.ActDesc = newdata.ActDesc;
+                    data.Amount = newdata.Amount;
                     data.ModifyBy = UtilityService.User.UserID;
                     data.ModifyDate = DateTime.Now;
                     db.SaveChanges();
