@@ -758,6 +758,23 @@ namespace SAT.HR.Data.Repository
             return list;
         }
 
+        public static List<SelectListItem> GetEmployeeResign(int? defaultValue, int? userType)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            var data = new EmployeeRepository().GetEmployeeResign(userType);
+
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Value = item.UserID.ToString();
+                select.Text = item.FullNameTh;
+                select.Selected = defaultValue.HasValue ? (item.UserID == defaultValue ? true : false) : false;
+                list.Add(select);
+            }
+            return list;
+        }
+
         public static List<SelectListItem> GetEmployeeNotSelected(int? defaultValue, int? userType, string userSelected)
         {
             List<SelectListItem> list = new List<SelectListItem>();

@@ -379,6 +379,27 @@ namespace SAT.HR.Data.Repository
             }
         }
 
+        public List<UserProfile> GetEmployeeResign(int? userType)
+        {
+            using (SATEntities db = new SATEntities())
+            {
+                var data = db.vw_Employee.Where(x => x.StatusID == 2).ToList();
+                if (userType == 1)
+                    data = data.Where(x => x.UserTypeID == userType || x.UserTypeID == null).ToList();
+                else
+                    data = data.Where(x => x.UserTypeID == userType).ToList();
+
+                var list = data.Select(s => new UserProfile()
+                {
+                    UserID = s.UserID,
+                    UserName = s.UserName,
+                    FullNameTh = s.TiShortName + s.FullNameTh,
+                    IDCard = s.IDCard
+                }).ToList();
+                return list;
+            }
+        }
+
         public ResponseData AddUserByEntity(EmployeeViewModel data)
         {
             using (SATEntities db = new SATEntities())

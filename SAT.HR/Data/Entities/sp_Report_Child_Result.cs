@@ -21,5 +21,26 @@ namespace SAT.HR.Data.Entities
         public Nullable<decimal> ChildFundAmout { get; set; }
         public Nullable<decimal> ChildEducationAmout { get; set; }
         public string CExpireDate { get; set; }
+        public string StartWorkDate { get; set; }
+        public Nullable<decimal> PayRateEdu { get; set; }
+        public Nullable<decimal> TimeRequestEdu { get; set; }
+        public string TypeFund { get; set; }
+        public Nullable<decimal> PayRateFund { get; set; }
+        public string InvNoFund { get; set; }
+        public Nullable<System.DateTime> DateFund { get; set; }
+        public string SchoolYear { get; set; }
+        public string Experience { get; set; }
+        public Nullable<decimal> Salary { get; set; }
+        public Nullable<int> DivID { get; set; }
+        public string DivName { get; set; }
+        public Nullable<int> DepID { get; set; }
+        public string DepName { get; set; }
+        public Nullable<int> SecID { get; set; }
+        public string SecName { get; set; }
+        public string PoName { get; set; }
+        public Nullable<int> Level { get; set; }
+        public string MpCode { get; set; }
+        public string CurrentDate { get; set; }
+        public int UfID { get; set; }
     }
 }

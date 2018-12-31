@@ -134,7 +134,9 @@ namespace SAT.HR.Controllers
         #region รายงาน : เงินตอบแทนความชอบ
         public ActionResult ReportRemuneration()
         {            
-            ViewBag.Employee = DropDownList.GetEmployee(0, null);
+            ViewBag.Employee = DropDownList.GetEmployee(0, 1);
+            ViewBag.ResignType = DropDownList.GetResignType(0).Where(x => x.Text != "ถึงแก่กรรม");
+            ViewBag.UserType = DropDownList.GetUserType(0);
             return View("~/Views/Report/Benefit/Report_Remuneration.cshtml");
         }
         #endregion
@@ -236,7 +238,7 @@ namespace SAT.HR.Controllers
         #endregion
 
         [HttpPost]
-        public JsonResult ExportReportBenefit(string EmpID, string ExtensionFile, string ReportName, string userType)
+        public JsonResult ExportReportBenefit(string EmpID, string ExtensionFile, string ReportName, string userType, string[] userID, string ResignID)
         {
             try
             {
@@ -254,9 +256,31 @@ namespace SAT.HR.Controllers
 
                 rptH.SetParameterValue("@empID", EmpID == "" ? null : EmpID);
 
+
+                if (userID != null)
+                {
+                    string userid = "";
+                    int index = 0;
+                    foreach (string x in userID)
+                    {
+                        index++;
+                        userid += "'" + x.ToString() + "'";
+                        if (index < userID.Count())
+                        {
+                            userid += ",";
+                        }
+                    }
+
+                    rptH.SetParameterValue("@empID", userid);
+                }
+
                 if (userType != null)
                 {
                     rptH.SetParameterValue("@userTypeID", userType == "" ? null : userType);
+                }
+                if (ResignID != null)
+                {
+                    rptH.SetParameterValue("@statusID", ResignID == "" ? null : ResignID);
                 }
 
                 rptH.ExportToDisk(ExtensionFile == ".xlsx" ? ExportFormatType.ExcelWorkbook : ExportFormatType.PortableDocFormat, Path.Combine(SysConfig.PathUploadReport, FileName));

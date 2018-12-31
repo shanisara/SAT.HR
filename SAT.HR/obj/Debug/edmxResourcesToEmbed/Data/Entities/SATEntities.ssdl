@@ -1884,6 +1884,19 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Capability' does not have a pri
     <Property Name="CapGTName" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Child' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Child">
+    <Key>
+      <PropertyRef Name="UfID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UfID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="UfName" Type="nvarchar" MaxLength="200" />
+    <Property Name="BirthDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="Age" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Course' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Course">
     <Key>
@@ -3992,8 +4005,12 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <Parameter Name="MlID" Type="int" Mode="In" />
     <Parameter Name="ActionBy" Type="int" Mode="In" />
   </Function>
-  <Function Name="sp_Report_Child" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+  <Function Name="sp_Report_Accident" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="empID" Type="varchar" Mode="In" />
+    <Parameter Name="userTypeID" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_Report_Child" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="empID" Type="nvarchar" Mode="In" />
   </Function>
   <Function Name="sp_Report_Cremation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="empID" Type="varchar" Mode="In" />
@@ -4029,9 +4046,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <Parameter Name="empID" Type="varchar" Mode="In" />
   </Function>
   <Function Name="sp_Report_ProvidentFund" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="empID" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="sp_Report_Remuneration" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="empID" Type="varchar" Mode="In" />
   </Function>
   <Function Name="sp_Salary_Increase_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -4402,6 +4416,15 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Capability].[CapGTID] AS [CapGTID], 
     [vw_Capability].[CapGTName] AS [CapGTName]
     FROM [dbo].[vw_Capability] AS [vw_Capability]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Child" EntityType="Self.vw_Child" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Child].[UfID] AS [UfID], 
+    [vw_Child].[UserID] AS [UserID], 
+    [vw_Child].[UfName] AS [UfName], 
+    [vw_Child].[BirthDate] AS [BirthDate], 
+    [vw_Child].[Age] AS [Age]
+    FROM [dbo].[vw_Child] AS [vw_Child]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vw_Course" EntityType="Self.vw_Course" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 

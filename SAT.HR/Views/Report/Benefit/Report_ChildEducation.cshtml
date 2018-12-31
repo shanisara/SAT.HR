@@ -1,9 +1,8 @@
-﻿
+﻿@model SAT.HR.Models.BenefitChildFundViewModel
 @{
-    ViewBag.Title = "Report_ChildEducation";
+    ViewBag.Title = "Report_ChildFund";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 
 <div class="content">
     <div class="row">
@@ -14,10 +13,6 @@
                         <i class="material-icons">alarm_on</i>
                     </div>
                     <h4 class="card-title"><span> เงินช่วยเหลือการศึกษาบุตร </span><button type="submit" class="btn btn-round pull-right btn-back">ย้อนกลับ</button></h4>
-
-                    @*<div class="ml-auto mr-auto">
-
-                        </div>*@
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -25,7 +20,12 @@
                         <div class="col-sm-6 m-t-6">
                             @Html.DropDownList("EmpID", new SelectList(ViewBag.Employee, "Value", "Text"), "-- เลือกทั้งหมด --", new { @class = "form-control custom-select select-with-transition selectpicker", data_show_subtext = "true", data_live_search = "true" })
                         </div>
-                    </div>                    
+                    </div>
+                    <div class="card-body">
+                        <div class="material-datatables">
+                            <table class="table table-detail"></table>
+                        </div>
+                    </div>
                     <div class="row m-t-10">
                         @Html.Label("เลือกรูปแบบรายงาน: ", null, new { @class = "col-sm-2 col-form-label" })
                         <div class="form-check form-check-inline">
@@ -63,14 +63,20 @@
 
 @section Scripts {
     <script>
-    $("#btn_export").click(function () {
+        $("#btn_export").click(function () {
+
+            var array = [];
+            $.each($("input[name='userFamily']:checked"), function () {
+                array.push($(this).val());
+            });
         $.ajax({
             type: 'POST',
             url: '@Url.Action("ExportReportBenefit", "Report")',
             data: {
                 EmpID: $("#EmpID").val(),
                 ReportName: 'Report_ChildEducation',
-                ExtensionFile: $('input[name=exporttype]:checked').val()
+                ExtensionFile: $('input[name=exporttype]:checked').val(),
+                userID: array
             },
             success: function (FileName) {
                 //window.location = '/Report/DownloadFile?fileName=' + FileName;
@@ -81,6 +87,33 @@
             }
         });
     });
+
+        $('#EmpID').change(function () {
+            debugger;
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetChildFund", "Report")',
+                data: { userid: $("#EmpID").val() },
+                dataType: 'json',
+                success: function (data) {
+                    $(".table-detail").empty();
+                    var chkd = "";
+                    $(".table-detail").append("<tr><th>ลำดับที่</th><th>รายชื่อบุตรทุกคน</th> <th>วันเกิด</th><th>อายุ</th><th>บุตรที่ได้รับสิทธิ</th></tr>");
+                    $.each(data, function (key, entry) {
+                        if (data[key].ReportAge < 18) {
+                            chkd = '<input type="checkbox" id="userFamily" name="userFamily" class="checkbox" value="'+data[key].BcfID+'">';
+                        }
+                        $(".table-detail").append("<tr><td>" +
+                           data[key].RowNumber + "</td><td>" +
+                           data[key].BcfName + "</td><td>" +
+                           data[key].ReportDOB + "</td><td>" +
+                           data[key].ReportAge + "</td><td>" +
+                           chkd + "</td></tr>");
+                    });
+                }
+            });
+        });
+
 
     $(function () {
         $('.exporttype').attr('checked', 'checked');
