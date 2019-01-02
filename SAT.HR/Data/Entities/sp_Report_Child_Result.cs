@@ -14,33 +14,33 @@ namespace SAT.HR.Data.Entities
     public partial class sp_Report_Child_Result
     {
         public string FullName { get; set; }
-        public int UserID { get; set; }
+        public Nullable<int> UserID { get; set; }
         public string UfName { get; set; }
-        public Nullable<decimal> UfCardID { get; set; }
+        public string UfCardID { get; set; }
         public string UfDOB { get; set; }
-        public Nullable<decimal> ChildFundAmout { get; set; }
-        public Nullable<decimal> ChildEducationAmout { get; set; }
+        public Nullable<double> ChildFundAmout { get; set; }
+        public Nullable<double> ChildEducationAmout { get; set; }
         public string CExpireDate { get; set; }
         public string StartWorkDate { get; set; }
-        public Nullable<decimal> PayRateEdu { get; set; }
-        public Nullable<decimal> TimeRequestEdu { get; set; }
+        public Nullable<double> PayRateEdu { get; set; }
+        public string TimeRequestEdu { get; set; }
         public string TypeFund { get; set; }
-        public Nullable<decimal> PayRateFund { get; set; }
+        public Nullable<double> PayRateFund { get; set; }
         public string InvNoFund { get; set; }
-        public Nullable<System.DateTime> DateFund { get; set; }
+        public string DateFund { get; set; }
         public string SchoolYear { get; set; }
         public string Experience { get; set; }
-        public Nullable<decimal> Salary { get; set; }
-        public Nullable<int> DivID { get; set; }
+        public Nullable<double> Salary { get; set; }
+        public string DivID { get; set; }
         public string DivName { get; set; }
-        public Nullable<int> DepID { get; set; }
+        public string DepID { get; set; }
         public string DepName { get; set; }
-        public Nullable<int> SecID { get; set; }
+        public string SecID { get; set; }
         public string SecName { get; set; }
         public string PoName { get; set; }
-        public Nullable<int> Level { get; set; }
+        public string Level { get; set; }
         public string MpCode { get; set; }
         public string CurrentDate { get; set; }
-        public int UfID { get; set; }
+        public string UfID { get; set; }
     }
 }

@@ -3955,6 +3955,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="CapID" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_Generate_Report_Child" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="empID" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="sp_Leave_Balance_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="LevYear" Type="int" Mode="In" />
@@ -4051,6 +4054,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Parameter Name="empID" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_Report_ProvidentFund" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="empID" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_Report_Remuneration" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="statusID" Type="varchar" Mode="In" />
           <Parameter Name="empID" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_Salary_Increase_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -5727,9 +5734,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <FunctionImport Name="sp_Report_HomeRental" ReturnType="Collection(SAT.HR.sp_Report_HomeRental_Result)">
           <Parameter Name="empID" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_Report_Loan" ReturnType="Collection(SAT.HR.sp_Report_Loan_Result)">
-          <Parameter Name="empID" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_Report_MedicalTreatment" ReturnType="Collection(SAT.HR.sp_Report_MedicalTreatment_Result)">
           <Parameter Name="empID" Mode="In" Type="String" />
           </FunctionImport>
@@ -6308,8 +6312,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <Parameter Name="empID" Mode="In" Type="String" />
             <Parameter Name="userTypeID" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="sp_Report_Remuneration" ReturnType="Collection(SAT.HR.sp_Report_Remuneration_Result)">
+            <Parameter Name="statusID" Mode="In" Type="String" />
+            <Parameter Name="empID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Generate_Report_Child">
+          <Parameter Name="empID" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="sp_Report_Child" ReturnType="Collection(SAT.HR.sp_Report_Child_Result)">
           <Parameter Name="empID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Report_Loan" ReturnType="Collection(SAT.HR.sp_Report_Loan_Result)">
+            <Parameter Name="empID" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="sp_Employee_List_Result">
@@ -6659,24 +6673,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Type="String" Name="BhrEndDate" Nullable="true" MaxLength="50" />
           <Property Type="Decimal" Name="BhrAmout" Nullable="true" Precision="18" Scale="2" />
           <Property Type="String" Name="BhrRemark" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_Report_Loan_Result">
-          <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
-          <Property Type="Int32" Name="UserID" Nullable="false" />
-          <Property Type="Int32" Name="BlID" Nullable="false" />
-          <Property Type="Int32" Name="BlYear" Nullable="true" />
-          <Property Type="Int32" Name="BID" Nullable="true" />
-          <Property Type="String" Name="BName" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="LtID" Nullable="true" />
-          <Property Type="String" Name="LtName" Nullable="true" MaxLength="200" />
-          <Property Type="Decimal" Name="BlAccountNo" Nullable="true" Precision="18" Scale="0" />
-          <Property Type="String" Name="BlStartDate" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="BlEndDate" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="BlCloseDate" Nullable="true" MaxLength="50" />
-          <Property Type="Decimal" Name="BlPeriod" Nullable="true" Precision="18" Scale="0" />
-          <Property Type="Decimal" Name="BlPeriodPay" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="BISummaryAmout" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="String" Name="BlRemark" Nullable="true" />
         </ComplexType>
         <ComplexType Name="sp_Report_MedicalTreatment_Result">
           <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
@@ -10801,23 +10797,11 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Type="String" Name="Experience" Nullable="true" MaxLength="50" />
           <Property Type="Decimal" Name="Amount" Nullable="true" Precision="18" Scale="2" />
         </ComplexType>
-        <ComplexType Name="sp_Report_Child_Result">
-          <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
+        <ComplexType Name="sp_Report_Remuneration_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
-          <Property Type="String" Name="UfName" Nullable="true" MaxLength="200" />
-          <Property Type="Decimal" Name="UfCardID" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
           <Property Type="String" Name="UfDOB" Nullable="true" MaxLength="50" />
-          <Property Type="Decimal" Name="ChildFundAmout" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="ChildEducationAmout" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="String" Name="CExpireDate" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="StartWorkDate" Nullable="true" MaxLength="50" />
-          <Property Type="Decimal" Name="PayRateEdu" Nullable="true" Precision="18" Scale="0" />
-          <Property Type="Decimal" Name="TimeRequestEdu" Nullable="true" Precision="18" Scale="0" />
-          <Property Type="String" Name="TypeFund" Nullable="true" MaxLength="100" />
-          <Property Type="Decimal" Name="PayRateFund" Nullable="true" Precision="18" Scale="0" />
-          <Property Type="String" Name="InvNoFund" Nullable="true" MaxLength="100" />
-          <Property Type="DateTime" Name="DateFund" Nullable="true" />
-          <Property Type="String" Name="SchoolYear" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="startWorkDate" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Experience" Nullable="true" MaxLength="50" />
           <Property Type="Decimal" Name="Salary" Nullable="true" Precision="18" Scale="2" />
           <Property Type="Int32" Name="DivID" Nullable="true" />
@@ -10827,10 +10811,74 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Type="Int32" Name="SecID" Nullable="true" />
           <Property Type="String" Name="SecName" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="StatusName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ResignRemark" Nullable="true" MaxLength="400" />
+          <Property Type="String" Name="ResignDate" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="StatusID" Nullable="true" />
           <Property Type="Int32" Name="Level" Nullable="true" />
-          <Property Type="String" Name="MpCode" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="DateOfWork" Nullable="true" />
+          <Property Type="Decimal" Name="layOffAmount" Nullable="true" Precision="26" Scale="6" />
+          <Property Type="Decimal" Name="retireAmount" Nullable="true" Precision="26" Scale="6" />
           <Property Type="String" Name="CurrentDate" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="UfID" Nullable="false" />
+          <Property Type="String" Name="MpCode" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="sp_Report_Child_Result">
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="UserID" Nullable="true" />
+          <Property Type="String" Name="UfName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="UfCardID" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="UfDOB" Nullable="true" MaxLength="200" />
+          <Property Type="Double" Name="ChildFundAmout" Nullable="true" />
+          <Property Type="Double" Name="ChildEducationAmout" Nullable="true" />
+          <Property Type="String" Name="CExpireDate" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="StartWorkDate" Nullable="true" MaxLength="200" />
+          <Property Type="Double" Name="PayRateEdu" Nullable="true" />
+          <Property Type="String" Name="TimeRequestEdu" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="TypeFund" Nullable="true" MaxLength="200" />
+          <Property Type="Double" Name="PayRateFund" Nullable="true" />
+          <Property Type="String" Name="InvNoFund" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="DateFund" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="SchoolYear" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Experience" Nullable="true" MaxLength="200" />
+          <Property Type="Double" Name="Salary" Nullable="true" />
+          <Property Type="String" Name="DivID" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="DivName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="DepID" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="DepName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="SecID" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="SecName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Level" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="MpCode" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="CurrentDate" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="UfID" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="sp_Report_Loan_Result">
+          <Property Type="Int32" Name="UserID" Nullable="true" />
+          <Property Type="Int32" Name="BID" Nullable="true" />
+          <Property Type="String" Name="BName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
+          <Property Type="Decimal" Name="BlAccountNo" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="BlStartDate" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="BISummaryAmout" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="amoutPer" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="BlPeriod" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="BlPeriodPay" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="firstPay" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="lastPay" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="payRemain" Nullable="true" Precision="19" Scale="2" />
+          <Property Type="Decimal" Name="Outstanding" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="BlRemark" Nullable="true" />
+          <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="MpCode" Nullable="true" MaxLength="20" />
+          <Property Type="Decimal" Name="Salary" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="CurrentDate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="startWorkDate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Experience" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Level" Nullable="true" />
+          <Property Type="String" Name="DivName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="DepName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="SecName" Nullable="true" MaxLength="200" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -11251,28 +11299,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="BhrEndDate" ColumnName="BhrEndDate" />
                 <ScalarProperty Name="BhrAmout" ColumnName="BhrAmout" />
                 <ScalarProperty Name="BhrRemark" ColumnName="BhrRemark" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_Report_Loan" FunctionName="SAT.HR.Store.sp_Report_Loan">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SAT.HR.sp_Report_Loan_Result">
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="BlID" ColumnName="BlID" />
-                <ScalarProperty Name="BlYear" ColumnName="BlYear" />
-                <ScalarProperty Name="BID" ColumnName="BID" />
-                <ScalarProperty Name="BName" ColumnName="BName" />
-                <ScalarProperty Name="LtID" ColumnName="LtID" />
-                <ScalarProperty Name="LtName" ColumnName="LtName" />
-                <ScalarProperty Name="BlAccountNo" ColumnName="BlAccountNo" />
-                <ScalarProperty Name="BlStartDate" ColumnName="BlStartDate" />
-                <ScalarProperty Name="BlEndDate" ColumnName="BlEndDate" />
-                <ScalarProperty Name="BlCloseDate" ColumnName="BlCloseDate" />
-                <ScalarProperty Name="BlPeriod" ColumnName="BlPeriod" />
-                <ScalarProperty Name="BlPeriodPay" ColumnName="BlPeriodPay" />
-                <ScalarProperty Name="BISummaryAmout" ColumnName="BISummaryAmout" />
-                <ScalarProperty Name="BlRemark" ColumnName="BlRemark" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -14243,6 +14269,36 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Report_Remuneration" FunctionName="SAT.HR.Store.sp_Report_Remuneration">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_Report_Remuneration_Result">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="UfDOB" ColumnName="UfDOB" />
+                <ScalarProperty Name="startWorkDate" ColumnName="startWorkDate" />
+                <ScalarProperty Name="Experience" ColumnName="Experience" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="DivID" ColumnName="DivID" />
+                <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="DepID" ColumnName="DepID" />
+                <ScalarProperty Name="DepName" ColumnName="DepName" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="SecName" ColumnName="SecName" />
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="ResignRemark" ColumnName="ResignRemark" />
+                <ScalarProperty Name="ResignDate" ColumnName="ResignDate" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="DateOfWork" ColumnName="DateOfWork" />
+                <ScalarProperty Name="layOffAmount" ColumnName="layOffAmount" />
+                <ScalarProperty Name="retireAmount" ColumnName="retireAmount" />
+                <ScalarProperty Name="CurrentDate" ColumnName="CurrentDate" />
+                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Generate_Report_Child" FunctionName="SAT.HR.Store.sp_Generate_Report_Child" />
           <FunctionImportMapping FunctionImportName="sp_Report_Child" FunctionName="SAT.HR.Store.sp_Report_Child">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SAT.HR.sp_Report_Child_Result">
@@ -14275,6 +14331,37 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="MpCode" ColumnName="MpCode" />
                 <ScalarProperty Name="CurrentDate" ColumnName="CurrentDate" />
                 <ScalarProperty Name="UfID" ColumnName="UfID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Report_Loan" FunctionName="SAT.HR.Store.sp_Report_Loan">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_Report_Loan_Result">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="BID" ColumnName="BID" />
+                <ScalarProperty Name="BName" ColumnName="BName" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="BlAccountNo" ColumnName="BlAccountNo" />
+                <ScalarProperty Name="BlStartDate" ColumnName="BlStartDate" />
+                <ScalarProperty Name="BISummaryAmout" ColumnName="BISummaryAmout" />
+                <ScalarProperty Name="amoutPer" ColumnName="amoutPer" />
+                <ScalarProperty Name="BlPeriod" ColumnName="BlPeriod" />
+                <ScalarProperty Name="BlPeriodPay" ColumnName="BlPeriodPay" />
+                <ScalarProperty Name="firstPay" ColumnName="firstPay" />
+                <ScalarProperty Name="lastPay" ColumnName="lastPay" />
+                <ScalarProperty Name="payRemain" ColumnName="payRemain" />
+                <ScalarProperty Name="Outstanding" ColumnName="Outstanding" />
+                <ScalarProperty Name="BlRemark" ColumnName="BlRemark" />
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="CurrentDate" ColumnName="CurrentDate" />
+                <ScalarProperty Name="startWorkDate" ColumnName="startWorkDate" />
+                <ScalarProperty Name="Experience" ColumnName="Experience" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="DepName" ColumnName="DepName" />
+                <ScalarProperty Name="SecName" ColumnName="SecName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

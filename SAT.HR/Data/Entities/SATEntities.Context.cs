@@ -682,15 +682,6 @@ namespace SAT.HR.Data.Entities
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_HomeRental_Result>("sp_Report_HomeRental", empIDParameter);
         }
     
-        public virtual ObjectResult<sp_Report_Loan_Result> sp_Report_Loan(string empID)
-        {
-            var empIDParameter = empID != null ?
-                new ObjectParameter("empID", empID) :
-                new ObjectParameter("empID", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Loan_Result>("sp_Report_Loan", empIDParameter);
-        }
-    
         public virtual ObjectResult<sp_Report_MedicalTreatment_Result> sp_Report_MedicalTreatment(string empID)
         {
             var empIDParameter = empID != null ?
@@ -841,6 +832,28 @@ namespace SAT.HR.Data.Entities
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Accident_Result>("sp_Report_Accident", empIDParameter, userTypeIDParameter);
         }
     
+        public virtual ObjectResult<sp_Report_Remuneration_Result> sp_Report_Remuneration(string statusID, string empID)
+        {
+            var statusIDParameter = statusID != null ?
+                new ObjectParameter("statusID", statusID) :
+                new ObjectParameter("statusID", typeof(string));
+    
+            var empIDParameter = empID != null ?
+                new ObjectParameter("empID", empID) :
+                new ObjectParameter("empID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Remuneration_Result>("sp_Report_Remuneration", statusIDParameter, empIDParameter);
+        }
+    
+        public virtual int sp_Generate_Report_Child(string empID)
+        {
+            var empIDParameter = empID != null ?
+                new ObjectParameter("empID", empID) :
+                new ObjectParameter("empID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Generate_Report_Child", empIDParameter);
+        }
+    
         public virtual ObjectResult<sp_Report_Child_Result> sp_Report_Child(string empID)
         {
             var empIDParameter = empID != null ?
@@ -848,6 +861,15 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("empID", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Child_Result>("sp_Report_Child", empIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_Report_Loan_Result> sp_Report_Loan(string empID)
+        {
+            var empIDParameter = empID != null ?
+                new ObjectParameter("empID", empID) :
+                new ObjectParameter("empID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Loan_Result>("sp_Report_Loan", empIDParameter);
         }
     }
 }

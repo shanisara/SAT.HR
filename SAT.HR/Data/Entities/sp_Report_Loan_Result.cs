@@ -13,21 +13,30 @@ namespace SAT.HR.Data.Entities
     
     public partial class sp_Report_Loan_Result
     {
-        public string FullName { get; set; }
-        public int UserID { get; set; }
-        public int BlID { get; set; }
-        public Nullable<int> BlYear { get; set; }
+        public Nullable<int> UserID { get; set; }
         public Nullable<int> BID { get; set; }
         public string BName { get; set; }
-        public Nullable<int> LtID { get; set; }
-        public string LtName { get; set; }
+        public string FullName { get; set; }
         public Nullable<decimal> BlAccountNo { get; set; }
         public string BlStartDate { get; set; }
-        public string BlEndDate { get; set; }
-        public string BlCloseDate { get; set; }
+        public Nullable<decimal> BISummaryAmout { get; set; }
+        public Nullable<decimal> amoutPer { get; set; }
         public Nullable<decimal> BlPeriod { get; set; }
         public Nullable<decimal> BlPeriodPay { get; set; }
-        public Nullable<decimal> BISummaryAmout { get; set; }
+        public string firstPay { get; set; }
+        public string lastPay { get; set; }
+        public Nullable<decimal> payRemain { get; set; }
+        public Nullable<decimal> Outstanding { get; set; }
         public string BlRemark { get; set; }
+        public string PoName { get; set; }
+        public string MpCode { get; set; }
+        public Nullable<decimal> Salary { get; set; }
+        public string CurrentDate { get; set; }
+        public string startWorkDate { get; set; }
+        public string Experience { get; set; }
+        public Nullable<int> Level { get; set; }
+        public string DivName { get; set; }
+        public string DepName { get; set; }
+        public string SecName { get; set; }
     }
 }

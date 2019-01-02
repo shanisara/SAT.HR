@@ -98,7 +98,7 @@ namespace SAT.HR.Report.Master {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_empID {
+        public CrystalDecisions.Shared.IParameterField Parameter_ufID {
             get {
                 return this.DataDefinition.ParameterFields[0];
             }
@@ -106,7 +106,7 @@ namespace SAT.HR.Report.Master {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_ufID {
+        public CrystalDecisions.Shared.IParameterField Parameter_empID {
             get {
                 return this.DataDefinition.ParameterFields[1];
             }

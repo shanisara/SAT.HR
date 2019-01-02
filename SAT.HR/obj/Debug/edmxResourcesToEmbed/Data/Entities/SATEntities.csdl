@@ -146,9 +146,6 @@
     <FunctionImport Name="sp_Report_HomeRental" ReturnType="Collection(SAT.HR.sp_Report_HomeRental_Result)">
       <Parameter Name="empID" Mode="In" Type="String" />
     </FunctionImport>
-    <FunctionImport Name="sp_Report_Loan" ReturnType="Collection(SAT.HR.sp_Report_Loan_Result)">
-      <Parameter Name="empID" Mode="In" Type="String" />
-    </FunctionImport>
     <FunctionImport Name="sp_Report_MedicalTreatment" ReturnType="Collection(SAT.HR.sp_Report_MedicalTreatment_Result)">
       <Parameter Name="empID" Mode="In" Type="String" />
     </FunctionImport>
@@ -727,7 +724,14 @@
       <Parameter Name="empID" Mode="In" Type="String" />
       <Parameter Name="userTypeID" Mode="In" Type="String" />
     </FunctionImport>
-    <FunctionImport Name="sp_Report_Child" ReturnType="Collection(SAT.HR.sp_Report_Child_Result)">
+    <FunctionImport Name="sp_Report_Loan" ReturnType="Collection(SAT.HR.sp_Report_Loan_Result)">
+      <Parameter Name="empID" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Report_Remuneration" ReturnType="Collection(SAT.HR.sp_Report_Remuneration_Result)">
+      <Parameter Name="statusID" Mode="In" Type="String" />
+      <Parameter Name="empID" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Report_Child">
       <Parameter Name="empID" Mode="In" Type="String" />
     </FunctionImport>
   </EntityContainer>
@@ -1078,24 +1082,6 @@
     <Property Type="String" Name="BhrEndDate" Nullable="true" MaxLength="50" />
     <Property Type="Decimal" Name="BhrAmout" Nullable="true" Precision="18" Scale="2" />
     <Property Type="String" Name="BhrRemark" Nullable="true" />
-  </ComplexType>
-  <ComplexType Name="sp_Report_Loan_Result">
-    <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
-    <Property Type="Int32" Name="UserID" Nullable="false" />
-    <Property Type="Int32" Name="BlID" Nullable="false" />
-    <Property Type="Int32" Name="BlYear" Nullable="true" />
-    <Property Type="Int32" Name="BID" Nullable="true" />
-    <Property Type="String" Name="BName" Nullable="true" MaxLength="200" />
-    <Property Type="Int32" Name="LtID" Nullable="true" />
-    <Property Type="String" Name="LtName" Nullable="true" MaxLength="200" />
-    <Property Type="Decimal" Name="BlAccountNo" Nullable="true" Precision="18" Scale="0" />
-    <Property Type="String" Name="BlStartDate" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="BlEndDate" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="BlCloseDate" Nullable="true" MaxLength="50" />
-    <Property Type="Decimal" Name="BlPeriod" Nullable="true" Precision="18" Scale="0" />
-    <Property Type="Decimal" Name="BlPeriodPay" Nullable="true" Precision="18" Scale="2" />
-    <Property Type="Decimal" Name="BISummaryAmout" Nullable="true" Precision="18" Scale="2" />
-    <Property Type="String" Name="BlRemark" Nullable="true" />
   </ComplexType>
   <ComplexType Name="sp_Report_MedicalTreatment_Result">
     <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
@@ -5220,23 +5206,35 @@
     <Property Type="String" Name="Experience" Nullable="true" MaxLength="50" />
     <Property Type="Decimal" Name="Amount" Nullable="true" Precision="18" Scale="2" />
   </ComplexType>
-  <ComplexType Name="sp_Report_Child_Result">
+  <ComplexType Name="sp_Report_Loan_Result">
+    <Property Type="Int32" Name="UserID" Nullable="true" />
+    <Property Type="Int32" Name="BID" Nullable="true" />
+    <Property Type="String" Name="BName" Nullable="true" MaxLength="200" />
     <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
+    <Property Type="Decimal" Name="BlAccountNo" Nullable="true" Precision="18" Scale="0" />
+    <Property Type="String" Name="BlStartDate" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="BISummaryAmout" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="amoutPer" Nullable="true" Precision="38" Scale="6" />
+    <Property Type="Decimal" Name="BlPeriod" Nullable="true" Precision="18" Scale="0" />
+    <Property Type="Decimal" Name="BlPeriodPay" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="firstPay" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="lastPay" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="payRemain" Nullable="true" Precision="19" Scale="2" />
+    <Property Type="Decimal" Name="Outstanding" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="BlRemark" Nullable="true" />
+    <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="MpCode" Nullable="true" MaxLength="20" />
+    <Property Type="Decimal" Name="Salary" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="CurrentDate" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="startWorkDate" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Experience" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="Level" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_Report_Remuneration_Result">
     <Property Type="Int32" Name="UserID" Nullable="false" />
-    <Property Type="String" Name="UfName" Nullable="true" MaxLength="200" />
-    <Property Type="Decimal" Name="UfCardID" Nullable="true" Precision="18" Scale="0" />
+    <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
     <Property Type="String" Name="UfDOB" Nullable="true" MaxLength="50" />
-    <Property Type="Decimal" Name="ChildFundAmout" Nullable="true" Precision="18" Scale="2" />
-    <Property Type="Decimal" Name="ChildEducationAmout" Nullable="true" Precision="18" Scale="2" />
-    <Property Type="String" Name="CExpireDate" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="StartWorkDate" Nullable="true" MaxLength="50" />
-    <Property Type="Decimal" Name="PayRateEdu" Nullable="true" Precision="18" Scale="0" />
-    <Property Type="Decimal" Name="TimeRequestEdu" Nullable="true" Precision="18" Scale="0" />
-    <Property Type="String" Name="TypeFund" Nullable="true" MaxLength="100" />
-    <Property Type="Decimal" Name="PayRateFund" Nullable="true" Precision="18" Scale="0" />
-    <Property Type="String" Name="InvNoFund" Nullable="true" MaxLength="100" />
-    <Property Type="DateTime" Name="DateFund" Nullable="true" />
-    <Property Type="String" Name="SchoolYear" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="startWorkDate" Nullable="true" MaxLength="50" />
     <Property Type="String" Name="Experience" Nullable="true" MaxLength="50" />
     <Property Type="Decimal" Name="Salary" Nullable="true" Precision="18" Scale="2" />
     <Property Type="Int32" Name="DivID" Nullable="true" />
@@ -5246,9 +5244,15 @@
     <Property Type="Int32" Name="SecID" Nullable="true" />
     <Property Type="String" Name="SecName" Nullable="true" MaxLength="200" />
     <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="StatusName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ResignRemark" Nullable="true" MaxLength="400" />
+    <Property Type="String" Name="ResignDate" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="StatusID" Nullable="true" />
     <Property Type="Int32" Name="Level" Nullable="true" />
-    <Property Type="String" Name="MpCode" Nullable="true" MaxLength="20" />
+    <Property Type="Int32" Name="DateOfWork" Nullable="true" />
+    <Property Type="Decimal" Name="layOffAmount" Nullable="true" Precision="26" Scale="6" />
+    <Property Type="Decimal" Name="retireAmount" Nullable="true" Precision="26" Scale="6" />
     <Property Type="String" Name="CurrentDate" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="UfID" Nullable="false" />
+    <Property Type="String" Name="MpCode" Nullable="true" MaxLength="20" />
   </ComplexType>
 </Schema>
