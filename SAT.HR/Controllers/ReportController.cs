@@ -134,7 +134,7 @@ namespace SAT.HR.Controllers
         #region รายงาน : เงินตอบแทนความชอบ
         public ActionResult ReportRemuneration()
         {            
-            ViewBag.Employee = DropDownList.GetEmployee(0, 1);
+            ViewBag.Employee = DropDownList.GetEmployeeResign(0, 1);
             ViewBag.ResignType = DropDownList.GetResignType(0).Where(x => x.Text != "ถึงแก่กรรม");
             ViewBag.UserType = DropDownList.GetUserType(0);
             return View("~/Views/Report/Benefit/Report_Remuneration.cshtml");
