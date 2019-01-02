@@ -129,8 +129,8 @@
             </div>
         </div>
         <div class="row isworked">
-            <div class="col-sm-3 m-t-20"><label class="form-check">เคยเป็นพนักงาน กกท.</label></div>
-            <div class="col-sm-1 m-t-10">
+            <div class="col-sm-3 m-t-10"><label class="form-check">เคยเป็นพนักงาน กกท.</label></div>
+            <div class="col-sm-1 m-t-5">
                 <div class="form-check mr-auto">
                     <label class="form-check-label">
                         <input class="form-check-input ufIsworked" type="checkbox" aria-required="true">
@@ -138,15 +138,14 @@
                     </label>
                 </div>
             </div>
-            <div class="col-sm-8 m-t-20">
-                @Html.DropDownListFor(n => n.PoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker ufPosition", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true", data_size = "5" })
-            </div>  
         </div>
-        <div class="row">            
-                <div class="col-sm-4 m-t-20">
-                    <span>เลือกฝ่าย กอง งาน</span>
-                </div>
-                <div class="col-md-8">
+        <div class="row m-t-15">            
+                <div class="col-sm-3 m-t-20"></div>
+                <div class="col-md-9">
+                    <div class="form-group">
+                        @Html.Label("ตำแหน่ง", null, new { @class = "bmd-label-fixed" })
+                        @Html.DropDownListFor(n => n.PoID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Position, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker ufPosition", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true", data_size = "5" })
+                    </div>
                     <div class="form-group">
                         @Html.Label("ฝ่าย", null, new { @class = "bmd-label-fixed" })
                         @Html.DropDownListFor(n => n.DivID, new SelectList((IEnumerable<SelectListItem>)ViewBag.Division, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", data_show_subtext = "true", data_live_search = "true", data_size = "5" })
@@ -223,7 +222,7 @@
         }
     });
 
-        $('select[name=DivID]').change(function () {
+    $('select[name=DivID]').change(function () {
         var type = $("#UserType").val();
         var divid = $('select[name=DivID]').val();
         $.ajax({
@@ -240,8 +239,8 @@
 
                 $('select[name=SecID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
                 $('select[name=SecID]').selectpicker('refresh');
-                $('select[name=PoID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
-                $('select[name=PoID]').selectpicker('refresh');
+                //$('select[name=PoID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                //$('select[name=PoID]').selectpicker('refresh');
             }
         });
     });
@@ -262,13 +261,13 @@
                 });
                 $('select[name=SecID]').selectpicker('refresh');
 
-                $('select[name=PoID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
-                $('select[name=PoID]').selectpicker('refresh');
+                //$('select[name=PoID]').empty().append('<option value=""> -- กรุณาเลือก -- </option>');
+                //$('select[name=PoID]').selectpicker('refresh');
             }
         });
     });
 
-    $('select[name=SecID]').change(function () {
+    @*$('select[name=SecID]').change(function () {
         var type = $("#UserType").val();
         var divid = $('select[name=DivID]').val();
         var depid = $('select[name=DepID]').val();
@@ -286,6 +285,6 @@
                 $('select[name=PoID]').selectpicker('refresh');
             }
         });
-    });
+    });*@
 
 </script>
