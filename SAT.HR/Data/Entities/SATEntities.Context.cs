@@ -39,10 +39,8 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Benefit_Document> tb_Benefit_Document { get; set; }
         public virtual DbSet<tb_Benefit_Home_Rental> tb_Benefit_Home_Rental { get; set; }
         public virtual DbSet<tb_Benefit_Loan> tb_Benefit_Loan { get; set; }
-        public virtual DbSet<tb_Benefit_Medical> tb_Benefit_Medical { get; set; }
         public virtual DbSet<tb_Benefit_Other_Welfare> tb_Benefit_Other_Welfare { get; set; }
         public virtual DbSet<tb_Benefit_Provident_Fund> tb_Benefit_Provident_Fund { get; set; }
-        public virtual DbSet<tb_Benefit_Remuneration> tb_Benefit_Remuneration { get; set; }
         public virtual DbSet<tb_Benefit_Type> tb_Benefit_Type { get; set; }
         public virtual DbSet<tb_Blood_Type> tb_Blood_Type { get; set; }
         public virtual DbSet<tb_Bonus_Calculator_Detail> tb_Bonus_Calculator_Detail { get; set; }
@@ -164,7 +162,6 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_Move_Level_Head> vw_Move_Level_Head { get; set; }
         public virtual DbSet<vw_Move_Man_Power_Detail> vw_Move_Man_Power_Detail { get; set; }
         public virtual DbSet<vw_Move_Man_Power_Head> vw_Move_Man_Power_Head { get; set; }
-        public virtual DbSet<vw_Organization> vw_Organization { get; set; }
         public virtual DbSet<vw_Section> vw_Section { get; set; }
         public virtual DbSet<vw_Title> vw_Title { get; set; }
         public virtual DbSet<vw_Trainning_Course> vw_Trainning_Course { get; set; }
@@ -183,6 +180,12 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<vw_User_Role> vw_User_Role { get; set; }
         public virtual DbSet<vw_User_Skill> vw_User_Skill { get; set; }
         public virtual DbSet<vw_User_Training> vw_User_Training { get; set; }
+        public virtual DbSet<tb_Benefit_Calculate_Type> tb_Benefit_Calculate_Type { get; set; }
+        public virtual DbSet<tb_Benefit_Medical> tb_Benefit_Medical { get; set; }
+        public virtual DbSet<tb_Benefit_Medical_Type> tb_Benefit_Medical_Type { get; set; }
+        public virtual DbSet<tb_Benefit_Remuneration> tb_Benefit_Remuneration { get; set; }
+        public virtual DbSet<tb_Benefit_Replacement_Type> tb_Benefit_Replacement_Type { get; set; }
+        public virtual DbSet<vw_Organization> vw_Organization { get; set; }
     
         public virtual ObjectResult<sp_Employee_List_Result> sp_Employee_List(string pageSize, string initialPage, string sortBy, string sortrDir, string userType, string userStatus, string keyword)
         {
