@@ -13,6 +13,7 @@
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
+    <Property Name="Amount" Type="decimal" Precision="18" Scale="2" />
   </EntityType>
   <EntityType Name="tb_Accumulative_Fund">
     <Key>
@@ -275,6 +276,7 @@
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
+    <Property Name="BrEndDate" Type="datetime" />
   </EntityType>
   <EntityType Name="tb_Benefit_Type">
     <Key>
@@ -282,6 +284,10 @@
     </Key>
     <Property Name="BenTID" Type="int" Nullable="false" />
     <Property Name="BenTName" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyBy" Type="int" />
   </EntityType>
   <EntityType Name="tb_Blood_Type">
     <Key>
@@ -448,6 +454,25 @@
     <Property Name="DegID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="DegName" Type="nvarchar" MaxLength="200" />
     <Property Name="DegStatus" Type="bit" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Delegate">
+    <Key>
+      <PropertyRef Name="DelegateID" />
+    </Key>
+    <Property Name="DelegateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DelegateType" Type="int" />
+    <Property Name="FormMasterID" Type="int" />
+    <Property Name="FromMpID" Type="int" />
+    <Property Name="FromUserID" Type="int" />
+    <Property Name="ToMpID" Type="int" />
+    <Property Name="ToUserID" Type="int" />
+    <Property Name="StartDate" Type="date" />
+    <Property Name="EndDate" Type="date" />
+    <Property Name="IsActive" Type="bit" />
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
@@ -1460,6 +1485,13 @@
     <Property Name="DivID" Type="int" />
     <Property Name="DepID" Type="int" />
     <Property Name="SecID" Type="int" />
+    <Property Name="PayRateEdu" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="TimeRequestEdu" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="TypeFund" Type="nvarchar" MaxLength="100" />
+    <Property Name="PayRateFund" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="InvNoFund" Type="nvarchar" MaxLength="100" />
+    <Property Name="DateFund" Type="date" />
+    <Property Name="SchoolYear" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="tb_User_History">
     <Key>
@@ -1852,6 +1884,19 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Capability' does not have a pri
     <Property Name="CapGTName" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Child' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Child">
+    <Key>
+      <PropertyRef Name="UfID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UfID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="UfName" Type="nvarchar" MaxLength="200" />
+    <Property Name="BirthDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="Age" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Course' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Course">
     <Key>
@@ -1879,6 +1924,49 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Course' does not have a primary
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Delegate' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Delegate">
+    <Key>
+      <PropertyRef Name="DelegateID" />
+      <PropertyRef Name="DelegateTypeName" />
+    </Key>
+    <Property Name="DelegateID" Type="int" Nullable="false" />
+    <Property Name="DelegateTypeName" Type="varchar" MaxLength="7" Nullable="false" />
+    <Property Name="FromUser" Type="nvarchar" MaxLength="501" />
+    <Property Name="ToUser" Type="nvarchar" MaxLength="501" />
+    <Property Name="FromMp" Type="nvarchar" MaxLength="223" />
+    <Property Name="ToMp" Type="nvarchar" MaxLength="223" />
+    <Property Name="StartDate" Type="date" />
+    <Property Name="EndDate" Type="date" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="DelegateType" Type="int" />
+    <Property Name="FormMasterID" Type="int" />
+    <Property Name="FromMpID" Type="int" />
+    <Property Name="FromUserID" Type="int" />
+    <Property Name="ToMpID" Type="int" />
+    <Property Name="ToUserID" Type="int" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="ModifyBy" Type="int" />
+    <Property Name="FromUserDivName" Type="nvarchar" MaxLength="200" />
+    <Property Name="FromUserDepName" Type="nvarchar" MaxLength="200" />
+    <Property Name="FromUserSecName" Type="nvarchar" MaxLength="200" />
+    <Property Name="FromUserPoName" Type="nvarchar" MaxLength="200" />
+    <Property Name="ToUserDivName" Type="nvarchar" MaxLength="200" />
+    <Property Name="ToUserDepName" Type="nvarchar" MaxLength="200" />
+    <Property Name="ToUserSecName" Type="nvarchar" MaxLength="200" />
+    <Property Name="ToUserPoName" Type="nvarchar" MaxLength="200" />
+    <Property Name="FromMPDivName" Type="nvarchar" MaxLength="200" />
+    <Property Name="FromMPDepName" Type="nvarchar" MaxLength="200" />
+    <Property Name="FromMPSecName" Type="nvarchar" MaxLength="200" />
+    <Property Name="FromMPFullName" Type="nvarchar" MaxLength="501" />
+    <Property Name="ToMPDivName" Type="nvarchar" MaxLength="200" />
+    <Property Name="ToMPDepName" Type="nvarchar" MaxLength="200" />
+    <Property Name="ToMPSecName" Type="nvarchar" MaxLength="200" />
+    <Property Name="ToMPFullName" Type="nvarchar" MaxLength="501" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Department' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -3862,6 +3950,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <Parameter Name="UserID" Type="int" Mode="In" />
     <Parameter Name="CapID" Type="int" Mode="In" />
   </Function>
+  <Function Name="sp_Generate_Report_Child" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="empID" Type="nvarchar" Mode="In" />
+  </Function>
   <Function Name="sp_Leave_Balance_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="UserID" Type="int" Mode="In" />
     <Parameter Name="LevYear" Type="int" Mode="In" />
@@ -3917,8 +4008,12 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <Parameter Name="MlID" Type="int" Mode="In" />
     <Parameter Name="ActionBy" Type="int" Mode="In" />
   </Function>
-  <Function Name="sp_Report_Child" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+  <Function Name="sp_Report_Accident" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="empID" Type="varchar" Mode="In" />
+    <Parameter Name="userTypeID" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_Report_Child" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="empID" Type="nvarchar" Mode="In" />
   </Function>
   <Function Name="sp_Report_Cremation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="empID" Type="varchar" Mode="In" />
@@ -3957,6 +4052,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <Parameter Name="empID" Type="varchar" Mode="In" />
   </Function>
   <Function Name="sp_Report_Remuneration" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="statusID" Type="varchar" Mode="In" />
     <Parameter Name="empID" Type="varchar" Mode="In" />
   </Function>
   <Function Name="sp_Salary_Increase_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -4055,6 +4151,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_Cripple" EntityType="Self.tb_Cripple" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Cripple_Type" EntityType="Self.tb_Cripple_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Degree" EntityType="Self.tb_Degree" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Delegate" EntityType="Self.tb_Delegate" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Department" EntityType="Self.tb_Department" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Discipline" EntityType="Self.tb_Discipline" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_District" EntityType="Self.tb_District" Schema="dbo" store:Type="Tables" />
@@ -4327,6 +4424,15 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Capability].[CapGTName] AS [CapGTName]
     FROM [dbo].[vw_Capability] AS [vw_Capability]</DefiningQuery>
     </EntitySet>
+    <EntitySet Name="vw_Child" EntityType="Self.vw_Child" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Child].[UfID] AS [UfID], 
+    [vw_Child].[UserID] AS [UserID], 
+    [vw_Child].[UfName] AS [UfName], 
+    [vw_Child].[BirthDate] AS [BirthDate], 
+    [vw_Child].[Age] AS [Age]
+    FROM [dbo].[vw_Child] AS [vw_Child]</DefiningQuery>
+    </EntitySet>
     <EntitySet Name="vw_Course" EntityType="Self.vw_Course" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [vw_Course].[CourseID] AS [CourseID], 
@@ -4351,6 +4457,45 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     [vw_Course].[ModifyDate] AS [ModifyDate], 
     [vw_Course].[ModifyBy] AS [ModifyBy]
     FROM [dbo].[vw_Course] AS [vw_Course]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Delegate" EntityType="Self.vw_Delegate" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Delegate].[DelegateID] AS [DelegateID], 
+    [vw_Delegate].[DelegateTypeName] AS [DelegateTypeName], 
+    [vw_Delegate].[FromUser] AS [FromUser], 
+    [vw_Delegate].[ToUser] AS [ToUser], 
+    [vw_Delegate].[FromMp] AS [FromMp], 
+    [vw_Delegate].[ToMp] AS [ToMp], 
+    [vw_Delegate].[StartDate] AS [StartDate], 
+    [vw_Delegate].[EndDate] AS [EndDate], 
+    [vw_Delegate].[IsActive] AS [IsActive], 
+    [vw_Delegate].[DelegateType] AS [DelegateType], 
+    [vw_Delegate].[FormMasterID] AS [FormMasterID], 
+    [vw_Delegate].[FromMpID] AS [FromMpID], 
+    [vw_Delegate].[FromUserID] AS [FromUserID], 
+    [vw_Delegate].[ToMpID] AS [ToMpID], 
+    [vw_Delegate].[ToUserID] AS [ToUserID], 
+    [vw_Delegate].[CreateDate] AS [CreateDate], 
+    [vw_Delegate].[CreateBy] AS [CreateBy], 
+    [vw_Delegate].[ModifyDate] AS [ModifyDate], 
+    [vw_Delegate].[ModifyBy] AS [ModifyBy], 
+    [vw_Delegate].[FromUserDivName] AS [FromUserDivName], 
+    [vw_Delegate].[FromUserDepName] AS [FromUserDepName], 
+    [vw_Delegate].[FromUserSecName] AS [FromUserSecName], 
+    [vw_Delegate].[FromUserPoName] AS [FromUserPoName], 
+    [vw_Delegate].[ToUserDivName] AS [ToUserDivName], 
+    [vw_Delegate].[ToUserDepName] AS [ToUserDepName], 
+    [vw_Delegate].[ToUserSecName] AS [ToUserSecName], 
+    [vw_Delegate].[ToUserPoName] AS [ToUserPoName], 
+    [vw_Delegate].[FromMPDivName] AS [FromMPDivName], 
+    [vw_Delegate].[FromMPDepName] AS [FromMPDepName], 
+    [vw_Delegate].[FromMPSecName] AS [FromMPSecName], 
+    [vw_Delegate].[FromMPFullName] AS [FromMPFullName], 
+    [vw_Delegate].[ToMPDivName] AS [ToMPDivName], 
+    [vw_Delegate].[ToMPDepName] AS [ToMPDepName], 
+    [vw_Delegate].[ToMPSecName] AS [ToMPSecName], 
+    [vw_Delegate].[ToMPFullName] AS [ToMPFullName]
+    FROM [dbo].[vw_Delegate] AS [vw_Delegate]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vw_Department" EntityType="Self.vw_Department" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 

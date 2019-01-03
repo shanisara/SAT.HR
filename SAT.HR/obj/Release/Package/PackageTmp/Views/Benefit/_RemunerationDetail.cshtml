@@ -14,12 +14,6 @@
                     @Html.TextBoxFor(m => m.BrYear, new { @class = "form-control", type = "number", required = "true" })
                 </div>
             </div>
-            <label class="col-sm-2 col-form-label" for="BrDate">วันที่<span class="text-danger"> *</span></label>
-            <div class="col-sm-5">
-                <div class="form-group bmd-form-group">
-                    @Html.TextBoxFor(m => m.BrDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
-                </div>
-            </div>
         </div>
         <div class="row">
             <label class="col-sm-2 col-form-label" for="RecID">ผู้รับ<span class="text-danger"> *</span></label>
@@ -30,6 +24,20 @@
             @Html.Label("", null, new { @class = "col-sm-2 col-form-label" })
             <div class="col-sm-5">
                 @Html.DropDownListFor(x => x.RecFullName, new SelectList((IEnumerable<SelectListItem>)ViewBag.RecFullName, "Value", "Text"), "-- กรุณาเลือก --", new { @class = "selectpicker", data_style = "select-with-transition", required = "true" })
+            </div>
+        </div>
+        <div class="row m-t-10">
+            <label class="col-sm-2 col-form-label" for="BrDate">วันที่เริ่ม<span class="text-danger"> *</span></label>
+            <div class="col-sm-3">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BrDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
+                </div>
+            </div>
+            <label class="col-sm-2 col-form-label" for="BrDate">วันที่สิ้นสุด<span class="text-danger"> *</span></label>
+            <div class="col-sm-5">
+                <div class="form-group bmd-form-group">
+                    @Html.TextBoxFor(m => m.BrEndDate, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", required = "true" })
+                </div>
             </div>
         </div>
         <div class="row m-t-5">
@@ -61,6 +69,8 @@
 
     $('.datepicker').datetimepicker({
         format: 'DD/MM/YYYY',
+        locale: 'th',
+        //date: moment().add(543, 'years'),
         icons: {
             time: "fa fa-clock-o",
             date: "fa fa-calendar",

@@ -46,7 +46,7 @@
                     <div class="toolbar pull-right" style="margin-top:10px;padding-right:5px;">
                         <button class="btn btn-primary btn-sm btn-export" style="display: none;">Export</button>
                     </div>
-
+                    @Html.Hidden("maxFileSize", (string)ViewBag.MaxFileSizeUpload)
                     @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-step" }))
                     {
                         <div class="tab-content tab-subcategories">
@@ -155,6 +155,8 @@
 
             $('.datepicker').datetimepicker({
                 format: 'DD/MM/YYYY',
+                locale: 'th',
+                //date: moment().add(543, 'years'),
                 icons: {
                     time: "fa fa-clock-o",
                     date: "fa fa-calendar",
@@ -241,6 +243,8 @@
                 var BookCmd = $('#BookCmd').val();
                 var DateCmd = $('#DateCmd').val();
                 var DateEff = $('#DateEff').val();
+                var maxFileSize = $('#maxFileSize').val();
+                var fileSize = $('#FileUpload')[0].files[0].size;
 
                 //var status = $(".form-step").valid();
                 //if (!status) {
@@ -257,6 +261,19 @@
                     }).then(function () {
                         $('#BookCmd').focus();
                     });
+                }
+                if (parseInt(fileSize) > parseInt(maxFileSize)) {
+                    swal({
+                        title: '',
+                        text: '@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.ValidateMaxFileSizeUpload) ' + parseInt(maxFileSize) / 1048576 + ' MB',
+                        type: "warning",
+                        showCancelButton: false,
+                        confirmButtonClass: 'btn btn-success btn-w-m btn-lg',
+                        confirmButtonText: "@MvcHtmlString.Create(SAT.HR.Resources.ResourceSAT.btnClose)",
+                        closeOnConfirm: false,
+                        allowOutsideClick: false,
+                        buttonsStyling: false
+                    }).catch(swal.noop)
                 }
                 else {
                     swal({

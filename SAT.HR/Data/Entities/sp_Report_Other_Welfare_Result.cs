@@ -13,22 +13,25 @@ namespace SAT.HR.Data.Entities
     
     public partial class sp_Report_Other_Welfare_Result
     {
-        public string FullName { get; set; }
-        public int UserID { get; set; }
-        public int BoID { get; set; }
-        public Nullable<int> BoYear { get; set; }
         public Nullable<int> BenTID { get; set; }
-        public string BenTName { get; set; }
-        public Nullable<int> BoRecID { get; set; }
-        public string RecName { get; set; }
-        public string BoRecFullName { get; set; }
-        public Nullable<int> BoOptRecID { get; set; }
-        public string RecName1 { get; set; }
-        public string BoOptFullName { get; set; }
-        public string BoTime { get; set; }
-        public Nullable<decimal> BoPer { get; set; }
+        public Nullable<int> Ranks { get; set; }
+        public Nullable<int> UserID { get; set; }
         public Nullable<decimal> BoAmout { get; set; }
-        public string BoDate { get; set; }
-        public string BoRemark { get; set; }
+        public string BenTName { get; set; }
+        public Nullable<int> othBenTID { get; set; }
+        public string MpCode { get; set; }
+        public string FullName { get; set; }
+        public string Experience { get; set; }
+        public Nullable<decimal> Salary { get; set; }
+        public Nullable<decimal> SalaryDay { get; set; }
+        public Nullable<int> DivID { get; set; }
+        public string DivName { get; set; }
+        public Nullable<int> DepID { get; set; }
+        public string DepName { get; set; }
+        public Nullable<int> SecID { get; set; }
+        public string SecName { get; set; }
+        public string PoName { get; set; }
+        public Nullable<int> Level { get; set; }
+        public string CurrentDate { get; set; }
     }
 }

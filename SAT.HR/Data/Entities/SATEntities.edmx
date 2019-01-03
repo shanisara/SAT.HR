@@ -5737,9 +5737,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <FunctionImport Name="sp_Report_MedicalTreatment" ReturnType="Collection(SAT.HR.sp_Report_MedicalTreatment_Result)">
           <Parameter Name="empID" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_Report_Other_Welfare" ReturnType="Collection(SAT.HR.sp_Report_Other_Welfare_Result)">
-          <Parameter Name="empID" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_Report_ProvidentFund" ReturnType="Collection(SAT.HR.sp_Report_ProvidentFund_Result)">
           <Parameter Name="empID" Mode="In" Type="String" />
           </FunctionImport>
@@ -6323,6 +6320,9 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Parameter Name="empID" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_Report_Loan" ReturnType="Collection(SAT.HR.sp_Report_Loan_Result)">
+          <Parameter Name="empID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Report_Other_Welfare" ReturnType="Collection(SAT.HR.sp_Report_Other_Welfare_Result)">
             <Parameter Name="empID" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
@@ -6689,25 +6689,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Type="Decimal" Name="BmAmoutService" Nullable="true" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="BmAmoutCare" Nullable="true" Precision="18" Scale="2" />
           <Property Type="String" Name="BmRemark" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_Report_Other_Welfare_Result">
-          <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
-          <Property Type="Int32" Name="UserID" Nullable="false" />
-          <Property Type="Int32" Name="BoID" Nullable="false" />
-          <Property Type="Int32" Name="BoYear" Nullable="true" />
-          <Property Type="Int32" Name="BenTID" Nullable="true" />
-          <Property Type="String" Name="BenTName" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="BoRecID" Nullable="true" />
-          <Property Type="String" Name="RecName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="BoRecFullName" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="BoOptRecID" Nullable="true" />
-          <Property Type="String" Name="RecName1" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="BoOptFullName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="BoTime" Nullable="true" MaxLength="50" />
-          <Property Type="Decimal" Name="BoPer" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="BoAmout" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="String" Name="BoDate" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="BoRemark" Nullable="true" />
         </ComplexType>
         <ComplexType Name="sp_Report_ProvidentFund_Result">
           <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
@@ -10880,6 +10861,28 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Type="String" Name="DepName" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="SecName" Nullable="true" MaxLength="200" />
         </ComplexType>
+        <ComplexType Name="sp_Report_Other_Welfare_Result">
+          <Property Type="Int32" Name="BenTID" Nullable="true" />
+          <Property Type="Int32" Name="Ranks" Nullable="true" />
+          <Property Type="Int32" Name="UserID" Nullable="true" />
+          <Property Type="Decimal" Name="BoAmout" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="String" Name="BenTName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="othBenTID" Nullable="true" />
+          <Property Type="String" Name="MpCode" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
+          <Property Type="String" Name="Experience" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="Salary" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="SalaryDay" Nullable="true" Precision="22" Scale="6" />
+          <Property Type="Int32" Name="DivID" Nullable="true" />
+          <Property Type="String" Name="DivName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="DepID" Nullable="true" />
+          <Property Type="String" Name="DepName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="SecID" Nullable="true" />
+          <Property Type="String" Name="SecName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="Level" Nullable="true" />
+          <Property Type="String" Name="CurrentDate" Nullable="true" MaxLength="50" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -11319,29 +11322,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="BmAmoutService" ColumnName="BmAmoutService" />
                 <ScalarProperty Name="BmAmoutCare" ColumnName="BmAmoutCare" />
                 <ScalarProperty Name="BmRemark" ColumnName="BmRemark" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_Report_Other_Welfare" FunctionName="SAT.HR.Store.sp_Report_Other_Welfare">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SAT.HR.sp_Report_Other_Welfare_Result">
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="BoID" ColumnName="BoID" />
-                <ScalarProperty Name="BoYear" ColumnName="BoYear" />
-                <ScalarProperty Name="BenTID" ColumnName="BenTID" />
-                <ScalarProperty Name="BenTName" ColumnName="BenTName" />
-                <ScalarProperty Name="BoRecID" ColumnName="BoRecID" />
-                <ScalarProperty Name="RecName" ColumnName="RecName" />
-                <ScalarProperty Name="BoRecFullName" ColumnName="BoRecFullName" />
-                <ScalarProperty Name="BoOptRecID" ColumnName="BoOptRecID" />
-                <ScalarProperty Name="RecName1" ColumnName="RecName1" />
-                <ScalarProperty Name="BoOptFullName" ColumnName="BoOptFullName" />
-                <ScalarProperty Name="BoTime" ColumnName="BoTime" />
-                <ScalarProperty Name="BoPer" ColumnName="BoPer" />
-                <ScalarProperty Name="BoAmout" ColumnName="BoAmout" />
-                <ScalarProperty Name="BoDate" ColumnName="BoDate" />
-                <ScalarProperty Name="BoRemark" ColumnName="BoRemark" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -14362,6 +14342,32 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="DivName" ColumnName="DivName" />
                 <ScalarProperty Name="DepName" ColumnName="DepName" />
                 <ScalarProperty Name="SecName" ColumnName="SecName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Report_Other_Welfare" FunctionName="SAT.HR.Store.sp_Report_Other_Welfare">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_Report_Other_Welfare_Result">
+                <ScalarProperty Name="BenTID" ColumnName="BenTID" />
+                <ScalarProperty Name="Ranks" ColumnName="Ranks" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="BoAmout" ColumnName="BoAmout" />
+                <ScalarProperty Name="BenTName" ColumnName="BenTName" />
+                <ScalarProperty Name="othBenTID" ColumnName="othBenTID" />
+                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Experience" ColumnName="Experience" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="SalaryDay" ColumnName="SalaryDay" />
+                <ScalarProperty Name="DivID" ColumnName="DivID" />
+                <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="DepID" ColumnName="DepID" />
+                <ScalarProperty Name="DepName" ColumnName="DepName" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="SecName" ColumnName="SecName" />
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="CurrentDate" ColumnName="CurrentDate" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

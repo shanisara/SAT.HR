@@ -691,15 +691,6 @@ namespace SAT.HR.Data.Entities
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_MedicalTreatment_Result>("sp_Report_MedicalTreatment", empIDParameter);
         }
     
-        public virtual ObjectResult<sp_Report_Other_Welfare_Result> sp_Report_Other_Welfare(string empID)
-        {
-            var empIDParameter = empID != null ?
-                new ObjectParameter("empID", empID) :
-                new ObjectParameter("empID", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Other_Welfare_Result>("sp_Report_Other_Welfare", empIDParameter);
-        }
-    
         public virtual ObjectResult<sp_Report_ProvidentFund_Result> sp_Report_ProvidentFund(string empID)
         {
             var empIDParameter = empID != null ?
@@ -870,6 +861,15 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("empID", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Loan_Result>("sp_Report_Loan", empIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_Report_Other_Welfare_Result> sp_Report_Other_Welfare(string empID)
+        {
+            var empIDParameter = empID != null ?
+                new ObjectParameter("empID", empID) :
+                new ObjectParameter("empID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Other_Welfare_Result>("sp_Report_Other_Welfare", empIDParameter);
         }
     }
 }

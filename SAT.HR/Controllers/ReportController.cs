@@ -264,7 +264,7 @@ namespace SAT.HR.Controllers
                     foreach (string x in userID)
                     {
                         index++;
-                        userid += "'" + x.ToString() + "'";
+                        userid +=  x.ToString();
                         if (index < userID.Count())
                         {
                             userid += ",";
