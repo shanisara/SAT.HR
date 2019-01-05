@@ -16,14 +16,14 @@ namespace SAT.HR.Report.Master {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class Report_MedicalTreatment : ReportClass {
+    public class Report_Rehabilitation : ReportClass {
         
-        public Report_MedicalTreatment() {
+        public Report_Rehabilitation() {
         }
         
         public override string ResourceName {
             get {
-                return "Report_MedicalTreatment.rpt";
+                return "Report_Rehabilitation.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace SAT.HR.Report.Master {
         
         public override string FullResourceName {
             get {
-                return "SAT.HR.Report.Master.Report_MedicalTreatment.rpt";
+                return "SAT.HR.Report.Master.Report_Rehabilitation.rpt";
             }
             set {
                 // Do nothing
@@ -82,7 +82,7 @@ namespace SAT.HR.Report.Master {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section GroupFooterSection1 {
+        public CrystalDecisions.CrystalReports.Engine.Section DetailSection1 {
             get {
                 return this.ReportDefinition.Sections[4];
             }
@@ -90,7 +90,7 @@ namespace SAT.HR.Report.Master {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section4 {
+        public CrystalDecisions.CrystalReports.Engine.Section GroupFooterSection1 {
             get {
                 return this.ReportDefinition.Sections[5];
             }
@@ -98,9 +98,17 @@ namespace SAT.HR.Report.Master {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section5 {
+        public CrystalDecisions.CrystalReports.Engine.Section Section4 {
             get {
                 return this.ReportDefinition.Sections[6];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.CrystalReports.Engine.Section Section5 {
+            get {
+                return this.ReportDefinition.Sections[7];
             }
         }
         
@@ -122,9 +130,9 @@ namespace SAT.HR.Report.Master {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedReport_MedicalTreatment : Component, ICachedReport {
+    public class CachedReport_Rehabilitation : Component, ICachedReport {
         
-        public CachedReport_MedicalTreatment() {
+        public CachedReport_Rehabilitation() {
         }
         
         [Browsable(false)]
@@ -161,7 +169,7 @@ namespace SAT.HR.Report.Master {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            Report_MedicalTreatment rpt = new Report_MedicalTreatment();
+            Report_Rehabilitation rpt = new Report_Rehabilitation();
             rpt.Site = this.Site;
             return rpt;
         }

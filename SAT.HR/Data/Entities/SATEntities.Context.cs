@@ -33,6 +33,7 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Agent_Type> tb_Agent_Type { get; set; }
         public virtual DbSet<tb_Announcement> tb_Announcement { get; set; }
         public virtual DbSet<tb_Bank_Loan> tb_Bank_Loan { get; set; }
+        public virtual DbSet<tb_Benefit_Calculate_Type> tb_Benefit_Calculate_Type { get; set; }
         public virtual DbSet<tb_Benefit_Cremation> tb_Benefit_Cremation { get; set; }
         public virtual DbSet<tb_Benefit_Death_Replacement> tb_Benefit_Death_Replacement { get; set; }
         public virtual DbSet<tb_Benefit_Death_Subsidy> tb_Benefit_Death_Subsidy { get; set; }
@@ -40,9 +41,11 @@ namespace SAT.HR.Data.Entities
         public virtual DbSet<tb_Benefit_Home_Rental> tb_Benefit_Home_Rental { get; set; }
         public virtual DbSet<tb_Benefit_Loan> tb_Benefit_Loan { get; set; }
         public virtual DbSet<tb_Benefit_Medical> tb_Benefit_Medical { get; set; }
+        public virtual DbSet<tb_Benefit_Medical_Type> tb_Benefit_Medical_Type { get; set; }
         public virtual DbSet<tb_Benefit_Other_Welfare> tb_Benefit_Other_Welfare { get; set; }
         public virtual DbSet<tb_Benefit_Provident_Fund> tb_Benefit_Provident_Fund { get; set; }
         public virtual DbSet<tb_Benefit_Remuneration> tb_Benefit_Remuneration { get; set; }
+        public virtual DbSet<tb_Benefit_Replacement_Type> tb_Benefit_Replacement_Type { get; set; }
         public virtual DbSet<tb_Benefit_Type> tb_Benefit_Type { get; set; }
         public virtual DbSet<tb_Blood_Type> tb_Blood_Type { get; set; }
         public virtual DbSet<tb_Bonus_Calculator_Detail> tb_Bonus_Calculator_Detail { get; set; }
@@ -682,15 +685,6 @@ namespace SAT.HR.Data.Entities
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_HomeRental_Result>("sp_Report_HomeRental", empIDParameter);
         }
     
-        public virtual ObjectResult<sp_Report_MedicalTreatment_Result> sp_Report_MedicalTreatment(string empID)
-        {
-            var empIDParameter = empID != null ?
-                new ObjectParameter("empID", empID) :
-                new ObjectParameter("empID", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_MedicalTreatment_Result>("sp_Report_MedicalTreatment", empIDParameter);
-        }
-    
         public virtual ObjectResult<sp_Report_ProvidentFund_Result> sp_Report_ProvidentFund(string empID)
         {
             var empIDParameter = empID != null ?
@@ -870,6 +864,19 @@ namespace SAT.HR.Data.Entities
                 new ObjectParameter("empID", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_Other_Welfare_Result>("sp_Report_Other_Welfare", empIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_Report_MedicalTreatment_Result> sp_Report_MedicalTreatment(string empID, string medicalType)
+        {
+            var empIDParameter = empID != null ?
+                new ObjectParameter("empID", empID) :
+                new ObjectParameter("empID", typeof(string));
+    
+            var medicalTypeParameter = medicalType != null ?
+                new ObjectParameter("medicalType", medicalType) :
+                new ObjectParameter("medicalType", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Report_MedicalTreatment_Result>("sp_Report_MedicalTreatment", empIDParameter, medicalTypeParameter);
         }
     }
 }

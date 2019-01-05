@@ -73,6 +73,14 @@
           <Property Name="BID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BName" Type="nvarchar" MaxLength="200" />
         </EntityType>
+        <EntityType Name="tb_Benefit_Calculate_Type">
+          <Key>
+            <PropertyRef Name="BntcID" />
+          </Key>
+          <Property Name="BntcID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BntID" Type="int" />
+          <Property Name="BntcName" Type="nvarchar" MaxLength="200" />
+        </EntityType>
         <EntityType Name="tb_Benefit_Cremation">
           <Key>
             <PropertyRef Name="BcID" />
@@ -114,6 +122,7 @@
           <Property Name="CreateBy" Type="int" />
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
+          <Property Name="BntID" Type="int" />
         </EntityType>
         <EntityType Name="tb_Benefit_Death_Subsidy">
           <Key>
@@ -214,6 +223,15 @@
           <Property Name="CreateBy" Type="int" />
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
+          <Property Name="DateWithDraw" Type="date" />
+          <Property Name="BnctID" Type="int" />
+        </EntityType>
+        <EntityType Name="tb_Benefit_Medical_Type">
+          <Key>
+            <PropertyRef Name="BnctID" />
+          </Key>
+          <Property Name="BnctID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BnctName" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="tb_Benefit_Other_Welfare">
           <Key>
@@ -282,6 +300,13 @@
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="int" />
           <Property Name="BrEndDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tb_Benefit_Replacement_Type">
+          <Key>
+            <PropertyRef Name="BntID" />
+          </Key>
+          <Property Name="BntID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BntName" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="tb_Benefit_Type">
           <Key>
@@ -1665,6 +1690,39 @@
           <Property Name="WorkingTypeName" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.tmpChild' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="tmpChild">
+          <Property Name="FullName" Type="nvarchar" MaxLength="200" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="UfName" Type="nvarchar" MaxLength="200" />
+          <Property Name="UfCardID" Type="nvarchar" MaxLength="200" />
+          <Property Name="UfDOB" Type="nvarchar" MaxLength="200" />
+          <Property Name="ChildFundAmout" Type="float" />
+          <Property Name="ChildEducationAmout" Type="float" />
+          <Property Name="CExpireDate" Type="nvarchar" MaxLength="200" />
+          <Property Name="StartWorkDate" Type="nvarchar" MaxLength="200" />
+          <Property Name="PayRateEdu" Type="float" />
+          <Property Name="TimeRequestEdu" Type="nvarchar" MaxLength="200" />
+          <Property Name="TypeFund" Type="nvarchar" MaxLength="200" />
+          <Property Name="PayRateFund" Type="float" />
+          <Property Name="InvNoFund" Type="nvarchar" MaxLength="200" />
+          <Property Name="DateFund" Type="nvarchar" MaxLength="200" />
+          <Property Name="SchoolYear" Type="nvarchar" MaxLength="200" />
+          <Property Name="Experience" Type="nvarchar" MaxLength="200" />
+          <Property Name="Salary" Type="float" />
+          <Property Name="DivID" Type="nvarchar" MaxLength="200" />
+          <Property Name="DivName" Type="nvarchar" MaxLength="200" />
+          <Property Name="DepID" Type="nvarchar" MaxLength="200" />
+          <Property Name="DepName" Type="nvarchar" MaxLength="200" />
+          <Property Name="SecID" Type="nvarchar" MaxLength="200" />
+          <Property Name="SecName" Type="nvarchar" MaxLength="200" />
+          <Property Name="PoName" Type="nvarchar" MaxLength="200" />
+          <Property Name="Level" Type="nvarchar" MaxLength="200" />
+          <Property Name="MpCode" Type="nvarchar" MaxLength="200" />
+          <Property Name="CurrentDate" Type="nvarchar" MaxLength="200" />
+          <Property Name="UfID" Type="nvarchar" MaxLength="50" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Benefit_Cremation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Benefit_Cremation">
           <Key>
@@ -2234,6 +2292,16 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Organization' does not have a p
           <Property Name="PathMpID" Type="varchar" MaxLength="255" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Level' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Level">
+          <Property Name="Level" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Step' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Step">
+          <Property Name="Step" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Section">
           <Key>
@@ -2337,6 +2405,21 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Trans_Form_Waiting' does not ha
           <Property Name="LastApproverName" Type="nvarchar" MaxLength="500" />
           <Property Name="RequestUserName" Type="nvarchar" MaxLength="501" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Trans_Step_Approver' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Trans_Step_Approver">
+          <Property Name="StepID" Type="int" />
+          <Property Name="MpID" Type="int" />
+          <Property Name="ApproverID" Type="int" />
+          <Property Name="Accept" Type="int" />
+          <Property Name="AcceptDate" Type="datetime" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="2000" />
+          <Property Name="NextStepID" Type="int" />
+          <Property Name="StepNo" Type="int" />
+          <Property Name="StepName" Type="nvarchar" MaxLength="200" />
+          <Property Name="FormMasterID" Type="int" />
+          <Property Name="FormHeaderID" Type="int" />
+        </EntityType>-->
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Trans_Step_Route' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Trans_Step_Route">
@@ -2800,6 +2883,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tb_Benefit_Calculate_Type_tb_Benefit_Calculate_Type">
+          <End Role="tb_Benefit_Replacement_Type" Type="Self.tb_Benefit_Replacement_Type" Multiplicity="0..1" />
+          <End Role="tb_Benefit_Calculate_Type" Type="Self.tb_Benefit_Calculate_Type" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Benefit_Replacement_Type">
+              <PropertyRef Name="BntID" />
+            </Principal>
+            <Dependent Role="tb_Benefit_Calculate_Type">
+              <PropertyRef Name="BntID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tb_Benefit_Cremation_tb_Member_Type">
           <End Role="tb_Member_Type" Type="Self.tb_Member_Type" Multiplicity="0..1" />
           <End Role="tb_Benefit_Cremation" Type="Self.tb_Benefit_Cremation" Multiplicity="*" />
@@ -2821,6 +2916,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Principal>
             <Dependent Role="tb_Benefit_Cremation">
               <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Benefit_Death_Replacement_tb_Benefit_Replacement_Type">
+          <End Role="tb_Benefit_Replacement_Type" Type="Self.tb_Benefit_Replacement_Type" Multiplicity="0..1" />
+          <End Role="tb_Benefit_Death_Replacement" Type="Self.tb_Benefit_Death_Replacement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Benefit_Replacement_Type">
+              <PropertyRef Name="BntID" />
+            </Principal>
+            <Dependent Role="tb_Benefit_Death_Replacement">
+              <PropertyRef Name="BntID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2941,6 +3048,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Principal>
             <Dependent Role="tb_Benefit_Loan">
               <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Benefit_Medical_tb_Benefit_Medical_Type">
+          <End Role="tb_Benefit_Medical_Type" Type="Self.tb_Benefit_Medical_Type" Multiplicity="0..1" />
+          <End Role="tb_Benefit_Medical" Type="Self.tb_Benefit_Medical" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Benefit_Medical_Type">
+              <PropertyRef Name="BnctID" />
+            </Principal>
+            <Dependent Role="tb_Benefit_Medical">
+              <PropertyRef Name="BnctID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4049,6 +4168,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
         </Function>
         <Function Name="sp_Report_MedicalTreatment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="empID" Type="varchar" Mode="In" />
+          <Parameter Name="medicalType" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_Report_Other_Welfare" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="empID" Type="varchar" Mode="In" />
@@ -4131,6 +4251,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_Agent_Type" EntityType="Self.tb_Agent_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Announcement" EntityType="Self.tb_Announcement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Bank_Loan" EntityType="Self.tb_Bank_Loan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Benefit_Calculate_Type" EntityType="Self.tb_Benefit_Calculate_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Benefit_Cremation" EntityType="Self.tb_Benefit_Cremation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Benefit_Death_Replacement" EntityType="Self.tb_Benefit_Death_Replacement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Benefit_Death_Subsidy" EntityType="Self.tb_Benefit_Death_Subsidy" Schema="dbo" store:Type="Tables" />
@@ -4138,9 +4259,11 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_Benefit_Home_Rental" EntityType="Self.tb_Benefit_Home_Rental" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Benefit_Loan" EntityType="Self.tb_Benefit_Loan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Benefit_Medical" EntityType="Self.tb_Benefit_Medical" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Benefit_Medical_Type" EntityType="Self.tb_Benefit_Medical_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Benefit_Other_Welfare" EntityType="Self.tb_Benefit_Other_Welfare" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Benefit_Provident_Fund" EntityType="Self.tb_Benefit_Provident_Fund" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Benefit_Remuneration" EntityType="Self.tb_Benefit_Remuneration" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_Benefit_Replacement_Type" EntityType="Self.tb_Benefit_Replacement_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Benefit_Type" EntityType="Self.tb_Benefit_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Blood_Type" EntityType="Self.tb_Blood_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_Bonus_Calculator_Detail" EntityType="Self.tb_Bonus_Calculator_Detail" Schema="dbo" store:Type="Tables" />
@@ -5215,6 +5338,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <End Role="tb_User" EntitySet="tb_User" />
             <End Role="tb_Accident" EntitySet="tb_Accident" />
           </AssociationSet>
+          <AssociationSet Name="FK_tb_Benefit_Calculate_Type_tb_Benefit_Calculate_Type" Association="Self.FK_tb_Benefit_Calculate_Type_tb_Benefit_Calculate_Type">
+            <End Role="tb_Benefit_Replacement_Type" EntitySet="tb_Benefit_Replacement_Type" />
+            <End Role="tb_Benefit_Calculate_Type" EntitySet="tb_Benefit_Calculate_Type" />
+          </AssociationSet>
           <AssociationSet Name="FK_tb_Benefit_Cremation_tb_Member_Type" Association="Self.FK_tb_Benefit_Cremation_tb_Member_Type">
             <End Role="tb_Member_Type" EntitySet="tb_Member_Type" />
             <End Role="tb_Benefit_Cremation" EntitySet="tb_Benefit_Cremation" />
@@ -5222,6 +5349,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <AssociationSet Name="FK_tb_Benefit_Cremation_tb_User" Association="Self.FK_tb_Benefit_Cremation_tb_User">
             <End Role="tb_User" EntitySet="tb_User" />
             <End Role="tb_Benefit_Cremation" EntitySet="tb_Benefit_Cremation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Benefit_Death_Replacement_tb_Benefit_Replacement_Type" Association="Self.FK_tb_Benefit_Death_Replacement_tb_Benefit_Replacement_Type">
+            <End Role="tb_Benefit_Replacement_Type" EntitySet="tb_Benefit_Replacement_Type" />
+            <End Role="tb_Benefit_Death_Replacement" EntitySet="tb_Benefit_Death_Replacement" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_Benefit_Death_Replacement_tb_Recieve_Type" Association="Self.FK_tb_Benefit_Death_Replacement_tb_Recieve_Type">
             <End Role="tb_Recieve_Type" EntitySet="tb_Recieve_Type" />
@@ -5262,6 +5393,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <AssociationSet Name="FK_tb_Benefit_Loan_tb_User" Association="Self.FK_tb_Benefit_Loan_tb_User">
             <End Role="tb_User" EntitySet="tb_User" />
             <End Role="tb_Benefit_Loan" EntitySet="tb_Benefit_Loan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Benefit_Medical_tb_Benefit_Medical_Type" Association="Self.FK_tb_Benefit_Medical_tb_Benefit_Medical_Type">
+            <End Role="tb_Benefit_Medical_Type" EntitySet="tb_Benefit_Medical_Type" />
+            <End Role="tb_Benefit_Medical" EntitySet="tb_Benefit_Medical" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_Benefit_Medical_tb_Claim_Type" Association="Self.FK_tb_Benefit_Medical_tb_Claim_Type">
             <End Role="tb_Claim_Type" EntitySet="tb_Claim_Type" />
@@ -5734,9 +5869,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <FunctionImport Name="sp_Report_HomeRental" ReturnType="Collection(SAT.HR.sp_Report_HomeRental_Result)">
           <Parameter Name="empID" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_Report_MedicalTreatment" ReturnType="Collection(SAT.HR.sp_Report_MedicalTreatment_Result)">
-          <Parameter Name="empID" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_Report_ProvidentFund" ReturnType="Collection(SAT.HR.sp_Report_ProvidentFund_Result)">
           <Parameter Name="empID" Mode="In" Type="String" />
           </FunctionImport>
@@ -5777,12 +5909,37 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <FunctionImport Name="sp_Workflow_Notify_GetCancelMail" ReturnType="Collection(SAT.HR.sp_Workflow_Notify_GetCancelMail_Result)">
           <Parameter Name="FormHeaderID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="sp_Report_Accident" ReturnType="Collection(SAT.HR.sp_Report_Accident_Result)">
+            <Parameter Name="empID" Mode="In" Type="String" />
+            <Parameter Name="userTypeID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Report_Remuneration" ReturnType="Collection(SAT.HR.sp_Report_Remuneration_Result)">
+            <Parameter Name="statusID" Mode="In" Type="String" />
+            <Parameter Name="empID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Generate_Report_Child">
+          <Parameter Name="empID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Report_Child" ReturnType="Collection(SAT.HR.sp_Report_Child_Result)">
+          <Parameter Name="empID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Report_Loan" ReturnType="Collection(SAT.HR.sp_Report_Loan_Result)">
+          <Parameter Name="empID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Report_Other_Welfare" ReturnType="Collection(SAT.HR.sp_Report_Other_Welfare_Result)">
+          <Parameter Name="empID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Report_MedicalTreatment" ReturnType="Collection(SAT.HR.sp_Report_MedicalTreatment_Result)">
+            <Parameter Name="empID" Mode="In" Type="String" />
+            <Parameter Name="medicalType" Mode="In" Type="String" />
+          </FunctionImport>
           <EntitySet Name="tb_Accident" EntityType="SAT.HR.tb_Accident" />
           <EntitySet Name="tb_Accumulative_Fund" EntityType="SAT.HR.tb_Accumulative_Fund" />
           <EntitySet Name="tb_Action_Type" EntityType="SAT.HR.tb_Action_Type" />
           <EntitySet Name="tb_Agent_Type" EntityType="SAT.HR.tb_Agent_Type" />
           <EntitySet Name="tb_Announcement" EntityType="SAT.HR.tb_Announcement" />
           <EntitySet Name="tb_Bank_Loan" EntityType="SAT.HR.tb_Bank_Loan" />
+          <EntitySet Name="tb_Benefit_Calculate_Type" EntityType="SAT.HR.tb_Benefit_Calculate_Type" />
           <EntitySet Name="tb_Benefit_Cremation" EntityType="SAT.HR.tb_Benefit_Cremation" />
           <EntitySet Name="tb_Benefit_Death_Replacement" EntityType="SAT.HR.tb_Benefit_Death_Replacement" />
           <EntitySet Name="tb_Benefit_Death_Subsidy" EntityType="SAT.HR.tb_Benefit_Death_Subsidy" />
@@ -5790,9 +5947,11 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySet Name="tb_Benefit_Home_Rental" EntityType="SAT.HR.tb_Benefit_Home_Rental" />
           <EntitySet Name="tb_Benefit_Loan" EntityType="SAT.HR.tb_Benefit_Loan" />
           <EntitySet Name="tb_Benefit_Medical" EntityType="SAT.HR.tb_Benefit_Medical" />
+          <EntitySet Name="tb_Benefit_Medical_Type" EntityType="SAT.HR.tb_Benefit_Medical_Type" />
           <EntitySet Name="tb_Benefit_Other_Welfare" EntityType="SAT.HR.tb_Benefit_Other_Welfare" />
           <EntitySet Name="tb_Benefit_Provident_Fund" EntityType="SAT.HR.tb_Benefit_Provident_Fund" />
           <EntitySet Name="tb_Benefit_Remuneration" EntityType="SAT.HR.tb_Benefit_Remuneration" />
+          <EntitySet Name="tb_Benefit_Replacement_Type" EntityType="SAT.HR.tb_Benefit_Replacement_Type" />
           <EntitySet Name="tb_Benefit_Type" EntityType="SAT.HR.tb_Benefit_Type" />
           <EntitySet Name="tb_Blood_Type" EntityType="SAT.HR.tb_Blood_Type" />
           <EntitySet Name="tb_Bonus_Calculator_Detail" EntityType="SAT.HR.tb_Bonus_Calculator_Detail" />
@@ -5957,6 +6116,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <End Role="tb_Bank_Loan" EntitySet="tb_Bank_Loan" />
             <End Role="tb_Benefit_Loan" EntitySet="tb_Benefit_Loan" />
           </AssociationSet>
+          <AssociationSet Name="FK_tb_Benefit_Calculate_Type_tb_Benefit_Calculate_Type" Association="SAT.HR.FK_tb_Benefit_Calculate_Type_tb_Benefit_Calculate_Type">
+            <End Role="tb_Benefit_Replacement_Type" EntitySet="tb_Benefit_Replacement_Type" />
+            <End Role="tb_Benefit_Calculate_Type" EntitySet="tb_Benefit_Calculate_Type" />
+          </AssociationSet>
           <AssociationSet Name="FK_tb_Benefit_Cremation_tb_Member_Type" Association="SAT.HR.FK_tb_Benefit_Cremation_tb_Member_Type">
             <End Role="tb_Member_Type" EntitySet="tb_Member_Type" />
             <End Role="tb_Benefit_Cremation" EntitySet="tb_Benefit_Cremation" />
@@ -5964,6 +6127,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <AssociationSet Name="FK_tb_Benefit_Cremation_tb_User" Association="SAT.HR.FK_tb_Benefit_Cremation_tb_User">
             <End Role="tb_User" EntitySet="tb_User" />
             <End Role="tb_Benefit_Cremation" EntitySet="tb_Benefit_Cremation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Benefit_Death_Replacement_tb_Benefit_Replacement_Type" Association="SAT.HR.FK_tb_Benefit_Death_Replacement_tb_Benefit_Replacement_Type">
+            <End Role="tb_Benefit_Replacement_Type" EntitySet="tb_Benefit_Replacement_Type" />
+            <End Role="tb_Benefit_Death_Replacement" EntitySet="tb_Benefit_Death_Replacement" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_Benefit_Death_Replacement_tb_Recieve_Type" Association="SAT.HR.FK_tb_Benefit_Death_Replacement_tb_Recieve_Type">
             <End Role="tb_Recieve_Type" EntitySet="tb_Recieve_Type" />
@@ -6000,6 +6167,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <AssociationSet Name="FK_tb_Benefit_Loan_tb_User" Association="SAT.HR.FK_tb_Benefit_Loan_tb_User">
             <End Role="tb_User" EntitySet="tb_User" />
             <End Role="tb_Benefit_Loan" EntitySet="tb_Benefit_Loan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_Benefit_Medical_tb_Benefit_Medical_Type" Association="SAT.HR.FK_tb_Benefit_Medical_tb_Benefit_Medical_Type">
+            <End Role="tb_Benefit_Medical_Type" EntitySet="tb_Benefit_Medical_Type" />
+            <End Role="tb_Benefit_Medical" EntitySet="tb_Benefit_Medical" />
           </AssociationSet>
           <AssociationSet Name="FK_tb_Benefit_Medical_tb_Claim_Type" Association="SAT.HR.FK_tb_Benefit_Medical_tb_Claim_Type">
             <End Role="tb_Claim_Type" EntitySet="tb_Claim_Type" />
@@ -6305,26 +6476,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             <End Role="tb_User" EntitySet="tb_User" />
             <End Role="tb_Working_Shift" EntitySet="tb_Working_Shift" />
           </AssociationSet>
-          <FunctionImport Name="sp_Report_Accident" ReturnType="Collection(SAT.HR.sp_Report_Accident_Result)">
-            <Parameter Name="empID" Mode="In" Type="String" />
-            <Parameter Name="userTypeID" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_Report_Remuneration" ReturnType="Collection(SAT.HR.sp_Report_Remuneration_Result)">
-            <Parameter Name="statusID" Mode="In" Type="String" />
-            <Parameter Name="empID" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_Generate_Report_Child">
-          <Parameter Name="empID" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_Report_Child" ReturnType="Collection(SAT.HR.sp_Report_Child_Result)">
-          <Parameter Name="empID" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_Report_Loan" ReturnType="Collection(SAT.HR.sp_Report_Loan_Result)">
-          <Parameter Name="empID" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_Report_Other_Welfare" ReturnType="Collection(SAT.HR.sp_Report_Other_Welfare_Result)">
-            <Parameter Name="empID" Mode="In" Type="String" />
-          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="sp_Employee_List_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -6674,22 +6825,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Type="Decimal" Name="BhrAmout" Nullable="true" Precision="18" Scale="2" />
           <Property Type="String" Name="BhrRemark" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="sp_Report_MedicalTreatment_Result">
-          <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
-          <Property Type="Int32" Name="UserID" Nullable="false" />
-          <Property Type="Int32" Name="BmID" Nullable="false" />
-          <Property Type="Int32" Name="BmYear" Nullable="true" />
-          <Property Type="Int32" Name="ClID" Nullable="true" />
-          <Property Type="String" Name="ClName" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="RecID" Nullable="true" />
-          <Property Type="String" Name="RecName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="RecFullName" Nullable="true" MaxLength="200" />
-          <Property Type="Decimal" Name="BmCardID" Nullable="true" Precision="18" Scale="0" />
-          <Property Type="String" Name="BmDate" Nullable="true" MaxLength="50" />
-          <Property Type="Decimal" Name="BmAmoutService" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="BmAmoutCare" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="String" Name="BmRemark" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="sp_Report_ProvidentFund_Result">
           <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -6752,6 +6887,163 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Type="String" Name="LastNameTh" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="Email" Nullable="true" MaxLength="200" />
           <Property Type="Int32" Name="UserID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_Report_Accident_Result">
+          <Property Type="Int32" Name="UserID" Nullable="true" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
+          <Property Type="String" Name="ActPlace" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ActDesc" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ActDate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TypeName" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="Salary" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="AgeWork" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="DivID" Nullable="true" />
+          <Property Type="String" Name="DivName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="DepID" Nullable="true" />
+          <Property Type="String" Name="DepName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="SecID" Nullable="true" />
+          <Property Type="String" Name="SecName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="MpCode" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="Level" Nullable="true" />
+          <Property Type="String" Name="CurrentDate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Experience" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="Amount" Nullable="true" Precision="18" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="sp_Report_Remuneration_Result">
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
+          <Property Type="String" Name="UfDOB" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="startWorkDate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Experience" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="Salary" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="DivID" Nullable="true" />
+          <Property Type="String" Name="DivName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="DepID" Nullable="true" />
+          <Property Type="String" Name="DepName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="SecID" Nullable="true" />
+          <Property Type="String" Name="SecName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="StatusName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ResignRemark" Nullable="true" MaxLength="400" />
+          <Property Type="String" Name="ResignDate" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="StatusID" Nullable="true" />
+          <Property Type="Int32" Name="Level" Nullable="true" />
+          <Property Type="Int32" Name="DateOfWork" Nullable="true" />
+          <Property Type="Decimal" Name="layOffAmount" Nullable="true" Precision="26" Scale="6" />
+          <Property Type="Decimal" Name="retireAmount" Nullable="true" Precision="26" Scale="6" />
+          <Property Type="String" Name="CurrentDate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="MpCode" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="sp_Report_Child_Result">
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="UserID" Nullable="true" />
+          <Property Type="String" Name="UfName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="UfCardID" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="UfDOB" Nullable="true" MaxLength="200" />
+          <Property Type="Double" Name="ChildFundAmout" Nullable="true" />
+          <Property Type="Double" Name="ChildEducationAmout" Nullable="true" />
+          <Property Type="String" Name="CExpireDate" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="StartWorkDate" Nullable="true" MaxLength="200" />
+          <Property Type="Double" Name="PayRateEdu" Nullable="true" />
+          <Property Type="String" Name="TimeRequestEdu" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="TypeFund" Nullable="true" MaxLength="200" />
+          <Property Type="Double" Name="PayRateFund" Nullable="true" />
+          <Property Type="String" Name="InvNoFund" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="DateFund" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="SchoolYear" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Experience" Nullable="true" MaxLength="200" />
+          <Property Type="Double" Name="Salary" Nullable="true" />
+          <Property Type="String" Name="DivID" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="DivName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="DepID" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="DepName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="SecID" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="SecName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Level" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="MpCode" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="CurrentDate" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="UfID" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="sp_Report_Loan_Result">
+          <Property Type="Int32" Name="UserID" Nullable="true" />
+          <Property Type="Int32" Name="BID" Nullable="true" />
+          <Property Type="String" Name="BName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
+          <Property Type="Decimal" Name="BlAccountNo" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="BlStartDate" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="BISummaryAmout" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="amoutPer" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="BlPeriod" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="BlPeriodPay" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="firstPay" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="lastPay" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="payRemain" Nullable="true" Precision="19" Scale="2" />
+          <Property Type="Decimal" Name="Outstanding" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="BlRemark" Nullable="true" />
+          <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="MpCode" Nullable="true" MaxLength="20" />
+          <Property Type="Decimal" Name="Salary" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="CurrentDate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="startWorkDate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Experience" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Level" Nullable="true" />
+          <Property Type="String" Name="DivName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="DepName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="SecName" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="sp_Report_Other_Welfare_Result">
+          <Property Type="Int32" Name="BenTID" Nullable="true" />
+          <Property Type="Int32" Name="Ranks" Nullable="true" />
+          <Property Type="Int32" Name="UserID" Nullable="true" />
+          <Property Type="Decimal" Name="BoAmout" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="String" Name="BenTName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="othBenTID" Nullable="true" />
+          <Property Type="String" Name="MpCode" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
+          <Property Type="String" Name="Experience" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="Salary" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="SalaryDay" Nullable="true" Precision="22" Scale="6" />
+          <Property Type="Int32" Name="DivID" Nullable="true" />
+          <Property Type="String" Name="DivName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="DepID" Nullable="true" />
+          <Property Type="String" Name="DepName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="SecID" Nullable="true" />
+          <Property Type="String" Name="SecName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="Level" Nullable="true" />
+          <Property Type="String" Name="CurrentDate" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="sp_Report_MedicalTreatment_Result">
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="Int32" Name="BmID" Nullable="false" />
+          <Property Type="Int32" Name="BmYear" Nullable="true" />
+          <Property Type="Int32" Name="ClID" Nullable="true" />
+          <Property Type="String" Name="ClName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="RecID" Nullable="true" />
+          <Property Type="String" Name="RecFullName" Nullable="true" MaxLength="200" />
+          <Property Type="Decimal" Name="BmCardID" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="BmDate" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="BmAmoutService" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="BmAmoutCare" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="BmRemark" Nullable="true" />
+          <Property Type="String" Name="DateWithDraw" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Level" Nullable="true" />
+          <Property Type="String" Name="MpCode" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="DivID" Nullable="true" />
+          <Property Type="String" Name="DivName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="DepID" Nullable="true" />
+          <Property Type="String" Name="DepName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="SecID" Nullable="true" />
+          <Property Type="String" Name="SecName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="StartWorkDate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CurrentDate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Experience" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="Salary" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="BnctName" Nullable="true" MaxLength="200" />
         </ComplexType>
         <EntityType Name="tb_Accident">
           <Key>
@@ -6827,6 +7119,15 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="BName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tb_Benefit_Loan" Relationship="SAT.HR.FK_tb_Benefit_Loan_tb_Bank_Loan" FromRole="tb_Bank_Loan" ToRole="tb_Benefit_Loan" />
         </EntityType>
+        <EntityType Name="tb_Benefit_Calculate_Type">
+          <Key>
+            <PropertyRef Name="BntcID" />
+          </Key>
+          <Property Name="BntcID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BntID" Type="Int32" />
+          <Property Name="BntcName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tb_Benefit_Replacement_Type" Relationship="SAT.HR.FK_tb_Benefit_Calculate_Type_tb_Benefit_Calculate_Type" FromRole="tb_Benefit_Calculate_Type" ToRole="tb_Benefit_Replacement_Type" />
+        </EntityType>
         <EntityType Name="tb_Benefit_Cremation">
           <Key>
             <PropertyRef Name="BcID" />
@@ -6870,6 +7171,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="CreateBy" Type="Int32" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="Int32" />
+          <Property Name="BntID" Type="Int32" />
+          <NavigationProperty Name="tb_Benefit_Replacement_Type" Relationship="SAT.HR.FK_tb_Benefit_Death_Replacement_tb_Benefit_Replacement_Type" FromRole="tb_Benefit_Death_Replacement" ToRole="tb_Benefit_Replacement_Type" />
           <NavigationProperty Name="tb_Recieve_Type" Relationship="SAT.HR.FK_tb_Benefit_Death_Replacement_tb_Recieve_Type" FromRole="tb_Benefit_Death_Replacement" ToRole="tb_Recieve_Type" />
           <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Benefit_Death_Replacement_tb_User" FromRole="tb_Benefit_Death_Replacement" ToRole="tb_User" />
         </EntityType>
@@ -6980,9 +7283,20 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="CreateBy" Type="Int32" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="Int32" />
+          <Property Name="DateWithDraw" Type="DateTime" Precision="0" />
+          <Property Name="BnctID" Type="Int32" />
+          <NavigationProperty Name="tb_Benefit_Medical_Type" Relationship="SAT.HR.FK_tb_Benefit_Medical_tb_Benefit_Medical_Type" FromRole="tb_Benefit_Medical" ToRole="tb_Benefit_Medical_Type" />
           <NavigationProperty Name="tb_Claim_Type" Relationship="SAT.HR.FK_tb_Benefit_Medical_tb_Claim_Type" FromRole="tb_Benefit_Medical" ToRole="tb_Claim_Type" />
           <NavigationProperty Name="tb_Recieve_Type" Relationship="SAT.HR.FK_tb_Benefit_Medical_tb_Recieve_Type" FromRole="tb_Benefit_Medical" ToRole="tb_Recieve_Type" />
           <NavigationProperty Name="tb_User" Relationship="SAT.HR.FK_tb_Benefit_Medical_tb_User" FromRole="tb_Benefit_Medical" ToRole="tb_User" />
+        </EntityType>
+        <EntityType Name="tb_Benefit_Medical_Type">
+          <Key>
+            <PropertyRef Name="BnctID" />
+          </Key>
+          <Property Name="BnctID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BnctName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tb_Benefit_Medical" Relationship="SAT.HR.FK_tb_Benefit_Medical_tb_Benefit_Medical_Type" FromRole="tb_Benefit_Medical_Type" ToRole="tb_Benefit_Medical" />
         </EntityType>
         <EntityType Name="tb_Benefit_Other_Welfare">
           <Key>
@@ -7059,6 +7373,15 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <Property Name="ModifyBy" Type="Int32" />
           <Property Name="BrEndDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="tb_Recieve_Type" Relationship="SAT.HR.FK_tb_Benefit_Remuneration_tb_Recieve_Type" FromRole="tb_Benefit_Remuneration" ToRole="tb_Recieve_Type" />
+        </EntityType>
+        <EntityType Name="tb_Benefit_Replacement_Type">
+          <Key>
+            <PropertyRef Name="BntID" />
+          </Key>
+          <Property Name="BntID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BntName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tb_Benefit_Calculate_Type" Relationship="SAT.HR.FK_tb_Benefit_Calculate_Type_tb_Benefit_Calculate_Type" FromRole="tb_Benefit_Replacement_Type" ToRole="tb_Benefit_Calculate_Type" />
+          <NavigationProperty Name="tb_Benefit_Death_Replacement" Relationship="SAT.HR.FK_tb_Benefit_Death_Replacement_tb_Benefit_Replacement_Type" FromRole="tb_Benefit_Replacement_Type" ToRole="tb_Benefit_Death_Replacement" />
         </EntityType>
         <EntityType Name="tb_Benefit_Type">
           <Key>
@@ -9712,6 +10035,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tb_Benefit_Calculate_Type_tb_Benefit_Calculate_Type">
+          <End Type="SAT.HR.tb_Benefit_Replacement_Type" Role="tb_Benefit_Replacement_Type" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Benefit_Calculate_Type" Role="tb_Benefit_Calculate_Type" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Benefit_Replacement_Type">
+              <PropertyRef Name="BntID" />
+            </Principal>
+            <Dependent Role="tb_Benefit_Calculate_Type">
+              <PropertyRef Name="BntID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tb_Benefit_Cremation_tb_Member_Type">
           <End Type="SAT.HR.tb_Member_Type" Role="tb_Member_Type" Multiplicity="0..1" />
           <End Type="SAT.HR.tb_Benefit_Cremation" Role="tb_Benefit_Cremation" Multiplicity="*" />
@@ -9733,6 +10068,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Principal>
             <Dependent Role="tb_Benefit_Cremation">
               <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Benefit_Death_Replacement_tb_Benefit_Replacement_Type">
+          <End Type="SAT.HR.tb_Benefit_Replacement_Type" Role="tb_Benefit_Replacement_Type" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Benefit_Death_Replacement" Role="tb_Benefit_Death_Replacement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Benefit_Replacement_Type">
+              <PropertyRef Name="BntID" />
+            </Principal>
+            <Dependent Role="tb_Benefit_Death_Replacement">
+              <PropertyRef Name="BntID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9841,6 +10188,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Principal>
             <Dependent Role="tb_Benefit_Loan">
               <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_Benefit_Medical_tb_Benefit_Medical_Type">
+          <End Type="SAT.HR.tb_Benefit_Medical_Type" Role="tb_Benefit_Medical_Type" Multiplicity="0..1" />
+          <End Type="SAT.HR.tb_Benefit_Medical" Role="tb_Benefit_Medical" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Benefit_Medical_Type">
+              <PropertyRef Name="BnctID" />
+            </Principal>
+            <Dependent Role="tb_Benefit_Medical">
+              <PropertyRef Name="BnctID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -10756,133 +11115,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="sp_Report_Accident_Result">
-          <Property Type="Int32" Name="UserID" Nullable="true" />
-          <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
-          <Property Type="String" Name="ActPlace" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="ActDesc" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="ActDate" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TypeName" Nullable="true" MaxLength="50" />
-          <Property Type="Decimal" Name="Salary" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="String" Name="AgeWork" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="DivID" Nullable="true" />
-          <Property Type="String" Name="DivName" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="DepID" Nullable="true" />
-          <Property Type="String" Name="DepName" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="SecID" Nullable="true" />
-          <Property Type="String" Name="SecName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="MpCode" Nullable="true" MaxLength="20" />
-          <Property Type="Int32" Name="Level" Nullable="true" />
-          <Property Type="String" Name="CurrentDate" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Experience" Nullable="true" MaxLength="50" />
-          <Property Type="Decimal" Name="Amount" Nullable="true" Precision="18" Scale="2" />
-        </ComplexType>
-        <ComplexType Name="sp_Report_Remuneration_Result">
-          <Property Type="Int32" Name="UserID" Nullable="false" />
-          <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
-          <Property Type="String" Name="UfDOB" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="startWorkDate" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Experience" Nullable="true" MaxLength="50" />
-          <Property Type="Decimal" Name="Salary" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="Int32" Name="DivID" Nullable="true" />
-          <Property Type="String" Name="DivName" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="DepID" Nullable="true" />
-          <Property Type="String" Name="DepName" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="SecID" Nullable="true" />
-          <Property Type="String" Name="SecName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="StatusName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="ResignRemark" Nullable="true" MaxLength="400" />
-          <Property Type="String" Name="ResignDate" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="StatusID" Nullable="true" />
-          <Property Type="Int32" Name="Level" Nullable="true" />
-          <Property Type="Int32" Name="DateOfWork" Nullable="true" />
-          <Property Type="Decimal" Name="layOffAmount" Nullable="true" Precision="26" Scale="6" />
-          <Property Type="Decimal" Name="retireAmount" Nullable="true" Precision="26" Scale="6" />
-          <Property Type="String" Name="CurrentDate" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="MpCode" Nullable="true" MaxLength="20" />
-        </ComplexType>
-        <ComplexType Name="sp_Report_Child_Result">
-          <Property Type="String" Name="FullName" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="UserID" Nullable="true" />
-          <Property Type="String" Name="UfName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="UfCardID" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="UfDOB" Nullable="true" MaxLength="200" />
-          <Property Type="Double" Name="ChildFundAmout" Nullable="true" />
-          <Property Type="Double" Name="ChildEducationAmout" Nullable="true" />
-          <Property Type="String" Name="CExpireDate" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="StartWorkDate" Nullable="true" MaxLength="200" />
-          <Property Type="Double" Name="PayRateEdu" Nullable="true" />
-          <Property Type="String" Name="TimeRequestEdu" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="TypeFund" Nullable="true" MaxLength="200" />
-          <Property Type="Double" Name="PayRateFund" Nullable="true" />
-          <Property Type="String" Name="InvNoFund" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="DateFund" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="SchoolYear" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="Experience" Nullable="true" MaxLength="200" />
-          <Property Type="Double" Name="Salary" Nullable="true" />
-          <Property Type="String" Name="DivID" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="DivName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="DepID" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="DepName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="SecID" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="SecName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="Level" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="MpCode" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="CurrentDate" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="UfID" Nullable="true" MaxLength="50" />
-        </ComplexType>
-        <ComplexType Name="sp_Report_Loan_Result">
-          <Property Type="Int32" Name="UserID" Nullable="true" />
-          <Property Type="Int32" Name="BID" Nullable="true" />
-          <Property Type="String" Name="BName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
-          <Property Type="Decimal" Name="BlAccountNo" Nullable="true" Precision="18" Scale="0" />
-          <Property Type="String" Name="BlStartDate" Nullable="true" MaxLength="50" />
-          <Property Type="Decimal" Name="BISummaryAmout" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="amoutPer" Nullable="true" Precision="38" Scale="6" />
-          <Property Type="Decimal" Name="BlPeriod" Nullable="true" Precision="18" Scale="0" />
-          <Property Type="Decimal" Name="BlPeriodPay" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="String" Name="firstPay" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="lastPay" Nullable="true" MaxLength="50" />
-          <Property Type="Decimal" Name="payRemain" Nullable="true" Precision="19" Scale="2" />
-          <Property Type="Decimal" Name="Outstanding" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="String" Name="BlRemark" Nullable="true" />
-          <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="MpCode" Nullable="true" MaxLength="20" />
-          <Property Type="Decimal" Name="Salary" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="String" Name="CurrentDate" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="startWorkDate" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Experience" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="Level" Nullable="true" />
-          <Property Type="String" Name="DivName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="DepName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="SecName" Nullable="true" MaxLength="200" />
-        </ComplexType>
-        <ComplexType Name="sp_Report_Other_Welfare_Result">
-          <Property Type="Int32" Name="BenTID" Nullable="true" />
-          <Property Type="Int32" Name="Ranks" Nullable="true" />
-          <Property Type="Int32" Name="UserID" Nullable="true" />
-          <Property Type="Decimal" Name="BoAmout" Nullable="true" Precision="38" Scale="2" />
-          <Property Type="String" Name="BenTName" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="othBenTID" Nullable="true" />
-          <Property Type="String" Name="MpCode" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="FullName" Nullable="true" MaxLength="501" />
-          <Property Type="String" Name="Experience" Nullable="true" MaxLength="50" />
-          <Property Type="Decimal" Name="Salary" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="SalaryDay" Nullable="true" Precision="22" Scale="6" />
-          <Property Type="Int32" Name="DivID" Nullable="true" />
-          <Property Type="String" Name="DivName" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="DepID" Nullable="true" />
-          <Property Type="String" Name="DepName" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="SecID" Nullable="true" />
-          <Property Type="String" Name="SecName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="PoName" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="Level" Nullable="true" />
-          <Property Type="String" Name="CurrentDate" Nullable="true" MaxLength="50" />
-        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -11305,26 +11537,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_Report_MedicalTreatment" FunctionName="SAT.HR.Store.sp_Report_MedicalTreatment">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SAT.HR.sp_Report_MedicalTreatment_Result">
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="BmID" ColumnName="BmID" />
-                <ScalarProperty Name="BmYear" ColumnName="BmYear" />
-                <ScalarProperty Name="ClID" ColumnName="ClID" />
-                <ScalarProperty Name="ClName" ColumnName="ClName" />
-                <ScalarProperty Name="RecID" ColumnName="RecID" />
-                <ScalarProperty Name="RecName" ColumnName="RecName" />
-                <ScalarProperty Name="RecFullName" ColumnName="RecFullName" />
-                <ScalarProperty Name="BmCardID" ColumnName="BmCardID" />
-                <ScalarProperty Name="BmDate" ColumnName="BmDate" />
-                <ScalarProperty Name="BmAmoutService" ColumnName="BmAmoutService" />
-                <ScalarProperty Name="BmAmoutCare" ColumnName="BmAmoutCare" />
-                <ScalarProperty Name="BmRemark" ColumnName="BmRemark" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_Report_ProvidentFund" FunctionName="SAT.HR.Store.sp_Report_ProvidentFund">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SAT.HR.sp_Report_ProvidentFund_Result">
@@ -11422,6 +11634,188 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Report_Accident" FunctionName="SAT.HR.Store.sp_Report_Accident">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_Report_Accident_Result">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="ActPlace" ColumnName="ActPlace" />
+                <ScalarProperty Name="ActDesc" ColumnName="ActDesc" />
+                <ScalarProperty Name="ActDate" ColumnName="ActDate" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="AgeWork" ColumnName="AgeWork" />
+                <ScalarProperty Name="DivID" ColumnName="DivID" />
+                <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="DepID" ColumnName="DepID" />
+                <ScalarProperty Name="DepName" ColumnName="DepName" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="SecName" ColumnName="SecName" />
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="CurrentDate" ColumnName="CurrentDate" />
+                <ScalarProperty Name="Experience" ColumnName="Experience" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Report_Remuneration" FunctionName="SAT.HR.Store.sp_Report_Remuneration">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_Report_Remuneration_Result">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="UfDOB" ColumnName="UfDOB" />
+                <ScalarProperty Name="startWorkDate" ColumnName="startWorkDate" />
+                <ScalarProperty Name="Experience" ColumnName="Experience" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="DivID" ColumnName="DivID" />
+                <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="DepID" ColumnName="DepID" />
+                <ScalarProperty Name="DepName" ColumnName="DepName" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="SecName" ColumnName="SecName" />
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="ResignRemark" ColumnName="ResignRemark" />
+                <ScalarProperty Name="ResignDate" ColumnName="ResignDate" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="DateOfWork" ColumnName="DateOfWork" />
+                <ScalarProperty Name="layOffAmount" ColumnName="layOffAmount" />
+                <ScalarProperty Name="retireAmount" ColumnName="retireAmount" />
+                <ScalarProperty Name="CurrentDate" ColumnName="CurrentDate" />
+                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Generate_Report_Child" FunctionName="SAT.HR.Store.sp_Generate_Report_Child" />
+          <FunctionImportMapping FunctionImportName="sp_Report_Child" FunctionName="SAT.HR.Store.sp_Report_Child">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_Report_Child_Result">
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UfName" ColumnName="UfName" />
+                <ScalarProperty Name="UfCardID" ColumnName="UfCardID" />
+                <ScalarProperty Name="UfDOB" ColumnName="UfDOB" />
+                <ScalarProperty Name="ChildFundAmout" ColumnName="ChildFundAmout" />
+                <ScalarProperty Name="ChildEducationAmout" ColumnName="ChildEducationAmout" />
+                <ScalarProperty Name="CExpireDate" ColumnName="CExpireDate" />
+                <ScalarProperty Name="StartWorkDate" ColumnName="StartWorkDate" />
+                <ScalarProperty Name="PayRateEdu" ColumnName="PayRateEdu" />
+                <ScalarProperty Name="TimeRequestEdu" ColumnName="TimeRequestEdu" />
+                <ScalarProperty Name="TypeFund" ColumnName="TypeFund" />
+                <ScalarProperty Name="PayRateFund" ColumnName="PayRateFund" />
+                <ScalarProperty Name="InvNoFund" ColumnName="InvNoFund" />
+                <ScalarProperty Name="DateFund" ColumnName="DateFund" />
+                <ScalarProperty Name="SchoolYear" ColumnName="SchoolYear" />
+                <ScalarProperty Name="Experience" ColumnName="Experience" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="DivID" ColumnName="DivID" />
+                <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="DepID" ColumnName="DepID" />
+                <ScalarProperty Name="DepName" ColumnName="DepName" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="SecName" ColumnName="SecName" />
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
+                <ScalarProperty Name="CurrentDate" ColumnName="CurrentDate" />
+                <ScalarProperty Name="UfID" ColumnName="UfID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Report_Loan" FunctionName="SAT.HR.Store.sp_Report_Loan">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_Report_Loan_Result">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="BID" ColumnName="BID" />
+                <ScalarProperty Name="BName" ColumnName="BName" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="BlAccountNo" ColumnName="BlAccountNo" />
+                <ScalarProperty Name="BlStartDate" ColumnName="BlStartDate" />
+                <ScalarProperty Name="BISummaryAmout" ColumnName="BISummaryAmout" />
+                <ScalarProperty Name="amoutPer" ColumnName="amoutPer" />
+                <ScalarProperty Name="BlPeriod" ColumnName="BlPeriod" />
+                <ScalarProperty Name="BlPeriodPay" ColumnName="BlPeriodPay" />
+                <ScalarProperty Name="firstPay" ColumnName="firstPay" />
+                <ScalarProperty Name="lastPay" ColumnName="lastPay" />
+                <ScalarProperty Name="payRemain" ColumnName="payRemain" />
+                <ScalarProperty Name="Outstanding" ColumnName="Outstanding" />
+                <ScalarProperty Name="BlRemark" ColumnName="BlRemark" />
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="CurrentDate" ColumnName="CurrentDate" />
+                <ScalarProperty Name="startWorkDate" ColumnName="startWorkDate" />
+                <ScalarProperty Name="Experience" ColumnName="Experience" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="DepName" ColumnName="DepName" />
+                <ScalarProperty Name="SecName" ColumnName="SecName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Report_Other_Welfare" FunctionName="SAT.HR.Store.sp_Report_Other_Welfare">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_Report_Other_Welfare_Result">
+                <ScalarProperty Name="BenTID" ColumnName="BenTID" />
+                <ScalarProperty Name="Ranks" ColumnName="Ranks" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="BoAmout" ColumnName="BoAmout" />
+                <ScalarProperty Name="BenTName" ColumnName="BenTName" />
+                <ScalarProperty Name="othBenTID" ColumnName="othBenTID" />
+                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Experience" ColumnName="Experience" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="SalaryDay" ColumnName="SalaryDay" />
+                <ScalarProperty Name="DivID" ColumnName="DivID" />
+                <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="DepID" ColumnName="DepID" />
+                <ScalarProperty Name="DepName" ColumnName="DepName" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="SecName" ColumnName="SecName" />
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="CurrentDate" ColumnName="CurrentDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Report_MedicalTreatment" FunctionName="SAT.HR.Store.sp_Report_MedicalTreatment">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAT.HR.sp_Report_MedicalTreatment_Result">
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="BmID" ColumnName="BmID" />
+                <ScalarProperty Name="BmYear" ColumnName="BmYear" />
+                <ScalarProperty Name="ClID" ColumnName="ClID" />
+                <ScalarProperty Name="ClName" ColumnName="ClName" />
+                <ScalarProperty Name="RecID" ColumnName="RecID" />
+                <ScalarProperty Name="RecFullName" ColumnName="RecFullName" />
+                <ScalarProperty Name="BmCardID" ColumnName="BmCardID" />
+                <ScalarProperty Name="BmDate" ColumnName="BmDate" />
+                <ScalarProperty Name="BmAmoutService" ColumnName="BmAmoutService" />
+                <ScalarProperty Name="BmAmoutCare" ColumnName="BmAmoutCare" />
+                <ScalarProperty Name="BmRemark" ColumnName="BmRemark" />
+                <ScalarProperty Name="DateWithDraw" ColumnName="DateWithDraw" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
+                <ScalarProperty Name="PoName" ColumnName="PoName" />
+                <ScalarProperty Name="DivID" ColumnName="DivID" />
+                <ScalarProperty Name="DivName" ColumnName="DivName" />
+                <ScalarProperty Name="DepID" ColumnName="DepID" />
+                <ScalarProperty Name="DepName" ColumnName="DepName" />
+                <ScalarProperty Name="SecID" ColumnName="SecID" />
+                <ScalarProperty Name="SecName" ColumnName="SecName" />
+                <ScalarProperty Name="StartWorkDate" ColumnName="StartWorkDate" />
+                <ScalarProperty Name="CurrentDate" ColumnName="CurrentDate" />
+                <ScalarProperty Name="Experience" ColumnName="Experience" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="BnctName" ColumnName="BnctName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <EntitySetMapping Name="tb_Accident">
             <EntityTypeMapping TypeName="SAT.HR.tb_Accident">
               <MappingFragment StoreEntitySet="tb_Accident">
@@ -11496,6 +11890,15 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tb_Benefit_Calculate_Type">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Benefit_Calculate_Type">
+              <MappingFragment StoreEntitySet="tb_Benefit_Calculate_Type">
+                <ScalarProperty Name="BntcName" ColumnName="BntcName" />
+                <ScalarProperty Name="BntID" ColumnName="BntID" />
+                <ScalarProperty Name="BntcID" ColumnName="BntcID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tb_Benefit_Cremation">
             <EntityTypeMapping TypeName="SAT.HR.tb_Benefit_Cremation">
               <MappingFragment StoreEntitySet="tb_Benefit_Cremation">
@@ -11521,6 +11924,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySetMapping Name="tb_Benefit_Death_Replacement">
             <EntityTypeMapping TypeName="SAT.HR.tb_Benefit_Death_Replacement">
               <MappingFragment StoreEntitySet="tb_Benefit_Death_Replacement">
+                <ScalarProperty Name="BntID" ColumnName="BntID" />
                 <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
                 <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
@@ -11621,6 +12025,8 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
           <EntitySetMapping Name="tb_Benefit_Medical">
             <EntityTypeMapping TypeName="SAT.HR.tb_Benefit_Medical">
               <MappingFragment StoreEntitySet="tb_Benefit_Medical">
+                <ScalarProperty Name="BnctID" ColumnName="BnctID" />
+                <ScalarProperty Name="DateWithDraw" ColumnName="DateWithDraw" />
                 <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
                 <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
@@ -11636,6 +12042,14 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="BmYear" ColumnName="BmYear" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="BmID" ColumnName="BmID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Benefit_Medical_Type">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Benefit_Medical_Type">
+              <MappingFragment StoreEntitySet="tb_Benefit_Medical_Type">
+                <ScalarProperty Name="BnctName" ColumnName="BnctName" />
+                <ScalarProperty Name="BnctID" ColumnName="BnctID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -11704,6 +12118,14 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
                 <ScalarProperty Name="BrYear" ColumnName="BrYear" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="BrID" ColumnName="BrID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Benefit_Replacement_Type">
+            <EntityTypeMapping TypeName="SAT.HR.tb_Benefit_Replacement_Type">
+              <MappingFragment StoreEntitySet="tb_Benefit_Replacement_Type">
+                <ScalarProperty Name="BntName" ColumnName="BntName" />
+                <ScalarProperty Name="BntID" ColumnName="BntID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -14223,154 +14645,6 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_Report_Accident" FunctionName="SAT.HR.Store.sp_Report_Accident">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SAT.HR.sp_Report_Accident_Result">
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="ActPlace" ColumnName="ActPlace" />
-                <ScalarProperty Name="ActDesc" ColumnName="ActDesc" />
-                <ScalarProperty Name="ActDate" ColumnName="ActDate" />
-                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
-                <ScalarProperty Name="Salary" ColumnName="Salary" />
-                <ScalarProperty Name="AgeWork" ColumnName="AgeWork" />
-                <ScalarProperty Name="DivID" ColumnName="DivID" />
-                <ScalarProperty Name="DivName" ColumnName="DivName" />
-                <ScalarProperty Name="DepID" ColumnName="DepID" />
-                <ScalarProperty Name="DepName" ColumnName="DepName" />
-                <ScalarProperty Name="SecID" ColumnName="SecID" />
-                <ScalarProperty Name="SecName" ColumnName="SecName" />
-                <ScalarProperty Name="PoName" ColumnName="PoName" />
-                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
-                <ScalarProperty Name="Level" ColumnName="Level" />
-                <ScalarProperty Name="CurrentDate" ColumnName="CurrentDate" />
-                <ScalarProperty Name="Experience" ColumnName="Experience" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_Report_Remuneration" FunctionName="SAT.HR.Store.sp_Report_Remuneration">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SAT.HR.sp_Report_Remuneration_Result">
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="UfDOB" ColumnName="UfDOB" />
-                <ScalarProperty Name="startWorkDate" ColumnName="startWorkDate" />
-                <ScalarProperty Name="Experience" ColumnName="Experience" />
-                <ScalarProperty Name="Salary" ColumnName="Salary" />
-                <ScalarProperty Name="DivID" ColumnName="DivID" />
-                <ScalarProperty Name="DivName" ColumnName="DivName" />
-                <ScalarProperty Name="DepID" ColumnName="DepID" />
-                <ScalarProperty Name="DepName" ColumnName="DepName" />
-                <ScalarProperty Name="SecID" ColumnName="SecID" />
-                <ScalarProperty Name="SecName" ColumnName="SecName" />
-                <ScalarProperty Name="PoName" ColumnName="PoName" />
-                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
-                <ScalarProperty Name="ResignRemark" ColumnName="ResignRemark" />
-                <ScalarProperty Name="ResignDate" ColumnName="ResignDate" />
-                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
-                <ScalarProperty Name="Level" ColumnName="Level" />
-                <ScalarProperty Name="DateOfWork" ColumnName="DateOfWork" />
-                <ScalarProperty Name="layOffAmount" ColumnName="layOffAmount" />
-                <ScalarProperty Name="retireAmount" ColumnName="retireAmount" />
-                <ScalarProperty Name="CurrentDate" ColumnName="CurrentDate" />
-                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_Generate_Report_Child" FunctionName="SAT.HR.Store.sp_Generate_Report_Child" />
-          <FunctionImportMapping FunctionImportName="sp_Report_Child" FunctionName="SAT.HR.Store.sp_Report_Child">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SAT.HR.sp_Report_Child_Result">
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="UfName" ColumnName="UfName" />
-                <ScalarProperty Name="UfCardID" ColumnName="UfCardID" />
-                <ScalarProperty Name="UfDOB" ColumnName="UfDOB" />
-                <ScalarProperty Name="ChildFundAmout" ColumnName="ChildFundAmout" />
-                <ScalarProperty Name="ChildEducationAmout" ColumnName="ChildEducationAmout" />
-                <ScalarProperty Name="CExpireDate" ColumnName="CExpireDate" />
-                <ScalarProperty Name="StartWorkDate" ColumnName="StartWorkDate" />
-                <ScalarProperty Name="PayRateEdu" ColumnName="PayRateEdu" />
-                <ScalarProperty Name="TimeRequestEdu" ColumnName="TimeRequestEdu" />
-                <ScalarProperty Name="TypeFund" ColumnName="TypeFund" />
-                <ScalarProperty Name="PayRateFund" ColumnName="PayRateFund" />
-                <ScalarProperty Name="InvNoFund" ColumnName="InvNoFund" />
-                <ScalarProperty Name="DateFund" ColumnName="DateFund" />
-                <ScalarProperty Name="SchoolYear" ColumnName="SchoolYear" />
-                <ScalarProperty Name="Experience" ColumnName="Experience" />
-                <ScalarProperty Name="Salary" ColumnName="Salary" />
-                <ScalarProperty Name="DivID" ColumnName="DivID" />
-                <ScalarProperty Name="DivName" ColumnName="DivName" />
-                <ScalarProperty Name="DepID" ColumnName="DepID" />
-                <ScalarProperty Name="DepName" ColumnName="DepName" />
-                <ScalarProperty Name="SecID" ColumnName="SecID" />
-                <ScalarProperty Name="SecName" ColumnName="SecName" />
-                <ScalarProperty Name="PoName" ColumnName="PoName" />
-                <ScalarProperty Name="Level" ColumnName="Level" />
-                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
-                <ScalarProperty Name="CurrentDate" ColumnName="CurrentDate" />
-                <ScalarProperty Name="UfID" ColumnName="UfID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_Report_Loan" FunctionName="SAT.HR.Store.sp_Report_Loan">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SAT.HR.sp_Report_Loan_Result">
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="BID" ColumnName="BID" />
-                <ScalarProperty Name="BName" ColumnName="BName" />
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="BlAccountNo" ColumnName="BlAccountNo" />
-                <ScalarProperty Name="BlStartDate" ColumnName="BlStartDate" />
-                <ScalarProperty Name="BISummaryAmout" ColumnName="BISummaryAmout" />
-                <ScalarProperty Name="amoutPer" ColumnName="amoutPer" />
-                <ScalarProperty Name="BlPeriod" ColumnName="BlPeriod" />
-                <ScalarProperty Name="BlPeriodPay" ColumnName="BlPeriodPay" />
-                <ScalarProperty Name="firstPay" ColumnName="firstPay" />
-                <ScalarProperty Name="lastPay" ColumnName="lastPay" />
-                <ScalarProperty Name="payRemain" ColumnName="payRemain" />
-                <ScalarProperty Name="Outstanding" ColumnName="Outstanding" />
-                <ScalarProperty Name="BlRemark" ColumnName="BlRemark" />
-                <ScalarProperty Name="PoName" ColumnName="PoName" />
-                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
-                <ScalarProperty Name="Salary" ColumnName="Salary" />
-                <ScalarProperty Name="CurrentDate" ColumnName="CurrentDate" />
-                <ScalarProperty Name="startWorkDate" ColumnName="startWorkDate" />
-                <ScalarProperty Name="Experience" ColumnName="Experience" />
-                <ScalarProperty Name="Level" ColumnName="Level" />
-                <ScalarProperty Name="DivName" ColumnName="DivName" />
-                <ScalarProperty Name="DepName" ColumnName="DepName" />
-                <ScalarProperty Name="SecName" ColumnName="SecName" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_Report_Other_Welfare" FunctionName="SAT.HR.Store.sp_Report_Other_Welfare">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SAT.HR.sp_Report_Other_Welfare_Result">
-                <ScalarProperty Name="BenTID" ColumnName="BenTID" />
-                <ScalarProperty Name="Ranks" ColumnName="Ranks" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="BoAmout" ColumnName="BoAmout" />
-                <ScalarProperty Name="BenTName" ColumnName="BenTName" />
-                <ScalarProperty Name="othBenTID" ColumnName="othBenTID" />
-                <ScalarProperty Name="MpCode" ColumnName="MpCode" />
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="Experience" ColumnName="Experience" />
-                <ScalarProperty Name="Salary" ColumnName="Salary" />
-                <ScalarProperty Name="SalaryDay" ColumnName="SalaryDay" />
-                <ScalarProperty Name="DivID" ColumnName="DivID" />
-                <ScalarProperty Name="DivName" ColumnName="DivName" />
-                <ScalarProperty Name="DepID" ColumnName="DepID" />
-                <ScalarProperty Name="DepName" ColumnName="DepName" />
-                <ScalarProperty Name="SecID" ColumnName="SecID" />
-                <ScalarProperty Name="SecName" ColumnName="SecName" />
-                <ScalarProperty Name="PoName" ColumnName="PoName" />
-                <ScalarProperty Name="Level" ColumnName="Level" />
-                <ScalarProperty Name="CurrentDate" ColumnName="CurrentDate" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

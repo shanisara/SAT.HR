@@ -20,12 +20,26 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> ClID { get; set; }
         public string ClName { get; set; }
         public Nullable<int> RecID { get; set; }
-        public string RecName { get; set; }
         public string RecFullName { get; set; }
         public Nullable<decimal> BmCardID { get; set; }
         public string BmDate { get; set; }
         public Nullable<decimal> BmAmoutService { get; set; }
         public Nullable<decimal> BmAmoutCare { get; set; }
         public string BmRemark { get; set; }
+        public string DateWithDraw { get; set; }
+        public Nullable<int> Level { get; set; }
+        public string MpCode { get; set; }
+        public string PoName { get; set; }
+        public Nullable<int> DivID { get; set; }
+        public string DivName { get; set; }
+        public Nullable<int> DepID { get; set; }
+        public string DepName { get; set; }
+        public Nullable<int> SecID { get; set; }
+        public string SecName { get; set; }
+        public string StartWorkDate { get; set; }
+        public string CurrentDate { get; set; }
+        public string Experience { get; set; }
+        public Nullable<decimal> Salary { get; set; }
+        public string BnctName { get; set; }
     }
 }

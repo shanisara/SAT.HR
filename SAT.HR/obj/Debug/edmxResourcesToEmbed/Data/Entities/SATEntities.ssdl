@@ -68,6 +68,14 @@
     <Property Name="BID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="BName" Type="nvarchar" MaxLength="200" />
   </EntityType>
+  <EntityType Name="tb_Benefit_Calculate_Type">
+    <Key>
+      <PropertyRef Name="BntcID" />
+    </Key>
+    <Property Name="BntcID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BntID" Type="int" />
+    <Property Name="BntcName" Type="nvarchar" MaxLength="200" />
+  </EntityType>
   <EntityType Name="tb_Benefit_Cremation">
     <Key>
       <PropertyRef Name="BcID" />
@@ -109,6 +117,7 @@
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
+    <Property Name="BntID" Type="int" />
   </EntityType>
   <EntityType Name="tb_Benefit_Death_Subsidy">
     <Key>
@@ -209,6 +218,15 @@
     <Property Name="CreateBy" Type="int" />
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
+    <Property Name="DateWithDraw" Type="date" />
+    <Property Name="BnctID" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_Benefit_Medical_Type">
+    <Key>
+      <PropertyRef Name="BnctID" />
+    </Key>
+    <Property Name="BnctID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BnctName" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <EntityType Name="tb_Benefit_Other_Welfare">
     <Key>
@@ -277,6 +295,13 @@
     <Property Name="ModifyDate" Type="datetime" />
     <Property Name="ModifyBy" Type="int" />
     <Property Name="BrEndDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="tb_Benefit_Replacement_Type">
+    <Key>
+      <PropertyRef Name="BntID" />
+    </Key>
+    <Property Name="BntID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BntName" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <EntityType Name="tb_Benefit_Type">
     <Key>
@@ -1660,6 +1685,39 @@
     <Property Name="WorkingTypeName" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.tmpChild' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="tmpChild">
+          <Property Name="FullName" Type="nvarchar" MaxLength="200" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="UfName" Type="nvarchar" MaxLength="200" />
+          <Property Name="UfCardID" Type="nvarchar" MaxLength="200" />
+          <Property Name="UfDOB" Type="nvarchar" MaxLength="200" />
+          <Property Name="ChildFundAmout" Type="float" />
+          <Property Name="ChildEducationAmout" Type="float" />
+          <Property Name="CExpireDate" Type="nvarchar" MaxLength="200" />
+          <Property Name="StartWorkDate" Type="nvarchar" MaxLength="200" />
+          <Property Name="PayRateEdu" Type="float" />
+          <Property Name="TimeRequestEdu" Type="nvarchar" MaxLength="200" />
+          <Property Name="TypeFund" Type="nvarchar" MaxLength="200" />
+          <Property Name="PayRateFund" Type="float" />
+          <Property Name="InvNoFund" Type="nvarchar" MaxLength="200" />
+          <Property Name="DateFund" Type="nvarchar" MaxLength="200" />
+          <Property Name="SchoolYear" Type="nvarchar" MaxLength="200" />
+          <Property Name="Experience" Type="nvarchar" MaxLength="200" />
+          <Property Name="Salary" Type="float" />
+          <Property Name="DivID" Type="nvarchar" MaxLength="200" />
+          <Property Name="DivName" Type="nvarchar" MaxLength="200" />
+          <Property Name="DepID" Type="nvarchar" MaxLength="200" />
+          <Property Name="DepName" Type="nvarchar" MaxLength="200" />
+          <Property Name="SecID" Type="nvarchar" MaxLength="200" />
+          <Property Name="SecName" Type="nvarchar" MaxLength="200" />
+          <Property Name="PoName" Type="nvarchar" MaxLength="200" />
+          <Property Name="Level" Type="nvarchar" MaxLength="200" />
+          <Property Name="MpCode" Type="nvarchar" MaxLength="200" />
+          <Property Name="CurrentDate" Type="nvarchar" MaxLength="200" />
+          <Property Name="UfID" Type="nvarchar" MaxLength="50" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Benefit_Cremation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Benefit_Cremation">
     <Key>
@@ -2229,6 +2287,16 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Organization' does not have a p
     <Property Name="PathMpID" Type="varchar" MaxLength="255" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Level' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Level">
+          <Property Name="Level" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Salary_Step' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Salary_Step">
+          <Property Name="Step" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Section' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Section">
     <Key>
@@ -2332,6 +2400,21 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Trans_Form_Waiting' does not ha
     <Property Name="LastApproverName" Type="nvarchar" MaxLength="500" />
     <Property Name="RequestUserName" Type="nvarchar" MaxLength="501" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'SATHRDB_DEV.dbo.vw_Trans_Step_Approver' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vw_Trans_Step_Approver">
+          <Property Name="StepID" Type="int" />
+          <Property Name="MpID" Type="int" />
+          <Property Name="ApproverID" Type="int" />
+          <Property Name="Accept" Type="int" />
+          <Property Name="AcceptDate" Type="datetime" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="2000" />
+          <Property Name="NextStepID" Type="int" />
+          <Property Name="StepNo" Type="int" />
+          <Property Name="StepName" Type="nvarchar" MaxLength="200" />
+          <Property Name="FormMasterID" Type="int" />
+          <Property Name="FormHeaderID" Type="int" />
+        </EntityType>-->
   <!--Errors Found During Generation:
 warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_Trans_Step_Route' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vw_Trans_Step_Route">
@@ -2795,6 +2878,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tb_Benefit_Calculate_Type_tb_Benefit_Calculate_Type">
+    <End Role="tb_Benefit_Replacement_Type" Type="Self.tb_Benefit_Replacement_Type" Multiplicity="0..1" />
+    <End Role="tb_Benefit_Calculate_Type" Type="Self.tb_Benefit_Calculate_Type" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Benefit_Replacement_Type">
+        <PropertyRef Name="BntID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Calculate_Type">
+        <PropertyRef Name="BntID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tb_Benefit_Cremation_tb_Member_Type">
     <End Role="tb_Member_Type" Type="Self.tb_Member_Type" Multiplicity="0..1" />
     <End Role="tb_Benefit_Cremation" Type="Self.tb_Benefit_Cremation" Multiplicity="*" />
@@ -2816,6 +2911,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Principal>
       <Dependent Role="tb_Benefit_Cremation">
         <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Death_Replacement_tb_Benefit_Replacement_Type">
+    <End Role="tb_Benefit_Replacement_Type" Type="Self.tb_Benefit_Replacement_Type" Multiplicity="0..1" />
+    <End Role="tb_Benefit_Death_Replacement" Type="Self.tb_Benefit_Death_Replacement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Benefit_Replacement_Type">
+        <PropertyRef Name="BntID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Death_Replacement">
+        <PropertyRef Name="BntID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2936,6 +3043,18 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       </Principal>
       <Dependent Role="tb_Benefit_Loan">
         <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_Benefit_Medical_tb_Benefit_Medical_Type">
+    <End Role="tb_Benefit_Medical_Type" Type="Self.tb_Benefit_Medical_Type" Multiplicity="0..1" />
+    <End Role="tb_Benefit_Medical" Type="Self.tb_Benefit_Medical" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Benefit_Medical_Type">
+        <PropertyRef Name="BnctID" />
+      </Principal>
+      <Dependent Role="tb_Benefit_Medical">
+        <PropertyRef Name="BnctID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -4044,6 +4163,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
   </Function>
   <Function Name="sp_Report_MedicalTreatment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="empID" Type="varchar" Mode="In" />
+    <Parameter Name="medicalType" Type="varchar" Mode="In" />
   </Function>
   <Function Name="sp_Report_Other_Welfare" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="empID" Type="varchar" Mode="In" />
@@ -4126,6 +4246,7 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_Agent_Type" EntityType="Self.tb_Agent_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Announcement" EntityType="Self.tb_Announcement" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Bank_Loan" EntityType="Self.tb_Bank_Loan" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Benefit_Calculate_Type" EntityType="Self.tb_Benefit_Calculate_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Benefit_Cremation" EntityType="Self.tb_Benefit_Cremation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Benefit_Death_Replacement" EntityType="Self.tb_Benefit_Death_Replacement" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Benefit_Death_Subsidy" EntityType="Self.tb_Benefit_Death_Subsidy" Schema="dbo" store:Type="Tables" />
@@ -4133,9 +4254,11 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <EntitySet Name="tb_Benefit_Home_Rental" EntityType="Self.tb_Benefit_Home_Rental" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Benefit_Loan" EntityType="Self.tb_Benefit_Loan" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Benefit_Medical" EntityType="Self.tb_Benefit_Medical" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Benefit_Medical_Type" EntityType="Self.tb_Benefit_Medical_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Benefit_Other_Welfare" EntityType="Self.tb_Benefit_Other_Welfare" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Benefit_Provident_Fund" EntityType="Self.tb_Benefit_Provident_Fund" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Benefit_Remuneration" EntityType="Self.tb_Benefit_Remuneration" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_Benefit_Replacement_Type" EntityType="Self.tb_Benefit_Replacement_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Benefit_Type" EntityType="Self.tb_Benefit_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Blood_Type" EntityType="Self.tb_Blood_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tb_Bonus_Calculator_Detail" EntityType="Self.tb_Bonus_Calculator_Detail" Schema="dbo" store:Type="Tables" />
@@ -5210,6 +5333,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
       <End Role="tb_User" EntitySet="tb_User" />
       <End Role="tb_Accident" EntitySet="tb_Accident" />
     </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Calculate_Type_tb_Benefit_Calculate_Type" Association="Self.FK_tb_Benefit_Calculate_Type_tb_Benefit_Calculate_Type">
+      <End Role="tb_Benefit_Replacement_Type" EntitySet="tb_Benefit_Replacement_Type" />
+      <End Role="tb_Benefit_Calculate_Type" EntitySet="tb_Benefit_Calculate_Type" />
+    </AssociationSet>
     <AssociationSet Name="FK_tb_Benefit_Cremation_tb_Member_Type" Association="Self.FK_tb_Benefit_Cremation_tb_Member_Type">
       <End Role="tb_Member_Type" EntitySet="tb_Member_Type" />
       <End Role="tb_Benefit_Cremation" EntitySet="tb_Benefit_Cremation" />
@@ -5217,6 +5344,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <AssociationSet Name="FK_tb_Benefit_Cremation_tb_User" Association="Self.FK_tb_Benefit_Cremation_tb_User">
       <End Role="tb_User" EntitySet="tb_User" />
       <End Role="tb_Benefit_Cremation" EntitySet="tb_Benefit_Cremation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Death_Replacement_tb_Benefit_Replacement_Type" Association="Self.FK_tb_Benefit_Death_Replacement_tb_Benefit_Replacement_Type">
+      <End Role="tb_Benefit_Replacement_Type" EntitySet="tb_Benefit_Replacement_Type" />
+      <End Role="tb_Benefit_Death_Replacement" EntitySet="tb_Benefit_Death_Replacement" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_Benefit_Death_Replacement_tb_Recieve_Type" Association="Self.FK_tb_Benefit_Death_Replacement_tb_Recieve_Type">
       <End Role="tb_Recieve_Type" EntitySet="tb_Recieve_Type" />
@@ -5257,6 +5388,10 @@ warning 6002: The table/view 'SATHRDB_DEV.dbo.vw_User_Training' does not have a 
     <AssociationSet Name="FK_tb_Benefit_Loan_tb_User" Association="Self.FK_tb_Benefit_Loan_tb_User">
       <End Role="tb_User" EntitySet="tb_User" />
       <End Role="tb_Benefit_Loan" EntitySet="tb_Benefit_Loan" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_Benefit_Medical_tb_Benefit_Medical_Type" Association="Self.FK_tb_Benefit_Medical_tb_Benefit_Medical_Type">
+      <End Role="tb_Benefit_Medical_Type" EntitySet="tb_Benefit_Medical_Type" />
+      <End Role="tb_Benefit_Medical" EntitySet="tb_Benefit_Medical" />
     </AssociationSet>
     <AssociationSet Name="FK_tb_Benefit_Medical_tb_Claim_Type" Association="Self.FK_tb_Benefit_Medical_tb_Claim_Type">
       <End Role="tb_Claim_Type" EntitySet="tb_Claim_Type" />

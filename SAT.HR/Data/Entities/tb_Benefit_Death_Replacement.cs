@@ -28,7 +28,9 @@ namespace SAT.HR.Data.Entities
         public Nullable<int> CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> ModifyBy { get; set; }
+        public Nullable<int> BntID { get; set; }
     
+        public virtual tb_Benefit_Replacement_Type tb_Benefit_Replacement_Type { get; set; }
         public virtual tb_Recieve_Type tb_Recieve_Type { get; set; }
         public virtual tb_User tb_User { get; set; }
     }
