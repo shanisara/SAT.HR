@@ -33,5 +33,6 @@ namespace SAT.HR.Data.Entities
         public virtual tb_Benefit_Replacement_Type tb_Benefit_Replacement_Type { get; set; }
         public virtual tb_Recieve_Type tb_Recieve_Type { get; set; }
         public virtual tb_User tb_User { get; set; }
+        public virtual tb_Benefit_Replacement_Type tb_Benefit_Replacement_Type { get; set; }
     }
 }

@@ -23,7 +23,6 @@ namespace SAT.HR.Data.Entities
             this.tb_Benefit_Death_Subsidy = new HashSet<tb_Benefit_Death_Subsidy>();
             this.tb_Benefit_Home_Rental = new HashSet<tb_Benefit_Home_Rental>();
             this.tb_Benefit_Loan = new HashSet<tb_Benefit_Loan>();
-            this.tb_Benefit_Medical = new HashSet<tb_Benefit_Medical>();
             this.tb_Benefit_Other_Welfare = new HashSet<tb_Benefit_Other_Welfare>();
             this.tb_Benefit_Provident_Fund = new HashSet<tb_Benefit_Provident_Fund>();
             this.tb_Evaluation = new HashSet<tb_Evaluation>();
@@ -41,6 +40,7 @@ namespace SAT.HR.Data.Entities
             this.tb_User_Skill = new HashSet<tb_User_Skill>();
             this.tb_User_Training = new HashSet<tb_User_Training>();
             this.tb_Working_Shift = new HashSet<tb_Working_Shift>();
+            this.tb_Benefit_Medical = new HashSet<tb_Benefit_Medical>();
         }
     
         public int UserID { get; set; }
@@ -130,8 +130,6 @@ namespace SAT.HR.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Benefit_Loan> tb_Benefit_Loan { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_Benefit_Medical> tb_Benefit_Medical { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Benefit_Other_Welfare> tb_Benefit_Other_Welfare { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Benefit_Provident_Fund> tb_Benefit_Provident_Fund { get; set; }
@@ -178,5 +176,7 @@ namespace SAT.HR.Data.Entities
         public virtual tb_Working_Type tb_Working_Type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_Working_Shift> tb_Working_Shift { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_Benefit_Medical> tb_Benefit_Medical { get; set; }
     }
 }

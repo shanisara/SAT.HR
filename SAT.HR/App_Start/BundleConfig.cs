@@ -26,7 +26,7 @@ namespace SAT.HR
                         "~/Content/assets/js/plugins/sweetalert2.js",
                         "~/Content/assets/js/plugins/jquery.bootstrap-wizard.js",
                         "~/Content/assets/js/plugins/jquery.dataTables.min.js",
-                        "~/Content/assets/js/plugins/bootstrap-datetimepicker.min.js",
+                        //"~/Content/assets/js/plugins/bootstrap-datetimepicker.min.js",
                         "~/Content/assets/js/plugins/bootstrap-notify.js",
                         "~/Content/assets/js/plugins/bootstrap-tagsinput.js",
                         "~/Content/assets/js/plugins/jasny-bootstrap.min.js",
